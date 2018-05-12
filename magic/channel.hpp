@@ -258,7 +258,7 @@ class channel final
         {
             // Give chance to other coroutines to come into the lists
             std::this_thread::yield();
-            std::unique_lock<mutex_t> lck{mtx};
+            std::unique_lock<mutex_t> lck{this->mtx};
 
             while (writers.is_empty() == false)
             {

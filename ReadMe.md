@@ -3,12 +3,12 @@ Auto**magic**ally working C++ Coroutine
 
 [![Build status](https://ci.appveyor.com/api/projects/status/9eoy07qfxxqghop3?svg=true)](https://ci.appveyor.com/project/luncliff/magic)
 
-[![SonarQube: Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=alert_status)](https://sonarcloud.io/dashboard?id=luncliff-magic)
-[![SonarQube: Coverage](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=coverage)](https://sonarcloud.io/dashboard?id=luncliff-magic)
 [![SonarQube: Bugs](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=bugs)]((https://sonarcloud.io/dashboard?id=luncliff-magic))
 [![SonarQube: Code Smells](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=code_smells)]((https://sonarcloud.io/dashboard?id=luncliff-magic))
 
-### Prerequisite
+[Documentation](/luncliff/Magic/wiki)
+
+## Prerequisite
  - **Visual Studio 2017**(vc141) or later
  - [`/await`](https://blogs.msdn.microsoft.com/vcblog/2015/04/29/more-about-resumable-functions-in-c/) compiler option
 

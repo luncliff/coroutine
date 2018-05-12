@@ -19,6 +19,15 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace magic
 {
 
+// - Note
+//      Lockable without lock operation
+struct bypass_lock
+{
+    bool try_lock() noexcept { return true; }
+    void lock() noexcept {}
+    void unlock() noexcept {}
+};
+
 TEST_CLASS(ChannelTest)
 {
     template <typename Ty, typename M>
@@ -26,7 +35,7 @@ TEST_CLASS(ChannelTest)
         ->unplug
     {
         bool ok = co_await ch.write(value);
-        Assert::IsTrue(ok, L"Write to channel");
+        Assert::IsTrue(ok);
     };
 
     template <typename Ty, typename M>
@@ -35,13 +44,13 @@ TEST_CLASS(ChannelTest)
     {
         bool ok = false;
         std::tie(ref, ok) = co_await ch.read();
-        Assert::IsTrue(ok, L"Read from channel");
+        Assert::IsTrue(ok);
     };
 
   public:
     TEST_METHOD(ReadAfterWrite)
     {
-        channel<int, std::mutex> ch{};
+        channel<int, bypass_lock> ch{};
         int value = 0;
 
         // Writer coroutine may suspend.(not-returned)
@@ -53,7 +62,7 @@ TEST_CLASS(ChannelTest)
         for (int i = 0; i < 4; ++i)
         {
             ReadAndCheck(ch, value);
-            Assert::IsTrue(value == i, L"Expected read result");
+            Assert::IsTrue(value == i);
         }
     }
     TEST_METHOD(WriteAfterRead)
@@ -70,235 +79,81 @@ TEST_CLASS(ChannelTest)
         for (int i = 0; i < 4; ++i)
         {
             WriteAndCheck(ch, i);
-            Assert::IsTrue(value == i, L"Expected write result");
+            Assert::IsTrue(value == i);
         }
     }
 };
 
 TEST_CLASS(ChannelRaceTest)
 {
-    static constexpr size_t NumWorker = 1'000;
-    static constexpr size_t Repeat = 100;
+    // use Windows critical section for this test.
+    // std::mutex is also available
+    using channel_type = channel<char, section>;
 
-    auto Write1(channel<char, std::mutex> & chan, wait_group & grp,
-                std::atomic<size_t> & counter)
+  public:
+    auto Send(channel_type & channel,
+              channel_type::value_type value,
+              std::function<void(bool)> callback) noexcept
         ->unplug
     {
-        char value{};
+        co_await switch_to{}; // go to background
 
-        co_await switch_to{};
-
-        for (size_t i = 0; i < Repeat; ++i)
-        {
-            // Returns false if channel is destroyed
-            const bool open = co_await chan.write(value);
-            if (open == false)
-                break;
-
-            counter += 1;
-        }
-        grp.done();
+        // Returns false if channel is destroyed
+        const bool sent = co_await channel.write(value);
+        callback(sent);
     };
 
-    auto Read1(channel<char, std::mutex> & chan, wait_group & grp,
-               size_t & counter)
+    auto Recv(channel_type & channel, std::function<void(bool)> callback) noexcept
         ->unplug
     {
-        int value{};
-        bool open = false;
+        co_await switch_to{}; // go to background
 
-        co_await switch_to{};
+        channel_type::value_type storage{};
+        bool received = false;
 
-        for (size_t i = 0; i < Repeat; ++i)
-        {
-            // Returns false if channel is destroyed
-            std::tie(value, open) = co_await chan.read();
-            if (open == false)
-                break;
-
-            counter += 1;
-        }
-        grp.done();
-    };
-
-    auto Write2(channel<char, std::mutex> & chan, wait_group & group,
-                std::atomic<size_t> & success, std::atomic<size_t> & failure)
-        ->unplug
-    {
-        char value{};
-
-        co_await switch_to{};
-
-        for (size_t i = 0; i < Repeat; ++i)
-        {
-            // Returns false if channel is destroyed
-            const bool open = co_await chan.write(value);
-            if (open == false)
-            {
-                failure += 1;
-                group.done();
-                return;
-            }
-        }
-        success += 1;
-        group.done();
-        return;
-    };
-
-    auto Read2(channel<char, std::mutex> & chan, wait_group & group,
-               std::atomic<size_t> & success)
-        ->unplug
-    {
-        char value{};
-        bool open = false;
-
-        co_await switch_to{};
-
-        for (size_t i = 0; i < Repeat; ++i)
-        {
-            // Returns false if channel is destroyed
-            std::tie(value, open) = co_await chan.read();
-            if (open == false)
-                throw std::runtime_error{"Read failed"};
-        }
-        success += 1;
-        group.done();
-    };
-
-    auto Write3(channel<char, std::mutex> & chan, wait_group & group,
-                std::atomic<size_t> & success)
-        ->unplug
-    {
-        char value{};
-
-        co_await switch_to{};
-
-        for (size_t i = 0; i < Repeat; ++i)
-        {
-            // Returns false if channel is destroyed
-            const bool open = co_await chan.write(value);
-            if (open == false)
-                throw std::runtime_error{"Write failed"};
-        }
-        success += 1;
-        group.done();
-    };
-
-    auto Read3(channel<char, std::mutex> & chan, wait_group & group,
-               std::atomic<size_t> & success, std::atomic<size_t> & failure)
-        ->unplug
-    {
-        int value{};
-        bool open = false;
-
-        co_await switch_to{};
-
-        for (size_t i = 0; i < Repeat; ++i)
-        {
-            // Returns false if channel is destroyed
-            std::tie(value, open) = co_await chan.read();
-            if (open == false)
-            {
-                failure += 1;
-                group.done();
-                return;
-            }
-        }
-        success += 1;
-        group.done();
-        return;
+        // Returns false if channel is destroyed
+        std::tie(storage, received) = co_await channel.read();
+        callback(received);
     };
 
   public:
-    TEST_METHOD(WriterEqualsReader)
+    TEST_METHOD(CountAccess)
     {
-        channel<char, std::mutex> ch{};
-        wait_group wg{};
+        static constexpr size_t Amount = 100'000;
 
-        size_t nc = 0;              // normal counter
-        std::atomic<size_t> ac = 0; // std::atomic counter
+        // Channel supports MT-safe coroutine relay with **appropriate lockable**.
+        // but it doesn't guarantee coroutines' serialized execution
+        channel_type channel{};
 
-        wg.add(2 * NumWorker);
+        // So we have to use atomic counter
+        std::atomic_uint32_t success = 0, failure = 0;
+
+        wait_group group{};
+        group.add(2 * Amount);
+
+        auto callback = [&](bool ok) {
+            // increase counter according to operation result
+            if (ok)
+                success += 1;
+            else
+                failure += 1;
+
+            // notify the end of coroutine
+            group.done();
+        };
 
         // Spawn coroutines
-        // counters will be under race condition
-        //  - Senders use normal counter
-        //  - Receivers use std::atomic counter
-        for (int i = 0; i < NumWorker; ++i)
+        for (auto i = 0u; i < Amount; ++i)
         {
-            Write1(ch, wg, ac);
-            Read1(ch, wg, nc);
+            Send(channel, channel_type::value_type{}, callback);
+            Recv(channel, callback);
         }
         // Wait for all coroutines...
-        wg.wait();
+        // !!! Notice that channel there must be no race before destruction of it !!!
+        group.wait();
 
-        // Channel supports MT-safe coroutine relay,
-        // but it doesn't guarantee coroutines' serialized execution
-        Assert::IsTrue(nc <= ac);
-    }
-
-    TEST_METHOD(WriterGreaterThanReader)
-    {
-        // Counter for success & failure
-        std::atomic<size_t> successW = 0;
-        std::atomic<size_t> successR = 0;
-
-        std::atomic<size_t> failure = 0;
-
-        // !!! This code leads to coroutine leak !!!
-
-        wait_group reader_group{};
-        wait_group writer_group{};
-        {
-            channel<char, std::mutex> ch{};
-
-            reader_group.add(1 * NumWorker);
-            writer_group.add(2 * NumWorker);
-
-            for (int i = 0; i < NumWorker; ++i)
-            {
-                Write2(ch, writer_group, successW, failure);
-                Read2(ch, reader_group, successR);
-                Write2(ch, writer_group, successW, failure); // Spawn more writer
-            }
-            // Wait for all coroutines...
-            reader_group.wait();
-
-        } // channel is dead
-        writer_group.wait();
-
-        Assert::IsTrue(successW + successR + failure <= 3 * NumWorker);
-    }
-
-    TEST_METHOD(WriterLessThanReader)
-    {
-
-        // Counter for success & failure
-        std::atomic<size_t> successW = 0;
-        std::atomic<size_t> successR = 0;
-        std::atomic<size_t> failure = 0;
-
-        wait_group reader_group{};
-        wait_group writer_group{};
-        {
-            channel<char, std::mutex> ch{};
-
-            reader_group.add(2 * NumWorker);
-            writer_group.add(1 * NumWorker);
-
-            for (int i = 0; i < NumWorker; ++i)
-            {
-                Read3(ch, reader_group, successR, failure);
-                Write3(ch, writer_group, successW);
-                Read3(ch, reader_group, successR, failure); // Spawn more reader
-            }
-            // Wait for all coroutines...
-            writer_group.wait();
-
-        } // channel is dead
-        reader_group.wait();
-
-        Assert::IsTrue(successW + successR + failure <= 3 * NumWorker);
+        Assert::IsTrue(failure == 0);
+        Assert::IsTrue(success == 2 * Amount);
     }
 };
 } // namespace magic
