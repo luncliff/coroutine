@@ -6,7 +6,7 @@ Auto**magic**ally working C++ Coroutine
 [![SonarQube: Bugs](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=bugs)]((https://sonarcloud.io/dashboard?id=luncliff-magic))
 [![SonarQube: Code Smells](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=code_smells)]((https://sonarcloud.io/dashboard?id=luncliff-magic))
 
-[Documentation](/luncliff/Magic/wiki)
+[Documentation](https://github.com/luncliff/Magic/wiki)
 
 ## Prerequisite
  - **Visual Studio 2017**(vc141) or later
