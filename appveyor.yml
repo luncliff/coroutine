@@ -1,0 +1,46 @@
+version: 1.0.{build}
+
+clone_depth: 1
+# skip_non_tags: false
+# skip_branch_with_pr: false
+
+max_jobs: 2
+
+image: 
+  # - Visual Studio 2015
+  - Visual Studio 2017
+
+platform: 
+  - x86
+  - x64
+
+configuration:
+  - Debug
+  - Release
+
+matrix:
+  # Pending Version update
+  # See: https://developercommunity.visualstudio.com/content/problem/164290/still-bad-codegen-with-coroutines-in-release-x86.html
+  allow_failures:
+    - platform: x86
+      configuration: Release
+
+install:
+  - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
+  
+build:
+  project: Magic.sln
+  verbosity: minimal
+
+before_test:
+  - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
+  - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/Magic.VSTest.dll"
+  
+test_script:
+  - ps: vstest.console.exe $TestDLL
+
+notifications:
+  - provider: Email
+    to:
+      - luncliff@gmail.com
+
