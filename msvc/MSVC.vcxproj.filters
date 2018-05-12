@@ -31,5 +31,20 @@
     <ClInclude Include="..\magic\sync.h">
       <Filter>magic</Filter>
     </ClInclude>
+    <ClInclude Include="..\magic\channel.hpp">
+      <Filter>magic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\magic\coroutine.hpp">
+      <Filter>magic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\magic\date_time.hpp">
+      <Filter>magic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\magic\plugin.hpp">
+      <Filter>magic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\magic\stop_watch.hpp">
+      <Filter>magic</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

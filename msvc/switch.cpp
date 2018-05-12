@@ -48,11 +48,11 @@ bool get(stdex::coroutine_handle<> &rh) noexcept
         QS_ALLINPUT,
         MWMO_ALERTABLE | MWMO_INPUTAVAILABLE);
 
-    //assert(
-    //    reason == WAIT_OBJECT_0 ||  // Message ?
-    //    reason == WAIT_IO_COMPLETION || // Overlapped I/O ?
-    //    reason == WAIT_FAILED // Failed?
-    //);
+    assert(
+        reason == WAIT_OBJECT_0 ||      // Message ?
+        reason == WAIT_IO_COMPLETION || // Overlapped I/O ?
+        reason == WAIT_FAILED           // Failed?
+    );
 
     if (reason == WAIT_OBJECT_0) // Message received
         return peek(rh);
@@ -60,7 +60,6 @@ bool get(stdex::coroutine_handle<> &rh) noexcept
     // Handled I/O || Error
     //      return anyway...
     return false;
-    //return GetLastError();
 }
 
 switch_to::switch_to(uint32_t target) noexcept : thread{target}, work{}
@@ -68,13 +67,13 @@ switch_to::switch_to(uint32_t target) noexcept : thread{target}, work{}
     // ...
 }
 
-switch_to::switch_to(switch_to && rhs) noexcept
+switch_to::switch_to(switch_to &&rhs) noexcept
 {
     std::swap(this->thread, rhs.thread);
     std::swap(this->work, rhs.work);
 }
 
-switch_to & switch_to::operator=(switch_to && rhs) noexcept
+switch_to &switch_to::operator=(switch_to &&rhs) noexcept
 {
     std::swap(this->thread, rhs.thread);
     std::swap(this->work, rhs.work);
@@ -97,20 +96,19 @@ bool switch_to::ready() const noexcept
         return false;
 }
 
-
 //  - Caution
 //
 //  The caller is going to suspend after return.
 //  So this block is the last chance to notify the error
 //  if the target thread can't receive rh(resumeable handle).
 //
-//  Since there is no way to create a thread with a designated ID, 
+//  Since there is no way to create a thread with a designated ID,
 //  this function will throw exception to kill the program.
 //  The SERIOUS error situation must be prevented before this code.
 //
 //  To ensure warning about this function, it uses throw specification mismatch.
 //
-#pragma warning ( disable : 4297 )
+#pragma warning(disable : 4297)
 void switch_to::suspend(stdex::coroutine_handle<> rh) noexcept
 {
     static_assert(sizeof(WPARAM) == sizeof(stdex::coroutine_handle<>),
@@ -140,8 +138,8 @@ void switch_to::suspend(stdex::coroutine_handle<> rh) noexcept
     return;
 
 OnWinAPIError:
-    const auto ec = std::error_code{ 
-        static_cast<int>(GetLastError()), std::system_category() };
+    const auto ec = std::error_code{
+        static_cast<int>(GetLastError()), std::system_category()};
 #ifdef _DEBUG
     fputs(ec.message().c_str(), stderr);
 #endif
@@ -162,4 +160,4 @@ void switch_to::onWork(PTP_CALLBACK_INSTANCE, PVOID pContext, PTP_WORK) noexcept
     return stdex::coroutine_handle<>::from_address(pContext).resume();
 }
 
-} // magic
+} // namespace magic

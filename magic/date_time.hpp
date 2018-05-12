@@ -45,11 +45,11 @@ public:
   }
 
 public:
-  operator time_point() const noexcept
+  explicit operator time_point() const noexcept
   {
     return this->tp;
   }
-  operator std::tm() const noexcept
+  explicit operator std::tm() const noexcept
   {
     const std::time_t t64 = static_cast<std::time_t>(*this);
 #ifdef _WIN32
@@ -60,7 +60,7 @@ public:
     return *gmtime(&t64);
 #endif // _WIN32
   }
-  operator std::time_t() const noexcept
+  explicit operator std::time_t() const noexcept
   {
     const std::time_t t64 = clock_type::to_time_t(this->tp);
     return t64;

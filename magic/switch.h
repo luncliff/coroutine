@@ -26,7 +26,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-#include <Threadpoolapiset.h>
+#include <threadpoolapiset.h>
 
 namespace magic
 {
@@ -45,33 +45,33 @@ _INTERFACE_ bool get(stdex::coroutine_handle<> &rh) noexcept;
 //      and Windows Thread Pool
 class _INTERFACE_ switch_to
 {
-    // non-zero : Specific thread's queue
-    //     zero : Windows Thread Pool
-    DWORD thread;
-    // Windows Thread Pool's Work Item
-    PTP_WORK work;
+  // non-zero : Specific thread's queue
+  //     zero : Windows Thread Pool
+  DWORD thread;
+  // Windows Thread Pool's Work Item
+  PTP_WORK work;
 
-  public:
-    switch_to(uint32_t target = 0) noexcept;
-    switch_to(switch_to &&) noexcept;
-    switch_to &operator=(switch_to &&) noexcept;
-    ~switch_to() noexcept;
+public:
+  explicit switch_to(uint32_t target = 0) noexcept;
+  switch_to(switch_to &&) noexcept;
+  switch_to &operator=(switch_to &&) noexcept;
+  ~switch_to() noexcept;
 
-  private:
-    switch_to(const switch_to &) noexcept = delete;
-    switch_to &operator=(const switch_to &) noexcept = delete;
+private:
+  switch_to(const switch_to &) noexcept = delete;
+  switch_to &operator=(const switch_to &) noexcept = delete;
 
-  public:
-    bool ready() const noexcept;
-    void suspend(stdex::coroutine_handle<> rh) noexcept;
-    void resume() noexcept;
+public:
+  bool ready() const noexcept;
+  void suspend(stdex::coroutine_handle<> rh) noexcept;
+  void resume() noexcept;
 
-  public:
-    // - Note
-    //      Thread Pool Callback. Expect `noexcept` operation
-    static void CALLBACK onWork(
-        PTP_CALLBACK_INSTANCE pInstance,
-        PVOID pContext, PTP_WORK pWork) noexcept;
+private:
+  // - Note
+  //      Thread Pool Callback. Expect `noexcept` operation
+  static void CALLBACK onWork(
+      PTP_CALLBACK_INSTANCE pInstance,
+      PVOID pContext, PTP_WORK pWork) noexcept;
 };
 
 #pragma warning(disable : 4505)
@@ -79,18 +79,18 @@ class _INTERFACE_ switch_to
 static bool
 await_ready(const switch_to &awaitable) noexcept
 {
-    return awaitable.ready();
+  return awaitable.ready();
 }
 static decltype(auto)
 await_suspend(switch_to &awaitable,
               stdex::coroutine_handle<> rh) noexcept
 {
-    return awaitable.suspend(rh);
+  return awaitable.suspend(rh);
 }
 static decltype(auto)
 await_resume(switch_to &awaitable) noexcept
 {
-    return awaitable.resume();
+  return awaitable.resume();
 }
 
 #pragma warning(default : 4505)

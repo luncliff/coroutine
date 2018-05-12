@@ -79,7 +79,7 @@
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(SolutionName).$(ProjectName)</TargetName>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -87,7 +87,7 @@
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(SolutionName).$(ProjectName)</TargetName>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -95,13 +95,13 @@
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(SolutionName).$(ProjectName)</TargetName>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(SolutionName).$(ProjectName)</TargetName>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -117,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <ErrorReporting>Send</ErrorReporting>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <EnablePREfast>false</EnablePREfast>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,7 +140,7 @@
       <SDLCheck>true</SDLCheck>
       <ErrorReporting>Send</ErrorReporting>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <EnablePREfast>false</EnablePREfast>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -165,7 +165,7 @@
       <SDLCheck>true</SDLCheck>
       <ErrorReporting>Send</ErrorReporting>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <EnablePREfast>false</EnablePREfast>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -192,7 +192,7 @@
       <SDLCheck>true</SDLCheck>
       <ErrorReporting>Send</ErrorReporting>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <EnablePREfast>false</EnablePREfast>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -211,6 +211,16 @@
     <ProjectReference Include="..\msvc\MSVC.vcxproj">
       <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\magic\channel.hpp" />
+    <ClInclude Include="..\magic\coroutine.hpp" />
+    <ClInclude Include="..\magic\date_time.hpp" />
+    <ClInclude Include="..\magic\linkable.h" />
+    <ClInclude Include="..\magic\plugin.hpp" />
+    <ClInclude Include="..\magic\stop_watch.hpp" />
+    <ClInclude Include="..\magic\switch.h" />
+    <ClInclude Include="..\magic\sync.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -31,7 +31,7 @@ namespace magic
 
 // - Note
 //      Basic Lockable with Win32 Critical Section
-class section : CRITICAL_SECTION
+class section : public CRITICAL_SECTION
 {
   section(section &) = delete;
   section(section &&) = delete;
@@ -39,7 +39,7 @@ class section : CRITICAL_SECTION
   section &operator=(section &&) = delete;
 
 public:
-  _INTERFACE_ section(uint16_t spin = 0x800) noexcept;
+  _INTERFACE_ explicit section(uint16_t spin = 0x800) noexcept;
   _INTERFACE_ ~section() noexcept;
 
   _INTERFACE_ bool try_lock() noexcept;

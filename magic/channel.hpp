@@ -31,7 +31,7 @@ namespace internal
 // - Note
 //      Minimal linked list without node allocation
 template <typename NodeType>
-struct list
+class list
 {
     NodeType *head{};
     NodeType *tail{};
@@ -199,8 +199,8 @@ class writer final
 //      Channel doesn't support Copy, Move
 template <typename T, typename Lockable>
 class channel final
-    : internal::list<reader<T, Lockable>>,
-      internal::list<writer<T, Lockable>>
+    : private internal::list<reader<T, Lockable>>,
+      private internal::list<writer<T, Lockable>>
 {
     static_assert(std::is_reference<T>::value == false,
                   "Using reference for channel is forbidden.");

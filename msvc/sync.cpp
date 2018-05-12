@@ -81,9 +81,7 @@ void wait_group::wait(uint32_t timeout) noexcept
         // This makes APC available.
         // expecially for Overlapped I/O
         reason = WaitForSingleObjectEx(eve, timeout, TRUE);
-        if (reason == WAIT_IO_COMPLETION)
-            continue;
-        else
+        if (reason != WAIT_IO_COMPLETION)
         {
             CloseHandle(this->eve);
             this->eve = INVALID_HANDLE_VALUE;
