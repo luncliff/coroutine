@@ -253,7 +253,7 @@ class channel final
         // to reduce the possibility. As repeat count becomes greater,
         // the possibility drops to zero. But notice that it is NOT zero.
         //
-        size_t repeat = 100; // recommend 5'000+ repeat for hazard usage;
+        size_t repeat = 1; // recommend 5'000+ repeat for hazard usage
         while (repeat--)
         {
             // Give chance to other coroutines to come into the lists

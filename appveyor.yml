@@ -4,10 +4,9 @@ clone_depth: 1
 # skip_non_tags: false
 # skip_branch_with_pr: false
 
-max_jobs: 2
+max_jobs: 4
 
 image: 
-  # - Visual Studio 2015
   - Visual Studio 2017
 
 platform: 
@@ -37,7 +36,7 @@ before_test:
   - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/Magic.VSTest.dll"
   
 test_script:
-  - ps: vstest.console.exe $TestDLL
+  - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
 
 notifications:
   - provider: Email
