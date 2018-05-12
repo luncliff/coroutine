@@ -54,8 +54,8 @@ bool get(stdex::coroutine_handle<> &rh) noexcept
     if (reason == WAIT_OBJECT_0) // Message received
         return peek(rh);
 
-    // Handled I/O || Timeout || Error
-    //      return anyway...
+    // it might be one of Handled I/O || Timeout || Error
+    // just return false.
     return false;
 }
 
