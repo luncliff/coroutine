@@ -42,22 +42,19 @@ bool peek(stdex::coroutine_handle<> &rh) noexcept
 bool get(stdex::coroutine_handle<> &rh) noexcept
 {
     // Handle APC calls (Expecially I/O)
+    // Message >> WAIT_OBJECT_0 
+    // Overlapped I/O  >> WAIT_IO_COMPLETION
+    // Failed >> WAIT_FAILED
     const DWORD reason = ::MsgWaitForMultipleObjectsEx(
         0, nullptr, // no handles
-        10'000,     // INFINITE
+        10'000,     // Not INFINITE.
         QS_ALLINPUT,
         MWMO_ALERTABLE | MWMO_INPUTAVAILABLE);
-
-    assert(
-        reason == WAIT_OBJECT_0 ||      // Message ?
-        reason == WAIT_IO_COMPLETION || // Overlapped I/O ?
-        reason == WAIT_FAILED           // Failed?
-    );
 
     if (reason == WAIT_OBJECT_0) // Message received
         return peek(rh);
 
-    // Handled I/O || Error
+    // Handled I/O || Timeout || Error
     //      return anyway...
     return false;
 }
@@ -82,15 +79,15 @@ switch_to &switch_to::operator=(switch_to &&rhs) noexcept
 
 switch_to::~switch_to() noexcept
 {
-    if (work != PTP_WORK{})
-        ::CloseThreadpoolWork(work);
+    if (this->work != PTP_WORK{})
+        ::CloseThreadpoolWork(this->work);
 }
 
 bool switch_to::ready() const noexcept
 {
-    if (thread)
+    if (this->thread)
         // Switch to another thread?
-        return thread == ::GetCurrentThreadId();
+        return this->thread == ::GetCurrentThreadId();
     else
         // Switch to thread pool
         return false;
@@ -103,13 +100,12 @@ bool switch_to::ready() const noexcept
 //  if the target thread can't receive rh(resumeable handle).
 //
 //  Since there is no way to create a thread with a designated ID,
-//  this function will throw exception to kill the program.
+//  this function will throw exception. (which might kill the program)
 //  The SERIOUS error situation must be prevented before this code.
 //
 //  To ensure warning about this function, it uses throw specification mismatch.
 //
-#pragma warning(disable : 4297)
-void switch_to::suspend(stdex::coroutine_handle<> rh) noexcept
+void switch_to::suspend(stdex::coroutine_handle<> rh) noexcept(false)
 {
     static_assert(sizeof(WPARAM) == sizeof(stdex::coroutine_handle<>),
                   "WPARAM in not enough to hold data");
@@ -129,7 +125,7 @@ void switch_to::suspend(stdex::coroutine_handle<> rh) noexcept
     {
         // WParam holds handle's address
         const WPARAM wp = reinterpret_cast<WPARAM>(rh.address());
-        const BOOL posted = PostThreadMessageW(this->thread, WM_SWITCH, wp, LPARAM{});
+        const BOOL posted = ::PostThreadMessageW(this->thread, WM_SWITCH, wp, LPARAM{});
         // !!! Read Caution !!!
         if (posted == FALSE)
             goto OnWinAPIError;
@@ -138,20 +134,18 @@ void switch_to::suspend(stdex::coroutine_handle<> rh) noexcept
     return;
 
 OnWinAPIError:
-    const auto ec = std::error_code{
-        static_cast<int>(GetLastError()), std::system_category()};
-#ifdef _DEBUG
-    fputs(ec.message().c_str(), stderr);
-#endif
-    throw ec;
+    const auto eval = static_cast<int>(::GetLastError());
+    const auto&& emsg = std::system_category().message(eval);
+
+    throw std::runtime_error{ emsg };
 }
 
 void switch_to::resume() noexcept
 {
 #ifdef _DEBUG
     // Are we in correct thread?
-    if (thread)
-        assert(thread == ::GetCurrentThreadId());
+    if (this->thread)
+        assert(this->thread == ::GetCurrentThreadId());
 #endif
 }
 

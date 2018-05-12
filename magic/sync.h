@@ -65,6 +65,8 @@ private:
   wait_group &operator=(wait_group &&) = delete;
 
 public:
+    // - Throws
+    //      std::runtime_error
   _INTERFACE_ wait_group() noexcept(false);
   _INTERFACE_ ~wait_group() noexcept;
 

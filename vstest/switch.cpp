@@ -15,33 +15,14 @@
 #include <CppUnitTest.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace std::literals;
 
 namespace magic
 {
-using namespace std;
 
-TEST_CLASS(SwitchToThreadTest)
+TEST_CLASS(SwitchTest)
 {
-
-    auto TravelToBackground(const DWORD thread)->unplug
-    {
-        const DWORD start = GetCurrentThreadId();
-
-        // Go to background ...
-        co_await magic::switch_to{};
-
-        // Background thread's ID is different
-        Assert::IsTrue(start != GetCurrentThreadId(),
-                       L"Expect differenct thread ID");
-
-        // Go to specific thread ...
-        co_await magic::switch_to{thread};
-
-        Assert::IsTrue(thread == GetCurrentThreadId(),
-                       L"Reached wrong worker thread");
-    };
-
-    TEST_METHOD(SwitchNever)
+    TEST_METHOD(NoSwitching)
     {
         DWORD target = GetCurrentThreadId();
 
@@ -51,37 +32,100 @@ TEST_CLASS(SwitchToThreadTest)
         s.resume();
     }
 
-    /*
-        TEST_METHOD(SwitchTravelToWorker)
-        {
-            DWORD target = -1;
-            HANDLE thread = CreateThread(nullptr, 4096 * 2, Working, nullptr, 0, &target);
+    // This limitation depends on the size of thread message queue
+    static constexpr auto Limit = 10000;
 
-            Assert::IsTrue(thread != INVALID_HANDLE_VALUE,
-                           L"Failed to create Worker thread");
-            Assert::IsTrue(target != -1,
-                           L"Failed to get Worker thread ID");
-
-            // Resumeable Handle
-            stdex::coroutine_handle<> rh{};
-
-            // ...
-
-            CloseHandle(thread);
-        }
-        */
-
-    TEST_METHOD(SwitchTravelMany)
+    static auto ThreadWork(LPVOID args)->DWORD
     {
-        // This limitation depends on the size of thread message queue
-        const size_t Limit = 10000;
-        const DWORD home = GetCurrentThreadId();
+        Assert::IsNotNull(args);
+
+        // Resumeable Handle
+        stdex::coroutine_handle<> rh{};
+        size_t count = 0;
+
+        do
+        {
+            // Wait for next work
+            Assert::IsTrue(magic::get(rh));
+            Assert::IsNotNull(rh.address());
+            rh.resume();
+
+        } while (++count < Limit);
+
+        // notify this thread is going to exit
+        wait_group *wg = reinterpret_cast<wait_group *>(args);
+        wg->done();
+
+        return S_OK;
+    };
+
+    TEST_METHOD(ToWorker)
+    {
+        wait_group group{};
+        group.add(1);
+
+        DWORD worker_id = -1;
+        HANDLE thread = ::CreateThread(nullptr, 4096 * 2,
+                                       ThreadWork, std::addressof(group), NULL, &worker_id);
+
+        Assert::IsTrue(thread != INVALID_HANDLE_VALUE);
+        Assert::IsTrue(worker_id > 0);
+
+        // wait for worker thread setup.
+        // If main thread uses switch_to before that, the exception will be throwed with
+        // ERROR_INVALID_THREAD_ID
+        std::this_thread::sleep_for(100ms);
+
+        size_t count = 0;
+        do
+        {
+            // Spawn a coroutine for worker
+            [](DWORD thread_id) -> unplug {
+                try
+                {
+                    // Go to specific thread ...
+                    co_await magic::switch_to{thread_id};
+                    Assert::IsTrue(thread_id == GetCurrentThreadId());
+                }
+                catch (const std::runtime_error &ec)
+                {
+                    Assert::IsTrue(GetLastError() == ERROR_INVALID_THREAD_ID);
+                    Logger::WriteMessage(ec.what());
+                    Assert::Fail();
+                }
+            }(worker_id);
+
+        } while (++count < Limit);
+
+        // wait for worker thread to exit
+        group.wait();
+        ::CloseHandle(thread);
+    }
+
+    TEST_METHOD(TravelThreadPool)
+    {
+        const DWORD main_thread = GetCurrentThreadId();
 
         size_t count = Limit;
 
         // go to background and return home
         while (count--)
-            TravelToBackground(home);
+        {
+            [](DWORD thread_id) -> unplug {
+                const DWORD start = GetCurrentThreadId();
+
+                // Go to background ...
+                co_await magic::switch_to{};
+
+                // Background thread's ID is different
+                Assert::IsTrue(start != GetCurrentThreadId());
+
+                // Go to specific thread ...
+                co_await magic::switch_to{thread_id};
+
+                Assert::IsTrue(thread_id == GetCurrentThreadId());
+            }(main_thread);
+        }
 
         count = Limit;
         while (count--)
@@ -95,4 +139,5 @@ TEST_CLASS(SwitchToThreadTest)
         }
     }
 };
+
 } // namespace magic

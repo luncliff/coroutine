@@ -46,9 +46,12 @@ wait_group::wait_group() noexcept(false)
         NULL); // unnamed object
 
     if (this->eve == INVALID_HANDLE_VALUE)
-        throw std::error_code{
-            static_cast<int>(GetLastError()),
-            std::system_category()};
+    {
+        const auto eval = static_cast<int>(GetLastError());
+        const auto&& emsg = std::system_category().message(eval);
+
+        throw std::runtime_error{ emsg };
+    }
 }
 
 wait_group::~wait_group() noexcept

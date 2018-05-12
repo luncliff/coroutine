@@ -63,7 +63,9 @@ private:
 
 public:
   bool ready() const noexcept;
-  void suspend(stdex::coroutine_handle<> rh) noexcept;
+  // - Throws
+  //      std::runtime_error
+  void suspend(stdex::coroutine_handle<> rh) noexcept(false);
   void resume() noexcept;
 
 private:
@@ -83,7 +85,7 @@ await_ready(const switch_to &awaitable) noexcept
 }
 static decltype(auto)
 await_suspend(switch_to &awaitable,
-              stdex::coroutine_handle<> rh) noexcept
+              stdex::coroutine_handle<> rh) noexcept(false)
 {
   return awaitable.suspend(rh);
 }

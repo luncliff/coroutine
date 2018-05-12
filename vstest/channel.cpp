@@ -18,9 +18,8 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace magic
 {
-using namespace std;
 
-TEST_CLASS(ChannelOperationTest)
+TEST_CLASS(ChannelTest)
 {
     template <typename Ty, typename M>
     auto WriteAndCheck(channel<Ty, M> & ch, Ty value) noexcept
@@ -40,7 +39,7 @@ TEST_CLASS(ChannelOperationTest)
     };
 
   public:
-    TEST_METHOD(ChannelReadAfterWrite)
+    TEST_METHOD(ReadAfterWrite)
     {
         channel<int, std::mutex> ch{};
         int value = 0;
@@ -57,7 +56,7 @@ TEST_CLASS(ChannelOperationTest)
             Assert::IsTrue(value == i, L"Expected read result");
         }
     }
-    TEST_METHOD(ChannelWriteAfterRead)
+    TEST_METHOD(WriteAfterRead)
     {
         channel<int, std::mutex> ch{};
         int value = 0;
@@ -82,7 +81,7 @@ TEST_CLASS(ChannelRaceTest)
     static constexpr size_t Repeat = 100;
 
     auto Write1(channel<char, std::mutex> & chan, wait_group & grp,
-                atomic<size_t> & counter)
+                std::atomic<size_t> & counter)
         ->unplug
     {
         char value{};
@@ -123,7 +122,7 @@ TEST_CLASS(ChannelRaceTest)
     };
 
     auto Write2(channel<char, std::mutex> & chan, wait_group & group,
-                atomic<size_t> & success, atomic<size_t> & failure)
+                std::atomic<size_t> & success, std::atomic<size_t> & failure)
         ->unplug
     {
         char value{};
@@ -147,7 +146,7 @@ TEST_CLASS(ChannelRaceTest)
     };
 
     auto Read2(channel<char, std::mutex> & chan, wait_group & group,
-               atomic<size_t> & success)
+               std::atomic<size_t> & success)
         ->unplug
     {
         char value{};
@@ -167,7 +166,7 @@ TEST_CLASS(ChannelRaceTest)
     };
 
     auto Write3(channel<char, std::mutex> & chan, wait_group & group,
-                atomic<size_t> & success)
+                std::atomic<size_t> & success)
         ->unplug
     {
         char value{};
@@ -186,7 +185,7 @@ TEST_CLASS(ChannelRaceTest)
     };
 
     auto Read3(channel<char, std::mutex> & chan, wait_group & group,
-               atomic<size_t> & success, atomic<size_t> & failure)
+               std::atomic<size_t> & success, std::atomic<size_t> & failure)
         ->unplug
     {
         int value{};
@@ -211,20 +210,20 @@ TEST_CLASS(ChannelRaceTest)
     };
 
   public:
-    TEST_METHOD(ChannelWriterEqualsReader)
+    TEST_METHOD(WriterEqualsReader)
     {
         channel<char, std::mutex> ch{};
         wait_group wg{};
 
-        size_t nc = 0;         // normal counter
-        atomic<size_t> ac = 0; // atomic counter
+        size_t nc = 0;              // normal counter
+        std::atomic<size_t> ac = 0; // std::atomic counter
 
         wg.add(2 * NumWorker);
 
         // Spawn coroutines
         // counters will be under race condition
         //  - Senders use normal counter
-        //  - Receivers use atomic counter
+        //  - Receivers use std::atomic counter
         for (int i = 0; i < NumWorker; ++i)
         {
             Write1(ch, wg, ac);
@@ -238,13 +237,13 @@ TEST_CLASS(ChannelRaceTest)
         Assert::IsTrue(nc <= ac);
     }
 
-    TEST_METHOD(ChannelWriterGreaterThanReader)
+    TEST_METHOD(WriterGreaterThanReader)
     {
         // Counter for success & failure
-        atomic<size_t> successW = 0;
-        atomic<size_t> successR = 0;
+        std::atomic<size_t> successW = 0;
+        std::atomic<size_t> successR = 0;
 
-        atomic<size_t> failure = 0;
+        std::atomic<size_t> failure = 0;
 
         // !!! This code leads to coroutine leak !!!
 
@@ -271,13 +270,13 @@ TEST_CLASS(ChannelRaceTest)
         Assert::IsTrue(successW + successR + failure <= 3 * NumWorker);
     }
 
-    TEST_METHOD(ChannelWriterLessThanReader)
+    TEST_METHOD(WriterLessThanReader)
     {
 
         // Counter for success & failure
-        atomic<size_t> successW = 0;
-        atomic<size_t> successR = 0;
-        atomic<size_t> failure = 0;
+        std::atomic<size_t> successW = 0;
+        std::atomic<size_t> successR = 0;
+        std::atomic<size_t> failure = 0;
 
         wait_group reader_group{};
         wait_group writer_group{};
