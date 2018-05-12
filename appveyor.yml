@@ -39,16 +39,14 @@ test_script:
   - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
 
 deploy:
-  release: $(APPVEYOR_REPO_TAG)
-  description: "Release: $(appveyor_build_version)"
   provider: GitHub
   auth_token:
     secure: Wlp/6n2lRS4hsvUlZpGjcmDKufr5TfbB3WhUMiqbQvxTkgTL+RNWTtP8C198boyH
-  # artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
   prerelease: true
+  description: "Release: $(appveyor_build_version)"
+  # artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
   on:
     branch: master
-    appveyor_repo_tag: true        # deploy on tag push only
 
 notifications:
   - provider: Email
