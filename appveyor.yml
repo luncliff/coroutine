@@ -38,15 +38,19 @@ before_test:
 test_script:
   - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
 
+before_deploy:
+  - ps: cd $env:APPVEYOR_BUILD_FOLDER
+  # - ps: nuget pack cppmagic.nuspec -symbol
+
 deploy:
-  provider: GitHub
-  auth_token:
-    secure: Wlp/6n2lRS4hsvUlZpGjcmDKufr5TfbB3WhUMiqbQvxTkgTL+RNWTtP8C198boyH
-  prerelease: true
-  description: "Release: $(appveyor_build_version)"
-  # artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
-  on:
-    branch: master
+  - provider: GitHub
+    auth_token:
+      secure: Wlp/6n2lRS4hsvUlZpGjcmDKufr5TfbB3WhUMiqbQvxTkgTL+RNWTtP8C198boyH
+    prerelease: true
+    description: "Release: $(appveyor_build_version)"
+    # artifact: /.*\.nupkg/
+    on:
+      branch: master
 
 notifications:
   - provider: Email
