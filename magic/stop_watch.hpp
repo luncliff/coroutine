@@ -4,7 +4,7 @@
 //      Park DongHa     | luncliff@gmail.com
 //
 //  License
-//      This file is distributed under Creative Commons 4.0-BY License
+//      CC BY 4.0
 //
 //  Note
 //      Simple stopwatch
@@ -15,13 +15,10 @@
 
 #include <chrono>
 
-namespace magic
-{
+namespace magic {
 // - Note
 //      Stop watch.
-template <typename Clock>
-class stop_watch
-{
+template <typename Clock> class stop_watch {
 public:
   using clock_type = Clock;
   using time_point = typename clock_type::time_point;
@@ -34,8 +31,7 @@ public:
   // - Note
   //    Acquire elapsed time from last reset
   template <typename UnitType = std::chrono::milliseconds>
-  decltype(auto) pick() const noexcept
-  {
+  decltype(auto) pick() const noexcept {
     const duration span = clock_type::now() - start;
     return std::chrono::duration_cast<UnitType>(span);
   };
@@ -44,13 +40,11 @@ public:
   //    Acquire elapsed time from last reset
   //    Then reset the starting time_point
   template <typename UnitType = std::chrono::milliseconds>
-  decltype(auto) reset() noexcept
-  {
+  decltype(auto) reset() noexcept {
     const auto span = this->pick<UnitType>();
     start = clock_type::now(); // reset start
     return span;
   }
 };
-
 } // namespace magic
-#endif
+#endif // _MAGIC_STOP_WATCH_HPP_

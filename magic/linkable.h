@@ -4,7 +4,7 @@
 //      Park DongHa     | luncliff@gmail.com
 //
 //  License
-//      This file is distributed under Creative Commons 4.0-BY License
+//      CC BY 4.0
 //
 //  Note
 //      Macro helper for DLL interface declaration

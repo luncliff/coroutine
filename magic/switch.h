@@ -4,7 +4,7 @@
 //      Park DongHa     | luncliff@gmail.com
 //
 //  License
-//      This file is distributed under Creative Commons 4.0-BY License
+//      CC BY 4.0
 //
 //  Note
 //      Thread switching for the coroutines
@@ -28,8 +28,7 @@
 #include <Windows.h>
 #include <threadpoolapiset.h>
 
-namespace magic
-{
+namespace magic {
 namespace stdex = std::experimental;
 
 // - Note
@@ -43,8 +42,7 @@ _INTERFACE_ bool get(stdex::coroutine_handle<> &rh) noexcept;
 // - Note
 //      Routine switching to another thread with MSVC Coroutine
 //      and Windows Thread Pool
-class _INTERFACE_ switch_to
-{
+class _INTERFACE_ switch_to {
   // non-zero : Specific thread's queue
   //     zero : Windows Thread Pool
   DWORD thread;
@@ -71,27 +69,21 @@ public:
 private:
   // - Note
   //      Thread Pool Callback. Expect `noexcept` operation
-  static void CALLBACK onWork(
-      PTP_CALLBACK_INSTANCE pInstance,
-      PVOID pContext, PTP_WORK pWork) noexcept;
+  static void CALLBACK onWork(PTP_CALLBACK_INSTANCE pInstance, PVOID pContext,
+                              PTP_WORK pWork) noexcept;
 };
 
 #pragma warning(disable : 4505)
 
-static bool
-await_ready(const switch_to &awaitable) noexcept
-{
+static bool await_ready(const switch_to &awaitable) noexcept {
   return awaitable.ready();
 }
 static decltype(auto)
 await_suspend(switch_to &awaitable,
-              stdex::coroutine_handle<> rh) noexcept(false)
-{
+              stdex::coroutine_handle<> rh) noexcept(false) {
   return awaitable.suspend(rh);
 }
-static decltype(auto)
-await_resume(switch_to &awaitable) noexcept
-{
+static decltype(auto) await_resume(switch_to &awaitable) noexcept {
   return awaitable.resume();
 }
 
