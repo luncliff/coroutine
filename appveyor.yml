@@ -15,11 +15,11 @@ configuration:
 
 matrix:
   fast_finish: true
-  # Pending Version update
-  # See: https://developercommunity.visualstudio.com/content/problem/164290/still-bad-codegen-with-coroutines-in-release-x86.html
-  allow_failures:
-    - platform: x86
-      configuration: Release
+  # # Pending Version update
+  # # See: https://developercommunity.visualstudio.com/content/problem/164290/still-bad-codegen-with-coroutines-in-release-x86.html
+  # allow_failures:
+  #   - platform: x86
+  #     configuration: Release
 
 install:
   - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
@@ -45,13 +45,13 @@ nuget:
 before_deploy:
   - ps: cd $env:APPVEYOR_BUILD_FOLDER
   - ps: $is_deploy_config = ($env:PLATFORM -eq "x64") -and ($env:CONFIGURATION -eq "Release")
-  - ps: if( $is_deploy_config ){
-          MSBuild ./Magic.sln /p:Platform=x86 /p:Configuration=Debug   /p:Verbosity=quiet;
-          MSBuild ./Magic.sln /p:Platform=x86 /p:Configuration=Release /p:Verbosity=quiet;
-          MSBuild ./Magic.sln /p:Platform=x64 /p:Configuration=Debug   /p:Verbosity=quiet;
-          MSBuild ./Magic.sln /p:Platform=x64 /p:Configuration=Release /p:Verbosity=quiet;
-          nuget pack cppmagic.nuspec -symbol;
-        ; }
+  # - ps: if( $is_deploy_config ){
+  #         MSBuild ./Magic.sln /p:Platform=x86 /p:Configuration=Debug   /p:Verbosity=quiet;
+  #         MSBuild ./Magic.sln /p:Platform=x86 /p:Configuration=Release /p:Verbosity=quiet;
+  #         MSBuild ./Magic.sln /p:Platform=x64 /p:Configuration=Debug   /p:Verbosity=quiet;
+  #         MSBuild ./Magic.sln /p:Platform=x64 /p:Configuration=Release /p:Verbosity=quiet;
+  #         nuget pack cppmagic.nuspec -symbol;
+  #       ; }
   # - ps: tree . /F;
 
 deploy:
@@ -59,7 +59,7 @@ deploy:
     auth_token:
       secure: Wlp/6n2lRS4hsvUlZpGjcmDKufr5TfbB3WhUMiqbQvxTkgTL+RNWTtP8C198boyH
     prerelease: true
-    artifact: /.*\.nupkg/
+    # artifact: /.*\.nupkg/
     description: "Release: $(appveyor_build_version)"
     on:
       appveyor_repo_tag: true 
