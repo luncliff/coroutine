@@ -7,7 +7,7 @@
 //      CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include <cassert>
+// #include <cassert>
 #include <magic/date_time.hpp>
 
 #ifdef _WIN32

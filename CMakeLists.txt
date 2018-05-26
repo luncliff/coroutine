@@ -14,7 +14,7 @@ endif()
 
 project(cppmagic LANGUAGES CXX 
         VERSION 1.0.1
-        DESCRIPTION "Auto-magically working C++ coroutine"
+        # DESCRIPTION "Auto-magically working C++ coroutine"
 )
 
 message(STATUS "========== ${PROJECT_NAME} : ${PROJECT_VERSION} ==========")
@@ -54,7 +54,6 @@ target_include_directories(${PROJECT_NAME}
 target_compile_options(${PROJECT_NAME} 
     PUBLIC
         -std=c++1z
-        -stdlib=libc++ 
         -fcoroutines-ts
     PRIVATE
         # -nostdinc++     # For manual libc++ configuration
@@ -62,13 +61,25 @@ target_compile_options(${PROJECT_NAME}
 )
 if(APPLE)
     target_compile_options(${PROJECT_NAME} 
+        PUBLIC
+            -stdlib=libc++ 
         PRIVATE
             -fmodules-ts
     )
-elseif(UNIX)
+elseif(UNIX) #  AND NOT APPLE
+    target_include_directories(${PROJECT_NAME} 
+        PRIVATE
+            ${PROJECT_DIR}/libcpp/include/c++/v1/
+    )
+    # target_compile_options(${PROJECT_NAME} 
+    #     PUBLIC
+    #         -nostdinc++  -nodefaultlibs
+    #         # -I${PROJECT_DIR}/libcpp/include/c++/v1/
+    #         # -l${PROJECT_DIR}/libcpp/lib/libc++.so
+    # )
     # target_link_libraries(${PROJECT_NAME}
     #     PRIVATE
-    #         libcxx
+    #         c++
     # )
 endif()
 
@@ -110,12 +121,32 @@ add_dependencies(${TEST_NAME} ${PROJECT_NAME})
 target_compile_options(${TEST_NAME}
     PRIVATE
         -fvisibility=hidden
+        -ferror-limit=1
 )
 target_include_directories(${TEST_NAME}
     PRIVATE
         ${PROJECT_DIR}/test
 )
+
 target_link_libraries(${TEST_NAME}
     PUBLIC
         ${PROJECT_NAME}
 )
+
+if(APPLE)
+    # nothing for apple
+elseif(UNIX) #  AND NOT APPLE
+    target_include_directories(${TEST_NAME} 
+        PRIVATE
+            ${PROJECT_DIR}/libcpp/include/c++/v1/
+    )
+    # target_compile_options(${TEST_NAME} 
+    #     PRIVATE
+    #         # -I${PROJECT_DIR}/libcpp/include/c++/v1/
+    #         # -l${PROJECT_DIR}/libcpp/lib/libc++.so
+    # )
+    # target_link_libraries(${TEST_NAME}
+    #     PUBLIC
+    #         stdc++
+    # )
+endif()

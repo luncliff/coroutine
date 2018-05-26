@@ -14,6 +14,19 @@ compiler: clang
 before_install:
   - uname;
   - echo $TRAVIS_OS_NAME;
+
+install:
+  # - git submodule update --init --recursive
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+      svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm > /dev/null;
+      svn co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx > /dev/null;
+      svn co http://llvm.org/svn/llvm-project/libcxxabi/trunk libcxxabi > /dev/null;
+    fi
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+      mkdir -p libcpp && cd libcpp;
+      cmake ../libcxx -DLLVM_PATH=../llvm -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include -DCMAKE_INSTALL_PREFIX=. ;
+      make -j8 install;
+    fi
   # Use brew for OSX image
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then 
       brew install tree ninja > /dev/null 2>&1; 
@@ -23,11 +36,9 @@ before_install:
   - tree --version
   - ninja --version
 
-# install:
-#   - git submodule update --init --recursive
-
 before_script:
-  # Go to build directory
+  # Create & Go to build directory
+  - cd ${TRAVIS_BUILD_DIR}
   - mkdir -p build && cd build && pwd
 
 script:
@@ -52,34 +63,38 @@ addons:
     sources:
     - llvm-toolchain-trusty-5.0
     packages:
+    - subversion
     - clang-5.0
     - libc++-dev  
+    - libc++abi-dev
     - ninja-build
     - tree
 
 matrix: 
+  allow_failures:
+    - os: linux
   include:
-    # # Linux : x86_64 Debug Static
-    # - env:
-    #   - PLATFORM=linux
-    #   - CONFIG=Debug
-    #   - BUILD_SHARED=false 
-    # # Linux : x86_64 Debug Dynamic
-    # - env:
-    #   - PLATFORM=linux
-    #   - CONFIG=Debug
-    #   - BUILD_SHARED=true 
+    # Linux : x86_64 Debug Static
+    - env:
+      - PLATFORM=linux
+      - CONFIG=Debug
+      - BUILD_SHARED=false 
+    # Linux : x86_64 Debug Dynamic
+    - env:
+      - PLATFORM=linux
+      - CONFIG=Debug
+      - BUILD_SHARED=true 
   
-    # # Linux : x86_64 Release Static
-    # - env:
-    #   - PLATFORM=linux
-    #   - CONFIG=Release
-    #   - BUILD_SHARED=false
-    # # Linux : x86_64 Release Dynamic
-    # - env:
-    #   - PLATFORM=linux
-    #   - CONFIG=Release
-    #   - BUILD_SHARED=true
+    # Linux : x86_64 Release Static
+    - env:
+      - PLATFORM=linux
+      - CONFIG=Release
+      - BUILD_SHARED=false
+    # Linux : x86_64 Release Dynamic
+    - env:
+      - PLATFORM=linux
+      - CONFIG=Release
+      - BUILD_SHARED=true
   
     # OS X : x86_64 Debug Static
     - os: osx
