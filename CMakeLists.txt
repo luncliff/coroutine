@@ -5,10 +5,12 @@ cmake_minimum_required(VERSION 3.6)
 # Global setup
 
 if(WIN32 OR MSVC)
-    return(1) # this cmake project is not for Windows
+    return(1) # this cmake project is not for Windows/MSVC
 else()
     add_compile_options(-fPIC -Wall)
 endif()
+
+# Project Info
 
 project(magic LANGUAGES CXX 
         VERSION 1.0.1
@@ -26,6 +28,8 @@ set(CMAKE_INSTALL_PREFIX ${PROJECT_DIR}/install)
 message(STATUS "Install   \t: ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "System    \t: ${CMAKE_SYSTEM}")
 
+# Compiler/Toolchain
+
 message(STATUS "Compiler")
 message(STATUS " - ID     \t: ${CMAKE_CXX_COMPILER_ID}")
 message(STATUS " - Path   \t: ${CMAKE_CXX_COMPILER}")
@@ -33,6 +37,14 @@ message(STATUS " - Path   \t: ${CMAKE_CXX_COMPILER}")
 
 add_library(${PROJECT_NAME} SHARED
     ${PROJECT_DIR}/msvc/dllmain.cpp
+)
+
+target_include_directories(${PROJECT_NAME} 
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+    PRIVATE    
+        ${PROJECT_DIR}/clang/
+        ${PROJECT_DIR}/libcxx/include/
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES 
@@ -64,12 +76,6 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
         c++experimental
 )
-target_include_directories(${PROJECT_NAME} 
-    PRIVATE    
-        ${PROJECT_DIR}/
-        ${PROJECT_DIR}/clang/
-        ${PROJECT_DIR}/libcxx/include/
-)
 
 install(TARGETS ${PROJECT_NAME}
     DESTINATION ${CMAKE_INSTALL_PREFIX}/libs
@@ -78,6 +84,7 @@ install(FILES ${PROJECT_DIR}/magic/coroutine.hpp
     DESTINATION ${CMAKE_INSTALL_PREFIX}/include/magic/
 )
 
+# Test suite for Non-Windows
 
 set(TEST_NAME ${PROJECT_NAME}_test)
 
@@ -94,4 +101,8 @@ target_compile_options(${TEST_NAME}
         -std=c++2a -stdlib=libc++
     PRIVATE
         -fvisibility=hidden
+)
+target_link_libraries(${TEST_NAME}
+    PUBLIC
+        ${PROJECT_NAME}
 )

@@ -14,7 +14,9 @@
 #define _MAGIC_COROUTINE_HPP_
 
 #include <experimental/coroutine>
+#ifdef _WIN32
 #include <experimental/generator>
+#endif
 
 namespace magic {
 namespace stdex = std::experimental;
@@ -37,6 +39,7 @@ public:
     auto final_suspend() const noexcept { return stdex::suspend_never{}; }
     // Ignore return of the coroutine
     void return_void(void) noexcept {};
+    void unhandled_exception() noexcept{};
 
     promise_type &get_return_object() noexcept { return *this; }
 
@@ -56,7 +59,7 @@ public:
   };
 
 public:
-  explicit unplug(const promise_type &) noexcept {};
+  unplug(const promise_type &) noexcept {};
 };
 
 } // namespace magic
