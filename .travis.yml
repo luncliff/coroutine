@@ -17,6 +17,8 @@ before_install:
   # Use brew for OSX image
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then 
       brew install tree ninja > /dev/null 2>&1; 
+      brew upgrade llvm > /dev/null 2>&1;
+      brew info llvm;
     fi
   - tree --version
   - ninja --version
@@ -40,6 +42,11 @@ after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install
 
+after_failure:
+  - cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/
+  - tree ./include/c++
+  - tree ./lib
+
 # Shared environment
 # Default is ubuntu trusty
 os: linux
@@ -56,38 +63,38 @@ addons:
 
 matrix: 
   include:
-    # Linux : x86_64 Debug Static
-    - env:
-      - PLATFORM=linux
-      - CONFIG=Debug
-      - BUILD_SHARED=false 
-    # Linux : x86_64 Debug Dynamic
-    - env:
-      - PLATFORM=linux
-      - CONFIG=Debug
-      - BUILD_SHARED=true 
+    # # Linux : x86_64 Debug Static
+    # - env:
+    #   - PLATFORM=linux
+    #   - CONFIG=Debug
+    #   - BUILD_SHARED=false 
+    # # Linux : x86_64 Debug Dynamic
+    # - env:
+    #   - PLATFORM=linux
+    #   - CONFIG=Debug
+    #   - BUILD_SHARED=true 
   
-    # Linux : x86_64 Release Static
-    - env:
-      - PLATFORM=linux
-      - CONFIG=Release
-      - BUILD_SHARED=false
-    # Linux : x86_64 Release Dynamic
-    - env:
-      - PLATFORM=linux
-      - CONFIG=Release
-      - BUILD_SHARED=true
+    # # Linux : x86_64 Release Static
+    # - env:
+    #   - PLATFORM=linux
+    #   - CONFIG=Release
+    #   - BUILD_SHARED=false
+    # # Linux : x86_64 Release Dynamic
+    # - env:
+    #   - PLATFORM=linux
+    #   - CONFIG=Release
+    #   - BUILD_SHARED=true
   
     # OS X : x86_64 Debug Static
     - os: osx
-      osx_image: xcode9.1
+      osx_image: xcode9.3
       env:
         - PLATFORM=osx
         - CONFIG=Debug
         - BUILD_SHARED=false
     # OS X : x86_64 Debug Dynamic
     - os: osx
-      osx_image: xcode9.1
+      osx_image: xcode9.3
       env:
         - PLATFORM=osx
         - CONFIG=Debug
@@ -95,14 +102,14 @@ matrix:
   
     # OS X : x86_64 Release Static
     - os: osx
-      osx_image: xcode9.1
+      osx_image: xcode9.3
       env:
         - PLATFORM=osx
         - CONFIG=Release
         - BUILD_SHARED=false
     # OS X : x86_64 Release Dynamic
     - os: osx
-      osx_image: xcode9.1
+      osx_image: xcode9.3
       env:
         - PLATFORM=osx
         - CONFIG=Release
