@@ -1,4 +1,12 @@
 
+[Bb]uild/
+
+install/
+
+libcxxabi/
+libcxx/
+llvm/
+
 .vscode/
 .sonarqube/
 bw-output/
