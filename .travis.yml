@@ -37,15 +37,11 @@ script:
     -DCMAKE_BUILD_TYPE=$CONFIG
   - ninja install
   - tree .
+  - ./cppmagic_test
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install
-
-after_failure:
-  - cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/
-  - tree ./include/c++
-  - tree ./lib
 
 # Shared environment
 # Default is ubuntu trusty

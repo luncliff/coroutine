@@ -12,7 +12,7 @@ endif()
 
 # Project Info
 
-project(magic LANGUAGES CXX 
+project(cppmagic LANGUAGES CXX 
         VERSION 1.0.1
         DESCRIPTION "Auto-magically working C++ coroutine"
 )
@@ -34,40 +34,37 @@ message(STATUS "Compiler")
 message(STATUS " - ID     \t: ${CMAKE_CXX_COMPILER_ID}")
 message(STATUS " - Path   \t: ${CMAKE_CXX_COMPILER}")
 
-# [magic]: Core features
+# [cppmagic]: Core features
 
 add_library(${PROJECT_NAME}
     ${PROJECT_DIR}/msvc/dllmain.cpp
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES 
     VERSION         ${PROJECT_VERSION}
-    # CXX_STANDARD    17
+    # CXX_STANDARD    17      # this property is equal to `-std=gnu++17`
+    #                         # We will use `-std=c++1z`
 )
 
 target_include_directories(${PROJECT_NAME} 
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
-        # /Users/luncliff/Develop/libcxx/include
     PRIVATE    
         ${PROJECT_DIR}/clang/
-        # ${PROJECT_DIR}/libcxx/include/
-        # Direct path to LLVM
-        # /usr/local/opt/llvm/include/c++/v1
 )
-
 target_compile_options(${PROJECT_NAME} 
     PUBLIC
         -std=c++1z
-        -stdlib=libc++ # -nostdinc++
-        -fcoroutines-ts -fmodules-ts 
+        -stdlib=libc++ 
+        -fcoroutines-ts
     PRIVATE
+        # -nostdinc++     # For manual libc++ configuration
         -fvisibility=hidden
 )
 if(APPLE)
-    # target_compile_options(${PROJECT_NAME} 
-    #     PUBLIC 
-    #         -stdlib=libc++
-    # )
+    target_compile_options(${PROJECT_NAME} 
+        PRIVATE
+            -fmodules-ts
+    )
 elseif(UNIX)
     # target_link_libraries(${PROJECT_NAME}
     #     PRIVATE
@@ -80,16 +77,28 @@ endif()
 #         c++experimental
 # )
 
-# library installation
+# [cppmagic]: Installation
 
 install(TARGETS ${PROJECT_NAME}
     DESTINATION ${CMAKE_INSTALL_PREFIX}/libs
 )
-install(FILES ${PROJECT_DIR}/magic/coroutine.hpp
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/include/magic/
+install(
+    FILES
+        ${PROJECT_DIR}/magic/coroutine.hpp
+        ${PROJECT_DIR}/magic/channel.hpp
+
+        ${PROJECT_DIR}/magic/linkable.h
+        ${PROJECT_DIR}/magic/switch.h
+        ${PROJECT_DIR}/magic/sync.h
+        
+        # ${PROJECT_DIR}/magic/date_time.hpp
+        # ${PROJECT_DIR}/magic/stop_watch.hpp
+        # ${PROJECT_DIR}/magic/plugin.hpp
+    DESTINATION 
+        ${CMAKE_INSTALL_PREFIX}/include/magic/
 )
 
-# [magic_test]: Test suite for Non-Windows
+# [cppmagic_test]: Test suite for Non-Windows
 
 set(TEST_NAME ${PROJECT_NAME}_test)
 
@@ -97,10 +106,6 @@ add_executable(${TEST_NAME}
     ${PROJECT_DIR}/test/test.entry.cpp
 )
 add_dependencies(${TEST_NAME} ${PROJECT_NAME})
-
-# set_target_properties(${TEST_NAME} PROPERTIES 
-#     CXX_STANDARD    17
-# )
 
 target_compile_options(${TEST_NAME}
     PRIVATE

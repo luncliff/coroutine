@@ -1,7 +1,7 @@
 # Magic
 Auto**magic**ally working C++ Coroutine: [Documentation](https://github.com/luncliff/Magic/wiki)
 
-[![Build status](https://ci.appveyor.com/api/projects/status/9eoy07qfxxqghop3?svg=true)](https://ci.appveyor.com/project/luncliff/magic)
+[![Build status](https://ci.appveyor.com/api/projects/status/9eoy07qfxxqghop3?svg=true)](https://ci.appveyor.com/project/luncliff/magic) [![Build Status](https://travis-ci.org/luncliff/Magic.svg?branch=master)](https://travis-ci.org/luncliff/Magic)
 
 [![SonarQube: Bugs](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=bugs)]((https://sonarcloud.io/dashboard?id=luncliff-magic))
 [![SonarQube: Code Smells](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=code_smells)]((https://sonarcloud.io/dashboard?id=luncliff-magic))
