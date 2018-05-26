@@ -3,6 +3,7 @@
 
 install/
 
+prebuilt/
 libcxxabi/
 libcxx/
 llvm/

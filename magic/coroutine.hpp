@@ -45,17 +45,18 @@ public:
 
     // - Note
     //      Examples for memory management customization.
-    // void *operator new(size_t _size)
-    //{
-    //    return __mgmt.allocate(_size);
-    //}
+    // void *operator new(size_t _size) noexcept(false)
+    // {
+    //   //  return __mgmt.allocate(_size);
+    //   return nullptr;
+    // }
 
     // - Note
     //      Examples for memory management customization.
     // void operator delete(void *_ptr, size_t _size) noexcept
-    //{
-    //    return __mgmt.deallocate(static_cast<char *>(_ptr), _size);
-    //}
+    // {
+    //   //  return __mgmt.deallocate(static_cast<char *>(_ptr), _size);
+    // }
   };
 
 public:

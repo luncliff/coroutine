@@ -23,7 +23,7 @@ install:
       svn co http://llvm.org/svn/llvm-project/libcxxabi/trunk libcxxabi > /dev/null;
     fi
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-      mkdir -p libcpp && cd libcpp;
+      mkdir -p prebuilt && cd prebuilt;
       cmake ../libcxx -DLLVM_PATH=../llvm -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include -DCMAKE_INSTALL_PREFIX=. ;
       make -j8 install;
     fi

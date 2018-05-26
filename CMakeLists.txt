@@ -1,11 +1,19 @@
-# CMake for non-windows project
-
+# ---------------------------------------------------------------------------
+#
+#   Author
+#       luncliff@gmail.com
+#
+#   Note
+#       CMake for non-windows project
+#
+# ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.6)
 
 # Global setup
 
 if(WIN32 OR MSVC)
-    return(1) # this cmake project is not for Windows/MSVC
+  # this cmake project is not for Windows/MSVC
+    return(1) 
 else()
     add_compile_options(-fPIC -Wall)
 endif()
@@ -13,26 +21,31 @@ endif()
 # Project Info
 
 project(cppmagic LANGUAGES CXX 
-        VERSION 1.0.1
-        # DESCRIPTION "Auto-magically working C++ coroutine"
+        VERSION 1.0.2
+        DESCRIPTION "Auto-magically working C++ coroutine"
 )
-
 message(STATUS "========== ${PROJECT_NAME} : ${PROJECT_VERSION} ==========")
 
+# Alias for known variables
 set(ROOT_DIR    ${CMAKE_SOURCE_DIR})
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-message(STATUS "Root      \t: ${ROOT_DIR}")
-message(STATUS "Project   \t: ${PROJECT_DIR}")
+message(STATUS "Root        \t: ${ROOT_DIR}")
+message(STATUS "Project     \t: ${PROJECT_DIR}")
 
 set(CMAKE_INSTALL_PREFIX ${PROJECT_DIR}/install)
-message(STATUS "Install   \t: ${CMAKE_INSTALL_PREFIX}")
-message(STATUS "System    \t: ${CMAKE_SYSTEM}")
+message(STATUS "Install     \t: ${CMAKE_INSTALL_PREFIX}")
 
-# Compiler/Toolchain
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+message(STATUS "Build Type  \t: ${CMAKE_BUILD_TYPE}")
 
+# System / Compiler
+
+message(STATUS "System      \t: ${CMAKE_SYSTEM}")
 message(STATUS "Compiler")
-message(STATUS " - ID     \t: ${CMAKE_CXX_COMPILER_ID}")
-message(STATUS " - Path   \t: ${CMAKE_CXX_COMPILER}")
+message(STATUS " - ID       \t: ${CMAKE_CXX_COMPILER_ID}")
+message(STATUS " - Path     \t: ${CMAKE_CXX_COMPILER}")
 
 # [cppmagic]: Core features
 
@@ -42,12 +55,12 @@ add_library(${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME} PROPERTIES 
     VERSION         ${PROJECT_VERSION}
     # CXX_STANDARD    17      # this property is equal to `-std=gnu++17`
-    #                         # We will use `-std=c++1z`
+    #                         # We will use `-std=c++1z` instead
 )
 
 target_include_directories(${PROJECT_NAME} 
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${PROJECT_DIR}
     PRIVATE    
         ${PROJECT_DIR}/clang/
 )
@@ -55,9 +68,10 @@ target_compile_options(${PROJECT_NAME}
     PUBLIC
         -std=c++1z
         -fcoroutines-ts
+        -fno-rtti
     PRIVATE
-        # -nostdinc++     # For manual libc++ configuration
         -fvisibility=hidden
+        -ferror-limit=5
 )
 if(APPLE)
     target_compile_options(${PROJECT_NAME} 
@@ -66,27 +80,22 @@ if(APPLE)
         PRIVATE
             -fmodules-ts
     )
-elseif(UNIX) #  AND NOT APPLE
+elseif(UNIX)  # Only for Unix/Linux
     target_include_directories(${PROJECT_NAME} 
         PRIVATE
-            ${PROJECT_DIR}/libcpp/include/c++/v1/
+            ${PROJECT_DIR}/prebuilt/include/c++/v1/
     )
-    # target_compile_options(${PROJECT_NAME} 
-    #     PUBLIC
-    #         -nostdinc++  -nodefaultlibs
-    #         # -I${PROJECT_DIR}/libcpp/include/c++/v1/
-    #         # -l${PROJECT_DIR}/libcpp/lib/libc++.so
-    # )
-    # target_link_libraries(${PROJECT_NAME}
-    #     PRIVATE
-    #         c++
-    # )
+    target_compile_options(${PROJECT_NAME} 
+        PRIVATE
+            # For manual libc++ configuration
+            -nostdinc++ -nodefaultlibs
+    )
+    target_link_libraries(${PROJECT_NAME}
+        PUBLIC
+            ${PROJECT_DIR}/prebuilt/lib/libc++.so
+            ${PROJECT_DIR}/prebuilt/lib/libc++experimental.a
+    )
 endif()
-
-# target_link_libraries(${PROJECT_NAME}
-#     PUBLIC
-#         c++experimental
-# )
 
 # [cppmagic]: Installation
 
@@ -108,6 +117,11 @@ install(
     DESTINATION 
         ${CMAKE_INSTALL_PREFIX}/include/magic/
 )
+if(UNIX AND NOT APPLE)
+    install(FILES ${PROJECT_DIR}/prebuilt/lib/libc++.so
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/libs
+    )
+endif()
 
 # [cppmagic_test]: Test suite for Non-Windows
 
@@ -121,7 +135,7 @@ add_dependencies(${TEST_NAME} ${PROJECT_NAME})
 target_compile_options(${TEST_NAME}
     PRIVATE
         -fvisibility=hidden
-        -ferror-limit=1
+        -ferror-limit=5
 )
 target_include_directories(${TEST_NAME}
     PRIVATE
@@ -133,20 +147,13 @@ target_link_libraries(${TEST_NAME}
         ${PROJECT_NAME}
 )
 
-if(APPLE)
-    # nothing for apple
-elseif(UNIX) #  AND NOT APPLE
+if(UNIX AND NOT APPLE) # Only for Unix/Linux
+    target_compile_options(${TEST_NAME} 
+        PRIVATE
+            -nostdinc++ -nodefaultlibs
+    )
     target_include_directories(${TEST_NAME} 
         PRIVATE
-            ${PROJECT_DIR}/libcpp/include/c++/v1/
+            ${PROJECT_DIR}/prebuilt/include/c++/v1/
     )
-    # target_compile_options(${TEST_NAME} 
-    #     PRIVATE
-    #         # -I${PROJECT_DIR}/libcpp/include/c++/v1/
-    #         # -l${PROJECT_DIR}/libcpp/lib/libc++.so
-    # )
-    # target_link_libraries(${TEST_NAME}
-    #     PUBLIC
-    #         stdc++
-    # )
 endif()
