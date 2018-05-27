@@ -25,6 +25,7 @@
     <RootNamespace>VSTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
     <ProjectSubType>NativeUnitTestProject</ProjectSubType>
+    <ProjectName>vstest</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,7 +78,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>$(SolutionName).$(ProjectName)</TargetName>
+    <TargetName>magic_$(ProjectName)</TargetName>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
@@ -85,7 +86,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>$(SolutionName).$(ProjectName)</TargetName>
+    <TargetName>magic_$(ProjectName)</TargetName>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
@@ -93,13 +94,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>$(SolutionName).$(ProjectName)</TargetName>
+    <TargetName>magic_$(ProjectName)</TargetName>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>$(SolutionName).$(ProjectName)</TargetName>
+    <TargetName>magic_$(ProjectName)</TargetName>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
@@ -208,11 +209,6 @@
     <ClCompile Include="switch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\msvc\MSVC.vcxproj">
-      <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\magic\channel.hpp" />
     <ClInclude Include="..\magic\coroutine.hpp" />
     <ClInclude Include="..\magic\date_time.hpp" />
@@ -221,6 +217,14 @@
     <ClInclude Include="..\magic\stop_watch.hpp" />
     <ClInclude Include="..\magic\switch.h" />
     <ClInclude Include="..\magic\sync.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\msvc\msvc.vcxproj">
+      <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\net\net.vcxproj">
+      <Project>{738ecbb8-8bee-4701-9e22-eaf7a2610793}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

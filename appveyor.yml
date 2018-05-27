@@ -33,7 +33,7 @@ after_build:
   - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
 
 before_test:
-  - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/Magic.VSTest.dll"
+  - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/magic_vstest.dll"
 test_script:
   - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
 
