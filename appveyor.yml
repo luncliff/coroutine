@@ -15,39 +15,46 @@ configuration:
 
 environment:
   matrix:
+    # - compiler: msvc
     - compiler: clang
 
-install:
-  - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER;
-  
-   # Build Tool: CMake + Ninja
-  - ps: choco install ninja;
-  - ps: cmake --version;
-  - ps: ninja --version;
-  
-  # Compiler: clang-cl
-  # - choco install llvm
-  - ps: clang --version;
-  - ps: clang-cl --version;
-  # this setup is necessary
-  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64;
+for:
+-
+  matrix:
+    only:
+      - compiler: clang
 
-before_build:
-  - set CC=clang-cl
-  - set CXX=clang-cl
-  - cmake ./ 
-    -G Ninja 
-    "-DCMAKE_BUILD_TYPE=%configuration%"
+  install:
+    - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER;
+    
+    # Build Tool: CMake + Ninja
+    - ps: choco install ninja;
+    - ps: cmake --version;
+    - ps: ninja --version;
+    
+    # Compiler: clang-cl
+    # - choco install llvm
+    - ps: clang --version;
+    - ps: clang-cl --version;
+    # this setup is necessary
+    - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64;
 
-build_script:
-  - ps: ninja install;
+  before_build:
+    - set CC=clang-cl
+    - set CXX=clang-cl
+    - cmake ./ 
+      -G Ninja 
+      "-DCMAKE_BUILD_TYPE=%configuration%"
 
-after_build:
-  # Rename the variable for build output
-  - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
+  build_script:
+    - ps: ninja install;
 
-test_script:
-  - ps: ./cppmagic_test.exe
+  after_build:
+    # Rename the variable for build output
+    - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
+
+  test_script:
+    - ps: ./cppmagic_test.exe
 
 nuget:
   account_feed: true
