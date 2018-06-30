@@ -7,12 +7,12 @@
 #       CMake for non-windows project
 #
 # ---------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.1)
 
 # Global setup
 
-if(WIN32 OR MSVC)
-  # this cmake project is not for Windows/MSVC
+if(WIN32 AND MSVC)
+    # this cmake project is not for Windows/MSVC
     return(1) 
 else()
     add_compile_options(-fPIC -Wall)

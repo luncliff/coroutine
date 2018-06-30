@@ -13,29 +13,40 @@ configuration:
   - Debug
   - Release
 
-matrix:
-  fast_finish: true
-  # # Pending Version update
-  # # See: https://developercommunity.visualstudio.com/content/problem/164290/still-bad-codegen-with-coroutines-in-release-x86.html
-  # allow_failures:
-  #   - platform: x86
-  #     configuration: Release
+environment:
+  matrix:
+    - compiler: clang
 
 install:
   - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
+  
+   # Build Tool: CMake + Ninja
+  - choco install ninja
+  - cmake --version
+  - ninja --version
+  
+  # Compiler: clang-cl
+  # - choco install llvm
+  - clang --version
+  - clang-cl -v
+  # this setup is necessary
+  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
 
-build:
-  parallel: true
-  project: Magic.sln
-  verbosity: quiet
+before_build:
+  - mkdir build && cd build/
+  - set CC=clang-cl
+  - set CXX=clang-cl
+  - cmake ../ 
+    -G Ninja 
+    "-DCMAKE_BUILD_TYPE=%configuration%"
+  
+build_script:
+  - ninja install
+
 after_build:
   # Rename the variable for build output
   - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
-
-before_test:
-  - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/Magic.VSTest.dll"
-test_script:
-  - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
+  - cd %APPVEYOR_BUILD_FOLDER% 
 
 nuget:
   account_feed: true
@@ -44,16 +55,7 @@ nuget:
 
 before_deploy:
   - ps: cd $env:APPVEYOR_BUILD_FOLDER
-  - ps: $is_deploy_config = ($env:PLATFORM -eq "x64") -and ($env:CONFIGURATION -eq "Release")
-  # - ps: if( $is_deploy_config ){
-  #         MSBuild ./Magic.sln /p:Platform=x86 /p:Configuration=Debug   /p:Verbosity=quiet;
-  #         MSBuild ./Magic.sln /p:Platform=x86 /p:Configuration=Release /p:Verbosity=quiet;
-  #         MSBuild ./Magic.sln /p:Platform=x64 /p:Configuration=Debug   /p:Verbosity=quiet;
-  #         MSBuild ./Magic.sln /p:Platform=x64 /p:Configuration=Release /p:Verbosity=quiet;
-  #         nuget pack cppmagic.nuspec -symbol;
-  #       ; }
-  # - ps: tree . /F;
-
+  
 deploy:
   - provider: GitHub
     auth_token:
