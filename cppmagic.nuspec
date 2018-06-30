@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>CppMagic</id>
-    <version>1.0-rc</version>
+    <version>1.0</version>
     <authors>luncliff@gmail.com</authors>
     <owners>luncliff@gmail.com</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -31,18 +31,18 @@
     <file src=".\magic\plugin.hpp"      target=".\build\native\include\magic\plugin.hpp" />
 
     <!-- x86 -->
-    <file src=".\Win32\Debug\Magic.lib"   target=".\lib\native\Win32\Debug\Magic.lib" />
-    <file src=".\Win32\Debug\Magic.pdb"   target=".\lib\native\Win32\Debug\Magic.pdb" />
-    <file src=".\Win32\Debug\Magic.dll"   target=".\lib\native\Win32\Debug\Magic.dll" />
-    <file src=".\Win32\Release\Magic.lib" target=".\lib\native\Win32\Release\Magic.lib" />
-    <file src=".\Win32\Release\Magic.pdb" target=".\lib\native\Win32\Release\Magic.pdb" />
-    <file src=".\Win32\Release\Magic.dll" target=".\lib\native\Win32\Release\Magic.dll" />
+    <file src=".\Win32\Debug\cppmagic.lib"   target=".\lib\native\Win32\Debug\cppmagic.lib" />
+    <file src=".\Win32\Debug\cppmagic.pdb"   target=".\lib\native\Win32\Debug\cppmagic.pdb" />
+    <file src=".\Win32\Debug\cppmagic.dll"   target=".\lib\native\Win32\Debug\cppmagic.dll" />
+    <file src=".\Win32\Release\cppmagic.lib" target=".\lib\native\Win32\Release\cppmagic.lib" />
+    <file src=".\Win32\Release\cppmagic.pdb" target=".\lib\native\Win32\Release\cppmagic.pdb" />
+    <file src=".\Win32\Release\cppmagic.dll" target=".\lib\native\Win32\Release\cppmagic.dll" />
     <!-- x64 -->
-    <file src=".\x64\Debug\Magic.lib"     target=".\lib\native\x64\Debug\Magic.lib" />
-    <file src=".\x64\Debug\Magic.pdb"     target=".\lib\native\x64\Debug\Magic.pdb" />
-    <file src=".\x64\Debug\Magic.dll"     target=".\lib\native\x64\Debug\Magic.dll" />
-    <file src=".\x64\Release\Magic.lib"   target=".\lib\native\x64\Release\Magic.lib" />
-    <file src=".\x64\Release\Magic.pdb"   target=".\lib\native\x64\Release\Magic.pdb" />
-    <file src=".\x64\Release\Magic.dll"   target=".\lib\native\x64\Release\Magic.dll" />
+    <file src=".\x64\Debug\cppmagic.lib"     target=".\lib\native\x64\Debug\cppmagic.lib" />
+    <file src=".\x64\Debug\cppmagic.pdb"     target=".\lib\native\x64\Debug\cppmagic.pdb" />
+    <file src=".\x64\Debug\cppmagic.dll"     target=".\lib\native\x64\Debug\cppmagic.dll" />
+    <file src=".\x64\Release\cppmagic.lib"   target=".\lib\native\x64\Release\cppmagic.lib" />
+    <file src=".\x64\Release\cppmagic.pdb"   target=".\lib\native\x64\Release\cppmagic.pdb" />
+    <file src=".\x64\Release\cppmagic.dll"   target=".\lib\native\x64\Release\cppmagic.dll" />
   </files>
 </package>

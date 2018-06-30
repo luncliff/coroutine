@@ -18,22 +18,7 @@ auto bypass() -> magic::unplug
     co_return;
 }
 
-#if __APPLE__
-
-#define CATCH_CONFIG_MAIN
-#include <catch.hpp>
-
-TEST_CASE("Sample")
+TEST_CASE("SampleTest")
 {
     bypass();
 }
-
-#elif __linux__ || __unix__
-
-int main(int argc, char *argv[])
-{
-    bypass();
-    return 0;
-}
-
-#endif

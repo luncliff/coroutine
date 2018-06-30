@@ -1,9 +1,11 @@
 # ---------------------------------------------------------------------------
+#
 #   Author
 #     - luncliff@gmail.com
 #   Reference
 #     - https://www.appveyor.com/docs/appveyor-yml/
 #
+# ---------------------------------------------------------------------------
 version: 1.0.{build}
 
 clone_depth: 1
@@ -70,7 +72,7 @@ for:
   after_build:
     # Rename the variable for build output
     - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
-    - ps: tree ./$env:PLATFORM
+    - ps: tree /F ./$env:PLATFORM
   before_test:
     - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/cppmagic_vstest.dll"
   test_script:
@@ -104,6 +106,6 @@ for:
       "-DCMAKE_INSTALL_PREFIX=./%platform%/%configuration%"
     - ps: ninja install;
   after_build:
-    - ps: tree ./$env:PLATFORM
+    - ps: tree /F ./$env:PLATFORM
   test_script:
     - ps: ./cppmagic_test.exe

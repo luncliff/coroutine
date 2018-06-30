@@ -28,7 +28,7 @@
         </AdditionalLibraryDirectories>
 
         <AdditionalDependencies>
-            Magic.lib;%(AdditionalDependencies)
+            cppmagic.lib;%(AdditionalDependencies)
         </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
