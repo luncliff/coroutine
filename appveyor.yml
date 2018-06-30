@@ -19,7 +19,7 @@ notifications:
 
 before_deploy:
   - ps: cd $env:APPVEYOR_BUILD_FOLDER
-  
+
 deploy:
   - provider: GitHub
     auth_token:
@@ -32,7 +32,7 @@ deploy:
 after_deploy:
   - ps: cd $env:APPVEYOR_BUILD_FOLDER
 
-# ----- Build ----- 
+# ----- Build Matrix ----- 
 
 image: 
   - Visual Studio 2017
@@ -50,69 +50,60 @@ environment:
     - compiler: msvc
     - compiler: clang
 
-install:
-  - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
-
-# For MSVC, use Visual Studio solution file directly.
-build:
-  parallel: true
-  project: Magic.sln
-  verbosity: quiet
-
-after_build:
-  # Rename the variable for build output
-  - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
-
 matrix:
   fast_finish: true
-  # # Pending Version update
-  # # See: https://developercommunity.visualstudio.com/content/problem/164290/still-bad-codegen-with-coroutines-in-release-x86.html
-  # allow_failures:
-  #   - platform: x86
-  #     configuration: Release
 
-before_test:
-  - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/cppmagic_vstest.dll"
+# ----- Build steps for each environment ----- 
 
-test_script:
-  - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
-
-# Customized build steps are listed here...
 for:
 -
-  # For Clang on Windows
+  # For MSVC, use Visual Studio solution file
+  matrix:
+    only:
+      - compiler: msvc
+  install:
+    - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
+  build:
+    parallel: true
+    project: Magic.sln
+    verbosity: quiet
+  after_build:
+    # Rename the variable for build output
+    - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
+    - ps: tree ./$env:PLATFORM
+  before_test:
+    - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/cppmagic_vstest.dll"
+  test_script:
+    - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
+
+-
+  # For Clang, use CMake + Ninja + Clang
+  # The build step expects cmdlet environment...
   matrix:
     only:
       - compiler: clang
-
   install:
     - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER;
-    
-    # Build Tool: CMake + Ninja
-    - ps: choco install ninja;
+    - ps: choco install ninja;  # Download Ninja with chocolaty package manager
+    # - ps: choco install llvm;   # LLVM is already installed
     - ps: cmake --version;
     - ps: ninja --version;
-    
-    # Compiler: clang-cl
-    # - choco install llvm
-    - ps: clang --version;
-    - ps: clang-cl --version;
+    - ps: clang --version;      # version: 6.0+
+    - ps: clang-cl --version;   # cl.exe for clang
     # this setup is necessary
     - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64;
-
   before_build:
+    # Rename the variable for build output
+    - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
+  build_script:
     - set CC=clang-cl
     - set CXX=clang-cl
     - cmake ./ 
       -G Ninja 
       "-DCMAKE_BUILD_TYPE=%configuration%"
-
-  build_script:
+      "-DCMAKE_INSTALL_PREFIX=./%platform%/%configuration%"
     - ps: ninja install;
-
   after_build:
-    # Rename the variable for build output
-    - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
-
+    - ps: tree ./$env:PLATFORM
   test_script:
     - ps: ./cppmagic_test.exe

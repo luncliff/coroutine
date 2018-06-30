@@ -32,7 +32,7 @@ set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 message(STATUS "Root        \t: ${ROOT_DIR}")
 message(STATUS "Project     \t: ${PROJECT_DIR}")
 
-set(CMAKE_INSTALL_PREFIX ${PROJECT_DIR}/install)
+# set(CMAKE_INSTALL_PREFIX ${PROJECT_DIR}/install)
 message(STATUS "Install     \t: ${CMAKE_INSTALL_PREFIX}")
 
 if(NOT CMAKE_BUILD_TYPE)
