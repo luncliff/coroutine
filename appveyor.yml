@@ -13,6 +13,18 @@ configuration:
   - Debug
   - Release
 
+install:
+  - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
+
+build:
+  parallel: true
+  project: Magic.sln
+  verbosity: quiet
+
+after_build:
+  # Rename the variable for build output
+  - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
+
 matrix:
   fast_finish: true
   # # Pending Version update
@@ -21,19 +33,9 @@ matrix:
   #   - platform: x86
   #     configuration: Release
 
-install:
-  - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
-
-build:
-  parallel: true
-  project: Magic.sln
-  verbosity: quiet
-after_build:
-  # Rename the variable for build output
-  - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
-
 before_test:
-  - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/magic_vstest.dll"
+  - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/cppmagic_vstest.dll"
+
 test_script:
   - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
 
@@ -44,16 +46,7 @@ nuget:
 
 before_deploy:
   - ps: cd $env:APPVEYOR_BUILD_FOLDER
-  - ps: $is_deploy_config = ($env:PLATFORM -eq "x64") -and ($env:CONFIGURATION -eq "Release")
-  # - ps: if( $is_deploy_config ){
-  #         MSBuild ./Magic.sln /p:Platform=x86 /p:Configuration=Debug   /p:Verbosity=quiet;
-  #         MSBuild ./Magic.sln /p:Platform=x86 /p:Configuration=Release /p:Verbosity=quiet;
-  #         MSBuild ./Magic.sln /p:Platform=x64 /p:Configuration=Debug   /p:Verbosity=quiet;
-  #         MSBuild ./Magic.sln /p:Platform=x64 /p:Configuration=Release /p:Verbosity=quiet;
-  #         nuget pack cppmagic.nuspec -symbol;
-  #       ; }
-  # - ps: tree . /F;
-
+  
 deploy:
   - provider: GitHub
     auth_token:
