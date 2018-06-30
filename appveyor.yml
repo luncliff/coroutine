@@ -18,35 +18,36 @@ environment:
     - compiler: clang
 
 install:
-  - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
+  - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER;
   
    # Build Tool: CMake + Ninja
-  - choco install ninja
-  - cmake --version
-  - ninja --version
+  - ps: choco install ninja;
+  - ps: cmake --version;
+  - ps: ninja --version;
   
   # Compiler: clang-cl
   # - choco install llvm
-  - clang --version
-  - clang-cl -v
+  - ps: clang --version;
+  - ps: clang-cl --version;
   # this setup is necessary
-  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64;
 
 before_build:
-  - mkdir build && cd build/
   - set CC=clang-cl
   - set CXX=clang-cl
-  - cmake ../ 
+  - cmake ./ 
     -G Ninja 
     "-DCMAKE_BUILD_TYPE=%configuration%"
-  
+
 build_script:
-  - ninja install
+  - ps: ninja install;
 
 after_build:
   # Rename the variable for build output
   - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
-  - cd %APPVEYOR_BUILD_FOLDER% 
+
+test_script:
+  - ps: ./cppmagic_test.exe
 
 nuget:
   account_feed: true

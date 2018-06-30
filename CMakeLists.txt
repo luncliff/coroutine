@@ -15,7 +15,7 @@ if(WIN32 AND MSVC)
     # this cmake project is not for Windows/MSVC
     return(1) 
 else()
-    add_compile_options(-fPIC -Wall)
+    # add_compile_options(-Wall)
 endif()
 
 # Project Info
@@ -64,20 +64,52 @@ target_include_directories(${PROJECT_NAME}
     PRIVATE    
         ${PROJECT_DIR}/clang/
 )
-target_compile_options(${PROJECT_NAME} 
-    PUBLIC
-        -std=c++1z
-        -fcoroutines-ts
-        -fno-rtti
-    PRIVATE
-        -fvisibility=hidden
-        -ferror-limit=5
-)
+
+if(WIN32)
+    target_compile_definitions(${PROJECT_NAME}
+        PUBLIC
+            _RESUMABLE_FUNCTIONS_SUPPORTED            
+    )
+    if(BUILD_SHARED_LIBS)
+        target_compile_definitions(${PROJECT_NAME}
+            PRIVATE
+                _WINDLL            
+            )
+    endif()
+
+    # argument from `clang-cl -help`
+    # `target_compile_options` removes duplicated -Xclang argument which must be protected
+    # An alternative is to use CMAKE_CXX_FLAGS like CMake 2.x versons.
+    #   But the method will be used only when there is no way but to use it
+    target_compile_options(${PROJECT_NAME} 
+        PUBLIC
+            /std:c++latest 
+            # /Gr
+            -fms-compatibility 
+            -Xclang -fcoroutines-ts
+            # -Xclang -std=c++2a
+        PRIVATE
+            -Wno-c++98-compat 
+            -Wno-reserved-id-macro 
+            -Wno-missing-prototypes
+    )
+else()
+    target_compile_options(${PROJECT_NAME} 
+        PUBLIC
+            -std=c++1z
+            -fcoroutines-ts
+            -fno-rtti 
+            -fPIC 
+        PRIVATE
+            -fvisibility=hidden
+            -ferror-limit=5
+    )
+endif()
+
 if(APPLE)
     target_compile_options(${PROJECT_NAME} 
         PUBLIC
             -stdlib=libc++ 
-        PRIVATE
             -fmodules-ts
     )
 elseif(UNIX)  # Only for Unix/Linux
@@ -96,6 +128,10 @@ elseif(UNIX)  # Only for Unix/Linux
             ${PROJECT_DIR}/prebuilt/lib/libc++experimental.a
     )
 endif()
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        ${CMAKE_DL_LIBS}
+)
 
 # [cppmagic]: Installation
 
@@ -132,11 +168,13 @@ add_executable(${TEST_NAME}
 )
 add_dependencies(${TEST_NAME} ${PROJECT_NAME})
 
-target_compile_options(${TEST_NAME}
-    PRIVATE
-        -fvisibility=hidden
-        -ferror-limit=5
-)
+if(NOT WIN32)
+    target_compile_options(${TEST_NAME}
+        PUBLIC
+            -fvisibility=hidden
+            -ferror-limit=5
+    )
+endif()
 target_include_directories(${TEST_NAME}
     PRIVATE
         ${PROJECT_DIR}/test

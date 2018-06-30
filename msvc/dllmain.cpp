@@ -8,7 +8,8 @@
 //
 // ---------------------------------------------------------------------------
 // #include <cassert>
-#include <magic/date_time.hpp>
+#include <magic/linkable.h>
+#include <magic/coroutine.hpp>
 
 #ifdef _WIN32
 #define PROCEDURE
@@ -16,10 +17,19 @@
 #define PROCEDURE __attribute__((constructor))
 #endif
 
-namespace magic {
-PROCEDURE void on_load(void *) noexcept {
+namespace magic
+{
+
+auto bypass() -> magic::unplug
+{
+  co_await stdex::suspend_never{};
+}
+
+PROCEDURE void on_load(void *) noexcept
+{
   // this function is reserved for
   // future initialization setup
+  bypass();
 }
 } // namespace magic
 
@@ -30,13 +40,17 @@ PROCEDURE void on_load(void *) noexcept {
 
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms682583(v=vs.85).aspx
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID) {
-  try {
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
+{
+  try
+  {
     if (fdwReason == DLL_PROCESS_ATTACH)
       magic::on_load(hinstDLL);
 
     return TRUE;
-  } catch (const std::exception &e) {
+  }
+  catch (const std::exception &e)
+  {
     ::perror(e.what());
   }
   return FALSE;
