@@ -1,6 +1,38 @@
+# ---------------------------------------------------------------------------
+#   Author
+#     - luncliff@gmail.com
+#   Reference
+#     - https://www.appveyor.com/docs/appveyor-yml/
+#
 version: 1.0.{build}
 
 clone_depth: 1
+
+# ----- Notification ----- 
+
+notifications:
+  - provider: Email
+    to:
+      - luncliff@gmail.com
+
+# ----- Deployment ----- 
+
+before_deploy:
+  - ps: cd $env:APPVEYOR_BUILD_FOLDER
+  
+deploy:
+  - provider: GitHub
+    auth_token:
+      secure: Wlp/6n2lRS4hsvUlZpGjcmDKufr5TfbB3WhUMiqbQvxTkgTL+RNWTtP8C198boyH
+    prerelease: true
+    description: "Release: $(appveyor_build_version)"
+    on:
+      appveyor_repo_tag: true 
+
+after_deploy:
+  - ps: cd $env:APPVEYOR_BUILD_FOLDER
+
+# ----- Build ----- 
 
 image: 
   - Visual Studio 2017
@@ -13,9 +45,15 @@ configuration:
   - Debug
   - Release
 
+environment:
+  matrix:
+    - compiler: msvc
+    - compiler: clang
+
 install:
   - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
 
+# For MSVC, use Visual Studio solution file directly.
 build:
   parallel: true
   project: Magic.sln
@@ -39,34 +77,42 @@ before_test:
 test_script:
   - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
 
-nuget:
-  account_feed: true
-  project_feed: true
-  disable_publish_on_pr: true
+# Customized build steps are listed here...
+for:
+-
+  # For Clang on Windows
+  matrix:
+    only:
+      - compiler: clang
 
-before_deploy:
-  - ps: cd $env:APPVEYOR_BUILD_FOLDER
-  
-deploy:
-  - provider: GitHub
-    auth_token:
-      secure: Wlp/6n2lRS4hsvUlZpGjcmDKufr5TfbB3WhUMiqbQvxTkgTL+RNWTtP8C198boyH
-    prerelease: true
-    # artifact: /.*\.nupkg/
-    description: "Release: $(appveyor_build_version)"
-    on:
-      appveyor_repo_tag: true 
-  # - provider: NuGet
-  #   api_key:
-  #     secure: WA47md7hTipdB62+gloqH00ycFx76g7txPn5ZbtqaD5K7jjSbTJKkWr8FkKBG4YK
-  #   artifact: /.*\.nupkg/
+  install:
+    - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER;
+    
+    # Build Tool: CMake + Ninja
+    - ps: choco install ninja;
+    - ps: cmake --version;
+    - ps: ninja --version;
+    
+    # Compiler: clang-cl
+    # - choco install llvm
+    - ps: clang --version;
+    - ps: clang-cl --version;
+    # this setup is necessary
+    - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64;
 
+  before_build:
+    - set CC=clang-cl
+    - set CXX=clang-cl
+    - cmake ./ 
+      -G Ninja 
+      "-DCMAKE_BUILD_TYPE=%configuration%"
 
-after_deploy:
-  - ps: cd $env:APPVEYOR_BUILD_FOLDER
+  build_script:
+    - ps: ninja install;
 
-notifications:
-  - provider: Email
-    to:
-      - luncliff@gmail.com
+  after_build:
+    # Rename the variable for build output
+    - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
 
+  test_script:
+    - ps: ./cppmagic_test.exe
