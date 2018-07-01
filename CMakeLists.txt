@@ -12,7 +12,7 @@ cmake_minimum_required(VERSION 3.1)
 # Global setup
 
 if(WIN32 AND MSVC)
-    # this cmake project is not for Windows/MSVC
+    message(ERROR "This cmake file is not for Windows/MSVC project generation")
     return(1) 
 else()
     # add_compile_options(-Wall)
