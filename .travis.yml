@@ -28,8 +28,11 @@ install:
   # - git submodule update --init --recursive
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
       svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm > /dev/null;
+      pushd llvm; svn log -l 1; popd;
       svn co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx > /dev/null;
+      pushd libcxx; svn log -l 1; popd;
       svn co http://llvm.org/svn/llvm-project/libcxxabi/trunk libcxxabi > /dev/null;
+      pushd libcxxabi; svn log -l 1; popd;
     fi
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
       mkdir -p prebuilt && cd prebuilt;
