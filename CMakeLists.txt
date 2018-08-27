@@ -172,7 +172,7 @@ target_include_directories(${PROJECT_NAME}
         ${PROJECT_DIR}/clang/
 )
 
-if(WIN32)
+if(WIN32) # Clang + Windows
     target_compile_definitions(${PROJECT_NAME}
         PUBLIC
             _RESUMABLE_FUNCTIONS_SUPPORTED            
@@ -181,7 +181,7 @@ if(WIN32)
         target_compile_definitions(${PROJECT_NAME}
             PRIVATE
                 _WINDLL            
-            )
+        )
     endif()
 
     # argument from `clang-cl -help`
@@ -200,7 +200,7 @@ if(WIN32)
             -Wno-reserved-id-macro 
             -Wno-missing-prototypes
     )
-else()
+else() # Clang + Non-Windows
     target_compile_options(${PROJECT_NAME} 
         PUBLIC
             -std=c++1z
