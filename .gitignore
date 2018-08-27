@@ -1,3 +1,5 @@
+.externalNativeBuild/
+.gradle/
 
 [Bb]uild/
 

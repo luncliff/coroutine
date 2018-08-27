@@ -10,7 +10,7 @@
 sudo: false
 
 git:
-  submodules: false
+  submodules: false # - git submodule update --init --recursive
   depth: 1
   
 branches:
@@ -25,18 +25,38 @@ before_install:
   - echo $TRAVIS_OS_NAME;
 
 install:
-  # - git submodule update --init --recursive
+  # Download llvm/libc++ via Github submodule
+  #   This is a little bit slower than svn
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-      svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm > /dev/null;
-      svn co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx > /dev/null;
-      svn co http://llvm.org/svn/llvm-project/libcxxabi/trunk libcxxabi > /dev/null;
+      git submodule update --init llvm libcxx libcxxabi;
     fi
+  # - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+  #     svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm > /dev/null;
+  #     pushd llvm; svn log -l 1; popd;
+  #     svn co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx > /dev/null;
+  #     pushd libcxx; svn log -l 1; popd;
+  #     svn co http://llvm.org/svn/llvm-project/libcxxabi/trunk libcxxabi > /dev/null;
+  #     pushd libcxxabi; svn log -l 1; popd;
+  #   fi
+  # Linux: Build libcxx
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-      mkdir -p prebuilt && cd prebuilt;
-      cmake ../libcxx -DLLVM_PATH=../llvm -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include -DCMAKE_INSTALL_PREFIX=. ;
-      make -j8 install;
+      mkdir -p prebuilt && pushd prebuilt;
+      cmake ../libcxx -DLLVM_PATH=../llvm -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include -DCMAKE_INSTALL_PREFIX=. -DCMAKE_BUILD_TYPE=Release ;
+      make -j10 install;
+      rm CMakeCache.txt;
+      tree ./include;
+      popd;
     fi
-  # Use brew for OSX image
+  # Linux: Build libcxxabi
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+      mkdir -p prebuilt && pushd prebuilt;
+      cmake ../libcxxabi -DLLVM_PATH=../llvm/ -DLIBCXXABI_LIBCXX_PATH=../libcxx/ -DCMAKE_INSTALL_PREFIX=../prebuilt/ ;
+      make -j10 install;
+      rm CMakeCache.txt;
+      tree ./lib;
+      popd;
+    fi
+  # MacOS: Upgrade llvm
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then 
       brew install tree ninja > /dev/null 2>&1; 
       brew upgrade llvm > /dev/null 2>&1;
@@ -46,24 +66,32 @@ install:
   - ninja --version
 
 before_script:
-  # Create & Go to build directory
   - cd ${TRAVIS_BUILD_DIR}
-  - mkdir -p build && cd build && pwd
 
 script:
+  # Create & Go to build directory
+  - mkdir -p build && pushd build && pwd
   - cmake ../ 
     -G "Ninja" 
     -DBUILD_SHARED_LIBS=$BUILD_SHARED 
     -DCMAKE_BUILD_TYPE=$CONFIG
     -DCMAKE_INSTALL_PREFIX=../$PLATFORM/$CONFIG
-  - ninja install
+  - ninja -v install
   # Display build results and start tests
-  - tree .
   - ./cppmagic_test
+  - tree -f ./CMakeFiles/
+  - popd;
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
-  - tree $PLATFORM/$CONFIG
+  - tree ./install
+  # MacOS: Run coverage tool 
+  - if [ "${TRAVIS_OS_NAME}" == "osx" && ("$CONFIG" == "Debug") ]; then 
+      cp ./CMakeFiles/cppmagic_test.dir/test/test.entry.cpp.* ./ ;
+      gcov -abcf ./test.entry.cpp.gcda ;
+      lcov --directory . --gcov-tool gcov --capture -o cov.info ;
+      genhtml cov.info -o cov_report;
+    fi
 
 # Shared environment
 # Default is ubuntu trusty
@@ -76,59 +104,33 @@ addons:
     packages:
     - subversion
     - clang-5.0
-    - libc++-dev  
+    - libc++1
+    - libc++-dev
+    - libc++abi1
     - libc++abi-dev
     - ninja-build
     - tree
 
 matrix: 
-  allow_failures:
-    - os: linux
   include:
-    # Linux : x86_64 Debug Static
-    - env:
-      - PLATFORM=linux
-      - CONFIG=Debug
-      - BUILD_SHARED=false 
     # Linux : x86_64 Debug Dynamic
     - env:
       - PLATFORM=linux
       - CONFIG=Debug
-      - BUILD_SHARED=true 
-  
-    # Linux : x86_64 Release Static
-    - env:
-      - PLATFORM=linux
-      - CONFIG=Release
-      - BUILD_SHARED=false
+      - BUILD_SHARED=true   
     # Linux : x86_64 Release Dynamic
     - env:
       - PLATFORM=linux
       - CONFIG=Release
       - BUILD_SHARED=true
   
-    # OS X : x86_64 Debug Static
-    - os: osx
-      osx_image: xcode9.3
-      env:
-        - PLATFORM=osx
-        - CONFIG=Debug
-        - BUILD_SHARED=false
     # OS X : x86_64 Debug Dynamic
     - os: osx
       osx_image: xcode9.3
       env:
         - PLATFORM=osx
         - CONFIG=Debug
-        - BUILD_SHARED=true
-  
-    # OS X : x86_64 Release Static
-    - os: osx
-      osx_image: xcode9.3
-      env:
-        - PLATFORM=osx
-        - CONFIG=Release
-        - BUILD_SHARED=false
+        - BUILD_SHARED=true  
     # OS X : x86_64 Release Dynamic
     - os: osx
       osx_image: xcode9.3
@@ -136,6 +138,94 @@ matrix:
         - PLATFORM=osx
         - CONFIG=Release
         - BUILD_SHARED=true
+
+    # Android JNI: armeabi-v7a
+    - language: android
+      android:
+      components:
+        - tools
+        - platform-tools
+        - android-21
+        - sys-img-armeabi-v7a-android-21
+      env:
+        - MAJOR_ABI=armeabi-v7a
+      before_install:
+        - sudo apt-get install wget unzip tree
+      install:
+        # Install submodules
+        # - git submodule update --init llvm libcxx libcxxabi;
+        # Accept SDK Licenses + Install NDK
+        - yes | sdkmanager --update > /dev/null 2>&1
+        - sdkmanager ndk-bundle > /dev/null 2>&1
+        # Download/Install Gradle 
+        - wget https://services.gradle.org/distributions/gradle-4.4-bin.zip
+        - mkdir -p gradle
+        - unzip -q -d ./gradle gradle-4.4-bin.zip
+        - export GRADLE=gradle/gradle-4.4/bin/gradle
+      before_script:
+        - bash $GRADLE --version
+      script:
+        - bash $GRADLE clean assemble
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}
+        - tree ./install
+
+    # iPhone OS 10.3 : armv7 armv7s arm64 Debug Dynamic
+    - os: osx
+      osx_image: xcode9.3
+      compiler: 
+        - clang
+      env:
+        - PLATFORM=iOS
+        - CONFIG=Debug
+        - BUILD_SHARED=true
+      install:
+        - brew install tree llvm; 
+        - brew info llvm;
+        - git submodule update --init ios-cmake;
+      script:
+        - mkdir -p build && pushd ./build;
+        - cmake ../ 
+          -DBUILD_SHARED_LIBS=$BUILD_SHARED
+          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DCMAKE_TOOLCHAIN_FILE=../ios-cmake/ios.toolchain.cmake 
+          -DIOS_DEPLOYMENT_TARGET=10.3
+          -DENABLE_BITCODE=false 
+          -DCMAKE_INSTALL_PREFIX=../install
+        - make -j10 install
+        - file libcppmagic.dylib
+        - popd;
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}
+        - tree ./install
+    # iPhone OS 10.3 : armv7 armv7s arm64 Release Dynamic
+    - os: osx
+      osx_image: xcode9.3
+      compiler: 
+        - clang
+      env:
+        - PLATFORM=iOS
+        - CONFIG=Release
+        - BUILD_SHARED=true
+      install:
+        - brew install tree llvm; 
+        - brew info llvm;
+        - git submodule update --init ios-cmake;
+      script:
+        - mkdir -p build && pushd ./build;
+        - cmake ../ 
+          -DBUILD_SHARED_LIBS=$BUILD_SHARED
+          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DCMAKE_TOOLCHAIN_FILE=../ios-cmake/ios.toolchain.cmake 
+          -DIOS_DEPLOYMENT_TARGET=10.3
+          -DENABLE_BITCODE=false 
+          -DCMAKE_INSTALL_PREFIX=../install
+        - make -j10 install
+        - file libcppmagic.dylib
+        - popd;
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}
+        - tree ./install
 
 notifications:
   email:

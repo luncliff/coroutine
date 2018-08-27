@@ -1,0 +1,106 @@
+/**
+ * @author luncliff@gmail.com
+ */
+
+// General gradle arguments for root project
+
+repositories {
+    google()
+    jcenter()
+}
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.3'
+    }
+}
+
+// Output: Android JNI library
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25    // Android 7.1.1
+    // External Native build
+    //  - using Gradle's CMake plugin
+    //  - Give path to CMake
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+    // Target ABI
+    //  - This option controls target platform of module
+    //  - The platform might not supported by the compiler
+    //    some can work with Clang(default), but some can work only with GCC...
+    //    if bad, both toolchains might not support it
+    splits {
+        abi {
+            // disable all
+            enable true
+            universalApk true
+            reset()
+            // we can include multiple platform, like...
+            include "armeabi-v7a", "arm64-v8a", "x86_64"
+        }
+    }
+    defaultConfig {
+        minSdkVersion 21    // Android 5.0+
+        targetSdkVersion 25 // Follow Compile SDK
+
+        // Follow native code's verson
+        versionCode 21
+        versionName "1.0.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // External Native build: CMake
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
+        // println(externalNativeBuild.cmake.cppFlags)
+    }
+    println(defaultConfig.versionName)
+    // Custom SourceSet
+    //  - Source path/directory for Gradle
+    sourceSets {
+        main {
+            manifest.srcFile 'android/AndroidManifest.xml'
+            java.srcDirs = ['android/java']
+            jni.srcDirs = ['android/jni']
+            jniLibs.srcDirs = ['android/jniLibs']
+            res.srcDirs = ['android/res']
+            assets.srcDirs = ['android/assets']
+        }
+
+        // gradle connectedAndroidTest
+        androidTest.setRoot('android/test')
+    }
+    // buildToolsVersion '26.0.1'
+}
+
+assemble.doLast
+{
+    // Instead of `ninja install`, Gradle will deploy the files.
+    copy {
+        from 'build/intermediates/cmake/debug/obj'
+        into 'install/libs/Debug'
+    }
+    copy {
+        from 'build/intermediates/cmake/release/obj'
+        into 'install/libs/Release'
+    }   
+    // delete '.externalNativeBuild'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:25.4.0'
+    // Follow target SDK
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}

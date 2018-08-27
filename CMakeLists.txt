@@ -12,18 +12,18 @@ cmake_minimum_required(VERSION 3.1)
 # Global setup
 
 if(WIN32 AND MSVC)
-    message(ERROR "This cmake file is not for Windows/MSVC project generation")
+    message(FATAL_ERROR "This cmake project is not for Windows/MSVC")
     return(1) 
 else()
-    # add_compile_options(-Wall)
+    add_compile_options(-Wall -fexceptions)
 endif()
 
 # Project Info
 
 project(cppmagic LANGUAGES CXX 
-        VERSION 1.0
-        DESCRIPTION "Auto-magically working C++ coroutine"
+        VERSION 1.0.1
 )
+
 message(STATUS "========== ${PROJECT_NAME} : ${PROJECT_VERSION} ==========")
 
 # Alias for known variables
@@ -36,16 +36,46 @@ message(STATUS "Project     \t: ${PROJECT_DIR}")
 message(STATUS "Install     \t: ${CMAKE_INSTALL_PREFIX}")
 
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
+    # set(CMAKE_BUILD_TYPE Release)
+    set(CMAKE_BUILD_TYPE Debug)
 endif()
 message(STATUS "Build Type  \t: ${CMAKE_BUILD_TYPE}")
 
 # System / Compiler
 
+if(ANDROID)
+    set(PLATFORM ${ANDROID_ABI})
+elseif(IOS OR IOS_DEPLOYMENT_TARGET)
+    set(PLATFORM ios)
+elseif(${CMAKE_SYSTEM} MATCHES Windows)
+    set(PLATFORM windows)
+elseif(${CMAKE_SYSTEM} MATCHES Darwin)
+    set(OSX true)
+    set(PLATFORM osx)
+elseif(${CMAKE_SYSTEM} MATCHES Linux)
+    set(LINUX true)
+    set(PLATFORM linux)
+endif()
+
+if(ANDROID OR WIN32)
+    SET(BUILD_SHARED_LIBS true)
+endif()
+
 message(STATUS "System      \t: ${CMAKE_SYSTEM}")
 message(STATUS "Compiler")
 message(STATUS " - ID       \t: ${CMAKE_CXX_COMPILER_ID}")
 message(STATUS " - Path     \t: ${CMAKE_CXX_COMPILER}")
+
+if(NOT IOS)
+    link_directories(
+        ${PROJECT_DIR}/prebuilt/lib
+    )
+endif()
+if(LINUX)
+    link_directories(
+        ${PROJECT_DIR}/libcxxabi/lib
+    )
+endif()
 
 # [cppmagic]: Core features
 
@@ -58,6 +88,84 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     #                         # We will use `-std=c++1z` instead
 )
 
+# Platform-specific configurations
+
+if(ANDROID)
+    message(STATUS "Android")
+    message(STATUS "  Platform\t: ${ANDROID_PLATFORM}")     # Android-21 ++
+    message(STATUS "  Arch    \t: ${ANDROID_ARCH_NAME}")    # arm
+    message(STATUS "  ABI     \t: ${ANDROID_ABI}")          # armeabi-v7a or else
+    message(STATUS "  NDK Path\t: ${ANDROID_NDK}")          # Path/to/NDK
+    message(STATUS "  STL     \t: ${ANDROID_STL}")          # expect c++_shared
+
+    target_compile_options(${PROJECT_NAME}
+        PRIVATE
+            -fstack-protector-strong
+    )   
+
+    # <asm/types.h> 를 찾는다. 현재는 armv7, armv8, x86에 대해서만. 
+    if(${ANDROID_ABI} STREQUAL "arm64-v8a")
+        target_include_directories(${PROJECT_NAME}
+            PRIVATE
+                ${ANDROID_NDK}/sysroot/usr/include/aarch64-linux-android
+        )
+    elseif(${ANDROID_ABI} MATCHES "arm")
+        target_include_directories(${PROJECT_NAME}
+            PRIVATE
+                ${ANDROID_NDK}/sysroot/usr/include/arm-linux-androideabi
+        )
+    elseif(${ANDROID_ABI} MATCHES "x86") # x86, x86_64
+        target_include_directories(${PROJECT_NAME}
+            PRIVATE
+                ${ANDROID_NDK}/sysroot/usr/include/x86_64-linux-android
+        )
+    endif()
+
+    # STL: GNU Shared
+    if(${ANDROID_STL} STREQUAL "gnustl_shared")
+        target_include_directories(${PROJECT_NAME}
+            PRIVATE
+                ${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include/ 
+        )
+        # link_directories(
+        #     ${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.9/libs/${ANDROID_ABI}/
+        # )
+    # STL: C++ Shared
+    elseif(${ANDROID_STL} STREQUAL "c++_shared")
+        target_include_directories(${PROJECT_NAME}
+            PRIVATE
+                ${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/include/ 
+        )
+        # link_directories(
+        #     ${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/libs/${ANDROID_ABI}/
+        # )
+    endif()
+
+    target_include_directories(${PROJECT_NAME}
+        PRIVATE
+            # JNI
+            ${ANDROID_NDK}/sysroot/usr/include/ 
+            ${ANDROID_NDK}/sources/android/support/include/
+            # ABI
+            ${ANDROID_NDK}/platforms/${ANDROID_PLATFORM}/arch-${ANDROID_ARCH_NAME}/usr/include/ 
+            # JNI declarations
+            ${PROJECT_DIR}/android/jni/
+    )
+
+    # link_directories(
+    #     # ABI
+    #     ${ANDROID_NDK}/platforms/${ANDROID_PLATFORM}/arch-${ANDROID_ARCH_NAME}/usr/lib/    
+    #     # Nested libraries
+    #     ${PROJECT_DIR}/android/jniLibs/${ANDROID_ABI}
+    # )
+
+    target_sources(${PROJECT_NAME}
+        PRIVATE
+            ${PROJECT_DIR}/android/jni/adapter.h
+            ${PROJECT_DIR}/android/jni/adapter.cpp
+    )
+endif() # Android
+
 target_include_directories(${PROJECT_NAME} 
     PUBLIC
         ${PROJECT_DIR}
@@ -65,7 +173,7 @@ target_include_directories(${PROJECT_NAME}
         ${PROJECT_DIR}/clang/
 )
 
-if(WIN32)
+if(WIN32) # Clang + Windows
     target_compile_definitions(${PROJECT_NAME}
         PUBLIC
             _RESUMABLE_FUNCTIONS_SUPPORTED            
@@ -74,7 +182,7 @@ if(WIN32)
         target_compile_definitions(${PROJECT_NAME}
             PRIVATE
                 _WINDLL            
-            )
+        )
     endif()
 
     # argument from `clang-cl -help`
@@ -88,12 +196,11 @@ if(WIN32)
             -fms-compatibility 
             -Xclang -fcoroutines-ts
             # -Xclang -std=c++2a
-        PRIVATE
             -Wno-c++98-compat 
             -Wno-reserved-id-macro 
             -Wno-missing-prototypes
     )
-else()
+else() # Clang + Non-Windows
     target_compile_options(${PROJECT_NAME} 
         PUBLIC
             -std=c++1z
@@ -104,28 +211,47 @@ else()
             -fvisibility=hidden
             -ferror-limit=5
     )
+
+    # Generate coverage with Clang
+    if(CMAKE_BUILD_TYPE MATCHES Debug)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0")
+        # propagate this coverage option
+        target_compile_options(${PROJECT_NAME}
+            PUBLIC
+                -g -O0 --coverage
+        )
+    else()
+        target_compile_options(${PROJECT_NAME}    
+            PRIVATE
+                -O3
+        )
+    endif()
 endif()
 
 if(APPLE)
     target_compile_options(${PROJECT_NAME} 
         PUBLIC
             -stdlib=libc++ 
-            -fmodules-ts
+            # -fmodules-ts
     )
-elseif(UNIX)  # Only for Unix/Linux
+elseif(LINUX)
     target_include_directories(${PROJECT_NAME} 
-        PRIVATE
+        PUBLIC
             ${PROJECT_DIR}/prebuilt/include/c++/v1/
     )
+
     target_compile_options(${PROJECT_NAME} 
-        PRIVATE
+        PUBLIC
+            -stdlib=libc++
             # For manual libc++ configuration
             -nostdinc++ -nodefaultlibs
     )
+    
     target_link_libraries(${PROJECT_NAME}
         PUBLIC
-            ${PROJECT_DIR}/prebuilt/lib/libc++.so
-            ${PROJECT_DIR}/prebuilt/lib/libc++experimental.a
+            libc++abi.so
+            libc++.so
+            libc++experimental.a
     )
 endif()
 target_link_libraries(${PROJECT_NAME}
@@ -136,7 +262,7 @@ target_link_libraries(${PROJECT_NAME}
 # [cppmagic]: Installation
 
 install(TARGETS ${PROJECT_NAME}
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/libs
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/libs/${CMAKE_BUILD_TYPE}/${PLATFORM}
 )
 install(
     FILES
@@ -153,13 +279,17 @@ install(
     DESTINATION 
         ${CMAKE_INSTALL_PREFIX}/include/magic/
 )
-if(UNIX AND NOT APPLE)
+if(LINUX)
     install(FILES ${PROJECT_DIR}/prebuilt/lib/libc++.so
         DESTINATION ${CMAKE_INSTALL_PREFIX}/libs
     )
 endif()
 
-# [cppmagic_test]: Test suite for Non-Windows
+# [cppmagic_test]: Test suite
+
+if(ANDROID OR IOS)
+    return()
+endif()
 
 set(TEST_NAME ${PROJECT_NAME}_test)
 
@@ -185,13 +315,19 @@ target_link_libraries(${TEST_NAME}
         ${PROJECT_NAME}
 )
 
-if(UNIX AND NOT APPLE) # Only for Unix/Linux
-    target_compile_options(${TEST_NAME} 
-        PRIVATE
-            -nostdinc++ -nodefaultlibs
-    )
-    target_include_directories(${TEST_NAME} 
-        PRIVATE
-            ${PROJECT_DIR}/prebuilt/include/c++/v1/
+if(UNIX AND NOT APPLE) 
+    # target_compile_options(${TEST_NAME} 
+    #     PRIVATE
+    #         -nostdinc++ -nodefaultlibs
+    # )
+    # target_include_directories(${TEST_NAME} 
+    #     PRIVATE
+    #         ${PROJECT_DIR}/prebuilt/include/c++/v1/
+    # )
+
+    target_link_libraries(${PROJECT_NAME}
+        PUBLIC
+            libc++.so
+            libc++experimental.a
     )
 endif()
