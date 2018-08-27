@@ -12,16 +12,17 @@ cmake_minimum_required(VERSION 3.1)
 # Global setup
 
 if(WIN32 AND MSVC)
+    message(FATAL_ERROR "This cmake project is not for Windows/MSVC")
     # this cmake project is not for Windows/MSVC
     return(1) 
 else()
-    # add_compile_options(-Wall)
+    add_compile_options(-Wall)
 endif()
 
 # Project Info
 
 project(cppmagic LANGUAGES CXX 
-        VERSION 1.0
+        VERSION 1.0.1
         DESCRIPTION "Auto-magically working C++ coroutine"
 )
 message(STATUS "========== ${PROJECT_NAME} : ${PROJECT_VERSION} ==========")
@@ -104,6 +105,21 @@ else()
             -fvisibility=hidden
             -ferror-limit=5
     )
+
+    # Generate coverage with Clang
+    if(CMAKE_BUILD_TYPE MATCHES Debug)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0")
+        # propagate this coverage option
+        target_compile_options(${PROJECT_NAME}
+            PUBLIC
+                -g -O0 --coverage
+        )
+    else()
+        target_compile_options(${PROJECT_NAME}    
+            PRIVATE
+                -O3
+        )
+    endif()
 endif()
 
 if(APPLE)

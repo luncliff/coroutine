@@ -75,15 +75,13 @@ addons:
     - llvm-toolchain-trusty-5.0
     packages:
     - subversion
-    - clang-5.0
+    - clang-6.0
     - libc++-dev  
     - libc++abi-dev
     - ninja-build
     - tree
 
 matrix: 
-  allow_failures:
-    - os: linux
   include:
     # Linux : x86_64 Debug Static
     - env:
