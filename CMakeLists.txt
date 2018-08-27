@@ -233,11 +233,12 @@ elseif(UNIX)  # Only for Unix/Linux
             ${PROJECT_DIR}/prebuilt/include/c++/v1/
     )
 
-    # target_compile_options(${PROJECT_NAME} 
-    #     PRIVATE
-    #         # For manual libc++ configuration
-    #         -nostdinc++ -nodefaultlibs
-    # )
+    target_compile_options(${PROJECT_NAME} 
+        PUBLIC
+            -fexceptions
+            # For manual libc++ configuration
+            # -nostdinc++ -nodefaultlibs
+    )
     
 
     target_link_libraries(${PROJECT_NAME}

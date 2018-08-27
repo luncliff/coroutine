@@ -35,9 +35,12 @@ install:
       pushd libcxxabi; svn log -l 1; popd;
     fi
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-      mkdir -p prebuilt && cd prebuilt;
+      mkdir -p prebuilt && pushd prebuilt;
       cmake ../libcxx -DLLVM_PATH=../llvm -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include -DCMAKE_INSTALL_PREFIX=. -DCMAKE_BUILD_TYPE=Release ;
       make -j8 install;
+      nm ./lib/libc++.so.1 | grep _cxa;
+      nm --defined-only ./lib/libc++.so.1 | grep _cxa ;
+      popd;
     fi
   # OSX: Upgrade llvm
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then 
