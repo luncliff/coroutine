@@ -47,15 +47,15 @@ message(STATUS "Build Type  \t: ${CMAKE_BUILD_TYPE}")
 if(ANDROID)
     set(PLATFORM ${ANDROID_ABI})
 elseif(IOS OR IOS_DEPLOYMENT_TARGET)
-    set(PLATFORM iOS)
+    set(PLATFORM ios)
 elseif(${CMAKE_SYSTEM} MATCHES Windows)
-    set(PLATFORM Windows)
+    set(PLATFORM windows)
 elseif(${CMAKE_SYSTEM} MATCHES Darwin)
     set(OSX true)
-    set(PLATFORM OSX)
+    set(PLATFORM osx)
 elseif(${CMAKE_SYSTEM} MATCHES Linux)
     set(LINUX true)
-    set(PLATFORM Linux)
+    set(PLATFORM linux)
 endif()
 
 if(ANDROID OR WIN32)
@@ -67,9 +67,11 @@ message(STATUS "Compiler")
 message(STATUS " - ID       \t: ${CMAKE_CXX_COMPILER_ID}")
 message(STATUS " - Path     \t: ${CMAKE_CXX_COMPILER}")
 
-link_directories(
-    ${PROJECT_DIR}/prebuilt/lib
-)
+if(NOT IOS)
+    link_directories(
+        ${PROJECT_DIR}/prebuilt/lib
+    )
+endif()
 if(LINUX)
     link_directories(
         ${PROJECT_DIR}/libcxxabi/lib
@@ -261,7 +263,7 @@ target_link_libraries(${PROJECT_NAME}
 # [cppmagic]: Installation
 
 install(TARGETS ${PROJECT_NAME}
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/libs/${CMAKE_BUILD_TYPE}
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/libs/${CMAKE_BUILD_TYPE}/${PLATFORM}
 )
 install(
     FILES

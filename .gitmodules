@@ -13,3 +13,8 @@
 	url = https://github.com/llvm-mirror/llvm
 	branch = release_60
 	shallow = true
+[submodule "ios-cmake"]
+	path = ios-cmake
+	url = https://github.com/leetal/ios-cmake
+	branch = 2.0.0
+	shallow = true

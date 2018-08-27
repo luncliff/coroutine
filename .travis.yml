@@ -86,14 +86,13 @@ after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install
   # MacOS: Run coverage tool 
-  - if [ "${TRAVIS_OS_NAME}" == "osx" && "$CONFIG" == "Debug" ]; then 
+  - if [ ("${TRAVIS_OS_NAME}" == "osx") && ("$CONFIG" == "Debug") ]; then 
       cp ./CMakeFiles/cppmagic_test.dir/test/test.entry.cpp.* ./ ;
       gcov -abcf ./test.entry.cpp.gcda ;
       lcov --directory . --gcov-tool gcov --capture -o cov.info ;
       genhtml cov.info -o cov_report;
     fi
 
-  
 # Shared environment
 # Default is ubuntu trusty
 os: linux
@@ -167,6 +166,53 @@ matrix:
         - bash $GRADLE --version
       script:
         - bash $GRADLE clean assemble
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}
+        - tree ./install
+
+    # iPhone OS 10.3 : armv7 armv7s arm64 Debug Dynamic
+    - os: osx
+      osx_image: xcode9.3
+      compiler: 
+        - clang
+      env:
+        - PLATFORM=iOS
+        - CONFIG=Debug
+        - BUILD_SHARED=true
+      script:
+        - pushd ./build;
+        - cmake ../ 
+          -DBUILD_SHARED_LIBS=$BUILD_SHARED
+          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DCMAKE_TOOLCHAIN_FILE=../ios-cmake/ios.toolchain.cmake 
+          -DIOS_DEPLOYMENT_TARGET=10.3
+          -DENABLE_BITCODE=false 
+          -DCMAKE_INSTALL_PREFIX=../install
+        - make -j10 install
+        - popd;
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}
+        - tree ./install
+    # iPhone OS 10.3 : armv7 armv7s arm64 Release Dynamic
+    - os: osx
+      osx_image: xcode9.3
+      compiler: 
+        - clang
+      env:
+        - PLATFORM=iOS
+        - CONFIG=Release
+        - BUILD_SHARED=true
+      script:
+        - pushd ./build;
+        - cmake ../ 
+          -DBUILD_SHARED_LIBS=$BUILD_SHARED
+          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DCMAKE_TOOLCHAIN_FILE=../ios-cmake/ios.toolchain.cmake 
+          -DIOS_DEPLOYMENT_TARGET=10.3
+          -DENABLE_BITCODE=false 
+          -DCMAKE_INSTALL_PREFIX=../install
+        - make -j10 install
+        - popd;
       after_success:
         - cd ${TRAVIS_BUILD_DIR}
         - tree ./install
