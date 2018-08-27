@@ -84,8 +84,16 @@ script:
 after_success:
   - popd;
   - cd ${TRAVIS_BUILD_DIR}
-  - tree $PLATFORM/$CONFIG
+  - tree ./install
+  # MacOS: Run coverage tool 
+  - if [ "${TRAVIS_OS_NAME}" == "osx" && "$CONFIG" == "Debug" ]; then 
+      cp ./CMakeFiles/cppmagic_test.dir/test/test.entry.cpp.* ./ ;
+      gcov -abcf ./test.entry.cpp.gcda ;
+      lcov --directory . --gcov-tool gcov --capture -o cov.info ;
+      genhtml cov.info -o cov_report;
+    fi
 
+  
 # Shared environment
 # Default is ubuntu trusty
 os: linux
@@ -159,6 +167,10 @@ matrix:
         - bash $GRADLE --version
       script:
         - bash $GRADLE clean assemble
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}
+        - tree ./install
+
 notifications:
   email:
     - luncliff@gmail.com

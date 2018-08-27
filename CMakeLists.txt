@@ -195,7 +195,6 @@ if(WIN32) # Clang + Windows
             -fms-compatibility 
             -Xclang -fcoroutines-ts
             # -Xclang -std=c++2a
-        PRIVATE
             -Wno-c++98-compat 
             -Wno-reserved-id-macro 
             -Wno-missing-prototypes
@@ -262,7 +261,7 @@ target_link_libraries(${PROJECT_NAME}
 # [cppmagic]: Installation
 
 install(TARGETS ${PROJECT_NAME}
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/libs
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/libs/${CMAKE_BUILD_TYPE}
 )
 install(
     FILES
@@ -279,13 +278,13 @@ install(
     DESTINATION 
         ${CMAKE_INSTALL_PREFIX}/include/magic/
 )
-if(UNIX AND NOT APPLE)
+if(LINUX)
     install(FILES ${PROJECT_DIR}/prebuilt/lib/libc++.so
         DESTINATION ${CMAKE_INSTALL_PREFIX}/libs
     )
 endif()
 
-# [cppmagic_test]: Test suite for Non-Windows
+# [cppmagic_test]: Test suite
 
 if(ANDROID OR IOS)
     return()
@@ -316,14 +315,14 @@ target_link_libraries(${TEST_NAME}
 )
 
 if(UNIX AND NOT APPLE) 
-    target_compile_options(${TEST_NAME} 
-        PRIVATE
-            -nostdinc++ -nodefaultlibs
-    )
-    target_include_directories(${TEST_NAME} 
-        PRIVATE
-            ${PROJECT_DIR}/prebuilt/include/c++/v1/
-    )
+    # target_compile_options(${TEST_NAME} 
+    #     PRIVATE
+    #         -nostdinc++ -nodefaultlibs
+    # )
+    # target_include_directories(${TEST_NAME} 
+    #     PRIVATE
+    #         ${PROJECT_DIR}/prebuilt/include/c++/v1/
+    # )
 
     target_link_libraries(${PROJECT_NAME}
         PUBLIC
