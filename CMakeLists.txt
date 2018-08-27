@@ -65,6 +65,10 @@ message(STATUS "Compiler")
 message(STATUS " - ID       \t: ${CMAKE_CXX_COMPILER_ID}")
 message(STATUS " - Path     \t: ${CMAKE_CXX_COMPILER}")
 
+link_directories(
+    ${PROJECT_DIR}/prebuilt/lib
+)
+
 # [cppmagic]: Core features
 
 add_library(${PROJECT_NAME}
@@ -236,8 +240,10 @@ elseif(UNIX)  # Only for Unix/Linux
     
     # target_link_libraries(${PROJECT_NAME}
     #     PUBLIC
-    #         ${PROJECT_DIR}/prebuilt/lib/libc++.so
-    #         ${PROJECT_DIR}/prebuilt/lib/libc++experimental.a
+    #         libc++.so
+    #         libc++experimental.a
+    #         # ${PROJECT_DIR}/prebuilt/lib/libc++.so
+    #         # ${PROJECT_DIR}/prebuilt/lib/libc++experimental.a
     # )
 endif()
 target_link_libraries(${PROJECT_NAME}
