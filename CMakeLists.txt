@@ -237,12 +237,13 @@ elseif(UNIX)  # Only for Unix/Linux
         PUBLIC
             -fexceptions
             # For manual libc++ configuration
-            # -nostdinc++ -nodefaultlibs
+            -nostdinc++ -nodefaultlibs
     )
     
 
     target_link_libraries(${PROJECT_NAME}
         PUBLIC
+            c++abi
             libc++.so
             libc++experimental.a
     )
