@@ -42,15 +42,15 @@ install:
       brew upgrade llvm > /dev/null 2>&1;
       brew info llvm;
     fi
-  # Linux: Install llvm stable
-  # https://apt.llvm.org/
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-      deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main;
-      deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main;
-      wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -;
-      sudo apt-get install libllvm6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-runtime; 
-      sudo apt-get install clang-6.0 lldb-6.0 lld-6.0;
-    fi
+  # # Linux: Install llvm stable
+  # # https://apt.llvm.org/
+  # - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+  #     deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main;
+  #     deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main;
+  #     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -;
+  #     sudo apt-get install libllvm6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-runtime; 
+  #     sudo apt-get install clang-6.0 lldb-6.0 lld-6.0;
+  #   fi
   - tree --version
   - ninja --version
 
@@ -67,8 +67,8 @@ script:
     -DCMAKE_INSTALL_PREFIX=../$PLATFORM/$CONFIG
   - ninja install
   # Display build results and start tests
-  - tree .
   - ./cppmagic_test
+  - tree -f ./CMakeFiles/
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
@@ -103,16 +103,16 @@ matrix:
       - CONFIG=Debug
       - BUILD_SHARED=true 
   
-    # Linux : x86_64 Release Static
-    - env:
-      - PLATFORM=linux
-      - CONFIG=Release
-      - BUILD_SHARED=false
-    # Linux : x86_64 Release Dynamic
-    - env:
-      - PLATFORM=linux
-      - CONFIG=Release
-      - BUILD_SHARED=true
+    # # Linux : x86_64 Release Static
+    # - env:
+    #   - PLATFORM=linux
+    #   - CONFIG=Release
+    #   - BUILD_SHARED=false
+    # # Linux : x86_64 Release Dynamic
+    # - env:
+    #   - PLATFORM=linux
+    #   - CONFIG=Release
+    #   - BUILD_SHARED=true
   
     # OS X : x86_64 Debug Static
     - os: osx
@@ -129,20 +129,20 @@ matrix:
         - CONFIG=Debug
         - BUILD_SHARED=true
   
-    # OS X : x86_64 Release Static
-    - os: osx
-      osx_image: xcode9.3
-      env:
-        - PLATFORM=osx
-        - CONFIG=Release
-        - BUILD_SHARED=false
-    # OS X : x86_64 Release Dynamic
-    - os: osx
-      osx_image: xcode9.3
-      env:
-        - PLATFORM=osx
-        - CONFIG=Release
-        - BUILD_SHARED=true
+    # # OS X : x86_64 Release Static
+    # - os: osx
+    #   osx_image: xcode9.3
+    #   env:
+    #     - PLATFORM=osx
+    #     - CONFIG=Release
+    #     - BUILD_SHARED=false
+    # # OS X : x86_64 Release Dynamic
+    # - os: osx
+    #   osx_image: xcode9.3
+    #   env:
+    #     - PLATFORM=osx
+    #     - CONFIG=Release
+    #     - BUILD_SHARED=true
 
 notifications:
   email:
