@@ -16,7 +16,7 @@ if(WIN32 AND MSVC)
     # this cmake project is not for Windows/MSVC
     return(1) 
 else()
-    add_compile_options(-Wall)
+    add_compile_options(-Wall -fexceptions)
 endif()
 
 # Project Info
@@ -24,6 +24,7 @@ endif()
 project(cppmagic LANGUAGES CXX 
         VERSION 1.0.1
 )
+
 message(STATUS "========== ${PROJECT_NAME} : ${PROJECT_VERSION} ==========")
 
 # Alias for known variables
@@ -69,6 +70,11 @@ message(STATUS " - Path     \t: ${CMAKE_CXX_COMPILER}")
 link_directories(
     ${PROJECT_DIR}/prebuilt/lib
 )
+if(LINUX)
+    link_directories(
+        ${PROJECT_DIR}/libcxxabi/lib
+    )
+endif()
 
 # [cppmagic]: Core features
 
@@ -228,7 +234,7 @@ if(APPLE)
             -stdlib=libc++ 
             # -fmodules-ts
     )
-elseif(UNIX)  # Only for Unix/Linux
+elseif(LINUX)
     target_include_directories(${PROJECT_NAME} 
         PUBLIC
             ${PROJECT_DIR}/prebuilt/include/c++/v1/
@@ -236,15 +242,14 @@ elseif(UNIX)  # Only for Unix/Linux
 
     target_compile_options(${PROJECT_NAME} 
         PUBLIC
-            -fexceptions
+            -stdlib=libc++
             # For manual libc++ configuration
             -nostdinc++ -nodefaultlibs
     )
     
-
     target_link_libraries(${PROJECT_NAME}
         PUBLIC
-            c++abi
+            libc++abi.so
             libc++.so
             libc++experimental.a
     )
@@ -282,9 +287,9 @@ endif()
 
 # [cppmagic_test]: Test suite for Non-Windows
 
-# if(NOT BUILD_TESTS)
-#     return()
-# endif()
+if(ANDROID OR IOS)
+    return()
+endif()
 
 set(TEST_NAME ${PROJECT_NAME}_test)
 
@@ -310,7 +315,7 @@ target_link_libraries(${TEST_NAME}
         ${PROJECT_NAME}
 )
 
-if(UNIX AND NOT APPLE) # Only for Unix/Linux
+if(UNIX AND NOT APPLE) 
     target_compile_options(${TEST_NAME} 
         PRIVATE
             -nostdinc++ -nodefaultlibs

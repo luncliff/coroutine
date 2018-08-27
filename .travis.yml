@@ -10,7 +10,7 @@
 sudo: false
 
 git:
-  submodules: false
+  submodules: false # - git submodule update --init --recursive
   depth: 1
   
 branches:
@@ -25,7 +25,11 @@ before_install:
   - echo $TRAVIS_OS_NAME;
 
 install:
-  # - git submodule update --init --recursive
+  # Download llvm/libc++ via Github submodule
+  #   This is a little bit slower than svn
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+      git submodule update --init llvm libcxx libcxxabi;
+    fi
   # - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
   #     svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm > /dev/null;
   #     pushd llvm; svn log -l 1; popd;
@@ -34,37 +38,30 @@ install:
   #     svn co http://llvm.org/svn/llvm-project/libcxxabi/trunk libcxxabi > /dev/null;
   #     pushd libcxxabi; svn log -l 1; popd;
   #   fi
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-      git submodule update --init llvm libcxx libcxxabi;
-    fi
+  # Linux: Build libcxx
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
       mkdir -p prebuilt && pushd prebuilt;
-      cmake ../libcxx -DLLVM_PATH=../llvm \
-        -DLIBCXX_CXX_ABI=libcxxabi \
-        -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include \
-        -DCMAKE_INSTALL_PREFIX=. \
-        -DLIBCXX_ENABLE_SHARED=YES \
-        -DCMAKE_BUILD_TYPE=Release ;
+      cmake ../libcxx -DLLVM_PATH=../llvm -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include -DCMAKE_INSTALL_PREFIX=. -DCMAKE_BUILD_TYPE=Release ;
       make -j10 install;
-      nm ./lib/libc++.so.1 | grep _cxa;
-      nm --defined-only ./lib/libc++.so.1 | grep _cxa ;
+      rm CMakeCache.txt;
+      tree ./include;
       popd;
     fi
-  # OSX: Upgrade llvm
+  # Linux: Build libcxxabi
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+      mkdir -p prebuilt && pushd prebuilt;
+      cmake ../libcxxabi -DLLVM_PATH=../llvm/ -DLIBCXXABI_LIBCXX_PATH=../libcxx/ -DCMAKE_INSTALL_PREFIX=../prebuilt/ ;
+      make -j10 install;
+      rm CMakeCache.txt;
+      tree ./lib;
+      popd;
+    fi
+  # MacOS: Upgrade llvm
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then 
       brew install tree ninja > /dev/null 2>&1; 
       brew upgrade llvm > /dev/null 2>&1;
       brew info llvm;
     fi
-  # # Linux: Install llvm stable
-  # # https://apt.llvm.org/
-  # - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-  #     deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main;
-  #     deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main;
-  #     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -;
-  #     sudo apt-get install libllvm6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-runtime; 
-  #     sudo apt-get install clang-6.0 lldb-6.0 lld-6.0;
-  #   fi
   - tree --version
   - ninja --version
 
@@ -79,7 +76,7 @@ script:
     -DBUILD_SHARED_LIBS=$BUILD_SHARED 
     -DCMAKE_BUILD_TYPE=$CONFIG
     -DCMAKE_INSTALL_PREFIX=../$PLATFORM/$CONFIG
-  - ninja install
+  - ninja -v install
   # Display build results and start tests
   - ./cppmagic_test
   - tree -f ./CMakeFiles/
@@ -100,7 +97,7 @@ addons:
     packages:
     - subversion
     - clang-5.0
-    - libc++-1
+    - libc++1
     - libc++-dev
     - libc++abi1
     - libc++abi-dev
@@ -109,57 +106,31 @@ addons:
 
 matrix: 
   include:
-    # Linux : x86_64 Debug Static
-    - env:
-      - PLATFORM=linux
-      - CONFIG=Debug
-      - BUILD_SHARED=false 
     # Linux : x86_64 Debug Dynamic
     - env:
       - PLATFORM=linux
       - CONFIG=Debug
-      - BUILD_SHARED=true 
+      - BUILD_SHARED=true   
+    # Linux : x86_64 Release Dynamic
+    - env:
+      - PLATFORM=linux
+      - CONFIG=Release
+      - BUILD_SHARED=true
   
-    # # Linux : x86_64 Release Static
-    # - env:
-    #   - PLATFORM=linux
-    #   - CONFIG=Release
-    #   - BUILD_SHARED=false
-    # # Linux : x86_64 Release Dynamic
-    # - env:
-    #   - PLATFORM=linux
-    #   - CONFIG=Release
-    #   - BUILD_SHARED=true
-  
-    # OS X : x86_64 Debug Static
-    - os: osx
-      osx_image: xcode9.3
-      env:
-        - PLATFORM=osx
-        - CONFIG=Debug
-        - BUILD_SHARED=false
     # OS X : x86_64 Debug Dynamic
     - os: osx
       osx_image: xcode9.3
       env:
         - PLATFORM=osx
         - CONFIG=Debug
+        - BUILD_SHARED=true  
+    # OS X : x86_64 Release Dynamic
+    - os: osx
+      osx_image: xcode9.3
+      env:
+        - PLATFORM=osx
+        - CONFIG=Release
         - BUILD_SHARED=true
-  
-    # # OS X : x86_64 Release Static
-    # - os: osx
-    #   osx_image: xcode9.3
-    #   env:
-    #     - PLATFORM=osx
-    #     - CONFIG=Release
-    #     - BUILD_SHARED=false
-    # # OS X : x86_64 Release Dynamic
-    # - os: osx
-    #   osx_image: xcode9.3
-    #   env:
-    #     - PLATFORM=osx
-    #     - CONFIG=Release
-    #     - BUILD_SHARED=true
 
 notifications:
   email:
