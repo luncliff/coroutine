@@ -16,15 +16,15 @@ For detailed build steps, reference [`.travis.yml`](/.travis.yml) and [`appveyor
   - compiler option: [`/await`](https://blogs.msdn.microsoft.com/vcblog/2015/04/29/more-about-resumable-functions-in-c/) 
   - compiler option: `/std:c++latest`
 
-#### Clang 6 for Windows 
+#### Clang 6 (Windows) 
 Install following packages with [Chocolaty](https://chocolatey.org/). Uses CMake for project generation.
   - Chocolaty [LLVM package](https://chocolatey.org/packages/llvm)
   - Chocolaty [Ninja package](https://chocolatey.org/packages/ninja)
 
-#### Clang for Linux
-Since libc++ apt package doesn't contain experimental headers, the build steps [downloads libc++ and build with them](https://libcxx.llvm.org/docs/BuildingLibcxx.html).
+#### Clang 5 (Linux)
+The build step follows [Building libc++](https://libcxx.llvm.org/docs/BuildingLibcxx.html).
 
-#### AppleClang on MacOS
+#### AppleClang (MacOS)
 Trigger manual LLVM update before build. Required version is **stable 6.0.0** or later
 
 ## Package

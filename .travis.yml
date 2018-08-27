@@ -26,18 +26,26 @@ before_install:
 
 install:
   # - git submodule update --init --recursive
+  # - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+  #     svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm > /dev/null;
+  #     pushd llvm; svn log -l 1; popd;
+  #     svn co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx > /dev/null;
+  #     pushd libcxx; svn log -l 1; popd;
+  #     svn co http://llvm.org/svn/llvm-project/libcxxabi/trunk libcxxabi > /dev/null;
+  #     pushd libcxxabi; svn log -l 1; popd;
+  #   fi
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-      svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm > /dev/null;
-      pushd llvm; svn log -l 1; popd;
-      svn co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx > /dev/null;
-      pushd libcxx; svn log -l 1; popd;
-      svn co http://llvm.org/svn/llvm-project/libcxxabi/trunk libcxxabi > /dev/null;
-      pushd libcxxabi; svn log -l 1; popd;
+      git submodule update --init llvm libcxx libcxxabi;
     fi
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
       mkdir -p prebuilt && pushd prebuilt;
-      cmake ../libcxx -DLLVM_PATH=../llvm -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include -DCMAKE_INSTALL_PREFIX=. -DCMAKE_BUILD_TYPE=Release ;
-      make -j8 install;
+      cmake ../libcxx -DLLVM_PATH=../llvm \
+        -DLIBCXX_CXX_ABI=libcxxabi \
+        -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include \
+        -DCMAKE_INSTALL_PREFIX=. \
+        -DLIBCXX_ENABLE_SHARED=YES \
+        -DCMAKE_BUILD_TYPE=Release ;
+      make -j10 install;
       nm ./lib/libc++.so.1 | grep _cxa;
       nm --defined-only ./lib/libc++.so.1 | grep _cxa ;
       popd;
@@ -63,7 +71,7 @@ install:
 before_script:
   # Create & Go to build directory
   - cd ${TRAVIS_BUILD_DIR}
-  - mkdir -p build && cd build && pwd
+  - mkdir -p build && pushd build && pwd
 
 script:
   - cmake ../ 
@@ -77,6 +85,7 @@ script:
   - tree -f ./CMakeFiles/
 
 after_success:
+  - popd;
   - cd ${TRAVIS_BUILD_DIR}
   - tree $PLATFORM/$CONFIG
 
@@ -91,7 +100,9 @@ addons:
     packages:
     - subversion
     - clang-5.0
-    - libc++-dev  
+    - libc++-1
+    - libc++-dev
+    - libc++abi1
     - libc++abi-dev
     - ninja-build
     - tree

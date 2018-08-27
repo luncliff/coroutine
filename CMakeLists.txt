@@ -36,7 +36,8 @@ message(STATUS "Project     \t: ${PROJECT_DIR}")
 message(STATUS "Install     \t: ${CMAKE_INSTALL_PREFIX}")
 
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
+    # set(CMAKE_BUILD_TYPE Release)
+    set(CMAKE_BUILD_TYPE Debug)
 endif()
 message(STATUS "Build Type  \t: ${CMAKE_BUILD_TYPE}")
 
