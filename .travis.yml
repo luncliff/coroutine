@@ -36,11 +36,20 @@ install:
       cmake ../libcxx -DLLVM_PATH=../llvm -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include -DCMAKE_INSTALL_PREFIX=. ;
       make -j8 install;
     fi
-  # Use brew for OSX image
+  # OSX: Upgrade llvm
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then 
       brew install tree ninja > /dev/null 2>&1; 
       brew upgrade llvm > /dev/null 2>&1;
       brew info llvm;
+    fi
+  # Linux: Install llvm stable
+  # https://apt.llvm.org/
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+      deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main;
+      deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main;
+      wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -;
+      sudo apt-get install libllvm6.0 llvm-6.0 llvm-6.0-dev llvm-6.0-runtime; 
+      sudo apt-get install clang-6.0 lldb-6.0 lld-6.0;
     fi
   - tree --version
   - ninja --version
