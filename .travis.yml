@@ -66,11 +66,11 @@ install:
   - ninja --version
 
 before_script:
-  # Create & Go to build directory
   - cd ${TRAVIS_BUILD_DIR}
-  - mkdir -p build && pushd build && pwd
 
 script:
+  # Create & Go to build directory
+  - mkdir -p build && pushd build && pwd
   - cmake ../ 
     -G "Ninja" 
     -DBUILD_SHARED_LIBS=$BUILD_SHARED 
@@ -80,13 +80,13 @@ script:
   # Display build results and start tests
   - ./cppmagic_test
   - tree -f ./CMakeFiles/
+  - popd;
 
 after_success:
-  - popd;
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install
   # MacOS: Run coverage tool 
-  - if [ ("${TRAVIS_OS_NAME}" == "osx") && ("$CONFIG" == "Debug") ]; then 
+  - if [ "${TRAVIS_OS_NAME}" == "osx" && ("$CONFIG" == "Debug") ]; then 
       cp ./CMakeFiles/cppmagic_test.dir/test/test.entry.cpp.* ./ ;
       gcov -abcf ./test.entry.cpp.gcda ;
       lcov --directory . --gcov-tool gcov --capture -o cov.info ;
@@ -179,8 +179,12 @@ matrix:
         - PLATFORM=iOS
         - CONFIG=Debug
         - BUILD_SHARED=true
+      install:
+        - brew install tree llvm; 
+        - brew info llvm;
+        - git submodule update --init ios-cmake;
       script:
-        - pushd ./build;
+        - mkdir -p build && pushd ./build;
         - cmake ../ 
           -DBUILD_SHARED_LIBS=$BUILD_SHARED
           -DCMAKE_BUILD_TYPE=$CONFIG
@@ -189,6 +193,7 @@ matrix:
           -DENABLE_BITCODE=false 
           -DCMAKE_INSTALL_PREFIX=../install
         - make -j10 install
+        - file libcppmagic.dylib
         - popd;
       after_success:
         - cd ${TRAVIS_BUILD_DIR}
@@ -202,8 +207,12 @@ matrix:
         - PLATFORM=iOS
         - CONFIG=Release
         - BUILD_SHARED=true
+      install:
+        - brew install tree llvm; 
+        - brew info llvm;
+        - git submodule update --init ios-cmake;
       script:
-        - pushd ./build;
+        - mkdir -p build && pushd ./build;
         - cmake ../ 
           -DBUILD_SHARED_LIBS=$BUILD_SHARED
           -DCMAKE_BUILD_TYPE=$CONFIG
@@ -212,6 +221,7 @@ matrix:
           -DENABLE_BITCODE=false 
           -DCMAKE_INSTALL_PREFIX=../install
         - make -j10 install
+        - file libcppmagic.dylib
         - popd;
       after_success:
         - cd ${TRAVIS_BUILD_DIR}
