@@ -229,22 +229,22 @@ if(APPLE)
     )
 elseif(UNIX)  # Only for Unix/Linux
     target_include_directories(${PROJECT_NAME} 
-        PRIVATE
+        PUBLIC
             ${PROJECT_DIR}/prebuilt/include/c++/v1/
     )
+
     # target_compile_options(${PROJECT_NAME} 
     #     PRIVATE
     #         # For manual libc++ configuration
     #         -nostdinc++ -nodefaultlibs
     # )
     
-    # target_link_libraries(${PROJECT_NAME}
-    #     PUBLIC
-    #         libc++.so
-    #         libc++experimental.a
-    #         # ${PROJECT_DIR}/prebuilt/lib/libc++.so
-    #         # ${PROJECT_DIR}/prebuilt/lib/libc++experimental.a
-    # )
+
+    target_link_libraries(${PROJECT_NAME}
+        PUBLIC
+            libc++.so
+            libc++experimental.a
+    )
 endif()
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
@@ -315,5 +315,11 @@ if(UNIX AND NOT APPLE) # Only for Unix/Linux
     target_include_directories(${TEST_NAME} 
         PRIVATE
             ${PROJECT_DIR}/prebuilt/include/c++/v1/
+    )
+
+    target_link_libraries(${PROJECT_NAME}
+        PUBLIC
+            libc++.so
+            libc++experimental.a
     )
 endif()
