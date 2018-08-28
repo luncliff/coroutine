@@ -92,14 +92,16 @@ for:
     - ps: ninja --version;
     - ps: clang --version;      # version: 6.0+
     - ps: clang-cl --version;   # cl.exe for clang
-    # this setup is necessary
-    - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64;
-  before_build:
     # Rename the variable for build output
     - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
+  before_build:
+    # this setup is necessary. 
+    # !!! This is `cmd` command !!!
+    #   Tried in powershell commands but there was no effect
+    - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64;
   build_script:
-    - set CC=clang-cl
-    - set CXX=clang-cl
+    - set CC=clang-cl;  # cmd
+    - set CXX=clang-cl; # cmd
     - cmake ./ 
       -G Ninja 
       "-DCMAKE_BUILD_TYPE=%configuration%"

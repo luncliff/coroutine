@@ -53,7 +53,7 @@ public:
 //      https://golang.org/pkg/sync/#WaitGroup
 class wait_group final {
   HANDLE eve = INVALID_HANDLE_VALUE;
-  std::atomic<uint32_t> ref = 0;
+  std::atomic<uint32_t> ref {};
 
 private:
   wait_group(wait_group &) = delete;
