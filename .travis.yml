@@ -76,7 +76,7 @@ script:
     -DBUILD_SHARED_LIBS=$BUILD_SHARED 
     -DCMAKE_BUILD_TYPE=$CONFIG
     -DCMAKE_INSTALL_PREFIX=../$PLATFORM/$CONFIG
-  - ninja -v install
+  - ninja install
   # Display build results and start tests
   - ./cppmagic_test
   - tree -f ./CMakeFiles/

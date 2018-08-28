@@ -21,7 +21,7 @@ endif()
 # Project Info
 
 project(cppmagic LANGUAGES CXX 
-        VERSION 1.0.1
+        VERSION 1.0.2
 )
 
 message(STATUS "========== ${PROJECT_NAME} : ${PROJECT_VERSION} ==========")
@@ -36,8 +36,8 @@ message(STATUS "Project     \t: ${PROJECT_DIR}")
 message(STATUS "Install     \t: ${CMAKE_INSTALL_PREFIX}")
 
 if(NOT CMAKE_BUILD_TYPE)
-    # set(CMAKE_BUILD_TYPE Release)
-    set(CMAKE_BUILD_TYPE Debug)
+    set(CMAKE_BUILD_TYPE Release)
+    # set(CMAKE_BUILD_TYPE Debug)
 endif()
 message(STATUS "Build Type  \t: ${CMAKE_BUILD_TYPE}")
 
@@ -173,13 +173,15 @@ target_include_directories(${PROJECT_NAME}
         ${PROJECT_DIR}/clang/
 )
 
-if(WIN32) # Clang + Windows
+if(WIN32)  # Clang + Windows
 
-    target_sources(${PROJECT_NAME}    
-        PRIVATE
-            ${PROJECT_DIR}/magic/switch.h
-            ${PROJECT_DIR}/msvc/switch.cpp
-    )
+    # target_sources(${PROJECT_NAME}    
+    #     PRIVATE
+    #         ${PROJECT_DIR}/magic/switch.h
+    #         ${PROJECT_DIR}/msvc/switch.cpp
+    #         ${PROJECT_DIR}/magic/sync.h
+    #         ${PROJECT_DIR}/msvc/sync.cpp
+    # )
 
     target_compile_definitions(${PROJECT_NAME}
         PUBLIC
@@ -189,12 +191,8 @@ if(WIN32) # Clang + Windows
         target_compile_definitions(${PROJECT_NAME}
             PRIVATE
                 _WINDLL            
-        )
+            )
     endif()
-
-    # set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /await")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -std=c++2a")
 
     # argument from `clang-cl -help`
     # `target_compile_options` removes duplicated -Xclang argument which must be protected
@@ -205,17 +203,17 @@ if(WIN32) # Clang + Windows
             /std:c++latest 
             # /Gr
             -fms-compatibility 
-            # -Xclang -fcoroutines-ts
+            -Xclang -fcoroutines-ts
             # -Xclang -std=c++2a
+        PRIVATE
             -Wno-unused-function
             -Wno-c++98-compat 
             -Wno-reserved-id-macro 
             -Wno-missing-prototypes
-            # /errorReport:send
     )
-    # set_target_properties(${PROJECT_NAME} PROPERTIES 
-    #     LINK_FLAGS "/await             /errorPrompt:send")
-
+    
+    set_target_properties(${PROJECT_NAME} PROPERTIES 
+        LINK_FLAGS "${LINK_FLAGS} /errorReport:send")
 
 else() # Clang + Non-Windows
     target_compile_options(${PROJECT_NAME} 
@@ -271,13 +269,14 @@ elseif(LINUX)
             libc++experimental.a
     )
 endif()
+
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
         ${CMAKE_DL_LIBS}
 )
 
 # [cppmagic]: Installation
-return()
+
 install(TARGETS ${PROJECT_NAME}
     DESTINATION ${CMAKE_INSTALL_PREFIX}/libs/${CMAKE_BUILD_TYPE}/${PLATFORM}
 )
@@ -321,7 +320,15 @@ if(NOT WIN32)
             -fvisibility=hidden
             -ferror-limit=5
     )
+else()
+    target_compile_options(${TEST_NAME}
+    PRIVATE
+        -Wno-c++98-compat 
+        -Wno-reserved-id-macro 
+        -Wno-missing-prototypes
+    )
 endif()
+
 target_include_directories(${TEST_NAME}
     PRIVATE
         ${PROJECT_DIR}/test

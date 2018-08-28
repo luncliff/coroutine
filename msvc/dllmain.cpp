@@ -20,6 +20,12 @@
 namespace magic
 {
 
+_INTERFACE_ uint16_t version() noexcept
+{
+  return static_cast<uint16_t>(
+    (1 << 8) | 0);
+}
+
 auto check_coroutine_available() -> magic::unplug
 {
   co_await stdex::suspend_never{};

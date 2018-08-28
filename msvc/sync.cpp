@@ -26,10 +26,10 @@ void section::lock() noexcept { return ::EnterCriticalSection(this); }
 void section::unlock() noexcept { return ::LeaveCriticalSection(this); }
 
 wait_group::wait_group() noexcept(false) {
-  this->eve = CreateEvent(NULL,  // default security attributes
-                          FALSE, // auto-reset event object
-                          FALSE, // initial state is nonsignaled
-                          NULL); // unnamed object
+  this->eve = CreateEvent(nullptr,  // default security attributes
+                          false, // auto-reset event object
+                          false, // initial state is nonsignaled
+                          nullptr); // unnamed object
 
   if (this->eve == INVALID_HANDLE_VALUE) {
     const auto eval = static_cast<int>(GetLastError());
