@@ -15,7 +15,7 @@ if(WIN32 AND MSVC)
     message(FATAL_ERROR "This cmake project is not for Windows/MSVC")
     return(1) 
 else()
-    add_compile_options(-Wall -fexceptions)
+    add_compile_options(-Wall)
 endif()
 
 # Project Info
@@ -81,6 +81,10 @@ endif()
 
 add_library(${PROJECT_NAME}
     ${PROJECT_DIR}/msvc/dllmain.cpp
+
+    ${PROJECT_DIR}/magic/switch.h
+    ${PROJECT_DIR}/msvc/switch.cpp
+    # ${PROJECT_DIR}/msvc/sync.cpp
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES 
     VERSION         ${PROJECT_VERSION}
@@ -185,6 +189,9 @@ if(WIN32) # Clang + Windows
         )
     endif()
 
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -std=c++2a")
+
     # argument from `clang-cl -help`
     # `target_compile_options` removes duplicated -Xclang argument which must be protected
     # An alternative is to use CMAKE_CXX_FLAGS like CMake 2.x versons.
@@ -194,12 +201,14 @@ if(WIN32) # Clang + Windows
             /std:c++latest 
             # /Gr
             -fms-compatibility 
-            -Xclang -fcoroutines-ts
+            # -Xclang -fcoroutines-ts
             # -Xclang -std=c++2a
+            -Wno-unused-function
             -Wno-c++98-compat 
             -Wno-reserved-id-macro 
             -Wno-missing-prototypes
     )
+
 else() # Clang + Non-Windows
     target_compile_options(${PROJECT_NAME} 
         PUBLIC
