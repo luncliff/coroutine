@@ -66,7 +66,7 @@ message(STATUS "Compiler")
 message(STATUS " - ID       \t: ${CMAKE_CXX_COMPILER_ID}")
 message(STATUS " - Path     \t: ${CMAKE_CXX_COMPILER}")
 
-if(NOT IOS)
+if(NOT IOS AND NOT WIN32)
     link_directories(
         ${PROJECT_DIR}/prebuilt/lib
     )
@@ -81,10 +81,6 @@ endif()
 
 add_library(${PROJECT_NAME}
     ${PROJECT_DIR}/msvc/dllmain.cpp
-
-    ${PROJECT_DIR}/magic/switch.h
-    ${PROJECT_DIR}/msvc/switch.cpp
-    # ${PROJECT_DIR}/msvc/sync.cpp
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES 
     VERSION         ${PROJECT_VERSION}
@@ -178,6 +174,13 @@ target_include_directories(${PROJECT_NAME}
 )
 
 if(WIN32) # Clang + Windows
+
+    target_sources(${PROJECT_NAME}    
+        PRIVATE
+            ${PROJECT_DIR}/magic/switch.h
+            ${PROJECT_DIR}/msvc/switch.cpp
+    )
+
     target_compile_definitions(${PROJECT_NAME}
         PUBLIC
             _RESUMABLE_FUNCTIONS_SUPPORTED            
@@ -189,6 +192,7 @@ if(WIN32) # Clang + Windows
         )
     endif()
 
+    # set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /await")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -std=c++2a")
 
@@ -207,7 +211,11 @@ if(WIN32) # Clang + Windows
             -Wno-c++98-compat 
             -Wno-reserved-id-macro 
             -Wno-missing-prototypes
+            # /errorReport:send
     )
+    # set_target_properties(${PROJECT_NAME} PROPERTIES 
+    #     LINK_FLAGS "/await             /errorPrompt:send")
+
 
 else() # Clang + Non-Windows
     target_compile_options(${PROJECT_NAME} 
@@ -269,7 +277,7 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 # [cppmagic]: Installation
-
+return()
 install(TARGETS ${PROJECT_NAME}
     DESTINATION ${CMAKE_INSTALL_PREFIX}/libs/${CMAKE_BUILD_TYPE}/${PLATFORM}
 )
