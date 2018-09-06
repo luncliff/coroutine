@@ -7,38 +7,44 @@
     <ClCompile Include="switch.cpp">
       <Filter>vstest</Filter>
     </ClCompile>
+    <ClCompile Include="net.cpp">
+      <Filter>vstest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="magic">
-      <UniqueIdentifier>{1f08ab72-b6de-4781-87dd-b88b1fa50464}</UniqueIdentifier>
-    </Filter>
     <Filter Include="vstest">
       <UniqueIdentifier>{4a28942f-11c5-4837-8735-cbd30c80bfaa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="magic">
+      <UniqueIdentifier>{1f1eda70-8938-4ce0-861f-afe95d439e6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\magic\channel.hpp">
+    <ClInclude Include="..\src\magic\channel.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\coroutine.hpp">
+    <ClInclude Include="..\src\magic\coroutine.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\date_time.hpp">
+    <ClInclude Include="..\src\magic\date_time.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\linkable.h">
+    <ClInclude Include="..\src\magic\linkable.h">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\plugin.hpp">
+    <ClInclude Include="..\src\magic\memory.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\stop_watch.hpp">
+    <ClInclude Include="..\src\magic\plugin.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\switch.h">
+    <ClInclude Include="..\src\magic\stop_watch.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\sync.h">
+    <ClInclude Include="..\src\magic\switch.h">
+      <Filter>magic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\magic\sync.h">
       <Filter>magic</Filter>
     </ClInclude>
   </ItemGroup>

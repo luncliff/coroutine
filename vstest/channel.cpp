@@ -16,69 +16,82 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace magic {
+namespace magic
+{
 
 // - Note
 //      Lockable without lock operation
-struct bypass_lock {
+struct bypass_lock
+{
   bool try_lock() noexcept { return true; }
   void lock() noexcept {}
   void unlock() noexcept {}
 };
 
-TEST_CLASS(ChannelTest) {
+TEST_CLASS(ChannelTest)
+{
   template <typename Ty, typename M>
-  auto WriteAndCheck(channel<Ty, M> & ch, Ty value) noexcept->unplug {
+  auto WriteAndCheck(channel<Ty, M> & ch, Ty value) noexcept->unplug
+  {
     bool ok = co_await ch.write(value);
     Assert::IsTrue(ok);
   };
 
   template <typename Ty, typename M>
-  auto ReadAndCheck(channel<Ty, M> & ch, Ty & ref) noexcept->unplug {
+  auto ReadAndCheck(channel<Ty, M> & ch, Ty & ref) noexcept->unplug
+  {
     bool ok = false;
     std::tie(ref, ok) = co_await ch.read();
     Assert::IsTrue(ok);
   };
 
 public:
-  TEST_METHOD(ReadAfterWrite) {
+  TEST_METHOD(ReadAfterWrite)
+  {
     channel<int, bypass_lock> ch{};
     int value = 0;
 
     // Writer coroutine may suspend.(not-returned)
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i)
+    {
       WriteAndCheck(ch, i);
     }
     // Reader coroutine takes value from Writer coroutine
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i)
+    {
       ReadAndCheck(ch, value);
       Assert::IsTrue(value == i);
     }
   }
-  TEST_METHOD(WriteAfterRead) {
+  TEST_METHOD(WriteAfterRead)
+  {
     channel<int, std::mutex> ch{};
     int value = 0;
 
     // Reader coroutine may suspend.(not-returned)
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i)
+    {
       ReadAndCheck(ch, value);
     }
     // Writer coroutine takes value from Reader coroutine
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i)
+    {
       WriteAndCheck(ch, i);
       Assert::IsTrue(value == i);
     }
   }
 };
 
-TEST_CLASS(ChannelRaceTest) {
+TEST_CLASS(ChannelRaceTest)
+{
   // use Windows critical section for this test.
   // std::mutex is also available
   using channel_type = channel<char, section>;
 
 public:
   auto Send(channel_type & channel, channel_type::value_type value,
-            std::function<void(bool)> callback) noexcept->unplug {
+            std::function<void(bool)> callback) noexcept->unplug
+  {
     co_await switch_to{}; // go to background
 
     // Returns false if channel is destroyed
@@ -87,7 +100,8 @@ public:
   };
 
   auto Recv(channel_type & channel,
-            std::function<void(bool)> callback) noexcept->unplug {
+            std::function<void(bool)> callback) noexcept->unplug
+  {
     co_await switch_to{}; // go to background
 
     channel_type::value_type storage{};
@@ -99,7 +113,8 @@ public:
   };
 
 public:
-  TEST_METHOD(CountAccess) {
+  TEST_METHOD(CountAccess)
+  {
     static constexpr size_t Amount = 100'000;
 
     // Channel supports MT-safe coroutine relay with **appropriate lockable**.
@@ -124,7 +139,8 @@ public:
     };
 
     // Spawn coroutines
-    for (auto i = 0u; i < Amount; ++i) {
+    for (auto i = 0u; i < Amount; ++i)
+    {
       Send(channel, channel_type::value_type{}, callback);
       Recv(channel, callback);
     }

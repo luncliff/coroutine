@@ -5,45 +5,46 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="msvc">
+    <Filter Include="win32">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>msvc</Filter>
+    <ClCompile Include="win32\switch.cpp">
+      <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="switch.cpp">
-      <Filter>msvc</Filter>
+    <ClCompile Include="win32\sync.cpp">
+      <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="sync.cpp">
-      <Filter>msvc</Filter>
-    </ClCompile>
+    <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\magic\linkable.h">
+    <ClInclude Include="magic\channel.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\switch.h">
+    <ClInclude Include="magic\coroutine.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\sync.h">
+    <ClInclude Include="magic\date_time.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\channel.hpp">
+    <ClInclude Include="magic\linkable.h">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\coroutine.hpp">
+    <ClInclude Include="magic\memory.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\date_time.hpp">
+    <ClInclude Include="magic\plugin.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\plugin.hpp">
+    <ClInclude Include="magic\stop_watch.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="..\magic\stop_watch.hpp">
+    <ClInclude Include="magic\switch.h">
+      <Filter>magic</Filter>
+    </ClInclude>
+    <ClInclude Include="magic\sync.h">
       <Filter>magic</Filter>
     </ClInclude>
   </ItemGroup>

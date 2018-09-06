@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>CppMagic</id>
-    <version>1.0</version>
+    <version>1.0.2</version>
     <authors>luncliff@gmail.com</authors>
     <owners>luncliff@gmail.com</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

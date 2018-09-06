@@ -7,15 +7,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\net\aio.cpp">
+    <ClCompile Include="net\aio.cpp">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="resolver.cpp">
+    <ClCompile Include="net\dllmain.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="net\resolver.cpp">
       <Filter>net</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\net\net.h">
+    <ClInclude Include="net\net.h">
       <Filter>net</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,18 +20,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="switch.cpp" />
-    <ClCompile Include="sync.cpp" />
+    <ClCompile Include="win32\switch.cpp" />
+    <ClCompile Include="win32\sync.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\magic\channel.hpp" />
-    <ClInclude Include="..\magic\coroutine.hpp" />
-    <ClInclude Include="..\magic\date_time.hpp" />
-    <ClInclude Include="..\magic\linkable.h" />
-    <ClInclude Include="..\magic\plugin.hpp" />
-    <ClInclude Include="..\magic\stop_watch.hpp" />
-    <ClInclude Include="..\magic\switch.h" />
-    <ClInclude Include="..\magic\sync.h" />
+    <ClInclude Include="magic\channel.hpp" />
+    <ClInclude Include="magic\coroutine.hpp" />
+    <ClInclude Include="magic\date_time.hpp" />
+    <ClInclude Include="magic\linkable.h" />
+    <ClInclude Include="magic\memory.hpp" />
+    <ClInclude Include="magic\plugin.hpp" />
+    <ClInclude Include="magic\stop_watch.hpp" />
+    <ClInclude Include="magic\switch.h" />
+    <ClInclude Include="magic\sync.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -39,7 +40,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Switch</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
-    <ProjectName>msvc</ProjectName>
+    <ProjectName>win32</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -127,7 +128,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;SWITCH_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/await /std:c++latest %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
     </ClCompile>
@@ -146,7 +147,7 @@
       <PreprocessorDefinitions>_DEBUG;SWITCH_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/await /std:c++latest %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
     </ClCompile>
@@ -167,7 +168,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;SWITCH_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/await /std:c++latest %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
     </ClCompile>
@@ -190,7 +191,7 @@
       <PreprocessorDefinitions>NDEBUG;SWITCH_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/await /std:c++latest %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
     </ClCompile>

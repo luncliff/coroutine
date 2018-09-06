@@ -21,7 +21,7 @@ endif()
 # Project Info
 
 project(cppmagic LANGUAGES CXX 
-        VERSION 1.0.2
+        VERSION 1.0.3
 )
 
 message(STATUS "========== ${PROJECT_NAME} : ${PROJECT_VERSION} ==========")
@@ -64,6 +64,7 @@ endif()
 message(STATUS "System      \t: ${CMAKE_SYSTEM}")
 message(STATUS "Compiler")
 message(STATUS " - ID       \t: ${CMAKE_CXX_COMPILER_ID}")
+message(STATUS " - Version  \t: ${CMAKE_CXX_COMPILER_VERSION}")
 message(STATUS " - Path     \t: ${CMAKE_CXX_COMPILER}")
 
 if(NOT IOS AND NOT WIN32)
@@ -80,11 +81,11 @@ endif()
 # [cppmagic]: Core features
 
 add_library(${PROJECT_NAME}
-    ${PROJECT_DIR}/msvc/dllmain.cpp
+    ${PROJECT_DIR}/src/dllmain.cpp
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES 
     VERSION         ${PROJECT_VERSION}
-    # CXX_STANDARD    17      # this property is equal to `-std=gnu++17`
+    # CXX_STANDARD    17      # this property leads `-std=gnu++17`
     #                         # We will use `-std=c++1z` instead
 )
 
@@ -164,13 +165,19 @@ if(ANDROID)
             ${PROJECT_DIR}/android/jni/adapter.h
             ${PROJECT_DIR}/android/jni/adapter.cpp
     )
+    
+    # target_link_libraries(${PROJECT_NAME}
+    #     PUBLIC
+    #         android
+    # )
+
 endif() # Android
 
 target_include_directories(${PROJECT_NAME} 
     PUBLIC
-        ${PROJECT_DIR}
-    PRIVATE    
-        ${PROJECT_DIR}/clang/
+        ${PROJECT_DIR}/src/
+    # PRIVATE    
+    #     ${PROJECT_DIR}/clang/
 )
 
 if(WIN32)  # Clang + Windows
@@ -282,12 +289,12 @@ install(TARGETS ${PROJECT_NAME}
 )
 install(
     FILES
-        ${PROJECT_DIR}/magic/coroutine.hpp
-        ${PROJECT_DIR}/magic/channel.hpp
+        ${PROJECT_DIR}/src/magic/coroutine.hpp
+        ${PROJECT_DIR}/src/magic/channel.hpp
 
-        ${PROJECT_DIR}/magic/linkable.h
-        ${PROJECT_DIR}/magic/switch.h
-        ${PROJECT_DIR}/magic/sync.h
+        ${PROJECT_DIR}/src/magic/linkable.h
+        ${PROJECT_DIR}/src/magic/switch.h
+        ${PROJECT_DIR}/src/magic/sync.h
         
         # ${PROJECT_DIR}/magic/date_time.hpp
         # ${PROJECT_DIR}/magic/stop_watch.hpp

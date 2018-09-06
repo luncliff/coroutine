@@ -15,7 +15,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'com.android.tools.build:gradle:3.1.4'
     }
 }
 
@@ -52,8 +52,8 @@ android {
         targetSdkVersion 25 // Follow Compile SDK
 
         // Follow native code's verson
-        versionCode 22
-        versionName "1.0.2"
+        versionCode 23
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         // External Native build: CMake
@@ -62,12 +62,14 @@ android {
                 arguments "-DANDROID_STL=c++_shared"
             }
         }
-        // println(externalNativeBuild.cmake.cppFlags)
+        println(externalNativeBuild.cmake.cppFlags)
     }
     println(defaultConfig.versionName)
+
     // Custom SourceSet
     //  - Source path/directory for Gradle
     sourceSets {
+        main.setRoot('android')
         main {
             manifest.srcFile 'android/AndroidManifest.xml'
             java.srcDirs = ['android/java']
@@ -79,8 +81,23 @@ android {
 
         // gradle connectedAndroidTest
         androidTest.setRoot('android/test')
+        androidTest {
+            java.srcDir 'android/test/java'
+            jniLibs.srcDirs = ['android/jniLibs', 'libs']
+        }
     }
     // buildToolsVersion '26.0.1'
+
+    testOptions {
+        unitTests.all {
+            // All the usual Gradle options.
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen {false}
+                showStandardStreams = true
+            }
+        }
+    } 
 }
 
 assemble.doLast
@@ -99,8 +116,8 @@ assemble.doLast
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:25.4.0'
     // Follow target SDK
+    implementation 'com.android.support:appcompat-v7:25.4.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
