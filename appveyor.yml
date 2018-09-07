@@ -66,7 +66,7 @@ for:
   install:
     - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
   build:
-    parallel: true
+    # parallel: true
     project: Magic.sln
     verbosity: quiet
   after_build:
