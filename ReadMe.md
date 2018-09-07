@@ -3,10 +3,11 @@ Auto**magic**ally working C++ Coroutine: [Documentation](https://github.com/lunc
 
 [![Build status](https://ci.appveyor.com/api/projects/status/9eoy07qfxxqghop3?svg=true)](https://ci.appveyor.com/project/luncliff/magic) [![Build Status](https://travis-ci.org/luncliff/Magic.svg)](https://travis-ci.org/luncliff/Magic)
 
-[![SonarQube: Quality](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=alert_status)](https://sonarcloud.io/dashboard?id=luncliff-magic)
-[![SonarQube: Coverage](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=coverage)](https://sonarcloud.io/dashboard?id=luncliff-magic)
-[![SonarQube: Bugs](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=bugs)](https://sonarcloud.io/dashboard?id=luncliff-magic)
-[![SonarQube: Code Smells](https://sonarcloud.io/api/project_badges/measure?project=luncliff-magic&metric=code_smells)](https://sonarcloud.io/dashboard?id=luncliff-magic)
+[![SonarQube: Quality](https://sonarcloud.io/api/project_badges/measure?project=cppmagic&metric=alert_status)](https://sonarcloud.io/dashboard?id=cppmagic)
+[![SonarQube: Coverage](https://sonarcloud.io/api/project_badges/measure?project=cppmagic&metric=coverage)](https://sonarcloud.io/dashboard?id=cppmagic)
+[![SonarQube: Bugs](https://sonarcloud.io/api/project_badges/measure?project=cppmagic&metric=bugs)](https://sonarcloud.io/dashboard?id=cppmagic)
+[![SonarQube: Code Smells](https://sonarcloud.io/api/project_badges/measure?project=cppmagic&metric=code_smells)](https://sonarcloud.io/dashboard?id=cppmagic)
+
 
 ## Build
 For detailed build steps, reference [`.travis.yml`](/.travis.yml) and [`appveyor.yml`](/appveyor.yml).
