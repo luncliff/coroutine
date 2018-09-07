@@ -26,11 +26,13 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h> // System API
 
-namespace magic {
+namespace magic
+{
 
 // - Note
 //      Basic Lockable with Win32 Critical Section
-class section : public CRITICAL_SECTION {
+class section : public CRITICAL_SECTION
+{
   section(section &) = delete;
   section(section &&) = delete;
   section &operator=(section &) = delete;
@@ -51,9 +53,10 @@ public:
 // - See Also
 //      package `sync` in Go Language
 //      https://golang.org/pkg/sync/#WaitGroup
-class wait_group final {
+class wait_group final
+{
   HANDLE eve = INVALID_HANDLE_VALUE;
-  std::atomic<uint32_t> ref {};
+  std::atomic<uint32_t> ref{};
 
 private:
   wait_group(wait_group &) = delete;

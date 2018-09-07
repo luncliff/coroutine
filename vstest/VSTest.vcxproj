@@ -109,7 +109,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -132,7 +132,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -157,7 +157,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -184,7 +184,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -206,24 +206,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="channel.cpp" />
+    <ClCompile Include="net.cpp" />
     <ClCompile Include="switch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\magic\channel.hpp" />
-    <ClInclude Include="..\magic\coroutine.hpp" />
-    <ClInclude Include="..\magic\date_time.hpp" />
-    <ClInclude Include="..\magic\linkable.h" />
-    <ClInclude Include="..\magic\plugin.hpp" />
-    <ClInclude Include="..\magic\stop_watch.hpp" />
-    <ClInclude Include="..\magic\switch.h" />
-    <ClInclude Include="..\magic\sync.h" />
+    <ClInclude Include="..\src\magic\channel.hpp" />
+    <ClInclude Include="..\src\magic\coroutine.hpp" />
+    <ClInclude Include="..\src\magic\date_time.hpp" />
+    <ClInclude Include="..\src\magic\linkable.h" />
+    <ClInclude Include="..\src\magic\memory.hpp" />
+    <ClInclude Include="..\src\magic\plugin.hpp" />
+    <ClInclude Include="..\src\magic\stop_watch.hpp" />
+    <ClInclude Include="..\src\magic\switch.h" />
+    <ClInclude Include="..\src\magic\sync.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\msvc\msvc.vcxproj">
-      <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\net\net.vcxproj">
+    <ProjectReference Include="..\src\net.vcxproj">
       <Project>{738ecbb8-8bee-4701-9e22-eaf7a2610793}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\src\Win32.vcxproj">
+      <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

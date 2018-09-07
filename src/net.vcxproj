@@ -18,11 +18,19 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="net\aio.cpp" />
+    <ClCompile Include="net\dllmain.cpp" />
+    <ClCompile Include="net\resolver.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="net\net.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{738ECBB8-8BEE-4701-9E22-EAF7A2610793}</ProjectGuid>
     <RootNamespace>Net</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
     <ProjectName>net</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -93,7 +101,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <ErrorReporting>Send</ErrorReporting>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -110,7 +118,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <ErrorReporting>Send</ErrorReporting>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <LinkErrorReporting>SendErrorReport</LinkErrorReporting>
@@ -125,7 +133,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <ErrorReporting>Send</ErrorReporting>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <LinkErrorReporting>SendErrorReport</LinkErrorReporting>
@@ -142,7 +150,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <ErrorReporting>Send</ErrorReporting>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -150,13 +158,6 @@
       <LinkErrorReporting>SendErrorReport</LinkErrorReporting>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\net\net.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\net\aio.cpp" />
-    <ClCompile Include="resolver.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

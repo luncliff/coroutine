@@ -18,7 +18,4 @@ auto bypass() -> magic::unplug
     co_return;
 }
 
-TEST_CASE("SampleTest")
-{
-    bypass();
-}
+TEST_CASE("SampleTest") { bypass(); }
