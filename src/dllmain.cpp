@@ -46,8 +46,9 @@ PROCEDURE void on_load(void *) noexcept
 
   check_coroutine_available();
 
+  auto g = check_generator_available();
   // just check expression.
-  for (const auto &v : check_generator_available())
+  for (const auto &v : g)
   {
     version_code += v;
   }

@@ -17,6 +17,7 @@
 #ifdef _WIN32
 #include <experimental/generator>
 #else
+
 namespace std
 {
 namespace experimental
@@ -34,15 +35,16 @@ private:
   coroutine_handle<promise_type> rh{}; // resumable handle
 
 public:
-  generator(promise_type &promise) noexcept
-      : rh{coroutine_handle<promise_type>::from_promise(promise)}
+  generator(coroutine_handle<promise_type> &&handle_from_promise) noexcept
+      : rh{std::move(handle_from_promise)}
   {
-    // must ensure rh is not nullptr at this point...
+    // must ensure handle is valid...
   }
+
   // copy
   generator(const generator &) = delete;
   // move
-  generator(generator &&rhs) : rh(rhs.rh) { rhs.rh = nullptr; }
+  generator(generator &&rhs) : rh(std::move(rhs.rh)) {}
 
   ~generator() noexcept
   {
@@ -74,6 +76,16 @@ public:
     //  and reference memory object in coroutine frame
     T *current = nullptr;
 
+  private:
+    // promise type is strongly coupled to coroutine frame.
+    // so copy/move might create wrong(garbage) coroutine handle
+    promise_type(promise_type &) noexcept = delete;
+    promise_type(promise_type &&) = delete;
+
+  public:
+    promise_type() = default;
+    ~promise_type() = default;
+
   public:
     // suspend at init/final suspension point
     auto initial_suspend() const noexcept { return suspend_always{}; }
@@ -97,7 +109,11 @@ public:
     // terminate if unhandled exception occurs
     void unhandled_exception() noexcept { std::terminate(); }
 
-    promise_type &get_return_object() noexcept { return *this; }
+    coroutine_handle<promise_type> get_return_object() noexcept
+    {
+      // generator will hold this handle
+      return coroutine_handle<promise_type>::from_promise(*this);
+    }
   };
 
   // Abstraction: iterator
@@ -138,7 +154,8 @@ public:
 
 } // namespace experimental
 } // namespace std
-#endif
+
+#endif // _WIN32 <experimental/generator>
 
 namespace magic
 {
