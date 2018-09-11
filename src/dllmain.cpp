@@ -30,11 +30,27 @@ auto check_coroutine_available() -> magic::unplug
   co_await stdex::suspend_never{};
 }
 
+auto check_generator_available() -> stdex::generator<uint16_t>
+{
+  auto value = version();
+  co_yield value;
+  co_yield value;
+  co_return;
+}
+
+// this function is reserved for library initialization
+// for now, it just checks some coroutine expressions
 PROCEDURE void on_load(void *) noexcept
 {
-  // this function is reserved for
-  // future initialization setup
+  auto version_code = version();
+
   check_coroutine_available();
+
+  // just check expression.
+  for (const auto &v : check_generator_available())
+  {
+    version_code += v;
+  }
 }
 } // namespace magic
 
