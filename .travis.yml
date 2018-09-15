@@ -13,12 +13,11 @@ git:
   submodules: false # - git submodule update --init --recursive
   depth: 1
   
-branches:
-  except:
-  - gh-pages
+notifications:
+  email:
+    - luncliff@gmail.com
 
 language: cpp
-compiler: clang
 
 before_install:
   - uname;
@@ -58,8 +57,6 @@ install:
     fi
   # MacOS: Upgrade llvm
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then 
-      brew install tree ninja > /dev/null 2>&1; 
-      brew upgrade llvm > /dev/null 2>&1;
       brew info llvm;
     fi
   - tree --version
@@ -67,23 +64,23 @@ install:
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}
+  # Create & Go to build directory
+  - mkdir p build;
+  - pushd build;
 
 script:
-  # Create & Go to build directory
-  - mkdir -p build && pushd build && pwd
   - cmake ../ 
     -G "Ninja" 
     -DBUILD_SHARED_LIBS=$BUILD_SHARED 
     -DCMAKE_BUILD_TYPE=$CONFIG
-    -DCMAKE_INSTALL_PREFIX=../$PLATFORM/$CONFIG
+    -DCMAKE_INSTALL_PREFIX=../install
   - ninja install
   # Display build results and start tests
   - ./cppmagic_test
   - tree -f ./CMakeFiles/
-  - popd;
 
 after_success:
-  - cd ${TRAVIS_BUILD_DIR}
+  - popd;
   - tree ./install
   # MacOS: Run coverage tool 
   - if [ "${TRAVIS_OS_NAME}" == "osx" && ("$CONFIG" == "Debug") ]; then 
@@ -93,67 +90,71 @@ after_success:
       genhtml cov.info -o cov_report;
     fi
 
-# Shared environment
-# Default is ubuntu trusty
-os: linux
-dist: trusty
-addons:
-  apt:
-    sources:
-    - llvm-toolchain-trusty-5.0
-    packages:
-    - subversion
-    - clang-5.0
-    - libc++1
-    - libc++-dev
-    - libc++abi1
-    - libc++abi-dev
-    - ninja-build
-    - tree
-
 matrix: 
   include:
-    # Linux : x86_64 Debug Dynamic
-    - env:
-      - PLATFORM=linux
-      - CONFIG=Debug
-      - BUILD_SHARED=true   
     # Linux : x86_64 Release Dynamic
-    - env:
-      - PLATFORM=linux
-      - CONFIG=Release
-      - BUILD_SHARED=true
-  
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+            - libc++-dev  
+            - libc++1
+            - libc++-dev
+            - libc++abi1
+            - libc++abi-dev
+            - ninja-build
+            - tree
+      compiler: 
+        - clang
+      env:
+        - PLATFORM=linux
+        - CONFIG=Release
+        - BUILD_SHARED=true
+
     # OS X : x86_64 Debug Dynamic
     - os: osx
-      osx_image: xcode9.3
+      osx_image: xcode9.4
+      addons:
+        homebrew:
+          # - brew update > /dev/null 2>&1;
+          # - brew info llvm;
+          update: true
+          packages:
+            - ninja
+            - tree
+            - llvm
+      compiler: 
+        - clang
       env:
         - PLATFORM=osx
         - CONFIG=Debug
-        - BUILD_SHARED=true  
-    # OS X : x86_64 Release Dynamic
-    - os: osx
-      osx_image: xcode9.3
-      env:
-        - PLATFORM=osx
-        - CONFIG=Release
         - BUILD_SHARED=true
 
     # Android JNI: armeabi-v7a
     - language: android
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - wget
+            - unzip
+            - tree
       android:
-      components:
-        - tools
-        - platform-tools
-        - android-21
-        - sys-img-armeabi-v7a-android-21
+        components:
+          - tools
+          - platform-tools
+          - android-21
+          - sys-img-armeabi-v7a-android-21
       env:
         - MAJOR_ABI=armeabi-v7a
       before_install:
         - sudo apt-get install wget unzip tree
       install:
-        # Install submodules
-        # - git submodule update --init llvm libcxx libcxxabi;
         # Accept SDK Licenses + Install NDK
         - yes | sdkmanager --update > /dev/null 2>&1
         - sdkmanager ndk-bundle > /dev/null 2>&1
@@ -172,7 +173,16 @@ matrix:
 
     # iPhone OS 10.3 : armv7 armv7s arm64 Debug Dynamic
     - os: osx
-      osx_image: xcode9.3
+      osx_image: xcode9.4
+      addons:
+        homebrew:
+          # - brew update > /dev/null 2>&1;
+          # - brew info llvm;
+          update: true
+          packages:
+            - ninja
+            - tree
+            - llvm
       compiler: 
         - clang
       env:
@@ -180,11 +190,9 @@ matrix:
         - CONFIG=Debug
         - BUILD_SHARED=true
       install:
-        - brew install tree llvm; 
         - brew info llvm;
         - git submodule update --init ios-cmake;
       script:
-        - mkdir -p build && pushd ./build;
         - cmake ../ 
           -DBUILD_SHARED_LIBS=$BUILD_SHARED
           -DCMAKE_BUILD_TYPE=$CONFIG
@@ -194,7 +202,6 @@ matrix:
           -DCMAKE_INSTALL_PREFIX=../install
         - make -j10 install
         - file libcppmagic.dylib
-        - popd;
       after_success:
         - cd ${TRAVIS_BUILD_DIR}
         - tree ./install
@@ -212,7 +219,6 @@ matrix:
         - brew info llvm;
         - git submodule update --init ios-cmake;
       script:
-        - mkdir -p build && pushd ./build;
         - cmake ../ 
           -DBUILD_SHARED_LIBS=$BUILD_SHARED
           -DCMAKE_BUILD_TYPE=$CONFIG
@@ -222,11 +228,4 @@ matrix:
           -DCMAKE_INSTALL_PREFIX=../install
         - make -j10 install
         - file libcppmagic.dylib
-        - popd;
-      after_success:
-        - cd ${TRAVIS_BUILD_DIR}
-        - tree ./install
 
-notifications:
-  email:
-    - luncliff@gmail.com

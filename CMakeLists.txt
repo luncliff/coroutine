@@ -180,6 +180,11 @@ target_include_directories(${PROJECT_NAME}
     #     ${PROJECT_DIR}/clang/
 )
 
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        ${CMAKE_DL_LIBS}
+)
+
 if(WIN32)  # Clang + Windows
 
     # target_sources(${PROJECT_NAME}    
@@ -218,7 +223,8 @@ if(WIN32)  # Clang + Windows
             -Wno-reserved-id-macro 
             -Wno-missing-prototypes
     )
-    
+    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
+
     set_target_properties(${PROJECT_NAME} PROPERTIES 
         LINK_FLAGS "${LINK_FLAGS} /errorReport:send")
 
@@ -276,11 +282,6 @@ elseif(LINUX)
             libc++experimental.a
     )
 endif()
-
-target_link_libraries(${PROJECT_NAME}
-    PUBLIC
-        ${CMAKE_DL_LIBS}
-)
 
 # [cppmagic]: Installation
 

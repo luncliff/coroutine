@@ -20,7 +20,7 @@ notifications:
 # ----- Deployment ----- 
 
 before_deploy:
-  - ps: cd $env:APPVEYOR_BUILD_FOLDER
+  - ps: Set-Location $env:APPVEYOR_BUILD_FOLDER
 
 deploy:
   - provider: GitHub
@@ -94,18 +94,12 @@ for:
     - ps: clang-cl --version;   # cl.exe for clang
     # Rename the variable for build output
     - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
-  before_build:
-    # this setup is necessary. 
-    # !!! This is `cmd` command !!!
-    #   Tried in powershell commands but there was no effect
-    - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64;
   build_script:
-    - set CC=clang-cl;  # cmd
-    - set CXX=clang-cl; # cmd
-    - cmake ./ 
-      -G Ninja 
-      "-DCMAKE_BUILD_TYPE=%configuration%"
-      "-DCMAKE_INSTALL_PREFIX=./%platform%/%configuration%"
+    # Tried in powershell command but there was no effect
+    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64;
+    - cmd: set CC=clang-cl;
+    - cmd: set CXX=clang-cl; 
+    - cmd: cmake ./ -G Ninja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration%
     - ps: ninja install;
   after_build:
     - ps: tree /F ./$env:PLATFORM

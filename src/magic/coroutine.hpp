@@ -14,20 +14,23 @@
 #define _MAGIC_COROUTINE_HPP_
 
 #include <experimental/coroutine>
-#ifdef _WIN32
+#include <experimental/resumable>
+
+// Since _MSC_VER can be defined in some header, we will negate the condition
+#if defined(__GNUC__)
+#error "__GNUC__ is not available"
+#endif
+#if !defined(__clang__)
 #include <experimental/generator>
 #else
 
-namespace std
-{
-namespace experimental
-{
+namespace std {
+namespace experimental {
 // - Note
 //    This implementation should work like <experimental/generator> of MSVC
 template <typename T,
           typename A = allocator<char>> // byte level allocation by default
-struct generator
-{
+struct generator {
   struct promise_type; // Resumable Promise Requirement
   struct iterator;     // Abstraction: iterator
 
@@ -36,8 +39,7 @@ private:
 
 public:
   generator(coroutine_handle<promise_type> &&handle_from_promise) noexcept
-      : rh{std::move(handle_from_promise)}
-  {
+      : rh{std::move(handle_from_promise)} {
     // must ensure handle is valid...
   }
 
@@ -46,8 +48,7 @@ public:
   // move
   generator(generator &&rhs) : rh(std::move(rhs.rh)) {}
 
-  ~generator() noexcept
-  {
+  ~generator() noexcept {
     // generator will destroy the frame.
     // so sub-types aren't need to consider about it
     if (rh)
@@ -55,8 +56,7 @@ public:
   }
 
 public:
-  iterator begin() noexcept(false)
-  {
+  iterator begin() noexcept(false) {
     if (rh) // resumeable?
     {
       rh.resume();
@@ -69,8 +69,7 @@ public:
 
 public:
   // Resumable Promise Requirement
-  struct promise_type
-  {
+  struct promise_type {
   public:
     // iterator will access to this pointer
     //  and reference memory object in coroutine frame
@@ -91,8 +90,7 @@ public:
     auto initial_suspend() const noexcept { return suspend_always{}; }
     auto final_suspend() const noexcept { return suspend_always{}; }
     // `co_yield` expression. only for reference
-    auto yield_value(T &ref) noexcept
-    {
+    auto yield_value(T &ref) noexcept {
       current = std::addressof(ref);
       return suspend_always{};
     }
@@ -109,8 +107,7 @@ public:
     // terminate if unhandled exception occurs
     void unhandled_exception() noexcept { std::terminate(); }
 
-    coroutine_handle<promise_type> get_return_object() noexcept
-    {
+    coroutine_handle<promise_type> get_return_object() noexcept {
       // generator will hold this handle
       return coroutine_handle<promise_type>::from_promise(*this);
     }
@@ -118,7 +115,7 @@ public:
 
   // Abstraction: iterator
   struct iterator
-      : public std::iterator<std::input_iterator_tag, T>
+  //  : public std::iterator<std::input_iterator_tag, T>
   {
     coroutine_handle<promise_type> rh;
 
@@ -129,8 +126,7 @@ public:
     iterator(coroutine_handle<promise_type> handle) noexcept : rh{handle} {}
 
   public:
-    iterator &operator++() noexcept(false)
-    {
+    iterator &operator++() noexcept(false) {
       rh.resume();
       // generator will destroy coroutine frame later...
       if (rh.done())
@@ -142,13 +138,21 @@ public:
     iterator &operator++(int) = delete;
 
     auto operator*() noexcept -> T & { return *(rh.promise().current); }
-    auto operator*() const noexcept -> const T & { return *(rh.promise().current); }
+    auto operator*() const noexcept -> const T & {
+      return *(rh.promise().current);
+    }
 
     auto operator-> () noexcept -> T * { return rh.promise().current; }
-    auto operator-> () const noexcept -> const T * { return rh.promise().current; }
+    auto operator-> () const noexcept -> const T * {
+      return rh.promise().current;
+    }
 
-    bool operator==(const iterator &rhs) const noexcept { return this->rh == rhs.rh; }
-    bool operator!=(const iterator &rhs) const noexcept { return !(*this == rhs); }
+    bool operator==(const iterator &rhs) const noexcept {
+      return this->rh == rhs.rh;
+    }
+    bool operator!=(const iterator &rhs) const noexcept {
+      return !(*this == rhs);
+    }
   };
 };
 
@@ -157,8 +161,7 @@ public:
 
 #endif // _WIN32 <experimental/generator>
 
-namespace magic
-{
+namespace magic {
 namespace stdex = std::experimental;
 
 // - Note
@@ -171,11 +174,9 @@ namespace stdex = std::experimental;
 //      from the resumable function frame.
 //
 //      This type is an alternative of the `std::future<void>`
-class unplug
-{
+class unplug {
 public:
-  struct promise_type
-  {
+  struct promise_type {
     // No suspend for init/final suspension point
     auto initial_suspend() const noexcept { return stdex::suspend_never{}; }
     auto final_suspend() const noexcept { return stdex::suspend_never{}; }
