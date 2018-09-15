@@ -205,27 +205,4 @@ matrix:
       after_success:
         - cd ${TRAVIS_BUILD_DIR}
         - tree ./install
-    # iPhone OS 10.3 : armv7 armv7s arm64 Release Dynamic
-    - os: osx
-      osx_image: xcode9.3
-      compiler: 
-        - clang
-      env:
-        - PLATFORM=iOS
-        - CONFIG=Release
-        - BUILD_SHARED=true
-      install:
-        - brew install tree llvm; 
-        - brew info llvm;
-        - git submodule update --init ios-cmake;
-      script:
-        - cmake ../ 
-          -DBUILD_SHARED_LIBS=$BUILD_SHARED
-          -DCMAKE_BUILD_TYPE=$CONFIG
-          -DCMAKE_TOOLCHAIN_FILE=../ios-cmake/ios.toolchain.cmake 
-          -DIOS_DEPLOYMENT_TARGET=10.3
-          -DENABLE_BITCODE=false 
-          -DCMAKE_INSTALL_PREFIX=../install
-        - make -j10 install
-        - file libcppmagic.dylib
 

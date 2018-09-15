@@ -9,6 +9,7 @@
 version: 1.0.{build}
 
 clone_depth: 1
+max_jobs: 8
 
 # ----- Notification ----- 
 
