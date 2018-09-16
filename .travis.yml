@@ -55,11 +55,6 @@ install:
       tree ./lib;
       popd;
     fi
-  # # Linux: Ensure override of the compiler
-  # - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-  #     export CC=clang-5.0;
-  #     export CXX=clang-5.0;
-  #   fi
   # MacOS: Upgrade llvm
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then 
       brew info llvm;
@@ -87,17 +82,10 @@ script:
 after_success:
   - popd;
   - tree ./install
-  # MacOS: Run coverage tool 
-  - if [ "${TRAVIS_OS_NAME}" == "osx" && ("$CONFIG" == "Debug") ]; then 
-      cp ./CMakeFiles/cppmagic_test.dir/test/test.entry.cpp.* ./ ;
-      gcov -abcf ./test.entry.cpp.gcda ;
-      lcov --directory . --gcov-tool gcov --capture -o cov.info ;
-      genhtml cov.info -o cov_report;
-    fi
 
 matrix: 
   include:
-    # Linux : x86_64 Release Dynamic
+    # Linux : x86_64 Debug Dynamic
     - os: linux
       addons:
         apt:
@@ -116,7 +104,7 @@ matrix:
       compiler: clang
       env:
         - PLATFORM=linux
-        - CONFIG=Release
+        - CONFIG=Debug
         - BUILD_SHARED=true
 
     # OS X : x86_64 Debug Dynamic
@@ -136,6 +124,17 @@ matrix:
         - PLATFORM=osx
         - CONFIG=Debug
         - BUILD_SHARED=true
+      after_success:
+        # MacOS: Run coverage tool for Debug build
+        - cp ./CMakeFiles/cppmagic_test.dir/test/test.entry.cpp.* ./ ;
+        - gcov -abcf ./test.entry.cpp.gcda ;
+        - ls -al | grep .gcov;
+        - lcov --directory . --gcov-tool gcov --capture -o cov.info ;
+        - genhtml cov.info -o cov_report;
+        - tree ./cov_report;
+        # Display build results
+        - popd;
+        - tree ./install
 
     # Android JNI: armeabi-v7a
     - language: android
