@@ -2,12 +2,10 @@
 //
 //  Author
 //      Park DongHa     | luncliff@gmail.com
-//
 //  License
 //      CC BY 4.0
-//
 //  Note
-//      Coroutine utilities for this library
+//      Coroutine return types
 //
 // ---------------------------------------------------------------------------
 #ifndef _MAGIC_COROUTINE_HPP_
@@ -15,12 +13,15 @@
 
 #include <experimental/coroutine>
 
-// Since _MSC_VER can be defined in some header, we will negate the condition
-#if !defined(__clang__)
 // MSVC headers
+//    Since _MSC_VER is macro and might be defined in another header,
+//    we will negate the condition
+#if !defined(__clang__)
+
+// #include <experimental/resumable>
 #include <experimental/generator>
-#include <experimental/resumable>
-#else
+
+#else // gnu/clang compiler will use the followings...
 
 namespace std
 {
@@ -120,7 +121,6 @@ public:
     }
   };
 
-  // Abstraction: iterator
   struct iterator
   //  : public std::iterator<std::input_iterator_tag, T>
   {
@@ -197,7 +197,10 @@ public:
     auto final_suspend() const noexcept { return stdex::suspend_never{}; }
     // Ignore return of the coroutine
     void return_void(void) noexcept {}
-    void unhandled_exception() noexcept {}
+    void unhandled_exception() noexcept
+    {
+      // std::terminate();
+    }
 
     promise_type &get_return_object() noexcept { return *this; }
 

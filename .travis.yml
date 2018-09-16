@@ -55,6 +55,11 @@ install:
       tree ./lib;
       popd;
     fi
+  # # Linux: Ensure override of the compiler
+  # - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+  #     export CC=clang-5.0;
+  #     export CXX=clang-5.0;
+  #   fi
   # MacOS: Upgrade llvm
   - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then 
       brew info llvm;
@@ -108,8 +113,7 @@ matrix:
             - libc++abi-dev
             - ninja-build
             - tree
-      compiler: 
-        - clang
+      compiler: clang
       env:
         - PLATFORM=linux
         - CONFIG=Release
@@ -127,8 +131,7 @@ matrix:
             - ninja
             - tree
             - llvm
-      compiler: 
-        - clang
+      compiler: clang
       env:
         - PLATFORM=osx
         - CONFIG=Debug
@@ -138,6 +141,7 @@ matrix:
     - language: android
       addons:
         apt:
+          # - sudo apt-get install wget unzip tree
           sources:
             - ubuntu-toolchain-r-test
           packages:
@@ -152,8 +156,6 @@ matrix:
           - sys-img-armeabi-v7a-android-21
       env:
         - MAJOR_ABI=armeabi-v7a
-      before_install:
-        - sudo apt-get install wget unzip tree
       install:
         # Accept SDK Licenses + Install NDK
         - yes | sdkmanager --update > /dev/null 2>&1
@@ -183,8 +185,7 @@ matrix:
             - ninja
             - tree
             - llvm
-      compiler: 
-        - clang
+      compiler: clang
       env:
         - PLATFORM=iOS
         - CONFIG=Debug
