@@ -270,7 +270,6 @@ elseif(LINUX)
 
     target_compile_options(${PROJECT_NAME} 
         PUBLIC
-            -stdlib=libc++
             # For manual libc++ configuration
             -nostdinc++ -nodefaultlibs
     )

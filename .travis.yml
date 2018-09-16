@@ -10,12 +10,13 @@
 sudo: false
 
 git:
-  submodules: false # - git submodule update --init --recursive
+  submodules: false
   depth: 1
   
 notifications:
   email:
     - luncliff@gmail.com
+
 
 language: cpp
 
@@ -127,7 +128,7 @@ matrix:
       after_success:
         # MacOS: Run coverage tool for Debug build
         - cp ./CMakeFiles/cppmagic_test.dir/test/test.entry.cpp.* ./ ;
-        - gcov -abcf ./test.entry.cpp.gcda ;
+        - gcov -abcf ./test.entry.cpp.gcda > log-gcov.txt;
         - ls -al | grep .gcov;
         - lcov --directory . --gcov-tool gcov --capture -o cov.info ;
         - genhtml cov.info -o cov_report;
