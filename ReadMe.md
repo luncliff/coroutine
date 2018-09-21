@@ -9,37 +9,40 @@ Auto**magic**ally working C++ Coroutine: [Documentation](https://github.com/lunc
 [![SonarQube: Code Smells](https://sonarcloud.io/api/project_badges/measure?project=cppmagic&metric=code_smells)](https://sonarcloud.io/dashboard?id=cppmagic)
 
 
-## Build
+## How To
+### Build
 For detailed build steps, reference [`.travis.yml`](/.travis.yml) and [`appveyor.yml`](/appveyor.yml).
 
-#### Visual Studio 2017(vc141)
+#### Windows: Visual Studio 2017(vc141)
   - compiler option: [`/await`](https://blogs.msdn.microsoft.com/vcblog/2015/04/29/more-about-resumable-functions-in-c/) 
   - compiler option: `/std:c++latest`
 
 Build [Magic.sln](./Magic.sln) for Visual Studio environment. **[CMakeLists.txt](./CMakeLists.txt#L15) doesn't support this case.** Add reference to those project what you need.
 
-#### Clang 6 (Windows) 
+#### Windows: Clang 6
 Install following packages with [Chocolaty](https://chocolatey.org/). Uses CMake for project generation.
   - Chocolaty [LLVM package](https://chocolatey.org/packages/llvm)
   - Chocolaty [Ninja package](https://chocolatey.org/packages/ninja)
 
 Clang + Windows uses [Ninja](https://ninja-build.org/) build system. [Follow this script](./appveyor.yml#L82).
 
-#### Clang 5 (Linux)
+#### Linux: Clang 5
 The build step follows [Building libc++](https://libcxx.llvm.org/docs/BuildingLibcxx.html).
 
-#### AppleClang (MacOS)
+#### MacOS: AppleClang
 Trigger manual LLVM update before build. Minimum version is **stable 6.0.0**. If you are using [`brew`](https://brew.sh/index), the following command will be enough.
 
 ```console
 brew upgrade llvm;
 ```
+### Test
+> TBA
+
+### Use
+> TBA
 
 ## Package
-> I'm learning about each of package managers.   
-> I recommend you to do not try this for now...
-
-Preparing Nuget package for Visual Studio users. [The package](https://www.nuget.org/packages/CppMagic/).
+Preparing Nuget package for Visual Studio users.
 
 ## License 
 **Feel free for any kind of usage**.
