@@ -104,7 +104,7 @@ if(ANDROID)
             -fstack-protector-strong
     )   
 
-    # <asm/types.h> 를 찾는다. 현재는 armv7, armv8, x86에 대해서만. 
+    # Find <asm/types.h> 
     if(${ANDROID_ABI} STREQUAL "arm64-v8a")
         target_include_directories(${PROJECT_NAME}
             PRIVATE

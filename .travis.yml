@@ -29,6 +29,7 @@ install:
   #   This is a little bit slower than svn
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
       git submodule update --init llvm libcxx libcxxabi;
+      llvm-cov-5.0 -h;
     fi
   # - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
   #     svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm > /dev/null;
@@ -78,7 +79,6 @@ script:
   - ninja install
   # Display build results and start tests
   - ./cppmagic_test
-  - tree -f ./CMakeFiles/
 
 after_success:
   - popd;
@@ -94,6 +94,7 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-5.0
           packages:
+            - llvm-5.0
             - clang-5.0
             - libc++-dev  
             - libc++1
@@ -107,6 +108,12 @@ matrix:
         - PLATFORM=linux
         - CONFIG=Debug
         - BUILD_SHARED=true
+      after_success:
+        - tree -f ./CMakeFiles/
+        - llvm-cov-5.0 gcov ./CMakeFiles/cppmagic_test.dir/test/test.entry.cpp.gcda;
+        - ls -al | grep gcov;
+        - popd;
+        - tree ./install
 
     # OS X : x86_64 Debug Dynamic
     - os: osx
