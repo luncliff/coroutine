@@ -8,30 +8,17 @@
 #
 # ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.1)
+project(cppmagic LANGUAGES CXX VERSION 1.0.4)
 
-# Global setup
+# Variable setup
 
 if(WIN32 AND MSVC)
     message(FATAL_ERROR "This cmake project is not for Windows/MSVC")
     return(1) 
-else()
-    add_compile_options(-Wall)
 endif()
-
-# Project Info
-
-project(cppmagic LANGUAGES CXX 
-        VERSION 1.0.3
-)
-
-# Alias for known variables
 
 set(ROOT_DIR    ${CMAKE_SOURCE_DIR})
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-endif()
-
 if(ANDROID)
     set(PLATFORM ${ANDROID_ABI})
 elseif(IOS OR IOS_DEPLOYMENT_TARGET)
@@ -46,9 +33,11 @@ elseif(${CMAKE_SYSTEM} MATCHES Linux)
     set(PLATFORM linux)
 endif()
 
-if(ANDROID OR WIN32)
+if(NOT IOS)
     SET(BUILD_SHARED_LIBS true)
 endif()
+
+# Project Info
 
 message(STATUS "========== ${PROJECT_NAME} : ${PROJECT_VERSION} ==========")
 message(STATUS "Root        \t: ${ROOT_DIR}")
@@ -78,6 +67,7 @@ endif()
 add_library(${PROJECT_NAME}
     ${PROJECT_DIR}/src/dllmain.cpp
 )
+
 set_target_properties(${PROJECT_NAME} PROPERTIES 
     VERSION         ${PROJECT_VERSION}
     # CXX_STANDARD    17      # this property leads `-std=gnu++17`
@@ -141,6 +131,7 @@ else() # Clang + Non-Windows
             -fcoroutines-ts
             -fPIC 
         PRIVATE
+            -Wall
             -fno-rtti 
             -fvisibility=hidden
             -ferror-limit=5
@@ -204,7 +195,7 @@ if(ANDROID)
             -fstack-protector-strong
     )   
 
-    # <asm/types.h> 를 찾는다. 현재는 armv7, armv8, x86에 대해서만. 
+    # <asm/types.h>
     if(${ANDROID_ABI} STREQUAL "arm64-v8a")
         target_include_directories(${PROJECT_NAME}
             PRIVATE
@@ -294,7 +285,7 @@ install(
         ${CMAKE_INSTALL_PREFIX}/include/magic/
 )
 if(LINUX)
-    install(FILES ${PROJECT_DIR}/prebuilt/lib/libc++.so
+    install(FILES ${PROJECT_DIR}/prebuilt/lib/libc++experimental.a
         DESTINATION ${CMAKE_INSTALL_PREFIX}/libs
     )
 endif()
@@ -334,22 +325,6 @@ target_include_directories(${TEST_NAME}
 
 target_link_libraries(${TEST_NAME}
     PUBLIC
+        ${CMAKE_DL_LIBS}
         ${PROJECT_NAME}
 )
-
-if(UNIX AND NOT APPLE) 
-    # target_compile_options(${TEST_NAME} 
-    #     PRIVATE
-    #         -nostdinc++ -nodefaultlibs
-    # )
-    # target_include_directories(${TEST_NAME} 
-    #     PRIVATE
-    #         ${PROJECT_DIR}/prebuilt/include/c++/v1/
-    # )
-
-    target_link_libraries(${PROJECT_NAME}
-        PUBLIC
-            libc++.so
-            libc++experimental.a
-    )
-endif()

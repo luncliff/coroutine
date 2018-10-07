@@ -5,6 +5,7 @@
 #   Reference
 #     - https://docs.travis-ci.com/user/languages/cpp/
 #     - https://libcxx.llvm.org/docs/BuildingLibcxx.html
+#     - http://rkh.github.io/travis-encrypt/public/index.html
 #
 # ---------------------------------------------------------------------------
 sudo: false
@@ -17,72 +18,8 @@ notifications:
   email:
     - luncliff@gmail.com
 
-
 language: cpp
-
-before_install:
-  - uname;
-  - echo $TRAVIS_OS_NAME;
-
-install:
-  # Download llvm/libc++ via Github submodule
-  #   This is a little bit slower than svn
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-      git submodule update --init llvm libcxx libcxxabi;
-    fi
-  # - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-  #     svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm > /dev/null;
-  #     pushd llvm; svn log -l 1; popd;
-  #     svn co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx > /dev/null;
-  #     pushd libcxx; svn log -l 1; popd;
-  #     svn co http://llvm.org/svn/llvm-project/libcxxabi/trunk libcxxabi > /dev/null;
-  #     pushd libcxxabi; svn log -l 1; popd;
-  #   fi
-  # Linux: Build libcxx
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-      mkdir -p prebuilt && pushd prebuilt;
-      cmake ../libcxx -DLLVM_PATH=../llvm -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include -DCMAKE_INSTALL_PREFIX=. -DCMAKE_BUILD_TYPE=Release ;
-      make -j10 install;
-      rm CMakeCache.txt;
-      tree ./include;
-      popd;
-    fi
-  # Linux: Build libcxxabi
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
-      mkdir -p prebuilt && pushd prebuilt;
-      cmake ../libcxxabi -DLLVM_PATH=../llvm/ -DLIBCXXABI_LIBCXX_PATH=../libcxx/ -DCMAKE_INSTALL_PREFIX=../prebuilt/ ;
-      make -j10 install;
-      rm CMakeCache.txt;
-      tree ./lib;
-      popd;
-    fi
-  # MacOS: Upgrade llvm
-  - if [ "${TRAVIS_OS_NAME}" == "osx" ]; then 
-      brew info llvm;
-    fi
-  - tree --version
-  - ninja --version
-
-before_script:
-  - cd ${TRAVIS_BUILD_DIR}
-  # Create & Go to build directory
-  - mkdir p build;
-  - pushd build;
-
-script:
-  - cmake ../ 
-    -G "Ninja" 
-    -DBUILD_SHARED_LIBS=$BUILD_SHARED 
-    -DCMAKE_BUILD_TYPE=$CONFIG
-    -DCMAKE_INSTALL_PREFIX=../install
-  - ninja install
-  # Display build results and start tests
-  - ./cppmagic_test
-  - tree -f ./CMakeFiles/
-
-after_success:
-  - popd;
-  - tree ./install
+compiler: clang
 
 matrix: 
   include:
@@ -90,6 +27,7 @@ matrix:
     - os: linux
       addons:
         apt:
+          update: true
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-5.0
@@ -102,29 +40,103 @@ matrix:
             - libc++abi-dev
             - ninja-build
             - tree
-      compiler: clang
       env:
         - PLATFORM=linux
         - CONFIG=Debug
         - BUILD_SHARED=true
-
+      before_install:
+        - uname;
+        - echo $TRAVIS_OS_NAME;
+        # Prepare SonarQube
+        # - wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.3.zip
+        # - unzip -q sonarqube-7.3.zip
+        # Sonar Scanner
+        - export ROOT_DIR=pwd;
+        - wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+        - unzip -q sonar-scanner-cli-3.2.0.1227-linux.zip
+        - export PATH=$ROOT_DIR/sonar-scanner-3.2.0.1227-linux/bin/:$PATH
+        - sonar-scanner -v
+        # Sonar C/C++ Family Build Wrapper
+        - wget https://sonarsource.bintray.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip
+        - unzip -q  build-wrapper-3.11.zip
+        - export PATH=$ROOT_DIR/build-wrapper-3.11/linux-x86-64:$PATH
+        - build-wrapper-linux-x86-64 -h
+      install:
+        # Download llvm/libc++ via Github submodule
+        #   This is a little bit slower than svn
+        - git submodule update --init llvm libcxx libcxxabi;
+        # Build libcxx
+        - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+            mkdir -p prebuilt && pushd prebuilt;
+            cmake ../libcxx -DLLVM_PATH=../llvm -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include -DCMAKE_INSTALL_PREFIX=. -DCMAKE_BUILD_TYPE=Release ;
+            make -j10 install;
+            rm CMakeCache.txt;
+            tree ./include;
+            popd;
+          fi
+        # Build libcxxabi
+        - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+            mkdir -p prebuilt && pushd prebuilt;
+            cmake ../libcxxabi -DLLVM_PATH=../llvm/ -DLIBCXXABI_LIBCXX_PATH=../libcxx/ -DCMAKE_INSTALL_PREFIX=../prebuilt/ ;
+            make -j10 install;
+            rm CMakeCache.txt;
+            tree ./lib;
+            popd;
+          fi
+      before_script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - mkdir -p build && pushd build; # Create & Move to build directory
+      script:
+        - cmake ../ 
+          -G "Ninja" 
+          -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DCMAKE_INSTALL_PREFIX=../install
+        - build-wrapper-linux-x86-64 --out-dir bw-output ninja
+        - ./cppmagic_test --reporter compact # run tests
+        - ninja install
+      after_success:
+        - tree -f ./CMakeFiles/
+        # Get .gcda to extract .gcov
+        - cp ./CMakeFiles/cppmagic_test.dir/test/test.entry.cpp.* ./ ;
+        # Generate .gcov files
+        - llvm-cov-5.0 gcov -abcf ./test.entry.cpp.gcda > log-llvm-cov.txt
+        - popd;
+        - tree ./install
+        # Upload to sonarcloud. Use `sonar-project.properties`
+        - sonar-scanner -X --define sonar.login=$UPLOAD_TOKEN
     # OS X : x86_64 Debug Dynamic
     - os: osx
       osx_image: xcode9.4
       addons:
         homebrew:
-          # - brew update > /dev/null 2>&1;
-          # - brew info llvm;
           update: true
           packages:
             - ninja
             - tree
             - llvm
-      compiler: clang
       env:
         - PLATFORM=osx
         - CONFIG=Debug
         - BUILD_SHARED=true
+      before_install:
+        - uname;
+        - echo $TRAVIS_OS_NAME;
+      install:
+        - brew info llvm; # Check llvm version
+      before_script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - mkdir -p build && pushd build; # Create & Move to build directory
+      script:
+        - cmake ../ 
+          -G "Ninja" 
+          -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DCMAKE_INSTALL_PREFIX=../install
+        - ninja install
+        # Display build results and start tests
+        - ./cppmagic_test
+        - tree -f ./CMakeFiles/
       after_success:
         # MacOS: Run coverage tool for Debug build
         - cp ./CMakeFiles/cppmagic_test.dir/test/test.entry.cpp.* ./ ;
@@ -141,7 +153,6 @@ matrix:
     - language: android
       addons:
         apt:
-          # - sudo apt-get install wget unzip tree
           sources:
             - ubuntu-toolchain-r-test
           packages:
@@ -160,11 +171,10 @@ matrix:
         # Accept SDK Licenses + Install NDK
         - yes | sdkmanager --update > /dev/null 2>&1
         - sdkmanager ndk-bundle > /dev/null 2>&1
-        # Download/Install Gradle 
-        - wget https://services.gradle.org/distributions/gradle-4.4-bin.zip
-        - mkdir -p gradle
-        - unzip -q -d ./gradle gradle-4.4-bin.zip
-        - export GRADLE=gradle/gradle-4.4/bin/gradle
+        # Download Gradle 
+        - wget https://services.gradle.org/distributions/gradle-4.10.2-bin.zip;
+        - unzip -q gradle-4.10.2-bin.zip;
+        - export GRADLE=./gradle-4.10.2/bin/gradle
       before_script:
         - bash $GRADLE --version
       script:
@@ -178,8 +188,6 @@ matrix:
       osx_image: xcode9.4
       addons:
         homebrew:
-          # - brew update > /dev/null 2>&1;
-          # - brew info llvm;
           update: true
           packages:
             - ninja
