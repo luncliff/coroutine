@@ -8,14 +8,14 @@
 #
 # ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.1)
-project(cppmagic LANGUAGES CXX VERSION 1.0.4)
 
 # Variable setup
-
 if(WIN32 AND MSVC)
     message(FATAL_ERROR "This cmake project is not for Windows/MSVC")
     return(1) 
 endif()
+
+project(cppmagic LANGUAGES CXX VERSION 1.0.4)
 
 set(ROOT_DIR    ${CMAKE_SOURCE_DIR})
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})

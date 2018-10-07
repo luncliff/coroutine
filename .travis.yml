@@ -6,6 +6,7 @@
 #     - https://docs.travis-ci.com/user/languages/cpp/
 #     - https://libcxx.llvm.org/docs/BuildingLibcxx.html
 #     - http://rkh.github.io/travis-encrypt/public/index.html
+#     - http://rkh.github.io/travis-encrypt/public/index.html
 #
 # ---------------------------------------------------------------------------
 sudo: false
@@ -51,16 +52,16 @@ matrix:
         # - wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.3.zip
         # - unzip -q sonarqube-7.3.zip
         # Sonar Scanner
-        - export ROOT_DIR=pwd;
-        - wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+        - export ROOT_DIR=`pwd`; echo $ROOT_DIR;
+        - wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip  > /dev/null 2>&1
         - unzip -q sonar-scanner-cli-3.2.0.1227-linux.zip
         - export PATH=$ROOT_DIR/sonar-scanner-3.2.0.1227-linux/bin/:$PATH
         - sonar-scanner -v
         # Sonar C/C++ Family Build Wrapper
-        - wget https://sonarsource.bintray.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip
+        - wget https://sonarsource.bintray.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip  > /dev/null 2>&1
         - unzip -q  build-wrapper-3.11.zip
         - export PATH=$ROOT_DIR/build-wrapper-3.11/linux-x86-64:$PATH
-        - build-wrapper-linux-x86-64 -h
+        - build-wrapper-linux-x86-64 -h || true
       install:
         # Download llvm/libc++ via Github submodule
         #   This is a little bit slower than svn
@@ -104,7 +105,7 @@ matrix:
         - popd;
         - tree ./install
         # Upload to sonarcloud. Use `sonar-project.properties`
-        - sonar-scanner -X --define sonar.login=$UPLOAD_TOKEN
+        - sonar-scanner -X --define sonar.login=$UPLOAD_TOKEN --define sonar.forceAuthentication=true
     # OS X : x86_64 Debug Dynamic
     - os: osx
       osx_image: xcode9.4
@@ -165,8 +166,6 @@ matrix:
           - platform-tools
           - android-21
           - sys-img-armeabi-v7a-android-21
-      env:
-        - MAJOR_ABI=armeabi-v7a
       install:
         # Accept SDK Licenses + Install NDK
         - yes | sdkmanager --update > /dev/null 2>&1
@@ -193,7 +192,6 @@ matrix:
             - ninja
             - tree
             - llvm
-      compiler: clang
       env:
         - PLATFORM=iOS
         - CONFIG=Debug
@@ -201,6 +199,9 @@ matrix:
       install:
         - brew info llvm;
         - git submodule update --init ios-cmake;
+      before_script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - mkdir -p build && pushd build; # Create & Move to build directory
       script:
         - cmake ../ 
           -DBUILD_SHARED_LIBS=$BUILD_SHARED
