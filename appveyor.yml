@@ -106,6 +106,5 @@ for:
     - cmd: ninja
   after_build:
     - ps: Pop-Location
-    - ps: tree /F ./$env:PLATFORM
   test_script:
-    - ps: ./cppmagic_test.exe
+    - ps: ./build/cppmagic_test.exe
