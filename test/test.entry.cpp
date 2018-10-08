@@ -7,15 +7,25 @@
 //      CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include <magic/coroutine.hpp>
 
 #define CATCH_CONFIG_MAIN
 #include <catch.hpp>
 
-auto bypass() -> magic::unplug
-{
-    co_await std::experimental::suspend_never{};
-    co_return;
-}
+#include <magic/coroutine.hpp>
+#include <magic/plugin.hpp>
 
-TEST_CASE("SampleTest") { bypass(); }
+TEST_CASE("LambdaTest")
+{
+    auto try_coroutine = []() -> magic::unplug {
+        co_await std::experimental::suspend_never{};
+        co_return;
+    };
+    REQUIRE_NOTHROW(try_coroutine());
+
+    auto try_generator = []() -> std::experimental::generator<int> {
+        int value = 0;
+        co_yield value;
+        co_return;
+    };
+    // try_generator();
+}

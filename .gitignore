@@ -1,7 +1,11 @@
+.scannerwork/
+sonar*
+
 .externalNativeBuild/
 .gradle/
 
 [Bb]uild/
+[Bb]uild*
 
 install/
 

@@ -4,45 +4,21 @@
 #       luncliff@gmail.com
 #
 #   Note
-#       CMake for non-windows project
+#       CMake for project with LLVM toolchain 
 #
 # ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.1)
 
-# Global setup
-
+# Variable setup
 if(WIN32 AND MSVC)
     message(FATAL_ERROR "This cmake project is not for Windows/MSVC")
     return(1) 
-else()
-    add_compile_options(-Wall)
 endif()
 
-# Project Info
+project(cppmagic LANGUAGES CXX VERSION 1.1.0)
 
-project(cppmagic LANGUAGES CXX 
-        VERSION 1.0.3
-)
-
-message(STATUS "========== ${PROJECT_NAME} : ${PROJECT_VERSION} ==========")
-
-# Alias for known variables
 set(ROOT_DIR    ${CMAKE_SOURCE_DIR})
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-message(STATUS "Root        \t: ${ROOT_DIR}")
-message(STATUS "Project     \t: ${PROJECT_DIR}")
-
-# set(CMAKE_INSTALL_PREFIX ${PROJECT_DIR}/install)
-message(STATUS "Install     \t: ${CMAKE_INSTALL_PREFIX}")
-
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-    # set(CMAKE_BUILD_TYPE Debug)
-endif()
-message(STATUS "Build Type  \t: ${CMAKE_BUILD_TYPE}")
-
-# System / Compiler
-
 if(ANDROID)
     set(PLATFORM ${ANDROID_ABI})
 elseif(IOS OR IOS_DEPLOYMENT_TARGET)
@@ -57,9 +33,17 @@ elseif(${CMAKE_SYSTEM} MATCHES Linux)
     set(PLATFORM linux)
 endif()
 
-if(ANDROID OR WIN32)
+if(NOT IOS)
     SET(BUILD_SHARED_LIBS true)
 endif()
+
+# Project Info
+
+message(STATUS "========== ${PROJECT_NAME} : ${PROJECT_VERSION} ==========")
+message(STATUS "Root        \t: ${ROOT_DIR}")
+message(STATUS "Project     \t: ${PROJECT_DIR}")
+message(STATUS "Install     \t: ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "Build Type  \t: ${CMAKE_BUILD_TYPE}")
 
 message(STATUS "System      \t: ${CMAKE_SYSTEM}")
 message(STATUS "Compiler")
@@ -83,11 +67,118 @@ endif()
 add_library(${PROJECT_NAME}
     ${PROJECT_DIR}/src/dllmain.cpp
 )
+
 set_target_properties(${PROJECT_NAME} PROPERTIES 
     VERSION         ${PROJECT_VERSION}
     # CXX_STANDARD    17      # this property leads `-std=gnu++17`
     #                         # We will use `-std=c++1z` instead
 )
+
+target_include_directories(${PROJECT_NAME} 
+    PUBLIC
+        ${PROJECT_DIR}/src/
+)
+
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        ${CMAKE_DL_LIBS}
+)
+
+if(WIN32)  # Clang + Windows
+
+    # target_sources(${PROJECT_NAME}    
+    #     PRIVATE
+    #         ${PROJECT_DIR}/magic/switch.h
+    # )
+
+    target_compile_definitions(${PROJECT_NAME}
+        PUBLIC
+            _RESUMABLE_FUNCTIONS_SUPPORTED            
+    )
+    if(BUILD_SHARED_LIBS)
+        target_compile_definitions(${PROJECT_NAME}
+            PRIVATE
+                _WINDLL            
+        )
+    endif()
+
+    # argument from `clang-cl -help`
+    # `target_compile_options` removes duplicated -Xclang argument which must be protected
+    # An alternative is to use CMAKE_CXX_FLAGS like CMake 2.x versons.
+    #   But the method will be used only when there is no way but to use it
+    target_compile_options(${PROJECT_NAME} 
+        PUBLIC
+            /std:c++latest 
+            # /Gr
+            -fms-compatibility 
+            -Xclang -fcoroutines-ts
+            # -Xclang -std=c++2a
+        PRIVATE
+            -Wno-unused-function
+            -Wno-c++98-compat 
+            -Wno-reserved-id-macro 
+            -Wno-missing-prototypes
+    )
+    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
+
+    set_target_properties(${PROJECT_NAME} PROPERTIES 
+        LINK_FLAGS "${LINK_FLAGS} /errorReport:send")
+
+else() # Clang + Non-Windows
+    target_compile_options(${PROJECT_NAME} 
+        PUBLIC
+            -std=c++1z
+            -fcoroutines-ts
+            -fPIC 
+        PRIVATE
+            -Wall
+            -fno-rtti 
+            -fvisibility=hidden
+            -ferror-limit=5
+    )
+
+    if(CMAKE_BUILD_TYPE MATCHES Debug)
+        # Generate coverage with Clang
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0")
+        target_compile_options(${PROJECT_NAME}
+            PUBLIC
+                -g -O0 
+            PRIVATE
+                --coverage  # do not propagate this coverage option
+        )
+    else()
+        target_compile_options(${PROJECT_NAME}    
+            PRIVATE
+                -O3
+        )
+    endif()
+endif()
+
+if(APPLE)
+    target_compile_options(${PROJECT_NAME} 
+        PUBLIC
+            -stdlib=libc++ 
+            # -fmodules-ts
+    )
+elseif(LINUX)
+    target_include_directories(${PROJECT_NAME} 
+        PUBLIC
+            ${PROJECT_DIR}/prebuilt/include/c++/v1/
+    )
+
+    target_compile_options(${PROJECT_NAME} 
+        PUBLIC
+            # For manual libc++ configuration
+            -nostdinc++ -nodefaultlibs
+    )
+    
+    target_link_libraries(${PROJECT_NAME}
+        PUBLIC
+            libc++abi.so
+            libc++.so
+            libc++experimental.a
+    )
+endif()
 
 # Platform-specific configurations
 
@@ -104,7 +195,7 @@ if(ANDROID)
             -fstack-protector-strong
     )   
 
-    # Find <asm/types.h> 
+    # <asm/types.h>
     if(${ANDROID_ABI} STREQUAL "arm64-v8a")
         target_include_directories(${PROJECT_NAME}
             PRIVATE
@@ -173,115 +264,6 @@ if(ANDROID)
 
 endif() # Android
 
-target_include_directories(${PROJECT_NAME} 
-    PUBLIC
-        ${PROJECT_DIR}/src/
-    # PRIVATE    
-    #     ${PROJECT_DIR}/clang/
-)
-
-target_link_libraries(${PROJECT_NAME}
-    PUBLIC
-        ${CMAKE_DL_LIBS}
-)
-
-if(WIN32)  # Clang + Windows
-
-    # target_sources(${PROJECT_NAME}    
-    #     PRIVATE
-    #         ${PROJECT_DIR}/magic/switch.h
-    #         ${PROJECT_DIR}/msvc/switch.cpp
-    #         ${PROJECT_DIR}/magic/sync.h
-    #         ${PROJECT_DIR}/msvc/sync.cpp
-    # )
-
-    target_compile_definitions(${PROJECT_NAME}
-        PUBLIC
-            _RESUMABLE_FUNCTIONS_SUPPORTED            
-    )
-    if(BUILD_SHARED_LIBS)
-        target_compile_definitions(${PROJECT_NAME}
-            PRIVATE
-                _WINDLL            
-            )
-    endif()
-
-    # argument from `clang-cl -help`
-    # `target_compile_options` removes duplicated -Xclang argument which must be protected
-    # An alternative is to use CMAKE_CXX_FLAGS like CMake 2.x versons.
-    #   But the method will be used only when there is no way but to use it
-    target_compile_options(${PROJECT_NAME} 
-        PUBLIC
-            /std:c++latest 
-            # /Gr
-            -fms-compatibility 
-            -Xclang -fcoroutines-ts
-            # -Xclang -std=c++2a
-        PRIVATE
-            -Wno-unused-function
-            -Wno-c++98-compat 
-            -Wno-reserved-id-macro 
-            -Wno-missing-prototypes
-    )
-    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
-
-    set_target_properties(${PROJECT_NAME} PROPERTIES 
-        LINK_FLAGS "${LINK_FLAGS} /errorReport:send")
-
-else() # Clang + Non-Windows
-    target_compile_options(${PROJECT_NAME} 
-        PUBLIC
-            -std=c++1z
-            -fcoroutines-ts
-            -fno-rtti 
-            -fPIC 
-        PRIVATE
-            -fvisibility=hidden
-            -ferror-limit=5
-    )
-
-    # Generate coverage with Clang
-    if(CMAKE_BUILD_TYPE MATCHES Debug)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0")
-        # propagate this coverage option
-        target_compile_options(${PROJECT_NAME}
-            PUBLIC
-                -g -O0 --coverage
-        )
-    else()
-        target_compile_options(${PROJECT_NAME}    
-            PRIVATE
-                -O3
-        )
-    endif()
-endif()
-
-if(APPLE)
-    target_compile_options(${PROJECT_NAME} 
-        PUBLIC
-            -stdlib=libc++ 
-            # -fmodules-ts
-    )
-elseif(LINUX)
-    target_include_directories(${PROJECT_NAME} 
-        PUBLIC
-            ${PROJECT_DIR}/prebuilt/include/c++/v1/
-    )
-
-    target_compile_options(${PROJECT_NAME} 
-        PUBLIC
-            # For manual libc++ configuration
-            -nostdinc++ -nodefaultlibs
-    )
-    
-    target_link_libraries(${PROJECT_NAME}
-        PUBLIC
-            libc++abi.so
-            libc++.so
-            libc++experimental.a
-    )
-endif()
-
 # [cppmagic]: Installation
 
 install(TARGETS ${PROJECT_NAME}
@@ -303,7 +285,7 @@ install(
         ${CMAKE_INSTALL_PREFIX}/include/magic/
 )
 if(LINUX)
-    install(FILES ${PROJECT_DIR}/prebuilt/lib/libc++.so
+    install(FILES ${PROJECT_DIR}/prebuilt/lib/libc++experimental.a
         DESTINATION ${CMAKE_INSTALL_PREFIX}/libs
     )
 endif()
@@ -343,22 +325,6 @@ target_include_directories(${TEST_NAME}
 
 target_link_libraries(${TEST_NAME}
     PUBLIC
+        ${CMAKE_DL_LIBS}
         ${PROJECT_NAME}
 )
-
-if(UNIX AND NOT APPLE) 
-    # target_compile_options(${TEST_NAME} 
-    #     PRIVATE
-    #         -nostdinc++ -nodefaultlibs
-    # )
-    # target_include_directories(${TEST_NAME} 
-    #     PRIVATE
-    #         ${PROJECT_DIR}/prebuilt/include/c++/v1/
-    # )
-
-    target_link_libraries(${PROJECT_NAME}
-        PUBLIC
-            libc++.so
-            libc++experimental.a
-    )
-endif()

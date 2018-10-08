@@ -96,13 +96,15 @@ for:
     # Rename the variable for build output
     - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
   build_script:
+    - ps: New-Item -Name build -ItemType Directory
+    - ps: Push-Location -Path build
     # Tried in powershell command but there was no effect
-    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64;
-    - cmd: set CC=clang-cl;
-    - cmd: set CXX=clang-cl; 
-    - cmd: cmake ./ -G Ninja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration%
-    - ps: ninja install;
+    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+    - cmd: set CC=clang-cl
+    - cmd: set CXX=clang-cl
+    - cmd: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration%
+    - cmd: ninja
   after_build:
-    - ps: tree /F ./$env:PLATFORM
+    - ps: Pop-Location
   test_script:
-    - ps: ./cppmagic_test.exe
+    - ps: ./build/cppmagic_test.exe
