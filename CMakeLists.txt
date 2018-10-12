@@ -65,7 +65,7 @@ endif()
 # [cppmagic]: Core features
 
 add_library(${PROJECT_NAME}
-    ${PROJECT_DIR}/src/dllmain.cpp
+    ${PROJECT_DIR}/src/win32/dllmain.cpp
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES 
