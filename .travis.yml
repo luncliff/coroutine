@@ -52,17 +52,17 @@ matrix:
         # Prepare SonarQube
         # - wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.3.zip
         # - unzip -q sonarqube-7.3.zip
-        # Sonar Scanner
-        - export ROOT_DIR=`pwd`; echo $ROOT_DIR;
-        - wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip  > /dev/null 2>&1
-        - unzip -q sonar-scanner-cli-3.2.0.1227-linux.zip
-        - export PATH=$ROOT_DIR/sonar-scanner-3.2.0.1227-linux/bin/:$PATH
-        - sonar-scanner -v
-        # Sonar C/C++ Family Build Wrapper
-        - wget https://sonarsource.bintray.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip  > /dev/null 2>&1
-        - unzip -q  build-wrapper-3.11.zip
-        - export PATH=$ROOT_DIR/build-wrapper-3.11/linux-x86-64:$PATH
-        - build-wrapper-linux-x86-64 -h || true
+        # # Sonar Scanner
+        # - export ROOT_DIR=`pwd`; echo $ROOT_DIR;
+        # - wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip  > /dev/null 2>&1
+        # - unzip -q sonar-scanner-cli-3.2.0.1227-linux.zip
+        # - export PATH=$ROOT_DIR/sonar-scanner-3.2.0.1227-linux/bin/:$PATH
+        # - sonar-scanner -v
+        # # Sonar C/C++ Family Build Wrapper
+        # - wget https://sonarsource.bintray.com/CommercialDistribution/sonar-cpp-plugin/build-wrapper-3.11.zip  > /dev/null 2>&1
+        # - unzip -q  build-wrapper-3.11.zip
+        # - export PATH=$ROOT_DIR/build-wrapper-3.11/linux-x86-64:$PATH
+        # - build-wrapper-linux-x86-64 -h || true
       install:
         # Download llvm/libc++ via Github submodule
         #   This is a little bit slower than svn
@@ -106,7 +106,8 @@ matrix:
         - popd;
         - tree ./install
         # Upload to sonarcloud. Use `sonar-project.properties`
-        - sonar-scanner -X --define sonar.login=$UPLOAD_TOKEN
+        # - sonar-scanner -X --define sonar.login=$UPLOAD_TOKEN
+
     # OS X : x86_64 Debug Dynamic
     - os: osx
       osx_image: xcode9.4

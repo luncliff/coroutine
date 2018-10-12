@@ -11,40 +11,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="win32\switch.cpp">
+    <ClCompile Include="dllmain.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="win32\sync.cpp">
+    <ClCompile Include="switch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="sync.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="magic\channel.hpp">
+    <ClInclude Include="..\magic\channel.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="magic\coroutine.hpp">
+    <ClInclude Include="..\magic\coroutine.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="magic\date_time.hpp">
+    <ClInclude Include="..\magic\date_time.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="magic\linkable.h">
+    <ClInclude Include="..\magic\linkable.h">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="magic\memory.hpp">
+    <ClInclude Include="..\magic\memory.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="magic\plugin.hpp">
+    <ClInclude Include="..\magic\plugin.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="magic\stop_watch.hpp">
+    <ClInclude Include="..\magic\stop_watch.hpp">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="magic\switch.h">
+    <ClInclude Include="..\magic\switch.h">
       <Filter>magic</Filter>
     </ClInclude>
-    <ClInclude Include="magic\sync.h">
+    <ClInclude Include="..\magic\sync.h">
       <Filter>magic</Filter>
     </ClInclude>
   </ItemGroup>

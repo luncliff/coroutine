@@ -19,12 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="net\aio.cpp" />
-    <ClCompile Include="net\dllmain.cpp" />
-    <ClCompile Include="net\resolver.cpp" />
+    <ClCompile Include="aio.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="resolver.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="net\net.h" />
+    <ClInclude Include="net.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -6,7 +6,7 @@
 #     - https://www.appveyor.com/docs/appveyor-yml/
 #
 # ---------------------------------------------------------------------------
-version: 1.0.{build}
+version: 1.1.{build}
 
 clone_depth: 1
 max_jobs: 8

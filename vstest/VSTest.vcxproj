@@ -221,10 +221,10 @@
     <ClInclude Include="..\src\magic\sync.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\net.vcxproj">
+    <ProjectReference Include="..\src\net\net.vcxproj">
       <Project>{738ecbb8-8bee-4701-9e22-eaf7a2610793}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\src\Win32.vcxproj">
+    <ProjectReference Include="..\src\win32\win32.vcxproj">
       <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
     </ProjectReference>
   </ItemGroup>

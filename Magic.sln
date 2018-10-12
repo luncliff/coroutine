@@ -12,9 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vstest", "vstest\vstest.vcxproj", "{9AAC897B-960F-41AD-BDE6-69B6FE72CCBB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "win32", "src\Win32.vcxproj", "{CD3A78FE-7884-4206-98AD-CC2D4F5BB750}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "win32", "src\win32\win32.vcxproj", "{CD3A78FE-7884-4206-98AD-CC2D4F5BB750}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "net", "src\net.vcxproj", "{738ECBB8-8BEE-4701-9E22-EAF7A2610793}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "net", "src\net\net.vcxproj", "{738ECBB8-8BEE-4701-9E22-EAF7A2610793}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
