@@ -1,0 +1,110 @@
+# ---------------------------------------------------------------------------
+#
+#   Author
+#     - luncliff@gmail.com
+#   Reference
+#     - https://www.appveyor.com/docs/appveyor-yml/
+#
+# ---------------------------------------------------------------------------
+version: 1.1.{build}
+
+clone_depth: 1
+max_jobs: 8
+
+# ----- Notification ----- 
+
+notifications:
+  - provider: Email
+    to:
+      - luncliff@gmail.com
+
+# ----- Deployment ----- 
+
+before_deploy:
+  - ps: Set-Location $env:APPVEYOR_BUILD_FOLDER
+
+deploy:
+  - provider: GitHub
+    auth_token:
+      secure: Wlp/6n2lRS4hsvUlZpGjcmDKufr5TfbB3WhUMiqbQvxTkgTL+RNWTtP8C198boyH
+    prerelease: true
+    description: "Release: $(appveyor_build_version)"
+    on:
+      appveyor_repo_tag: true 
+
+after_deploy:
+  - ps: cd $env:APPVEYOR_BUILD_FOLDER
+
+# ----- Build Matrix ----- 
+
+image: 
+  - Visual Studio 2017
+
+platform: 
+  - x86   # Win32
+  - x64
+
+configuration:
+  - Debug
+  - Release
+
+environment:
+  matrix:
+    - compiler: msvc
+    - compiler: clang
+
+matrix:
+  fast_finish: true
+
+# ----- Build steps for each environment ----- 
+
+for:
+-
+  # For MSVC, use Visual Studio solution file
+  matrix:
+    only:
+      - compiler: msvc
+  install:
+    - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
+  build:
+    # parallel: true
+    project: Magic.sln
+    verbosity: quiet
+  after_build:
+    # Rename the variable for build output
+    - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
+    - ps: tree /F ./$env:PLATFORM
+  before_test:
+    - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/cppmagic_vstest.dll"
+  test_script:
+    - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
+
+-
+  # For Clang, use CMake + Ninja + Clang
+  # The build step expects cmdlet environment...
+  matrix:
+    only:
+      - compiler: clang
+  install:
+    - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER;
+    - ps: choco install ninja;  # Download Ninja with chocolaty package manager
+    # - ps: choco install llvm;   # LLVM is already installed
+    - ps: cmake --version;
+    - ps: ninja --version;
+    - ps: clang --version;      # version: 6.0+
+    - ps: clang-cl --version;   # cl.exe for clang
+    # Rename the variable for build output
+    - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
+  build_script:
+    - ps: New-Item -Name build -ItemType Directory
+    - ps: Push-Location -Path build
+    # Tried in powershell command but there was no effect
+    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+    - cmd: set CC=clang-cl
+    - cmd: set CXX=clang-cl
+    - cmd: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration%
+    - cmd: ninja
+  after_build:
+    - ps: Pop-Location
+  test_script:
+    - ps: ./build/cppmagic_test.exe

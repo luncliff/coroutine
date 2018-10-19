@@ -1,0 +1,20 @@
+[submodule "libcxx"]
+	path = libcxx
+	url = https://github.com/llvm-mirror/libcxx
+	branch = release_60
+	shallow = true
+[submodule "libcxxabi"]
+	path = libcxxabi
+	url = https://github.com/llvm-mirror/libcxxabi
+	branch = release_60
+	shallow = true
+[submodule "llvm"]
+	path = llvm
+	url = https://github.com/llvm-mirror/llvm
+	branch = release_60
+	shallow = true
+[submodule "ios-cmake"]
+	path = ios-cmake
+	url = https://github.com/leetal/ios-cmake
+	branch = 2.0.0
+	shallow = true
