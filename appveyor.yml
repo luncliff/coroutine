@@ -6,10 +6,10 @@
 #     - https://www.appveyor.com/docs/appveyor-yml/
 #
 # ---------------------------------------------------------------------------
-version: 1.1.{build}
+version: 1.2.{build}
 
 clone_depth: 1
-max_jobs: 8
+max_jobs: 3
 
 # ----- Notification ----- 
 
@@ -20,20 +20,18 @@ notifications:
 
 # ----- Deployment ----- 
 
-before_deploy:
-  - ps: Set-Location $env:APPVEYOR_BUILD_FOLDER
-
-deploy:
-  - provider: GitHub
-    auth_token:
-      secure: Wlp/6n2lRS4hsvUlZpGjcmDKufr5TfbB3WhUMiqbQvxTkgTL+RNWTtP8C198boyH
-    prerelease: true
-    description: "Release: $(appveyor_build_version)"
-    on:
-      appveyor_repo_tag: true 
-
-after_deploy:
-  - ps: cd $env:APPVEYOR_BUILD_FOLDER
+# before_deploy:
+#   - ps: Set-Location $env:APPVEYOR_BUILD_FOLDER
+# deploy:
+#   - provider: GitHub
+#     auth_token:
+#       secure: Wlp/6n2lRS4hsvUlZpGjcmDKufr5TfbB3WhUMiqbQvxTkgTL+RNWTtP8C198boyH
+#     prerelease: true
+#     description: "Release: $(appveyor_build_version)"
+#     on:
+#       appveyor_repo_tag: true 
+# after_deploy:
+#   - ps: cd $env:APPVEYOR_BUILD_FOLDER
 
 # ----- Build Matrix ----- 
 
@@ -41,7 +39,7 @@ image:
   - Visual Studio 2017
 
 platform: 
-  - x86   # Win32
+  # - x86   # Win32
   - x64
 
 configuration:
@@ -67,18 +65,17 @@ for:
   install:
     - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
   build:
-    # parallel: true
-    project: Magic.sln
+    parallel: true
+    project: coroutine.sln
     verbosity: quiet
   after_build:
     # Rename the variable for build output
     - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
     - ps: tree /F ./$env:PLATFORM
   before_test:
-    - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/cppmagic_vstest.dll"
+    - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/coroutine_vstest.dll"
   test_script:
     - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
-
 -
   # For Clang, use CMake + Ninja + Clang
   # The build step expects cmdlet environment...
@@ -86,15 +83,17 @@ for:
     only:
       - compiler: clang
   install:
-    - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER;
-    - ps: choco install ninja;  # Download Ninja with chocolaty package manager
-    # - ps: choco install llvm;   # LLVM is already installed
-    - ps: cmake --version;
-    - ps: ninja --version;
-    - ps: clang --version;      # version: 6.0+
-    - ps: clang-cl --version;   # cl.exe for clang
+    - ps: Write-Host $env:APPVEYOR_BUILD_FOLDER
+    - ps: choco install ninja   # Download Ninja with chocolaty package manager
+    - ps: choco info    llvm    # LLVM is already installed. So just show the version info
+    - ps: cmake --version
+    - ps: ninja --version
+    - ps: clang --version       # version: 6.0+
+    - ps: clang-cl --version    # cl.exe for clang
     # Rename the variable for build output
-    - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
+    - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32" }
+  before_script:
+    - ps: Write-Host $env:PLATFORM $env:CONFIGURATION
   build_script:
     - ps: New-Item -Name build -ItemType Directory
     - ps: Push-Location -Path build
@@ -107,4 +106,4 @@ for:
   after_build:
     - ps: Pop-Location
   test_script:
-    - ps: ./build/cppmagic_test.exe
+    - ps: ./build/coroutine_test.exe

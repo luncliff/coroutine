@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="coroutine">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="shared">
+      <UniqueIdentifier>{2901e4b2-9044-43d4-8d28-5b1366a922a7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="thread_message.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="thread_registry.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="switch_to.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="section.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="wait_group.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\interface\coroutine\sequence.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\interface\coroutine\switch.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\interface\coroutine\sync.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\interface\coroutine\unplug.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\memory.hpp">
+      <Filter>shared</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
