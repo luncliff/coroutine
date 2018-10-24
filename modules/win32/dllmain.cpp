@@ -42,7 +42,7 @@ PROCEDURE void on_load_test(void*) noexcept(false)
 {
     check_coroutine_available();
     auto g = check_generator_available();
-    auto sum = std::accumulate(g.begin(), g.end(), 0);
+    auto sum = std::accumulate(g.begin(), g.end(), 0u);
     assert(sum == 4 * 2);
 }
 

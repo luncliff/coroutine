@@ -18,8 +18,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "net", "modules\net\net.vcxp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uwp", "modules\uwp\uwp.vcxproj", "{327B6D2B-401F-4E20-AB47-D88810B63058}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{A977087E-E87E-4FC1-B74D-2B4E80F00CCF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -72,16 +70,6 @@ Global
 		{327B6D2B-401F-4E20-AB47-D88810B63058}.Release|x64.Build.0 = Release|x64
 		{327B6D2B-401F-4E20-AB47-D88810B63058}.Release|x86.ActiveCfg = Release|Win32
 		{327B6D2B-401F-4E20-AB47-D88810B63058}.Release|x86.Build.0 = Release|Win32
-		{A977087E-E87E-4FC1-B74D-2B4E80F00CCF}.Debug|ARM.ActiveCfg = Debug|Win32
-		{A977087E-E87E-4FC1-B74D-2B4E80F00CCF}.Debug|x64.ActiveCfg = Debug|x64
-		{A977087E-E87E-4FC1-B74D-2B4E80F00CCF}.Debug|x64.Build.0 = Debug|x64
-		{A977087E-E87E-4FC1-B74D-2B4E80F00CCF}.Debug|x86.ActiveCfg = Debug|Win32
-		{A977087E-E87E-4FC1-B74D-2B4E80F00CCF}.Debug|x86.Build.0 = Debug|Win32
-		{A977087E-E87E-4FC1-B74D-2B4E80F00CCF}.Release|ARM.ActiveCfg = Release|Win32
-		{A977087E-E87E-4FC1-B74D-2B4E80F00CCF}.Release|x64.ActiveCfg = Release|x64
-		{A977087E-E87E-4FC1-B74D-2B4E80F00CCF}.Release|x64.Build.0 = Release|x64
-		{A977087E-E87E-4FC1-B74D-2B4E80F00CCF}.Release|x86.ActiveCfg = Release|Win32
-		{A977087E-E87E-4FC1-B74D-2B4E80F00CCF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

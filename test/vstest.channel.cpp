@@ -111,7 +111,7 @@ TEST_CLASS(ChannelTest)
         callback(received);
     };
 
-    TEST_METHOD(CountAccess)
+    TEST_METHOD(UnsafeUnderRace)
     {
         static constexpr size_t Amount = 100'000;
 

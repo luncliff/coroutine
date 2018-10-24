@@ -206,9 +206,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="vstest.channel.cpp" />
-    <ClCompile Include="vstest.cpp" />
     <ClCompile Include="vstest.memory.cpp" />
     <ClCompile Include="vstest.net.cpp" />
+    <ClCompile Include="vstest.sequence.cpp" />
     <ClCompile Include="vstest.thread.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +218,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\interface\coroutine\channel.hpp" />
+    <ClInclude Include="..\interface\coroutine\sequence.hpp" />
+    <ClInclude Include="..\interface\coroutine\switch.h" />
+    <ClInclude Include="..\interface\coroutine\sync.h" />
+    <ClInclude Include="..\interface\coroutine\unplug.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
