@@ -176,10 +176,10 @@ struct generator
 
 #endif // _WIN32 <experimental/generator>
 
-// - Note
-//    This implementation should work like <experimental/generator> of VC++
-template<typename T,
-         typename A = std::allocator<char>> // byte level allocation by default
+#include <atomic>
+
+template<typename T>
+//, typename A = std::allocator<char>> // byte level allocation by default
 struct sequence final
 {
     struct promise_type; // Resumable Promise Requirement
@@ -191,6 +191,18 @@ struct sequence final
 
     using handle_promise_t = std::experimental::coroutine_handle<promise_type>;
     using handle_t = std::experimental::coroutine_handle<>;
+
+    static_assert(std::atomic<handle_t>::is_always_lock_free);
+
+  private:
+    static constexpr pointer finished() noexcept
+    {
+        return reinterpret_cast<pointer>(0xDEAD);
+    }
+    static constexpr pointer empty() noexcept
+    {
+        return reinterpret_cast<pointer>(nullptr);
+    }
 
   private:
     handle_promise_t rh{}; // resumable handle
@@ -205,32 +217,38 @@ struct sequence final
   public:
     iterator begin() noexcept(false)
     {
-        if (rh)
+        if (rh) // resumeable?
         {
             rh.resume();
-            if (rh.done()) rh = nullptr;
+            if (rh.done()) // finished?
+                return nullptr;
 
-            return iterator{rh};
+            if (rh.promise().current == finished()) //
+                return nullptr;
         }
-        return iterator{nullptr};
+        return iterator{rh};
     }
     iterator end() noexcept { return iterator{nullptr}; }
 
   public:
     struct promise_type final
     {
+        friend struct iterator;
+
       public:
-        // handle_t promise_handle{};
-        handle_t iterator_handle{};
+        std::atomic<handle_t> task{};
+        // handle_t task;
         pointer current = nullptr;
 
       private:
-        promise_type(promise_type&) noexcept = delete;
+        promise_type(promise_type&) = delete;
         promise_type(promise_type&&) = delete;
+        promise_type& operator=(promise_type&) = delete;
+        promise_type& operator=(promise_type&&) = delete;
 
       public:
         promise_type() = default;
-        ~promise_type() = default;
+        ~promise_type() noexcept = default;
 
       public:
         void unhandled_exception() noexcept { std::terminate(); }
@@ -253,83 +271,108 @@ struct sequence final
             current = std::addressof(ref);
             return *this;
         }
-        void return_void() noexcept { current = nullptr; }
 
-        bool await_ready() const noexcept { return false; }
-        void await_suspend(handle_t /*handle*/) noexcept
+        template<typename Awaitable>
+        Awaitable& yield_value(Awaitable&& a) noexcept
         {
-            // promise_handle = std::move(handle);
+            current = empty();
+            return a; // the given awaitable will reactivate this coroutine
+        }
+
+        void return_void() noexcept
+        {
+            current = finished();
+            // final suspend point seems not appropriate
+            // for finishing the iterator.
+            this->await_resume();
+        }
+
+        bool await_ready() const noexcept
+        {
+            // using relaxed order here needs more verification...
+            return task.load(std::memory_order::memory_order_acquire) !=
+                   nullptr;
+        }
+        void await_suspend(handle_t handle) noexcept
+        {
+            task.store(handle, std::memory_order::memory_order_release);
         }
         void await_resume() noexcept
         {
-            // suspended with `yield_value`.
-            // iterator will resume appropriately
-            if (current != nullptr) return;
+            // we can use `atomic_exchange`,
+            //   but will separate that to make it more explicit
 
-            // Since we didn't `yield_value`,
+            handle_t work = task.load(std::memory_order::memory_order_acquire);
+            task.store(nullptr, std::memory_order::memory_order_release);
 
-            // we have to consider thread interleaving here
-
-            // wait for iterator handle
-            while (iterator_handle == nullptr)
-                continue;
-
-            iterator_handle.resume();
-            iterator_handle = nullptr;
-            current = nullptr;
+            if (work)          // resume if and only if there is a waiting work
+                work.resume(); // it should be iterator
         }
     };
 
     struct iterator final
     {
-        handle_promise_t rh{};
+        promise_type* promise{};
 
       public:
-        iterator(std::nullptr_t) noexcept : rh{nullptr} {}
-        iterator(handle_promise_t handle) noexcept : rh{std::move(handle)} {}
-
-      public:
-        iterator operator++() noexcept(false)
+        iterator(std::nullptr_t) noexcept : promise{nullptr} {}
+        iterator(handle_promise_t handle) noexcept
+            : promise{std::addressof(handle.promise())}
         {
-            if (rh)
-            {
-                rh.resume();
-                if (rh.done())
-                {
-                    rh = nullptr;
-                    return iterator{nullptr};
-                }
-            }
+        }
+
+      public:
+        iterator& operator++() noexcept(false)
+        {
+            // reset and advance
+            promise->current = empty();
+
+            if (auto task = promise->task.load()) // promise suspended
+                task.resume();
+
+            // forget the promise so we can end the loop
+            if (promise->current == finished()) promise = nullptr;
+
             return *this;
         }
         // post increment
         iterator& operator++(int) = delete;
 
-        auto operator*() noexcept { return *(rh.promise().current); }
-        auto operator*() const noexcept { return *(rh.promise().current); }
-        auto operator-> () noexcept { return rh.promise().current; }
-        auto operator-> () const noexcept { return rh.promise().current; }
+        bool await_ready() const noexcept
+        {
+            // finished or yield
+            return promise->current != empty();
+        }
+        void await_suspend(handle_t handle) noexcept
+        {
+            // promise will continue this work...
+            // promise->task = handle;
+            promise->task.store(handle,
+                                std::memory_order::memory_order_release);
+        }
+        iterator& await_resume() noexcept
+        {
+            // If producer routine is finished,
+            //   there is nothing we can do in this iterator
+            //   forget the promise and so we can end the loop
+            if (promise->current == finished()) //
+                promise = nullptr;
+
+            return *this;
+        }
+
+        auto operator*() noexcept { return *(promise->current); }
+        auto operator*() const noexcept { return *(promise->current); }
+        auto operator-> () noexcept { return promise->current; }
+        auto operator-> () const noexcept { return promise->current; }
         bool operator==(const iterator& rhs) const noexcept
         {
-            return this->rh == rhs.rh;
+            return this->promise == rhs.promise;
         }
         bool operator!=(const iterator& rhs) const noexcept
         {
             return !(*this == rhs);
         }
-
-        bool await_ready() const noexcept
-        {
-            if (rh)
-                return rh.promise().current != nullptr;
-            else
-                return true;
-        }
-        void await_suspend(handle_t _handle) noexcept
-        {
-            rh.promise().iterator_handle = std::move(_handle)
-        }
-        auto await_resume() noexcept -> iterator& { return *this; }
     };
 };
 

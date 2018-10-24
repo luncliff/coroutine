@@ -13,7 +13,7 @@
 
 // - Note
 //      Commented code are examples for memory management customization.
-// extern std::allocator<char> __mgmt;
+// static std::allocator<char> __mgmt{};
 
 // - Note
 //      General `void` return for coroutine.
@@ -45,22 +45,50 @@ class unplug final
 
         // - Note
         //      Examples for memory management customization.
-        // void *operator new(size_t _size) noexcept(false)
-        // {
-        //   //  return __mgmt.allocate(_size);
-        //   return nullptr;
-        // }
+        // void* operator new(size_t _size) noexcept(false)
+        //{
+        //    std::printf("%u \n", _size);
+        //    return __mgmt.allocate(_size);
+        //    return nullptr;
+        //}
 
         // - Note
         //      Examples for memory management customization.
-        // void operator delete(void *_ptr, size_t _size) noexcept
-        // {
-        //   //  return __mgmt.deallocate(static_cast<char *>(_ptr), _size);
-        // }
+        // void operator delete(void* _ptr, size_t _size) noexcept
+        //{
+        //    std::printf("%u \n", _size);
+        //    return __mgmt.deallocate(static_cast<char*>(_ptr), _size);
+        //}
     };
 
   public:
     unplug(const promise_type&) noexcept {}
+};
+
+class plug final
+{
+    std::experimental::coroutine_handle<void> rh{};
+
+  public:
+    bool await_ready() const noexcept { return false; }
+    void await_suspend(
+        std::experimental::coroutine_handle<void> _handle) noexcept
+    {
+        rh = _handle;
+    }
+
+    void forget() noexcept
+    {
+        rh = nullptr; // forget
+    }
+
+    void await_resume() noexcept { return forget(); }
+
+  public:
+    void resume() noexcept(false)
+    {
+        if (rh && rh.done() == false) rh.resume();
+    }
 };
 
 #endif // COROUTINE_UNPLUG_HPP

@@ -81,13 +81,13 @@ TEST_CLASS(ChannelTest)
     }
 
     // use Windows critical section for this test.
-   // std::mutex is also available
+    // std::mutex is also available
     using channel_type = channel<char, section>;
 
-public:
+  public:
     auto Send(channel_type & channel,
-        channel_type::value_type value,
-        std::function<void(bool)> callback) noexcept->unplug
+              channel_type::value_type value,
+              std::function<void(bool)> callback) noexcept->unplug
     {
         switch_to background{};
         co_await background; // go to background
@@ -98,7 +98,7 @@ public:
     };
 
     auto Recv(channel_type & channel,
-        std::function<void(bool)> callback) noexcept->unplug
+              std::function<void(bool)> callback) noexcept->unplug
     {
         switch_to background{};
         co_await background; // go to background
@@ -152,4 +152,3 @@ public:
         Assert::IsTrue(success == 2 * Amount);
     }
 };
-
