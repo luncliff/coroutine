@@ -10,13 +10,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="aio.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>net</Filter>
     </ClCompile>
     <ClCompile Include="resolver.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="async_win32.cpp">
       <Filter>net</Filter>
     </ClCompile>
   </ItemGroup>

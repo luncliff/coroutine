@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="aio.cpp" />
+    <ClCompile Include="async_win32.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="resolver.cpp" />
   </ItemGroup>
