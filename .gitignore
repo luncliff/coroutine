@@ -1,5 +1,7 @@
+.sonarqube/
 .scannerwork/
 sonar*
+bw-output/
 
 .externalNativeBuild/
 .gradle/
@@ -8,15 +10,16 @@ sonar*
 [Bb]uild*
 
 install/
-
 prebuilt/
+
 libcxxabi/
 libcxx/
 llvm/
+libcxxabi*
+libcxx*
+llvm*
 
 .vscode/
-.sonarqube/
-bw-output/
 
 # Created by https://www.gitignore.io/api/c++,windows,visualstudio,visualstudiocode
 

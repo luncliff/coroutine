@@ -1,0 +1,181 @@
+# ---------------------------------------------------------------------------
+#
+#   Author
+#     - luncliff@gmail.com
+#   Reference
+#     - https://docs.travis-ci.com/user/languages/cpp/
+#     - https://libcxx.llvm.org/docs/BuildingLibcxx.html
+#     - http://rkh.github.io/travis-encrypt/public/index.html
+#     - http://rkh.github.io/travis-encrypt/public/index.html
+#     - https://blog.kowalczyk.info/article/k/how-to-install-latest-clang-6.0-on-ubuntu-16.04-xenial-wsl.html
+#
+# ---------------------------------------------------------------------------
+sudo: false
+
+git:
+  submodules: false
+  depth: 1
+  
+notifications:
+  email:
+    - luncliff@gmail.com
+
+language: cpp
+compiler: clang
+
+matrix: 
+  include:
+    # Linux : x86_64 Debug Dynamic
+    - os: linux
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
+          packages:
+            - parallel
+            - llvm-6.0
+            - clang-6.0
+            - libc++1
+            - libc++-dev
+            - libc++abi1
+            - libc++abi-dev
+            - ninja-build
+            - tree
+      env:
+        - PLATFORM=linux
+        - CONFIG=Debug
+        - BUILD_SHARED=true
+      before_install:
+        - uname;
+        - echo $TRAVIS_OS_NAME;
+      install:
+        - bash ./scripts/setup-libc++.sh;
+      before_script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - mkdir -p build && pushd build; # Create & Move to build directory
+      script:
+        - cmake ../ 
+          -G "Ninja" 
+          -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DCMAKE_INSTALL_PREFIX=../install
+        - ninja install
+        - ./coroutine_test --reporter compact # run tests
+      after_success:
+        - tree -f ./CMakeFiles/
+        # Get .gcda to extract .gcov
+        - cp ./CMakeFiles/coroutine_test.dir/test/test.entry.cpp.* ./ ;
+        # Generate .gcov files
+        - llvm-cov-6.0 gcov -abcf ./test.entry.cpp.gcda > log-llvm-cov.txt
+        - popd;
+        - tree ./install
+
+    # OS X : x86_64 Debug Dynamic
+    - os: osx
+      osx_image: xcode9.4
+      addons:
+        homebrew:
+          update: true
+          packages:
+            - ninja
+            - tree
+            - llvm
+      env:
+        - PLATFORM=osx
+        - CONFIG=Debug
+        - BUILD_SHARED=true
+      before_install:
+        - uname;
+        - echo $TRAVIS_OS_NAME;
+      install:
+        - brew info llvm; # Check llvm version
+      before_script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - mkdir -p build && pushd build; # Create & Move to build directory
+      script:
+        - cmake ../ 
+          -G "Ninja" 
+          -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DCMAKE_INSTALL_PREFIX=../install
+        - ninja install
+        # Display build results and start tests
+        - ./coroutine_test
+        - tree -f ./CMakeFiles/
+      after_success:
+        # MacOS: Run coverage tool for Debug build
+        - cp ./CMakeFiles/coroutine_test.dir/test/test.entry.cpp.* ./ ;
+        - gcov -abcf ./test.entry.cpp.gcda > log-gcov.txt;
+        - ls -al | grep .gcov;
+        - lcov --directory . --gcov-tool gcov --capture -o cov.info ;
+        - genhtml cov.info -o cov_report;
+        - tree ./cov_report;
+        # Display build results
+        - popd;
+        - tree ./install
+
+    # Android JNI: armeabi-v7a
+    - language: android
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - wget
+            - unzip
+            - tree
+      android:
+        components:
+          - tools
+          - platform-tools
+          - android-21
+      install:
+        # Accept SDK Licenses + Install NDK
+        - yes | sdkmanager --update > /dev/null 2>&1
+        - sdkmanager ndk-bundle > /dev/null 2>&1
+        # Download Gradle 
+        - wget https://services.gradle.org/distributions/gradle-4.10.2-bin.zip;
+        - unzip -q gradle-4.10.2-bin.zip;
+        - export GRADLE=./gradle-4.10.2/bin/gradle
+      before_script:
+        - bash $GRADLE --version
+      script:
+        - bash $GRADLE clean assemble
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}
+        - tree ./install
+
+    # iPhone OS 10.3 : armv7 armv7s arm64 Debug Dynamic
+    - os: osx
+      osx_image: xcode9.4
+      addons:
+        homebrew:
+          update: true
+          packages:
+            - ninja
+            - tree
+            - llvm
+      env:
+        - PLATFORM=iOS
+        - CONFIG=Debug
+        - BUILD_SHARED=true
+      install:
+        - brew info llvm;
+        - git clone https://github.com/leetal/ios-cmake --depth=1 --branch=2.1.1
+      before_script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - mkdir -p build && pushd build; # Create & Move to build directory
+      script:
+        - cmake ../ 
+          -DBUILD_SHARED_LIBS=$BUILD_SHARED
+          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DCMAKE_TOOLCHAIN_FILE=../ios-cmake/ios.toolchain.cmake 
+          -DIOS_DEPLOYMENT_TARGET=10.3
+          -DENABLE_BITCODE=false 
+          -DCMAKE_INSTALL_PREFIX=../install
+        - make -j10 install
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}
+        - tree ./install
