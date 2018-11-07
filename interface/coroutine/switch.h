@@ -67,7 +67,7 @@ class _INTERFACE_ switch_to final
 
 #pragma warning(disable : 4505)
     decltype(auto) await_ready() const noexcept { return this->ready(); }
-    decltype(auto) await_suspend(
+    void await_suspend( //
         std::experimental::coroutine_handle<void> rh) noexcept(false)
     {
         return this->suspend(rh);

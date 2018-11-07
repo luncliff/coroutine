@@ -70,7 +70,7 @@ popd;
 # build libcxxabi
 mkdir -p prebuilt && pushd prebuilt;
     cmake ../libcxxabi                      \
-        -DLLVM_PATH=../llvm/                \
+        -DLLVM_PATH=../llvm                 \
         -DLIBCXXABI_LIBCXX_PATH=../libcxx/  \
         -DCMAKE_INSTALL_PREFIX=/usr         \
         ;

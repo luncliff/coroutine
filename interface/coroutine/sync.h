@@ -38,6 +38,7 @@
 #define CONTROL_FLOW_SYNC_H
 
 #include <atomic>
+#include <cstdint>
 #include <mutex>
 
 // - Note
