@@ -44,11 +44,13 @@ struct posix_cond_var final
     posix_cond_var() noexcept(false)
     {
         // init attr?
+        pthread_mutex_init(&mtx, nullptr);
         pthread_cond_init(&cv, nullptr);
     }
     ~posix_cond_var() noexcept
     {
         // destry attr?
+        pthread_mutex_destroy(&mtx);
         pthread_cond_destroy(&cv);
     }
 
@@ -56,7 +58,7 @@ struct posix_cond_var final
     void wait(std::uint32_t ms) noexcept
     {
         timespec timeout{};
-        timeout.tv_nsec = ms * 1000;
+        timeout.tv_nsec = ms * 1'000'000; // ms -> nano
 
         pthread_mutex_lock(&mtx);
         pthread_cond_timedwait(&cv, &mtx, &timeout);

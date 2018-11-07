@@ -23,6 +23,87 @@ language: cpp
 
 matrix: 
   include:
+    # OS X : x86_64 Debug Dynamic
+    - os: osx
+      osx_image: xcode9.4
+      compiler: clang
+      addons:
+        homebrew:
+          update: true
+          packages:
+            - ninja
+            - tree
+            # - llvm # requires too much time
+      env:
+        - PLATFORM=osx
+        - CONFIG=Debug
+        - BUILD_SHARED=true
+      before_install:
+        - uname;
+        - echo $TRAVIS_OS_NAME;
+      install:
+        - brew info llvm;
+      before_script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - mkdir -p build && pushd build;
+      script:
+        - cmake ../ 
+            -G "Ninja" 
+            -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+            -DCMAKE_BUILD_TYPE=$CONFIG
+            -DCMAKE_INSTALL_PREFIX=../install
+        - ninja install
+        - ./coroutine_test  # run tests
+      after_success:
+        - otool -L ./libcoroutine.dylib
+        # - tree -f ./CMakeFiles/
+        # MacOS: Run coverage tool for Debug build
+        - cp ./CMakeFiles/coroutine_test.dir/test/test.entry.cpp.* ./ ;
+        - gcov -abcf ./test.entry.cpp.gcda > log-gcov.txt;
+        - ls -al | grep .gcov;
+        - lcov --directory . --gcov-tool gcov --capture -o cov.info ;
+        - genhtml cov.info -o cov_report;
+        - tree ./cov_report;
+        # Display build results
+        - popd;
+        - tree ./install
+
+    # OS X : x86_64 Release Dynamic
+    - os: osx
+      osx_image: xcode9.4
+      compiler: clang
+      addons:
+        homebrew:
+          update: true
+          packages:
+            - ninja
+            - tree
+            # - llvm # requires too much time
+      env:
+        - PLATFORM=osx
+        - CONFIG=Release
+        - BUILD_SHARED=true
+      before_install:
+        - uname;
+        - echo $TRAVIS_OS_NAME;
+      install:
+        - brew info llvm; # Check llvm version
+      before_script:
+        - cd ${TRAVIS_BUILD_DIR}
+        - mkdir -p build && pushd build;
+      script:
+        - cmake ../ 
+            -G "Ninja" 
+            -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+            -DCMAKE_BUILD_TYPE=$CONFIG
+            -DCMAKE_INSTALL_PREFIX=../install
+        - ninja install
+        - ./coroutine_test  # run tests
+      after_success:
+        - otool -L ./libcoroutine.dylib
+        - popd;
+        - tree ./install
+
     # Linux : x86_64 Debug Dynamic
     - os: linux
       compiler: clang
@@ -52,37 +133,36 @@ matrix:
         - echo $TRAVIS_OS_NAME;
         - export CC=clang-6.0
         - export CXX=clang-6.0
-      install:
         # see also: ./scripts/install-libc++.sh
         - cd ${TRAVIS_BUILD_DIR}
-        - wget -q -O llvm.zip https://github.com/llvm-mirror/llvm/archive/release_60.zip
-        - wget -q -O libcxx.zip https://github.com/llvm-mirror/libcxx/archive/release_60.zip &
-        - wget -q -O libcxxabi.zip https://github.com/llvm-mirror/libcxxabi/archive/release_60.zip &
+        - wget -q -O llvm.zip       https://github.com/llvm-mirror/llvm/archive/release_60.zip
+        - wget -q -O libcxx.zip     https://github.com/llvm-mirror/libcxx/archive/release_60.zip
+        - wget -q -O libcxxabi.zip  https://github.com/llvm-mirror/libcxxabi/archive/release_60.zip
         - unzip -q llvm.zip;
         - mv ./llvm-release_60 ./llvm;
         - unzip -q libcxx.zip;
         - mv ./libcxx-release_60 ./libcxx;
         - unzip -q libcxxabi.zip
         - mv ./libcxxabi-release_60 ./libcxxabi;
+      install:
         - mkdir -p prebuilt && pushd prebuilt;
-        - cmake ../libcxx    -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_PATH=../llvm -DCMAKE_BUILD_TYPE=Release -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include
-        - sudo ninja install;
-        - rm CMakeCache.txt;
-        - cmake ../libcxxabi -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_PATH=../llvm -DCMAKE_BUILD_TYPE=Release -DLIBCXXABI_LIBCXX_PATH=../libcxx
-        - sudo ninja install;
-        - rm CMakeCache.txt;
+        -  cmake ../libcxx    -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_PATH=../llvm -DCMAKE_BUILD_TYPE=Release -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include
+        -  sudo ninja install;
+        -  rm CMakeCache.txt;
+        -  cmake ../libcxxabi -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_PATH=../llvm -DCMAKE_BUILD_TYPE=Release -DLIBCXXABI_LIBCXX_PATH=../libcxx
+        -  sudo ninja install;
+        -  rm CMakeCache.txt;
         - popd;
       before_script:
-        - mkdir -p build && pushd build; # Create & Move to build directory
+        - mkdir -p build && pushd build;
       script:
         - cmake ../ 
-          -G "Ninja" 
-          -DBUILD_SHARED_LIBS=$BUILD_SHARED 
-          -DCMAKE_BUILD_TYPE=$CONFIG
-          -DCMAKE_INSTALL_PREFIX=../install
+            -G "Ninja" 
+            -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+            -DCMAKE_BUILD_TYPE=$CONFIG
+            -DCMAKE_INSTALL_PREFIX=../install
         - ninja install
-        # run tests
-        - ./coroutine_test --reporter compact 
+        - ./coroutine_test
       after_success:
         - ldd ./libcoroutine.so
         # - tree -f ./CMakeFiles/
@@ -93,48 +173,66 @@ matrix:
         - popd;
         - tree ./install
 
-    # OS X : x86_64 Debug Dynamic
-    - os: osx
-      osx_image: xcode9.4
+    # Linux : x86_64 Release Dynamic
+    - os: linux
       compiler: clang
       addons:
-        homebrew:
+        apt:
           update: true
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
           packages:
-            - ninja
+            - llvm-6.0
+            - llvm-6.0-tools
+            - clang-6.0
+            - libc++1
+            - libc++-dev
+            - libc++abi1
+            - libc++abi-dev
+            - ninja-build
             - tree
-            # - llvm # requires too much time
+            - cmake
       env:
-        - PLATFORM=osx
-        - CONFIG=Debug
+        - PLATFORM=linux
+        - CONFIG=Release
         - BUILD_SHARED=true
       before_install:
         - uname;
         - echo $TRAVIS_OS_NAME;
-      install:
-        - brew info llvm; # Check llvm version
-      before_script:
+        - export CC=clang-6.0
+        - export CXX=clang-6.0
+        # see also: ./scripts/install-libc++.sh
         - cd ${TRAVIS_BUILD_DIR}
-        - mkdir -p build && pushd build; # Create & Move to build directory
+        - wget -q -O llvm.zip       https://github.com/llvm-mirror/llvm/archive/release_60.zip
+        - wget -q -O libcxx.zip     https://github.com/llvm-mirror/libcxx/archive/release_60.zip
+        - wget -q -O libcxxabi.zip  https://github.com/llvm-mirror/libcxxabi/archive/release_60.zip
+        - unzip -q llvm.zip;
+        - mv ./llvm-release_60 ./llvm;
+        - unzip -q libcxx.zip;
+        - mv ./libcxx-release_60 ./libcxx;
+        - unzip -q libcxxabi.zip
+        - mv ./libcxxabi-release_60 ./libcxxabi;
+      install:
+        - mkdir -p prebuilt && pushd prebuilt;
+        -  cmake ../libcxx    -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_PATH=../llvm -DCMAKE_BUILD_TYPE=Release -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include
+        -  sudo ninja install;
+        -  rm CMakeCache.txt;
+        -  cmake ../libcxxabi -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_PATH=../llvm -DCMAKE_BUILD_TYPE=Release -DLIBCXXABI_LIBCXX_PATH=../libcxx
+        -  sudo ninja install;
+        -  rm CMakeCache.txt;
+        - popd;
+      before_script:
+        - mkdir -p build && pushd build;
       script:
         - cmake ../ 
-          -G "Ninja" 
-          -DBUILD_SHARED_LIBS=$BUILD_SHARED 
-          -DCMAKE_BUILD_TYPE=$CONFIG
-          -DCMAKE_INSTALL_PREFIX=../install
+            -G "Ninja" 
+            -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+            -DCMAKE_BUILD_TYPE=$CONFIG
+            -DCMAKE_INSTALL_PREFIX=../install
         - ninja install
-        # Display build results and start tests
         - ./coroutine_test
       after_success:
-        - otool -L ./libcoroutine.dylib
-        # - tree -f ./CMakeFiles/
-        # MacOS: Run coverage tool for Debug build
-        - cp ./CMakeFiles/coroutine_test.dir/test/test.entry.cpp.* ./ ;
-        - gcov -abcf ./test.entry.cpp.gcda > log-gcov.txt;
-        - ls -al | grep .gcov;
-        - lcov --directory . --gcov-tool gcov --capture -o cov.info ;
-        - genhtml cov.info -o cov_report;
-        - tree ./cov_report;
-        # Display build results
+        - ldd ./libcoroutine.so
         - popd;
         - tree ./install

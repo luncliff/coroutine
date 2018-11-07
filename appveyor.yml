@@ -92,7 +92,7 @@ for:
     - ps: clang-cl --version    # cl.exe for clang
     # Rename the variable for build output
     - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32" }
-  before_script:
+  before_build:
     - ps: Write-Host $env:PLATFORM $env:CONFIGURATION
   build_script:
     - ps: New-Item -Name build -ItemType Directory

@@ -144,7 +144,7 @@ elseif(LINUX)
     )
     target_link_libraries(${PROJECT_NAME}
     PUBLIC
-        c++ c++abi c++experimental
+        libc++.so libc++abi.so libc++experimental.a
         pthread rt
     )
 endif()
@@ -164,7 +164,7 @@ endif()
 
 # testing
 
-set(TEST_NAME ${PROJECT_NAME}_test_suite)
+set(TEST_NAME ${PROJECT_NAME}_test)
 
 add_executable(${TEST_NAME}
     ${PROJECT_DIR}/test/test.entry.cpp
@@ -179,12 +179,14 @@ PRIVATE
 
 target_link_libraries(${TEST_NAME}
 PUBLIC
-    ${PROJECT_NAME}
+    ${PROJECT_NAME} stdc++
 )
 
 if(NOT MSVC)
-    target_compile_options(${TEST_NAME}
-    PRIVATE
-        -g --coverage
-    )
+    if(CMAKE_BUILD_TYPE MATCHES Debug)
+        target_compile_options(${TEST_NAME}
+        PRIVATE
+            -g --coverage
+        )
+    endif()
 endif()
