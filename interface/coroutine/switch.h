@@ -1,9 +1,7 @@
 ﻿// ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//  License
-//      CC BY 4.0
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 //  Note
 //      Thread switching for the coroutines
@@ -66,25 +64,16 @@ class _INTERFACE_ switch_to final
     bool ready() const noexcept;
     void suspend(std::experimental::coroutine_handle<void> rh) noexcept(false);
     void resume() noexcept;
-};
 
 #pragma warning(disable : 4505)
-
-static decltype(auto) await_ready(const switch_to& awaitable) noexcept
-{
-    return awaitable.ready();
-}
-static decltype(auto) await_suspend(
-    switch_to& awaitable,
-    std::experimental::coroutine_handle<void> rh) noexcept(false)
-{
-    return awaitable.suspend(rh);
-}
-static decltype(auto) await_resume(switch_to& awaitable) noexcept
-{
-    return awaitable.resume();
-}
-
+    decltype(auto) await_ready() const noexcept { return this->ready(); }
+    decltype(auto) await_suspend(
+        std::experimental::coroutine_handle<void> rh) noexcept(false)
+    {
+        return this->suspend(rh);
+    }
+    decltype(auto) await_resume() noexcept { return this->resume(); }
 #pragma warning(default : 4505)
+};
 
 #endif // COROUTINE_THREAD_SWITCHING_H

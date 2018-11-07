@@ -1,24 +1,19 @@
 ﻿// ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//
-//  License
-//      CC BY 4.0
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 //  Note
 //      Date time with Standard C++ headers
 //
 // ---------------------------------------------------------------------------
-#ifndef _MAGIC_DATETIME_HPP_
-#define _MAGIC_DATETIME_HPP_
+#ifndef CHRONO_DATETIME_HPP
+#define CHRONO_DATETIME_HPP
 
 #include <chrono>
 #include <ctime>
 #include <string>
 
-namespace magic
-{
 // - Note
 //      ISO-8601 Time
 class date_time
@@ -75,6 +70,4 @@ class date_time
     }
 };
 
-} // namespace magic
-
-#endif // _MAGIC_DATETIME_HPP_
+#endif // CHRONO_DATETIME_HPP

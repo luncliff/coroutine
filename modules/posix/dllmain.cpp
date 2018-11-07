@@ -1,20 +1,16 @@
 ﻿// ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//
-//  License
-//      CC BY 4.0
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-
-#define PROCEDURE __attribute__((constructor))
+#include <coroutine/sequence.hpp>
+#include <coroutine/unplug.hpp>
 
 #include <cassert>
 #include <numeric>
 
-#include <coroutine/sequence.hpp>
-#include <coroutine/unplug.hpp>
+#define PROCEDURE __attribute__((constructor))
 
 namespace coroutine
 {

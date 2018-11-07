@@ -1,14 +1,10 @@
 ﻿// ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//  License
-//      CC BY 4.0
-//
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //  Reference
-//      -
-//      https://weblogs.asp.net/kennykerr/parallel-programming-with-c-part-2-asynchronous-procedure-calls-and-window-messages
-//      - http://www.wrongbananas.net/cpp/2006.09.13_win32_msg_loops.html
+//    https://weblogs.asp.net/kennykerr/parallel-programming-with-c-part-2-asynchronous-procedure-calls-and-window-messages
+//    http://www.wrongbananas.net/cpp/2006.09.13_win32_msg_loops.html
 //
 // ---------------------------------------------------------------------------
 

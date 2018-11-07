@@ -8,8 +8,6 @@
 #       - Clang + Windows
 #       - Clang + MacOS
 #       - Clang + Linux     (tested with Ubuntu and WSL)
-#       - iPhone OS
-#       - Android NDK
 #
 # ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.5)
@@ -29,6 +27,10 @@ list(APPEND CMAKE_MODULE_PATH   ${CMAKE_CURRENT_SOURCE_DIR}/cmake   )
 include(alias)
 include(test-cxx-coroutine)
 
+if(NOT DEFINED CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
 # show project's build configuration
 include(display-build-info)
 
@@ -37,12 +39,17 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)    # GCC
     return(1)
 endif()
 
-# create coroutine helper library for target platform
+# create coroutine helper library
 add_library(${PROJECT_NAME} SHARED
     ${PROJECT_DIR}/modules/${PLATFORM}/dllmain.cpp
+    ${PROJECT_DIR}/modules/${PLATFORM}/switch_to.cpp
+    ${PROJECT_DIR}/modules/${PLATFORM}/section.cpp
+    ${PROJECT_DIR}/modules/${PLATFORM}/wait_group.cpp
 )
-
-# general settings
+set_target_properties(${PROJECT_NAME} PROPERTIES 
+VERSION
+    ${PROJECT_VERSION}
+)
 target_include_directories(${PROJECT_NAME}
 PUBLIC
     ${PROJECT_DIR}/interface
@@ -88,25 +95,24 @@ if(WIN32)  # Clang + Windows
     )
 else() # Clang + Non-Windows
     target_compile_options(${PROJECT_NAME} 
-        PUBLIC
-            -std=c++2a
-            -fcoroutines-ts
-            -fPIC 
-        PRIVATE
-            -Wall
-            -fno-rtti 
-            -fvisibility=hidden
-            -ferror-limit=5
+    PUBLIC
+        -std=c++2a -fcoroutines-ts
+        -fPIC 
+    PRIVATE
+        -Wall -Wno-unknown-pragmas
+        -fno-rtti 
+        -fvisibility=hidden
+        -ferror-limit=5
     )
 
     if(CMAKE_BUILD_TYPE MATCHES Debug)
         # Generate coverage
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
         target_compile_options(${PROJECT_NAME}
         PUBLIC
             -g -O0 
         PRIVATE
-            --coverage  # do not propagate this coverage option
+            --coverage
         )
     else()
         target_compile_options(${PROJECT_NAME}    
@@ -121,38 +127,26 @@ if(APPLE)
     PUBLIC
         -stdlib=libc++ 
     )
+    target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        pthread
+    )
 elseif(LINUX)
-    # will use prebuilt packages
-    target_compile_options(${PROJECT_NAME}
-    PUBLIC
-        -nostdinc++ -nodefaultlibs
+    # linux-only source codes
+    target_sources(${PROJECT_NAME}
+    PRIVATE
+        ${PROJECT_DIR}/modules/linux/realtime.cpp
     )
-
-    # see: libcxx_prebuilt-config.cmake
-    find_package(libcxx_prebuilt CONFIG REQUIRED 
-        PATHS ${PROJECT_DIR}/prebuilt
-    )
-    target_include_directories(${PROJECT_NAME} 
+    # expect libc++
+    target_compile_options(${PROJECT_NAME} 
     PUBLIC
-        ${LIBCXX_INCLUDE_DIR}
+        -stdlib=libc++ 
     )
     target_link_libraries(${PROJECT_NAME}
     PUBLIC
-        ${LIBCXX_LIBS}
+        c++ c++abi c++experimental
+        pthread rt
     )
-
-    # target_include_directories(${PROJECT_NAME} 
-    # PUBLIC
-    #     ${PROJECT_DIR}/prebuilt/include/c++/v1/
-    # )
-    # link_directories(
-    #     ${PROJECT_DIR}/prebuilt/lib
-    # )
-    # target_link_libraries(${PROJECT_NAME}
-    # PUBLIC
-    #     libc++.so
-    #     libc++experimental.a
-    # )
 endif()
 
 # install settings
@@ -161,7 +155,7 @@ install(DIRECTORY       ${PROJECT_DIR}/interface/coroutine
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/include
 )
 install(TARGETS         ${PROJECT_NAME}
-        DESTINATION     ${CMAKE_INSTALL_PREFIX}/libs
+        DESTINATION     ${CMAKE_INSTALL_PREFIX}/libs/${PLATFORM}
 )
 
 if(ANDROID OR IOS)
@@ -174,6 +168,8 @@ set(TEST_NAME ${PROJECT_NAME}_test_suite)
 
 add_executable(${TEST_NAME}
     ${PROJECT_DIR}/test/test.entry.cpp
+    ${PROJECT_DIR}/test/test.sequence.cpp
+    ${PROJECT_DIR}/test/test.unplug.cpp
 )
 
 target_include_directories(${TEST_NAME}
@@ -185,3 +181,10 @@ target_link_libraries(${TEST_NAME}
 PUBLIC
     ${PROJECT_NAME}
 )
+
+if(NOT MSVC)
+    target_compile_options(${TEST_NAME}
+    PRIVATE
+        -g --coverage
+    )
+endif()

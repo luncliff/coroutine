@@ -1,9 +1,7 @@
 ﻿// ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//  License
-//      CC BY 4.0
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 //  Note
 //      Utility for synchronization over System API
@@ -42,13 +40,11 @@
 #include <atomic>
 #include <mutex>
 
-#include <Windows.h> // System API
-
 // - Note
 //      Basic Lockable with Win32 Critical Section
-class section final : CRITICAL_SECTION
+class section final
 {
-    // std::uint64_t reseved[8]{};
+    std::uint64_t u64[8]{};
 
   private:
     section(section&) = delete;
@@ -60,13 +56,13 @@ class section final : CRITICAL_SECTION
     _INTERFACE_ explicit section(std::uint16_t spin = 0x600) noexcept;
     _INTERFACE_ ~section() noexcept;
 
-    _INTERFACE_[[nodiscard]] bool try_lock() noexcept;
+    [[nodiscard]] _INTERFACE_ bool try_lock() noexcept;
     _INTERFACE_ void lock() noexcept;
     _INTERFACE_ void unlock() noexcept;
 };
 
 // - Note
-//      WaitGroup with Win32 Event
+//      WaitGroup with Event Handling
 //      The type is designed to support alertable thread
 // - See Also
 //      package `sync` in Go Language
@@ -98,8 +94,8 @@ class wait_group final
 };
 
 union message_t final {
-    void* ptr = nullptr;
-    std::uint64_t u64;
+    std::uint64_t u64{};
+    void* ptr;
     std::uint32_t u32[2];
 };
 static_assert(std::atomic<message_t>::is_always_lock_free);

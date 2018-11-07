@@ -1,9 +1,7 @@
 // ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//  License
-//      CC BY 4.0
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
 #ifndef COROUTINE_UNPLUG_HPP
@@ -65,29 +63,27 @@ class unplug final
     unplug(const promise_type&) noexcept {}
 };
 
-class plug final
+struct plug final
 {
-    std::experimental::coroutine_handle<void> rh{};
+    std::experimental::coroutine_handle<void> handle{};
 
   public:
-    bool await_ready() const noexcept { return false; }
-    void await_suspend(
-        std::experimental::coroutine_handle<void> _handle) noexcept
-    {
-        rh = _handle;
-    }
+    bool await_ready() noexcept { return false; }
 
-    void forget() noexcept
+    template<typename Promise>
+    void await_suspend(std::experimental::coroutine_handle<Promise> rh) noexcept
     {
-        rh = nullptr; // forget
+        handle = rh;
     }
-
-    void await_resume() noexcept { return forget(); }
+    void await_resume() noexcept
+    {
+        handle = nullptr; // forget
+    }
 
   public:
     void resume() noexcept(false)
     {
-        if (rh && rh.done() == false) rh.resume();
+        if (handle && handle.done() == false) handle.resume();
     }
 };
 

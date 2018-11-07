@@ -1,9 +1,7 @@
 ﻿// ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//  License
-//      CC BY 4.0
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 //  Note
 //      The abstraction for the async generator
@@ -199,7 +197,7 @@ struct sequence final
     }
     static constexpr pointer empty() noexcept
     {
-        return reinterpret_cast<pointer>(nullptr);
+        return reinterpret_cast<pointer>(0x0000);
     }
 
   private:

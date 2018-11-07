@@ -15,6 +15,6 @@ elseif(${CMAKE_SYSTEM} MATCHES Darwin)
     set(PLATFORM posix)
 elseif(${CMAKE_SYSTEM} MATCHES Linux)
     set(LINUX true)
-    set(PLATFORM linux)
+    set(PLATFORM posix)
 endif()
 # end

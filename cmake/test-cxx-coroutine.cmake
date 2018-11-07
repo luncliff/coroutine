@@ -5,10 +5,6 @@
 #
 cmake_policy(VERSION 3.5)
 
-if(TARGET cxx-coroutine-helper)    # prevent multiple import
-    return()
-endif()
-
 include(CheckCXXCompilerFlag)
 
 if(MSVC)
@@ -21,5 +17,4 @@ else()
     # elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)    # GCC
     message(WARNING "${CMAKE_CXX_COMPILER_ID} is not checkd by the author")
 endif()
-
 #end
