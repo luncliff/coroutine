@@ -37,7 +37,7 @@ void setup_indices() noexcept
         res.index = i++;
 }
 
-[[noreturn]] void teardown_indices() noexcept
+void teardown_indices() noexcept
 {
     for (auto& res : pool.space)
         if (res.owner) pool.deallocate(std::addressof(res));

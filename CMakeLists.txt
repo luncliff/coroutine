@@ -20,19 +20,21 @@ endif()
 project(coroutine LANGUAGES CXX VERSION 1.2)
 
 # list of cmake module path for this project
-list(APPEND CMAKE_MODULE_PATH   ${CMAKE_SOURCE_DIR}/cmake           )
-list(APPEND CMAKE_MODULE_PATH   ${CMAKE_CURRENT_SOURCE_DIR}/cmake   )
+# list(APPEND CMAKE_MODULE_PATH   ${CMAKE_SOURCE_DIR}/cmake           )
 
-# import cmake code snippets. see cmake/
-include(alias)
-include(test-cxx-coroutine)
+# import cmake code snippets. see `cmake/`
+include(cmake/alias.cmake)
+include(cmake/test-cxx-coroutine.cmake)
 
 if(NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
+if(NOT IOS)
+    set(BUILD_SHARED_LIBS true)
+endif()
 
 # show project's build configuration
-include(display-build-info)
+include(cmake/display-build-info.cmake)
 
 if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)    # GCC
     message(FATAL_ERROR "Current version doesn't support GCC. Please use Clang 5.0+ or AppleClang")
@@ -41,10 +43,10 @@ endif()
 
 # create coroutine helper library
 add_library(${PROJECT_NAME} SHARED
-    ${PROJECT_DIR}/modules/${PLATFORM}/dllmain.cpp
-    ${PROJECT_DIR}/modules/${PLATFORM}/switch_to.cpp
-    ${PROJECT_DIR}/modules/${PLATFORM}/section.cpp
-    ${PROJECT_DIR}/modules/${PLATFORM}/wait_group.cpp
+    modules/${PLATFORM}/dllmain.cpp
+    modules/${PLATFORM}/switch_to.cpp
+    modules/${PLATFORM}/section.cpp
+    modules/${PLATFORM}/wait_group.cpp
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES 
 VERSION
@@ -61,6 +63,12 @@ PUBLIC
 
 # platform / compiler settings
 if(WIN32)  # Clang + Windows
+    target_sources(${PROJECT_NAME}
+    PRIVATE
+        modules/win32/clang.cpp
+        modules/win32/thread_registry.cpp
+        modules/win32/thread_message.cpp
+    )
     target_compile_definitions(${PROJECT_NAME}
     PUBLIC
         _RESUMABLE_FUNCTIONS_SUPPORTED
@@ -135,7 +143,7 @@ elseif(LINUX)
     # linux-only source codes
     target_sources(${PROJECT_NAME}
     PRIVATE
-        ${PROJECT_DIR}/modules/linux/realtime.cpp
+        modules/linux/realtime.cpp
     )
     # expect libc++
     target_compile_options(${PROJECT_NAME} 
@@ -179,9 +187,15 @@ PRIVATE
 
 target_link_libraries(${TEST_NAME}
 PUBLIC
-    ${PROJECT_NAME} stdc++
+    ${PROJECT_NAME}
 )
 
+if(NOT WIN32)
+    target_link_libraries(${TEST_NAME}
+    PUBLIC
+        stdc++
+    )
+endif()
 if(NOT MSVC)
     if(CMAKE_BUILD_TYPE MATCHES Debug)
         target_compile_options(${TEST_NAME}

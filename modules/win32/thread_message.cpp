@@ -15,7 +15,7 @@
 #include <coroutine/sync.h>
 
 constexpr uint16_t max_thread_count = 300;
-
+constexpr uint16_t max_spin = 0x0500;
 static_assert(std::atomic<message_t>::is_always_lock_free);
 using queue_t = std::queue<message_t>;
 
