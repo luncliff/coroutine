@@ -1,10 +1,7 @@
 ﻿// ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//
-//  License
-//      CC BY 4.0
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
 
@@ -43,15 +40,14 @@ void setup_indices() noexcept
 [[noreturn]] void teardown_indices() noexcept
 {
     for (auto& res : pool.space)
-        if (res.owner)
-            pool.deallocate(std::addressof(res));
+        if (res.owner) pool.deallocate(std::addressof(res));
 }
 
 uint16_t register_thread(uint32_t thread_id, const lock_t&) noexcept(false)
 {
     auto* res = reinterpret_cast<resource_t*>(pool.allocate());
     if (res == nullptr)
-        throw std::runtime_error{ "can't allocate a resource for the thread" };
+        throw std::runtime_error{"can't allocate a resource for the thread"};
 
     res->owner = thread_id;
     return res->index;
@@ -82,8 +78,7 @@ uint16_t index_of(uint32_t thread_id) noexcept(false)
     lock_t lock{protect};
 
     for (resource_t& res : pool.space)
-        if (res.owner == thread_id)
-            return res.index;
+        if (res.owner == thread_id) return res.index;
 
     // lazy registration
     return register_thread(thread_id, lock);

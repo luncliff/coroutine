@@ -1,10 +1,7 @@
 // ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//
-//  License
-//      CC BY 4.0
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
 
@@ -14,18 +11,18 @@
 #error "This file must be compiled with clang 6.0 or later";
 #else
 
-size_t _coro_resume(void *a)
+size_t _coro_resume(void* a)
 {
-  __builtin_coro_resume(a);
-  return true;
+    __builtin_coro_resume(a);
+    return true;
 }
 
-void _coro_destroy(void *a) { return __builtin_coro_destroy(a); }
+void _coro_destroy(void* a) { return __builtin_coro_destroy(a); }
 
-size_t _coro_done(void *a)
+size_t _coro_done(void* a)
 {
-  const bool is_done = __builtin_coro_done(a);
-  return static_cast<size_t>(is_done);
+    const bool is_done = __builtin_coro_done(a);
+    return static_cast<size_t>(is_done);
 }
 
 // size_t _coro_frame_size();

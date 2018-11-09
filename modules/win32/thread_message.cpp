@@ -1,10 +1,7 @@
 ﻿// ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//
-//  License
-//      CC BY 4.0
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
 
@@ -24,7 +21,6 @@ using queue_t = std::queue<message_t>;
 
 std::array<section, max_thread_count> queue_lockables{};
 std::array<queue_t, max_thread_count> queue_list{};
-
 
 extern uint16_t index_of(uint32_t thread_id) noexcept(false);
 
