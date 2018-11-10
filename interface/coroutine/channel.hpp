@@ -10,11 +10,12 @@
 #define COROUTINE_CHANNEL_HPP
 
 #include <cassert>
-#include <experimental/coroutine>
 #include <limits>
 #include <mutex>
 #include <tuple>
 #include <utility>
+
+#include <experimental/coroutine>
 
 namespace internal
 {

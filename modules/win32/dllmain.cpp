@@ -14,7 +14,7 @@
 #include <cassert>
 #include <numeric>
 
-#include <coroutine/sequence.hpp>
+#include <coroutine/enumerable.hpp>
 #include <coroutine/sync.h>
 #include <coroutine/unplug.hpp>
 
@@ -25,8 +25,7 @@ auto check_coroutine_available() noexcept -> unplug
     co_await std::experimental::suspend_never{};
 }
 
-auto check_generator_available() noexcept
-    -> std::experimental::generator<uint16_t>
+auto check_generator_available() noexcept -> enumerable<uint16_t>
 {
     uint16_t value = 4;
     co_yield value;

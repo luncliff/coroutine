@@ -54,17 +54,17 @@ TEST_CLASS(SequenceTest) {
 
     TEST_METHOD(YieldThenAwait)
     {
-        auto get_sequence = [&](plug& p) -> sequence<int> {
+        auto get_sequence = [&](await_plug& p) -> sequence<int> {
             int value = 137;
             co_yield value;
             co_yield p;
         };
-        auto try_sequence = [=](plug& p, int& ref) -> unplug {
+        auto try_sequence = [=](await_plug& p, int& ref) -> unplug {
             for
                 co_await(int v : get_sequence(p)) ref = v;
         };
 
-        plug p{};
+        await_plug p{};
         int value = 0;
         try_sequence(p, value);
         p.resume();
@@ -73,17 +73,17 @@ TEST_CLASS(SequenceTest) {
 
     TEST_METHOD(AwaitThenYield)
     {
-        auto get_sequence = [&](plug& p) -> sequence<int> {
+        auto get_sequence = [&](await_plug& p) -> sequence<int> {
             int value = 131;
             co_yield p;
             co_yield value;
         };
-        auto try_sequence = [=](plug& p, int& ref) -> unplug {
+        auto try_sequence = [=](await_plug& p, int& ref) -> unplug {
             for
                 co_await(int v : get_sequence(p)) ref = v;
         };
 
-        plug p{};
+        await_plug p{};
         int value = 0;
         try_sequence(p, value);
         p.resume();
@@ -96,7 +96,7 @@ TEST_CLASS(SequenceTest) {
             int value{};
 
             co_yield value = 7;
-            co_yield value = 9;
+            //co_yield value = 9;
         };
         auto try_sequence = [=](int& ref) -> unplug {
             for
@@ -114,7 +114,7 @@ TEST_CLASS(SequenceTest) {
 
     TEST_METHOD(Interleaved)
     {
-        auto get_sequence = [&](plug& p, int& value) -> sequence<int> {
+        auto get_sequence = [&](await_plug& p, int& value) -> sequence<int> {
             co_yield p;
 
             co_yield value = 1;
@@ -130,7 +130,7 @@ TEST_CLASS(SequenceTest) {
             co_yield value = 4;
         };
 
-        auto try_sequence = [=](plug& p, int& sum, int& value) -> unplug {
+        auto try_sequence = [=](await_plug& p, int& sum, int& value) -> unplug {
             Assert::IsTrue(sum == 0);
             auto s = get_sequence(p, value);
             Assert::IsTrue(sum == 0);
@@ -150,7 +150,7 @@ TEST_CLASS(SequenceTest) {
             sum += 5;
         };
 
-        plug p{};
+        await_plug p{};
         int sum = 0, value = 0;
 
         try_sequence(p, sum, value);

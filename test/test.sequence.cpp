@@ -9,35 +9,21 @@
 #include <coroutine/sync.h>
 #include <coroutine/unplug.hpp>
 
-TEST_CASE("GeneratorTest", "[syntax]")
-{
-    SECTION("yield_once")
-    {
-        auto try_generator = []() -> std::experimental::generator<int> {
-            int value = 0;
-            co_yield value;
-            co_return;
-        };
-
-        for (auto v : try_generator())
-            REQUIRE(v == 0);
-    }
-}
-
 TEST_CASE("SequenceTest", "[syntax]")
 {
     SECTION("no_result")
     {
-        auto get_sequence = [](plug& p) -> sequence<int> {
-            co_yield p; // do nothing
+        auto get_sequence = [](await_plug& plug) -> sequence<int> {
+            co_yield plug; // do nothing
         };
-        auto try_sequence = [](plug& p, int& ref, auto async_gen) -> unplug {
+        auto try_sequence =
+            [](await_plug& plug, int& ref, auto async_gen) -> unplug {
             for
-                co_await(int v : async_gen(p)) ref = v;
+                co_await(int v : async_gen(plug)) ref = v;
             ref = -2;
         };
 
-        plug p{};
+        await_plug p{};
         int value = 0;
 
         REQUIRE_NOTHROW(                         //
@@ -49,18 +35,19 @@ TEST_CASE("SequenceTest", "[syntax]")
 
     SECTION("one_result-case1")
     {
-        auto get_sequence = [](plug& p) -> sequence<int> {
+        auto get_sequence = [](await_plug& plug) -> sequence<int> {
             int v = 137;
             co_yield v;
-            co_yield p;
+            co_yield plug;
         };
 
-        auto try_sequence = [](plug& p, int& ref, auto async_gen) -> unplug {
+        auto try_sequence =
+            [](await_plug& plug, int& ref, auto async_gen) -> unplug {
             for
-                co_await(int v : async_gen(p)) ref = v;
+                co_await(int v : async_gen(plug)) ref = v;
         };
 
-        plug p{};
+        await_plug p{};
         int value = 0;
 
         REQUIRE_NOTHROW(                         //
@@ -72,18 +59,19 @@ TEST_CASE("SequenceTest", "[syntax]")
 
     SECTION("one_result-case2")
     {
-        auto get_sequence = [](plug& p) -> sequence<int> {
+        auto get_sequence = [](await_plug& plug) -> sequence<int> {
             int v = 131;
-            co_yield p;
+            co_yield plug;
             co_yield v;
         };
 
-        auto try_sequence = [=](plug& p, int& ref, auto async_gen) -> unplug {
+        auto try_sequence =
+            [=](await_plug& plug, int& ref, auto async_gen) -> unplug {
             for
-                co_await(int v : async_gen(p)) ref = v;
+                co_await(int v : async_gen(plug)) ref = v;
         };
 
-        plug p{};
+        await_plug p{};
         int value = 0;
 
         REQUIRE_NOTHROW(                         //
@@ -95,28 +83,28 @@ TEST_CASE("SequenceTest", "[syntax]")
 
     SECTION("interleaved")
     {
-        auto get_sequence = [=](plug& p, int& value) -> sequence<int> {
-            co_yield p;
+        auto get_sequence = [=](await_plug& plug, int& value) -> sequence<int> {
+            co_yield plug;
 
             co_yield value = 1;
-            co_yield p;
+            co_yield plug;
 
             co_yield value = 2;
             co_yield value = 3;
-            co_yield p;
+            co_yield plug;
 
             value = -3;
-            co_yield p;
+            co_yield plug;
 
             co_yield value = 4;
         };
 
-        auto try_sequence = [](plug& p,
+        auto try_sequence = [](await_plug& plug,
                                int& value,
                                int& sum,
                                auto async_gen) -> unplug { //
             REQUIRE(sum == 0);
-            auto s = async_gen(p, value);
+            auto s = async_gen(plug, value);
             REQUIRE(sum == 0);
 
             // for (auto it = co_await s.begin(); // begin
@@ -134,7 +122,7 @@ TEST_CASE("SequenceTest", "[syntax]")
             sum += 5;
         };
 
-        plug p{};
+        await_plug p{};
         int value = 0;
         int sum = 0;
 

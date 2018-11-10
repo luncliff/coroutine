@@ -99,7 +99,8 @@ union message_t final {
     void* ptr;
     std::uint32_t u32[2];
 };
-static_assert(std::atomic<message_t>::is_always_lock_free);
+// static_assert(std::atomic<message_t>::is_always_lock_free);
+static_assert(sizeof(message_t) <= sizeof(uint64_t));
 
 // - Note
 //      Post a message to the thread with given id

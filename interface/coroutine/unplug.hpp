@@ -63,27 +63,32 @@ class unplug final
     unplug(const promise_type&) noexcept {}
 };
 
-struct plug final
+class await_plug final
 {
-    std::experimental::coroutine_handle<void> handle{};
+    template<typename T = void>
+    using handle_t = std::experimental::coroutine_handle<T>;
+
+    handle_t<void> coro{};
 
   public:
     bool await_ready() noexcept { return false; }
 
     template<typename Promise>
-    void await_suspend(std::experimental::coroutine_handle<Promise> rh) noexcept
+    void await_suspend(handle_t<Promise> rh) noexcept
     {
-        handle = rh;
+        coro = rh;
     }
     void await_resume() noexcept
     {
-        handle = nullptr; // forget
+        coro = nullptr; // forget
     }
 
   public:
     void resume() noexcept(false)
     {
-        if (handle && handle.done() == false) handle.resume();
+        if (coro && coro.done() == false)
+            // resume if available
+            coro.resume();
     }
 };
 

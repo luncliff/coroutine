@@ -10,169 +10,8 @@
 #ifndef COROUTINE_SEQUENCE_HPP
 #define COROUTINE_SEQUENCE_HPP
 
-#include <experimental/coroutine>
-
-#ifdef __clang__
-
-namespace std
-{
-namespace experimental
-{
-// - Note
-//    This implementation should work like <experimental/generator> of VC++
-template<typename T,
-         typename A = allocator<char>> // byte level allocation by default
-struct generator
-{
-    struct promise_type; // Resumable Promise Requirement
-    struct iterator;     // Abstraction: iterator
-
-  private:
-    coroutine_handle<promise_type> rh{}; // resumable handle
-
-  private:
-    // copy
-    generator(const generator&) = delete;
-    generator& operator=(const generator&) = delete;
-
-  public:
-    generator(coroutine_handle<promise_type>&& handle_from_promise) noexcept
-        : rh{std::move(handle_from_promise)}
-    {
-        // must ensure handle is valid...
-    }
-
-    // move
-    generator(generator&& rhs) noexcept : rh{std::move(rhs.rh)} {}
-    generator& operator=(generator&& rhs) noexcept
-    {
-        std::swap(this->rh, rhs.rh);
-        return *this;
-    }
-
-    ~generator() noexcept
-    {
-        // generator will destroy the frame.
-        // so sub-types aren't need to consider about it
-        if (rh) rh.destroy();
-    }
-
-  public:
-    iterator begin() noexcept(false)
-    {
-        if (rh) // resumeable?
-        {
-            rh.resume();
-            if (rh.done()) // finished?
-                return nullptr;
-        }
-        return iterator{rh};
-    }
-    iterator end() noexcept { return iterator{nullptr}; }
-
-  public:
-    // Resumable Promise Requirement
-    struct promise_type
-    {
-      public:
-        // iterator will access to this pointer
-        //  and reference memory object in coroutine frame
-        T* current = nullptr;
-
-      private:
-        // promise type is strongly coupled to coroutine frame.
-        // so copy/move might create wrong(garbage) coroutine handle
-        promise_type(promise_type&) noexcept = delete;
-        promise_type(promise_type&&) = delete;
-
-      public:
-        promise_type() = default;
-        ~promise_type() = default;
-
-      public:
-        // suspend at init/final suspension point
-        auto initial_suspend() const noexcept { return suspend_always{}; }
-        auto final_suspend() const noexcept { return suspend_always{}; }
-        // `co_yield` expression. only for reference
-        auto yield_value(T& ref) noexcept
-        {
-            current = std::addressof(ref);
-            return suspend_always{};
-        }
-        // `co_yield` expression. for value
-        // auto yield_value(T &&value) noexcept
-        // {
-        //   cache = std::move(value)
-        //   current = std::addressof(cache);
-        //   return suspend_always{};
-        // }
-
-        // `co_return` expression
-        void return_void() noexcept { current = nullptr; }
-        // terminate if unhandled exception occurs
-        void unhandled_exception() noexcept { std::terminate(); }
-
-        coroutine_handle<promise_type> get_return_object() noexcept
-        {
-            // generator will hold this handle
-            return coroutine_handle<promise_type>::from_promise(*this);
-        }
-    };
-
-    struct iterator
-    {
-        coroutine_handle<promise_type> rh;
-
-      public:
-        // `generator::end()`
-        iterator(nullptr_t) noexcept : rh{nullptr} {}
-        // `generator::begin()`
-        iterator(coroutine_handle<promise_type> handle) noexcept : rh{handle} {}
-
-      public:
-        iterator& operator++() noexcept(false)
-        {
-            rh.resume();
-            // generator will destroy coroutine frame later...
-            if (rh.done()) rh = nullptr;
-            return *this;
-        }
-
-        // post increment
-        iterator& operator++(int) = delete;
-
-        auto operator*() noexcept -> T& { return *(rh.promise().current); }
-        auto operator*() const noexcept -> const T&
-        {
-            return *(rh.promise().current);
-        }
-
-        auto operator-> () noexcept -> T* { return rh.promise().current; }
-        auto operator-> () const noexcept -> const T*
-        {
-            return rh.promise().current;
-        }
-
-        bool operator==(const iterator& rhs) const noexcept
-        {
-            return this->rh == rhs.rh;
-        }
-        bool operator!=(const iterator& rhs) const noexcept
-        {
-            return !(*this == rhs);
-        }
-    };
-};
-
-} // namespace experimental
-} // namespace std
-
-#elif _MSC_VER // clang compiler will use the followings...
-
-// #include <experimental/resumable>
-#include <experimental/generator>
-
-#endif // _WIN32 <experimental/generator>
+#include <coroutine/frame.h>
+#include <iterator>
 
 //#include <atomic>
 
@@ -243,7 +82,7 @@ struct sequence final
         // ---- atomic implementation ----
         // static_assert(std::atomic<handle_t>::is_always_lock_free);
         // std::atomic<handle_t> task{};
-
+      public:
       private:
         promise_type(promise_type&) = delete;
         promise_type(promise_type&&) = delete;
@@ -261,12 +100,12 @@ struct sequence final
             return handle_promise_t::from_promise(*this);
         }
 
-        auto initial_suspend() const noexcept
+        auto initial_suspend() /*const*/ noexcept
         {
             // Suspend immediately and let the iterator to resume
             return std::experimental::suspend_always{};
         }
-        auto final_suspend() const noexcept
+        auto final_suspend() /*const*/ noexcept
         {
             // Delete of `iterator` & `promise`
             //
@@ -314,7 +153,7 @@ struct sequence final
             //
             // !!! Using relaxed order here needs more verification !!!
             //
-            return task != nullptr;
+            return task.address() != nullptr;
             // ---- atomic implementation ----
             // return task.load(std::memory_order::memory_order_acquire) !=
             //       nullptr;
@@ -341,6 +180,14 @@ struct sequence final
 
     struct iterator final
     {
+      public:
+        using iterator_category = std::input_iterator_tag;
+        using difference_type = ptrdiff_t;
+        using value_type = T;
+        using reference = T const&;
+        using pointer = T const*;
+
+      public:
         promise_type* promise{};
 
       public:
