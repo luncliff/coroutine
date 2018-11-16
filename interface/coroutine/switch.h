@@ -46,13 +46,13 @@ _INTERFACE_ bool peek_switched(
 // - Note
 //      Routine switching to another thread with MSVC Coroutine
 //      and Windows Thread Pool
-class _INTERFACE_ switch_to final
+class switch_to final
 {
     std::uint64_t u64[2]{};
 
   public:
-    explicit switch_to(uint32_t target = 0) noexcept;
-    ~switch_to() noexcept;
+    _INTERFACE_ explicit switch_to(uint32_t target = 0) noexcept;
+    _INTERFACE_ ~switch_to() noexcept;
 
   private:
     switch_to(switch_to&&) noexcept = delete;
@@ -61,9 +61,9 @@ class _INTERFACE_ switch_to final
     switch_to& operator=(const switch_to&) noexcept = delete;
 
   public:
-    bool ready() const noexcept;
-    void suspend(std::experimental::coroutine_handle<void> rh) noexcept(false);
-    void resume() noexcept;
+    _INTERFACE_ bool ready() const noexcept;
+    _INTERFACE_ void suspend(std::experimental::coroutine_handle<void> rh) noexcept(false);
+    _INTERFACE_ void resume() noexcept;
 
 #pragma warning(disable : 4505)
     decltype(auto) await_ready() const noexcept { return this->ready(); }

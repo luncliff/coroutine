@@ -24,7 +24,7 @@ using HMODULE = void*;
 
 // - Reference
 //      Plugin in the Go Language
-class plugin
+class plugin final
 {
     HMODULE handle = nullptr;
 

@@ -32,7 +32,9 @@ endif()
 if(NOT IOS)
     set(BUILD_SHARED_LIBS true)
 endif()
-set(CMAKE_CXX_STANDARD 20)
+if(WIN32)
+    set(CMAKE_CXX_STANDARD 20)
+endif()
 
 # show project's build configuration
 include(cmake/display-build-info.cmake)
@@ -177,9 +179,8 @@ set(TEST_NAME ${PROJECT_NAME}_test)
 
 add_executable(${TEST_NAME}
     test/test.entry.cpp
-    test/test.alignment.cpp
     test/test.generator.cpp
-    test/test.sequence.cpp
+    # test/test.sequence.cpp
     test/test.unplug.cpp
 )
 

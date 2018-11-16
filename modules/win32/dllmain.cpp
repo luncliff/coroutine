@@ -11,12 +11,28 @@
 #define PROCEDURE __attribute__((constructor))
 #endif
 
+#include <array>
 #include <cassert>
 #include <numeric>
 
 #include <coroutine/enumerable.hpp>
+#include <coroutine/frame.h>
 #include <coroutine/sync.h>
 #include <coroutine/unplug.hpp>
+
+void dump_frame(void* frame) noexcept
+{
+    static constexpr auto frame_length = 20;
+    auto& view = *reinterpret_cast<std::array<uint64_t, frame_length>*>(frame);
+
+    std::printf("frame: %p \n", frame);
+    for (auto offset = 0u; offset < view.size(); ++offset)
+    {
+        std::printf(
+            "%02u %p %016llx\n", offset, view.data() + offset, view[offset]);
+    }
+    std::puts("\n");
+}
 
 namespace coroutine
 {

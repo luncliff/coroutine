@@ -2,9 +2,8 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include "./test.h"
 #include <catch.hpp>
-
-#include <numeric>
 
 #include <coroutine/enumerable.hpp>
 

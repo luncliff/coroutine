@@ -2,6 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include "./test.h"
 #include <catch.hpp>
 
 #include <coroutine/sequence.hpp>
@@ -13,17 +14,17 @@ TEST_CASE("SequenceTest", "[syntax]")
 {
     SECTION("no_result")
     {
-        auto get_sequence = [](await_plug& plug) -> sequence<int> {
+        auto get_sequence = [](await_point& plug) -> sequence<int> {
             co_yield plug; // do nothing
         };
         auto try_sequence =
-            [](await_plug& plug, int& ref, auto async_gen) -> unplug {
+            [](await_point& plug, int& ref, auto async_gen) -> unplug {
             for
                 co_await(int v : async_gen(plug)) ref = v;
             ref = -2;
         };
 
-        await_plug p{};
+        await_point p{};
         int value = 0;
 
         REQUIRE_NOTHROW(                         //
@@ -35,19 +36,19 @@ TEST_CASE("SequenceTest", "[syntax]")
 
     SECTION("one_result-case1")
     {
-        auto get_sequence = [](await_plug& plug) -> sequence<int> {
+        auto get_sequence = [](await_point& plug) -> sequence<int> {
             int v = 137;
             co_yield v;
             co_yield plug;
         };
 
         auto try_sequence =
-            [](await_plug& plug, int& ref, auto async_gen) -> unplug {
+            [](await_point& plug, int& ref, auto async_gen) -> unplug {
             for
                 co_await(int v : async_gen(plug)) ref = v;
         };
 
-        await_plug p{};
+        await_point p{};
         int value = 0;
 
         REQUIRE_NOTHROW(                         //
@@ -59,19 +60,19 @@ TEST_CASE("SequenceTest", "[syntax]")
 
     SECTION("one_result-case2")
     {
-        auto get_sequence = [](await_plug& plug) -> sequence<int> {
+        auto get_sequence = [](await_point& plug) -> sequence<int> {
             int v = 131;
             co_yield plug;
             co_yield v;
         };
 
         auto try_sequence =
-            [=](await_plug& plug, int& ref, auto async_gen) -> unplug {
+            [=](await_point& plug, int& ref, auto async_gen) -> unplug {
             for
                 co_await(int v : async_gen(plug)) ref = v;
         };
 
-        await_plug p{};
+        await_point p{};
         int value = 0;
 
         REQUIRE_NOTHROW(                         //
@@ -83,7 +84,8 @@ TEST_CASE("SequenceTest", "[syntax]")
 
     SECTION("interleaved")
     {
-        auto get_sequence = [=](await_plug& plug, int& value) -> sequence<int> {
+        auto get_sequence = [=](await_point& plug,
+                                int& value) -> sequence<int> {
             co_yield plug;
 
             co_yield value = 1;
@@ -99,7 +101,7 @@ TEST_CASE("SequenceTest", "[syntax]")
             co_yield value = 4;
         };
 
-        auto try_sequence = [](await_plug& plug,
+        auto try_sequence = [](await_point& plug,
                                int& value,
                                int& sum,
                                auto async_gen) -> unplug { //
@@ -122,7 +124,7 @@ TEST_CASE("SequenceTest", "[syntax]")
             sum += 5;
         };
 
-        await_plug p{};
+        await_point p{};
         int value = 0;
         int sum = 0;
 

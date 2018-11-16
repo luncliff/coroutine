@@ -7,10 +7,10 @@
 #ifndef COROUTINE_UNPLUG_HPP
 #define COROUTINE_UNPLUG_HPP
 
-#include <experimental/coroutine>
+#include <coroutine/frame.h>
 
 // - Note
-//      Commented code are examples for memory management customization.
+//      this line is example for memory management customization.
 // static std::allocator<char> __mgmt{};
 
 // - Note
@@ -24,71 +24,76 @@ class unplug final
   public:
     struct promise_type
     {
+      public:
         // No suspend for init/final suspension point
-        auto initial_suspend() const noexcept
+        auto initial_suspend() noexcept
         {
             return std::experimental::suspend_never{};
         }
-        auto final_suspend() const noexcept
+        auto final_suspend() noexcept
         {
             return std::experimental::suspend_never{};
         }
-        void return_void(void) noexcept {}
+        void return_void(void) noexcept
+        {
+            // nothing to do because this is `void` return
+        }
         void unhandled_exception() noexcept
         {
-            // std::terminate();
+            // terminate the program.
+            std::terminate();
         }
 
-        promise_type& get_return_object() noexcept { return *this; }
+        promise_type* get_return_object() noexcept { return this; }
 
         // - Note
         //      Examples for memory management customization.
         // void* operator new(size_t _size) noexcept(false)
-        //{
-        //    std::printf("%u \n", _size);
-        //    return __mgmt.allocate(_size);
-        //    return nullptr;
-        //}
+        // {
+        //     return __mgmt.allocate(_size);
+        // }
 
         // - Note
         //      Examples for memory management customization.
         // void operator delete(void* _ptr, size_t _size) noexcept
-        //{
-        //    std::printf("%u \n", _size);
-        //    return __mgmt.deallocate(static_cast<char*>(_ptr), _size);
-        //}
+        // {
+        //     return __mgmt.deallocate(static_cast<char*>(_ptr), _size);
+        // }
     };
 
   public:
-    unplug(const promise_type&) noexcept {}
+    unplug(const promise_type*) noexcept {}
 };
 
-class await_plug final
+// - Note
+//      Receiver for explicit `co_await` to enable manual resume
+class await_point final
 {
-    template<typename T = void>
-    using handle_t = std::experimental::coroutine_handle<T>;
+    using handle_t = std::experimental::coroutine_handle<void>;
 
-    handle_t<void> coro{};
+    void* prefix{};
 
   public:
-    bool await_ready() noexcept { return false; }
-
-    template<typename Promise>
-    void await_suspend(handle_t<Promise> rh) noexcept
+    bool await_ready() const noexcept
     {
-        coro = rh;
+        return false; // suspend_always
+    }
+    void await_suspend(handle_t rh) noexcept
+    {
+        // coroutine frame's prefix
+        prefix = rh.address();
     }
     void await_resume() noexcept
     {
-        coro = nullptr; // forget
+        prefix = nullptr; // forget
     }
 
   public:
     void resume() noexcept(false)
     {
-        if (coro && coro.done() == false)
-            // resume if available
-            coro.resume();
+        if (auto coro = handle_t::from_address(prefix))
+            if (coro.done() == false) // resume if available
+                coro.resume();
     }
 };
 

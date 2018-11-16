@@ -2,7 +2,9 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include "./test.h"
 #include <catch.hpp>
+
 #include <coroutine/unplug.hpp>
 
 TEST_CASE("UnplugTest", "[syntax]")
@@ -19,24 +21,37 @@ TEST_CASE("UnplugTest", "[syntax]")
 
 TEST_CASE("PlugTest", "[syntax]")
 {
-    SECTION("empty") { REQUIRE_NOTHROW(await_plug{}.resume()); }
+    SECTION("empty")
+    {
+        // if empty, do nothing
+        REQUIRE_NOTHROW(await_point{}.resume());
+    }
 
     SECTION("plug_and_resume")
     {
-        auto try_plugging = [](await_plug& p, int& status) -> unplug {
-            status = 1;
-            co_await std::experimental::suspend_never{};
-            co_await p;
-            status = 2;
-            co_return;
-        };
-
         int status = 0;
-        await_plug p{};
+        {
+            auto try_plugging = [=](await_point& p, int& status) -> unplug {
+                auto a = defer([&]() {
+                    // ensure final action
+                    status = 3;
+                });
+                status = 1;
+                co_await std::experimental::suspend_never{};
+                co_await p;
+                status = 2;
+                co_await p;
+                co_return;
+            };
 
-        REQUIRE_NOTHROW(try_plugging(p, status));
-        REQUIRE(status == 1);
-        p.resume();
-        REQUIRE(status == 2);
+            await_point p{};
+
+            REQUIRE_NOTHROW(try_plugging(p, status));
+            REQUIRE(status == 1);
+            p.resume();
+            REQUIRE(status == 2);
+            p.resume();
+        }
+        REQUIRE(status == 3);
     }
 }

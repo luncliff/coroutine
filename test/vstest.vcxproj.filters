@@ -24,6 +24,9 @@
     <ClCompile Include="vstest.sequence.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="vstest.unplug.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\interface\coroutine\channel.hpp">

@@ -8,6 +8,28 @@
 //      follow semantics of msvc intrinsics in `coroutine_handle<>`
 //
 // ---------------------------------------------------------------------------
+
+#ifndef LINKABLE_DLL_MACRO
+#define LINKABLE_DLL_MACRO
+
+#ifdef _MSC_VER // MSVC
+#define _HIDDEN_
+#ifdef _WINDLL
+#define _INTERFACE_ __declspec(dllexport)
+#else
+#define _INTERFACE_ __declspec(dllimport)
+#endif
+
+#elif __GNUC__ || __clang__ // GCC or Clang
+#define _INTERFACE_ __attribute__((visibility("default")))
+#define _HIDDEN_ __attribute__((visibility("hidden")))
+
+#else
+#error "unexpected compiler"
+
+#endif // compiler check
+#endif // LINKABLE_DLL_MACRO
+
 #ifndef COROUTINE_FRAME_PREFIX_HPP
 #define COROUTINE_FRAME_PREFIX_HPP
 
@@ -24,6 +46,22 @@ struct msvc_frame final
     uint16_t index;
     uint16_t flag;
 };
+static_assert(sizeof(msvc_frame) == 16);
+// static constexpr auto _ALIGN_REQ = 16;
+// static constexpr auto exp_prom_size = 17;
+// static constexpr auto prom_align =
+//     (exp_prom_size + _ALIGN_REQ - 1) & ~(_ALIGN_REQ - 1);
+
+// - Note
+//      Clang coroutine frame's prefix. See reference docs above
+struct clang_frame final
+{
+    procedure_t factivate;
+    procedure_t fdestroy;
+};
+static_assert(sizeof(clang_frame) == 16);
+
+_INTERFACE_ void dump_frame(void* frame) noexcept;
 
 // ---- MSVC Compiler intrinsic ----
 
@@ -40,22 +78,6 @@ struct msvc_frame final
 // extern "C" void _coro_cancel();
 // extern "C" void _coro_resume_block();
 
-template<typename Base>
-struct attach_u64_type_size : public Base
-{
-    static_assert(std::alignment_of_v<Base> == 8 ||
-                  std::alignment_of_v<Base> == 4);
-
-  public:
-    const uint64_t type_size;
-
-  public:
-    attach_u64_type_size() noexcept
-        : Base{}, type_size{sizeof(Base) + sizeof(uint64_t)}
-    {
-    }
-};
-
 #ifdef __clang__
 
 //
@@ -71,51 +93,49 @@ struct attach_u64_type_size : public Base
 #include <array>
 #include <utility>
 
-// - Note
-//      Clang coroutine frame's prefix. See reference docs above
-struct clang_frame final
-{
-    procedure_t factivate;
-    procedure_t fdestroy;
-
-    static auto from_msvc_address(void* addr) noexcept
-    {
-        uint64_t* ptr = reinterpret_cast<uint64_t*>(addr);
-        constexpr auto prefix_size = sizeof(clang_frame);
-        const auto promise_size = ptr[-1]; // reserved space for type's size
-                                           // see `attach_u64_type_size`
-        ptr = ptr - promise_size / sizeof(uint64_t);   // size of promise_type
-        ptr = ptr - prefix_size / sizeof(procedure_t); // size of frame prefix
-        return reinterpret_cast<clang_frame*>(ptr);
-    }
-};
-
 // void  __builtin_coro_resume(void *addr);
 inline size_t _coro_resume(void* addr)
 {
-    auto* frame = clang_frame::from_msvc_address(addr);
-    __builtin_coro_resume(frame);
-    return _coro_done(addr);
+    auto* m = reinterpret_cast<msvc_frame*>(addr);
+    auto* c = reinterpret_cast<clang_frame*>(addr);
+
+    std::printf("_coro_resume: %p\n", addr);
+    // constexpr auto finished = 0;
+    // auto status = _coro_done(addr);
+    // if (status == finished) // if finished, index is 0;
+    //     return m->index = 0;
+
+    __builtin_coro_resume(c);
+    return 1;
 }
 
 // void  __builtin_coro_destroy(void *addr);
 inline void _coro_destroy(void* addr)
 {
-    void* frame = clang_frame::from_msvc_address(addr);
-    return __builtin_coro_destroy(frame);
+    // auto* m = reinterpret_cast<msvc_frame*>(addr);
+    auto* c = reinterpret_cast<clang_frame*>(addr);
+
+    std::printf("_coro_destroy: %p\n", addr);
+
+    // dump_frame(c);
+    return __builtin_coro_destroy(c);
 }
 
 // bool  __builtin_coro_done(void *addr);
 inline size_t _coro_done(void* addr)
 {
-    auto* mf = reinterpret_cast<msvc_frame*>(addr);
-    auto* cf = clang_frame::from_msvc_address(addr);
+    auto* m = reinterpret_cast<msvc_frame*>(addr);
+    auto* c = reinterpret_cast<clang_frame*>(addr);
 
-    if (__builtin_coro_done(cf))
-        // see `msvc_frame`
-        mf->index = 0;
+    std::printf("_coro_done: %p\n", addr);
+    if (__builtin_coro_done(c))
+        // see `msvc_frame`.
+        // if the coroutine is finished, it's ok to override the value
+        //  in the frame since they won't be visible anyway
+        m->index = 0;
 
-    return mf->index;
+    // dump_frame(c);
+    return m->index;
 }
 
 // void *__builtin_coro_promise(void *addr, int alignment, bool from_promise)

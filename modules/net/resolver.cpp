@@ -7,23 +7,8 @@
 #include "net.h"
 
 #include <coroutine/unplug.hpp>
-#include <coroutine/sequence.hpp>
+#include <coroutine/enumerable.hpp>
 
-auto foo()->sequence<int> {
-    int value;
-    co_yield value;
-    co_yield value;
-}
-
-auto bar() -> unplug {
-    auto s = foo();
-
-    //    for (auto it = co_await s.begin(); it != s.end(); co_await ++it)
-    for co_await(int v : s)
-    {
-
-    }
-}
 using namespace std;
 
 template<typename Fn>
@@ -90,7 +75,7 @@ addrinfo hint(int flags, int sock) noexcept
 // - Note
 //      Coroutine resolver
 auto resolve(addrinfo hints, const char* name, const char* serv) noexcept
-    -> std::experimental::generator<endpoint>
+    -> enumerable<endpoint>
 {
     addrinfo* list = nullptr;
     // Success : zero
@@ -116,7 +101,7 @@ auto resolve(addrinfo hints, const char* name, const char* serv) noexcept
 // - Note
 //      Coroutine resolver
 auto resolve(addrinfo hints, const char* name, const uint16_t port) noexcept
-    -> std::experimental::generator<endpoint>
+    -> enumerable<endpoint>
 {
     // Convert to numeric string
     char serv[8]{};
@@ -147,7 +132,7 @@ auto resolve(addrinfo hints, const char* name, const uint16_t port) noexcept
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
 auto resolve(const char* name, const char* serv) noexcept
-    -> std::experimental::generator<endpoint>
+    -> enumerable<endpoint>
 {
     // for `connect()`    // TCP + IPv6
     addrinfo hints = hint(AI_ALL | AI_V4MAPPED, SOCK_STREAM);
@@ -156,28 +141,28 @@ auto resolve(const char* name, const char* serv) noexcept
 }
 
 auto resolve(const char* name, uint16_t port) noexcept
-    -> std::experimental::generator<endpoint>
+    -> enumerable<endpoint>
 {
     addrinfo hints = hint(AI_ALL | AI_V4MAPPED | AI_NUMERICSERV, SOCK_STREAM);
     return resolve(hints, name, port);
 }
 
 auto resolve(const char* serv) noexcept
-    -> std::experimental::generator<endpoint>
+    -> enumerable<endpoint>
 {
     // for `bind()`    // TCP + IPv6
     addrinfo hints = hint(AI_PASSIVE | AI_V4MAPPED, SOCK_STREAM);
     // Delegate to another generator coroutine
     return resolve(hints, nullptr, serv);
 }
-auto resolve(uint16_t port) noexcept -> std::experimental::generator<endpoint>
+auto resolve(uint16_t port) noexcept -> enumerable<endpoint>
 {
     addrinfo hints = hint(AI_ALL | AI_V4MAPPED | AI_NUMERICSERV, SOCK_STREAM);
     return resolve(hints, nullptr, port);
 }
 //
 // auto resolve(const char *name, const char *serv) noexcept
-//    -> std::experimental::generator<endpoint>
+//    -> enumerable<endpoint>
 //{
 //    // UDP + IPv6
 //    addrinfo hints = hint(AI_ALL | AI_V4MAPPED, SOCK_DGRAM);
@@ -187,7 +172,7 @@ auto resolve(uint16_t port) noexcept -> std::experimental::generator<endpoint>
 
 //
 // auto resolve(const char *serv) noexcept
-//    -> std::experimental::generator<endpoint>
+//    -> enumerable<endpoint>
 //{
 //    // UDP + IPv6
 //    addrinfo hints = hint(AI_PASSIVE | AI_V4MAPPED, SOCK_DGRAM);

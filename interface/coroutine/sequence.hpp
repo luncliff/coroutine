@@ -43,7 +43,10 @@ struct sequence final
     handle_promise_t rh{}; // resumable handle
 
   public:
-    sequence(handle_promise_t&& handle) noexcept : rh{std::move(handle)} {}
+    sequence(promise_type* ptr) noexcept : rh{nullptr}
+    {
+        rh = handle_promise_t::from_promise(*ptr);
+    }
     ~sequence() noexcept
     {
         // delete the coroutine frame
@@ -72,7 +75,7 @@ struct sequence final
     iterator end() noexcept { return nullptr; }
 
   public:
-    struct promise_type final
+    struct promise_type
     {
         friend struct iterator;
 
@@ -82,23 +85,11 @@ struct sequence final
         // ---- atomic implementation ----
         // static_assert(std::atomic<handle_t>::is_always_lock_free);
         // std::atomic<handle_t> task{};
-      public:
-      private:
-        promise_type(promise_type&) = delete;
-        promise_type(promise_type&&) = delete;
-        promise_type& operator=(promise_type&) = delete;
-        promise_type& operator=(promise_type&&) = delete;
-
-      public:
-        promise_type() noexcept = default;
-        ~promise_type() noexcept = default;
 
       public:
         void unhandled_exception() noexcept { std::terminate(); }
-        auto get_return_object() noexcept -> handle_promise_t
-        {
-            return handle_promise_t::from_promise(*this);
-        }
+
+        auto get_return_object() noexcept -> promise_type* { return this; }
 
         auto initial_suspend() /*const*/ noexcept
         {
@@ -166,10 +157,11 @@ struct sequence final
         }
         void await_resume() noexcept
         {
-            // Resume if and only if there is a waiting work
-            handle_t rh{};
-            std::swap(rh, task);
-            if (rh) rh.resume();
+            handle_t coro{};
+            std::swap(coro, task);
+            if (coro)          // Resume if and only if
+                coro.resume(); // there is a waiting work
+
             // ---- atomic implementation ----
             // if (handle_t rh =
             //        task.exchange(nullptr, // prevent recursive activation

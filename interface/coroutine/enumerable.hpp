@@ -20,9 +20,7 @@ template<typename T>
 class enumerable final
 {
   public:
-    struct promise;
-    using promise_type = attach_u64_type_size<promise>;
-
+    struct promise_type;
     class iterator;
 
     using value_type = T;
@@ -31,6 +29,7 @@ class enumerable final
 
   private:
     // alias resumable handle
+    using handle_t = std::experimental::coroutine_handle<void>;
     using handle_promise_t = std::experimental::coroutine_handle<promise_type>;
     handle_promise_t rh;
 
@@ -41,9 +40,8 @@ class enumerable final
     enumerable& operator=(enumerable&&) = delete;
 
   public:
-    enumerable(promise* p) noexcept : rh{nullptr}
+    enumerable(promise_type* ptr) noexcept : rh{nullptr}
     {
-        auto ptr = reinterpret_cast<promise_type*>(p);
         this->rh = handle_promise_t::from_promise(*ptr);
         // must ensure handle is valid...
         assert(rh.address() != nullptr);
@@ -69,7 +67,7 @@ class enumerable final
     iterator end() noexcept { return iterator{nullptr}; }
 
   public:
-    struct promise // Resumable Promise Requirement
+    struct promise_type // Resumable Promise Requirement
     {
         friend class iterator;
 
@@ -96,7 +94,7 @@ class enumerable final
         void return_void() noexcept { current = nullptr; }
         void unhandled_exception() noexcept { std::terminate(); }
 
-        promise* get_return_object() noexcept
+        promise_type* get_return_object() noexcept
         {
             // enumerable will create coroutine handle from the address
             return this;
@@ -167,8 +165,8 @@ class enumerable final
 
 #include <experimental/generator>
 
-template<typename T, typename A = std::allocator<uint64_t>>
-using enumerable = std::experimental::generator<T, A>;
+template<typename T>
+using enumerable = std::experimental::generator<T>;
 
 #endif // _MSC_VER
 
