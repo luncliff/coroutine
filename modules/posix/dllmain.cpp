@@ -4,7 +4,9 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include <coroutine/sequence.hpp>
+#include <coroutine/enumerable.hpp>
+#include <coroutine/frame.h>
+#include <coroutine/sync.h>
 #include <coroutine/unplug.hpp>
 
 #include <cassert>
@@ -19,8 +21,7 @@ auto check_coroutine_available() noexcept -> unplug
     co_await std::experimental::suspend_never{};
 }
 
-auto check_generator_available() noexcept
-    -> std::experimental::generator<uint16_t>
+auto check_generator_available() noexcept -> enumerable<uint16_t>
 {
     uint16_t value = 4;
     co_yield value;
@@ -34,7 +35,7 @@ PROCEDURE void on_load_test(void*) noexcept(false)
 {
     check_coroutine_available();
     auto g = check_generator_available();
-    auto sum = std::accumulate(g.begin(), g.end(), 0);
+    auto sum = std::accumulate(g.begin(), g.end(), 0u);
     assert(sum == 4 * 2);
 }
 

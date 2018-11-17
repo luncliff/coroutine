@@ -49,5 +49,14 @@
     <ClInclude Include="..\memory.hpp">
       <Filter>shared</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\interface\coroutine\channel.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\interface\coroutine\enumerable.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\interface\coroutine\frame.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

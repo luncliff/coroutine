@@ -27,6 +27,9 @@
     <ClCompile Include="wait_group.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\interface\coroutine\channel.hpp" />
+    <ClInclude Include="..\..\interface\coroutine\enumerable.hpp" />
+    <ClInclude Include="..\..\interface\coroutine\frame.h" />
     <ClInclude Include="..\..\interface\coroutine\sequence.hpp" />
     <ClInclude Include="..\..\interface\coroutine\switch.h" />
     <ClInclude Include="..\..\interface\coroutine\sync.h" />

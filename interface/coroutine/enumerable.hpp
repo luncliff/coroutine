@@ -90,7 +90,7 @@ class enumerable final
         pointer current = nullptr;
 
       private:
-        static constexpr promise_type& from_prefix(handle_t coro) noexcept
+        static promise_type& from_prefix(handle_t coro) noexcept
         {
             if constexpr (is_clang)
             {
@@ -157,7 +157,7 @@ class enumerable final
 
       public:
         // `enumerable::end()`
-        iterator(nullptr_t) noexcept : coro{nullptr} {}
+        iterator(std::nullptr_t) noexcept : coro{nullptr} {}
         // `enumerable::begin()`
         iterator(handle_t handle) noexcept : coro{handle} {}
 

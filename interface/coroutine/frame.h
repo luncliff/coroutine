@@ -95,20 +95,6 @@ static_assert(sizeof(clang_frame_prefix) == 16);
 #include <array>
 #include <utility>
 
-// void  __builtin_coro_resume(void *addr);
-inline size_t _coro_resume(void* addr)
-{
-    // auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
-    __builtin_coro_resume(addr);
-
-    // see `coroutine_handle<void>` in VC++ header
-    //
-    // There was no way but to place this intrinsic here because
-    // `coroutine_handle<void>` doesn't use intrinsic to check
-    // it's coroutine is done
-    return _coro_done(addr);
-}
-
 // bool  __builtin_coro_done(void *addr);
 inline size_t _coro_done(void* addr)
 {
@@ -139,6 +125,20 @@ inline size_t _coro_done(void* addr)
         // ensure: m->index == 0);
     }
     return m->index;
+}
+
+// void  __builtin_coro_resume(void *addr);
+inline size_t _coro_resume(void* addr)
+{
+    // auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
+    __builtin_coro_resume(addr);
+
+    // see `coroutine_handle<void>` in VC++ header
+    //
+    // There was no way but to place this intrinsic here because
+    // `coroutine_handle<void>` doesn't use intrinsic to check
+    // it's coroutine is done
+    return _coro_done(addr);
 }
 
 // void  __builtin_coro_destroy(void *addr);

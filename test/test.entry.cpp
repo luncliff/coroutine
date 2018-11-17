@@ -13,10 +13,10 @@ void dump_frame(void* frame) noexcept
     auto& view = *reinterpret_cast<std::array<uint64_t, frame_length>*>(frame);
 
     std::printf("dump_frame: %p \n", frame);
-    for (auto offset = 0u; offset < view.size(); ++offset)
-    {
-        std::printf(
-            "%02u %p %016llx\n", offset, view.data() + offset, view[offset]);
-    }
-    std::puts("\n");
+    // for (auto offset = 0u; offset < view.size(); ++offset)
+    // {
+    //     std::printf(
+    //         "%02u %p %016llx\n", offset, view.data() + offset, view[offset]);
+    // }
+    // std::puts("\n");
 }
