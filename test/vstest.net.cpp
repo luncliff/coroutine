@@ -8,36 +8,15 @@
 //
 // ---------------------------------------------------------------------------
 
+#include "./vstest.h"
 #include "../modules/net/net.h"
 
 #include <CppUnitTest.h>
 #include <sdkddkver.h>
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std::literals;
 
-template<typename Fn>
-auto defer(Fn&& todo)
-{
-    struct caller
-    {
-      private:
-        Fn func;
-
-      private:
-        caller(const caller&) = delete;
-        caller(caller&&) = delete;
-        caller& operator=(const caller&) = delete;
-        caller& operator=(caller&&) = delete;
-
-      public:
-        caller(Fn&& todo) : func{todo} {}
-        ~caller() { func(); }
-    };
-    return caller{std::move(todo)};
-}
-
-TEST_CLASS(SocketTest)
+class SocketTest : public TestClass<SocketTest>
 {
     using error_t = uint32_t;
 

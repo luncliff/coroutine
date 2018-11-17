@@ -8,18 +8,27 @@
 
 #include "./test.h"
 
-#include "CppUnitTest.h"
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+
+#include <Windows.h>
+#include <sdkddkver.h>
+#include <threadpoolapiset.h>
+
+#include <CppUnitTest.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-template<typename TestCase>
-using TestClass = Microsoft::VisualStudio::CppUnitTestFramework::TestClass<TestCase>;
-
-char reserved[1024]{};
 
 template<typename... Args>
 auto println(const char* format, Args&&... args)
 {
-    sprintf_s(reserved, format, std::forward<Args>(args)...);
-    Logger::WriteMessage(reserved);
+    std::string reserve{};
+    reserve.resize(1024u);
+
+    sprintf_s(reserve.data(),
+              reserve.size(),
+              format,
+              std::forward<Args>(args)...);
+    Logger::WriteMessage(reserve.c_str());
 }

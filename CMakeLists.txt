@@ -12,11 +12,6 @@
 # ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.5)
 
-if(WIN32 AND MSVC)
-    message(FATAL_ERROR "This cmake project is not for Windows/MSVC")
-    return(1) 
-endif()
-
 project(coroutine LANGUAGES CXX VERSION 1.2)
 
 # list of cmake module path for this project
@@ -33,7 +28,7 @@ if(NOT IOS)
     set(BUILD_SHARED_LIBS true)
 endif()
 if(WIN32)
-    set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_STANDARD 17)
 endif()
 
 # show project's build configuration
@@ -83,24 +78,30 @@ if(WIN32)  # Clang + Windows
         )
     endif()
 
-    # Argument for `clang-cl`
-    #
-    # `target_compile_options` removes duplicated -Xclang argument 
-    # which must be protected. An alternative is to use CMAKE_CXX_FLAGS,
-    # but the method will be used only when there is no way but to use it
-    #
-    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
-    target_compile_options(${PROJECT_NAME} 
-    PUBLIC
-        /std:c++latest 
-        -fms-compatibility 
-        -Xclang -fcoroutines-ts
-    PRIVATE
-        -Wno-unused-function
-        -Wno-c++98-compat 
-        -Wno-reserved-id-macro 
-        -Wno-missing-prototypes
-    )
+    if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+        # Argument for `clang-cl`
+        #
+        # `target_compile_options` removes duplicated -Xclang argument 
+        # which must be protected. An alternative is to use CMAKE_CXX_FLAGS,
+        # but the method will be used only when there is no way but to use it
+        #
+        # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
+        target_compile_options(${PROJECT_NAME} 
+        PUBLIC
+            /std:c++latest 
+            -fms-compatibility 
+            -Xclang -fcoroutines-ts
+        PRIVATE
+            -Wno-unused-function
+            -Wno-c++98-compat 
+            -Wno-reserved-id-macro 
+            -Wno-missing-prototypes
+        )
+    elseif(MSVC)
+        # ... support for MSVC ...
+        message(WARNING "This cmake project is not for Windows/MSVC")
+    endif()
+
     set_target_properties(${PROJECT_NAME} PROPERTIES 
         LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
     )

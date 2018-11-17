@@ -11,16 +11,25 @@
 #include <functional>
 #include <numeric>
 
-static auto defer(std::function<void(void)> fn)
+template<typename Fn>
+auto defer(Fn&& todo)
 {
-    struct defer_t
+    struct caller
     {
-        std::function<void(void)> f{};
+    private:
+        Fn func;
 
-        defer_t(std::function<void(void)> _f) : f{_f} {}
-        ~defer_t() { f(); }
+    private:
+        caller(const caller&) = delete;
+        caller(caller&&) = delete;
+        caller& operator=(const caller&) = delete;
+        caller& operator=(caller&&) = delete;
+
+    public:
+        caller(Fn&& todo) : func{ todo } {}
+        ~caller() { func(); }
     };
-    return defer_t{fn};
+    return caller{ std::move(todo) };
 }
 
 #endif // TEST_HELPER_H

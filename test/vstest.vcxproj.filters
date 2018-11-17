@@ -44,5 +44,14 @@
     <ClInclude Include="..\interface\coroutine\unplug.hpp">
       <Filter>coroutine</Filter>
     </ClInclude>
+    <ClInclude Include="..\interface\coroutine\enumerable.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="vstest.h">
+      <Filter>test</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

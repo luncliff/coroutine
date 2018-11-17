@@ -12,27 +12,18 @@
 //
 // ---------------------------------------------------------------------------
 
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include <CppUnitTest.h>
-#include <Windows.h>
-#include <sdkddkver.h>
-#include <threadpoolapiset.h>
-
-#include <array>
+#include "./vstest.h"
 
 #include <coroutine/sequence.hpp>
 #include <coroutine/switch.h>
 #include <coroutine/sync.h>
 #include <coroutine/unplug.hpp>
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std::literals;
 using namespace std::experimental;
 
-TEST_CLASS(SequenceTest) {
-
+class SequenceTest : public TestClass<SequenceTest>
+{
     TEST_METHOD(CheckSpeedAndLeak) // just repeat a lot
     {
         auto get_sequence = [](int value = rand()) -> sequence<int> {
@@ -54,17 +45,17 @@ TEST_CLASS(SequenceTest) {
 
     TEST_METHOD(YieldThenAwait)
     {
-        auto get_sequence = [&](await_plug& p) -> sequence<int> {
+        auto get_sequence = [&](await_point& p) -> sequence<int> {
             int value = 137;
             co_yield value;
             co_yield p;
         };
-        auto try_sequence = [=](await_plug& p, int& ref) -> unplug {
+        auto try_sequence = [=](await_point& p, int& ref) -> unplug {
             for
                 co_await(int v : get_sequence(p)) ref = v;
         };
 
-        await_plug p{};
+        await_point p{};
         int value = 0;
         try_sequence(p, value);
         p.resume();
@@ -73,17 +64,17 @@ TEST_CLASS(SequenceTest) {
 
     TEST_METHOD(AwaitThenYield)
     {
-        auto get_sequence = [&](await_plug& p) -> sequence<int> {
+        auto get_sequence = [&](await_point& p) -> sequence<int> {
             int value = 131;
             co_yield p;
             co_yield value;
         };
-        auto try_sequence = [=](await_plug& p, int& ref) -> unplug {
+        auto try_sequence = [=](await_point& p, int& ref) -> unplug {
             for
                 co_await(int v : get_sequence(p)) ref = v;
         };
 
-        await_plug p{};
+        await_point p{};
         int value = 0;
         try_sequence(p, value);
         p.resume();
@@ -96,15 +87,15 @@ TEST_CLASS(SequenceTest) {
             int value{};
 
             co_yield value = 7;
-            //co_yield value = 9;
+            // co_yield value = 9;
         };
         auto try_sequence = [=](int& ref) -> unplug {
             for
                 co_await(int v : get_sequence())
-            {
-                ref = v;
-                break;
-            }
+                {
+                    ref = v;
+                    break;
+                }
         };
 
         int value = 0;
@@ -114,7 +105,7 @@ TEST_CLASS(SequenceTest) {
 
     TEST_METHOD(Interleaved)
     {
-        auto get_sequence = [&](await_plug& p, int& value) -> sequence<int> {
+        auto get_sequence = [&](await_point& p, int& value) -> sequence<int> {
             co_yield p;
 
             co_yield value = 1;
@@ -130,7 +121,8 @@ TEST_CLASS(SequenceTest) {
             co_yield value = 4;
         };
 
-        auto try_sequence = [=](await_plug& p, int& sum, int& value) -> unplug {
+        auto try_sequence =
+            [=](await_point& p, int& sum, int& value) -> unplug {
             Assert::IsTrue(sum == 0);
             auto s = get_sequence(p, value);
             Assert::IsTrue(sum == 0);
@@ -141,16 +133,16 @@ TEST_CLASS(SequenceTest) {
             //)
             for
                 co_await(int v : s)
-            {
-                // auto value = *it;
-                sum += v;
-            }
+                {
+                    // auto value = *it;
+                    sum += v;
+                }
 
             Assert::IsTrue(sum == 10);
             sum += 5;
         };
 
-        await_plug p{};
+        await_point p{};
         int sum = 0, value = 0;
 
         try_sequence(p, sum, value);
@@ -169,5 +161,4 @@ TEST_CLASS(SequenceTest) {
         Assert::IsTrue(value == 4);
         Assert::IsTrue(sum == 15);
     }
-}
-;
+};

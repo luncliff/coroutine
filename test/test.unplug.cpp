@@ -19,7 +19,7 @@ TEST_CASE("UnplugTest", "[syntax]")
     }
 }
 
-TEST_CASE("PlugTest", "[syntax]")
+TEST_CASE("AwaitPointTest", "[syntax]")
 {
     SECTION("empty")
     {

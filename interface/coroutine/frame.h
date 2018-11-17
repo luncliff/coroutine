@@ -8,60 +8,62 @@
 //      follow semantics of msvc intrinsics in `coroutine_handle<>`
 //
 // ---------------------------------------------------------------------------
-
-#ifndef LINKABLE_DLL_MACRO
-#define LINKABLE_DLL_MACRO
-
-#ifdef _MSC_VER // MSVC
-#define _HIDDEN_
-#ifdef _WINDLL
-#define _INTERFACE_ __declspec(dllexport)
-#else
-#define _INTERFACE_ __declspec(dllimport)
-#endif
-
-#elif __GNUC__ || __clang__ // GCC or Clang
-#define _INTERFACE_ __attribute__((visibility("default")))
-#define _HIDDEN_ __attribute__((visibility("hidden")))
-
-#else
-#error "unexpected compiler"
-
-#endif // compiler check
-#endif // LINKABLE_DLL_MACRO
-
 #ifndef COROUTINE_FRAME_PREFIX_HPP
 #define COROUTINE_FRAME_PREFIX_HPP
+
+// ---- ---- compiler check for constexpr if ---- ----
+
+#if _MSC_VER // <-- need alternative
+             //     since it might be declared explicitly
+static constexpr auto is_msvc = true;
+#else
+static constexpr auto is_msvc = false;
+#endif // _MSC_VER
+#if __clang__
+static constexpr auto is_clang = true;
+#else
+static constexpr auto is_clang = false;
+#endif // __clang__
+#if __GNUC__
+static constexpr auto is_gcc = true;
+#else
+static constexpr auto is_gcc = false;
+#endif // __GNUC__
+
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
 #include <experimental/coroutine>
 #include <type_traits>
 
-using procedure_t = void(__cdecl*)(void*);
+template<typename T>
+constexpr auto aligned_size_v = ((sizeof(T) + 16 - 1) & ~(16 - 1));
+
+using procedure_t = void(__cdecl*)(void*); // ! goto !
 
 // - Note
 //      MSVC coroutine frame's prefix. See `_Resumable_frame_prefix`
-struct msvc_frame final
+//
+//      | Promise(?) | Frame Prefix(16) | Local variables(?) |
+//
+struct msvc_frame_prefix final
 {
     procedure_t factivate;
     uint16_t index;
     uint16_t flag;
 };
-static_assert(sizeof(msvc_frame) == 16);
-// static constexpr auto _ALIGN_REQ = 16;
-// static constexpr auto exp_prom_size = 17;
-// static constexpr auto prom_align =
-//     (exp_prom_size + _ALIGN_REQ - 1) & ~(_ALIGN_REQ - 1);
+static_assert(sizeof(msvc_frame_prefix) == 16);
 
 // - Note
 //      Clang coroutine frame's prefix. See reference docs above
-struct clang_frame final
+//
+//      | Frame Prefix(16) | Promise(?) | ? | Local variables(?) |
+//
+struct clang_frame_prefix final
 {
     procedure_t factivate;
     procedure_t fdestroy;
 };
-static_assert(sizeof(clang_frame) == 16);
-
-_INTERFACE_ void dump_frame(void* frame) noexcept;
+static_assert(sizeof(clang_frame_prefix) == 16);
 
 // ---- MSVC Compiler intrinsic ----
 
@@ -82,7 +84,7 @@ _INTERFACE_ void dump_frame(void* frame) noexcept;
 
 //
 //  Note
-//      VC++ header expects msvc intrinsics. Redirect them to Clang intrinsics
+//      VC++ header expects msvc intrinsics. Redirect them to Clang intrinsics.
 //      If the project uses libc++ header files, this code won't be a problem
 //      because they wont't be used
 //  Reference
@@ -96,46 +98,58 @@ _INTERFACE_ void dump_frame(void* frame) noexcept;
 // void  __builtin_coro_resume(void *addr);
 inline size_t _coro_resume(void* addr)
 {
-    auto* m = reinterpret_cast<msvc_frame*>(addr);
-    auto* c = reinterpret_cast<clang_frame*>(addr);
+    // auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
+    __builtin_coro_resume(addr);
 
-    std::printf("_coro_resume: %p\n", addr);
-    // constexpr auto finished = 0;
-    // auto status = _coro_done(addr);
-    // if (status == finished) // if finished, index is 0;
-    //     return m->index = 0;
-
-    __builtin_coro_resume(c);
-    return 1;
-}
-
-// void  __builtin_coro_destroy(void *addr);
-inline void _coro_destroy(void* addr)
-{
-    // auto* m = reinterpret_cast<msvc_frame*>(addr);
-    auto* c = reinterpret_cast<clang_frame*>(addr);
-
-    std::printf("_coro_destroy: %p\n", addr);
-
-    // dump_frame(c);
-    return __builtin_coro_destroy(c);
+    // see `coroutine_handle<void>` in VC++ header
+    //
+    // There was no way but to place this intrinsic here because
+    // `coroutine_handle<void>` doesn't use intrinsic to check
+    // it's coroutine is done
+    return _coro_done(addr);
 }
 
 // bool  __builtin_coro_done(void *addr);
 inline size_t _coro_done(void* addr)
 {
-    auto* m = reinterpret_cast<msvc_frame*>(addr);
-    auto* c = reinterpret_cast<clang_frame*>(addr);
+    // expect: coroutine == suspended
+    // expect: coroutine != destroyed
 
-    std::printf("_coro_done: %p\n", addr);
+    auto* m = reinterpret_cast<msvc_frame_prefix*>(addr);
+    auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
+
+    // what if resume just bypass and destroy evenything?
+    // see `coroutine_handle<void>` in VC++ header
     if (__builtin_coro_done(c))
-        // see `msvc_frame`.
-        // if the coroutine is finished, it's ok to override the value
-        //  in the frame since they won't be visible anyway
-        m->index = 0;
+    {
+        // expect: c->activate == nullptr
 
-    // dump_frame(c);
+        // If the coroutine is finished, it's ok to override the value
+        //  in the frame since they won't be visible anyway.
+        // Since VC++ implementation doesn't rely on intrinsic,
+        //  we have to mark the frame's index manually
+
+        // m->index = 0; // <-- like this
+
+        // However, `fdestroy` is modified after `m->index = 0;`
+        //  So we will swap it with `factivate` and
+        //  make it work like `m->index = 0;`
+        std::swap(c->factivate, c->fdestroy);
+
+        // ensure: m->index == 0);
+    }
     return m->index;
+}
+
+// void  __builtin_coro_destroy(void *addr);
+inline void _coro_destroy(void* addr)
+{
+    auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
+    // Notice the trick we used in `_coro_done`.
+    // since we exchanged the function pointers, we need to revoke the change
+    // before start intrinsic;
+    std::swap(c->factivate, c->fdestroy);
+    __builtin_coro_destroy(c);
 }
 
 // void *__builtin_coro_promise(void *addr, int alignment, bool from_promise)
