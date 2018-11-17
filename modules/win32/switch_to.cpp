@@ -14,6 +14,7 @@
 #include <stdexcept>
 #include <system_error>
 
+#include <coroutine/frame.h>
 #include <coroutine/switch.h>
 #include <coroutine/sync.h>
 
