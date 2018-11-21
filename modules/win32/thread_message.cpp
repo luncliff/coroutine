@@ -4,44 +4,57 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-
-#define NOMINMAX
+#include <coroutine/sync.h>
 
 #include <array>
 #include <cassert>
 #include <queue>
 #include <system_error>
 
-#include <coroutine/sync.h>
+#define WIN32_LEAN_AND_MEAN
+#define NOGDI
+#define NOCRYPT
+#include <Windows.h>
 
-constexpr uint16_t max_thread_count = 300;
-constexpr uint16_t max_spin = 0x0500;
 static_assert(std::atomic<message_t>::is_always_lock_free);
-using queue_t = std::queue<message_t>;
 
-std::array<section, max_thread_count> queue_lockables{};
-std::array<queue_t, max_thread_count> queue_list{};
-
-extern uint16_t index_of(uint32_t thread_id) noexcept(false);
-
-void post_message(uint32_t thread_id, message_t msg) noexcept(false)
+struct apc_msg_queue final
 {
-    const auto index = index_of(thread_id);
-    std::lock_guard<section> lock{queue_lockables[index]};
+    void push(const message_t msg) {}
+    bool empty() {}
 
-    auto& queue = queue_list[index];
-    queue.push(msg);
+    void pop(message_t& msg) {}
+};
+
+thread_local apc_msg_queue amq{};
+
+void WINAPI deliver(const message_t msg) noexcept { amq.push(msg); }
+
+static_assert(sizeof(message_t) == sizeof(ULONG_PTR));
+
+void post_message(uint32_t thread_id, const message_t msg) noexcept(false)
+{
+    SleepEx(0, true); // handle some APC
+
+    int error = S_OK;
+    // make a handle th thread
+    auto thread = OpenThread(THREAD_SET_CONTEXT, FALSE, thread_id);
+    // use apc queue to deliver message
+    auto code =
+        QueueUserAPC(reinterpret_cast<PAPCFUNC>(deliver), thread, msg.u64);
+
+    error = GetLastError(); // get error code before another syscall
+    CloseHandle(thread);    // delete the handle
+    if (code == 0)          // non-zero if successful
+        throw std::error_code{error, std::system_category()};
 }
 
 bool peek_message(uint32_t thread_id, message_t& msg) noexcept(false)
 {
-    const auto index = index_of(thread_id);
-    std::lock_guard<section> lock{queue_lockables[index]};
+    SleepEx(0, true); // handle some APC
 
-    auto& queue = queue_list[index];
-    if (queue.empty()) return false;
+    // thread?
+    if (amq.empty()) return false;
 
-    msg = std::move(queue.front());
-    queue.pop();
-    return true;
+    amq.pop(msg);
 }
