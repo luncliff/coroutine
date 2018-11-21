@@ -33,31 +33,7 @@ TEST_CASE("SequenceTest", "[syntax]")
         p.resume();
         REQUIRE(value == -2);
     }
-    SECTION("no_result-2")
-    {
-        auto get_sequence = [](await_point& plug) -> sequence<int> {
-            co_yield plug; // do nothing
-        };
-        auto try_sequence =
-            [](await_point& plug, int& ref, auto async_gen) -> unplug {
-            // ag: async generator
-            auto ag = async_gen(plug);
-            // expanded for-co_await statement
-            for (auto it = co_await ag.begin(); it != ag.end(); co_await++ it)
-                ref = *it;
-            ref = -2;
-        };
-
-        await_point p{};
-        int value = 0;
-
-        REQUIRE_NOTHROW(                         //
-            try_sequence(p, value, get_sequence) //
-        );
-        p.resume();
-        REQUIRE(value == -2);
-    }
-
+    
     SECTION("one_result-case1")
     {
         auto get_sequence = [](await_point& plug) -> sequence<int> {

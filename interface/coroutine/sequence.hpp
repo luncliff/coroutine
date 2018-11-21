@@ -12,7 +12,7 @@
 
 #include <coroutine/frame.h>
 
-#include <atomic>
+// #include <atomic>
 #include <cassert>
 #include <iterator>
 
@@ -98,7 +98,7 @@ struct sequence final
         friend struct iterator;
         friend struct sequence;
 
-        static_assert(std::atomic<handle_t>::is_always_lock_free);
+        // static_assert(std::atomic<handle_t>::is_always_lock_free);
 
       public:
         pointer current = nullptr;
