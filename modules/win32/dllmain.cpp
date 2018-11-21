@@ -4,7 +4,6 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-
 #ifdef _WIN32
 #define PROCEDURE
 #else
@@ -12,7 +11,7 @@
 #endif
 
 #include <coroutine/sequence.hpp>
-#include <coroutine/sync.h>
+#include <coroutine/enumerable.hpp>
 #include <coroutine/unplug.hpp>
 
 namespace coroutine
