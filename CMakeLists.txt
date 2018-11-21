@@ -181,7 +181,7 @@ set(TEST_NAME ${PROJECT_NAME}_test)
 add_executable(${TEST_NAME}
     test/test.entry.cpp
     test/test.generator.cpp
-    # test/test.sequence.cpp
+    test/test.sequence.cpp
     test/test.unplug.cpp
 )
 

@@ -162,6 +162,7 @@ class enumerable final
         iterator(handle_t handle) noexcept : coro{handle} {}
 
       public:
+        iterator& operator++(int) = delete; // post increment
         iterator& operator++() noexcept(false)
         {
             coro.resume();
@@ -170,9 +171,6 @@ class enumerable final
 
             return *this;
         }
-
-        // post increment
-        iterator& operator++(int) = delete;
 
         pointer operator->() noexcept
         {

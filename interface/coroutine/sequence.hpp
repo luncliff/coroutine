@@ -11,11 +11,12 @@
 #define COROUTINE_SEQUENCE_HPP
 
 #include <coroutine/frame.h>
+
+#include <atomic>
+#include <cassert>
 #include <iterator>
 
-//#include <atomic>
-
-template<typename T, typename A = std::allocator<uint64_t>>
+template<typename T>
 struct sequence final
 {
     struct promise_type; // Resumable Promise Requirement
@@ -40,17 +41,33 @@ struct sequence final
     }
 
   private:
-    handle_promise_t rh{}; // resumable handle
+    handle_t coro{}; // resumable handle
 
   public:
-    sequence(promise_type* ptr) noexcept : rh{nullptr}
+    sequence(promise_type* ptr) noexcept : coro{nullptr}
     {
-        rh = handle_promise_t::from_promise(*ptr);
+        if constexpr (is_clang)
+        {
+            // calculate the location of the coroutine frame prefix
+            void* prefix =
+                reinterpret_cast<char*>(ptr) - sizeof(clang_frame_prefix);
+            coro = handle_t::from_address(prefix);
+        }
+        else if constexpr (is_msvc)
+        {
+            coro = handle_promise_t::from_promise(*ptr);
+        }
+        else
+        {
+            coro = handle_t::from_address(nullptr);
+        }
+
+        assert(coro.address() != nullptr); // must ensure handle is valid...
     }
     ~sequence() noexcept
     {
         // delete the coroutine frame
-        if (rh) rh.destroy();
+        if (coro) coro.destroy();
     }
 
   public:
@@ -61,16 +78,17 @@ struct sequence final
         // by `promise_type`. So we won't follow the scheme of `generator`
 
         // notice that promise_type used initial suspend
-        rh.resume();
+        coro.resume();
 
         // this line won't be true but will be remained for a while
-        if (rh.done()) return nullptr;
+        if (coro.done()) return nullptr;
 
         // check if it's finished after first resume
-        if (rh.promise().current == finished()) //
+        auto& promise = promise_type::from_prefix(coro);
+        if (promise.current == finished()) //
             return nullptr;
 
-        return iterator{rh};
+        return iterator{coro};
     }
     iterator end() noexcept { return nullptr; }
 
@@ -78,25 +96,50 @@ struct sequence final
     struct promise_type
     {
         friend struct iterator;
+        friend struct sequence;
+
+        static_assert(std::atomic<handle_t>::is_always_lock_free);
 
       public:
         pointer current = nullptr;
-        handle_t task{};
-        // ---- atomic implementation ----
-        // static_assert(std::atomic<handle_t>::is_always_lock_free);
-        // std::atomic<handle_t> task{};
+        handle_t task{}; // std::atomic<handle_t> task{};
+
+      private:
+        static promise_type& from_prefix(handle_t coro) noexcept
+        {
+            if constexpr (is_clang)
+            {
+                // calculate the location of the coroutine frame prefix
+                auto* prefix =
+                    reinterpret_cast<clang_frame_prefix*>(coro.address());
+                // for clang, promise is placed just after frame prefix
+                auto* promise = reinterpret_cast<promise_type*>(prefix + 1);
+                return *promise;
+            }
+            else if constexpr (is_msvc)
+            {
+                auto* prefix = reinterpret_cast<char*>(coro.address());
+                auto* promise = reinterpret_cast<promise_type*>(
+                    prefix - aligned_size_v<promise_type>);
+                return *promise;
+            }
+            else
+            {
+                // !!! crash !!!
+                return *reinterpret_cast<promise_type*>(nullptr);
+            }
+        }
 
       public:
         void unhandled_exception() noexcept { std::terminate(); }
-
         auto get_return_object() noexcept -> promise_type* { return this; }
 
-        auto initial_suspend() /*const*/ noexcept
+        auto initial_suspend() const noexcept
         {
             // Suspend immediately and let the iterator to resume
             return std::experimental::suspend_always{};
         }
-        auto final_suspend() /*const*/ noexcept
+        auto final_suspend() const noexcept
         {
             // Delete of `iterator` & `promise`
             //
@@ -145,15 +188,15 @@ struct sequence final
             // !!! Using relaxed order here needs more verification !!!
             //
             return task.address() != nullptr;
-            // ---- atomic implementation ----
-            // return task.load(std::memory_order::memory_order_acquire) !=
-            //       nullptr;
+            // auto order = std::memory_order::memory_order_acquire;
+            // return task.load(order) != nullptr;
         }
         void await_suspend(handle_t rh) noexcept
         {
             // iterator will reactivate this
             task = rh;
-            // task.store(rh, std::memory_order::memory_order_release);
+            // auto order = std::memory_order::memory_order_release;
+            // task.store(order);
         }
         void await_resume() noexcept
         {
@@ -162,11 +205,11 @@ struct sequence final
             if (coro)          // Resume if and only if
                 coro.resume(); // there is a waiting work
 
-            // ---- atomic implementation ----
-            // if (handle_t rh =
+            // auto order = std::memory_order::memory_order_acq_rel;
+            // if (handle_t coro =
             //        task.exchange(nullptr, // prevent recursive activation
-            //                      std::memory_order::memory_order_acq_rel))
-            //    rh.resume(); // this must be iterator
+            //                      order))
+            //    coro.resume(); // this must be iterator
         }
     };
 
@@ -184,35 +227,35 @@ struct sequence final
 
       public:
         iterator(std::nullptr_t) noexcept : promise{nullptr} {}
-        iterator(handle_promise_t rh) noexcept
-            : promise{std::addressof(rh.promise())}
+        iterator(handle_t rh) noexcept : promise{nullptr}
         {
             // After some trial,
             // `coroutine_handle` became a source of tedious code.
             // So we will use `promise_type` directly
+            promise = std::addressof(promise_type::from_prefix(rh));
         }
 
       public:
+        iterator& operator++(int) = delete; // post increment
         iterator& operator++() noexcept(false)
         {
             // reset and advance
             promise->current = empty();
 
             // iterator resumes promise if it is suspended
-            handle_t rh{};
-            std::swap(rh, promise->task);
-            if (rh) rh.resume();
-            // ---- atomic implementation ----
-            // if (handle_t rh = promise->task.exchange(
+            handle_t coro = promise->task;
+            promise->task = nullptr;
+
+            if (coro) //
+                coro.resume();
+
+            // if (handle_t coro = promise->task.exchange(
             //        nullptr, // prevent recursive activation
             //        std::memory_order::memory_order_acq_rel))
-            //    rh.resume(); // this must be promise
+            //    coro.resume(); // this must be promise
 
-            // see the function...
             return await_resume();
         }
-        // disable post increment
-        iterator& operator++(int) = delete;
 
         bool await_ready() const noexcept
         {
@@ -221,19 +264,17 @@ struct sequence final
             //    iterator
             // case yield:
             //    Continue the loop
-            if (promise)
-                return promise->current != empty();
-            else
-                return true;
+            return promise ? promise->current != empty() : true;
         }
-        void await_suspend(handle_t rh) noexcept
+        void await_suspend(handle_t coro) noexcept
         {
             // case empty:
             //   Promise suspended for some reason. Wait for it to yield
             //   Expect promise to resume this iterator appropriately
-            promise->task = rh;
-            // ---- atomic implementation ----
-            // promise->task.store(rh, std::memory_order::memory_order_release);
+            promise->task = coro;
+
+            // auto order = std::memory_order::memory_order_release;
+            // promise->task.store(coro, order);
         }
         iterator& await_resume() noexcept
         {
@@ -247,25 +288,18 @@ struct sequence final
             return *this;
         }
 
+        pointer operator->() noexcept { return promise->current; }
+        pointer operator->() const noexcept { return promise->current; }
+        reference operator*() noexcept { return *(this->operator->()); }
+        reference operator*() const noexcept { return *(this->operator->()); }
+
         bool operator==(const iterator& rhs) const noexcept
         {
-            // if iterator is finished, it's promise must be nullptr
             return this->promise == rhs.promise;
         }
         bool operator!=(const iterator& rhs) const noexcept
         {
             return !(*this == rhs);
-        }
-
-        // Expect copy semantics for now.
-        // These will be updated after some test...
-
-        auto operator-> () noexcept { return promise->current; }
-        auto operator-> () const noexcept { return promise->current; }
-        decltype(auto) operator*() noexcept { return *(promise->current); }
-        decltype(auto) operator*() const noexcept
-        {
-            return *(promise->current);
         }
     };
 };
