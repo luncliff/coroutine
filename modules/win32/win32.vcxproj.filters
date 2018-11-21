@@ -20,9 +20,6 @@
     <ClCompile Include="thread_message.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="thread_registry.cpp">
-      <Filter>win32</Filter>
-    </ClCompile>
     <ClCompile Include="switch_to.cpp">
       <Filter>win32</Filter>
     </ClCompile>

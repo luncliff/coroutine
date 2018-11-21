@@ -4,12 +4,13 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#define NOMINMAX
-
-#include <coroutine/sync.h>
 #include <system_error>
 
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h> // System API
+
+#include <coroutine/sync.h>
 
 wait_group::wait_group() noexcept(false) : event{INVALID_HANDLE_VALUE}, count{0}
 {
