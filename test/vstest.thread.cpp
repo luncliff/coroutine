@@ -34,7 +34,7 @@ using namespace std::experimental;
 
 TEST_CLASS(ThreadMessageTest)
 {
-    static constexpr auto repeat_count = 50'000;
+    static constexpr auto repeat_count = 100'000;
     struct context_t
     {
         DWORD anton, bruno, ceaser, dora;
@@ -87,7 +87,7 @@ TEST_CLASS(ThreadMessageTest)
             {
                 message_t msg{};
 
-                if (peek_message(context.bruno, msg) == true) repeat += 1;
+                if (peek_message(msg) == true) repeat += 1;
 
             } while (repeat < repeat_count * 4);
             context.end.done();
@@ -115,7 +115,7 @@ TEST_CLASS(ThreadMessageTest)
             {
                 message_t msg{};
 
-                if (peek_message(context.ceaser, msg) == true)
+                if (peek_message(msg) == true)
                 {
                     repeat += 1;
 
@@ -149,7 +149,7 @@ TEST_CLASS(ThreadMessageTest)
             {
                 message_t msg{};
 
-                if (peek_message(context.dora, msg) == true)
+                if (peek_message(msg) == true)
                 {
                     repeat += 1;
                     post_message(context.bruno, msg);

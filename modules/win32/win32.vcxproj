@@ -23,7 +23,6 @@
     <ClCompile Include="switch_to.cpp" />
     <ClCompile Include="section.cpp" />
     <ClCompile Include="thread_message.cpp" />
-    <ClCompile Include="thread_registry.cpp" />
     <ClCompile Include="wait_group.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -126,10 +125,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;SWITCH_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalOptions>/await /std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,10 +146,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;SWITCH_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalOptions>/await /std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -168,10 +169,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;SWITCH_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalOptions>/await /std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -192,10 +194,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;SWITCH_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalOptions>/await /std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -27,9 +27,8 @@ using namespace std::experimental;
 
 bool peek_switched(coroutine_handle<void>& rh) noexcept(false)
 {
-    const auto thread_id = GetCurrentThreadId();
     message_t msg{};
-    if (peek_message(thread_id, msg) == true)
+    if (peek_message(msg) == true)
     {
         rh = coroutine_handle<void>::from_address(msg.ptr);
         return true;
@@ -86,7 +85,7 @@ struct switch_to_win32
     DWORD mark{};
     PTP_WORK work{};
 };
-static_assert(sizeof(switch_to) == sizeof(switch_to_win32));
+static_assert(sizeof(switch_to_win32) <= sizeof(switch_to));
 
 switch_to::switch_to(uint32_t target) noexcept : u64{}
 {

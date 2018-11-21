@@ -92,7 +92,7 @@ class exclusive_slim final
 class wait_group final
 {
     void* event;
-    std::atomic<uint16_t> count{};
+    std::atomic<uint32_t> count{};
 
   private:
     wait_group(wait_group&) = delete;
@@ -130,10 +130,14 @@ _INTERFACE_ void post_message(uint32_t thread_id,
                               const message_t msg) noexcept(false);
 
 // - Note
-//      Peek a message from the designated thread's message queue
+//      Peek a message from current thread's message queue
 // - Return
 //      message holds `nullptr` if the queue is empty
-_INTERFACE_ bool peek_message(uint32_t thread_id,
-                              message_t& msg) noexcept(false);
+_INTERFACE_ bool peek_message(message_t& msg) noexcept(false);
+
+// - Note
+//      Currently not available
+//_INTERFACE_ bool peek_message(uint32_t thread_id,
+//                              message_t& msg) noexcept(false);
 
 #endif // CONTROL_FLOW_SYNC_H
