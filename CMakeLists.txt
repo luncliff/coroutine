@@ -28,7 +28,7 @@ if(NOT IOS)
     set(BUILD_SHARED_LIBS true)
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
+# set(CMAKE_CXX_STANDARD 17)
 
 # show project's build configuration
 include(cmake/display-build-info.cmake)

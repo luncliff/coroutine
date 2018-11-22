@@ -1,0 +1,68 @@
+# ---------------------------------------------------------------------------
+#
+#   Author
+#     - luncliff@gmail.com
+#   Reference
+#     - https://www.appveyor.com/docs/appveyor-yml/
+#
+# ---------------------------------------------------------------------------
+version: 1.2.{build}
+
+shallow_clone: true
+
+notifications:
+  - provider: Email
+    to:
+      - luncliff@gmail.com
+
+image: 
+  - Ubuntu1804
+  - Ubuntu1604
+
+# platform: 
+#   - x64
+
+configuration:
+  - Debug
+  - Release
+
+environment:
+  matrix:
+    - compiler: clang-6.0
+
+for:
+-
+  matrix:
+    only:
+      - compiler: clang-6.0
+  install:
+    # install utilities
+    - sh: sudo apt-get install -y wget unzip ninja-build cmake gnupg2 tree
+    # install GCC and setup libc++
+    - sh: sudo apt-get install -y --fix-missing gcc-7 g++-7 libc++abi-dev libc++-dev
+    - CC=gcc-7
+    - CXX=g++-7
+    - sh: sudo bash ./scripts/install-libc++.sh
+    # install LLVM toolchain
+    - sh: wget -O llvm.key https://apt.llvm.org/llvm-snapshot.gpg.key
+    - sh: sudo apt-key add ./llvm.key
+    - sh: sudo apt update -y
+    - sh: sudo apt-get install -y --fix-missing clang-6.0 llvm-6.0 llvm-6.0-tools
+    # report version    
+    - sh: cmake --version
+    - sh: ninja --version
+    - sh: clang-6.0 --version
+  before_build:
+    - sh: uname -a
+    - sh: pwd
+    - sh: mkdir -p build && pushd build
+  build_script:
+    - export CC=clang-6.0
+    - export CXX=clang-6.0
+    - sh: echo "$CC $CXX"
+    - sh: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX=./install
+    - sh: ninja install
+  after_build:
+    - sh: popd
+  test_script:
+    - ps: ./build/coroutine_test
