@@ -118,13 +118,13 @@ else() # Clang + Non-Windows
     )
 
     if(CMAKE_BUILD_TYPE MATCHES Debug)
-        # Generate coverage
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+        # Generate coverage: disabled
+        # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
         target_compile_options(${PROJECT_NAME}
         PUBLIC
             -g -O0 
-        PRIVATE
-            --coverage
+        # PRIVATE
+        #     --coverage
         )
     else()
         target_compile_options(${PROJECT_NAME}    
@@ -200,12 +200,4 @@ if(NOT WIN32)
     PUBLIC
         stdc++
     )
-endif()
-if(NOT MSVC)
-    if(CMAKE_BUILD_TYPE MATCHES Debug)
-        target_compile_options(${TEST_NAME}
-        PRIVATE
-            -g --coverage
-        )
-    endif()
 endif()

@@ -57,13 +57,15 @@ matrix:
       after_success:
         - otool -L ./libcoroutine.dylib
         # - tree -f ./CMakeFiles/
+
         # MacOS: Run coverage tool for Debug build
-        - cp ./CMakeFiles/coroutine_test.dir/test/test.entry.cpp.* ./ ;
-        - gcov -abcf ./test.entry.cpp.gcda > log-gcov.txt;
-        - ls -al | grep .gcov;
-        - lcov --directory . --gcov-tool gcov --capture -o cov.info ;
-        - genhtml cov.info -o cov_report;
-        - tree ./cov_report;
+        # - cp ./CMakeFiles/coroutine_test.dir/test/test.entry.cpp.* ./ ;
+        # - gcov -abcf ./test.entry.cpp.gcda > log-gcov.txt;
+        # - ls -al | grep .gcov;
+        # - lcov --directory . --gcov-tool gcov --capture -o cov.info ;
+        # - genhtml cov.info -o cov_report;
+        # - tree ./cov_report;
+
         # Display build results
         - popd;
         - tree ./install
@@ -165,11 +167,11 @@ matrix:
         - ./coroutine_test
       after_success:
         - ldd ./libcoroutine.so
-        # - tree -f ./CMakeFiles/
-        # Get .gcda to extract .gcov
-        - cp ./CMakeFiles/coroutine_test.dir/test/test.entry.cpp.* ./ ;
-        # Generate .gcov files
-        - llvm-cov-6.0 gcov -abcf ./test.entry.cpp.gcda > log-llvm-cov.txt
+        # # - tree -f ./CMakeFiles/
+        # # Get .gcda to extract .gcov
+        # - cp ./CMakeFiles/coroutine_test.dir/test/test.entry.cpp.* ./ ;
+        # # Generate .gcov files
+        # - llvm-cov-6.0 gcov -abcf ./test.entry.cpp.gcda > log-llvm-cov.txt
         - popd;
         - tree ./install
 
