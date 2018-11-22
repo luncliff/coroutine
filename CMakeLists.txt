@@ -63,22 +63,30 @@ PUBLIC
 if(WIN32)  # Clang + Windows
     target_sources(${PROJECT_NAME}
     PRIVATE
-        modules/win32/clang.cpp
-        modules/win32/thread_registry.cpp
-        modules/win32/thread_message.cpp
+        modules/thread/message_lock.cpp        
+        modules/net/async_win32.cpp
+        modules/net/resolver.cpp
+        modules/net/net_data.cpp
     )
-    target_compile_definitions(${PROJECT_NAME}
-    PUBLIC
-        _RESUMABLE_FUNCTIONS_SUPPORTED
-    )
-    if(BUILD_SHARED_LIBS)
-        target_compile_definitions(${PROJECT_NAME}
-        PRIVATE
-            _WINDLL
-        )
-    endif()
-
+   
     if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+        # Need additional macro because this is not vcxproj
+        target_compile_definitions(${PROJECT_NAME}
+        PUBLIC
+            _RESUMABLE_FUNCTIONS_SUPPORTED
+        )
+        if(BUILD_SHARED_LIBS)
+            target_compile_definitions(${PROJECT_NAME}
+            PRIVATE
+                _WINDLL
+            )
+        endif()
+
+        # Additional source code for clang
+        target_sources(${PROJECT_NAME}
+        PRIVATE
+            modules/win32/clang.cpp
+        )
         # Argument for `clang-cl`
         #
         # `target_compile_options` removes duplicated -Xclang argument 
@@ -99,7 +107,11 @@ if(WIN32)  # Clang + Windows
         )
     elseif(MSVC)
         # ... support for MSVC ...
-        message(WARNING "This cmake project is not for Windows/MSVC")
+        target_compile_options(${PROJECT_NAME} 
+        PUBLIC
+            /std:c++latest 
+            /await
+        )
     endif()
 
     set_target_properties(${PROJECT_NAME} PROPERTIES 

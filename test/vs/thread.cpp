@@ -11,44 +11,31 @@
 //      https://docs.microsoft.com/en-us/windows/desktop/ProcThread/using-the-thread-pool-functions
 //
 // ---------------------------------------------------------------------------
-
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include <CppUnitTest.h>
-#include <Windows.h>
-#include <sdkddkver.h>
-#include <threadpoolapiset.h>
-
-#include <array>
+#include "./vstest.h"
 
 #include <coroutine/sync.h>
 #include <coroutine/unplug.hpp>
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std::literals;
-
 using namespace std::experimental;
 
-// ---- ---- ---- ----
-
-TEST_CLASS(ThreadMessageTest)
+class ThreadMessageTest : public TestClass<ThreadMessageTest>
 {
-    static constexpr auto repeat_count = 50'000;
+    static constexpr auto repeat_count = 100'000;
     struct context_t
     {
-        DWORD anton, bruno, ceaser, dora;
+        thread_id_t anton, bruno, ceaser, dora;
         wait_group start, end;
         wait_group a, b, c, d;
     };
 
     static void CALLBACK Anton(PTP_CALLBACK_INSTANCE,
-                               context_t & context,
+                               context_t& context,
                                PTP_WORK work) noexcept(false)
     {
         try
         {
-            context.anton = GetCurrentThreadId();
+            context.anton = current_thread_id();
             context.start.done();
             context.a.wait();
 
@@ -71,14 +58,14 @@ TEST_CLASS(ThreadMessageTest)
         }
     }
     static void CALLBACK Bruno(PTP_CALLBACK_INSTANCE,
-                               context_t & context,
+                               context_t& context,
                                PTP_WORK work) noexcept(false)
     {
         try
         {
             UNREFERENCED_PARAMETER(work);
 
-            context.bruno = GetCurrentThreadId();
+            context.bruno = current_thread_id();
             context.start.done();
             context.b.wait();
 
@@ -87,7 +74,7 @@ TEST_CLASS(ThreadMessageTest)
             {
                 message_t msg{};
 
-                if (peek_message(context.bruno, msg) == true) repeat += 1;
+                if (peek_message(msg) == true) repeat += 1;
 
             } while (repeat < repeat_count * 4);
             context.end.done();
@@ -99,14 +86,14 @@ TEST_CLASS(ThreadMessageTest)
         }
     }
     static void CALLBACK Ceaser(PTP_CALLBACK_INSTANCE,
-                                context_t & context,
+                                context_t& context,
                                 PTP_WORK work) noexcept(false)
     {
         try
         {
             UNREFERENCED_PARAMETER(work);
 
-            context.ceaser = GetCurrentThreadId();
+            context.ceaser = current_thread_id();
             context.start.done();
             context.c.wait();
 
@@ -115,7 +102,7 @@ TEST_CLASS(ThreadMessageTest)
             {
                 message_t msg{};
 
-                if (peek_message(context.ceaser, msg) == true)
+                if (peek_message(msg) == true)
                 {
                     repeat += 1;
 
@@ -133,14 +120,14 @@ TEST_CLASS(ThreadMessageTest)
     }
 
     static void CALLBACK Dora(PTP_CALLBACK_INSTANCE,
-                              context_t & context,
+                              context_t& context,
                               PTP_WORK work) noexcept(false)
     {
         try
         {
             UNREFERENCED_PARAMETER(work);
 
-            context.dora = GetCurrentThreadId();
+            context.dora = current_thread_id();
             context.start.done();
             context.d.wait();
 
@@ -149,7 +136,7 @@ TEST_CLASS(ThreadMessageTest)
             {
                 message_t msg{};
 
-                if (peek_message(context.dora, msg) == true)
+                if (peek_message(msg) == true)
                 {
                     repeat += 1;
                     post_message(context.bruno, msg);

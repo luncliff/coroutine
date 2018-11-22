@@ -9,26 +9,30 @@
 
 #include <array>
 #include <cassert>
+#include <queue>
 #include <system_error>
-#include <unordered_map>
 
 #include <coroutine/sync.h>
 
 #include "../memory.hpp"
 
 using lock_t = std::lock_guard<section>;
-
-constexpr uint16_t max_thread_count = 60;
+using queue_t = std::queue<message_t>;
 
 struct resource_t
 {
-    uint32_t owner;
+    thread_id_t owner;
     uint16_t mark;
     uint16_t index;
 };
 
 section protect{};
+
+constexpr uint16_t max_thread_count = 300;
+
 index_pool<resource_t, max_thread_count> pool{};
+std::array<section, max_thread_count> queue_lockables{};
+std::array<queue_t, max_thread_count> queue_list{};
 
 void setup_indices() noexcept
 {
@@ -40,10 +44,11 @@ void setup_indices() noexcept
 void teardown_indices() noexcept
 {
     for (auto& res : pool.space)
-        if (res.owner) pool.deallocate(std::addressof(res));
+        if (static_cast<uint64_t>(res.owner))
+            pool.deallocate(std::addressof(res));
 }
 
-uint16_t register_thread(uint32_t thread_id, const lock_t&) noexcept(false)
+uint16_t register_thread(thread_id_t thread_id, const lock_t&) noexcept(false)
 {
     auto* res = reinterpret_cast<resource_t*>(pool.allocate());
     if (res == nullptr)
@@ -53,13 +58,13 @@ uint16_t register_thread(uint32_t thread_id, const lock_t&) noexcept(false)
     return res->index;
 }
 
-void register_thread(uint32_t thread_id) noexcept(false)
+void register_thread(thread_id_t thread_id) noexcept(false)
 {
     lock_t lock{protect};
     register_thread(thread_id, lock);
 }
 
-void forget_thread(uint32_t thread_id) noexcept(false)
+void forget_thread(thread_id_t thread_id) noexcept(false)
 {
     lock_t lock{protect};
 
@@ -67,13 +72,13 @@ void forget_thread(uint32_t thread_id) noexcept(false)
         if (res.owner == thread_id)
         {
             pool.deallocate(std::addressof(res));
-            res.owner = 0;
+            res.owner = thread_id_t{};
         }
 
     // unregistered thread. nothing to do
 }
 
-uint16_t index_of(uint32_t thread_id) noexcept(false)
+uint16_t index_of(thread_id_t thread_id) noexcept(false)
 {
     lock_t lock{protect};
 
@@ -82,4 +87,28 @@ uint16_t index_of(uint32_t thread_id) noexcept(false)
 
     // lazy registration
     return register_thread(thread_id, lock);
+}
+
+void post_message(thread_id_t thread_id, message_t msg) noexcept(false)
+{
+    const auto index = index_of(thread_id);
+    std::lock_guard<section> lock{queue_lockables[index]};
+
+    auto& queue = queue_list[index];
+    queue.push(msg);
+}
+
+bool peek_message(message_t& msg) noexcept(false)
+{
+    thread_id_t thread_id = current_thread_id();
+
+    const auto index = index_of(thread_id);
+    std::lock_guard<section> lock{queue_lockables[index]};
+
+    auto& queue = queue_list[index];
+    if (queue.empty()) return false;
+
+    msg = std::move(queue.front());
+    queue.pop();
+    return true;
 }

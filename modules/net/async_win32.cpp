@@ -1,14 +1,10 @@
-// ---------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//
-//  Reference
-//      -
-//      https://msdn.microsoft.com/en-us/library/windows/desktop/ms684124(v=vs.85).aspx
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include "./net.h"
+#include <coroutine/net.h>
 
 uint32_t io_work::resume() noexcept
 {

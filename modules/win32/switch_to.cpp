@@ -28,9 +28,8 @@ using namespace std::experimental;
 
 bool peek_switched(coroutine_handle<void>& rh) noexcept(false)
 {
-    const auto tid = GetCurrentThreadId();
     message_t msg{};
-    if (peek_message(tid, msg) == true)
+    if (peek_message(msg) == true)
     {
         rh = coroutine_handle<void>::from_address(msg.ptr);
         return true;
@@ -136,12 +135,13 @@ void switch_to::suspend(coroutine_handle<void> rh) noexcept(false)
 {
     // non-zero : Specific thread's queue
     //     zero : Windows Thread Pool
-    const auto thread_id = reinterpret_cast<switch_to_win32*>(u64)->thread_id;
+    auto task = reinterpret_cast<switch_to_win32*>(u64);
+    const auto thread_id = static_cast<thread_id_t>(task->thread_id);
 
     // Submit work to Windows Thread Pool API
-    if (thread_id == 0)
+    if (thread_id == thread_id_t{})
     {
-        auto& pwk = reinterpret_cast<switch_to_win32*>(u64)->work;
+        auto& pwk = task->work;
 
         // work allocation
         if (pwk == PTP_WORK{})
@@ -171,8 +171,9 @@ void switch_to::suspend(coroutine_handle<void> rh) noexcept(false)
 void switch_to::resume() noexcept
 {
 #ifdef _DEBUG
-    // Are we in correct thread_id?
-    if (auto tid = reinterpret_cast<switch_to_win32*>(u64)->thread_id)
+    auto task = reinterpret_cast<switch_to_win32*>(u64);
+    if (auto tid = task->thread_id)
+        // Are we in correct thread_id?
         assert(tid == ::GetCurrentThreadId());
 #endif
 }

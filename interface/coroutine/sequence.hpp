@@ -200,10 +200,11 @@ struct sequence final
         }
         void await_resume() noexcept
         {
-            handle_t coro{};
-            std::swap(coro, task);
-            if (coro)          // Resume if and only if
-                coro.resume(); // there is a waiting work
+            handle_t _task = task;
+            task = nullptr; // std::swap(_task, task);
+
+            if (_task)          // Resume if and only if
+                _task.resume(); // there is a waiting work
 
             // auto order = std::memory_order::memory_order_acq_rel;
             // if (handle_t coro =
@@ -243,11 +244,10 @@ struct sequence final
             promise->current = empty();
 
             // iterator resumes promise if it is suspended
-            handle_t coro = promise->task;
+            handle_t _task = promise->task;
             promise->task = nullptr;
 
-            if (coro) //
-                coro.resume();
+            if (_task) _task.resume();
 
             // if (handle_t coro = promise->task.exchange(
             //        nullptr, // prevent recursive activation
