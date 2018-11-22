@@ -119,7 +119,7 @@ if(WIN32)  # Clang + Windows
 else() # Clang + Non-Windows
     target_sources(${PROJECT_NAME}
     PRIVATE
-        modules/thread/message.cpp
+        modules/thread/message_lock.cpp
     )
 
     target_compile_options(${PROJECT_NAME} 

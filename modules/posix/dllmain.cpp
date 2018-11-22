@@ -47,8 +47,8 @@ LIB_PROLOGUE void on_load_test(void*) noexcept(false)
 
 extern void setup_indices() noexcept;
 extern void teardown_indices() noexcept;
-extern void register_thread(uint64_t thread_id) noexcept(false);
-extern void forget_thread(uint64_t thread_id) noexcept(false);
+extern void register_thread(thread_id_t thread_id) noexcept(false);
+extern void forget_thread(thread_id_t thread_id) noexcept(false);
 
 namespace internal
 {
@@ -62,20 +62,15 @@ class lifecycle_t
     lifecycle_t() noexcept(false) : thread_id{pthread_self()}
     {
         auto tid = reinterpret_cast<uint64_t>(thread_id);
-        register_thread(tid);
+        register_thread(static_cast<thread_id_t>(tid));
     }
     ~lifecycle_t() noexcept
     {
         auto tid = reinterpret_cast<uint64_t>(thread_id);
-        forget_thread(tid);
+        forget_thread(static_cast<thread_id_t>(tid));
     }
 };
 thread_local lifecycle_t _t_life{};
-
-thread_id_t current_thread_id() noexcept
-{
-    return reinterpret_cast<uint64_t>(_t_life.thread_id);
-}
 
 LIB_PROLOGUE void load_callback() noexcept(false)
 {
@@ -89,3 +84,10 @@ LIB_EPILOGUE void unload_callback() noexcept(false)
 }
 
 } // namespace internal
+
+thread_id_t current_thread_id() noexcept
+{
+    using namespace internal;
+    auto tid = reinterpret_cast<uint64_t>(_t_life.thread_id);
+    return static_cast<thread_id_t>(tid);
+}

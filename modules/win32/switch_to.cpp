@@ -85,7 +85,7 @@ struct switch_to_win32
     DWORD mark{};
     PTP_WORK work{};
 };
-static_assert(sizeof(switch_to) == sizeof(switch_to_win32));
+static_assert(sizeof(switch_to_win32) <= sizeof(switch_to));
 
 switch_to::switch_to(uint32_t target) noexcept : u64{}
 {

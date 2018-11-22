@@ -21,9 +21,8 @@ using namespace std::experimental;
 bool peek_switched( // ... better name?
     std::experimental::coroutine_handle<void>& coro) noexcept(false)
 {
-    const auto tid = reinterpret_cast<uint64_t>(pthread_self());
     message_t msg{};
-    if (peek_message(tid, msg) == true)
+    if (peek_message(msg) == true)
     {
         coro = coroutine_handle<void>::from_address(msg.ptr);
         return true;
@@ -43,7 +42,7 @@ extern uint64_t current_thread_id() noexcept;
 
 struct switch_to_posix
 {
-    uint64_t thread_id{};
+    thread_id_t thread_id{};
     void* work{};
     uint32_t mark{};
 };
@@ -64,7 +63,7 @@ switch_to::switch_to(uint32_t target) noexcept : u64{}
         std::numeric_limits<uint32_t>::max() - 0xFADE'BCFA;
 
     auto* self = for_posix(this);
-    self->thread_id = target;
+    self->thread_id = static_cast<thread_id_t>(target);
     self->mark = poison;
 }
 
@@ -78,12 +77,12 @@ bool switch_to::ready() const noexcept
 {
     const auto* task = for_posix(this);
     // for background work, always false
-    if (task->thread_id == 0) //
+    if (task->thread_id == thread_id_t{}) //
         return false;
 
     // already in the target thread?
     return task->thread_id //
-           == internal::current_thread_id();
+           == current_thread_id();
 }
 
 void switch_to::suspend( //
@@ -91,7 +90,7 @@ void switch_to::suspend( //
 {
     auto* task = for_posix(this);
 
-    if (task->thread_id != 0)
+    if (task->thread_id != thread_id_t{})
     {
         // submit to specific thread
         message_t msg{};
@@ -114,7 +113,7 @@ void switch_to::resume() noexcept
 {
     const auto* task = for_posix(this);
 
-    // check thread id
-    if (auto tid = task->thread_id)
-        assert(tid == internal::current_thread_id());
+    if (task->thread_id != thread_id_t{})
+        // check thread id
+        assert(task->thread_id == current_thread_id());
 }

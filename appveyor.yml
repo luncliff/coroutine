@@ -8,7 +8,6 @@
 # ---------------------------------------------------------------------------
 version: 1.2.{build}
 
-clone_depth: 1
 shallow_clone: true
 
 notifications:
@@ -21,8 +20,8 @@ image:
   - Ubuntu1804
   - Ubuntu1604
 
-# platform: 
-#   - x64
+platform: 
+  - x64
 
 configuration:
   - Debug
@@ -32,6 +31,13 @@ environment:
   matrix:
     - compiler: msvc
     - compiler: clang
+
+matrix:
+  exclude:
+    - image: Ubuntu1804
+      compiler: msvc
+    - image: Ubuntu1604
+      compiler: msvc
 
 for:
 -
