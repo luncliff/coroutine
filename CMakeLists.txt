@@ -64,8 +64,10 @@ if(WIN32)  # Clang + Windows
     target_sources(${PROJECT_NAME}
     PRIVATE
         modules/win32/clang.cpp
-        modules/win32/thread_registry.cpp
-        modules/win32/thread_message.cpp
+        modules/thread/message_lock.cpp        
+        modules/net/async_win32.cpp
+        modules/net/resolver.cpp
+        modules/net/net_data.cpp
     )
     target_compile_definitions(${PROJECT_NAME}
     PUBLIC

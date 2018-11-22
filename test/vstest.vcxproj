@@ -205,14 +205,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="vstest.channel.cpp" />
-    <ClCompile Include="vstest.memory.cpp" />
-    <ClCompile Include="vstest.net.cpp" />
-    <ClCompile Include="vstest.sequence.cpp" />
-    <ClCompile Include="vstest.thread.cpp" />
-    <ClCompile Include="vstest.unplug.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\modules\win32\win32.vcxproj">
       <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
     </ProjectReference>
@@ -225,7 +217,15 @@
     <ClInclude Include="..\interface\coroutine\sync.h" />
     <ClInclude Include="..\interface\coroutine\unplug.hpp" />
     <ClInclude Include="test.h" />
-    <ClInclude Include="vstest.h" />
+    <ClInclude Include="vs\vstest.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="vs\channel.cpp" />
+    <ClCompile Include="vs\memory.cpp" />
+    <ClCompile Include="vs\sequence.cpp" />
+    <ClCompile Include="vs\socket.cpp" />
+    <ClCompile Include="vs\thread.cpp" />
+    <ClCompile Include="vs\unplug.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

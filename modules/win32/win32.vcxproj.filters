@@ -9,18 +9,15 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="shared">
+    <Filter Include="net">
+      <UniqueIdentifier>{c23f79ff-8797-4ed2-a49a-04308edab0f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thread">
       <UniqueIdentifier>{2901e4b2-9044-43d4-8d28-5b1366a922a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
-      <Filter>win32</Filter>
-    </ClCompile>
-    <ClCompile Include="thread_message.cpp">
-      <Filter>win32</Filter>
-    </ClCompile>
-    <ClCompile Include="thread_registry.cpp">
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="switch_to.cpp">
@@ -31,6 +28,18 @@
     </ClCompile>
     <ClCompile Include="wait_group.cpp">
       <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\net\async_win32.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\net\resolver.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\net\net_data.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thread\message_lock.cpp">
+      <Filter>thread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,7 +56,7 @@
       <Filter>coroutine</Filter>
     </ClInclude>
     <ClInclude Include="..\memory.hpp">
-      <Filter>shared</Filter>
+      <Filter>thread</Filter>
     </ClInclude>
     <ClInclude Include="..\..\interface\coroutine\channel.hpp">
       <Filter>coroutine</Filter>
@@ -56,6 +65,9 @@
       <Filter>coroutine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\interface\coroutine\frame.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\interface\coroutine\net.h">
       <Filter>coroutine</Filter>
     </ClInclude>
   </ItemGroup>

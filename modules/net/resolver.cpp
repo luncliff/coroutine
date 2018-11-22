@@ -1,13 +1,14 @@
 ﻿// ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include "net.h"
+#include <coroutine/net.h>
 
-#include <coroutine/unplug.hpp>
 #include <coroutine/enumerable.hpp>
+#include <coroutine/unplug.hpp>
+
 
 using namespace std;
 
@@ -140,15 +141,13 @@ auto resolve(const char* name, const char* serv) noexcept
     return resolve(hints, name, serv);
 }
 
-auto resolve(const char* name, uint16_t port) noexcept
-    -> enumerable<endpoint>
+auto resolve(const char* name, uint16_t port) noexcept -> enumerable<endpoint>
 {
     addrinfo hints = hint(AI_ALL | AI_V4MAPPED | AI_NUMERICSERV, SOCK_STREAM);
     return resolve(hints, name, port);
 }
 
-auto resolve(const char* serv) noexcept
-    -> enumerable<endpoint>
+auto resolve(const char* serv) noexcept -> enumerable<endpoint>
 {
     // for `bind()`    // TCP + IPv6
     addrinfo hints = hint(AI_PASSIVE | AI_V4MAPPED, SOCK_STREAM);

@@ -7,26 +7,9 @@
     <Filter Include="test">
       <UniqueIdentifier>{4a28942f-11c5-4837-8735-cbd30c80bfaa}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="vstest.thread.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="vstest.memory.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="vstest.channel.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="vstest.net.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="vstest.sequence.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="vstest.unplug.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
+    <Filter Include="test\vs">
+      <UniqueIdentifier>{cab41e1e-9780-4bf4-a721-9bb404c93723}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\interface\coroutine\channel.hpp">
@@ -50,8 +33,28 @@
     <ClInclude Include="test.h">
       <Filter>test</Filter>
     </ClInclude>
-    <ClInclude Include="vstest.h">
-      <Filter>test</Filter>
+    <ClInclude Include="vs\vstest.h">
+      <Filter>test\vs</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="vs\channel.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="vs\memory.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="vs\sequence.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="vs\socket.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="vs\thread.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="vs\unplug.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

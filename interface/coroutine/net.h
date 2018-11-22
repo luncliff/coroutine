@@ -1,19 +1,13 @@
 // ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //  Note
 //      Coroutine based network programming
 //
 //      Asynchronous Socket support with coroutine over Windows API
 //       - Overlapped Callback
 //       - I/O Completion Port (Proactor pattern)
-//
-//  To Do
-//      More implementation + Test
-//      - RFC 3540
-//      - RFC 3168
 //
 // ---------------------------------------------------------------------------
 #ifndef LINKABLE_DLL_MACRO
@@ -54,6 +48,7 @@
 #include <ws2tcpip.h>
 
 #pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib, "mswsock.lib")
 
 // - Note
 //      Buffer is NOT a resource.

@@ -1,15 +1,12 @@
 // ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//
-//  License
-//      CC BY 4.0
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
 
 #include "./vstest.h"
-#include "../modules/net/net.h"
+#include <coroutine/net.h>
 
 #include <CppUnitTest.h>
 #include <sdkddkver.h>

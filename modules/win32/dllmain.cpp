@@ -52,34 +52,39 @@ PROCEDURE void on_load_test(void*) noexcept(false)
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
+thread_id_t current_thread_id() noexcept
+{
+    return static_cast<thread_id_t>(GetCurrentThreadId());
+}
+
 extern void setup_indices() noexcept;
 extern void teardown_indices() noexcept;
-extern void register_thread(uint32_t thread_id) noexcept(false);
-extern void forget_thread(uint32_t thread_id) noexcept(false);
+extern void register_thread(thread_id_t thread_id) noexcept(false);
+extern void forget_thread(thread_id_t thread_id) noexcept(false);
 
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms682583(v=vs.85).aspx
 BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID)
 {
-    const auto thread_id = GetCurrentThreadId();
+    const auto tid = current_thread_id();
     try
     {
         if (reason == DLL_THREAD_ATTACH)
         {
             coroutine::on_load_test(instance);
-            register_thread(thread_id);
+            register_thread(tid);
         }
         if (reason == DLL_THREAD_DETACH)
         {
-            forget_thread(thread_id);
+            forget_thread(tid);
         }
         if (reason == DLL_PROCESS_ATTACH)
         {
             setup_indices();
-            register_thread(thread_id);
+            register_thread(tid);
         }
         if (reason == DLL_PROCESS_DETACH)
         {
-            forget_thread(thread_id);
+            forget_thread(tid);
             teardown_indices();
         }
         return TRUE;

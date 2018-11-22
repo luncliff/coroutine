@@ -9,31 +9,11 @@
 version: 1.2.{build}
 
 clone_depth: 1
-max_jobs: 3
-
-# ----- Notification ----- 
 
 notifications:
   - provider: Email
     to:
       - luncliff@gmail.com
-
-# ----- Deployment ----- 
-
-# before_deploy:
-#   - ps: Set-Location $env:APPVEYOR_BUILD_FOLDER
-# deploy:
-#   - provider: GitHub
-#     auth_token:
-#       secure: Wlp/6n2lRS4hsvUlZpGjcmDKufr5TfbB3WhUMiqbQvxTkgTL+RNWTtP8C198boyH
-#     prerelease: true
-#     description: "Release: $(appveyor_build_version)"
-#     on:
-#       appveyor_repo_tag: true 
-# after_deploy:
-#   - ps: cd $env:APPVEYOR_BUILD_FOLDER
-
-# ----- Build Matrix ----- 
 
 image: 
   - Visual Studio 2017
@@ -50,11 +30,6 @@ environment:
   matrix:
     - compiler: msvc
     - compiler: clang
-
-matrix:
-  fast_finish: true
-
-# ----- Build steps for each environment ----- 
 
 for:
 -

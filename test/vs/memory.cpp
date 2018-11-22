@@ -8,14 +8,9 @@
 //
 // ---------------------------------------------------------------------------
 #include "../modules/memory.hpp"
+#include "./vstest.h"
 
-#include <array>
-
-#include "CppUnitTest.h"
-
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-TEST_CLASS(IndexPoolTest)
+class IndexPoolTest : public TestClass<IndexPoolTest>
 {
     index_pool<uint64_t, 10> pool{};
 
@@ -45,19 +40,20 @@ TEST_CLASS(IndexPoolTest)
         using namespace std;
 
         int i = 0;
-        array<void *, 11> set{};
+        array<void*, 11> set{};
 
         for (; i < 11; ++i)
             set[i] = pool.allocate();
 
-        for_each(cbegin(set), set.cbegin() + 10, [this](void *ptr) {
+        for_each(cbegin(set), set.cbegin() + 10, [this](void* ptr) {
             Assert::IsTrue(ptr != nullptr);
             Assert::IsTrue(pool.get_id(ptr) >= 0 &&
                            pool.get_id(ptr) < pool.capacity());
         });
         Assert::IsTrue(set[10] == nullptr);
 
-        for_each(cbegin(set), set.cbegin() + 10,
-                 [this](void *ptr) { this->pool.deallocate(ptr); });
+        for_each(cbegin(set), set.cbegin() + 10, [this](void* ptr) {
+            this->pool.deallocate(ptr);
+        });
     }
 };
