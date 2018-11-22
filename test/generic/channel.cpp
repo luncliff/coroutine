@@ -16,7 +16,12 @@ auto write_to(channel<uint64_t, L>& ch, uint64_t value, bool ok = false)
     -> unplug
 {
     ok = co_await ch.write(value);
-    // fprintf(stdout, "write_to %p %llx \n", &value, value);
+
+    if (ok == false)
+        // inserting fprintf makes the crash disappear.
+        // finding the reason for the issue
+        fprintf(stdout, "write_to %p %llx \n", &value, value);
+
     REQUIRE(ok);
 }
 
@@ -26,7 +31,6 @@ auto read_from(channel<uint64_t, L>& ch, uint64_t& value, bool ok = false)
     -> unplug
 {
     std::tie(value, ok) = co_await ch.read();
-    // fprintf(stdout, "read_from %p %llx \n", &value, value);
     REQUIRE(ok);
 }
 
