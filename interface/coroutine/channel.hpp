@@ -10,35 +10,31 @@
 #define COROUTINE_CHANNEL_HPP
 
 #include <cassert>
-#include <limits>
 #include <mutex>
 #include <tuple>
-#include <utility>
 
 #include <experimental/coroutine>
 
 namespace internal
 {
-static constexpr void* poison() noexcept
-{
-    return (void*)(0xFADE'BCFA -
-                   std::numeric_limits<unsigned long long>::max());
-}
+static void* poison() noexcept { return reinterpret_cast<void*>(0xFADE'BCFA); }
 
 // - Note
 //      Minimal linked list without node allocation
 template<typename NodeType>
 class list
 {
-    NodeType* head{};
-    NodeType* tail{};
+    using node_t = NodeType;
+
+    node_t* head{};
+    node_t* tail{};
 
   public:
     list() noexcept = default;
 
   public:
     bool is_empty() const noexcept { return head == nullptr; }
-    void push(NodeType* node) noexcept
+    void push(node_t* node) noexcept
     {
         if (tail)
         {
@@ -48,15 +44,18 @@ class list
         else
             head = tail = node;
     }
-    auto pop() noexcept -> NodeType*
+    auto pop() noexcept -> node_t*
     {
-        NodeType* node = head;
-        // empty or 1
-        if (head == tail) head = tail = nullptr;
-        // 2 or more
+        node_t* node = head;
+        if (head == tail)
+            // empty or 1
+            head = tail = nullptr;
         else
+            // 2 or more
             head = head->next;
-        return node; // it can be nullptr
+
+        // this can be nullptr
+        return node;
     }
 };
 } // namespace internal
@@ -74,10 +73,10 @@ template<typename T, typename Lockable>
 class reader final
 {
   public:
-    using channel_type = typename channel<T, Lockable>;
-    using value_type = typename channel_type::value_type;
-    using pointer = typename channel_type::pointer;
-    using reference = typename channel_type::reference;
+    using value_type = T;
+    using pointer = T*;
+    using reference = T&;
+    using channel_type = channel<T, Lockable>;
 
   private:
     using writer = typename channel_type::writer;
@@ -131,10 +130,10 @@ template<typename T, typename Lockable>
 class writer final
 {
   public:
-    using channel_type = typename channel<T, Lockable>;
-    using value_type = typename channel_type::value_type;
-    using pointer = typename channel_type::pointer;
-    using reference = typename channel_type::reference;
+    using value_type = T;
+    using pointer = T*;
+    using reference = T&;
+    using channel_type = channel<T, Lockable>;
 
   private:
     using reader = typename channel_type::reader;
@@ -241,8 +240,8 @@ class channel final : private internal::list<reader<T, Lockable>>,
         while (repeat--)
         {
             // Give chance to other coroutines to come into the lists
-            std::this_thread::yield();
-            std::unique_lock<mutex_t> lck{this->mtx};
+            // std::this_thread::yield();
+            std::unique_lock lck{this->mtx};
             while (writers.is_empty() == false)
             {
                 writer* w = writers.pop();
@@ -300,13 +299,13 @@ bool reader<T, M>::await_ready() const noexcept
 
 template<typename T, typename M>
 void reader<T, M>::await_suspend(
-    std::experimental::coroutine_handle<> _rh) noexcept
+    std::experimental::coroutine_handle<void> coro) noexcept
 {
     // notice that next & chan are sharing memory
     channel_type& ch = *(this->chan);
 
-    this->frame = _rh.address(); // remember handle before push/unlock
-    this->next = nullptr;        // clear to prevent confusing
+    this->frame = coro.address(); // remember handle before push/unlock
+    this->next = nullptr;         // clear to prevent confusing
 
     ch.reader_list::push(this); // push to channel
     ch.mtx.unlock();
@@ -349,13 +348,13 @@ bool writer<T, M>::await_ready() const noexcept
 
 template<typename T, typename M>
 void writer<T, M>::await_suspend(
-    std::experimental::coroutine_handle<> _rh) noexcept
+    std::experimental::coroutine_handle<void> coro) noexcept
 {
     // notice that next & chan are sharing memory
     channel_type& ch = *(this->chan);
 
-    this->frame = _rh.address(); // remember handle before push/unlock
-    this->next = nullptr;        // clear to prevent confusing
+    this->frame = coro.address(); // remember handle before push/unlock
+    this->next = nullptr;         // clear to prevent confusing
 
     ch.writer_list::push(this); // push to channel
     ch.mtx.unlock();

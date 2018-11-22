@@ -108,13 +108,14 @@ matrix:
 
     # Linux : x86_64 Debug Dynamic
     - os: linux
+      dist: xenial
       compiler: clang
       addons:
         apt:
           update: true
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-xenial-6.0
           packages:
             - llvm-6.0
             - llvm-6.0-tools
@@ -135,26 +136,11 @@ matrix:
         - echo $TRAVIS_OS_NAME;
         - export CC=clang-6.0
         - export CXX=clang-6.0
-        # see also: ./scripts/install-libc++.sh
+        # install libc++ 6.0
         - cd ${TRAVIS_BUILD_DIR}
-        - wget -q -O llvm.zip       https://github.com/llvm-mirror/llvm/archive/release_60.zip
-        - wget -q -O libcxx.zip     https://github.com/llvm-mirror/libcxx/archive/release_60.zip
-        - wget -q -O libcxxabi.zip  https://github.com/llvm-mirror/libcxxabi/archive/release_60.zip
-        - unzip -q llvm.zip;
-        - mv ./llvm-release_60 ./llvm;
-        - unzip -q libcxx.zip;
-        - mv ./libcxx-release_60 ./libcxx;
-        - unzip -q libcxxabi.zip
-        - mv ./libcxxabi-release_60 ./libcxxabi;
+        - sudo bash ./scripts/install-libc++-sudo.sh
       install:
-        - mkdir -p prebuilt && pushd prebuilt;
-        -  cmake ../libcxx    -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_PATH=../llvm -DCMAKE_BUILD_TYPE=Release -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include
-        -  sudo ninja install;
-        -  rm CMakeCache.txt;
-        -  cmake ../libcxxabi -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_PATH=../llvm -DCMAKE_BUILD_TYPE=Release -DLIBCXXABI_LIBCXX_PATH=../libcxx
-        -  sudo ninja install;
-        -  rm CMakeCache.txt;
-        - popd;
+        - sudo rm -rf ./prebuilt;
       before_script:
         - mkdir -p build && pushd build;
       script:
@@ -177,13 +163,14 @@ matrix:
 
     # Linux : x86_64 Release Dynamic
     - os: linux
+      dist: xenial
       compiler: clang
       addons:
         apt:
           update: true
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-xenial-6.0
           packages:
             - llvm-6.0
             - llvm-6.0-tools
@@ -204,26 +191,11 @@ matrix:
         - echo $TRAVIS_OS_NAME;
         - export CC=clang-6.0
         - export CXX=clang-6.0
-        # see also: ./scripts/install-libc++.sh
+        # install libc++ 6.0
         - cd ${TRAVIS_BUILD_DIR}
-        - wget -q -O llvm.zip       https://github.com/llvm-mirror/llvm/archive/release_60.zip
-        - wget -q -O libcxx.zip     https://github.com/llvm-mirror/libcxx/archive/release_60.zip
-        - wget -q -O libcxxabi.zip  https://github.com/llvm-mirror/libcxxabi/archive/release_60.zip
-        - unzip -q llvm.zip;
-        - mv ./llvm-release_60 ./llvm;
-        - unzip -q libcxx.zip;
-        - mv ./libcxx-release_60 ./libcxx;
-        - unzip -q libcxxabi.zip
-        - mv ./libcxxabi-release_60 ./libcxxabi;
+        - sudo bash ./scripts/install-libc++-sudo.sh
       install:
-        - mkdir -p prebuilt && pushd prebuilt;
-        -  cmake ../libcxx    -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_PATH=../llvm -DCMAKE_BUILD_TYPE=Release -DLIBCXX_CXX_ABI=libcxxabi -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include
-        -  sudo ninja install;
-        -  rm CMakeCache.txt;
-        -  cmake ../libcxxabi -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_PATH=../llvm -DCMAKE_BUILD_TYPE=Release -DLIBCXXABI_LIBCXX_PATH=../libcxx
-        -  sudo ninja install;
-        -  rm CMakeCache.txt;
-        - popd;
+        - sudo rm -rf ./prebuilt;
       before_script:
         - mkdir -p build && pushd build;
       script:

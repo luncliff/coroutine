@@ -4,26 +4,30 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
+#include <coroutine/frame.h>
 #include <coroutine/switch.h>
 #include <coroutine/sync.h>
 
 #include <cassert>
-#include <stdexcept>
+#include <csignal>
+#include <future>
 #include <system_error>
+
+#include "./adapter.h"
 
 using namespace std;
 using namespace std::experimental;
 
-bool peek_switched(coroutine_handle<void>&) noexcept(false)
+bool peek_switched( // ... better name?
+    std::experimental::coroutine_handle<void>& coro) noexcept(false)
 {
-    throw std::exception{};
-    // const auto tid = GetCurrentThreadId();
-    // message_t msg{};
-    // if (peek_message(tid, msg) == true)
-    // {
-    //     rh = coroutine_handle<void>::from_address(msg.ptr);
-    //     return true;
-    // }
+    const auto tid = reinterpret_cast<uint64_t>(pthread_self());
+    message_t msg{};
+    if (peek_message(tid, msg) == true)
+    {
+        coro = coroutine_handle<void>::from_address(msg.ptr);
+        return true;
+    }
     return false;
 }
 
@@ -32,33 +36,26 @@ static_assert(std::is_nothrow_move_constructible_v<switch_to> == false);
 static_assert(std::is_nothrow_copy_assignable_v<switch_to> == false);
 static_assert(std::is_nothrow_copy_constructible_v<switch_to> == false);
 
-// // - Note
-// //      Thread Pool Callback. Expect `noexcept` operation
-// void resume_coroutine(PTP_CALLBACK_INSTANCE instance,
-//                       PVOID context,
-//                       PTP_WORK work) noexcept
-// {
-//     // debug info from these args?
-//     UNREFERENCED_PARAMETER(instance);
-//     UNREFERENCED_PARAMETER(work);
-//     coroutine_handle<void>::from_address(context).resume();
-// }
+namespace internal
+{
+extern uint64_t current_thread_id() noexcept;
+}
 
 struct switch_to_posix
 {
-    uint32_t thread_id{};
-    uint32_t mark{};
+    uint64_t thread_id{};
     void* work{};
+    uint32_t mark{};
 };
-static_assert(sizeof(switch_to) == sizeof(switch_to_posix));
+static_assert(sizeof(switch_to_posix) <= sizeof(switch_to));
 
-auto& reinterpret(switch_to* s) noexcept
+auto* for_posix(switch_to* s) noexcept
 {
-    return *reinterpret_cast<switch_to_posix*>(s);
+    return reinterpret_cast<switch_to_posix*>(s);
 }
-auto& reinterpret(const switch_to* s) noexcept
+auto* for_posix(const switch_to* s) noexcept
 {
-    return *reinterpret_cast<const switch_to_posix*>(s);
+    return reinterpret_cast<const switch_to_posix*>(s);
 }
 
 switch_to::switch_to(uint32_t target) noexcept : u64{}
@@ -66,30 +63,58 @@ switch_to::switch_to(uint32_t target) noexcept : u64{}
     constexpr uint32_t poison =
         std::numeric_limits<uint32_t>::max() - 0xFADE'BCFA;
 
-    auto& self = reinterpret(this);
-    self.thread_id = target;
-    self.mark = poison;
+    auto* self = for_posix(this);
+    self->thread_id = target;
+    self->mark = poison;
 }
 
 switch_to::~switch_to() noexcept
 {
-    auto& self = reinterpret(this);
-    assert(self.work == nullptr);
+    auto* self = for_posix(this);
+    assert(self->work == nullptr);
 }
 
 bool switch_to::ready() const noexcept
 {
-    auto& self = reinterpret(this);
-    return self.work == nullptr; // just true
+    const auto* task = for_posix(this);
+    // for background work, always false
+    if (task->thread_id == 0) //
+        return false;
+
+    // already in the target thread?
+    return task->thread_id //
+           == internal::current_thread_id();
 }
 
-void switch_to::suspend(coroutine_handle<void>) noexcept(false)
+void switch_to::suspend( //
+    std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
-    throw std::exception{};
+    auto* task = for_posix(this);
+
+    if (task->thread_id != 0)
+    {
+        // submit to specific thread
+        message_t msg{};
+        msg.ptr = coro.address();
+        post_message(task->thread_id, msg);
+
+        return;
+    }
+
+    // submit to background thread. this code will be optimized later
+    std::async(std::launch::async,
+               [](coroutine_handle<void> frame) -> void {
+                   // just continue the work
+                   frame.resume();
+               },
+               coro);
 }
 
 void switch_to::resume() noexcept
 {
-    auto& self = reinterpret(this);
-    // do nothing ...
+    const auto* task = for_posix(this);
+
+    // check thread id
+    if (auto tid = task->thread_id)
+        assert(tid == internal::current_thread_id());
 }

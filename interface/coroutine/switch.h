@@ -48,7 +48,7 @@ _INTERFACE_ bool peek_switched(
 //      and Windows Thread Pool
 class switch_to final
 {
-    std::uint64_t u64[2]{};
+    std::uint64_t u64[4]{};
 
   public:
     _INTERFACE_ explicit switch_to(uint32_t target = 0) noexcept;
@@ -62,7 +62,8 @@ class switch_to final
 
   public:
     _INTERFACE_ bool ready() const noexcept;
-    _INTERFACE_ void suspend(std::experimental::coroutine_handle<void> rh) noexcept(false);
+    _INTERFACE_ void suspend(
+        std::experimental::coroutine_handle<void> rh) noexcept(false);
     _INTERFACE_ void resume() noexcept;
 
 #pragma warning(disable : 4505)
