@@ -12,9 +12,11 @@
 
 // ensure successful write to channel
 template<typename L>
-auto write_to(channel<uint64_t, L>& ch, uint64_t value) -> unplug
+auto write_to(channel<uint64_t, L>& ch, uint64_t value, bool ok = false)
+    -> unplug
 {
-    bool ok = co_await ch.write(value);
+    ok = co_await ch.write(value);
+    // fprintf(stdout, "write_to %p %llx \n", &value, value);
     REQUIRE(ok);
 }
 
@@ -24,6 +26,7 @@ auto read_from(channel<uint64_t, L>& ch, uint64_t& value, bool ok = false)
     -> unplug
 {
     std::tie(value, ok) = co_await ch.read();
+    // fprintf(stdout, "read_from %p %llx \n", &value, value);
     REQUIRE(ok);
 }
 
@@ -38,7 +41,7 @@ TEST_CASE("ChannelTest", "[channel]")
         void unlock() noexcept {}
     };
 
-    SECTION("ReadWrite")
+    SECTION("WriteRead")
     {
         uint64_t storage = 0;
         channel<uint64_t, bypass_lock> ch{};
@@ -55,7 +58,7 @@ TEST_CASE("ChannelTest", "[channel]")
         }
     }
 
-    SECTION("WriteRead")
+    SECTION("ReadWrite")
     {
         uint64_t storage = 0;
         channel<uint64_t, bypass_lock> ch{};
@@ -78,19 +81,21 @@ TEST_CASE("ChannelTest", "[channel]")
         channel<uint64_t, std::mutex> ch{};
         uint32_t success = 0, failure = 0;
 
+        switch_to background{};
+
         static constexpr size_t TryCount = 100'000;
 
         wait_group group{};
         group.add(2 * TryCount);
 
-        auto send_with_callback = [](auto& ch, auto value, auto fn) -> unplug {
-            co_await switch_to{}; // go to background
+        auto send_with_callback = [&](auto& ch, auto value, auto fn) -> unplug {
+            co_await background; // go to background
 
             const auto ok = co_await ch.write(value);
             fn(ok);
         };
-        auto recv_with_callback = [](auto& ch, auto fn) -> unplug {
-            co_await switch_to{}; // go to background
+        auto recv_with_callback = [&](auto& ch, auto fn) -> unplug {
+            co_await background; // go to background
 
             // [ value, ok ]
             const auto tup = co_await ch.read();
@@ -112,8 +117,8 @@ TEST_CASE("ChannelTest", "[channel]")
         uint64_t repeat = TryCount;
         while (repeat--)
         {
-            send_with_callback(ch, repeat, callback);
             recv_with_callback(ch, callback);
+            send_with_callback(ch, repeat, callback);
         }
 
         // Wait for all coroutines...
