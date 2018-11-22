@@ -7,7 +7,7 @@
 
 #include <coroutine/enumerable.hpp>
 
-TEST_CASE("GeneratorTest", "[syntax]")
+TEST_CASE("GeneratorTest", "[generic]")
 {
     SECTION("yield_never")
     {

@@ -85,33 +85,33 @@ class wait_group final
     _INTERFACE_ wait_group() noexcept(false);
     _INTERFACE_ ~wait_group() noexcept;
 
-    _INTERFACE_ void add(std::uint32_t count) noexcept;
+    _INTERFACE_ void add(uint32_t count) noexcept;
     _INTERFACE_ void done() noexcept;
     // - Note
     //      Wait for given milisec
     // - Throws
     //      std::system_error
-    _INTERFACE_ void wait(std::uint32_t timeout = 10'000) noexcept(false);
+    _INTERFACE_ void wait(uint32_t timeout = 10'000) noexcept(false);
 };
 
 union message_t final {
-    std::uint64_t u64{};
+    uint64_t u64{};
     void* ptr;
-    std::uint32_t u32[2];
+    uint32_t u32[2];
 };
 // static_assert(std::atomic<message_t>::is_always_lock_free);
 static_assert(sizeof(message_t) <= sizeof(uint64_t));
 
 // - Note
 //      Post a message to the thread with given id
-_INTERFACE_ void post_message(std::uint32_t thread_id,
-                              message_t msg) noexcept(false);
+_INTERFACE_ void post_message(uint64_t thread_id,
+                              const message_t msg) noexcept(false);
 
 // - Note
 //      Peek a message from the designated thread's message queue
 // - Return
 //      message holds `nullptr` if the queue is empty
-_INTERFACE_ bool peek_message(std::uint32_t thread_id,
+_INTERFACE_ bool peek_message(uint64_t thread_id,
                               message_t& msg) noexcept(false);
 
 #endif // CONTROL_FLOW_SYNC_H

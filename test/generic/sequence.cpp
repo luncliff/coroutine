@@ -6,11 +6,10 @@
 #include <catch.hpp>
 
 #include <coroutine/sequence.hpp>
-#include <coroutine/switch.h>
 #include <coroutine/sync.h>
 #include <coroutine/unplug.hpp>
 
-TEST_CASE("SequenceTest", "[syntax]")
+TEST_CASE("SequenceTest", "[generic]")
 {
     SECTION("no_result-1")
     {
@@ -33,7 +32,7 @@ TEST_CASE("SequenceTest", "[syntax]")
         p.resume();
         REQUIRE(value == -2);
     }
-    
+
     SECTION("one_result-case1")
     {
         auto get_sequence = [](await_point& plug) -> sequence<int> {
@@ -153,17 +152,17 @@ TEST_CASE("SequenceTest", "[syntax]")
              "hard-racing");
 
         auto get_sequence = [](wait_group& wg, int& value) -> sequence<int> {
-            co_yield switch_to{};
+            co_yield std::experimental::suspend_never{};
 
             co_yield value = 1;
-            co_yield switch_to{};
+            co_yield std::experimental::suspend_never{};
 
             co_yield value = 2;
             co_yield value = 3;
-            co_yield switch_to{};
+            co_yield std::experimental::suspend_never{};
 
             value = -3;
-            co_yield switch_to{};
+            co_yield std::experimental::suspend_never{};
 
             co_yield value = 4;
             wg.done();

@@ -7,7 +7,7 @@
 
 #include <coroutine/unplug.hpp>
 
-TEST_CASE("UnplugTest", "[syntax]")
+TEST_CASE("UnplugTest", "[generic]")
 {
     SECTION("default_use")
     {
@@ -19,7 +19,7 @@ TEST_CASE("UnplugTest", "[syntax]")
     }
 }
 
-TEST_CASE("AwaitPointTest", "[syntax]")
+TEST_CASE("AwaitPointTest", "[generic]")
 {
     SECTION("empty")
     {

@@ -27,9 +27,8 @@ endif()
 if(NOT IOS)
     set(BUILD_SHARED_LIBS true)
 endif()
-if(WIN32)
-    set(CMAKE_CXX_STANDARD 17)
-endif()
+
+set(CMAKE_CXX_STANDARD 17)
 
 # show project's build configuration
 include(cmake/display-build-info.cmake)
@@ -106,6 +105,11 @@ if(WIN32)  # Clang + Windows
         LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
     )
 else() # Clang + Non-Windows
+    target_sources(${PROJECT_NAME}
+    PRIVATE
+        modules/thread/message.cpp
+    )
+
     target_compile_options(${PROJECT_NAME} 
     PUBLIC
         -std=c++2a -fcoroutines-ts
@@ -180,9 +184,13 @@ set(TEST_NAME ${PROJECT_NAME}_test)
 
 add_executable(${TEST_NAME}
     test/test.entry.cpp
-    test/test.generator.cpp
-    test/test.sequence.cpp
-    test/test.unplug.cpp
+    test/generic/unplug.cpp
+    test/generic/channel.cpp
+    test/generic/generator.cpp
+    test/generic/sequence.cpp
+
+    # test/thread/message.cpp
+    # test/thread/switch.cpp
 )
 
 target_include_directories(${TEST_NAME}
