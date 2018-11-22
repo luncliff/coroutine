@@ -138,9 +138,9 @@ matrix:
         - export CXX=clang-6.0
         # install libc++ 6.0
         - cd ${TRAVIS_BUILD_DIR}
-        - sudo bash ./scripts/install-libc++.sh
+        - sudo bash ./scripts/install-libc++-sudo.sh
       install:
-        - rm -rf ./prebuilt;
+        - sudo rm -rf ./prebuilt;
       before_script:
         - mkdir -p build && pushd build;
       script:
@@ -193,9 +193,9 @@ matrix:
         - export CXX=clang-6.0
         # install libc++ 6.0
         - cd ${TRAVIS_BUILD_DIR}
-        - sudo bash ./scripts/install-libc++.sh
+        - sudo bash ./scripts/install-libc++-sudo.sh
       install:
-        - rm -rf ./prebuilt;
+        - sudo rm -rf ./prebuilt;
       before_script:
         - mkdir -p build && pushd build;
       script:
