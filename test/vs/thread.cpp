@@ -260,15 +260,67 @@ TEST_CLASS(ThreadPoolTest)
     }
 };
 
-TEST_CLASS(CriticalSectionTest)
-{
-    section cs[4]{};
+#include <coroutine/switch.h>
 
-    TEST_METHOD(WaitGroupMultipleDone)
+class SwitchingTest : public TestClass<SwitchingTest>
+{
+    static auto SwitchOnce(wait_group& wg,
+                           uint64_t& before,
+                           uint64_t& after) noexcept(false) -> unplug
     {
-        std::lock_guard<section> lck1{cs[0]};
-        std::lock_guard<section> lck2{cs[1]};
-        std::lock_guard<section> lck3{cs[2]};
-        std::lock_guard<section> lck4{cs[3]};
+        switch_to back{}; // 0 means background thread
+
+        before = GetCurrentThreadId();
+        co_await back; // switch to designated thread
+
+        after = GetCurrentThreadId();
+        wg.done();
+    }
+
+    TEST_METHOD(SwitchToUnknown)
+    {
+        wait_group wg{};
+        uint64_t id1, id2;
+
+        wg.add(1);
+        SwitchOnce(wg, id1, id2);
+        wg.wait();
+
+        // get different thread id
+        Assert::IsTrue(id1 != id2);
+    }
+
+    static auto SwitchToSpeicified( // switch twice...
+        wait_group& wg,
+        uint64_t target) noexcept(false) -> unplug
+    {
+        const auto start = GetCurrentThreadId();
+        switch_to back{}, fore{target}; // 0 means background thread
+
+        co_await back;
+        Assert::IsTrue(start != GetCurrentThreadId());
+
+        co_await fore;
+        Assert::IsTrue(target == GetCurrentThreadId());
+
+        wg.done();
+    }
+
+    TEST_METHOD(SwitchToMain)
+    {
+        coroutine_handle<void> coro{};
+        wait_group wg{};
+        uint64_t id = GetCurrentThreadId();
+
+        wg.add(1);
+        SwitchToSpeicified(wg, id);
+
+        while (peek_switched(coro) == false)
+            // retry until we fetch the coroutine
+            continue;
+
+        coro.resume();
+
+        wg.wait();
     }
 };

@@ -61,7 +61,7 @@ void wait_group::wait(uint32_t timeout) noexcept(false)
         }
 
         // ... the other case will be considered exception ...
-        throw std::system_error{static_cast<int>(GetLastError()),
+        throw std::system_error{static_cast<int>(reason),
                                 std::system_category()};
     }
     return;
