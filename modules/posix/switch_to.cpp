@@ -44,7 +44,7 @@ struct switch_to_posix
 {
     thread_id_t thread_id{};
     void* work{};
-    uint32_t mark{};
+    std::future<void> f;
 };
 static_assert(sizeof(switch_to_posix) <= sizeof(switch_to));
 
@@ -57,14 +57,11 @@ auto* for_posix(const switch_to* s) noexcept
     return reinterpret_cast<const switch_to_posix*>(s);
 }
 
-switch_to::switch_to(uint32_t target) noexcept : u64{}
+switch_to::switch_to(uint64_t target) noexcept(false) : u64{}
 {
-    constexpr uint32_t poison =
-        std::numeric_limits<uint32_t>::max() - 0xFADE'BCFA;
-
+    u64[0] = 0;
     auto* self = for_posix(this);
     self->thread_id = static_cast<thread_id_t>(target);
-    self->mark = poison;
 }
 
 switch_to::~switch_to() noexcept
@@ -101,12 +98,12 @@ void switch_to::suspend( //
     }
 
     // submit to background thread. this code will be optimized later
-    std::async(std::launch::async,
-               [](coroutine_handle<void> frame) -> void {
-                   // just continue the work
-                   frame.resume();
-               },
-               coro);
+    task->f = std::async(std::launch::async,
+                         [](coroutine_handle<void> frame) -> void {
+                             // just continue the work
+                             frame.resume();
+                         },
+                         coro);
 }
 
 void switch_to::resume() noexcept

@@ -20,7 +20,7 @@ auto write_to(channel<uint64_t, L>& ch, uint64_t value, bool ok = false)
     if (ok == false)
         // inserting fprintf makes the crash disappear.
         // finding the reason for the issue
-        fprintf(stdout, "write_to %p %llx \n", &value, value);
+        fprintf(stdout, "write_to %p \n", &value);
 
     REQUIRE(ok);
 }
