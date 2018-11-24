@@ -80,6 +80,22 @@ static_assert(sizeof(clang_frame_prefix) == 16);
 // extern "C" void _coro_cancel();
 // extern "C" void _coro_resume_block();
 
+// ---- Clang Compiler intrinsic ----
+
+// bool  __builtin_coro_done(void *addr);
+// void  __builtin_coro_resume(void *addr);
+// void  __builtin_coro_destroy(void *addr);
+// void *__builtin_coro_promise(void *addr, int alignment, bool from_promise)
+// size_t __builtin_coro_size()
+// void  *__builtin_coro_frame()
+// void  *__builtin_coro_free(void *coro_frame)
+// void  *__builtin_coro_id(int align, void *promise, void *fnaddr, void *parts)
+// bool   __builtin_coro_alloc()
+// void  *__builtin_coro_begin(void *memory)
+// void   __builtin_coro_end(void *coro_frame, bool unwind)
+// char   __builtin_coro_suspend(bool final)
+// bool   __builtin_coro_param(void *original, void *copy)
+
 #ifdef __clang__
 
 //
@@ -130,14 +146,33 @@ inline size_t _coro_done(void* addr)
 // void  __builtin_coro_resume(void *addr);
 inline size_t _coro_resume(void* addr)
 {
-    // auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
-    __builtin_coro_resume(addr);
+    auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
+    // auto* m = reinterpret_cast<msvc_frame_prefix*>(addr);
 
-    // see `coroutine_handle<void>` in VC++ header
+    auto fn = c->factivate;
+    __builtin_coro_resume(c);
+
     //
-    // There was no way but to place this intrinsic here because
-    // `coroutine_handle<void>` doesn't use intrinsic to check
-    // it's coroutine is done
+    // If some coroutines doen't 'final_suspend',
+    //  it's frame will be deleted after above resume operation.
+    //
+    if (c->factivate != nullptr && c->factivate != fn)
+        // nullptr if the coroutine is 'final_suspend'ed
+        // address mismatch because of free operation
+        //
+        // !!! But accessing freed address space yields access violation !!!
+        //
+        return 0;
+    //
+    // For 'final_suspend'ing coroutines,
+    //  the following line is required to work with VC++ implementation
+
+    //
+    // See `coroutine_handle<void>` in VC++ header.
+    // It doesn't rely on `_coro_done` to check its coroutine is returned
+    //
+    // Therefore, there was no way but to place
+    //  additional intrinsic here...
     return _coro_done(addr);
 }
 
@@ -151,18 +186,6 @@ inline void _coro_destroy(void* addr)
     std::swap(c->factivate, c->fdestroy);
     __builtin_coro_destroy(c);
 }
-
-// void *__builtin_coro_promise(void *addr, int alignment, bool from_promise)
-// size_t __builtin_coro_size()
-// void  *__builtin_coro_frame()
-// void  *__builtin_coro_free(void *coro_frame)
-//
-// void  *__builtin_coro_id(int align, void *promise, void *fnaddr, void *parts)
-// bool   __builtin_coro_alloc()
-// void  *__builtin_coro_begin(void *memory)
-// void   __builtin_coro_end(void *coro_frame, bool unwind)
-// char   __builtin_coro_suspend(bool final)
-// bool   __builtin_coro_param(void *original, void *copy)
 
 #endif // __clang__
 
