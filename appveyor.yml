@@ -8,7 +8,6 @@
 # ---------------------------------------------------------------------------
 version: 1.2.{build}
 
-clone_depth: 1
 shallow_clone: true
 
 notifications:
@@ -21,8 +20,8 @@ image:
   - Ubuntu1804
   - Ubuntu1604
 
-# platform: 
-#   - x64
+platform: 
+  - x64
 
 configuration:
   - Debug
@@ -32,6 +31,16 @@ environment:
   matrix:
     - compiler: msvc
     - compiler: clang
+
+matrix:
+  exclude:
+    - image: Ubuntu1804
+      compiler: msvc
+    - image: Ubuntu1604
+      compiler: msvc
+  allow_failures:
+    - image: Visual Studio 2017
+      compiler: clang
 
 for:
 -
@@ -76,10 +85,10 @@ for:
   build_script:
     - ps: New-Item -Name build -ItemType Directory
     - ps: Push-Location -Path build
-    # Tried in powershell command but there was no effect
-    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
-    - cmd: set CC=clang-cl
-    - cmd: set CXX=clang-cl
+    # - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+    - cmd: set CC=clang-cl  # ps: $env:CC  = "clang-cl"
+    - cmd: set CXX=clang-cl # ps: $env:CXX = "clang-cl"
     - cmd: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration%
     - cmd: ninja
   after_build:

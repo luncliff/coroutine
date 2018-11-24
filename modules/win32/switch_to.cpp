@@ -66,56 +66,88 @@ static_assert(std::is_nothrow_move_constructible_v<switch_to> == false);
 static_assert(std::is_nothrow_copy_assignable_v<switch_to> == false);
 static_assert(std::is_nothrow_copy_constructible_v<switch_to> == false);
 
-// - Note
-//      Thread Pool Callback. Expect `noexcept` operation
-void resume_coroutine(PTP_CALLBACK_INSTANCE instance,
-                      PVOID context,
-                      PTP_WORK work) noexcept
-{
-    // debug info from these args?
-    UNREFERENCED_PARAMETER(instance);
-    UNREFERENCED_PARAMETER(work);
-
-    coroutine_handle<void>::from_address(context).resume();
-}
+//// - Note
+////      Thread Pool Callback. Expect `noexcept` operation
+// void resume_coroutine(PTP_CALLBACK_INSTANCE instance,
+//                      PVOID context,
+//                      PTP_WORK work) noexcept
+//{
+//    // debug info from these args?
+//    UNREFERENCED_PARAMETER(instance);
+//    UNREFERENCED_PARAMETER(work);
+//
+//    coroutine_handle<void>::from_address(context).resume();
+//}
 
 struct switch_to_win32
 {
-    DWORD thread_id{};
-    DWORD mark{};
     PTP_WORK work{};
+    coroutine_handle<void> coro{};
+    thread_id_t tid{};
 };
-static_assert(sizeof(switch_to) == sizeof(switch_to_win32));
+static_assert(sizeof(switch_to_win32) <= sizeof(switch_to));
 
-switch_to::switch_to(uint32_t target) noexcept : u64{}
+auto for_win32(switch_to* s) noexcept
 {
-    constexpr uint32_t poison =
-        std::numeric_limits<uint32_t>::max() - 0xFADE'BCFA;
+    return reinterpret_cast<switch_to_win32*>(s);
+}
+auto for_win32(const switch_to* s) noexcept
+{
+    return reinterpret_cast<const switch_to_win32*>(s);
+}
 
-    auto* self = reinterpret_cast<switch_to_win32*>(u64);
-    self->thread_id = target;
-    self->mark = poison;
+void CALLBACK _activate_( // resume switched tasks
+    PTP_CALLBACK_INSTANCE,
+    PVOID context,
+    PTP_WORK) noexcept
+{
+    auto* sw = reinterpret_cast<switch_to_win32*>(context);
+
+#ifdef _DEBUG
+    if (sw->coro.done() == false)
+        // check again for safety
+        sw->coro.resume();
+#else
+    sw->coro.resume();
+#endif
+}
+
+switch_to::switch_to(uint64_t target) noexcept(false) : u64{}
+{
+    auto* sw = for_win32(this);
+    if (target != 0)
+    {
+        sw->tid = static_cast<thread_id_t>(target);
+        return;
+    }
+
+    sw->work = CreateThreadpoolWork(_activate_, this, nullptr);
+    // throw if allocation failed
+    if (sw->work == nullptr)
+    {
+        int ec = static_cast<int>(GetLastError());
+        ::perror("switch_to::ctor");
+        throw std::system_error{ec, std::system_category()};
+    }
 }
 
 switch_to::~switch_to() noexcept
 {
-    auto work = reinterpret_cast<switch_to_win32*>(u64)->work;
-
-    // Windows Thread Pool's Work Item
-    if (work != PTP_WORK{}) ::CloseThreadpoolWork(work);
+    auto* sw = for_win32(this);
+    if (sw->work) ::CloseThreadpoolWork(sw->work);
 }
 
 bool switch_to::ready() const noexcept
 {
-    auto* self = reinterpret_cast<const switch_to_win32*>(u64);
+    auto* sw = for_win32(this);
 
     // non-zero : Specific thread's queue
     //     zero : Windows Thread Pool
-    if (auto tid = self->thread_id)
-        // Switch to another thread_id?
-        return tid == ::GetCurrentThreadId();
+    if (sw->tid != thread_id_t{})
+        // already in the thread ?
+        return sw->tid == current_thread_id();
 
-    // Switch to a specific thread
+    // trigger switching
     return false;
 }
 
@@ -124,8 +156,8 @@ bool switch_to::ready() const noexcept
 //  The caller will suspend after return.
 //  So this is the last chance to notify the error
 //
-//  If the target thread can't receive message, there is nothing the code can
-//  do.
+//  If the target thread can't receive message,
+//  there is nothing this code can do.
 //
 //  Since there is no way to create a thread with a designated ID,
 //  this function will throw exception. (which might kill the program)
@@ -133,47 +165,31 @@ bool switch_to::ready() const noexcept
 //
 void switch_to::suspend(coroutine_handle<void> rh) noexcept(false)
 {
-    // non-zero : Specific thread's queue
-    //     zero : Windows Thread Pool
-    auto task = reinterpret_cast<switch_to_win32*>(u64);
-    const auto thread_id = static_cast<thread_id_t>(task->thread_id);
-
-    // Submit work to Windows Thread Pool API
-    if (thread_id == thread_id_t{})
-    {
-        auto& pwk = task->work;
-
-        // work allocation
-        if (pwk == PTP_WORK{})
-        {
-            pwk =
-                ::CreateThreadpoolWork(resume_coroutine, rh.address(), nullptr);
-
-            // allocation failed
-            if (pwk == PTP_WORK{})
-                throw std::system_error{static_cast<int>(GetLastError()),
-                                        std::system_category()};
-        }
-
-        ::SubmitThreadpoolWork(pwk);
-    }
-    // Post the work to the thread_id
-    else
+    // std::printf("switch_to::suspend %p \n", rh.address());
+    auto* sw = for_win32(this);
+    // Post work to the thread
+    if (sw->tid != thread_id_t{})
     {
         message_t msg{};
         msg.ptr = rh.address();
 
-        post_message(thread_id, msg);
+        // ... possible throw here ...
+        post_message(sw->tid, msg);
     }
-    return;
+    // Submit work to Windows Thread Pool API
+    else
+    {
+        sw->coro = rh;
+        ::SubmitThreadpoolWork(sw->work);
+    }
 }
 
 void switch_to::resume() noexcept
 {
 #ifdef _DEBUG
-    auto task = reinterpret_cast<switch_to_win32*>(u64);
-    if (auto tid = task->thread_id)
+    auto* sw = for_win32(this);
+    if (sw->tid != thread_id_t{})
         // Are we in correct thread_id?
-        assert(tid == ::GetCurrentThreadId());
+        assert(sw->tid == current_thread_id());
 #endif
 }

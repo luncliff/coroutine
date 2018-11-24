@@ -13,7 +13,7 @@
 #include <mutex>
 #include <tuple>
 
-#include <experimental/coroutine>
+#include <coroutine/frame.h>
 
 namespace internal
 {
@@ -120,7 +120,7 @@ class reader final
 
   public:
     bool await_ready() const noexcept;
-    void await_suspend(std::experimental::coroutine_handle<> rh) noexcept;
+    void await_suspend(std::experimental::coroutine_handle<void> rh) noexcept;
     auto await_resume() noexcept -> std::tuple<value_type, bool>;
 };
 
@@ -177,7 +177,7 @@ class writer final
 
   public:
     bool await_ready() const noexcept;
-    void await_suspend(std::experimental::coroutine_handle<> _rh) noexcept;
+    void await_suspend(std::experimental::coroutine_handle<void> _rh) noexcept;
     bool await_resume() noexcept;
 };
 
@@ -245,8 +245,9 @@ class channel final : private internal::list<reader<T, Lockable>>,
             while (writers.is_empty() == false)
             {
                 writer* w = writers.pop();
-                auto rh = std::experimental::coroutine_handle<>::from_address(
-                    w->frame);
+                auto rh =
+                    std::experimental::coroutine_handle<void>::from_address(
+                        w->frame);
                 w->frame = internal::poison();
 
                 rh.resume();
@@ -254,8 +255,9 @@ class channel final : private internal::list<reader<T, Lockable>>,
             while (readers.is_empty() == false)
             {
                 reader* r = readers.pop();
-                auto rh = std::experimental::coroutine_handle<>::from_address(
-                    r->frame);
+                auto rh =
+                    std::experimental::coroutine_handle<void>::from_address(
+                        r->frame);
                 r->frame = internal::poison();
 
                 rh.resume();
@@ -321,7 +323,8 @@ auto reader<T, M>::await_resume() noexcept -> std::tuple<value_type, bool>
     // Store first. we have to do this
     // because the resume operation can destroy the writer coroutine
     value_type value = std::move(*ptr);
-    if (auto rh = std::experimental::coroutine_handle<>::from_address(frame))
+    if (auto rh =
+            std::experimental::coroutine_handle<void>::from_address(frame))
     {
         assert(this->frame != nullptr);
         assert(*reinterpret_cast<uint64_t*>(frame) != 0);
@@ -366,7 +369,8 @@ bool writer<T, M>::await_resume() noexcept
     // frame holds poision if the channel is going to destroy
     if (this->frame == internal::poison()) return false;
 
-    if (auto rh = std::experimental::coroutine_handle<>::from_address(frame))
+    if (auto rh =
+            std::experimental::coroutine_handle<void>::from_address(frame))
     {
         assert(this->frame != nullptr);
         assert(*reinterpret_cast<uint64_t*>(frame) != 0);
