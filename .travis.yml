@@ -12,7 +12,7 @@
 sudo: false
 
 git:
-  submodules: false
+  submodules: true
   depth: 1
   
 notifications:

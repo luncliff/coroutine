@@ -16,6 +16,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(coroutine LANGUAGES CXX VERSION 1.2)
 
+add_subdirectory(modules/GSL)
+
 # import cmake code snippets. see `cmake/`
 include(cmake/alias.cmake)
 include(cmake/test-cxx-coroutine.cmake)
@@ -26,9 +28,9 @@ endif()
 if(NOT IOS)
     set(BUILD_SHARED_LIBS true)
 endif()
-if(WIN32)
-    set(CMAKE_CXX_STANDARD 17)
-endif()
+# if(WIN32)
+#     set(CMAKE_CXX_STANDARD 17)
+# endif()
 
 # show project's build configuration
 include(cmake/display-build-info.cmake)
@@ -54,14 +56,16 @@ add_library(${PROJECT_NAME} SHARED
 set_target_properties(${PROJECT_NAME} PROPERTIES 
 VERSION
     ${PROJECT_VERSION}
+    CXX_STANDARD    17
 )
+
 target_include_directories(${PROJECT_NAME}
 PUBLIC
     ${PROJECT_DIR}/interface
 )
 target_link_libraries(${PROJECT_NAME}
 PUBLIC
-    ${CMAKE_DL_LIBS}
+    GSL
 )
 
 # platform / compiler settings
@@ -215,6 +219,9 @@ add_executable(${TEST_NAME}
     test/thread/section.cpp
 )
 
+set_target_properties(${TEST_NAME} PROPERTIES 
+    CXX_STANDARD    17
+)
 target_include_directories(${TEST_NAME}
 PRIVATE
     ${PROJECT_DIR}/test

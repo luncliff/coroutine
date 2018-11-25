@@ -11,6 +11,8 @@
 
 TEST_CASE("MessageTest", "[messaging]")
 {
+    using namespace std::literals;
+
     const thread_id_t main_id = current_thread_id();
 
     SECTION("SyncWithMessage")
@@ -29,8 +31,6 @@ TEST_CASE("MessageTest", "[messaging]")
             // and then send a message
             post_message(main_id, msg);
         });
-
-        using namespace std::literals;
 
         message_t msg{};
         // wait for message ...
@@ -62,11 +62,13 @@ TEST_CASE("MessageTest", "[messaging]")
                 // zero the message
                 msg = message_t{};
 
-                auto max_trial = 10'000;
-                while (max_trial--)
-                    if (peek_message(msg) == true)
-                        // wait for messages for limitied time ...
-                        break;
+                // auto max_trial = 10'000;
+                // while (max_trial--)
+                //     if (peek_message(msg) == true)
+                //         // wait for messages for limitied time ...
+                //         break;
+                while (peek_message(msg) == false)
+                    std::this_thread::sleep_for(30ms);
 
                 REQUIRE(msg.u64 != 0);
                 REQUIRE(msg.u64 == static_cast<uint64_t>(main_id));

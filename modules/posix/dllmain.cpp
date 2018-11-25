@@ -41,19 +41,21 @@ struct life_event_hook_t
   public:
     life_event_hook_t()
     {
-        add_messaging_thread(static_cast<thread_id_t>(pthread_self()));
+        add_messaging_thread(
+            static_cast<thread_id_t>((uint64_t)pthread_self()));
         // std::printf("thread ctor %lu \n", pthread_self());
     }
     ~life_event_hook_t()
     {
-        remove_messaging_thread(static_cast<thread_id_t>(pthread_self()));
+        remove_messaging_thread(
+            static_cast<thread_id_t>((uint64_t)pthread_self()));
         // std::printf("thread dtor %lu \n", pthread_self());
     }
 
   public:
     auto get_id() const noexcept
     {
-        return static_cast<thread_id_t>(pthread_self());
+        return static_cast<thread_id_t>((uint64_t)pthread_self());
     }
 };
 

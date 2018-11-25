@@ -44,7 +44,7 @@ struct tm_registry_t final : public index_registry<tm_queue_t>
 
   public:
     tm_registry_t() noexcept(false);
-    virtual ~tm_registry_t() noexcept;
+    ~tm_registry_t() noexcept;
 
   public:
     pointer find(uint64_t id) const noexcept override;
@@ -52,7 +52,7 @@ struct tm_registry_t final : public index_registry<tm_queue_t>
     void remove(uint64_t id) noexcept(false) override;
 
   private:
-    uint16_t index_of(uint64_t id) const noexcept;
+    uint16_t index_of(uint64_t id) const noexcept(false);
     uint16_t allocate(uint64_t id) noexcept(false);
     void deallocate(uint16_t idx) noexcept(false);
     pointer resource_of(uint16_t idx) const noexcept;
@@ -126,7 +126,7 @@ tm_registry_t::~tm_registry_t() noexcept
     // ToDo: any requirement for destruction of the registry?
 }
 
-uint16_t tm_registry_t::index_of(uint64_t id) const noexcept
+uint16_t tm_registry_t::index_of(uint64_t id) const noexcept(false)
 {
     // reader: prevent index modification
     std::unique_lock lck{mtx};
@@ -147,7 +147,7 @@ uint16_t tm_registry_t::index_of(uint64_t id) const noexcept
 
 auto tm_registry_t::resource_of(uint16_t idx) const noexcept -> pointer
 {
-    auto* cptr = std::addressof(spaces[idx]);
+    auto* cptr = spaces.data() + idx;
     return const_cast<pointer>(cptr);
 }
 
@@ -158,7 +158,7 @@ void tm_registry_t::deallocate(uint16_t idx) noexcept(false)
 
     // remove id
     //  'max' == 'not allocated'
-    id_list[idx] = std::numeric_limits<uint64_t>::max();
+    id_list.at(idx) = std::numeric_limits<uint64_t>::max();
 
     // remove resource
     //   truncate using swap. temp will call destuctor

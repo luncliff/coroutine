@@ -39,11 +39,11 @@ struct circular_queue_t
     {
         if (is_full()) return false;
 
-        auto index = end;
+        const size_t index = end;
         end = advance(end);
         // count += 1;
 
-        storage[index] = msg;
+        storage.at(index) = msg;
         return true;
     }
 
@@ -51,11 +51,11 @@ struct circular_queue_t
     {
         if (is_empty()) return false;
 
-        auto index = begin;
+        const size_t index = begin;
         begin = advance(begin);
         // count -= 1;
 
-        msg = std::move(storage[index]);
+        msg = std::move(storage.at(index));
         return true;
     }
 };

@@ -20,32 +20,10 @@
 #include <coroutine/sync.h>
 #include <coroutine/unplug.hpp>
 
-namespace coroutine
-{
-auto check_coroutine_available() noexcept -> unplug
-{
-    co_await std::experimental::suspend_never{};
-}
-
-auto check_generator_available() noexcept -> enumerable<uint16_t>
-{
-    uint16_t value = 4;
-    co_yield value;
-    co_yield value;
-    co_return;
-}
-
-// this function is reserved for library initialization
-// for now, it just checks some coroutine expressions
-PROCEDURE void on_load_test(void*) noexcept(false)
-{
-    check_coroutine_available();
-    auto g = check_generator_available();
-    auto sum = std::accumulate(g.begin(), g.end(), 0u);
-    assert(sum == 4 * 2);
-}
-
-} // namespace coroutine
+extern void setup_messaging() noexcept(false);
+extern void teardown_messaging() noexcept(false);
+extern void add_messaging_thread(thread_id_t tid) noexcept(false);
+extern void remove_messaging_thread(thread_id_t tid) noexcept(false);
 
 #ifdef _WIN32
 #include <sdkddkver.h>
@@ -57,35 +35,31 @@ thread_id_t current_thread_id() noexcept
     return static_cast<thread_id_t>(GetCurrentThreadId());
 }
 
-extern void setup_indices() noexcept;
-extern void teardown_indices() noexcept;
-extern void register_thread(thread_id_t thread_id) noexcept(false);
-extern void forget_thread(thread_id_t thread_id) noexcept(false);
-
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms682583(v=vs.85).aspx
 BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID)
 {
+    UNREFERENCED_PARAMETER(instance);
+
     const auto tid = current_thread_id();
     try
     {
         if (reason == DLL_THREAD_ATTACH)
         {
-            coroutine::on_load_test(instance);
-            register_thread(tid);
+            add_messaging_thread(tid);
         }
         if (reason == DLL_THREAD_DETACH)
         {
-            forget_thread(tid);
+            remove_messaging_thread(tid);
         }
         if (reason == DLL_PROCESS_ATTACH)
         {
-            setup_indices();
-            register_thread(tid);
+            setup_messaging();
+            add_messaging_thread(tid);
         }
         if (reason == DLL_PROCESS_DETACH)
         {
-            forget_thread(tid);
-            teardown_indices();
+            remove_messaging_thread(tid);
+            teardown_messaging();
         }
         return TRUE;
     }
