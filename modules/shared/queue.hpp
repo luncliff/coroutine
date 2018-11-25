@@ -7,19 +7,19 @@
 #include <array>
 #include <cstdint>
 
-template<uint16_t max_count>
-struct circular_queue_t final
+template<typename MsgType, uint16_t max_count>
+struct circular_queue_t
 {
     static constexpr auto capacity = max_count + 1;
 
-    using value_type = uint64_t;
+    using value_type = MsgType;
     using pointer = value_type*;
     using reference = value_type&;
 
     using index_type = uint16_t;
 
     index_type begin = 0, end = 0;
-    size_t count = 0;
+    // size_t count = 0;
     std::array<value_type, capacity> storage{};
 
   private:
@@ -41,7 +41,7 @@ struct circular_queue_t final
 
         auto index = end;
         end = advance(end);
-        count += 1;
+        // count += 1;
 
         storage[index] = msg;
         return true;
@@ -53,7 +53,7 @@ struct circular_queue_t final
 
         auto index = begin;
         begin = advance(begin);
-        count -= 1;
+        // count -= 1;
 
         msg = std::move(storage[index]);
         return true;

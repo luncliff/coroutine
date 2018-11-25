@@ -45,7 +45,7 @@ struct bypass_lock
     void unlock() noexcept {}
 };
 
-TEST_CASE("ChannelTest", "[channel]")
+TEST_CASE("ChannelTest", "[generic][channel]")
 {
     SECTION("WriteRead")
     {

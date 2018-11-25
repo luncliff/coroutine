@@ -46,20 +46,31 @@ TEST_CASE("MessageTest", "[messaging]")
 
     SECTION("DeliveryFromWorkers")
     {
+        constexpr auto retry_count = 4;
+
         auto fwork = [=]() {
             message_t msg{};
-            msg.u64 = static_cast<uint64_t>(current_thread_id());
 
-            // send some messages
-            post_message(main_id, msg);
+            auto repeat = retry_count;
+            while (repeat--)
+            {
+                msg.u64 = static_cast<uint64_t>(current_thread_id());
 
-            auto max_trial = 10'000;
-            while (max_trial--)
-                if (peek_message(msg) == true)
-                    // wait for messages for limitied time ...
-                    break;
+                // send some messages
+                post_message(main_id, msg);
 
-            REQUIRE(msg.u64 == static_cast<uint64_t>(main_id));
+                // zero the message
+                msg = message_t{};
+
+                auto max_trial = 10'000;
+                while (max_trial--)
+                    if (peek_message(msg) == true)
+                        // wait for messages for limitied time ...
+                        break;
+
+                REQUIRE(msg.u64 != 0);
+                REQUIRE(msg.u64 == static_cast<uint64_t>(main_id));
+            }
         };
 
         std::thread t1{fwork};
@@ -71,11 +82,11 @@ TEST_CASE("MessageTest", "[messaging]")
         std::thread t7{fwork};
 
         // this will be always true, but just check once more
-        REQUIRE(current_thread_id() == main_id);
+        // REQUIRE(current_thread_id() == main_id);
 
         size_t count = 0;
         message_t msg{};
-        while (count < 7)
+        while (count < 7 * retry_count)
             // wait for workers' messages
             if (peek_message(msg) == true)
             {

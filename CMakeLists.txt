@@ -48,7 +48,7 @@ add_library(${PROJECT_NAME} SHARED
 
     modules/shared/queue.hpp
     modules/shared/registry.h
-    modules/shared/registry_st.cpp
+    modules/thread/message_lock.cpp
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES 
@@ -68,7 +68,6 @@ PUBLIC
 if(WIN32)  # Clang + Windows
     target_sources(${PROJECT_NAME}
     PRIVATE
-        modules/thread/message_lock.cpp        
         modules/net/async_win32.cpp
         modules/net/resolver.cpp
         modules/net/net_data.cpp
@@ -123,10 +122,6 @@ if(WIN32)  # Clang + Windows
         LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
     )
 else() # Clang + Non-Windows
-    target_sources(${PROJECT_NAME}
-    PRIVATE
-        modules/thread/message_lock.cpp
-    )
 
     target_compile_options(${PROJECT_NAME} 
     PUBLIC
@@ -166,7 +161,7 @@ if(UNIX) # POSIX API
     )
     target_compile_options(${PROJECT_NAME} 
     PUBLIC
-        -stdlib=libc++ 
+        -stdlib=libc++
     )
     target_link_libraries(${PROJECT_NAME}
     PUBLIC
@@ -207,7 +202,7 @@ set(TEST_NAME ${PROJECT_NAME}_test)
 add_executable(${TEST_NAME}
     test/test.entry.cpp
     
-    test/resource/registry.cpp
+    # test/resource/registry.cpp
 
     test/generic/unplug.cpp
     test/generic/channel.cpp

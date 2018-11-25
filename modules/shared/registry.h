@@ -5,11 +5,14 @@
 #pragma once
 
 #include <cstdint>
+#include <cstdio>
+#include <memory>
 
 template<typename ResourceType>
 class index_registry
 {
   public:
+    using id_type = uint64_t;
     using resource_type = ResourceType;
     using pointer = resource_type*;
 
@@ -21,5 +24,3 @@ class index_registry
     virtual pointer add(uint64_t id) noexcept(false) = 0;
     virtual void remove(uint64_t id) noexcept(false) = 0;
 };
-
-auto get_registry() noexcept(false) -> index_registry<uint64_t>&;

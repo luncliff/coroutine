@@ -75,7 +75,7 @@ LIB_PROLOGUE void start_worker_group() noexcept(false)
         // print error for possible error stream redirection
         ::perror(strerror(ec));
         // expect successful worker creation. unless kill the program
-        throw std::system_error{ec, std::system_category()};
+        throw std::system_error{ec, std::system_category(), "pthread_create"};
     }
 
     // std::fprintf(stdout, //
@@ -91,6 +91,7 @@ void remove_worker(const pthread_t& tid) noexcept(false)
 void process_with_group(worker_group_t& workers) noexcept(false)
 {
     const pthread_t tid = pthread_self();
+
     std::experimental::coroutine_handle<void> coro{};
 
     pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, nullptr);
@@ -117,7 +118,7 @@ TryProcessing:
         }
 
         using namespace std::literals;
-        std::this_thread::sleep_for(500ms);
+        std::this_thread::sleep_for(30ms);
     }
     catch (const std::exception& e)
     {
@@ -125,6 +126,7 @@ TryProcessing:
         ::perror(e.what());
 
         // for exception, forward the exception to handler and keep going
+        goto OnCriticalError;
     }
     catch (...)
     {

@@ -9,7 +9,7 @@
 
 TEST_CASE("CircularQueueTest", "[messaging]")
 {
-    using queue_t = circular_queue_t<3>;
+    using queue_t = circular_queue_t<uint64_t, 3>;
     auto cq = std::make_unique<queue_t>();
 
     SECTION("EmptyPush")

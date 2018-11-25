@@ -4,133 +4,216 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-
 #define NOMINMAX
-
-#include <array>
-#include <cassert>
-#include <queue>
-#include <system_error>
 
 #include <coroutine/sync.h>
 
-#include "../memory.hpp"
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <iterator>
 
-using lock_t = std::lock_guard<section>;
-using queue_t = std::queue<message_t>;
+#include "../shared/queue.hpp"
+#include "../shared/registry.h"
 
-struct resource_t
+// If the program is goiing to use more threads,
+// this library must be recompiled after changing this limit
+constexpr auto max_thread_count = 100;
+#pragma message("Maximum number of thread: 100")
+
+// thread message queue
+struct tm_queue_t final : public circular_queue_t<message_t, 4500>
 {
-    thread_id_t owner;
-    uint16_t mark;
-    uint16_t index;
 };
 
-section protect{};
-
-constexpr uint16_t max_thread_count = 30;
-
-index_pool<resource_t, max_thread_count> pool{};
-std::array<section, max_thread_count> queue_lockables{};
-std::array<queue_t, max_thread_count> queue_list{};
-
-void setup_indices() noexcept
+// thread message registry
+struct tm_registry_t final : public index_registry<tm_queue_t>
 {
-    // std::printf("setup_indices\n");
+    static constexpr auto invalid_idx = std::numeric_limits<uint16_t>::max();
 
-    uint16_t i = 0;
-    for (auto& res : pool.space)
-        res.index = i++;
+  public:
+    using base_type = index_registry<tm_queue_t>;
+    using pointer = typename base_type::pointer;
+    using resource_type = typename base_type::resource_type;
+
+  private:
+    mutable section mtx{};
+
+    std::array<uint64_t, max_thread_count> id_list{};
+    std::array<tm_queue_t, max_thread_count> spaces{};
+
+  public:
+    tm_registry_t() noexcept(false);
+    virtual ~tm_registry_t() noexcept;
+
+  public:
+    pointer find(uint64_t id) const noexcept override;
+    pointer add(uint64_t id) noexcept(false) override;
+    void remove(uint64_t id) noexcept(false) override;
+
+  private:
+    uint16_t index_of(uint64_t id) const noexcept;
+    uint16_t allocate(uint64_t id) noexcept(false);
+    void deallocate(uint16_t idx) noexcept(false);
+    pointer resource_of(uint16_t idx) const noexcept;
+};
+
+std::unique_ptr<tm_registry_t> registry = nullptr;
+
+void setup_messaging() noexcept(false)
+{
+    // create a registry (with some config)
+    registry = std::make_unique<tm_registry_t>();
+    assert(registry.get() != nullptr);
+
+    // trigger required thread local variables' innitialization
+    if (current_thread_id() == thread_id_t{})
+        throw std::runtime_error{"current_thread_id is not performing"};
 }
 
-void teardown_indices() noexcept
+void teardown_messaging() noexcept(false)
 {
-    // std::printf("teardown_indices\n");
-
-    for (auto& res : pool.space)
-        if (static_cast<uint64_t>(res.owner))
-            pool.deallocate(std::addressof(res));
+    // truncate using move operation
+    auto trunc = std::move(registry);
+    assert(registry.get() == nullptr);
 }
 
-uint16_t register_thread(thread_id_t thread_id, const lock_t&) noexcept(false)
+void add_messaging_thread(thread_id_t tid) noexcept(false)
 {
-    auto* res = reinterpret_cast<resource_t*>(pool.allocate());
-    if (res == nullptr)
-        throw std::runtime_error{"can't allocate a resource for the thread"};
-
-    res->owner = thread_id;
-    const auto idx = res->index;
-
-    // std::printf("register_thread: %lx for %d \n",
-    //             static_cast<uint64_t>(thread_id),
-    //             idx);
-
-    return idx;
+    registry->add(static_cast<uint64_t>(tid));
 }
 
-void register_thread(thread_id_t thread_id) noexcept(false)
+void remove_messaging_thread(thread_id_t tid) noexcept(false)
 {
-    lock_t lock{protect};
-    register_thread(thread_id, lock);
+    registry->remove(static_cast<uint64_t>(tid));
 }
 
-void forget_thread(thread_id_t thread_id) noexcept(false)
+void post_message(thread_id_t tid, message_t msg) noexcept(false)
 {
-    lock_t lock{protect};
+    tm_queue_t* queue{};
 
-    for (resource_t& res : pool.space)
-        if (res.owner == thread_id)
-        {
-            pool.deallocate(std::addressof(res));
-            res.owner = thread_id_t{};
+    queue = registry->find(static_cast<uint64_t>(tid));
+    // find returns nullptr for unregisterd id value.
+    if (queue == nullptr)
+        // in the case, invalid argument
+        throw std::invalid_argument{"post_message: unregisterd thread id"};
 
-            // std::printf("forget_thread: %lx \n",
-            //             static_cast<uint64_t>(thread_id));
-        }
-
-    // unregistered thread. nothing to do
+    queue->push(msg);
 }
-
-uint16_t index_of(thread_id_t thread_id) noexcept(false)
-{
-    lock_t lock{protect};
-
-    for (resource_t& res : pool.space)
-        if (res.owner == thread_id) return res.index;
-
-    // lazy registration
-    return register_thread(thread_id, lock);
-}
-
-void post_message(thread_id_t thread_id, message_t msg) noexcept(false)
-{
-    const auto index = index_of(thread_id);
-
-    // std::printf("post_message: %lx %d %p \n",
-    //             static_cast<uint64_t>(thread_id),
-    //             index,
-    //             msg.ptr);
-
-    std::lock_guard<section> lock{queue_lockables[index]};
-
-    auto& queue = queue_list[index];
-    queue.push(msg);
-}
-
 bool peek_message(message_t& msg) noexcept(false)
 {
-    thread_id_t thread_id = current_thread_id();
+    tm_queue_t* queue{};
+    queue = registry->find(static_cast<uint64_t>(current_thread_id()));
 
-    const auto index = index_of(thread_id);
-    std::lock_guard<section> lock{queue_lockables[index]};
+    // find returns nullptr for unregisterd id value.
+    if (queue == nullptr)
+        // in the case, invalid argument
+        throw std::invalid_argument{"peek_message: unregisterd thread id"};
 
-    // std::printf(
-    //     "peek_message: %lx %d \n", static_cast<uint64_t>(thread_id), index);
+    return queue->pop(msg);
+}
 
-    auto& queue = queue_list[index];
-    if (queue.empty()) return false;
+// ---- Thread Message Queue Registry ----
 
-    msg = std::move(queue.front());
-    queue.pop();
-    return true;
+tm_registry_t::tm_registry_t() noexcept(false)
+{
+    for (auto& id : id_list)
+        id = std::numeric_limits<uint64_t>::max();
+}
+
+tm_registry_t::~tm_registry_t() noexcept
+{
+    // ToDo: any requirement for destruction of the registry?
+}
+
+uint16_t tm_registry_t::index_of(uint64_t id) const noexcept
+{
+    // reader: prevent index modification
+    std::unique_lock lck{mtx};
+
+    using std::cbegin;
+    using std::cend;
+    using std::find;
+
+    // simple linear search
+    // !!! expect this implementation will be used in hundred-level scale !!!
+    //     need to be optimized for larger scale
+    const auto it = find(cbegin(id_list), cend(id_list), id);
+    if (it == cend(id_list))
+        return invalid_idx;
+    else
+        return static_cast<uint16_t>(std::distance(cbegin(id_list), it));
+}
+
+auto tm_registry_t::resource_of(uint16_t idx) const noexcept -> pointer
+{
+    auto* cptr = std::addressof(spaces[idx]);
+    return const_cast<pointer>(cptr);
+}
+
+void tm_registry_t::deallocate(uint16_t idx) noexcept(false)
+{
+    // writer: allow `index_of` to escape before modification
+    std::unique_lock lck{mtx};
+
+    // remove id
+    //  'max' == 'not allocated'
+    id_list[idx] = std::numeric_limits<uint64_t>::max();
+
+    // remove resource
+    //   truncate using swap. temp will call destuctor
+    resource_type temp{};
+    std::swap(temp, *(resource_of(idx)));
+}
+
+uint16_t tm_registry_t::allocate(uint64_t id) noexcept(false)
+{
+    // writer: allow `index_of` to escape before modification
+    std::unique_lock lck{mtx};
+
+    using std::begin;
+    using std::end;
+    using std::find;
+
+    // find available space to save the given id
+    // simple linear search
+    const auto it = find(
+        begin(id_list), end(id_list), std::numeric_limits<uint64_t>::max());
+
+    // storage is full
+    if (it == end(id_list))
+        throw std::runtime_error{
+            "registry is full. can't allocate resource for given id"};
+
+    // assign id and return the index
+    *it = id;
+    return static_cast<uint16_t>(std::distance(begin(id_list), it));
+}
+
+auto tm_registry_t::find(uint64_t id) const noexcept -> pointer
+{
+    // resource index
+    const auto idx = index_of(id);
+    return (idx == invalid_idx) ? nullptr : resource_of(idx);
+}
+
+// considering gsl::not_null for this code...
+auto tm_registry_t::add(uint64_t id) noexcept(false) -> pointer
+{
+    auto idx = index_of(id);
+    if (idx == invalid_idx)
+        // unregistered id. allocate now
+        idx = allocate(id);
+
+    // now idx have some valid one.
+    // return related resource
+    return resource_of(idx);
+}
+
+auto tm_registry_t::remove(uint64_t id) noexcept(false) -> void
+{
+    const auto idx = index_of(id);
+    if (idx != invalid_idx)
+        // ignore unregistered id
+        deallocate(idx);
 }

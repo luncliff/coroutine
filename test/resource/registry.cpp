@@ -14,7 +14,7 @@ TEST_CASE("RegistryTest", "[resource]")
     };
 
     // using registry_t = index_registry<uint64_t>;
-    auto* registry = std::addressof(get_registry());
+    auto registry = create_registry();
 
     SECTION("Add")
     {

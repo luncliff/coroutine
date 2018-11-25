@@ -29,19 +29,16 @@ auto MoveToSpeicified( // switch twice...
     thread_id_t target_id) noexcept(false) -> unplug
 {
     const auto start_id = current_thread_id();
-    std::printf("MoveToSpecifid %lx \n", start_id);
+    // std::printf("MoveToSpecifid %lx \n", start_id);
 
     switch_to back{}, front{static_cast<uint64_t>(target_id)};
 
     co_await back;
-
-    std::printf("co_await back \n");
-
+    // std::printf("co_await back \n");
     REQUIRE(start_id != current_thread_id());
 
     co_await front;
-    std::printf("co_await front \n");
-
+    // std::printf("co_await front \n");
     REQUIRE(target_id == current_thread_id());
 
     wg.done();
@@ -75,12 +72,13 @@ TEST_CASE("SwitchToThreadTest", "[thread][messaging]")
 
         while (peek_switched(coro) == false)
         {
+            // printf("coro %p \n", coro.address());
+
             // retry until we fetch the coroutine
             using namespace std::literals;
-            std::this_thread::sleep_for(5s);
-            continue;
+            std::this_thread::sleep_for(1s);
         }
-        std::printf("peek_switched %p \n", coro.address());
+        // std::printf("peek_switched %p \n", coro.address());
 
         coro.resume();
 

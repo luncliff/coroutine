@@ -60,29 +60,20 @@ switch_to::switch_to(uint64_t target) noexcept(false) : u64{}
 
 switch_to::~switch_to() noexcept
 {
-    auto* sw = for_posix(this);
-    assert(sw->work == nullptr);
+    // auto* sw = for_posix(this);
+    // assert(sw->work == nullptr);
 }
 
 bool switch_to::ready() const noexcept
 {
-    const auto* task = for_posix(this);
-    bool is_ready = false;
+    const auto* sw = for_posix(this);
 
-    // for background work,
-    if (task->thread_id == thread_id_t{})
-    {
-        // always false
-        is_ready = false;
-    }
-    else
-    {
-        is_ready = (task->thread_id == current_thread_id());
-    }
+    if (sw->thread_id != thread_id_t{})
+        // check if already in the target thread
+        return sw->thread_id == current_thread_id();
 
-    std::printf("switch_to::ready %d \n", (is_ready) ? 1 : -1);
-    // already in the target thread?
-    return is_ready;
+    // for background work, always false
+    return false;
 }
 
 //
@@ -96,7 +87,6 @@ void switch_to::suspend( //
     std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
     auto* sw = for_posix(this);
-
     // submit to specific thread
     message_t msg{};
     msg.ptr = coro.address();
@@ -104,17 +94,12 @@ void switch_to::suspend( //
     const thread_id_t worker_id =
         (sw->thread_id != thread_id_t{}) ? sw->thread_id : unknown_worker_id;
 
-    std::printf("switch_to::suspend %p >> %lx \n", msg.ptr, worker_id);
-
     post_message(worker_id, msg);
 }
 
 void switch_to::resume() noexcept
 {
     const auto* sw = for_posix(this);
-
-    std::printf(
-        "switch_to::resume %lx %lx \n", sw->thread_id, current_thread_id());
 
     if (sw->thread_id != thread_id_t{})
         // check thread id

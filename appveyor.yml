@@ -132,4 +132,6 @@ for:
   after_build:
     - sh: popd
   test_script:
-    - ps: ./build/coroutine_test
+    - ps: ./build/coroutine_test [messaging]
+    - ps: ./build/coroutine_test [thread]
+    - ps: ./build/coroutine_test [generic]
