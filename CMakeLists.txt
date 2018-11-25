@@ -4,18 +4,17 @@
 #   Note
 #       CMake support for project with LLVM toolchain 
 #       GCC will be added ASAP when it supports coroutine
+#
 #   Support
-#       - Clang + Windows
-#       - Clang + MacOS
-#       - Clang + Linux     (tested with Ubuntu and WSL)
+#       - MSVC  + Windows   (Visual Studio)
+#       - Clang + Windows   (Ninja)
+#       - Clang + MacOS     (Unix Makefiles)
+#       - Clang + Linux     (Unix Makefiles. WSL, Ubuntu 1604 and later)
 #
 # ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.5)
 
 project(coroutine LANGUAGES CXX VERSION 1.2)
-
-# list of cmake module path for this project
-# list(APPEND CMAKE_MODULE_PATH   ${CMAKE_SOURCE_DIR}/cmake           )
 
 # import cmake code snippets. see `cmake/`
 include(cmake/alias.cmake)
@@ -27,8 +26,9 @@ endif()
 if(NOT IOS)
     set(BUILD_SHARED_LIBS true)
 endif()
-
-# set(CMAKE_CXX_STANDARD 17)
+if(WIN32)
+    set(CMAKE_CXX_STANDARD 17)
+endif()
 
 # show project's build configuration
 include(cmake/display-build-info.cmake)
@@ -41,10 +41,16 @@ endif()
 # create coroutine helper library
 add_library(${PROJECT_NAME} SHARED
     modules/${PLATFORM}/dllmain.cpp
+
     modules/${PLATFORM}/switch_to.cpp
     modules/${PLATFORM}/section.cpp
     modules/${PLATFORM}/wait_group.cpp
+
+    modules/shared/queue.hpp
+    modules/shared/registry.h
+    modules/shared/registry_st.cpp
 )
+
 set_target_properties(${PROJECT_NAME} PROPERTIES 
 VERSION
     ${PROJECT_VERSION}
@@ -129,7 +135,7 @@ else() # Clang + Non-Windows
     PRIVATE
         -Wall -Wno-unknown-pragmas
         -fno-rtti 
-        -fvisibility=hidden
+        # -fvisibility=hidden
         -ferror-limit=5
     )
 
@@ -150,7 +156,14 @@ else() # Clang + Non-Windows
     endif()
 endif()
 
-if(APPLE)
+
+if(UNIX) # POSIX API
+    target_sources(${PROJECT_NAME}
+    PRIVATE
+        modules/posix/adapter.h
+        modules/posix/condvar.cpp
+        modules/posix/switch_to_impl.cpp
+    )
     target_compile_options(${PROJECT_NAME} 
     PUBLIC
         -stdlib=libc++ 
@@ -159,25 +172,23 @@ if(APPLE)
     PUBLIC
         pthread
     )
-elseif(LINUX)
-    # linux-only source codes
+endif()
+if(APPLE) # macos custom
+    target_sources(${PROJECT_NAME}
+    PRIVATE
+        modules/osx/helper.cpp
+    )
+elseif(LINUX) # linux custom
     target_sources(${PROJECT_NAME}
     PRIVATE
         modules/linux/realtime.cpp
     )
-    # expect libc++
-    target_compile_options(${PROJECT_NAME} 
-    PUBLIC
-        -stdlib=libc++ 
-    )
     target_link_libraries(${PROJECT_NAME}
     PUBLIC
-        libc++.so libc++abi.so libc++experimental.a
-        pthread rt
+        rt
+        libc++.so libc++abi.so libc++experimental.a 
     )
 endif()
-
-# install settings
 
 install(DIRECTORY       ${PROJECT_DIR}/interface/coroutine
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/include
@@ -186,38 +197,41 @@ install(TARGETS         ${PROJECT_NAME}
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/libs/${PLATFORM}
 )
 
-if(ANDROID OR IOS)
+if(ANDROID OR IOS) # future support...
     return()
 endif()
 
-# testing
-
+# testing the library 
 set(TEST_NAME ${PROJECT_NAME}_test)
 
 add_executable(${TEST_NAME}
     test/test.entry.cpp
+    
+    test/resource/registry.cpp
+
     test/generic/unplug.cpp
     test/generic/channel.cpp
     test/generic/generator.cpp
     test/generic/sequence.cpp
+    test/generic/queue.cpp
 
-    # test/thread/message.cpp
-    # test/thread/switch.cpp
+    test/thread/message.cpp
+    test/thread/switch_to.cpp
+    test/thread/section.cpp
 )
 
 target_include_directories(${TEST_NAME}
 PRIVATE
     ${PROJECT_DIR}/test
 )
-
 target_link_libraries(${TEST_NAME}
 PUBLIC
-    ${PROJECT_NAME}
+    coroutine
 )
 
 if(NOT WIN32)
     target_link_libraries(${TEST_NAME}
     PUBLIC
-        stdc++
+        stdc++ # solve possible gnu-dependency
     )
 endif()

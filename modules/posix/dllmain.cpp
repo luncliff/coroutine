@@ -12,8 +12,7 @@
 #include <cassert>
 #include <numeric>
 
-#include <pthread.h>
-#include <sys/types.h>
+#include "./adapter.h"
 
 #define LIB_PROLOGUE __attribute__((constructor))
 #define LIB_EPILOGUE __attribute__((destructor))
@@ -50,27 +49,24 @@ extern void teardown_indices() noexcept;
 extern void register_thread(thread_id_t thread_id) noexcept(false);
 extern void forget_thread(thread_id_t thread_id) noexcept(false);
 
-namespace internal
+thread_id_t current_thread_id() noexcept
 {
-class lifecycle_t
-{
+    // prevent size problem
     static_assert(sizeof(pthread_t) == sizeof(uint64_t));
+    static_assert(sizeof(pthread_t) == sizeof(thread_id_t));
+    // redirect to `pthread_self`
+    return static_cast<thread_id_t>(pthread_self());
+}
 
+namespace itr1 // internal 1
+{
+class queue_mgmt_t final
+{
   public:
-    const pthread_t thread_id;
-
-    lifecycle_t() noexcept(false) : thread_id{pthread_self()}
-    {
-        auto tid = reinterpret_cast<uint64_t>(thread_id);
-        register_thread(static_cast<thread_id_t>(tid));
-    }
-    ~lifecycle_t() noexcept
-    {
-        auto tid = reinterpret_cast<uint64_t>(thread_id);
-        forget_thread(static_cast<thread_id_t>(tid));
-    }
+    queue_mgmt_t() noexcept(false) { register_thread(current_thread_id()); }
+    ~queue_mgmt_t() noexcept { forget_thread(current_thread_id()); }
 };
-thread_local lifecycle_t _t_life{};
+thread_local queue_mgmt_t life1{};
 
 LIB_PROLOGUE void load_callback() noexcept(false)
 {
@@ -83,11 +79,4 @@ LIB_EPILOGUE void unload_callback() noexcept(false)
     teardown_indices();
 }
 
-} // namespace internal
-
-thread_id_t current_thread_id() noexcept
-{
-    using namespace internal;
-    auto tid = reinterpret_cast<uint64_t>(_t_life.thread_id);
-    return static_cast<thread_id_t>(tid);
-}
+} // namespace itr1

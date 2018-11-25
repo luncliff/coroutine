@@ -28,7 +28,7 @@ struct resource_t
 
 section protect{};
 
-constexpr uint16_t max_thread_count = 300;
+constexpr uint16_t max_thread_count = 30;
 
 index_pool<resource_t, max_thread_count> pool{};
 std::array<section, max_thread_count> queue_lockables{};
@@ -36,6 +36,8 @@ std::array<queue_t, max_thread_count> queue_list{};
 
 void setup_indices() noexcept
 {
+    // std::printf("setup_indices\n");
+
     uint16_t i = 0;
     for (auto& res : pool.space)
         res.index = i++;
@@ -43,6 +45,8 @@ void setup_indices() noexcept
 
 void teardown_indices() noexcept
 {
+    // std::printf("teardown_indices\n");
+
     for (auto& res : pool.space)
         if (static_cast<uint64_t>(res.owner))
             pool.deallocate(std::addressof(res));
@@ -55,7 +59,13 @@ uint16_t register_thread(thread_id_t thread_id, const lock_t&) noexcept(false)
         throw std::runtime_error{"can't allocate a resource for the thread"};
 
     res->owner = thread_id;
-    return res->index;
+    const auto idx = res->index;
+
+    // std::printf("register_thread: %lx for %d \n",
+    //             static_cast<uint64_t>(thread_id),
+    //             idx);
+
+    return idx;
 }
 
 void register_thread(thread_id_t thread_id) noexcept(false)
@@ -73,6 +83,9 @@ void forget_thread(thread_id_t thread_id) noexcept(false)
         {
             pool.deallocate(std::addressof(res));
             res.owner = thread_id_t{};
+
+            // std::printf("forget_thread: %lx \n",
+            //             static_cast<uint64_t>(thread_id));
         }
 
     // unregistered thread. nothing to do
@@ -92,6 +105,12 @@ uint16_t index_of(thread_id_t thread_id) noexcept(false)
 void post_message(thread_id_t thread_id, message_t msg) noexcept(false)
 {
     const auto index = index_of(thread_id);
+
+    // std::printf("post_message: %lx %d %p \n",
+    //             static_cast<uint64_t>(thread_id),
+    //             index,
+    //             msg.ptr);
+
     std::lock_guard<section> lock{queue_lockables[index]};
 
     auto& queue = queue_list[index];
@@ -104,6 +123,9 @@ bool peek_message(message_t& msg) noexcept(false)
 
     const auto index = index_of(thread_id);
     std::lock_guard<section> lock{queue_lockables[index]};
+
+    // std::printf(
+    //     "peek_message: %lx %d \n", static_cast<uint64_t>(thread_id), index);
 
     auto& queue = queue_list[index];
     if (queue.empty()) return false;

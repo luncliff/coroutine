@@ -12,10 +12,10 @@
 
 #include <Windows.h> // System API
 
- static_assert(sizeof(section) == SYSTEM_CACHE_ALIGNMENT_SIZE);
- static_assert(sizeof(CRITICAL_SECTION) <= sizeof(section));
+static_assert(sizeof(section) == SYSTEM_CACHE_ALIGNMENT_SIZE);
+static_assert(sizeof(CRITICAL_SECTION) <= sizeof(section));
 
-section::section(uint16_t spin) noexcept
+section::section(uint16_t spin) noexcept(false)
 {
     auto* section = reinterpret_cast<CRITICAL_SECTION*>(this->u64);
     // https://docs.microsoft.com/en-us/windows/desktop/api/synchapi/nf-synchapi-initializecriticalsectionandspincount
@@ -34,13 +34,13 @@ bool section::try_lock() noexcept
     return ::TryEnterCriticalSection(section) == TRUE;
 }
 
-void section::lock() noexcept
+void section::lock() noexcept(false)
 {
     auto* section = reinterpret_cast<CRITICAL_SECTION*>(this->u64);
     return ::EnterCriticalSection(section);
 }
 
-void section::unlock() noexcept
+void section::unlock() noexcept(false)
 {
     auto* section = reinterpret_cast<CRITICAL_SECTION*>(this->u64);
     return ::LeaveCriticalSection(section);

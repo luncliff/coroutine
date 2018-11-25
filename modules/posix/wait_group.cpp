@@ -9,8 +9,9 @@
 
 #include "./adapter.h"
 
-wait_group::wait_group() noexcept(false) //
-    : event{new posix_cond_var{}}, count{0}
+wait_group::wait_group() noexcept(false)
+    // rely on posix conditional variable
+    : event{new posix_condvar_t{}}, count{0}
 {
 }
 
@@ -18,7 +19,7 @@ wait_group::~wait_group() noexcept
 {
     if (event == nullptr) return;
     // possible logic error in the case. but just delete
-    auto* cv = reinterpret_cast<posix_cond_var*>(event);
+    auto* cv = reinterpret_cast<posix_condvar_t*>(event);
     event = nullptr;
     delete cv;
 }
@@ -40,13 +41,13 @@ void wait_group::done() noexcept
     if (count.load() != 0) return;
 
     // notify
-    auto* cv = reinterpret_cast<posix_cond_var*>(event);
+    auto* cv = reinterpret_cast<posix_condvar_t*>(event);
     cv->signal();
 }
 
 void wait_group::wait(uint32_t timeout) noexcept(false)
 {
-    auto* cv = reinterpret_cast<posix_cond_var*>(event);
+    auto* cv = reinterpret_cast<posix_condvar_t*>(event);
     cv->wait(timeout);
     event = nullptr;
     delete cv;

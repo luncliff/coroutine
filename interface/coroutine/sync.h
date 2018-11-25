@@ -54,12 +54,12 @@ class section final
     section& operator=(section&&) = delete;
 
   public:
-    _INTERFACE_ section(std::uint16_t spin = 0x600) noexcept;
+    _INTERFACE_ section(std::uint16_t spin = 0x600) noexcept(false);
     _INTERFACE_ ~section() noexcept;
 
     [[nodiscard]] _INTERFACE_ bool try_lock() noexcept;
-    _INTERFACE_ void lock() noexcept;
-    _INTERFACE_ void unlock() noexcept;
+    _INTERFACE_ void lock() noexcept(false);
+    _INTERFACE_ void unlock() noexcept(false);
 };
 
 // - Note

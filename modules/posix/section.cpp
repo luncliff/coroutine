@@ -9,44 +9,69 @@
 
 #include "./adapter.h"
 
-static_assert(sizeof(posix_mutex_t) <= sizeof(section));
+static_assert(sizeof(pthread_rwlock_t) <= sizeof(section));
 
 auto* for_posix(section* s) noexcept
 {
-    return reinterpret_cast<posix_mutex_t*>(s);
+    return reinterpret_cast<pthread_rwlock_t*>(s);
 }
 auto* for_posix(const section* s) noexcept
 {
-    return reinterpret_cast<const posix_mutex_t*>(s);
+    return reinterpret_cast<const pthread_rwlock_t*>(s);
 }
 
-section::section(uint16_t) noexcept
+section::section(uint16_t) noexcept(false) : u64{}
 {
-    // delegate the work to `posix_mutex_t`
-    // placement init
-    new (this->u64) posix_mutex_t{};
+    u64[0] = 0;
+    auto* rwlock = for_posix(this);
+
+    if (auto ec = pthread_rwlock_init(rwlock, nullptr))
+        throw std::system_error{
+            ec, std::system_category(), "pthread_rwlock_init"};
 }
 
 section::~section() noexcept
 {
-    auto* mtx = for_posix(this);
-    mtx->~posix_mutex_t();
+    auto* rwlock = for_posix(this);
+
+    if (auto ec = pthread_rwlock_destroy(rwlock))
+        std::fputs(
+            std::system_error{ec, std::system_category(), "pthread_rwlock_init"}
+                .what(),
+            stderr);
 }
 
 bool section::try_lock() noexcept
 {
-    auto* mtx = for_posix(this);
-    return mtx->try_lock();
+    auto* rwlock = for_posix(this);
+    // EBUSY  // possible error
+    // EINVAL
+    // EDEADLK
+    auto ec = pthread_rwlock_trywrlock(rwlock);
+    return ec == 0;
 }
 
-void section::lock() noexcept
+// - Note
+//
+//  There was an issue with `pthread_mutex_`
+//  it returned EINVAL for lock operation
+//  replacing it the rwlock
+//
+void section::lock() noexcept(false)
 {
-    auto* mtx = for_posix(this);
-    return mtx->lock();
+    auto* rwlock = for_posix(this);
+
+    if (auto ec = pthread_rwlock_wrlock(rwlock))
+        // EINVAL ?
+        throw std::system_error{
+            ec, std::system_category(), "pthread_rwlock_wrlock"};
 }
 
-void section::unlock() noexcept
+void section::unlock() noexcept(false)
 {
-    auto* mtx = for_posix(this);
-    return mtx->unlock();
+    auto* rwlock = for_posix(this);
+
+    if (auto ec = pthread_rwlock_unlock(rwlock))
+        throw std::system_error{
+            ec, std::system_category(), "pthread_rwlock_unlock"};
 }
