@@ -44,7 +44,9 @@ TEST_CASE("SequenceTest", "[generic]")
         auto try_sequence =
             [](await_point& plug, int& ref, auto async_gen) -> unplug {
             for
-                co_await(int v : async_gen(plug)) ref = v;
+                co_await(int v
+                         : async_gen(plug)) //
+                    ref = v;
         };
 
         await_point p{};

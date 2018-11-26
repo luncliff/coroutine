@@ -45,7 +45,6 @@ add_library(${PROJECT_NAME} SHARED
     modules/${PLATFORM}/dllmain.cpp
 
     modules/${PLATFORM}/switch_to.cpp
-    modules/${PLATFORM}/section.cpp
     modules/${PLATFORM}/wait_group.cpp
 
     modules/shared/queue.hpp
@@ -72,6 +71,8 @@ PUBLIC
 if(WIN32)  # Clang + Windows
     target_sources(${PROJECT_NAME}
     PRIVATE
+        modules/win32/section.cpp
+
         modules/net/async_win32.cpp
         modules/net/resolver.cpp
         modules/net/net_data.cpp
@@ -176,11 +177,13 @@ if(APPLE) # macos custom
     target_sources(${PROJECT_NAME}
     PRIVATE
         modules/osx/helper.cpp
+        modules/osx/section.cpp
     )
 elseif(LINUX) # linux custom
     target_sources(${PROJECT_NAME}
     PRIVATE
         modules/linux/realtime.cpp
+        modules/linux/section.cpp
     )
     target_link_libraries(${PROJECT_NAME}
     PUBLIC

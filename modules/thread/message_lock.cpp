@@ -44,7 +44,7 @@ struct tm_registry_t final : public index_registry<tm_queue_t>
 
   public:
     tm_registry_t() noexcept(false);
-    ~tm_registry_t() noexcept;
+    ~tm_registry_t() noexcept = default;
 
   public:
     pointer find(uint64_t id) const noexcept override;
@@ -58,13 +58,13 @@ struct tm_registry_t final : public index_registry<tm_queue_t>
     pointer resource_of(uint16_t idx) const noexcept;
 };
 
-std::unique_ptr<tm_registry_t> registry = nullptr;
+tm_registry_t& get_registry() noexcept;
 
 void setup_messaging() noexcept(false)
 {
     // create a registry (with some config)
-    registry = std::make_unique<tm_registry_t>();
-    assert(registry.get() != nullptr);
+    auto& registry = get_registry();
+    assert(std::addressof(registry) != nullptr);
 
     // trigger required thread local variables' innitialization
     if (current_thread_id() == thread_id_t{})
@@ -73,26 +73,32 @@ void setup_messaging() noexcept(false)
 
 void teardown_messaging() noexcept(false)
 {
-    // truncate using move operation
-    auto trunc = std::move(registry);
-    assert(registry.get() == nullptr);
+    std::puts(__FUNCTION__);
+    // // truncate using move operation
+    // auto trunc = std::move(registry);
+    // assert(registry.get() == nullptr);
+    auto& registry = get_registry();
+    assert(std::addressof(registry) != nullptr);
 }
 
 void add_messaging_thread(thread_id_t tid) noexcept(false)
 {
-    registry->add(static_cast<uint64_t>(tid));
+    auto& registry = get_registry();
+    registry.add(static_cast<uint64_t>(tid));
 }
 
 void remove_messaging_thread(thread_id_t tid) noexcept(false)
 {
-    registry->remove(static_cast<uint64_t>(tid));
+    auto& registry = get_registry();
+    registry.remove(static_cast<uint64_t>(tid));
 }
 
 void post_message(thread_id_t tid, message_t msg) noexcept(false)
 {
     tm_queue_t* queue{};
+    auto& registry = get_registry();
 
-    queue = registry->find(static_cast<uint64_t>(tid));
+    queue = registry.find(static_cast<uint64_t>(tid));
     // find returns nullptr for unregisterd id value.
     if (queue == nullptr)
         // in the case, invalid argument
@@ -103,7 +109,9 @@ void post_message(thread_id_t tid, message_t msg) noexcept(false)
 bool peek_message(message_t& msg) noexcept(false)
 {
     tm_queue_t* queue{};
-    queue = registry->find(static_cast<uint64_t>(current_thread_id()));
+    auto& registry = get_registry();
+
+    queue = registry.find(static_cast<uint64_t>(current_thread_id()));
 
     // find returns nullptr for unregisterd id value.
     if (queue == nullptr)
@@ -115,15 +123,10 @@ bool peek_message(message_t& msg) noexcept(false)
 
 // ---- Thread Message Queue Registry ----
 
-tm_registry_t::tm_registry_t() noexcept(false)
+tm_registry_t::tm_registry_t() noexcept(false) : mtx{}, id_list{}, spaces{}
 {
     for (auto& id : id_list)
         id = std::numeric_limits<uint64_t>::max();
-}
-
-tm_registry_t::~tm_registry_t() noexcept
-{
-    // ToDo: any requirement for destruction of the registry?
 }
 
 uint16_t tm_registry_t::index_of(uint64_t id) const noexcept(false)
@@ -216,4 +219,18 @@ auto tm_registry_t::remove(uint64_t id) noexcept(false) -> void
     if (idx != invalid_idx)
         // ignore unregistered id
         deallocate(idx);
+}
+
+// ---- ---- ---- ---- ----
+
+std::unique_ptr<tm_registry_t> reg_ptr = nullptr;
+tm_registry_t& get_registry() noexcept
+{
+    if (reg_ptr == nullptr)
+    {
+        // create a registry (with some config)
+        reg_ptr = std::make_unique<tm_registry_t>();
+    }
+    assert(reg_ptr.get() != nullptr);
+    return *reg_ptr;
 }

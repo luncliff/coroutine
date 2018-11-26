@@ -111,14 +111,14 @@ TryProcessing:
 
     try
     {
-        if (peek_switched(coro)) // peek and continue the works
-        {
-            // std::printf("processing ... %p \n", coro.address());
-            coro.resume();
-        }
+        // if (peek_switched(coro)) // peek and continue the works
+        // {
+        //     // std::printf("processing ... %p \n", coro.address());
+        //     coro.resume();
+        // }
 
         using namespace std::literals;
-        std::this_thread::sleep_for(30ms);
+        std::this_thread::sleep_for(2s);
     }
     catch (const std::exception& e)
     {
@@ -153,7 +153,8 @@ void worker_group_t::add(const pthread_t tid) noexcept(false)
 
     // std::printf("worker_group_t::add %lu\n", tid);
     // !!! export some worker thread !!!
-    unknown_worker_id = static_cast<thread_id_t>(tid);
+    unknown_worker_id =
+        static_cast<thread_id_t>(reinterpret_cast<uint64_t>(tid));
 }
 
 void worker_group_t::remove(const pthread_t tid) noexcept
