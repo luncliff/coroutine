@@ -38,7 +38,7 @@
 #ifndef COROUTINE_THREAD_SWITCHING_H
 #define COROUTINE_THREAD_SWITCHING_H
 
-#include <experimental/coroutine>
+#include <coroutine/frame.h>
 
 _INTERFACE_ bool peek_switched(
     std::experimental::coroutine_handle<void>& rh) noexcept(false);

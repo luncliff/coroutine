@@ -7,7 +7,7 @@
 #include <coroutine/sync.h>
 #include <system_error>
 
-#include "./adapter.h"
+#include "posix/adapter.h"
 
 static_assert(sizeof(pthread_rwlock_t) <= sizeof(section));
 

@@ -61,6 +61,8 @@ VERSION
 target_include_directories(${PROJECT_NAME}
 PUBLIC
     ${PROJECT_DIR}/interface
+PRIVATE
+    ${PROJECT_DIR}/modules
 )
 target_link_libraries(${PROJECT_NAME}
 PUBLIC
