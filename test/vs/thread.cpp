@@ -21,7 +21,7 @@ using namespace std::experimental;
 
 class ThreadMessageTest : public TestClass<ThreadMessageTest>
 {
-    static constexpr auto repeat_count = 100'000;
+    static constexpr auto repeat_count = 1'000;
     struct context_t
     {
         thread_id_t anton, bruno, ceaser, dora;
@@ -33,6 +33,7 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
                                context_t& context,
                                PTP_WORK work) noexcept(false)
     {
+        println("Anton: %u ", GetCurrentThreadId());
         try
         {
             context.anton = current_thread_id();
@@ -61,6 +62,7 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
                                context_t& context,
                                PTP_WORK work) noexcept(false)
     {
+        println("Bruno: %u ", GetCurrentThreadId());
         try
         {
             UNREFERENCED_PARAMETER(work);
@@ -89,6 +91,8 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
                                 context_t& context,
                                 PTP_WORK work) noexcept(false)
     {
+        println("Ceaser: %u ", GetCurrentThreadId());
+
         try
         {
             UNREFERENCED_PARAMETER(work);
@@ -123,6 +127,8 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
                               context_t& context,
                               PTP_WORK work) noexcept(false)
     {
+        println("Dora: %u ", GetCurrentThreadId());
+
         try
         {
             UNREFERENCED_PARAMETER(work);
@@ -188,6 +194,8 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
 
     TEST_METHOD(MessageFlow)
     {
+        println("Main: %u ", GetCurrentThreadId());
+
         const auto num_workers = static_cast<uint32_t>(works.size());
         context.start.add(num_workers);
         context.end.add(num_workers);
@@ -204,7 +212,7 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
         context.d.done();
         context.c.done();
         context.a.done();
-        context.end.wait();
+        context.end.wait(60'000);
     }
 };
 

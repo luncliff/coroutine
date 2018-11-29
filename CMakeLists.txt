@@ -104,12 +104,13 @@ if(WIN32)  # Clang + Windows
         # which must be protected. An alternative is to use CMAKE_CXX_FLAGS,
         # but the method will be used only when there is no way but to use it
         #
-        # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
+        # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fno-rtti")
         target_compile_options(${PROJECT_NAME} 
         PUBLIC
             /std:c++latest 
             -fms-compatibility 
-            -Xclang -fcoroutines-ts
+            # -Xclang -fcoroutines-ts
         PRIVATE
             -Wno-unused-function
             -Wno-c++98-compat 

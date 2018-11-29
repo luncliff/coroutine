@@ -102,7 +102,8 @@ TEST_CASE("ChannelTest", "[generic][channel]")
             channel<uint64_t, bypass_lock> ch{};
 
             // Reader coroutine may suspend.(not-returned)
-            for (auto i : nums)
+            // for (auto i : nums)
+            for (auto i = 0u; i < 3; ++i)
                 // read to `storage`
                 read_from(ch, storage);
 
@@ -117,7 +118,7 @@ TEST_CASE("ChannelTest", "[generic][channel]")
             channel<uint64_t, std::mutex> ch{};
 
             // Reader coroutine may suspend.(not-returned)
-            for (auto i : nums)
+            for (auto i = 0u; i < 3; ++i)
                 // read to `storage`
                 read_from(ch, storage);
 
@@ -144,43 +145,41 @@ TEST_CASE("ChannelTest", "[generic][channel]")
             wait_group group{};
             group.add(2 * TryCount);
 
-            auto send_with_callback =
-                [&]( //
-                    auto value,
-                    std::function<void(bool)> fn) -> unplug {
+            auto send_with_callback = [&]( //
+                                          auto value,
+                                          auto fn) -> unplug {
                 bool ok = false;
                 co_await switch_to{back_id};
 
-                try
-                {
-                    ok = co_await ch.write(value);
-                }
-                catch (const std::exception& e)
-                {
-                    ::fputs(e.what(), stderr);
-                    // ignore exception. consider as failure
-                    ok = false;
-                }
+                // try
+                // {
+                ok = co_await ch.write(value);
+                // }
+                // catch (const std::exception& e)
+                // {
+                //     ::fputs(e.what(), stderr);
+                //     // ignore exception. consider as failure
+                //     ok = false;
+                // }
                 fn(ok);
             };
 
-            auto recv_with_callback =
-                [&](std::function<void(bool)> fn) -> unplug {
+            auto recv_with_callback = [&](auto fn) -> unplug {
                 bool ok = false;
                 co_await switch_to{back_id};
 
-                try
-                {
-                    // [ value, ok ]
-                    const auto tup = co_await ch.read();
-                    ok = std::get<1>(tup);
-                }
-                catch (const std::exception& e)
-                {
-                    ::fputs(e.what(), stderr);
-                    // ignore exception. consider as failure
-                    ok = false;
-                }
+                // try
+                // {
+                // [ value, ok ]
+                const auto tup = co_await ch.read();
+                ok = std::get<1>(tup);
+                // }
+                // catch (const std::exception& e)
+                // {
+                //     ::fputs(e.what(), stderr);
+                //     // ignore exception. consider as failure
+                //     ok = false;
+                // }
                 fn(ok);
             };
 

@@ -22,7 +22,7 @@ constexpr auto max_thread_count = 100;
 #pragma message("Maximum number of thread: 100")
 
 // thread message queue
-struct tm_queue_t final : public circular_queue_t<message_t, 4500>
+struct tm_queue_t final : public circular_queue_t<message_t, 450>
 {
 };
 
@@ -73,7 +73,6 @@ void setup_messaging() noexcept(false)
 
 void teardown_messaging() noexcept(false)
 {
-    std::puts(__FUNCTION__);
     // // truncate using move operation
     // auto trunc = std::move(registry);
     // assert(registry.get() == nullptr);
@@ -98,7 +97,7 @@ void post_message(thread_id_t tid, message_t msg) noexcept(false)
     tm_queue_t* queue{};
     auto& registry = get_registry();
 
-    queue = registry.find(static_cast<uint64_t>(tid));
+    queue = registry.add(static_cast<uint64_t>(tid));
     // find returns nullptr for unregisterd id value.
     if (queue == nullptr)
         // in the case, invalid argument
@@ -111,7 +110,7 @@ bool peek_message(message_t& msg) noexcept(false)
     tm_queue_t* queue{};
     auto& registry = get_registry();
 
-    queue = registry.find(static_cast<uint64_t>(current_thread_id()));
+    queue = registry.add(static_cast<uint64_t>(current_thread_id()));
 
     // find returns nullptr for unregisterd id value.
     if (queue == nullptr)

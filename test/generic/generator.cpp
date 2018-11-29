@@ -11,7 +11,10 @@ TEST_CASE("GeneratorTest", "[generic]")
 {
     SECTION("yield_never")
     {
-        auto generate_values = []() -> enumerable<uint16_t> { co_return; };
+        auto generate_values = []() -> enumerable<uint16_t> {
+            // >
+            co_return;
+        };
 
         int trunc, count = 0;
         for (uint16_t v : generate_values())

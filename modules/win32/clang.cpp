@@ -5,8 +5,10 @@
 //
 // ---------------------------------------------------------------------------
 #include "../linkable.h"
-
 #include <coroutine/frame.h>
+
+#include <array>
+#include <cstdio>
 
 // We are using VC++ headers, but the compiler is not msvc.
 // Redirect some intrinsics from msvc to clang

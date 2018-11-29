@@ -13,6 +13,7 @@
 //      http://clang.llvm.org/docs/LanguageExtensions.html#c-coroutines-support-builtins
 //
 // ---------------------------------------------------------------------------
+#pragma once
 #ifndef COROUTINE_FRAME_PREFIX_HPP
 #define COROUTINE_FRAME_PREFIX_HPP
 
@@ -20,16 +21,16 @@
 #include <cstdint>
 #include <type_traits>
 
-#if _MSC_VER // <-- need alternative
-             //     since it might be declared explicitly
-static constexpr auto is_msvc = true;
-static constexpr auto is_clang = false;
-static constexpr auto is_gcc = false;
-
-#elif __clang__
-
+#if __clang__
 static constexpr auto is_msvc = false;
 static constexpr auto is_clang = true;
+static constexpr auto is_gcc = false;
+
+#elif _MSC_VER // <-- need alternative
+               //     since it might be declared explicitly
+
+static constexpr auto is_msvc = true;
+static constexpr auto is_clang = false;
 static constexpr auto is_gcc = false;
 
 #else // __GNUC__ is missing
@@ -382,14 +383,6 @@ struct _Resumable_helper_traits
 
 } // namespace std::experimental
 
-// alternative of `_coro_done` of msvc for this library,
-// it's renamed to avoid redefinition
-inline bool _coro_finished(msvc_frame_prefix* prefix) noexcept
-{
-    // expect: coroutine == suspended
-    // expect: coroutine != destroyed
-    return prefix->index == 0;
-}
 #endif // _MSC_VER
 
 #ifdef __clang__
@@ -406,7 +399,6 @@ inline bool _coro_finished(msvc_frame_prefix* prefix) noexcept
 //      https://llvm.org/docs/Coroutines.html#example
 //
 
-/*
 #include <utility>
 
 // bool  __builtin_coro_done(void *addr);
@@ -414,7 +406,7 @@ inline bool _coro_finished(msvc_frame_prefix* m) noexcept // _coro_done
 {
     // expect: coroutine == suspended
     // expect: coroutine != destroyed
-    auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
+    auto* c = reinterpret_cast<clang_frame_prefix*>(m);
 
     return __builtin_coro_done(c) ? 1 : 0;
 
@@ -446,32 +438,33 @@ inline size_t _coro_resume(void* addr)
 {
     auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
     // auto* m = reinterpret_cast<msvc_frame_prefix*>(addr);
+    // auto fn = c->factivate;
 
-    auto fn = c->factivate;
     __builtin_coro_resume(c);
+    return 0;
 
-    //
-    // If some coroutines doen't 'final_suspend',
-    //  it's frame will be deleted after above resume operation.
-    //
-    if (c->factivate != nullptr && c->factivate != fn)
-        // nullptr if the coroutine is 'final_suspend'ed
-        // address mismatch because of free operation
-        //
-        // !!! But accessing freed address space yields access violation !!!
-        //
-        return 0;
-    //
-    // For 'final_suspend'ing coroutines,
-    //  the following line is required to work with VC++ implementation
+    // //
+    // // If some coroutines doen't 'final_suspend',
+    // //  it's frame will be deleted after above resume operation.
+    // //
+    // if (c->factivate != nullptr && c->factivate != fn)
+    //     // nullptr if the coroutine is 'final_suspend'ed
+    //     // address mismatch because of free operation
+    //     //
+    //     // !!! But accessing freed address space yields access violation !!!
+    //     //
+    //     return 0;
+    // //
+    // // For 'final_suspend'ing coroutines,
+    // //  the following line is required to work with VC++ implementation
 
-    //
-    // See `coroutine_handle<void>` in VC++ header.
-    // It doesn't rely on `_coro_done` to check its coroutine is returned
-    //
-    // Therefore, there was no way but to place
-    //  additional intrinsic here...
-    return _coro_done(addr);
+    // //
+    // // See `coroutine_handle<void>` in VC++ header.
+    // // It doesn't rely on `_coro_done` to check its coroutine is returned
+    // //
+    // // Therefore, there was no way but to place
+    // //  additional intrinsic here...
+    // return _coro_done(addr);
 }
 
 // void  __builtin_coro_destroy(void *addr);
@@ -484,7 +477,18 @@ inline void _coro_destroy(void* addr)
     std::swap(c->factivate, c->fdestroy);
     __builtin_coro_destroy(c);
 }
-*/
-#endif // __clang__
+
+#elif _MSC_VER
+
+// alternative of `_coro_done` of msvc for this library,
+// it's renamed to avoid redefinition
+inline bool _coro_finished(msvc_frame_prefix* prefix) noexcept
+{
+    // expect: coroutine == suspended
+    // expect: coroutine != destroyed
+    return prefix->index == 0;
+}
+
+#endif // __clang__ || _MSC_VER
 
 #endif // COROUTINE_FRAME_PREFIX_HPP

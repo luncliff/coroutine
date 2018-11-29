@@ -33,7 +33,7 @@ class enumerable final
     using handle_t = std::experimental::coroutine_handle<void>;
     using handle_promise_t = std::experimental::coroutine_handle<promise_type>;
 
-    handle_t coro;
+    handle_promise_t coro;
 
   private: // disable copy / move for safe usage
     enumerable(const enumerable&) = delete;
@@ -42,26 +42,11 @@ class enumerable final
     enumerable& operator=(enumerable&&) = delete;
 
   public:
-    enumerable(promise_type* ptr) noexcept : coro{nullptr}
+    enumerable(promise_type* ptr) noexcept
+        : coro{handle_promise_t::from_promise(*ptr)}
     {
-        if constexpr (is_clang)
-        {
-            // calculate the location of the coroutine frame prefix
-            void* prefix =
-                reinterpret_cast<char*>(ptr) - sizeof(clang_frame_prefix);
-            coro = handle_t::from_address(prefix);
-        }
-        else if constexpr (is_msvc)
-        {
-            coro = handle_promise_t::from_promise(*ptr);
-        }
-        else
-        {
-            coro = handle_t::from_address(nullptr);
-        }
-
-        assert(coro.address() != nullptr); // must ensure handle is valid...
     }
+
     ~enumerable() noexcept
     {
         // enumerable will destroy the frame.
@@ -89,32 +74,6 @@ class enumerable final
 
         pointer current = nullptr;
 
-      private:
-        static promise_type& from_prefix(handle_t coro) noexcept
-        {
-            if constexpr (is_clang)
-            {
-                // calculate the location of the coroutine frame prefix
-                auto* prefix =
-                    reinterpret_cast<clang_frame_prefix*>(coro.address());
-                // for clang, promise is placed just after frame prefix
-                auto* promise = reinterpret_cast<promise_type*>(prefix + 1);
-                return *promise;
-            }
-            else if constexpr (is_msvc)
-            {
-                auto* prefix = reinterpret_cast<char*>(coro.address());
-                auto* promise = reinterpret_cast<promise_type*>(
-                    prefix - aligned_size_v<promise_type>);
-                return *promise;
-            }
-            else
-            {
-                // !!! crash !!!
-                return *reinterpret_cast<promise_type*>(nullptr);
-            }
-        }
-
       public:
         auto initial_suspend() const noexcept
         {
@@ -133,8 +92,16 @@ class enumerable final
         }
 
         // `co_return` expression
-        void return_void() noexcept { current = nullptr; }
-        void unhandled_exception() noexcept { std::terminate(); }
+        void return_void() noexcept
+        {
+            // no more access to value
+            current = nullptr;
+        }
+        void unhandled_exception() noexcept
+        {
+            // just terminate?
+            std::terminate();
+        }
 
         promise_type* get_return_object() noexcept
         {
@@ -153,13 +120,13 @@ class enumerable final
         using pointer = T*;
 
       public:
-        handle_t coro; // resumable handle
+        handle_promise_t coro; // resumable handle
 
       public:
         // `enumerable::end()`
         iterator(std::nullptr_t) noexcept : coro{nullptr} {}
         // `enumerable::begin()`
-        iterator(handle_t handle) noexcept : coro{handle} {}
+        iterator(handle_promise_t handle) noexcept : coro{handle} {}
 
       public:
         iterator& operator++(int) = delete; // post increment
@@ -174,12 +141,12 @@ class enumerable final
 
         pointer operator->() noexcept
         {
-            pointer ptr = promise_type::from_prefix(coro).current;
+            pointer ptr = coro.promise().current;
             return ptr;
         }
         pointer operator->() const noexcept
         {
-            pointer ptr = promise_type::from_prefix(coro).current;
+            pointer ptr = coro.promise().current;
             return ptr;
         }
         reference operator*() noexcept { return *(this->operator->()); }
