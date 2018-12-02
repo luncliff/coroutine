@@ -29,8 +29,7 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
         wait_group a, b, c, d;
     };
 
-    static void CALLBACK Anton(PTP_CALLBACK_INSTANCE,
-                               context_t& context,
+    static void CALLBACK Anton(PTP_CALLBACK_INSTANCE, context_t& context,
                                PTP_WORK work) noexcept(false)
     {
         println("Anton: %u ", GetCurrentThreadId());
@@ -58,8 +57,7 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
             context.end.done();
         }
     }
-    static void CALLBACK Bruno(PTP_CALLBACK_INSTANCE,
-                               context_t& context,
+    static void CALLBACK Bruno(PTP_CALLBACK_INSTANCE, context_t& context,
                                PTP_WORK work) noexcept(false)
     {
         println("Bruno: %u ", GetCurrentThreadId());
@@ -76,7 +74,8 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
             {
                 message_t msg{};
 
-                if (peek_message(msg) == true) repeat += 1;
+                if (peek_message(msg) == true)
+                    repeat += 1;
 
             } while (repeat < repeat_count * 4);
             context.end.done();
@@ -87,8 +86,7 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
             context.end.done();
         }
     }
-    static void CALLBACK Ceaser(PTP_CALLBACK_INSTANCE,
-                                context_t& context,
+    static void CALLBACK Ceaser(PTP_CALLBACK_INSTANCE, context_t& context,
                                 PTP_WORK work) noexcept(false)
     {
         println("Ceaser: %u ", GetCurrentThreadId());
@@ -123,8 +121,7 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
         }
     }
 
-    static void CALLBACK Dora(PTP_CALLBACK_INSTANCE,
-                              context_t& context,
+    static void CALLBACK Dora(PTP_CALLBACK_INSTANCE, context_t& context,
                               PTP_WORK work) noexcept(false)
     {
         println("Dora: %u ", GetCurrentThreadId());
@@ -163,22 +160,18 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
 
     TEST_METHOD_INITIALIZE(Initialize)
     {
-        works[0] =
-            ::CreateThreadpoolWork(reinterpret_cast<PTP_WORK_CALLBACK>(Anton),
-                                   std::addressof(context),
-                                   nullptr);
-        works[1] =
-            ::CreateThreadpoolWork(reinterpret_cast<PTP_WORK_CALLBACK>(Bruno),
-                                   std::addressof(context),
-                                   nullptr);
-        works[2] =
-            ::CreateThreadpoolWork(reinterpret_cast<PTP_WORK_CALLBACK>(Ceaser),
-                                   std::addressof(context),
-                                   nullptr);
-        works[3] =
-            ::CreateThreadpoolWork(reinterpret_cast<PTP_WORK_CALLBACK>(Dora),
-                                   std::addressof(context),
-                                   nullptr);
+        works[0]
+            = ::CreateThreadpoolWork(reinterpret_cast<PTP_WORK_CALLBACK>(Anton),
+                                     std::addressof(context), nullptr);
+        works[1]
+            = ::CreateThreadpoolWork(reinterpret_cast<PTP_WORK_CALLBACK>(Bruno),
+                                     std::addressof(context), nullptr);
+        works[2] = ::CreateThreadpoolWork(
+            reinterpret_cast<PTP_WORK_CALLBACK>(Ceaser),
+            std::addressof(context), nullptr);
+        works[3]
+            = ::CreateThreadpoolWork(reinterpret_cast<PTP_WORK_CALLBACK>(Dora),
+                                     std::addressof(context), nullptr);
 
         for (auto work : works)
             Assert::IsNotNull(work);
@@ -212,15 +205,14 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
         context.d.done();
         context.c.done();
         context.a.done();
-        context.end.wait(60'000);
+        context.end.wait(60s);
     }
 };
 
-TEST_CLASS(ThreadPoolTest)
+class ThreadPoolTest : public TestClass<ThreadPoolTest>
 {
     static void CALLBACK onWork1(PTP_CALLBACK_INSTANCE instance,
-                                 wait_group & group,
-                                 PTP_WORK work) noexcept
+                                 wait_group& group, PTP_WORK work) noexcept
     {
         UNREFERENCED_PARAMETER(instance);
         UNREFERENCED_PARAMETER(work);
@@ -232,13 +224,15 @@ TEST_CLASS(ThreadPoolTest)
 
     TEST_METHOD_INITIALIZE(Initialize)
     {
-        work =
-            ::CreateThreadpoolWork(reinterpret_cast<PTP_WORK_CALLBACK>(onWork1),
-                                   std::addressof(group),
-                                   nullptr);
+        work = ::CreateThreadpoolWork(
+            reinterpret_cast<PTP_WORK_CALLBACK>(onWork1), std::addressof(group),
+            nullptr);
         Assert::IsNotNull(work);
     }
-    TEST_METHOD_CLEANUP(CleanUp) { ::CloseThreadpoolWork(work); }
+    TEST_METHOD_CLEANUP(CleanUp)
+    {
+        ::CloseThreadpoolWork(work);
+    }
 
     TEST_METHOD(WaitWorkers)
     {
@@ -257,14 +251,14 @@ TEST_CLASS(ThreadPoolTest)
     {
         group.add(1);
         group.done();
-        group.wait(200);
+        group.wait(200ms);
     }
 
     TEST_METHOD(WaitGroupMultipleDone)
     {
         group.done();
         group.done();
-        group.wait(200);
+        group.wait(200ms);
     }
 };
 
@@ -272,8 +266,7 @@ TEST_CLASS(ThreadPoolTest)
 
 class SwitchingTest : public TestClass<SwitchingTest>
 {
-    static auto SwitchOnce(wait_group& wg,
-                           uint64_t& before,
+    static auto SwitchOnce(wait_group& wg, uint64_t& before,
                            uint64_t& after) noexcept(false) -> unplug
     {
         switch_to back{}; // 0 means background thread
@@ -292,15 +285,14 @@ class SwitchingTest : public TestClass<SwitchingTest>
 
         wg.add(1);
         SwitchOnce(wg, id1, id2);
-        wg.wait();
+        Assert::IsTrue(wg.wait());
 
         // get different thread id
         Assert::IsTrue(id1 != id2);
     }
 
     static auto SwitchToSpeicified( // switch twice...
-        wait_group& wg,
-        uint64_t target) noexcept(false) -> unplug
+        wait_group& wg, uint64_t target) noexcept(false) -> unplug
     {
         const auto start = GetCurrentThreadId();
         switch_to back{}, fore{target}; // 0 means background thread
@@ -329,6 +321,6 @@ class SwitchingTest : public TestClass<SwitchingTest>
 
         coro.resume();
 
-        wg.wait();
+        Assert::IsTrue(wg.wait());
     }
 };

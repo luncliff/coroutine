@@ -85,7 +85,6 @@ for:
   build_script:
     - ps: New-Item -Name build -ItemType Directory
     - ps: Push-Location -Path build
-    # - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
     - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
     - cmd: set CC=clang-cl  # ps: $env:CC  = "clang-cl"
     - cmd: set CXX=clang-cl # ps: $env:CXX = "clang-cl"

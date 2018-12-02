@@ -6,6 +6,11 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/net.h>
 
+// #include <gsl/gsl_util>
+
+using namespace std;
+using namespace std::experimental;
+
 uint32_t io_work::resume() noexcept
 {
     return static_cast<uint32_t>(this->InternalHigh);
@@ -16,11 +21,10 @@ uint32_t io_work::resume() noexcept
     // return this->bytes();
 }
 
+// GSL_SUPPRESS(type .1)
 void CALLBACK io_work::onWorkDone( //
-    DWORD dwError,
-    DWORD dwBytes,
-    LPWSAOVERLAPPED pover,
-    DWORD flags) noexcept
+    DWORD dwError, DWORD dwBytes, LPWSAOVERLAPPED pover,
+    DWORD flags) noexcept(false)
 {
     UNREFERENCED_PARAMETER(flags);
 
@@ -33,13 +37,11 @@ void CALLBACK io_work::onWorkDone( //
     //    work->InternalHigh = dwBytes;
 
     // `tag` is user custom data. For now, resumeable handle.
-    std::experimental::coroutine_handle<>::from_address(work->tag).resume();
+    coroutine_handle<void>::from_address(work->tag).resume();
 }
 
-auto send_to(SOCKET sd,
-             const endpoint& remote,
-             buffer* buf,
-             uint32_t buflen,
+// GSL_SUPPRESS(type .1)
+auto send_to(SOCKET sd, const endpoint& remote, buffer* buf, uint32_t buflen,
              io_work& work) noexcept -> io_send_to&
 {
     // start work construction
@@ -51,12 +53,13 @@ auto send_to(SOCKET sd,
     work.tag = nullptr;
     work.buffers = buf;
     work.count = buflen;
-    work.to = std::addressof(remote);
+    work.to = addressof(remote);
 
-    return *reinterpret_cast<io_send_to*>(std::addressof(work));
+    return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
-void io_send_to::suspend(std::experimental::coroutine_handle<> rh) noexcept
+// GSL_SUPPRESS(type .1)
+void io_send_to::suspend(coroutine_handle<> rh) noexcept
 {
     const SOCKET sd = reinterpret_cast<SOCKET>(this->Pointer);
     const DWORD flag = 0;
@@ -69,15 +72,9 @@ void io_send_to::suspend(std::experimental::coroutine_handle<> rh) noexcept
     this->tag = rh.address();
 
     // Overlapped Callback
-    ::WSASendTo(sd,
-                this->buffers,
-                this->count,
-                nullptr,
-                flag,
+    ::WSASendTo(sd, this->buffers, this->count, nullptr, flag,
                 reinterpret_cast<const ::sockaddr*>(this->to),
-                sizeof(::sockaddr_in6),
-                block,
-                onWorkDone);
+                sizeof(::sockaddr_in6), block, onWorkDone);
 
     // IOCP
     //::WSASendTo(sd, const_cast<WSABUF *>(buffers), count,
@@ -89,10 +86,8 @@ void io_send_to::suspend(std::experimental::coroutine_handle<> rh) noexcept
     assert(ec == S_OK || ec == ERROR_IO_PENDING);
 }
 
-auto recv_from(SOCKET sd,
-               endpoint& remote,
-               buffer* buf,
-               uint32_t buflen,
+// GSL_SUPPRESS(type .1)
+auto recv_from(SOCKET sd, endpoint& remote, buffer* buf, uint32_t buflen,
                io_work& work) noexcept -> io_recv_from&
 {
     // zero the memory + start work construction
@@ -105,12 +100,13 @@ auto recv_from(SOCKET sd,
     work.tag = nullptr;
     work.buffers = buf;
     work.count = buflen;
-    work.from = std::addressof(remote);
+    work.from = addressof(remote);
 
-    return *reinterpret_cast<io_recv_from*>(std::addressof(work));
+    return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
-void io_recv_from::suspend(std::experimental::coroutine_handle<> rh) noexcept
+// GSL_SUPPRESS(type .1)
+void io_recv_from::suspend(coroutine_handle<> rh) noexcept
 {
     const SOCKET sd = reinterpret_cast<SOCKET>(this->Pointer);
     DWORD flag = 0;
@@ -123,14 +119,8 @@ void io_recv_from::suspend(std::experimental::coroutine_handle<> rh) noexcept
     this->tag = rh.address();
 
     // Overlapped Callback
-    ::WSARecvFrom(sd,
-                  buffers,
-                  count,
-                  nullptr,
-                  &flag,
-                  reinterpret_cast<sockaddr*>(this->from),
-                  &addrlen,
-                  block,
+    ::WSARecvFrom(sd, buffers, count, nullptr, &flag,
+                  reinterpret_cast<sockaddr*>(this->from), &addrlen, block,
                   onWorkDone);
 
     //// IOCP
@@ -142,6 +132,7 @@ void io_recv_from::suspend(std::experimental::coroutine_handle<> rh) noexcept
     assert(ec == S_OK || ec == ERROR_IO_PENDING);
 }
 
+// GSL_SUPPRESS(type .1)
 auto send(SOCKET sd, buffer* buf, uint32_t buflen, io_work& work) noexcept
     -> io_send&
 {
@@ -157,10 +148,12 @@ auto send(SOCKET sd, buffer* buf, uint32_t buflen, io_work& work) noexcept
     work.count = buflen;
     work.to = nullptr;
 
-    return *reinterpret_cast<io_send*>(std::addressof(work));
+    return *reinterpret_cast<io_send*>(addressof(work));
 }
 
-void io_send::suspend(std::experimental::coroutine_handle<> rh) noexcept
+// GSL_SUPPRESS(type .1)
+// GSL_SUPPRESS(type .3)
+void io_send::suspend(coroutine_handle<> rh) noexcept
 {
     const SOCKET sd = reinterpret_cast<SOCKET>(this->Pointer);
     const DWORD flag = 0;
@@ -173,12 +166,7 @@ void io_send::suspend(std::experimental::coroutine_handle<> rh) noexcept
     this->tag = rh.address();
 
     // Overlapped Callback
-    ::WSASend(sd,
-              const_cast<WSABUF*>(buffers),
-              count,
-              nullptr,
-              flag,
-              block,
+    ::WSASend(sd, const_cast<WSABUF*>(buffers), count, nullptr, flag, block,
               onWorkDone);
 
     //// IOCP
@@ -190,6 +178,7 @@ void io_send::suspend(std::experimental::coroutine_handle<> rh) noexcept
     assert(ec == S_OK || ec == ERROR_IO_PENDING);
 }
 
+// GSL_SUPPRESS(type .1)
 auto recv(SOCKET sd, buffer* buf, uint32_t buflen, io_work& work) noexcept
     -> io_recv&
 {
@@ -205,10 +194,11 @@ auto recv(SOCKET sd, buffer* buf, uint32_t buflen, io_work& work) noexcept
     work.count = buflen;
     work.to = nullptr;
 
-    return *reinterpret_cast<io_recv*>(std::addressof(work));
+    return *reinterpret_cast<io_recv*>(addressof(work));
 }
 
-void io_recv::suspend(std::experimental::coroutine_handle<> rh) noexcept
+// GSL_SUPPRESS(type .1)
+void io_recv::suspend(coroutine_handle<> rh) noexcept
 {
     const SOCKET sd = reinterpret_cast<SOCKET>(this->Pointer);
     DWORD flag = 0;

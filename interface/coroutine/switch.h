@@ -13,34 +13,15 @@
 //          by Kenny Kerr & James McNellis
 //
 // ---------------------------------------------------------------------------
-
-#ifndef LINKABLE_DLL_MACRO
-#define LINKABLE_DLL_MACRO
-
-#ifdef _MSC_VER // MSVC
-#define _HIDDEN_
-#ifdef _WINDLL
-#define _INTERFACE_ __declspec(dllexport)
-#else
-#define _INTERFACE_ __declspec(dllimport)
-#endif
-
-#elif __GNUC__ || __clang__ // GCC or Clang
-#define _INTERFACE_ __attribute__((visibility("default")))
-#define _HIDDEN_ __attribute__((visibility("hidden")))
-
-#else
-#error "unexpected compiler"
-
-#endif // compiler check
-#endif // LINKABLE_DLL_MACRO
-
+#pragma once
 #ifndef COROUTINE_THREAD_SWITCHING_H
 #define COROUTINE_THREAD_SWITCHING_H
 
 #include <coroutine/frame.h>
+#include <coroutine/sync.h>
 
-_INTERFACE_ bool peek_switched(
+_INTERFACE_
+bool peek_switched( //
     std::experimental::coroutine_handle<void>& rh) noexcept(false);
 
 // - Note
@@ -48,11 +29,12 @@ _INTERFACE_ bool peek_switched(
 //      and Windows Thread Pool
 class switch_to final
 {
-    uint64_t u64[3]{};
+    template <typename Promise>
+    using coroutine_handle = std::experimental::coroutine_handle<Promise>;
 
-  public:
-    _INTERFACE_ explicit switch_to(uint64_t target = 0) noexcept(false);
-    _INTERFACE_ ~switch_to() noexcept;
+  private:
+    // reserve enough size to provide platform compatibility
+    uint64_t storage[4]{};
 
   private:
     switch_to(switch_to&&) noexcept = delete;
@@ -61,19 +43,22 @@ class switch_to final
     switch_to& operator=(const switch_to&) noexcept = delete;
 
   public:
+    _INTERFACE_ explicit switch_to(uint64_t target = 0) noexcept(false);
+    _INTERFACE_ ~switch_to() noexcept;
+
+  public:
     _INTERFACE_ bool ready() const noexcept;
-    _INTERFACE_ void suspend(
-        std::experimental::coroutine_handle<void> rh) noexcept(false);
+    _INTERFACE_ void suspend(coroutine_handle<void> rh) noexcept(false);
     _INTERFACE_ void resume() noexcept;
 
+    // Lazy code generation in library user code
 #pragma warning(disable : 4505)
     bool await_ready() const noexcept
     {
         // redirect
         return this->ready();
     }
-    void await_suspend( //
-        std::experimental::coroutine_handle<void> rh) noexcept(false)
+    void await_suspend(coroutine_handle<void> rh) noexcept(false)
     {
         // redirect
         return this->suspend(rh);

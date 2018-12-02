@@ -16,7 +16,7 @@
 #include <cassert>
 #include <iterator>
 
-template<typename T>
+template <typename T>
 struct sequence final
 {
     struct promise_type; // Resumable Promise Requirement
@@ -65,17 +65,21 @@ struct sequence final
         coro.resume();
 
         // this line won't be true but will be remained for a while
-        if (coro.done()) return nullptr;
+        if (coro.done())
+            return nullptr;
 
         // check if it's finished after first resume
-        auto& promise =
-            handle_promise_t::from_address(coro.address()).promise();
+        auto& promise
+            = handle_promise_t::from_address(coro.address()).promise();
         if (promise.current == finished()) //
             return nullptr;
 
         return iterator{coro};
     }
-    iterator end() noexcept { return nullptr; }
+    iterator end() noexcept
+    {
+        return nullptr;
+    }
 
   public:
     struct promise_type
@@ -90,8 +94,14 @@ struct sequence final
         handle_t task{}; // std::atomic<handle_t> task{};
 
       public:
-        void unhandled_exception() noexcept { std::terminate(); }
-        auto get_return_object() noexcept -> promise_type* { return this; }
+        void unhandled_exception() noexcept
+        {
+            std::terminate();
+        }
+        auto get_return_object() noexcept -> promise_type*
+        {
+            return this;
+        }
 
         auto initial_suspend() const noexcept
         {
@@ -116,7 +126,7 @@ struct sequence final
             //   iterator will take the value
             return *this;
         }
-        template<typename Awaitable>
+        template <typename Awaitable>
         Awaitable& yield_value(Awaitable&& a) noexcept
         {
             current = empty();
@@ -186,7 +196,9 @@ struct sequence final
         promise_type* promise{};
 
       public:
-        iterator(std::nullptr_t) noexcept : promise{nullptr} {}
+        iterator(std::nullptr_t) noexcept : promise{nullptr}
+        {
+        }
         iterator(handle_t rh) noexcept : promise{nullptr}
         {
             auto& p = handle_promise_t::from_address(rh.address()).promise();
@@ -208,7 +220,8 @@ struct sequence final
             handle_t _task = promise->task;
             promise->task = nullptr;
 
-            if (_task) _task.resume();
+            if (_task)
+                _task.resume();
 
             // if (handle_t coro = promise->task.exchange(
             //        nullptr, // prevent recursive activation
@@ -249,10 +262,22 @@ struct sequence final
             return *this;
         }
 
-        pointer operator->() noexcept { return promise->current; }
-        pointer operator->() const noexcept { return promise->current; }
-        reference operator*() noexcept { return *(this->operator->()); }
-        reference operator*() const noexcept { return *(this->operator->()); }
+        pointer operator->() noexcept
+        {
+            return promise->current;
+        }
+        pointer operator->() const noexcept
+        {
+            return promise->current;
+        }
+        reference operator*() noexcept
+        {
+            return *(this->operator->());
+        }
+        reference operator*() const noexcept
+        {
+            return *(this->operator->());
+        }
 
         bool operator==(const iterator& rhs) const noexcept
         {

@@ -14,8 +14,12 @@
 //
 // ---------------------------------------------------------------------------
 #pragma once
+
 #ifndef COROUTINE_FRAME_PREFIX_HPP
 #define COROUTINE_FRAME_PREFIX_HPP
+#pragma warning(push, 4)
+#pragma warning(disable : 4455 4494 4577 4619 4643 4702 4984 4988)
+#pragma warning(disable : 26490 26481 26476)
 
 #include <cassert>
 #include <cstdint>
@@ -37,7 +41,7 @@ static constexpr auto is_gcc = false;
 #error "compier doesn't support coroutine"
 #endif
 
-template<typename T>
+template <typename T>
 constexpr auto aligned_size_v = ((sizeof(T) + 16 - 1) & ~(16 - 1));
 
 using procedure_t = void(__cdecl*)(void*);
@@ -71,7 +75,7 @@ struct clang_frame_prefix final
 static_assert(sizeof(clang_frame_prefix) == 16);
 
 // redirect for `_coro_done`
-bool _coro_finished(msvc_frame_prefix*) noexcept;
+bool _coro_finished(const msvc_frame_prefix*) noexcept;
 
 // -------------------- Compiler intrinsic: MSVC  --------------------
 
@@ -107,16 +111,16 @@ extern "C" void __builtin_coro_destroy(void*);
 namespace std::experimental
 {
 // traits to enforce promise_type
-template<typename ReturnType, typename... Args>
+template <typename ReturnType, typename... Args>
 struct coroutine_traits
 {
     using promise_type = typename ReturnType::promise_type;
 };
 
-template<typename PromiseType = void>
+template <typename PromiseType = void>
 class coroutine_handle;
 
-template<>
+template <>
 class coroutine_handle<void>
 {
   protected:
@@ -135,8 +139,12 @@ class coroutine_handle<void>
     static_assert(sizeof(prefix_t) == sizeof(void*));
 
   public:
-    coroutine_handle() noexcept : prefix{nullptr} {}
-    coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr} {}
+    coroutine_handle() noexcept : prefix{nullptr}
+    {
+    }
+    coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr}
+    {
+    }
 
     coroutine_handle& operator=(nullptr_t) noexcept
     {
@@ -144,7 +152,10 @@ class coroutine_handle<void>
         return *this;
     }
 
-    operator bool() const noexcept { return prefix.v != nullptr; }
+    operator bool() const noexcept
+    {
+        return prefix.v != nullptr;
+    }
 
     void resume() noexcept(false)
     {
@@ -158,7 +169,7 @@ class coroutine_handle<void>
         }
     }
 
-    void destroy() noexcept(false)
+    void destroy() noexcept
     {
         if constexpr (is_msvc)
         {
@@ -187,9 +198,12 @@ class coroutine_handle<void>
     }
 
   public:
-    constexpr void* address() const noexcept { return prefix.v; }
+    constexpr void* address() const noexcept
+    {
+        return prefix.v;
+    }
 
-    static coroutine_handle from_address(void* addr)
+    static coroutine_handle from_address(void* addr) noexcept
     {
         coroutine_handle rh{};
         rh.prefix.v = addr;
@@ -197,7 +211,7 @@ class coroutine_handle<void>
     }
 };
 
-template<typename PromiseType>
+template <typename PromiseType>
 class coroutine_handle : public coroutine_handle<void>
 {
     using base_type = coroutine_handle<void>;
@@ -234,46 +248,46 @@ class coroutine_handle : public coroutine_handle<void>
   public:
     using coroutine_handle<void>::coroutine_handle;
 
-    coroutine_handle& operator=(nullptr_t)
+    coroutine_handle& operator=(nullptr_t) noexcept
     {
         base_type::operator=(nullptr);
         return *this;
     }
 
-    auto promise() const -> const promise_type&
+    auto promise() const noexcept -> const promise_type&
     {
         promise_type* p = from_frame(prefix);
         return *p;
     }
-    auto promise() -> promise_type&
+    auto promise() noexcept -> promise_type&
     {
         promise_type* p = from_frame(prefix);
         return *p;
     }
 
   public:
-    static coroutine_handle from_address(void* addr)
+    static coroutine_handle from_address(void* addr) noexcept
     {
         coroutine_handle rh{};
         rh.prefix.v = addr;
         return rh;
     }
 
-    static coroutine_handle from_promise(promise_type& prom)
+    static coroutine_handle from_promise(promise_type& prom) noexcept
     {
         promise_type* promise = std::addressof(prom);
 
         // calculate the location of the coroutine frame prefix
         if constexpr (is_clang)
         {
-            void* prefix =
-                reinterpret_cast<char*>(promise) - sizeof(clang_frame_prefix);
+            void* prefix
+                = reinterpret_cast<char*>(promise) - sizeof(clang_frame_prefix);
             return coroutine_handle::from_address(prefix);
         }
         else if constexpr (is_msvc)
         {
-            void* prefix =
-                reinterpret_cast<char*>(promise) + aligned_size_v<promise_type>;
+            void* prefix = reinterpret_cast<char*>(promise)
+                           + aligned_size_v<promise_type>;
             return coroutine_handle::from_address(prefix);
         }
         return coroutine_handle{};
@@ -313,16 +327,30 @@ inline bool operator>=(const coroutine_handle<void> lhs,
 
 struct suspend_never
 {
-    constexpr bool await_ready() const { return true; }
-    void await_suspend(coroutine_handle<void>) const {}
-    constexpr void await_resume() const {}
+    constexpr bool await_ready() const noexcept
+    {
+        return true;
+    }
+    void await_suspend(coroutine_handle<void>) const noexcept
+    {
+    }
+    constexpr void await_resume() const noexcept
+    {
+    }
 };
 
 struct suspend_always
 {
-    constexpr bool await_ready() const { return false; }
-    void await_suspend(coroutine_handle<void>) const {}
-    constexpr void await_resume() const {}
+    constexpr bool await_ready() const noexcept
+    {
+        return false;
+    }
+    void await_suspend(coroutine_handle<void>) const noexcept
+    {
+    }
+    constexpr void await_resume() const noexcept
+    {
+    }
 };
 } // namespace std::experimental
 
@@ -335,7 +363,7 @@ namespace std::experimental
 //  - Note
 //      Helper traits for MSVC's coroutine compilation.
 //      The original code is in <experimental/resumable>
-template<typename _Ret, typename... _Ts>
+template <typename _Ret, typename... _Ts>
 struct _Resumable_helper_traits
 {
     using _Traits = coroutine_traits<_Ret, _Ts...>;
@@ -354,13 +382,14 @@ struct _Resumable_helper_traits
         return _Handle_type::from_promise(*p);
     }
 
-    static void _Set_exception(void* addr)
+    static void _Set_exception(void* addr) noexcept
     {
         auto& prom = _Handle_type::from_address(addr).promise();
         prom->set_exception(std::current_exception());
     }
 
-    static void _ConstructPromise(void* addr, void* func, int _HeapElision)
+    static void _ConstructPromise(void* addr, void* func,
+                                  int _HeapElision) noexcept(false)
     {
         auto prefix = static_cast<msvc_frame_prefix*>(addr);
         prefix->factivate = static_cast<procedure_t>(func);
@@ -373,11 +402,10 @@ struct _Resumable_helper_traits
         ::new (prom) _PromiseT();
     }
 
-    static void _DestructPromise(void* addr)
+    static void _DestructPromise(void* addr) noexcept
     {
         auto prefix = static_cast<msvc_frame_prefix*>(addr);
-        auto* prom = _Promise_from_frame(prefix);
-        prom->~_PromiseT();
+        _Promise_from_frame(prefix)->~_PromiseT();
     }
 };
 
@@ -409,7 +437,7 @@ inline bool _coro_finished(msvc_frame_prefix* m) noexcept // _coro_done
     auto* c = reinterpret_cast<clang_frame_prefix*>(m);
 
     return __builtin_coro_done(c) ? 1 : 0;
-
+    /*
     // what if resume just bypass and destroy evenything?
     // see `coroutine_handle<void>` in VC++ header
     if (__builtin_coro_done(c))
@@ -431,6 +459,7 @@ inline bool _coro_finished(msvc_frame_prefix* m) noexcept // _coro_done
         // ensure: m->index == 0;
     }
     return m->index == 0;
+    */
 }
 
 // void  __builtin_coro_resume(void *addr);
@@ -442,39 +471,42 @@ inline size_t _coro_resume(void* addr)
 
     __builtin_coro_resume(c);
     return 0;
+    /*
+     //
+     // If some coroutines doen't 'final_suspend',
+     //  it's frame will be deleted after above resume operation.
+     //
+     if (c->factivate != nullptr && c->factivate != fn)
+         // nullptr if the coroutine is 'final_suspend'ed
+         // address mismatch because of free operation
+         //
+         // !!! But accessing freed address space yields access violation !!!
+         //
+         return 0;
+     //
+     // For 'final_suspend'ing coroutines,
+     //  the following line is required to work with VC++ implementation
 
-    // //
-    // // If some coroutines doen't 'final_suspend',
-    // //  it's frame will be deleted after above resume operation.
-    // //
-    // if (c->factivate != nullptr && c->factivate != fn)
-    //     // nullptr if the coroutine is 'final_suspend'ed
-    //     // address mismatch because of free operation
-    //     //
-    //     // !!! But accessing freed address space yields access violation !!!
-    //     //
-    //     return 0;
-    // //
-    // // For 'final_suspend'ing coroutines,
-    // //  the following line is required to work with VC++ implementation
-
-    // //
-    // // See `coroutine_handle<void>` in VC++ header.
-    // // It doesn't rely on `_coro_done` to check its coroutine is returned
-    // //
-    // // Therefore, there was no way but to place
-    // //  additional intrinsic here...
-    // return _coro_done(addr);
+     //
+     // See `coroutine_handle<void>` in VC++ header.
+     // It doesn't rely on `_coro_done` to check its coroutine is returned
+     //
+     // Therefore, there was no way but to place
+     //  additional intrinsic here...
+     return _coro_done(addr);
+     */
 }
 
 // void  __builtin_coro_destroy(void *addr);
 inline void _coro_destroy(void* addr)
 {
     auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
+    /*
     // Notice the trick we used in `_coro_done`.
     // since we exchanged the function pointers, we need to revoke the change
     // before start intrinsic;
     std::swap(c->factivate, c->fdestroy);
+    */
     __builtin_coro_destroy(c);
 }
 
@@ -482,7 +514,7 @@ inline void _coro_destroy(void* addr)
 
 // alternative of `_coro_done` of msvc for this library,
 // it's renamed to avoid redefinition
-inline bool _coro_finished(msvc_frame_prefix* prefix) noexcept
+inline bool _coro_finished(const msvc_frame_prefix* prefix) noexcept
 {
     // expect: coroutine == suspended
     // expect: coroutine != destroyed
@@ -491,4 +523,5 @@ inline bool _coro_finished(msvc_frame_prefix* prefix) noexcept
 
 #endif // __clang__ || _MSC_VER
 
+#pragma warning(pop)
 #endif // COROUTINE_FRAME_PREFIX_HPP

@@ -4,65 +4,109 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#define NOMINMAX
-
 #include <coroutine/sync.h>
+
+#include <atomic>
+// #include <gsl/gsl_util>
 #include <system_error>
 
-#include <Windows.h> // System API
+#include <Windows.h>
 
-wait_group::wait_group() noexcept(false) : event{INVALID_HANDLE_VALUE}, count{0}
+using namespace std;
+
+struct wait_group_win32 final
 {
-    event = CreateEvent(nullptr,  // default security attributes
-                        false,    // auto-reset event object
-                        false,    // initial state is nonsignaled
-                        nullptr); // unnamed object
+    HANDLE ev{};
+    std::atomic<uint32_t> count{};
+    SECURITY_ATTRIBUTES attr{};
+};
 
-    if (event == INVALID_HANDLE_VALUE)
-        throw std::system_error{static_cast<int>(GetLastError()),
-                                std::system_category()};
+// GSL_SUPPRESS(type .1)
+auto for_win32(wait_group* wg) noexcept
+{
+    static_assert(sizeof(wait_group_win32) <= sizeof(wait_group));
+    return reinterpret_cast<wait_group_win32*>(wg);
+}
+
+wait_group::wait_group() noexcept(false) : storage{}
+{
+    new (for_win32(this)) wait_group_win32{};
+    auto* wg = for_win32(this);
+    // ... replaced to CreateEventA for simplicity ...
+    // wg->ev = CreateEventExA(nullptr, // default security attributes
+    //                        nullptr, // unnamed object
+    //                        CREATE_EVENT_MANUAL_RESET,
+    //                        NULL // default access right
+    //);
+    wg->ev = CreateEventA(nullptr, false, false, nullptr);
+
+    if (wg->ev == INVALID_HANDLE_VALUE)
+    {
+        const auto code = static_cast<int>(GetLastError());
+        throw system_error{code, system_category(), "CreateEventA"};
+    }
 }
 
 wait_group::~wait_group() noexcept
 {
-    if (event != INVALID_HANDLE_VALUE) CloseHandle(event);
+    auto wg = for_win32(this);
+    auto e = wg->ev;
+
+    if (e != INVALID_HANDLE_VALUE)
+        CloseHandle(e);
 }
 
-void wait_group::add(uint32_t delta) noexcept { this->count.fetch_add(delta); }
+void wait_group::add(uint16_t delta) noexcept
+{
+    auto wg = for_win32(this);
+    wg->count.fetch_add(delta, memory_order::memory_order_acq_rel);
+}
 
 void wait_group::done() noexcept
 {
-    if (event == INVALID_HANDLE_VALUE) return;
+    auto wg = for_win32(this);
+    wg->count.fetch_sub(1, memory_order::memory_order_acq_rel);
 
-    if (count > 0) count.fetch_sub(1);
-
-    if (count == 0) SetEvent(event);
+    // load again without reordering
+    if (wg->count.load(memory_order::memory_order_acquire) == 0)
+        // set event
+        SetEvent(wg->ev);
 }
 
-void wait_group::wait(uint32_t timeout) noexcept(false)
+bool wait_group::wait(duration d) noexcept(false)
 {
-    static_assert(sizeof(uint32_t) == sizeof(DWORD), "Invalid timeout type");
+    auto wg = for_win32(this);
 
-    while (count > 0)
+    while (wg->count > 0)
     {
         // This makes APC available.
         // expecially for Overlapped I/O
-        auto reason = WaitForSingleObjectEx(event, timeout, TRUE);
+        DWORD ec = WaitForSingleObjectEx(wg->ev, static_cast<DWORD>(d.count()),
+                                         TRUE);
 
-        // return because of APC. continue the wait
-        if (reason == WAIT_IO_COMPLETION) continue;
+        if (ec == WAIT_FAILED)
+            // update error code
+            ec = GetLastError();
 
         // the only case for success
-        if (reason == WAIT_OBJECT_0)
-        {
-            CloseHandle(event);
-            event = INVALID_HANDLE_VALUE;
-            return;
-        }
+        else if (ec == WAIT_OBJECT_0)
+            break;
+
+        // timeout. this is expected failure
+        // the user code can try again
+        else if (ec == WAIT_TIMEOUT)
+            return false;
+
+        // return because of APC. same with WAIT_TIMEOUT
+        else if (ec == WAIT_IO_COMPLETION)
+            return false;
 
         // ... the other case will be considered exception ...
-        throw std::system_error{static_cast<int>(reason),
-                                std::system_category()};
+        throw system_error{static_cast<int>(ec), system_category(),
+                           "WaitForSingleObjectEx"};
     }
-    return;
+
+    CloseHandle(wg->ev); // close and leave
+    wg->ev = INVALID_HANDLE_VALUE;
+    return true;
 }

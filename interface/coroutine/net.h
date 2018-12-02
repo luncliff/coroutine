@@ -93,15 +93,16 @@ struct _INTERFACE_ io_work : public OVERLAPPED
     };
 
   public:
-    constexpr bool ready() const noexcept { return false; }
+    constexpr bool ready() const noexcept
+    {
+        return false;
+    }
     uint32_t resume() noexcept;
 
   protected:
     static void CALLBACK //
-    onWorkDone(DWORD dwError,
-               DWORD dwBytes,
-               LPWSAOVERLAPPED pover,
-               DWORD flags) noexcept;
+        onWorkDone(DWORD dwError, DWORD dwBytes, LPWSAOVERLAPPED pover,
+                   DWORD flags) noexcept(false);
 };
 static_assert(sizeof(io_work) <= SYSTEM_CACHE_ALIGNMENT_SIZE);
 
@@ -112,18 +113,12 @@ class io_recv;
 
 [[nodiscard]] _INTERFACE_ //
     io_send_to&
-    send_to(SOCKET sd,
-            const endpoint& remote,
-            buffer* buf,
-            uint32_t buflen,
+    send_to(SOCKET sd, const endpoint& remote, buffer* buf, uint32_t buflen,
             io_work& work) noexcept;
 
 [[nodiscard]] _INTERFACE_ //
     io_recv_from&
-    recv_from(SOCKET sd,
-              endpoint& remote,
-              buffer* buf,
-              uint32_t buflen,
+    recv_from(SOCKET sd, endpoint& remote, buffer* buf, uint32_t buflen,
               io_work& work) noexcept;
 
 [[nodiscard]] _INTERFACE_ //
@@ -137,25 +132,29 @@ class io_recv;
 class _INTERFACE_ io_send_to final : public io_work
 {
   public:
-    void suspend(std::experimental::coroutine_handle<> rh) noexcept;
+    void suspend( //
+        std::experimental::coroutine_handle<void> rh) noexcept;
 };
 
 class _INTERFACE_ io_recv_from final : public io_work
 {
   public:
-    void suspend(std::experimental::coroutine_handle<> rh) noexcept;
+    void suspend( //
+        std::experimental::coroutine_handle<void> rh) noexcept;
 };
 
 class _INTERFACE_ io_send final : public io_work
 {
   public:
-    void suspend(std::experimental::coroutine_handle<> rh) noexcept;
+    void suspend( //
+        std::experimental::coroutine_handle<void> rh) noexcept;
 };
 
 class _INTERFACE_ io_recv final : public io_work
 {
   public:
-    void suspend(std::experimental::coroutine_handle<> rh) noexcept;
+    void suspend( //
+        std::experimental::coroutine_handle<void> rh) noexcept;
 };
 
 static_assert(sizeof(io_send_to) == sizeof(io_work));
@@ -166,69 +165,69 @@ static_assert(sizeof(io_recv) == sizeof(io_work));
 #pragma warning(disable : 4505)
 
 static decltype(auto) //
-await_ready(const io_send_to& a) noexcept
+    await_ready(const io_send_to& a) noexcept
 {
     return a.ready();
 }
 static decltype(auto) //
-await_suspend(io_send_to& a,
-              std::experimental::coroutine_handle<void> rh) noexcept(false)
+    await_suspend(io_send_to& a,
+                  std::experimental::coroutine_handle<void> rh) noexcept(false)
 {
     return a.suspend(rh);
 }
 static decltype(auto) //
-await_resume(io_send_to& a) noexcept
+    await_resume(io_send_to& a) noexcept
 {
     return a.resume();
 }
 
 static decltype(auto) //
-await_ready(const io_recv_from& a) noexcept
+    await_ready(const io_recv_from& a) noexcept
 {
     return a.ready();
 }
 static decltype(auto) //
-await_suspend(io_recv_from& a,
-              std::experimental::coroutine_handle<void> rh) noexcept(false)
+    await_suspend(io_recv_from& a,
+                  std::experimental::coroutine_handle<void> rh) noexcept(false)
 {
     return a.suspend(rh);
 }
 static decltype(auto) //
-await_resume(io_recv_from& a) noexcept
+    await_resume(io_recv_from& a) noexcept
 {
     return a.resume();
 }
 
 static decltype(auto) //
-await_ready(const io_send& a) noexcept
+    await_ready(const io_send& a) noexcept
 {
     return a.ready();
 }
 static decltype(auto) //
-await_suspend(io_send& a,
-              std::experimental::coroutine_handle<void> rh) noexcept(false)
+    await_suspend(io_send& a,
+                  std::experimental::coroutine_handle<void> rh) noexcept(false)
 {
     return a.suspend(rh);
 }
 static decltype(auto) //
-await_resume(io_send& a) noexcept
+    await_resume(io_send& a) noexcept
 {
     return a.resume();
 }
 
 static decltype(auto) //
-await_ready(const io_recv& a) noexcept
+    await_ready(const io_recv& a) noexcept
 {
     return a.ready();
 }
 static decltype(auto) //
-await_suspend(io_recv& a,
-              std::experimental::coroutine_handle<void> rh) noexcept(false)
+    await_suspend(io_recv& a,
+                  std::experimental::coroutine_handle<void> rh) noexcept(false)
 {
     return a.suspend(rh);
 }
 static decltype(auto) //
-await_resume(io_recv& a) noexcept
+    await_resume(io_recv& a) noexcept
 {
     return a.resume();
 }

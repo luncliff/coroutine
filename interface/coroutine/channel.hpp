@@ -24,7 +24,7 @@ static void* poison() noexcept(false)
 
 // - Note
 //      Minimal linked list without node allocation
-template<typename NodeType>
+template <typename NodeType>
 class list
 {
     using node_t = NodeType;
@@ -36,7 +36,10 @@ class list
     list() noexcept = default;
 
   public:
-    bool is_empty() const noexcept(false) { return head == nullptr; }
+    bool is_empty() const noexcept(false)
+    {
+        return head == nullptr;
+    }
     void push(node_t* node) noexcept(false)
     {
         if (tail)
@@ -63,16 +66,16 @@ class list
 };
 } // namespace internal
 
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class channel;
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class reader;
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class writer;
 
 // - Note
 //      Awaitable reader for `channel`
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class reader final
 {
   public:
@@ -130,7 +133,7 @@ class reader final
 
 // - Note
 //      Awaitable writer for `channel`
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class writer final
 {
   public:
@@ -189,7 +192,7 @@ class writer final
 // - Note
 //      Coroutine Channel
 //      Channel doesn't support Copy, Move
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class channel final : private internal::list<reader<T, Lockable>>,
                       private internal::list<writer<T, Lockable>>
 {
@@ -217,7 +220,9 @@ class channel final : private internal::list<reader<T, Lockable>>,
     mutex_t mtx{};
 
   public:
-    channel() noexcept(false) : reader_list{}, writer_list{}, mtx{} {}
+    channel() noexcept(false) : reader_list{}, writer_list{}, mtx{}
+    {
+    }
     channel(const channel&) noexcept(false) = delete;
     channel(channel&&) noexcept(false) = delete;
 
@@ -250,8 +255,8 @@ class channel final : private internal::list<reader<T, Lockable>>,
             while (writers.is_empty() == false)
             {
                 writer* w = writers.pop();
-                auto rh =
-                    std::experimental::coroutine_handle<void>::from_address(
+                auto rh
+                    = std::experimental::coroutine_handle<void>::from_address(
                         w->frame);
                 w->frame = internal::poison();
 
@@ -260,8 +265,8 @@ class channel final : private internal::list<reader<T, Lockable>>,
             while (readers.is_empty() == false)
             {
                 reader* r = readers.pop();
-                auto rh =
-                    std::experimental::coroutine_handle<void>::from_address(
+                auto rh
+                    = std::experimental::coroutine_handle<void>::from_address(
                         r->frame);
                 r->frame = internal::poison();
 
@@ -282,14 +287,18 @@ class channel final : private internal::list<reader<T, Lockable>>,
     // - Note
     //      Awaitable read.
     //      `reader` type implements the awaitable concept
-    decltype(auto) read() noexcept(false) { return reader{*this}; }
+    decltype(auto) read() noexcept(false)
+    {
+        return reader{*this};
+    }
 };
 
-template<typename T, typename M>
+template <typename T, typename M>
 bool reader<T, M>::await_ready() const noexcept(false)
 {
     chan->mtx.lock();
-    if (chan->writer_list::is_empty()) return false;
+    if (chan->writer_list::is_empty())
+        return false;
 
     writer* w = chan->writer_list::pop();
     assert(w != nullptr);
@@ -304,7 +313,7 @@ bool reader<T, M>::await_ready() const noexcept(false)
     return true;
 }
 
-template<typename T, typename M>
+template <typename T, typename M>
 void reader<T, M>::await_suspend(
     std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
@@ -318,7 +327,7 @@ void reader<T, M>::await_suspend(
     ch.mtx.unlock();
 }
 
-template<typename T, typename M>
+template <typename T, typename M>
 auto reader<T, M>::await_resume() noexcept(false)
     -> std::tuple<value_type, bool>
 {
@@ -329,8 +338,8 @@ auto reader<T, M>::await_resume() noexcept(false)
     // Store first. we have to do this
     // because the resume operation can destroy the writer coroutine
     value_type value = std::move(*ptr);
-    if (auto rh =
-            std::experimental::coroutine_handle<void>::from_address(frame))
+    if (auto rh
+        = std::experimental::coroutine_handle<void>::from_address(frame))
     {
         assert(this->frame != nullptr);
         assert(*reinterpret_cast<uint64_t*>(frame) != 0);
@@ -340,11 +349,12 @@ auto reader<T, M>::await_resume() noexcept(false)
     return std::make_tuple(std::move(value), true);
 }
 
-template<typename T, typename M>
+template <typename T, typename M>
 bool writer<T, M>::await_ready() const noexcept(false)
 {
     chan->mtx.lock();
-    if (chan->reader_list::is_empty()) return false;
+    if (chan->reader_list::is_empty())
+        return false;
 
     reader* r = chan->reader_list::pop();
     // exchange address & resumeable_handle
@@ -355,7 +365,7 @@ bool writer<T, M>::await_ready() const noexcept(false)
     return true;
 }
 
-template<typename T, typename M>
+template <typename T, typename M>
 void writer<T, M>::await_suspend(
     std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
@@ -369,14 +379,15 @@ void writer<T, M>::await_suspend(
     ch.mtx.unlock();
 }
 
-template<typename T, typename M>
+template <typename T, typename M>
 bool writer<T, M>::await_resume() noexcept(false)
 {
     // frame holds poision if the channel is going to destroy
-    if (this->frame == internal::poison()) return false;
+    if (this->frame == internal::poison())
+        return false;
 
-    if (auto rh =
-            std::experimental::coroutine_handle<void>::from_address(frame))
+    if (auto rh
+        = std::experimental::coroutine_handle<void>::from_address(frame))
     {
         assert(this->frame != nullptr);
         assert(*reinterpret_cast<uint64_t*>(frame) != 0);

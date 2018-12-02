@@ -222,6 +222,11 @@
     <ClCompile Include="vs\thread.cpp" />
     <ClCompile Include="vs\unplug.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\modules\win32.vcxproj">
+      <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

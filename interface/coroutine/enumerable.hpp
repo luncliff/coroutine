@@ -16,7 +16,7 @@
 
 // - Note
 //      Another implementation of <experimental/generator>
-template<typename T>
+template <typename T>
 class enumerable final
 {
   public:
@@ -65,7 +65,10 @@ class enumerable final
         }
         return iterator{coro};
     }
-    iterator end() noexcept { return iterator{nullptr}; }
+    iterator end() noexcept
+    {
+        return iterator{nullptr};
+    }
 
   public:
     struct promise_type // Resumable Promise Requirement
@@ -124,9 +127,13 @@ class enumerable final
 
       public:
         // `enumerable::end()`
-        iterator(std::nullptr_t) noexcept : coro{nullptr} {}
+        iterator(std::nullptr_t) noexcept : coro{nullptr}
+        {
+        }
         // `enumerable::begin()`
-        iterator(handle_promise_t handle) noexcept : coro{handle} {}
+        iterator(handle_promise_t handle) noexcept : coro{handle}
+        {
+        }
 
       public:
         iterator& operator++(int) = delete; // post increment
@@ -149,8 +156,14 @@ class enumerable final
             pointer ptr = coro.promise().current;
             return ptr;
         }
-        reference operator*() noexcept { return *(this->operator->()); }
-        reference operator*() const noexcept { return *(this->operator->()); }
+        reference operator*() noexcept
+        {
+            return *(this->operator->());
+        }
+        reference operator*() const noexcept
+        {
+            return *(this->operator->());
+        }
 
         bool operator==(const iterator& rhs) const noexcept
         {

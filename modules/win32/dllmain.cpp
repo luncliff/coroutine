@@ -4,6 +4,7 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
+#include <coroutine/sync.h>
 
 #ifdef _WIN32
 #define PROCEDURE
@@ -11,55 +12,42 @@
 #define PROCEDURE __attribute__((constructor))
 #endif
 
-#include <array>
-#include <cassert>
-#include <numeric>
-
-#include <coroutine/enumerable.hpp>
-#include <coroutine/frame.h>
-#include <coroutine/sync.h>
-#include <coroutine/unplug.hpp>
-
-extern void setup_messaging() noexcept(false);
-extern void teardown_messaging() noexcept(false);
-extern void add_messaging_thread(thread_id_t tid) noexcept(false);
-extern void remove_messaging_thread(thread_id_t tid) noexcept(false);
+#include <stdexcept>
 
 #ifdef _WIN32
 #include <sdkddkver.h>
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
-thread_id_t current_thread_id() noexcept
-{
-    return static_cast<thread_id_t>(GetCurrentThreadId());
-}
-
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms682583(v=vs.85).aspx
 BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID)
 {
     UNREFERENCED_PARAMETER(instance);
-
-    const auto tid = current_thread_id();
     try
     {
+        const auto tid = current_thread_id();
+        if (tid == thread_id_t{ 0 })
+            throw std::runtime_error{ "suspecious thread id" };
+
         if (reason == DLL_THREAD_ATTACH)
         {
-            add_messaging_thread(tid);
+            // add current thread
         }
-        if (reason == DLL_THREAD_DETACH)
+        else if (reason == DLL_THREAD_DETACH)
         {
-            remove_messaging_thread(tid);
+            // remove current thread
         }
-        if (reason == DLL_PROCESS_ATTACH)
+        else if (reason == DLL_PROCESS_ATTACH)
         {
-            setup_messaging();
-            add_messaging_thread(tid);
+            // setup messaging for library
+            // add existing threads
+            // add current thread
         }
-        if (reason == DLL_PROCESS_DETACH)
+        else if (reason == DLL_PROCESS_DETACH)
         {
-            remove_messaging_thread(tid);
-            teardown_messaging();
+            // remove current thread
+            // remove existing threads
+            // teardown messaging for library
         }
         return TRUE;
     }
