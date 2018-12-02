@@ -52,9 +52,9 @@ add_library(${PROJECT_NAME} SHARED
     modules/thread/message_lock.cpp
 )
 
-set_target_properties(${PROJECT_NAME} PROPERTIES 
-VERSION
-    ${PROJECT_VERSION}
+set_target_properties(${PROJECT_NAME} 
+PROPERTIES 
+    VERSION         ${PROJECT_VERSION}
     CXX_STANDARD    17
 )
 
@@ -158,7 +158,6 @@ else() # Clang + Non-Windows
         )
     endif()
 endif()
-
 
 if(UNIX) # POSIX API
     target_sources(${PROJECT_NAME}

@@ -7,25 +7,20 @@ IndentWidth: 4
 ColumnLimit: 80
 PointerAlignment: Left
 
-BreakBeforeBraces: Allman
-
-AllowShortBlocksOnASingleLine: false
-AllowShortCaseLabelsOnASingleLine: true
-AllowShortFunctionsOnASingleLine: All
-AllowShortIfStatementsOnASingleLine: true
-AllowShortLoopsOnASingleLine: false
-AlwaysBreakTemplateDeclarations: true
-AlignAfterOpenBracket: true
-AlignOperands: true
 AlignTrailingComments: true
-BinPackArguments: false
-BinPackParameters: false
-BreakBeforeBinaryOperators: None
-BreakConstructorInitializersBeforeComma: true
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakTemplateDeclarations: true 
+
+BreakBeforeBinaryOperators: true
+BreakBeforeBraces: Allman
+BreakBeforeTernaryOperators: true
+
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 Cpp11BracedListStyle: true
-IndentCaseLabels: true
-KeepEmptyLinesAtTheStartOfBlocks: false
+
+IndentCaseLabels: false
+IndentFunctionDeclarationAfterType: true
+
 NamespaceIndentation: None
-PenaltyReturnTypeOnItsOwnLine: 1000
-SpaceAfterTemplateKeyword: false

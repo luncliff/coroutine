@@ -205,11 +205,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\modules\win32\win32.vcxproj">
-      <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\interface\coroutine\channel.hpp" />
     <ClInclude Include="..\interface\coroutine\enumerable.hpp" />
     <ClInclude Include="..\interface\coroutine\sequence.hpp" />

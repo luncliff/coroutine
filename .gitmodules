@@ -1,5 +1,4 @@
-[submodule "modules/GSL"]
-	path = modules/GSL
+[submodule "external/guideline"]
+	path = external/guideline
 	url = https://github.com/Microsoft/GSL
 	branch = v2.0.0
-	shallow = true

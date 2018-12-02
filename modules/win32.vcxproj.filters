@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="coroutine">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="messaging">
+      <UniqueIdentifier>{2901e4b2-9044-43d4-8d28-5b1366a922a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shared">
+      <UniqueIdentifier>{f27491b6-baa3-41e7-be7a-ec8be530be84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="registry">
+      <UniqueIdentifier>{871db75a-2f21-47f7-97f3-2f3543012027}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\interface\coroutine\channel.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\enumerable.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\frame.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\net.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\sequence.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\switch.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\sync.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\unplug.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="plugin.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="linkable.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="messaging\memory.hpp">
+      <Filter>messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="messaging\queue.h">
+      <Filter>messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="messaging\queue1.h">
+      <Filter>messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="registry\registry.h">
+      <Filter>registry</Filter>
+    </ClInclude>
+    <ClInclude Include="registry\registry1.h">
+      <Filter>registry</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="win32\dllmain.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\net_data.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\plugin.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\resolver.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\section.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\switch_to.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\wait_group.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\async_win32.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="messaging\message_apc.cpp">
+      <Filter>messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="messaging\message_lock.cpp">
+      <Filter>messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="messaging\queue1.cpp">
+      <Filter>messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="messaging\queue2.cpp">
+      <Filter>messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\lib_main.cpp">
+      <Filter>registry</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\registry1.cpp">
+      <Filter>registry</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\registry2.cpp">
+      <Filter>registry</Filter>
+    </ClCompile>
+    <ClCompile Include="registry\tm_queue.cpp">
+      <Filter>registry</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
