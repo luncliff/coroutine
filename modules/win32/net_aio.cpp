@@ -26,6 +26,8 @@ void CALLBACK io_work::onWorkDone( //
     DWORD dwError, DWORD dwBytes, LPWSAOVERLAPPED pover,
     DWORD flags) noexcept(false)
 {
+    UNREFERENCED_PARAMETER(dwError);
+    UNREFERENCED_PARAMETER(dwBytes);
     UNREFERENCED_PARAMETER(flags);
 
     io_work* work = reinterpret_cast<io_work*>(pover);

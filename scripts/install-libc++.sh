@@ -63,9 +63,9 @@ mkdir -p prebuilt && pushd prebuilt;
         -DLIBCXX_CXX_ABI=libcxxabi                          \
         -DLIBCXX_CXX_ABI_INCLUDE_PATHS=../libcxxabi/include \
         -DCMAKE_BUILD_TYPE=Release                          \
-        -DCMAKE_INSTALL_PREFIX=/usr                         \
+        -DCMAKE_INSTALL_PREFIX=/usr/local                         \
         ;
-    make -j7 install;
+    sudo make -j7 install;
     rm CMakeCache.txt;
 popd;
 # build libcxxabi
@@ -73,9 +73,9 @@ mkdir -p prebuilt && pushd prebuilt;
     cmake ../libcxxabi                      \
         -DLLVM_PATH=../llvm                 \
         -DLIBCXXABI_LIBCXX_PATH=../libcxx/  \
-        -DCMAKE_INSTALL_PREFIX=/usr         \
+        -DCMAKE_INSTALL_PREFIX=/usr/local         \
         ;
-    make -j7 --silent install;
+    sudo make -j7 --silent install;
     rm CMakeCache.txt;
 popd;
 echo "Build/Install done"

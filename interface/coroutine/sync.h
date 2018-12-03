@@ -70,7 +70,7 @@ class section final
 class wait_group final
 {
     // reserve enough size to provide platform compatibility
-    const uint64_t storage[8]{};
+    const uint64_t storage[16]{};
 
   public:
     using duration = std::chrono::milliseconds;

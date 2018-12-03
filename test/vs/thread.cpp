@@ -19,6 +19,7 @@
 using namespace std::literals;
 using namespace std::experimental;
 
+/*
 class ThreadMessageTest : public TestClass<ThreadMessageTest>
 {
     static constexpr auto repeat_count = 1'000;
@@ -208,6 +209,7 @@ class ThreadMessageTest : public TestClass<ThreadMessageTest>
         context.end.wait(60s);
     }
 };
+*/
 
 class ThreadPoolTest : public TestClass<ThreadPoolTest>
 {

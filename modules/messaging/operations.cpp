@@ -8,6 +8,8 @@
 #include <messaging/concurrent.h>
 #include <thread/types.h>
 
+#include <thread>
+
 extern thread_registry registry;
 extern thread_local thread_data current_data;
 

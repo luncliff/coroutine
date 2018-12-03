@@ -66,9 +66,7 @@ LIB_PROLOGUE void start_worker_group() noexcept(false)
 
     auto ec = pthread_create(
         reinterpret_cast<pthread_t*>(std::addressof(unknown_worker_id)),
-        nullptr,
-        fthread,
-        std::addressof(unknown));
+        nullptr, fthread, std::addressof(unknown));
 
     if (ec)
     {
@@ -111,11 +109,11 @@ TryProcessing:
 
     try
     {
-        // if (peek_switched(coro)) // peek and continue the works
-        // {
-        //     // std::printf("processing ... %p \n", coro.address());
-        //     coro.resume();
-        // }
+        if (peek_switched(coro)) // peek and continue the works
+        {
+            // std::printf("processing ... %p \n", coro.address());
+            coro.resume();
+        }
 
         using namespace std::literals;
         std::this_thread::sleep_for(2s);
@@ -153,8 +151,8 @@ void worker_group_t::add(const pthread_t tid) noexcept(false)
 
     // std::printf("worker_group_t::add %lu\n", tid);
     // !!! export some worker thread !!!
-    unknown_worker_id =
-        static_cast<thread_id_t>(reinterpret_cast<uint64_t>(tid));
+    unknown_worker_id
+        = static_cast<thread_id_t>(reinterpret_cast<uint64_t>(tid));
 }
 
 void worker_group_t::remove(const pthread_t tid) noexcept

@@ -21,6 +21,21 @@ notifications:
 
 language: cpp
 
+before_script:
+  - cd ${TRAVIS_BUILD_DIR}
+  - mkdir -p build && pushd build;
+script:
+  - cmake ../ 
+      -G "Ninja" 
+      -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+      -DCMAKE_BUILD_TYPE=$CONFIG
+      -DCMAKE_INSTALL_PREFIX=../install
+  - ninja install
+  # - ./test/coroutine_test
+  - ./test/coroutine_test [messaging]
+  - ./test/coroutine_test [thread]
+  - ./test/coroutine_test [generic]
+
 matrix: 
   include:
     # OS X : x86_64 Debug Dynamic
@@ -43,19 +58,6 @@ matrix:
         - echo $TRAVIS_OS_NAME;
       install:
         - brew info llvm;
-      before_script:
-        - cd ${TRAVIS_BUILD_DIR}
-        - mkdir -p build && pushd build;
-      script:
-        - cmake ../ 
-            -G "Ninja" 
-            -DBUILD_SHARED_LIBS=$BUILD_SHARED 
-            -DCMAKE_BUILD_TYPE=$CONFIG
-            -DCMAKE_INSTALL_PREFIX=../install
-        - ninja install
-        - ./coroutine_test [messaging]
-        - ./coroutine_test [thread]
-        - ./coroutine_test [generic]
       after_success:
         - otool -L ./libcoroutine.dylib
         # - tree -f ./CMakeFiles/
@@ -92,19 +94,6 @@ matrix:
         - echo $TRAVIS_OS_NAME;
       install:
         - brew info llvm; # Check llvm version
-      before_script:
-        - cd ${TRAVIS_BUILD_DIR}
-        - mkdir -p build && pushd build;
-      script:
-        - cmake ../ 
-            -G "Ninja" 
-            -DBUILD_SHARED_LIBS=$BUILD_SHARED 
-            -DCMAKE_BUILD_TYPE=$CONFIG
-            -DCMAKE_INSTALL_PREFIX=../install
-        - ninja install
-        - ./coroutine_test [messaging]
-        - ./coroutine_test [thread]
-        - ./coroutine_test [generic]
       after_success:
         - otool -L ./libcoroutine.dylib
         - popd;
@@ -145,18 +134,6 @@ matrix:
         - sudo bash ./scripts/install-libc++-sudo.sh
       install:
         - sudo rm -rf ./prebuilt;
-      before_script:
-        - mkdir -p build && pushd build;
-      script:
-        - cmake ../ 
-            -G "Ninja" 
-            -DBUILD_SHARED_LIBS=$BUILD_SHARED 
-            -DCMAKE_BUILD_TYPE=$CONFIG
-            -DCMAKE_INSTALL_PREFIX=../install
-        - ninja install
-        - ./coroutine_test [messaging]
-        - ./coroutine_test [thread]
-        - ./coroutine_test [generic]
       after_success:
         - ldd ./libcoroutine.so
         # # - tree -f ./CMakeFiles/
@@ -202,18 +179,6 @@ matrix:
         - sudo bash ./scripts/install-libc++-sudo.sh
       install:
         - sudo rm -rf ./prebuilt;
-      before_script:
-        - mkdir -p build && pushd build;
-      script:
-        - cmake ../ 
-            -G "Ninja" 
-            -DBUILD_SHARED_LIBS=$BUILD_SHARED 
-            -DCMAKE_BUILD_TYPE=$CONFIG
-            -DCMAKE_INSTALL_PREFIX=../install
-        - ninja install
-        - ./coroutine_test [messaging]
-        - ./coroutine_test [thread]
-        - ./coroutine_test [generic]
       after_success:
         - ldd ./libcoroutine.so
         - popd;

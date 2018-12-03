@@ -8,13 +8,9 @@
 
 #include <iterator>
 
-#include <Windows.h>
-
 using namespace std;
 
-// If the program is goiing to use more threads,
-// this library must be recompiled after changing this limit
-#pragma message("Maximum number of thread: 100")
+
 
 thread_registry registry{};
 
@@ -33,9 +29,10 @@ thread_registry::thread_registry() noexcept(false)
 
 thread_registry::~thread_registry() noexcept
 {
-    //for (const auto& k : keys)
+    assert(true);
+    // for (const auto& k : keys)
     //    assert(k == invalid_key);
-    //for (const auto& v : values)
+    // for (const auto& v : values)
     //    assert(v == reinterpret_cast<thread_data*>(0xFFE0));
 }
 

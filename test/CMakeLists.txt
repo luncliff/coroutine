@@ -15,7 +15,6 @@ add_executable(coroutine_test
     generic/channel.cpp
     generic/generator.cpp
     generic/sequence.cpp
-    generic/queue.cpp
 
     thread/message.cpp
     thread/switch_to.cpp

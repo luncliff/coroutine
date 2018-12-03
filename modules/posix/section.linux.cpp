@@ -9,36 +9,43 @@
 
 #include "posix/adapter.h"
 
-static_assert(sizeof(pthread_rwlock_t) <= sizeof(section));
-
-auto* for_posix(section* s) noexcept
+auto for_posix(section* s) noexcept
 {
+    static_assert(sizeof(pthread_rwlock_t) <= sizeof(section));
     return reinterpret_cast<pthread_rwlock_t*>(s);
 }
-auto* for_posix(const section* s) noexcept
+auto for_posix(const section* s) noexcept
 {
+    static_assert(sizeof(pthread_rwlock_t) <= sizeof(section));
     return reinterpret_cast<const pthread_rwlock_t*>(s);
 }
 
-section::section(uint16_t) noexcept(false) : u64{}
+section::section(uint16_t) noexcept(false) : storage{}
 {
-    u64[0] = 0;
     auto* rwlock = for_posix(this);
 
     if (auto ec = pthread_rwlock_init(rwlock, nullptr))
-        throw std::system_error{
-            ec, std::system_category(), "pthread_rwlock_init"};
+        throw std::system_error{ec, std::system_category(),
+                                "pthread_rwlock_init"};
 }
 
 section::~section() noexcept
 {
     auto* rwlock = for_posix(this);
-
-    if (auto ec = pthread_rwlock_destroy(rwlock))
-        std::fputs(
-            std::system_error{ec, std::system_category(), "pthread_rwlock_init"}
-                .what(),
-            stderr);
+    try
+    {
+        if (auto ec = pthread_rwlock_destroy(rwlock))
+            throw std::system_error{ec, std::system_category(),
+                                    "pthread_rwlock_init"};
+    }
+    catch (const std::system_error& e)
+    {
+        ::perror(e.what());
+    }
+    catch (...)
+    {
+        ::perror("Unknown exception in section dtor");
+    }
 }
 
 bool section::try_lock() noexcept
@@ -63,8 +70,8 @@ void section::lock() noexcept(false)
 
     if (auto ec = pthread_rwlock_wrlock(rwlock))
         // EINVAL ?
-        throw std::system_error{
-            ec, std::system_category(), "pthread_rwlock_wrlock"};
+        throw std::system_error{ec, std::system_category(),
+                                "pthread_rwlock_wrlock"};
 }
 
 void section::unlock() noexcept(false)
@@ -72,6 +79,6 @@ void section::unlock() noexcept(false)
     auto* rwlock = for_posix(this);
 
     if (auto ec = pthread_rwlock_unlock(rwlock))
-        throw std::system_error{
-            ec, std::system_category(), "pthread_rwlock_unlock"};
+        throw std::system_error{ec, std::system_category(),
+                                "pthread_rwlock_unlock"};
 }

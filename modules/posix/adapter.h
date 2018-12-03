@@ -17,7 +17,7 @@ struct posix_condvar_t final
 {
     pthread_cond_t cv{};
     pthread_mutex_t mtx{};
-    pthread_condattr_t attr{};
+    // pthread_condattr_t attr{};
 
   public:
     posix_condvar_t() noexcept(false);

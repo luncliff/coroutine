@@ -14,25 +14,24 @@ struct section_osx final
 {
     pthread_mutex_t mtx;
 };
-static_assert(sizeof(section_osx) <= sizeof(section));
 
-auto* for_osx(section* s) noexcept
+auto for_osx(section* s) noexcept
 {
-    // ...
+    static_assert(sizeof(section_osx) <= sizeof(section));
     return reinterpret_cast<section_osx*>(s);
 }
-auto* for_osx(const section* s) noexcept
+auto for_osx(const section* s) noexcept
 {
+    static_assert(sizeof(section_osx) <= sizeof(section));
     return reinterpret_cast<const section_osx*>(s);
 }
 
-section::section(uint16_t) noexcept(false) : u64{}
+section::section(uint16_t) noexcept(false) : storage{}
 {
     int ec = 0;
     const char* message = nullptr;
     pthread_mutexattr_t attr{};
 
-    u64[0] = 0;
     auto* osx = for_osx(this);
     auto* mtx = std::addressof(osx->mtx);
 
@@ -78,8 +77,7 @@ section::~section() noexcept
     auto* mtx = std::addressof(osx->mtx);
 
     if (auto ec = pthread_mutex_destroy(mtx))
-        std::fputs(std::system_error{ec,
-                                     std::system_category(),
+        std::fputs(std::system_error{ec, std::system_category(),
                                      "pthread_mutex_destroy"}
                        .what(),
                    stderr);
@@ -108,8 +106,8 @@ void section::lock() noexcept(false)
 
     if (auto ec = pthread_mutex_lock(mtx))
         // EINVAL ?
-        throw std::system_error{
-            ec, std::system_category(), "pthread_mutex_lock"};
+        throw std::system_error{ec, std::system_category(),
+                                "pthread_mutex_lock"};
 }
 
 void section::unlock() noexcept(false)
@@ -118,6 +116,6 @@ void section::unlock() noexcept(false)
     auto* mtx = std::addressof(osx->mtx);
 
     if (auto ec = pthread_mutex_unlock(mtx))
-        throw std::system_error{
-            ec, std::system_category(), "pthread_mutex_unlock"};
+        throw std::system_error{ec, std::system_category(),
+                                "pthread_mutex_unlock"};
 }

@@ -92,7 +92,7 @@ class ChannelTest : public TestClass<ChannelTest>
         channel<uint64_t, section> ch{};
         uint32_t success = 0, failure = 0;
 
-        static constexpr size_t TryCount = 100'000;
+        static constexpr size_t TryCount = 5'000;
 
         wait_group group{};
         group.add(2 * TryCount);

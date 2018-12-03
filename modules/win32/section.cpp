@@ -32,6 +32,9 @@ section::section(uint16_t) noexcept(false) : storage{}
 section::~section() noexcept
 {
     auto rwl = for_win32(this);
+
+    //rwl->try_lock();
+    //rwl->unlock();
     rwl->~reader_writer_lock();
 }
 

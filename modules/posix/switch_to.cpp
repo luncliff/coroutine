@@ -51,9 +51,8 @@ auto* for_posix(const switch_to* s) noexcept
     return reinterpret_cast<const switch_to_posix*>(s);
 }
 
-switch_to::switch_to(uint64_t target) noexcept(false) : u64{}
+switch_to::switch_to(uint64_t target) noexcept(false) : storage{}
 {
-    u64[0] = 0; // prevent unused variable warning
     auto* sw = for_posix(this);
     sw->thread_id = static_cast<thread_id_t>(target);
 }

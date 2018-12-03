@@ -18,7 +18,6 @@ notifications:
 image: 
   - Visual Studio 2017
   - Ubuntu1804
-  - Ubuntu1604
 
 platform: 
   - x64
@@ -35,8 +34,6 @@ environment:
 matrix:
   exclude:
     - image: Ubuntu1804
-      compiler: msvc
-    - image: Ubuntu1604
       compiler: msvc
   allow_failures:
     - image: Visual Studio 2017
@@ -99,8 +96,6 @@ for:
     only:
       - image: Ubuntu1804
         compiler: clang
-      - image: Ubuntu1604
-        compiler: clang
   install:
     # install utilities
     - sh: sudo apt-get install -y wget unzip ninja-build cmake gnupg2 tree
@@ -131,6 +126,7 @@ for:
   after_build:
     - sh: popd
   test_script:
-    - ps: ./build/coroutine_test [messaging]
-    - ps: ./build/coroutine_test [thread]
-    - ps: ./build/coroutine_test [generic]
+    # - ps: ./build/test/coroutine_test
+    - ps: ./build/test/coroutine_test [messaging]
+    - ps: ./build/test/coroutine_test [thread]
+    - ps: ./build/test/coroutine_test [generic]
