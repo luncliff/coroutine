@@ -4,10 +4,10 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include <coroutine/sync.h>
-#include <system_error>
-
 #include "./adapter.h"
+#include <coroutine/sync.h>
+
+#include <system_error>
 
 struct wait_group_posix final
 {

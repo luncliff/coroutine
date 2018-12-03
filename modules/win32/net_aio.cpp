@@ -5,7 +5,6 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/net.h>
-
 // #include <gsl/gsl_util>
 
 using namespace std;

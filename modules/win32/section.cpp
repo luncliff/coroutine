@@ -10,7 +10,6 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/sync.h>
-
 // #include <gsl/gsl_assert>
 
 #include <concrt.h> // Windows Concurrency Runtime
@@ -33,8 +32,8 @@ section::~section() noexcept
 {
     auto rwl = for_win32(this);
 
-    //rwl->try_lock();
-    //rwl->unlock();
+    // rwl->try_lock();
+    // rwl->unlock();
     rwl->~reader_writer_lock();
 }
 

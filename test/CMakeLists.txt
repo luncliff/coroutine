@@ -31,13 +31,18 @@ PRIVATE
     ${PROJECT_DIR}/test
 )
 target_link_libraries(coroutine_test
-PUBLIC
+PRIVATE
     coroutine
 )
 
-if(NOT WIN32)
+if(UNIX)
     target_link_libraries(coroutine_test
-    PUBLIC
+    PRIVATE
+        c++ c++abi
         stdc++ # solve possible gnu-dependency
+    )
+    target_compile_options(coroutine_test
+    PRIVATE
+        -std=c++2a -stdlib=libc++ 
     )
 endif()

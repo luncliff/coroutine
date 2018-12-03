@@ -4,8 +4,8 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-// #include <gsl/gsl_util>
 #include <messaging/concurrent.h>
+// #include <gsl/gsl_util>
 
 //#ifndef _MSC_VER
 

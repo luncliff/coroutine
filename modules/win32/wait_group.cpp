@@ -5,9 +5,9 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/sync.h>
+// #include <gsl/gsl_util>
 
 #include <atomic>
-// #include <gsl/gsl_util>
 #include <system_error>
 
 #include <Windows.h>

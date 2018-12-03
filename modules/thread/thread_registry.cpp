@@ -10,8 +10,6 @@
 
 using namespace std;
 
-
-
 thread_registry registry{};
 
 thread_registry::thread_registry() noexcept(false)

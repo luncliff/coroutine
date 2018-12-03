@@ -13,7 +13,7 @@
 #include <catch.hpp>
 
 // ensure successful write to channel
-template<typename L>
+template <typename L>
 auto write_to(channel<uint64_t, L>& ch, uint64_t value, bool ok = false)
     -> unplug
 {
@@ -28,7 +28,7 @@ auto write_to(channel<uint64_t, L>& ch, uint64_t value, bool ok = false)
 }
 
 // ensure successful read from channel
-template<typename L>
+template <typename L>
 auto read_from(channel<uint64_t, L>& ch, uint64_t& value, bool ok = false)
     -> unplug
 {
@@ -40,9 +40,16 @@ auto read_from(channel<uint64_t, L>& ch, uint64_t& value, bool ok = false)
 //      Lockable without lock operation
 struct bypass_lock
 {
-    bool try_lock() noexcept { return true; }
-    void lock() noexcept {}
-    void unlock() noexcept {}
+    bool try_lock() noexcept
+    {
+        return true;
+    }
+    void lock() noexcept
+    {
+    }
+    void unlock() noexcept
+    {
+    }
 };
 
 TEST_CASE("ChannelTest", "[generic][channel]")
@@ -140,14 +147,13 @@ TEST_CASE("ChannelTest", "[generic][channel]")
 
             // go to background (id: 0)
             static constexpr auto back_id = 0;
-            static constexpr size_t TryCount = 100'000;
+            static constexpr size_t TryCount = 6'000;
 
             wait_group group{};
             group.add(2 * TryCount);
 
             auto send_with_callback = [&]( //
-                                          auto value,
-                                          auto fn) -> unplug {
+                                          auto value, auto fn) -> unplug {
                 bool ok = false;
                 co_await switch_to{back_id};
 

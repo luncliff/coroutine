@@ -34,7 +34,7 @@ endif()
 include(cmake/display-build-info.cmake)
 
 if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)    # GCC
-    message(FATAL_ERROR "Current version doesn't support GCC. Please use Clang 5.0+ or AppleClang")
+    message(FATAL_ERROR "Current version doesn't support GCC")
     return(1)
 endif()
 

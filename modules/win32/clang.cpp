@@ -24,8 +24,8 @@ void dump_frame(void* frame) noexcept
     std::printf("frame: %p \n", frame);
     for (auto offset = 0u; offset < view.size(); ++offset)
     {
-        std::printf(
-            "%02u %p %016llx\n", offset, view.data() + offset, view[offset]);
+        std::printf("%02u %p %016llx\n", offset, view.data() + offset,
+                    view[offset]);
     }
     std::puts("\n");
 }

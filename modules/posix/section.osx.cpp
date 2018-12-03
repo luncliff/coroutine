@@ -5,6 +5,8 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/sync.h>
+
+#include <cstdio>
 #include <system_error>
 
 #include <pthread.h>   // implement over pthread API
@@ -75,12 +77,20 @@ section::~section() noexcept
 {
     auto* osx = for_osx(this);
     auto* mtx = std::addressof(osx->mtx);
-
-    if (auto ec = pthread_mutex_destroy(mtx))
-        std::fputs(std::system_error{ec, std::system_category(),
-                                     "pthread_mutex_destroy"}
-                       .what(),
-                   stderr);
+    try
+    {
+        if (auto ec = pthread_mutex_destroy(mtx))
+            throw std::system_error{ec, std::system_category(),
+                                    "pthread_mutex_destroy"};
+    }
+    catch (const std::system_error& e)
+    {
+        ::perror(e.what());
+    }
+    catch (...)
+    {
+        ::perror("Unknown exception in section dtor");
+    }
 }
 
 bool section::try_lock() noexcept

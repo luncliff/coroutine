@@ -1,7 +1,10 @@
-
-#pragma once
+// ---------------------------------------------------------------------------
+//
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
+//
+// ---------------------------------------------------------------------------
 #include <coroutine/enumerable.hpp>
-
 // #include <gsl/gsl_util>
 
 #include <Windows.h> // System API

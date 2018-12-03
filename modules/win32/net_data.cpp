@@ -4,12 +4,12 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
+#include <coroutine/net.h>
+#include <system_error>
+
 #include <sdkddkver.h>
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-
-#include <coroutine/net.h>
-#include <system_error>
 
 namespace net
 {

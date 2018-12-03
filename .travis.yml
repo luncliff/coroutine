@@ -21,6 +21,8 @@ notifications:
 
 language: cpp
 
+install:
+  - cd ${TRAVIS_BUILD_DIR}
 before_script:
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir -p build && pushd build;
@@ -32,9 +34,9 @@ script:
       -DCMAKE_INSTALL_PREFIX=../install
   - ninja install
   # - ./test/coroutine_test
-  - ./test/coroutine_test [messaging]
   - ./test/coroutine_test [thread]
   - ./test/coroutine_test [generic]
+  - ./test/coroutine_test [messaging]
 
 matrix: 
   include:
@@ -44,11 +46,10 @@ matrix:
       compiler: clang
       addons:
         homebrew:
-          update: true
+          # update: true
           packages:
             - ninja
             - tree
-            # - llvm # requires too much time
       env:
         - PLATFORM=osx
         - CONFIG=Debug
@@ -56,21 +57,9 @@ matrix:
       before_install:
         - uname;
         - echo $TRAVIS_OS_NAME;
-      install:
         - brew info llvm;
       after_success:
-        - otool -L ./libcoroutine.dylib
-        # - tree -f ./CMakeFiles/
-
-        # MacOS: Run coverage tool for Debug build
-        # - cp ./CMakeFiles/coroutine_test.dir/test/test.entry.cpp.* ./ ;
-        # - gcov -abcf ./test.entry.cpp.gcda > log-gcov.txt;
-        # - ls -al | grep .gcov;
-        # - lcov --directory . --gcov-tool gcov --capture -o cov.info ;
-        # - genhtml cov.info -o cov_report;
-        # - tree ./cov_report;
-
-        # Display build results
+        - otool -L ./modules/libcoroutine.dylib
         - popd;
         - tree ./install
 
@@ -80,11 +69,10 @@ matrix:
       compiler: clang
       addons:
         homebrew:
-          update: true
+          # update: true
           packages:
             - ninja
             - tree
-            # - llvm # requires too much time
       env:
         - PLATFORM=osx
         - CONFIG=Release
@@ -92,10 +80,9 @@ matrix:
       before_install:
         - uname;
         - echo $TRAVIS_OS_NAME;
-      install:
-        - brew info llvm; # Check llvm version
+        - brew info llvm;
       after_success:
-        - otool -L ./libcoroutine.dylib
+        - otool -L ./modules/libcoroutine.dylib
         - popd;
         - tree ./install
 
@@ -110,12 +97,7 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-xenial-6.0
           packages:
-            - llvm-6.0
-            - llvm-6.0-tools
-            - clang-6.0
-            - libc++1
             - libc++-dev
-            - libc++abi1
             - libc++abi-dev
             - ninja-build
             - tree
@@ -127,20 +109,8 @@ matrix:
       before_install:
         - uname;
         - echo $TRAVIS_OS_NAME;
-        - export CC=clang-6.0
-        - export CXX=clang-6.0
-        # install libc++ 6.0
-        - cd ${TRAVIS_BUILD_DIR}
-        - sudo bash ./scripts/install-libc++-sudo.sh
-      install:
-        - sudo rm -rf ./prebuilt;
       after_success:
-        - ldd ./libcoroutine.so
-        # # - tree -f ./CMakeFiles/
-        # # Get .gcda to extract .gcov
-        # - cp ./CMakeFiles/coroutine_test.dir/test/test.entry.cpp.* ./ ;
-        # # Generate .gcov files
-        # - llvm-cov-6.0 gcov -abcf ./test.entry.cpp.gcda > log-llvm-cov.txt
+        - ldd ./modules/libcoroutine.so
         - popd;
         - tree ./install
 
@@ -155,12 +125,7 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-xenial-6.0
           packages:
-            - llvm-6.0
-            - llvm-6.0-tools
-            - clang-6.0
-            - libc++1
             - libc++-dev
-            - libc++abi1
             - libc++abi-dev
             - ninja-build
             - tree
@@ -172,14 +137,7 @@ matrix:
       before_install:
         - uname;
         - echo $TRAVIS_OS_NAME;
-        - export CC=clang-6.0
-        - export CXX=clang-6.0
-        # install libc++ 6.0
-        - cd ${TRAVIS_BUILD_DIR}
-        - sudo bash ./scripts/install-libc++-sudo.sh
-      install:
-        - sudo rm -rf ./prebuilt;
       after_success:
-        - ldd ./libcoroutine.so
+        - ldd ./modules/libcoroutine.so
         - popd;
         - tree ./install

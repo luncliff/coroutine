@@ -36,8 +36,8 @@ struct thread_registry final
 {
   private:
     // If the program is goiing to use more threads,
-	// this library must be recompiled after changing this limit
-	#pragma message("Maximum number of thread: 300")
+    // this library must be recompiled after changing this limit
+#pragma message("Maximum number of thread: 300")
     static constexpr auto max_thread_count = 300;
 
   public:

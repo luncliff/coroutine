@@ -4,6 +4,7 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
+#include "./adapter.h"
 #include <coroutine/frame.h>
 #include <coroutine/switch.h>
 #include <coroutine/sync.h>
@@ -12,8 +13,6 @@
 #include <csignal>
 #include <future>
 #include <system_error>
-
-#include "./adapter.h"
 
 using namespace std;
 using namespace std::experimental;
@@ -90,8 +89,8 @@ void switch_to::suspend( //
     message_t msg{};
     msg.ptr = coro.address();
 
-    const thread_id_t worker_id =
-        (sw->thread_id != thread_id_t{}) ? sw->thread_id : unknown_worker_id;
+    const thread_id_t worker_id
+        = (sw->thread_id != thread_id_t{}) ? sw->thread_id : unknown_worker_id;
 
     post_message(worker_id, msg);
 }

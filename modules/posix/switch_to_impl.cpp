@@ -11,6 +11,7 @@
 //      in safe, robust manner
 //
 // ---------------------------------------------------------------------------
+#include "./adapter.h"
 #include <coroutine/frame.h>
 #include <coroutine/switch.h>
 #include <coroutine/sync.h>
@@ -19,8 +20,6 @@
 #include <csignal>
 #include <future>
 #include <system_error>
-
-#include "./adapter.h"
 
 #define LIB_PROLOGUE __attribute__((constructor))
 

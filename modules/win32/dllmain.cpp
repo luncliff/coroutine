@@ -6,13 +6,13 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/sync.h>
 
+#include <stdexcept>
+
 #ifdef _WIN32
 #define PROCEDURE
 #else
 #define PROCEDURE __attribute__((constructor))
 #endif
-
-#include <stdexcept>
 
 #ifdef _WIN32
 #include <sdkddkver.h>
@@ -26,8 +26,8 @@ BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID)
     try
     {
         const auto tid = current_thread_id();
-        if (tid == thread_id_t{ 0 })
-            throw std::runtime_error{ "suspecious thread id" };
+        if (tid == thread_id_t{0})
+            throw std::runtime_error{"suspecious thread id"};
 
         if (reason == DLL_THREAD_ATTACH)
         {

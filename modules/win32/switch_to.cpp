@@ -9,11 +9,10 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/frame.h>
 #include <coroutine/switch.h>
+// #include <gsl/gsl_util>
 
 #include <cassert>
 #include <system_error>
-
-// #include <gsl/gsl_util>
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>

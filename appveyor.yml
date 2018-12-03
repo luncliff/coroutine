@@ -90,7 +90,9 @@ for:
   after_build:
     - ps: Pop-Location
   test_script:
-    - ps: ./build/coroutine_test.exe
+    - ps: ./build/test/coroutine_test.exe [thread]
+    - ps: ./build/test/coroutine_test.exe [generic]
+    - ps: ./build/test/coroutine_test.exe [messaging]
 -
   matrix:
     only:
@@ -99,11 +101,8 @@ for:
   install:
     # install utilities
     - sh: sudo apt-get install -y wget unzip ninja-build cmake gnupg2 tree
-    # install GCC and setup libc++
+    # install GCC
     - sh: sudo apt-get install -y --fix-missing gcc-7 g++-7 libc++abi-dev libc++-dev
-    - export CC=gcc-7
-    - export CXX=g++-7
-    - sh: sudo bash ./scripts/install-libc++.sh
     # install LLVM toolchain
     - sh: wget -O llvm.key https://apt.llvm.org/llvm-snapshot.gpg.key
     - sh: sudo apt-key add ./llvm.key
@@ -118,8 +117,6 @@ for:
     - sh: pwd
     - sh: mkdir -p build && pushd build
   build_script:
-    - export CC=clang-6.0
-    - export CXX=clang-6.0
     - sh: echo "$CC $CXX"
     - sh: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX=./install
     - sh: ninja install
