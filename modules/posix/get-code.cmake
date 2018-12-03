@@ -20,8 +20,12 @@ if(UNIX) # POSIX API
     )
     target_compile_options(${PROJECT_NAME} 
     PUBLIC
-        -stdlib=libc++
+        -stdlib=libc++    -fPIC 
         -fcoroutines-ts
+    PRIVATE
+        -Wall -Wno-unknown-pragmas
+        -fno-rtti 
+        -fvisibility=hidden
     )
     target_link_libraries(${PROJECT_NAME}
     PUBLIC

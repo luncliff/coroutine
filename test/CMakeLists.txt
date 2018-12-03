@@ -21,10 +21,10 @@ add_executable(coroutine_test
     thread/section.cpp
 )
 
-set_target_properties(coroutine_test
-PROPERTIES 
-    CXX_STANDARD    17
-)
+# set_target_properties(coroutine_test
+# PROPERTIES 
+#     CXX_STANDARD    17
+# )
 
 target_include_directories(coroutine_test
 PRIVATE
