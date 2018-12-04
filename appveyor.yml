@@ -82,11 +82,13 @@ for:
     - ps: New-Item -Name build -ItemType Directory
     - ps: Push-Location -Path build
     - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-    - cmd: set CC=clang-cl  # ps: $env:CC  = "clang-cl"
-    - cmd: set CXX=clang-cl # ps: $env:CXX = "clang-cl"
-    - cmd: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration%
+    # - cmd: set CC=clang-cl  # ps: $env:CC  = "clang-cl"
+    # - cmd: set CXX=clang-cl # ps: $env:CXX = "clang-cl"
+    - cmd: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration% -DCMAKE_C_COMPILER=clang-cl -DCMAKE_CXX_COMPILER=clang-cl
     - cmd: ninja
   after_build:
+    # copy dll for test executable
+    - ps: Copy-Item ./modules/coroutine.dll ./test  
     - ps: Pop-Location
   test_script:
     - ps: ./build/test/coroutine_test.exe [thread]
@@ -112,7 +114,7 @@ for:
     # report version    
     - sh: cmake --version
     - sh: ninja --version
-    - sh: clang --version
+    - sh: clang-6.0 --version
   before_build:
     - sh: pwd
     - sh: sudo bash ./scripts/install-libc++.sh

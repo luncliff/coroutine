@@ -43,9 +43,9 @@ script:
       -DCMAKE_INSTALL_PREFIX=../install
   - ninja install
   # - ./test/coroutine_test
-  - ./test/coroutine_test [thread]
-  - ./test/coroutine_test [generic]
-  - ./test/coroutine_test [messaging]
+  # - ./test/coroutine_test [thread]
+  # - ./test/coroutine_test [generic]
+  # - ./test/coroutine_test [messaging]
 
 matrix: 
   include:
