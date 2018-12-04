@@ -38,7 +38,6 @@ PRIVATE
 if(UNIX)
     target_link_libraries(coroutine_test
     PRIVATE
-        c++ c++abi
         stdc++ # solve possible gnu-dependency
     )
     target_compile_options(coroutine_test

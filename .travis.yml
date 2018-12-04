@@ -21,8 +21,17 @@ notifications:
 
 language: cpp
 
+before_install:
+  - uname -a;
 install:
-  - cd ${TRAVIS_BUILD_DIR}
+  - echo ${TRAVIS_OS_NAME};
+  - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
+      sudo bash ./scripts/install-libc++.sh;
+      sudo rm -rf prebuilt;
+    fi
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
+      brew info llvm;
+    fi
 before_script:
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir -p build && pushd build;
@@ -54,10 +63,6 @@ matrix:
         - PLATFORM=osx
         - CONFIG=Debug
         - BUILD_SHARED=true
-      before_install:
-        - uname;
-        - echo $TRAVIS_OS_NAME;
-        - brew info llvm;
       after_success:
         - otool -L ./modules/libcoroutine.dylib
         - popd;
@@ -77,10 +82,6 @@ matrix:
         - PLATFORM=osx
         - CONFIG=Release
         - BUILD_SHARED=true
-      before_install:
-        - uname;
-        - echo $TRAVIS_OS_NAME;
-        - brew info llvm;
       after_success:
         - otool -L ./modules/libcoroutine.dylib
         - popd;
@@ -89,7 +90,7 @@ matrix:
     # Linux : x86_64 Debug Dynamic
     - os: linux
       dist: xenial
-      compiler: clang
+      compiler: clang # expect 5.0.0+
       addons:
         apt:
           update: true
@@ -97,8 +98,11 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-xenial-6.0
           packages:
+            - gcc-7
+            - g++-7
             - libc++-dev
             - libc++abi-dev
+            - unzip
             - ninja-build
             - tree
             - cmake
@@ -106,9 +110,6 @@ matrix:
         - PLATFORM=linux
         - CONFIG=Debug
         - BUILD_SHARED=true
-      before_install:
-        - uname;
-        - echo $TRAVIS_OS_NAME;
       after_success:
         - ldd ./modules/libcoroutine.so
         - popd;
@@ -117,7 +118,7 @@ matrix:
     # Linux : x86_64 Release Dynamic
     - os: linux
       dist: xenial
-      compiler: clang
+      compiler: clang # expect 5.0.0+
       addons:
         apt:
           update: true
@@ -125,8 +126,11 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-xenial-6.0
           packages:
+            - gcc-7
+            - g++-7
             - libc++-dev
             - libc++abi-dev
+            - unzip
             - ninja-build
             - tree
             - cmake
@@ -134,9 +138,6 @@ matrix:
         - PLATFORM=linux
         - CONFIG=Release
         - BUILD_SHARED=true
-      before_install:
-        - uname;
-        - echo $TRAVIS_OS_NAME;
       after_success:
         - ldd ./modules/libcoroutine.so
         - popd;

@@ -20,12 +20,11 @@ if(UNIX) # POSIX API
     )
     target_compile_options(${PROJECT_NAME} 
     PUBLIC
-        -stdlib=libc++    -fPIC 
-        -fcoroutines-ts
+        -stdlib=libc++
+        -fcoroutines-ts -fPIC 
     PRIVATE
-        -Wall -Wno-unknown-pragmas
-        -fno-rtti 
-        -fvisibility=hidden
+        -Wall -Wno-unknown-pragmas -Wunused-private-field
+        -fvisibility=hidden -fno-rtti 
     )
     target_link_libraries(${PROJECT_NAME}
     PUBLIC
@@ -45,7 +44,6 @@ elseif(LINUX) # linux custom
     )
     target_link_libraries(${PROJECT_NAME}
     PUBLIC
-        rt
-        libc++.so libc++abi.so libc++experimental.a 
+        rt c++ # c++abi c++experimental
     )
 endif()

@@ -40,8 +40,7 @@ matrix:
       compiler: clang
 
 for:
--
-  # For MSVC, use Visual Studio solution file
+- # MSVC: use Visual Studio solution file
   matrix:
     only:
       - image: Visual Studio 2017
@@ -60,8 +59,8 @@ for:
     - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/coroutine_vstest.dll"
   test_script:
     - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
--
-  # For Clang, use CMake + Ninja + Clang
+
+- # clang-cl: use CMake + Ninja + Clang
   # The build step expects cmdlet environment...
   matrix:
     only:
@@ -93,30 +92,35 @@ for:
     - ps: ./build/test/coroutine_test.exe [thread]
     - ps: ./build/test/coroutine_test.exe [generic]
     - ps: ./build/test/coroutine_test.exe [messaging]
--
+
+- # Linux clang: expect 6.0+ (the feature became available since 5.0)
   matrix:
     only:
       - image: Ubuntu1804
         compiler: clang
   install:
+    - sh: uname -a
     # install utilities
     - sh: sudo apt-get install -y wget unzip ninja-build cmake gnupg2 tree
     # install GCC
-    - sh: sudo apt-get install -y --fix-missing gcc-7 g++-7 libc++abi-dev libc++-dev
+    - sh: sudo apt-get install -y --fix-missing gcc-7 g++-7 libc++abi-dev libc++-dev    
     # install LLVM toolchain
-    - sh: wget -O llvm.key https://apt.llvm.org/llvm-snapshot.gpg.key
-    - sh: sudo apt-key add ./llvm.key
-    - sh: sudo apt update -y
+    # - sh: wget -O llvm.key https://apt.llvm.org/llvm-snapshot.gpg.key
+    # - sh: sudo apt-key add ./llvm.key
+    # - sh: sudo apt update -y
     - sh: sudo apt-get install -y --fix-missing clang-6.0 llvm-6.0 llvm-6.0-tools
     # report version    
     - sh: cmake --version
     - sh: ninja --version
-    - sh: clang-6.0 --version
+    - sh: clang --version
   before_build:
-    - sh: uname -a
     - sh: pwd
+    - sh: sudo bash ./scripts/install-libc++.sh
+    - sh: sudo rm -rf ./prebuilt
     - sh: mkdir -p build && pushd build
   build_script:
+    - sh: export CC=clang-6.0
+    - sh: export CXX=clang-6.0
     - sh: echo "$CC $CXX"
     - sh: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX=./install
     - sh: ninja install
