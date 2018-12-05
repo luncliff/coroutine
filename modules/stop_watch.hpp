@@ -7,16 +7,12 @@
 //      Simple stopwatch
 //
 // ---------------------------------------------------------------------------
-#ifndef _MAGIC_STOP_WATCH_HPP_
-#define _MAGIC_STOP_WATCH_HPP_
-
+#pragma once
 #include <chrono>
 
-namespace magic
-{
 // - Note
 //      Stop watch.
-template<typename Clock>
+template <typename Clock>
 class stop_watch
 {
   public:
@@ -30,7 +26,7 @@ class stop_watch
   public:
     // - Note
     //    Acquire elapsed time from last reset
-    template<typename UnitType = std::chrono::milliseconds>
+    template <typename UnitType = std::chrono::milliseconds>
     decltype(auto) pick() const noexcept
     {
         const duration span = clock_type::now() - start;
@@ -40,7 +36,7 @@ class stop_watch
     // - Note
     //    Acquire elapsed time from last reset
     //    Then reset the starting time_point
-    template<typename UnitType = std::chrono::milliseconds>
+    template <typename UnitType = std::chrono::milliseconds>
     decltype(auto) reset() noexcept
     {
         const auto span = this->pick<UnitType>();
@@ -48,5 +44,3 @@ class stop_watch
         return span;
     }
 };
-} // namespace magic
-#endif // _MAGIC_STOP_WATCH_HPP_

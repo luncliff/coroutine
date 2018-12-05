@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="coroutine">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="messaging">
+      <UniqueIdentifier>{2901e4b2-9044-43d4-8d28-5b1366a922a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shared">
+      <UniqueIdentifier>{f27491b6-baa3-41e7-be7a-ec8be530be84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thread">
+      <UniqueIdentifier>{4d043c42-3033-4681-a9cd-868f8724ee16}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\interface\coroutine\channel.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\enumerable.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\frame.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\sequence.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\switch.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\sync.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\unplug.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="linkable.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="thread\types.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="messaging\concurrent.h">
+      <Filter>messaging</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="win32\dllmain.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\resolver.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\section.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\switch_to.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\wait_group.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="messaging\queue.cpp">
+      <Filter>messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="thread\thread_data.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="thread\thread_registry.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="messaging\operations.cpp">
+      <Filter>messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="win32\net_aio.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

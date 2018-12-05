@@ -2,14 +2,14 @@
 
 C++ Coroutine in Action
 
-[![Build status](https://ci.appveyor.com/api/projects/status/vpjssf4g6cv4a4ys/branch/dev/win32?svg=true)](https://ci.appveyor.com/project/luncliff/coroutine/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/vpjssf4g6cv4a4ys/branch/master?svg=true)](https://ci.appveyor.com/project/luncliff/coroutine/branch/master)
 [![Build Status](https://travis-ci.org/luncliff/coroutine.svg?branch=master)](https://travis-ci.org/luncliff/coroutine)
 
 ## How To
 
 ### Build
 
-Please reference [`.travis.yml`](./.travis.yml) and [`appveyor.yml`](./appveyor.yml)
+Please reference [`.travis.yml`](./.travis.yml) and [`appveyor.yml`](./appveyor.yml) to see build steps
 
 #### Tool Support
 
@@ -28,17 +28,20 @@ Example/Test codes are in [test/](./test) directory.
 
 #### Visual Studio Project
 
-For Visual Studio users, I recommend you to import vcxproj in [modules/win32](./modules/win32).  
-But you can use CMake for Visual Studio either.
+For Visual Studio users, I recommend you to import [win32.vcxproj](./modules/win32.vcxproj) in [modules](./modules/).
 
 #### CMake Project
 
-Current version doesn't export for CMake's `find_package`.  
+Currently version doesn't export to for CMake's `find_package`.
 Expect there is a higher CMake project which uses this library.
 
 ```cmake
+cmake_minimum_required(VERSION 3.5)
+
+# ...
 add_subdirectory(coroutine)
 
+# ...
 target_link_libraries(your_project
 PUBLIC
     coroutine

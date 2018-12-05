@@ -22,7 +22,7 @@ class UnplugTest //
                     // ensure final action
                     status = 3;
                 });
-                println("try_plugging: %p \n", std::addressof(a));
+                //println("try_plugging: %p \n", std::addressof(a));
 
                 status = 1;
                 co_await std::experimental::suspend_never{};

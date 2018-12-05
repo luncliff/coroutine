@@ -10,6 +10,7 @@
 #include "../modules/memory.hpp"
 #include "./vstest.h"
 
+/*
 class IndexPoolTest : public TestClass<IndexPoolTest>
 {
     index_pool<uint64_t, 10> pool{};
@@ -57,3 +58,4 @@ class IndexPoolTest : public TestClass<IndexPoolTest>
         });
     }
 };
+*/

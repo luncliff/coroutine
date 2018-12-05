@@ -17,11 +17,14 @@
 
 namespace internal
 {
-static void* poison() noexcept { return reinterpret_cast<void*>(0xFADE'BCFA); }
+static void* poison() noexcept(false)
+{
+    return reinterpret_cast<void*>(0xFADE'BCFA);
+}
 
 // - Note
 //      Minimal linked list without node allocation
-template<typename NodeType>
+template <typename NodeType>
 class list
 {
     using node_t = NodeType;
@@ -33,8 +36,11 @@ class list
     list() noexcept = default;
 
   public:
-    bool is_empty() const noexcept { return head == nullptr; }
-    void push(node_t* node) noexcept
+    bool is_empty() const noexcept(false)
+    {
+        return head == nullptr;
+    }
+    void push(node_t* node) noexcept(false)
     {
         if (tail)
         {
@@ -44,7 +50,7 @@ class list
         else
             head = tail = node;
     }
-    auto pop() noexcept -> node_t*
+    auto pop() noexcept(false) -> node_t*
     {
         node_t* node = head;
         if (head == tail)
@@ -60,16 +66,16 @@ class list
 };
 } // namespace internal
 
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class channel;
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class reader;
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class writer;
 
 // - Note
 //      Awaitable reader for `channel`
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class reader final
 {
   public:
@@ -96,21 +102,21 @@ class reader final
     };
 
   private:
-    explicit reader(channel_type& ch) noexcept
+    explicit reader(channel_type& ch) noexcept(false)
         : ptr{}, frame{nullptr}, chan{std::addressof(ch)}
     {
     }
-    reader(const reader&) noexcept = delete;
-    reader& operator=(const reader&) noexcept = delete;
+    reader(const reader&) noexcept(false) = delete;
+    reader& operator=(const reader&) noexcept(false) = delete;
 
   public:
-    reader(reader&& rhs) noexcept
+    reader(reader&& rhs) noexcept(false)
     {
         std::swap(this->ptr, rhs.ptr);
         std::swap(this->frame, rhs.frame);
         std::swap(this->chan, rhs.chan);
     }
-    reader& operator=(reader&& rhs) noexcept
+    reader& operator=(reader&& rhs) noexcept(false)
     {
         std::swap(this->ptr, rhs.ptr);
         std::swap(this->frame, rhs.frame);
@@ -119,14 +125,15 @@ class reader final
     }
 
   public:
-    bool await_ready() const noexcept;
-    void await_suspend(std::experimental::coroutine_handle<void> rh) noexcept;
-    auto await_resume() noexcept -> std::tuple<value_type, bool>;
+    bool await_ready() const noexcept(false);
+    void await_suspend(std::experimental::coroutine_handle<void> rh) noexcept(
+        false);
+    auto await_resume() noexcept(false) -> std::tuple<value_type, bool>;
 };
 
 // - Note
 //      Awaitable writer for `channel`
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class writer final
 {
   public:
@@ -153,21 +160,21 @@ class writer final
     };
 
   private:
-    explicit writer(channel_type& ch, pointer pv) noexcept
+    explicit writer(channel_type& ch, pointer pv) noexcept(false)
         : ptr{pv}, frame{nullptr}, chan{std::addressof(ch)}
     {
     }
-    writer(const writer&) noexcept = delete;
-    writer& operator=(const writer&) noexcept = delete;
+    writer(const writer&) noexcept(false) = delete;
+    writer& operator=(const writer&) noexcept(false) = delete;
 
   public:
-    writer(writer&& rhs) noexcept
+    writer(writer&& rhs) noexcept(false)
     {
         std::swap(this->ptr, rhs.ptr);
         std::swap(this->frame, rhs.frame);
         std::swap(this->chan, rhs.chan);
     }
-    writer& operator=(writer&& rhs) noexcept
+    writer& operator=(writer&& rhs) noexcept(false)
     {
         std::swap(this->ptr, rhs.ptr);
         std::swap(this->frame, rhs.frame);
@@ -176,15 +183,16 @@ class writer final
     }
 
   public:
-    bool await_ready() const noexcept;
-    void await_suspend(std::experimental::coroutine_handle<void> _rh) noexcept;
-    bool await_resume() noexcept;
+    bool await_ready() const noexcept(false);
+    void await_suspend(std::experimental::coroutine_handle<void> _rh) noexcept(
+        false);
+    bool await_resume() noexcept(false);
 };
 
 // - Note
 //      Coroutine Channel
 //      Channel doesn't support Copy, Move
-template<typename T, typename Lockable>
+template <typename T, typename Lockable>
 class channel final : private internal::list<reader<T, Lockable>>,
                       private internal::list<writer<T, Lockable>>
 {
@@ -212,14 +220,16 @@ class channel final : private internal::list<reader<T, Lockable>>,
     mutex_t mtx{};
 
   public:
-    channel() noexcept(false) : reader_list{}, writer_list{}, mtx{} {}
-    channel(const channel&) noexcept = delete;
-    channel(channel&&) noexcept = delete;
+    channel() noexcept(false) : reader_list{}, writer_list{}, mtx{}
+    {
+    }
+    channel(const channel&) noexcept(false) = delete;
+    channel(channel&&) noexcept(false) = delete;
 
-    channel& operator=(const channel&) noexcept = delete;
-    channel& operator=(channel&&) noexcept = delete;
+    channel& operator=(const channel&) noexcept(false) = delete;
+    channel& operator=(channel&&) noexcept(false) = delete;
 
-    ~channel() noexcept
+    ~channel() noexcept(false)
     {
         writer_list& writers = *this;
         reader_list& readers = *this;
@@ -245,8 +255,8 @@ class channel final : private internal::list<reader<T, Lockable>>,
             while (writers.is_empty() == false)
             {
                 writer* w = writers.pop();
-                auto rh =
-                    std::experimental::coroutine_handle<void>::from_address(
+                auto rh
+                    = std::experimental::coroutine_handle<void>::from_address(
                         w->frame);
                 w->frame = internal::poison();
 
@@ -255,8 +265,8 @@ class channel final : private internal::list<reader<T, Lockable>>,
             while (readers.is_empty() == false)
             {
                 reader* r = readers.pop();
-                auto rh =
-                    std::experimental::coroutine_handle<void>::from_address(
+                auto rh
+                    = std::experimental::coroutine_handle<void>::from_address(
                         r->frame);
                 r->frame = internal::poison();
 
@@ -270,21 +280,25 @@ class channel final : private internal::list<reader<T, Lockable>>,
     // - Note
     //      Awaitable write.
     //      `writer` type implements the awaitable concept
-    decltype(auto) write(reference ref) noexcept
+    decltype(auto) write(reference ref) noexcept(false)
     {
         return writer{*this, std::addressof(ref)};
     }
     // - Note
     //      Awaitable read.
     //      `reader` type implements the awaitable concept
-    decltype(auto) read() noexcept { return reader{*this}; }
+    decltype(auto) read() noexcept(false)
+    {
+        return reader{*this};
+    }
 };
 
-template<typename T, typename M>
-bool reader<T, M>::await_ready() const noexcept
+template <typename T, typename M>
+bool reader<T, M>::await_ready() const noexcept(false)
 {
     chan->mtx.lock();
-    if (chan->writer_list::is_empty()) return false;
+    if (chan->writer_list::is_empty())
+        return false;
 
     writer* w = chan->writer_list::pop();
     assert(w != nullptr);
@@ -299,9 +313,9 @@ bool reader<T, M>::await_ready() const noexcept
     return true;
 }
 
-template<typename T, typename M>
+template <typename T, typename M>
 void reader<T, M>::await_suspend(
-    std::experimental::coroutine_handle<void> coro) noexcept
+    std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
     // notice that next & chan are sharing memory
     channel_type& ch = *(this->chan);
@@ -313,8 +327,9 @@ void reader<T, M>::await_suspend(
     ch.mtx.unlock();
 }
 
-template<typename T, typename M>
-auto reader<T, M>::await_resume() noexcept -> std::tuple<value_type, bool>
+template <typename T, typename M>
+auto reader<T, M>::await_resume() noexcept(false)
+    -> std::tuple<value_type, bool>
 {
     // frame holds poision if the channel is going to destroy
     if (this->frame == internal::poison())
@@ -323,8 +338,8 @@ auto reader<T, M>::await_resume() noexcept -> std::tuple<value_type, bool>
     // Store first. we have to do this
     // because the resume operation can destroy the writer coroutine
     value_type value = std::move(*ptr);
-    if (auto rh =
-            std::experimental::coroutine_handle<void>::from_address(frame))
+    if (auto rh
+        = std::experimental::coroutine_handle<void>::from_address(frame))
     {
         assert(this->frame != nullptr);
         assert(*reinterpret_cast<uint64_t*>(frame) != 0);
@@ -334,11 +349,12 @@ auto reader<T, M>::await_resume() noexcept -> std::tuple<value_type, bool>
     return std::make_tuple(std::move(value), true);
 }
 
-template<typename T, typename M>
-bool writer<T, M>::await_ready() const noexcept
+template <typename T, typename M>
+bool writer<T, M>::await_ready() const noexcept(false)
 {
     chan->mtx.lock();
-    if (chan->reader_list::is_empty()) return false;
+    if (chan->reader_list::is_empty())
+        return false;
 
     reader* r = chan->reader_list::pop();
     // exchange address & resumeable_handle
@@ -349,9 +365,9 @@ bool writer<T, M>::await_ready() const noexcept
     return true;
 }
 
-template<typename T, typename M>
+template <typename T, typename M>
 void writer<T, M>::await_suspend(
-    std::experimental::coroutine_handle<void> coro) noexcept
+    std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
     // notice that next & chan are sharing memory
     channel_type& ch = *(this->chan);
@@ -363,14 +379,15 @@ void writer<T, M>::await_suspend(
     ch.mtx.unlock();
 }
 
-template<typename T, typename M>
-bool writer<T, M>::await_resume() noexcept
+template <typename T, typename M>
+bool writer<T, M>::await_resume() noexcept(false)
 {
     // frame holds poision if the channel is going to destroy
-    if (this->frame == internal::poison()) return false;
+    if (this->frame == internal::poison())
+        return false;
 
-    if (auto rh =
-            std::experimental::coroutine_handle<void>::from_address(frame))
+    if (auto rh
+        = std::experimental::coroutine_handle<void>::from_address(frame))
     {
         assert(this->frame != nullptr);
         assert(*reinterpret_cast<uint64_t*>(frame) != 0);

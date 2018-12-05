@@ -2,46 +2,124 @@
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
+//  Reference
+//      - CRITICAL_SECTION
+//      - SRWLock
+//      -
+//      https://docs.microsoft.com/en-us/cpp/parallel/concrt/concurrency-runtime?view=vs-2017
 //
 // ---------------------------------------------------------------------------
-
-#define NOMINMAX
-
 #include <coroutine/sync.h>
-#include <system_error>
+// #include <gsl/gsl_assert>
 
-#include <Windows.h> // System API
+#include <concrt.h> // Windows Concurrency Runtime
+using namespace concurrency;
 
- static_assert(sizeof(section) == SYSTEM_CACHE_ALIGNMENT_SIZE);
- static_assert(sizeof(CRITICAL_SECTION) <= sizeof(section));
-
-section::section(uint16_t spin) noexcept
+// GSL_SUPPRESS(type.1)
+auto for_win32(section* s) noexcept
 {
-    auto* section = reinterpret_cast<CRITICAL_SECTION*>(this->u64);
-    // https://docs.microsoft.com/en-us/windows/desktop/api/synchapi/nf-synchapi-initializecriticalsectionandspincount
-    ::InitializeCriticalSectionAndSpinCount(section, spin);
+    static_assert(sizeof(reader_writer_lock) <= sizeof(section));
+    return reinterpret_cast<reader_writer_lock*>(s);
+}
+
+section::section(uint16_t) noexcept(false) : storage{}
+{
+    auto rwl = for_win32(this);
+    new (rwl) reader_writer_lock{};
 }
 
 section::~section() noexcept
 {
-    auto* section = reinterpret_cast<CRITICAL_SECTION*>(this->u64);
-    ::DeleteCriticalSection(section);
+    auto rwl = for_win32(this);
+
+    // rwl->try_lock();
+    // rwl->unlock();
+    rwl->~reader_writer_lock();
 }
 
+// GSL_SUPPRESS(f.6)
 bool section::try_lock() noexcept
 {
-    auto* section = reinterpret_cast<CRITICAL_SECTION*>(this->u64);
-    return ::TryEnterCriticalSection(section) == TRUE;
+    auto rwl = for_win32(this);
+    return rwl->try_lock();
 }
 
-void section::lock() noexcept
+void section::lock() noexcept(false)
 {
-    auto* section = reinterpret_cast<CRITICAL_SECTION*>(this->u64);
-    return ::EnterCriticalSection(section);
+    auto rwl = for_win32(this);
+    return rwl->lock();
 }
 
-void section::unlock() noexcept
+void section::unlock() noexcept(false)
 {
-    auto* section = reinterpret_cast<CRITICAL_SECTION*>(this->u64);
-    return ::LeaveCriticalSection(section);
+    auto rwl = for_win32(this);
+    return rwl->unlock();
 }
+
+/*
+class section_writer : public lockable
+{
+    reader_writer_lock* rwl;
+
+  public:
+    section_writer(reader_writer_lock* lock) : rwl{lock}
+    {
+    }
+
+  public:
+    bool try_lock() noexcept override
+    {
+        return rwl->try_lock();
+    }
+
+    void lock() noexcept(false) override
+    {
+        return rwl->lock();
+    }
+
+    void unlock() noexcept(false) override
+    {
+        return rwl->unlock();
+    }
+};
+static_assert(sizeof(section_writer) == sizeof(void*) * 2);
+
+class section_reader : public lockable
+{
+    reader_writer_lock* rwl;
+
+  public:
+    section_reader(reader_writer_lock* lock) : rwl{lock}
+    {
+    }
+
+  public:
+    bool try_lock() noexcept override
+    {
+        return rwl->try_lock_read();
+    }
+
+    void lock() noexcept(false) override
+    {
+        return rwl->lock_read();
+    }
+
+    void unlock() noexcept(false) override
+    {
+        return rwl->unlock();
+    }
+};
+static_assert(sizeof(section_reader) == sizeof(void*) * 2);
+
+lockable& section::reader() noexcept
+{
+    void* r = storage + 12;
+    return *reinterpret_cast<lockable*>(r);
+}
+
+lockable& section::writer() noexcept
+{
+    void* w = storage + 14;
+    return *reinterpret_cast<lockable*>(w);
+}
+*/

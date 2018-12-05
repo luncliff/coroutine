@@ -16,7 +16,7 @@
 #include <cassert>
 #include <iterator>
 
-template<typename T>
+template <typename T>
 struct sequence final
 {
     struct promise_type; // Resumable Promise Requirement
@@ -44,30 +44,14 @@ struct sequence final
     handle_t coro{}; // resumable handle
 
   public:
-    sequence(promise_type* ptr) noexcept : coro{nullptr}
+    sequence(promise_type* ptr) noexcept
+        : coro{handle_promise_t::from_promise(*ptr)}
     {
-        if constexpr (is_clang)
-        {
-            // calculate the location of the coroutine frame prefix
-            void* prefix =
-                reinterpret_cast<char*>(ptr) - sizeof(clang_frame_prefix);
-            coro = handle_t::from_address(prefix);
-        }
-        else if constexpr (is_msvc)
-        {
-            coro = handle_promise_t::from_promise(*ptr);
-        }
-        else
-        {
-            coro = handle_t::from_address(nullptr);
-        }
-
-        assert(coro.address() != nullptr); // must ensure handle is valid...
     }
     ~sequence() noexcept
     {
-        // delete the coroutine frame
-        if (coro) coro.destroy();
+        if (coro) // delete the coroutine frame
+            coro.destroy();
     }
 
   public:
@@ -81,16 +65,21 @@ struct sequence final
         coro.resume();
 
         // this line won't be true but will be remained for a while
-        if (coro.done()) return nullptr;
+        if (coro.done())
+            return nullptr;
 
         // check if it's finished after first resume
-        auto& promise = promise_type::from_prefix(coro);
+        auto& promise
+            = handle_promise_t::from_address(coro.address()).promise();
         if (promise.current == finished()) //
             return nullptr;
 
         return iterator{coro};
     }
-    iterator end() noexcept { return nullptr; }
+    iterator end() noexcept
+    {
+        return nullptr;
+    }
 
   public:
     struct promise_type
@@ -104,35 +93,15 @@ struct sequence final
         pointer current = nullptr;
         handle_t task{}; // std::atomic<handle_t> task{};
 
-      private:
-        static promise_type& from_prefix(handle_t coro) noexcept
-        {
-            if constexpr (is_clang)
-            {
-                // calculate the location of the coroutine frame prefix
-                auto* prefix =
-                    reinterpret_cast<clang_frame_prefix*>(coro.address());
-                // for clang, promise is placed just after frame prefix
-                auto* promise = reinterpret_cast<promise_type*>(prefix + 1);
-                return *promise;
-            }
-            else if constexpr (is_msvc)
-            {
-                auto* prefix = reinterpret_cast<char*>(coro.address());
-                auto* promise = reinterpret_cast<promise_type*>(
-                    prefix - aligned_size_v<promise_type>);
-                return *promise;
-            }
-            else
-            {
-                // !!! crash !!!
-                return *reinterpret_cast<promise_type*>(nullptr);
-            }
-        }
-
       public:
-        void unhandled_exception() noexcept { std::terminate(); }
-        auto get_return_object() noexcept -> promise_type* { return this; }
+        void unhandled_exception() noexcept
+        {
+            std::terminate();
+        }
+        auto get_return_object() noexcept -> promise_type*
+        {
+            return this;
+        }
 
         auto initial_suspend() const noexcept
         {
@@ -157,7 +126,7 @@ struct sequence final
             //   iterator will take the value
             return *this;
         }
-        template<typename Awaitable>
+        template <typename Awaitable>
         Awaitable& yield_value(Awaitable&& a) noexcept
         {
             current = empty();
@@ -227,13 +196,17 @@ struct sequence final
         promise_type* promise{};
 
       public:
-        iterator(std::nullptr_t) noexcept : promise{nullptr} {}
+        iterator(std::nullptr_t) noexcept : promise{nullptr}
+        {
+        }
         iterator(handle_t rh) noexcept : promise{nullptr}
         {
+            auto& p = handle_promise_t::from_address(rh.address()).promise();
+
             // After some trial,
             // `coroutine_handle` became a source of tedious code.
             // So we will use `promise_type` directly
-            promise = std::addressof(promise_type::from_prefix(rh));
+            promise = std::addressof(p);
         }
 
       public:
@@ -247,7 +220,8 @@ struct sequence final
             handle_t _task = promise->task;
             promise->task = nullptr;
 
-            if (_task) _task.resume();
+            if (_task)
+                _task.resume();
 
             // if (handle_t coro = promise->task.exchange(
             //        nullptr, // prevent recursive activation
@@ -288,10 +262,22 @@ struct sequence final
             return *this;
         }
 
-        pointer operator->() noexcept { return promise->current; }
-        pointer operator->() const noexcept { return promise->current; }
-        reference operator*() noexcept { return *(this->operator->()); }
-        reference operator*() const noexcept { return *(this->operator->()); }
+        pointer operator->() noexcept
+        {
+            return promise->current;
+        }
+        pointer operator->() const noexcept
+        {
+            return promise->current;
+        }
+        reference operator*() noexcept
+        {
+            return *(this->operator->());
+        }
+        reference operator*() const noexcept
+        {
+            return *(this->operator->());
+        }
 
         bool operator==(const iterator& rhs) const noexcept
         {

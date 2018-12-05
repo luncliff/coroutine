@@ -44,7 +44,9 @@ TEST_CASE("SequenceTest", "[generic]")
         auto try_sequence =
             [](await_point& plug, int& ref, auto async_gen) -> unplug {
             for
-                co_await(int v : async_gen(plug)) ref = v;
+                co_await(int v
+                         : async_gen(plug)) //
+                    ref = v;
         };
 
         await_point p{};
@@ -143,55 +145,6 @@ TEST_CASE("SequenceTest", "[generic]")
 
         p.resume();
         REQUIRE(value == 4);
-        REQUIRE(sum == 15);
-    }
-
-    SECTION("interleaved-mt")
-    {
-        WARN("This test seems ok but need more verification under "
-             "hard-racing");
-
-        auto get_sequence = [](wait_group& wg, int& value) -> sequence<int> {
-            co_yield std::experimental::suspend_never{};
-
-            co_yield value = 1;
-            co_yield std::experimental::suspend_never{};
-
-            co_yield value = 2;
-            co_yield value = 3;
-            co_yield std::experimental::suspend_never{};
-
-            value = -3;
-            co_yield std::experimental::suspend_never{};
-
-            co_yield value = 4;
-            wg.done();
-        };
-
-        auto try_sequence = [](wait_group& wg, //
-                               int& value,
-                               int& sum,
-                               auto async_gen) -> unplug {
-            REQUIRE(sum == 0);
-            auto s = async_gen(wg, value);
-            REQUIRE(sum == 0);
-            for
-                co_await(int value : s) { sum += value; }
-
-            REQUIRE(sum == 10);
-            sum += 5;
-            wg.done();
-        };
-
-        int value = 0;
-        int sum = 0;
-        wait_group wg{};
-
-        wg.add(2);
-        REQUIRE_NOTHROW(                               //
-            try_sequence(wg, value, sum, get_sequence) //
-        );
-        wg.wait();
         REQUIRE(sum == 15);
     }
 }

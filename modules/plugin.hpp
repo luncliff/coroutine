@@ -32,11 +32,16 @@ class plugin final
     plugin(const plugin&) = delete;
     plugin& operator=(const plugin&) = delete;
 
-    plugin(HMODULE _mod) noexcept : handle{_mod} {}
+    plugin(HMODULE _mod) noexcept : handle{_mod}
+    {
+    }
 
   public:
     // Move semantic for RVO
-    plugin(plugin&& rhs) noexcept { std::swap(*this, rhs); }
+    plugin(plugin&& rhs) noexcept
+    {
+        std::swap(*this, rhs);
+    }
     plugin& operator=(plugin&& rhs) noexcept
     {
         std::swap(*this, rhs);
@@ -48,13 +53,17 @@ class plugin final
 #if __APPLE__ || __linux__ || __unix__
         constexpr auto FreeLibrary = ::dlclose;
 #endif
-        if (*this) ::FreeLibrary(handle);
+        if (*this)
+            ::FreeLibrary(handle);
     }
 
   public:
-    operator bool() const noexcept { return handle != nullptr; }
+    operator bool() const noexcept
+    {
+        return handle != nullptr;
+    }
 
-    template<typename FuncType>
+    template <typename FuncType>
     auto lookup(const char* symbol) const noexcept -> FuncType*
     {
         // Casting with decay_t

@@ -13,7 +13,7 @@
 #include <algorithm>
 #include <cassert>
 
-template<typename Unit, uint16_t Max>
+template <typename Unit, uint16_t Max>
 class index_pool final
 {
     using value_type = Unit;
@@ -48,7 +48,8 @@ class index_pool final
     {
         constexpr auto invalid_index = std::numeric_limits<uint16_t>::max();
 
-        if (available == 0) return nullptr;
+        if (available == 0)
+            return nullptr;
 
         available -= 1;
         value_type* chunk = space.data() + indices[available];
@@ -63,7 +64,10 @@ class index_pool final
         return;
     }
 
-    constexpr auto capacity() const noexcept { return Max; }
+    constexpr auto capacity() const noexcept
+    {
+        return Max;
+    }
 
     uint16_t get_id(void* a) const noexcept
     {

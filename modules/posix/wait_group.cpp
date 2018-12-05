@@ -4,50 +4,68 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
+#include "./adapter.h"
 #include <coroutine/sync.h>
+
 #include <system_error>
 
-#include "./adapter.h"
-
-wait_group::wait_group() noexcept(false) //
-    : event{new posix_cond_var{}}, count{0}
+struct wait_group_posix final
 {
+    posix_condvar_t event{};
+    std::atomic<uint32_t> count{};
+};
+
+auto for_posix(wait_group* wg) noexcept
+{
+    static_assert(sizeof(wait_group_posix) <= sizeof(wait_group));
+    return reinterpret_cast<wait_group_posix*>(wg);
+}
+
+wait_group::wait_group() noexcept(false) : storage{}
+{
+    new (for_posix(this)) wait_group_posix{};
 }
 
 wait_group::~wait_group() noexcept
 {
-    if (event == nullptr) return;
+    auto* wg = for_posix(this);
+
     // possible logic error in the case. but just delete
-    auto* cv = reinterpret_cast<posix_cond_var*>(event);
-    event = nullptr;
-    delete cv;
+    wg->event.~posix_condvar_t();
 }
 
-void wait_group::add(uint32_t delta) noexcept
+void wait_group::add(uint16_t delta) noexcept
 {
+    auto* wg = for_posix(this);
+
     // just increase count.
     // notice that delta is always positive
-    count.fetch_add(delta);
+    wg->count.fetch_add(delta);
 }
 
 void wait_group::done() noexcept
 {
-    if (event == nullptr) // already done. nothing to do
+    auto* wg = for_posix(this);
+
+    if (wg->count > 0)
+        wg->count.fetch_sub(1);
+
+    if (wg->count.load() != 0)
         return;
 
-    if (count > 0) count.fetch_sub(1);
-
-    if (count.load() != 0) return;
-
     // notify
-    auto* cv = reinterpret_cast<posix_cond_var*>(event);
-    cv->signal();
+    wg->event.signal();
 }
 
-void wait_group::wait(uint32_t timeout) noexcept(false)
+bool wait_group::wait(duration timeout) noexcept(false)
 {
-    auto* cv = reinterpret_cast<posix_cond_var*>(event);
-    cv->wait(timeout);
-    event = nullptr;
-    delete cv;
+    using namespace std::chrono;
+    auto* wg = for_posix(this);
+
+    // start timer
+
+    wg->event.wait(duration_cast<milliseconds>(timeout).count());
+
+    // pick timer. if elapsed time is longer, consider failed
+    return false;
 }

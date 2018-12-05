@@ -4,6 +4,7 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
+#pragma once
 #ifndef COROUTINE_UNPLUG_HPP
 #define COROUTINE_UNPLUG_HPP
 
@@ -41,14 +42,17 @@ class unplug final
         void unhandled_exception() noexcept(false)
         {
             // throw again
-            if(auto eptr = std::current_exception())
+            if (auto eptr = std::current_exception())
                 std::rethrow_exception(eptr);
 
             // terminate the program.
             std::terminate();
         }
 
-        promise_type* get_return_object() noexcept { return this; }
+        promise_type* get_return_object() noexcept
+        {
+            return this;
+        }
 
         // - Note
         //      Examples for memory management customization.
@@ -66,15 +70,15 @@ class unplug final
     };
 
   public:
-    unplug(const promise_type*) noexcept {}
+    unplug(const promise_type*) noexcept
+    {
+    }
 };
 
 // - Note
 //      Receiver for explicit `co_await` to enable manual resume
 class await_point final
 {
-    using handle_t = std::experimental::coroutine_handle<void>;
-
     void* prefix{};
 
   public:
@@ -82,7 +86,7 @@ class await_point final
     {
         return false; // suspend_always
     }
-    void await_suspend(handle_t rh) noexcept
+    void await_suspend(std::experimental::coroutine_handle<void> rh) noexcept
     {
         // coroutine frame's prefix
         prefix = rh.address();
@@ -95,7 +99,8 @@ class await_point final
   public:
     void resume() noexcept(false)
     {
-        if (auto coro = handle_t::from_address(prefix))
+        if (auto coro
+            = std::experimental::coroutine_handle<void>::from_address(prefix))
             if (coro.done() == false) // resume if available
                 coro.resume();
     }

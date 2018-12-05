@@ -12,7 +12,7 @@
 //      - Windows via C/C++ (5th Edition)
 //
 // ---------------------------------------------------------------------------
-
+#pragma once
 #ifndef LINKABLE_DLL_MACRO
 #define LINKABLE_DLL_MACRO
 
@@ -37,15 +37,15 @@
 #ifndef CONTROL_FLOW_SYNC_H
 #define CONTROL_FLOW_SYNC_H
 
-#include <atomic>
-#include <cstdint>
-#include <mutex>
+#include <chrono> // for timeout
+#include <mutex>  // for lockable concept
 
 // - Note
-//      Basic Lockable with Win32 Critical Section
+//      Basic lockable for criticial section
 class section final
 {
-    std::uint64_t u64[8]{};
+    // reserve enough size to provide platform compatibility
+    const uint64_t storage[16]{};
 
   private:
     section(section&) = delete;
@@ -54,24 +54,26 @@ class section final
     section& operator=(section&&) = delete;
 
   public:
-    _INTERFACE_ section(std::uint16_t spin = 0x600) noexcept;
+    _INTERFACE_ section(uint16_t spin = 0x600) noexcept(false);
     _INTERFACE_ ~section() noexcept;
 
-    [[nodiscard]] _INTERFACE_ bool try_lock() noexcept;
-    _INTERFACE_ void lock() noexcept;
-    _INTERFACE_ void unlock() noexcept;
+    _INTERFACE_ bool try_lock() noexcept;
+    _INTERFACE_ void lock() noexcept(false);
+    _INTERFACE_ void unlock() noexcept(false);
 };
 
 // - Note
-//      WaitGroup with Event Handling
-//      The type is designed to support alertable thread
+//      Golang-style synchronization with system event
 // - See Also
 //      package `sync` in Go Language
 //      https://golang.org/pkg/sync/#WaitGroup
 class wait_group final
 {
-    void* event;
-    std::atomic<uint32_t> count{};
+    // reserve enough size to provide platform compatibility
+    const uint64_t storage[16]{};
+
+  public:
+    using duration = std::chrono::milliseconds;
 
   private:
     wait_group(wait_group&) = delete;
@@ -80,45 +82,59 @@ class wait_group final
     wait_group& operator=(wait_group&&) = delete;
 
   public:
-    // - Throws
-    //      std::system_error
     _INTERFACE_ wait_group() noexcept(false);
     _INTERFACE_ ~wait_group() noexcept;
 
-    _INTERFACE_ void add(uint32_t count) noexcept;
+  public:
+    _INTERFACE_ void add(uint16_t delta) noexcept;
     _INTERFACE_ void done() noexcept;
-    // - Note
-    //      Wait for given milisec
-    // - Throws
-    //      std::system_error
-    _INTERFACE_ void wait(uint32_t timeout = 10'000) noexcept(false);
+    _INTERFACE_
+    bool wait(duration d = std::chrono::seconds{10}) noexcept(false);
 };
 
-union message_t final {
-    uint64_t u64{};
-    void* ptr;
-    uint32_t u32[2];
+enum class thread_id_t : uint64_t;
+
+struct _INTERFACE_ message_t final
+{
+    union {
+        uint64_t u64{};
+        void* ptr;
+        uint32_t u32[2];
+    };
+
+    bool operator==(const message_t& rhs) const noexcept
+    {
+        return u64 == rhs.u64;
+    }
+    bool operator!=(const message_t& rhs) const noexcept
+    {
+        return u64 != rhs.u64;
+    }
 };
 static_assert(sizeof(message_t) <= sizeof(uint64_t));
 static_assert(sizeof(message_t) <= sizeof(void*));
-
-enum class thread_id_t : uint64_t;
 
 // - Note
 //      Get the current thread id
 //      This function is identical to `pthread_self` or `GetCurrentThreadId`.
 //      But it uses type system to use `post_message`
-_INTERFACE_ thread_id_t current_thread_id() noexcept;
+_INTERFACE_
+thread_id_t current_thread_id() noexcept;
 
 // - Note
 //      Post a message to the thread with given id
-_INTERFACE_ void post_message(thread_id_t thread_id,
-                              message_t msg) noexcept(false);
+_INTERFACE_
+bool post_message(thread_id_t thread_id, message_t msg) noexcept(false);
 
 // - Note
 //      Peek a message from current thread's message queue
 // - Return
 //      message holds `nullptr` if the queue is empty
-_INTERFACE_ bool peek_message(message_t& msg) noexcept(false);
+_INTERFACE_
+bool peek_message(message_t& msg) noexcept(false);
+
+_INTERFACE_
+bool get_message(message_t& msg,
+                 std::chrono::nanoseconds timeout) noexcept(false);
 
 #endif // CONTROL_FLOW_SYNC_H
