@@ -14,7 +14,6 @@ auto current_threads() noexcept(false) -> enumerable<thread_id_t>;
 
 class MessagingTest : public TestClass<MessagingTest>
 {
-
   public:
     TEST_METHOD(SendToSelf)
     {
@@ -55,10 +54,12 @@ class MessagingTest : public TestClass<MessagingTest>
         {
             message_t msg{};
             for (auto tid : current_threads())
-            {
-                msg.u64 = 59372;
-                Assert::IsTrue(post_message(tid, msg));
-            }
+                if (tid != current_thread_id())
+                {
+                    msg.u64 = 59372;
+                    Assert::IsTrue(post_message(tid, msg));
+                }
+
             Assert::IsTrue(msg != message_t{});
         }
         catch (const std::exception& ex)

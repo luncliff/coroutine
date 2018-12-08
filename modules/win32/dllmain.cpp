@@ -174,8 +174,10 @@ void lazy_delivery(thread_id_t thread_id, message_t msg) noexcept(false)
 
     // use apc queue to deliver message
     if (QueueUserAPC(reinterpret_cast<PAPCFUNC>(deliver), thread, msg.u64))
-        // success. close handle and return
+    {
         CloseHandle(thread);
+        SleepEx(0, true); // handle some APC
+    }
     else
     {
         ec = GetLastError();

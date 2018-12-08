@@ -50,6 +50,7 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
         -fms-compatibility 
         -Xclang -fcoroutines-ts
     PRIVATE
+        -Wno-unused-private-field
         -Wno-unused-function
         -Wno-c++98-compat 
         -Wno-reserved-id-macro 

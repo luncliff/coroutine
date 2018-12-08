@@ -11,12 +11,12 @@ add_executable(coroutine_test
     
     generic/unplug.cpp
     # generic/channel.cpp
-    # generic/generator.cpp
-    # generic/sequence.cpp
+    generic/generator.cpp
+    generic/async_generator.cpp
 
     thread/message.cpp
     thread/switch_to.cpp
-    thread/section.cpp
+    thread/sync.cpp
 )
 
 # set_target_properties(coroutine_test

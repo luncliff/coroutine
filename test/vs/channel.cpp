@@ -137,9 +137,10 @@ class ChannelTest : public TestClass<ChannelTest>
             send_with_callback(ch, repeat, callback);
         }
 
+        const auto timeout = std::chrono::seconds{10};
         // Wait for all coroutines...
         // !!! use should ensure there is no race for destroying channel !!!
-        group.wait();
+        Assert::IsTrue(group.wait(timeout));
 
         // channel ensures the delivery for same number of send/recv
         Assert::IsTrue(failure == 0);

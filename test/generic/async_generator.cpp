@@ -9,17 +9,20 @@
 #include <coroutine/sync.h>
 #include <coroutine/unplug.hpp>
 
-TEST_CASE("SequenceTest", "[generic]")
+TEST_CASE("async_generator", "[generic]")
 {
     SECTION("no_result-1")
     {
         auto get_sequence = [](await_point& plug) -> sequence<int> {
             co_yield plug; // do nothing
         };
-        auto try_sequence =
-            [](await_point& plug, int& ref, auto async_gen) -> unplug {
-            for
-                co_await(int v : async_gen(plug)) ref = v;
+        auto try_sequence
+            = [](await_point& plug, int& ref, auto async_gen) -> unplug {
+            /* clang-format off */
+            for co_await(int v : async_gen(plug)) 
+              ref = v;
+            /* clang-format on */
+
             ref = -2;
         };
 
@@ -41,12 +44,12 @@ TEST_CASE("SequenceTest", "[generic]")
             co_yield plug;
         };
 
-        auto try_sequence =
-            [](await_point& plug, int& ref, auto async_gen) -> unplug {
-            for
-                co_await(int v
-                         : async_gen(plug)) //
-                    ref = v;
+        auto try_sequence
+            = [](await_point& plug, int& ref, auto async_gen) -> unplug {
+            /* clang-format off */
+            for co_await(int v : async_gen(plug)) 
+                ref = v;
+            /* clang-format on */
         };
 
         await_point p{};
@@ -67,10 +70,12 @@ TEST_CASE("SequenceTest", "[generic]")
             co_yield v;
         };
 
-        auto try_sequence =
-            [=](await_point& plug, int& ref, auto async_gen) -> unplug {
-            for
-                co_await(int v : async_gen(plug)) ref = v;
+        auto try_sequence
+            = [=](await_point& plug, int& ref, auto async_gen) -> unplug {
+            /* clang-format off */
+            for co_await(int v : async_gen(plug)) 
+                ref = v;
+            /* clang-format on */
         };
 
         await_point p{};
@@ -85,8 +90,8 @@ TEST_CASE("SequenceTest", "[generic]")
 
     SECTION("interleaved")
     {
-        auto get_sequence = [=](await_point& plug,
-                                int& value) -> sequence<int> {
+        auto get_sequence
+            = [=](await_point& plug, int& value) -> sequence<int> {
             co_yield plug;
 
             co_yield value = 1;
@@ -102,9 +107,7 @@ TEST_CASE("SequenceTest", "[generic]")
             co_yield value = 4;
         };
 
-        auto try_sequence = [](await_point& plug,
-                               int& value,
-                               int& sum,
+        auto try_sequence = [](await_point& plug, int& value, int& sum,
                                auto async_gen) -> unplug { //
             REQUIRE(sum == 0);
             auto s = async_gen(plug, value);
@@ -114,12 +117,14 @@ TEST_CASE("SequenceTest", "[generic]")
             //     it != s.end();                // check
             //     co_await++ it                 // advance
             //)
-            for
-                co_await(int value : s)
-                {
-                    // auto value = *it;
-                    sum += value;
-                }
+
+            /* clang-format off */
+            for co_await(int value : s)
+            {
+                // auto value = *it;
+                sum += value;
+            }
+            /* clang-format on */
 
             REQUIRE(sum == 10);
             sum += 5;
