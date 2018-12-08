@@ -34,7 +34,7 @@ class switch_to final
 
   private:
     // reserve enough size to provide platform compatibility
-    uint64_t storage[4]{};
+    const uint64_t storage[4]{};
 
   private:
     switch_to(switch_to&&) noexcept = delete;
@@ -43,7 +43,8 @@ class switch_to final
     switch_to& operator=(const switch_to&) noexcept = delete;
 
   public:
-    _INTERFACE_ explicit switch_to(uint64_t target = 0) noexcept(false);
+    _INTERFACE_ explicit //
+        switch_to(thread_id_t target = thread_id_t{0}) noexcept(false);
     _INTERFACE_ ~switch_to() noexcept;
 
   public:

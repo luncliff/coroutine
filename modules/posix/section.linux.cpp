@@ -7,7 +7,8 @@
 #include <coroutine/sync.h>
 #include <system_error>
 
-#include "posix/adapter.h"
+#include <pthread.h>   // implement over pthread API
+#include <sys/types.h> // system types
 
 auto for_posix(section* s) noexcept
 {

@@ -9,12 +9,10 @@ cmake_minimum_required(VERSION 3.5)
 add_executable(coroutine_test
     entry.cpp
     
-    # resource/registry.cpp
-
     generic/unplug.cpp
-    generic/channel.cpp
-    generic/generator.cpp
-    generic/sequence.cpp
+    # generic/channel.cpp
+    # generic/generator.cpp
+    # generic/sequence.cpp
 
     thread/message.cpp
     thread/switch_to.cpp
