@@ -5,8 +5,9 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/enumerable.hpp>
-#include <coroutine/net.h>
 #include <coroutine/unplug.hpp>
+
+#include "net.h"
 // #include <gsl/gsl_util>
 
 using namespace std;

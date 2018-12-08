@@ -3,7 +3,8 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //  Note
-//      Coroutine channel. This is basesd on GoLang channel
+//      Coroutine based channel
+//      This is a simplified form of channel in The Go Language
 //
 // ---------------------------------------------------------------------------
 #ifndef COROUTINE_CHANNEL_HPP
@@ -19,7 +20,7 @@ namespace internal
 {
 static void* poison() noexcept(false)
 {
-    return reinterpret_cast<void*>(0xFADE'BCFA);
+    return reinterpret_cast<void*>(0xFADE'038C'BCFA'9E64);
 }
 
 // - Note
@@ -53,15 +54,12 @@ class list
     auto pop() noexcept(false) -> node_t*
     {
         node_t* node = head;
-        if (head == tail)
-            // empty or 1
+        if (head == tail) // empty or 1
             head = tail = nullptr;
-        else
-            // 2 or more
+        else // 2 or more
             head = head->next;
 
-        // this can be nullptr
-        return node;
+        return node; // this can be nullptr
     }
 };
 } // namespace internal
@@ -83,6 +81,9 @@ class reader final
     using pointer = T*;
     using reference = T&;
     using channel_type = channel<T, Lockable>;
+
+    template <typename P>
+    using coroutine_handle = typename std::experimental::coroutine_handle<P>;
 
   private:
     using writer = typename channel_type::writer;
@@ -126,8 +127,7 @@ class reader final
 
   public:
     bool await_ready() const noexcept(false);
-    void await_suspend(std::experimental::coroutine_handle<void> rh) noexcept(
-        false);
+    void await_suspend(coroutine_handle<void> rh) noexcept(false);
     auto await_resume() noexcept(false) -> std::tuple<value_type, bool>;
 };
 
@@ -141,6 +141,9 @@ class writer final
     using pointer = T*;
     using reference = T&;
     using channel_type = channel<T, Lockable>;
+
+    template <typename P>
+    using coroutine_handle = typename std::experimental::coroutine_handle<P>;
 
   private:
     using reader = typename channel_type::reader;
@@ -184,8 +187,7 @@ class writer final
 
   public:
     bool await_ready() const noexcept(false);
-    void await_suspend(std::experimental::coroutine_handle<void> _rh) noexcept(
-        false);
+    void await_suspend(coroutine_handle<void> _rh) noexcept(false);
     bool await_resume() noexcept(false);
 };
 
@@ -198,6 +200,9 @@ class channel final : private internal::list<reader<T, Lockable>>,
 {
     static_assert(std::is_reference<T>::value == false,
                   "Using reference for channel is forbidden.");
+
+    template <typename P>
+    using coroutine_handle = typename std::experimental::coroutine_handle<P>;
 
   public:
     using value_type = T;
@@ -247,17 +252,16 @@ class channel final : private internal::list<reader<T, Lockable>>,
         // the possibility drops to zero. But notice that it is NOT zero.
         //
         size_t repeat = 1; // recommend 5'000+ repeat for hazard usage
-        while (repeat--)
+        do
         {
             // Give chance to other coroutines to come into the lists
             // std::this_thread::yield();
             std::unique_lock lck{this->mtx};
+
             while (writers.is_empty() == false)
             {
                 writer* w = writers.pop();
-                auto rh
-                    = std::experimental::coroutine_handle<void>::from_address(
-                        w->frame);
+                auto rh = coroutine_handle<void>::from_address(w->frame);
                 w->frame = internal::poison();
 
                 rh.resume();
@@ -265,15 +269,12 @@ class channel final : private internal::list<reader<T, Lockable>>,
             while (readers.is_empty() == false)
             {
                 reader* r = readers.pop();
-                auto rh
-                    = std::experimental::coroutine_handle<void>::from_address(
-                        r->frame);
+                auto rh = coroutine_handle<void>::from_address(r->frame);
                 r->frame = internal::poison();
 
                 rh.resume();
             }
-        }
-        return;
+        } while (repeat--);
     }
 
   public:
@@ -314,8 +315,7 @@ bool reader<T, M>::await_ready() const noexcept(false)
 }
 
 template <typename T, typename M>
-void reader<T, M>::await_suspend(
-    std::experimental::coroutine_handle<void> coro) noexcept(false)
+void reader<T, M>::await_suspend(coroutine_handle<void> coro) noexcept(false)
 {
     // notice that next & chan are sharing memory
     channel_type& ch = *(this->chan);
@@ -338,8 +338,7 @@ auto reader<T, M>::await_resume() noexcept(false)
     // Store first. we have to do this
     // because the resume operation can destroy the writer coroutine
     value_type value = std::move(*ptr);
-    if (auto rh
-        = std::experimental::coroutine_handle<void>::from_address(frame))
+    if (auto rh = coroutine_handle<void>::from_address(frame))
     {
         assert(this->frame != nullptr);
         assert(*reinterpret_cast<uint64_t*>(frame) != 0);
@@ -366,8 +365,7 @@ bool writer<T, M>::await_ready() const noexcept(false)
 }
 
 template <typename T, typename M>
-void writer<T, M>::await_suspend(
-    std::experimental::coroutine_handle<void> coro) noexcept(false)
+void writer<T, M>::await_suspend(coroutine_handle<void> coro) noexcept(false)
 {
     // notice that next & chan are sharing memory
     channel_type& ch = *(this->chan);
@@ -386,8 +384,7 @@ bool writer<T, M>::await_resume() noexcept(false)
     if (this->frame == internal::poison())
         return false;
 
-    if (auto rh
-        = std::experimental::coroutine_handle<void>::from_address(frame))
+    if (auto rh = coroutine_handle<void>::from_address(frame))
     {
         assert(this->frame != nullptr);
         assert(*reinterpret_cast<uint64_t*>(frame) != 0);

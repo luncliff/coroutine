@@ -7,10 +7,7 @@
 #pragma once
 #include <coroutine/sync.h>
 
-//#ifndef _MSC_VER
-
 #include <array>
-#include <cassert>
 #include <cstdint>
 
 template <typename ItemType>

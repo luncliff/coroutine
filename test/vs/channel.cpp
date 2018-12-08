@@ -11,21 +11,27 @@
 
 #include "./vstest.h"
 
+// - Note
+//      Lockable without lock operation
+struct bypass_lock
+{
+    bool try_lock() noexcept
+    {
+        return true;
+    }
+    void lock() noexcept
+    {
+    }
+    void unlock() noexcept
+    {
+    }
+};
+
 class ChannelTest : public TestClass<ChannelTest>
 {
-    // - Note
-    //      Lockable without lock operation
-    struct bypass_lock
-    {
-        bool try_lock() noexcept { return true; }
-        void lock() noexcept {}
-        void unlock() noexcept {}
-    };
-
     // ensure successful write to channel
-    template<typename L>
-    static auto write_to(channel<uint64_t, L>& ch,
-                         uint64_t value,
+    template <typename L>
+    static auto write_to(channel<uint64_t, L>& ch, uint64_t value,
                          bool ok = false) -> unplug
     {
         ok = co_await ch.write(value);
@@ -39,9 +45,8 @@ class ChannelTest : public TestClass<ChannelTest>
     }
 
     // ensure successful read from channel
-    template<typename L>
-    static auto read_from(channel<uint64_t, L>& ch,
-                          uint64_t& value,
+    template <typename L>
+    static auto read_from(channel<uint64_t, L>& ch, uint64_t& value,
                           bool ok = false) -> unplug
     {
         std::tie(value, ok) = co_await ch.read();
@@ -62,8 +67,8 @@ class ChannelTest : public TestClass<ChannelTest>
         {
             // read to `storage`
             read_from(ch, storage);
-            Assert::IsTrue(storage ==
-                           i); // stored value is same with sent value
+            // stored value is same with sent value
+            Assert::IsTrue(storage == i);
         }
     }
 
@@ -80,8 +85,8 @@ class ChannelTest : public TestClass<ChannelTest>
         for (uint64_t i = 0u; i < 3; ++i)
         {
             write_to(ch, i);
-            Assert::IsTrue(storage ==
-                           i); // stored value is same with sent value
+            // stored value is same with sent value
+            Assert::IsTrue(storage == i);
         }
     }
 

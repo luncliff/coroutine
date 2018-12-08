@@ -50,10 +50,13 @@ wait_group::wait_group() noexcept(false) : storage{}
 wait_group::~wait_group() noexcept
 {
     auto wg = for_win32(this);
-    auto e = wg->ev;
 
-    if (e != INVALID_HANDLE_VALUE)
-        CloseHandle(e);
+    if (wg->ev != INVALID_HANDLE_VALUE)
+    {
+        // close and leave
+        CloseHandle(wg->ev);
+        wg->ev = INVALID_HANDLE_VALUE;
+    }
 }
 
 void wait_group::add(uint16_t delta) noexcept
@@ -106,7 +109,6 @@ bool wait_group::wait(duration d) noexcept(false)
                            "WaitForSingleObjectEx"};
     }
 
-    CloseHandle(wg->ev); // close and leave
-    wg->ev = INVALID_HANDLE_VALUE;
+    this->~wait_group();
     return true;
 }

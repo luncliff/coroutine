@@ -55,7 +55,6 @@ thread_data::thread_data() noexcept(false) : queue{}
     try
     {
         // ... thread life start. trigger setup ...
-
         const auto tid = static_cast<uint64_t>(GetCurrentThreadId());
         auto ptr = registry.reserve(tid);
         *ptr = this;
@@ -63,7 +62,7 @@ thread_data::thread_data() noexcept(false) : queue{}
     catch (const std::exception& ex)
     {
         ::perror(ex.what());
-        std::terminate();
+        throw ex;
     }
 }
 

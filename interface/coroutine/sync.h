@@ -97,9 +97,9 @@ enum class thread_id_t : uint64_t;
 struct _INTERFACE_ message_t final
 {
     union {
-        uint64_t u64{};
+        uint32_t u32[2]{};
+        uint64_t u64;
         void* ptr;
-        uint32_t u32[2];
     };
 
     bool operator==(const message_t& rhs) const noexcept

@@ -26,7 +26,6 @@
     <ClInclude Include="..\interface\coroutine\switch.h" />
     <ClInclude Include="..\interface\coroutine\sync.h" />
     <ClInclude Include="..\interface\coroutine\unplug.hpp" />
-    <ClInclude Include="linkable.h" />
     <ClInclude Include="messaging\concurrent.h" />
     <ClInclude Include="thread\types.h" />
   </ItemGroup>
@@ -36,8 +35,6 @@
     <ClCompile Include="thread\thread_registry.cpp" />
     <ClCompile Include="thread\thread_data.cpp" />
     <ClCompile Include="win32\dllmain.cpp" />
-    <ClCompile Include="win32\net_aio.cpp" />
-    <ClCompile Include="win32\resolver.cpp" />
     <ClCompile Include="win32\section.cpp" />
     <ClCompile Include="win32\switch_to.cpp" />
     <ClCompile Include="win32\wait_group.cpp" />

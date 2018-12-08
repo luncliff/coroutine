@@ -8,37 +8,37 @@
 
 #include <coroutine/unplug.hpp>
 
-class UnplugTest //
-    : public TestClass<UnplugTest>
+class UnplugTest : public TestClass<UnplugTest>
 {
   public:
-    TEST_METHOD(InvokeOrder)
+    TEST_METHOD(InvokeFinalAction)
     {
         int status = 0;
+
         {
-            auto try_plugging = [=](await_point& point,
-                                    int& status) -> unplug {
-                auto a = defer([&]() {
-                    // ensure final action
-                    status = 3;
-                });
-                //println("try_plugging: %p \n", std::addressof(a));
+            auto try_plugging = [=](await_point& point, int& status) -> unplug {
+                // ensure final action
+                auto a = defer([&]() { status = 3; });
 
                 status = 1;
-                co_await std::experimental::suspend_never{};
                 co_await point;
+
                 status = 2;
                 co_await point;
+
                 co_return;
             };
 
             await_point point{};
             try_plugging(point, status);
             Assert::IsTrue(status == 1);
+
             point.resume();
             Assert::IsTrue(status == 2);
+
             point.resume();
         }
+        // did we pass through final action?
         Assert::IsTrue(status == 3);
     }
 };
