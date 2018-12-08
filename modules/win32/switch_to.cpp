@@ -18,6 +18,7 @@
 #include <Windows.h>
 #include <threadpoolapiset.h>
 
+using namespace std;
 using namespace std::experimental;
 
 bool peek_switched(coroutine_handle<void>& rh) noexcept(false)
@@ -55,10 +56,10 @@ bool peek_switched(coroutine_handle<void>& rh) noexcept(false)
 //    return false;
 //}
 
-static_assert(std::is_nothrow_move_assignable_v<switch_to> == false);
-static_assert(std::is_nothrow_move_constructible_v<switch_to> == false);
-static_assert(std::is_nothrow_copy_assignable_v<switch_to> == false);
-static_assert(std::is_nothrow_copy_constructible_v<switch_to> == false);
+static_assert(is_nothrow_move_assignable_v<switch_to> == false);
+static_assert(is_nothrow_move_constructible_v<switch_to> == false);
+static_assert(is_nothrow_copy_assignable_v<switch_to> == false);
+static_assert(is_nothrow_copy_constructible_v<switch_to> == false);
 
 //// - Note
 ////      Thread Pool Callback. Expect `noexcept` operation
@@ -120,8 +121,7 @@ switch_to::switch_to(uint64_t target) noexcept(false) : storage{}
     if (sw->work == nullptr)
     {
         auto ec = static_cast<int>(GetLastError());
-        throw std::system_error{ec, std::system_category(),
-                                "CreateThreadpoolWork"};
+        throw system_error{ec, system_category(), "CreateThreadpoolWork"};
     }
 }
 

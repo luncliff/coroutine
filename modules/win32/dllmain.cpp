@@ -11,14 +11,18 @@
 #include <coroutine/unplug.hpp>
 #include <thread/types.h>
 
+#include <cassert>
+
 #include <Windows.h>
 #include <sdkddkver.h>
+#include <tlhelp32.h>
 
 using namespace std;
 
-extern thread_registry registry;
+DWORD tls_index = 0;
 
 auto current_threads() noexcept(false) -> enumerable<thread_id_t>;
+extern thread_registry registry;
 
 BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID)
 {
@@ -32,24 +36,64 @@ BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID)
         if (reason == DLL_THREAD_ATTACH)
         {
             // add current thread
+            // auto tls_data = (LPVOID)LocalAlloc(LPTR, sizeof(thread_data));
+            // if (tls_data)
+            //{
+            //    TlsSetValue(tls_index, tls_data);
+            //    new (tls_data) thread_data{};
+            //}
+            auto ptr = get_local_data();
+            if (ptr == nullptr)
+                return FALSE;
+
+            assert(*registry.search(static_cast<uint64_t>(current_thread_id()))
+                   != nullptr);
         }
         else if (reason == DLL_THREAD_DETACH)
         {
             // remove current thread
+            auto ptr = get_local_data();
+            if (ptr)
+            {
+                ptr->~thread_data();
+                LocalFree((HLOCAL)ptr);
+            }
         }
         else if (reason == DLL_PROCESS_ATTACH)
         {
-            // setup messaging for library
+            // setup TLS
+            tls_index = TlsAlloc();
+            if (tls_index == TLS_OUT_OF_INDEXES)
+                return FALSE;
+
             // add existing threads
-            // for (auto t: current_threads())
-            //    *registry.reserve(static_cast<uint64_t>(t)) = nullptr;
+            for (auto t : current_threads())
+                *registry.reserve(static_cast<uint64_t>(t)) = nullptr;
+
+            // add current thread
+            auto ptr = get_local_data();
+            if (ptr == nullptr)
+                return FALSE;
 
             // add current thread
         }
         else if (reason == DLL_PROCESS_DETACH)
         {
             // remove current thread
+            auto ptr = get_local_data();
+            if (ptr)
+            {
+                ptr->~thread_data();
+                LocalFree((HLOCAL)ptr);
+            }
+
             // remove existing threads
+            for (auto t : current_threads())
+                registry.remove(static_cast<uint64_t>(t));
+
+            // teardown tls
+            TlsFree(tls_index);
+
             // teardown messaging for library
         }
         return TRUE;
@@ -61,7 +105,20 @@ BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID)
     return FALSE;
 }
 
-#include <tlhelp32.h>
+thread_data* get_local_data() noexcept
+{
+    auto tls_data = TlsGetValue(tls_index);
+    if (tls_data == nullptr)
+    {
+        tls_data = (LPVOID)LocalAlloc(LPTR, sizeof(thread_data));
+
+        if (tls_data == nullptr || TlsSetValue(tls_index, tls_data) == FALSE)
+            return nullptr;
+
+        new (tls_data) thread_data{};
+    }
+    return static_cast<thread_data*>(tls_data);
+}
 
 auto current_threads() noexcept(false) -> enumerable<thread_id_t>
 {
@@ -89,14 +146,15 @@ auto current_threads() noexcept(false) -> enumerable<thread_id_t>
     CloseHandle(snapshot);
 }
 
-extern thread_local thread_data current_data;
-
 // Prevent race with APC callback
 void CALLBACK deliver(const message_t msg) noexcept(false)
 {
     static_assert(sizeof(message_t) == sizeof(ULONG_PTR));
 
-    if (current_data.queue.push(msg) == false)
+    auto* thread_data = get_local_data();
+    assert(thread_data != nullptr);
+
+    if (thread_data->queue.push(msg) == false)
         throw runtime_error{"failed to deliver message"};
 }
 
@@ -120,7 +178,7 @@ void lazy_delivery(thread_id_t thread_id, message_t msg) noexcept(false)
         CloseHandle(thread);
     else
     {
-        ec = GetLastError(); 
+        ec = GetLastError();
         CloseHandle(thread);
         throw system_error{static_cast<int>(ec), system_category(),
                            "QueueUserAPC"};

@@ -70,7 +70,8 @@ void thread_registry::remove(key_type key) noexcept(false)
     const auto it = find(keys.begin(), keys.end(), key);
     if (it == keys.end())
         // unregistered one. nothing to do ?
-        throw runtime_error{"unregistered key received"};
+        // throw runtime_error{"unregistered key received"};
+        return;
 
     // forget
     const auto idx = distance(keys.begin(), it);

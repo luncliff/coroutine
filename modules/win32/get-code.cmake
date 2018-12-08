@@ -8,8 +8,8 @@ cmake_minimum_required(VERSION 3.5)
 target_sources(${PROJECT_NAME}
 PRIVATE
     win32/current_threads.cpp
-    win32/net_aio.cpp
-    win32/resolver.cpp
+    # win32/net_aio.cpp
+    # win32/resolver.cpp
     win32/section.cpp
     win32/switch_to.cpp
     win32/wait_group.cpp

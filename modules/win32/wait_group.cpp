@@ -21,7 +21,6 @@ struct wait_group_win32 final
     SECURITY_ATTRIBUTES attr{};
 };
 
-// GSL_SUPPRESS(type .1)
 auto for_win32(wait_group* wg) noexcept
 {
     static_assert(sizeof(wait_group_win32) <= sizeof(wait_group));
@@ -30,8 +29,8 @@ auto for_win32(wait_group* wg) noexcept
 
 wait_group::wait_group() noexcept(false) : storage{}
 {
-    new (for_win32(this)) wait_group_win32{};
-    auto* wg = for_win32(this);
+    auto* wg = new (for_win32(this)) wait_group_win32{};
+
     // ... replaced to CreateEventA for simplicity ...
     // wg->ev = CreateEventExA(nullptr, // default security attributes
     //                        nullptr, // unnamed object

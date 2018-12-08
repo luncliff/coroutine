@@ -12,8 +12,10 @@
 #include <cassert>
 #include <thread>
 
+using namespace std;
+using namespace std::chrono;
+
 extern thread_registry registry;
-extern thread_local thread_data current_data;
 
 void lazy_delivery(thread_id_t thread_id, message_t msg) noexcept(false);
 
@@ -37,11 +39,10 @@ bool post_message(thread_id_t thread_id, message_t msg) noexcept(false)
 
 bool peek_message(message_t& msg) noexcept(false)
 {
-    return current_data.queue.try_pop(msg);
+    return get_local_data()->queue.try_pop(msg);
 }
 
-bool get_message(message_t& msg,
-                 std::chrono::nanoseconds timeout) noexcept(false)
+bool get_message(message_t& msg, nanoseconds timeout) noexcept(false)
 {
     if (peek_message(msg))
         return true;
@@ -50,6 +51,6 @@ bool get_message(message_t& msg,
     // just try again after timeout.
 
     // need conditional variable to be correct
-    std::this_thread::sleep_for(timeout);
+    this_thread::sleep_for(timeout);
     return peek_message(msg);
 }
