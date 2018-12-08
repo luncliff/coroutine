@@ -11,82 +11,113 @@
 #include <coroutine/sync.h>
 #include <coroutine/unplug.hpp>
 
-auto MoveOnce(wait_group& wg,
-              thread_id_t& before,
-              thread_id_t& after) noexcept(false) -> unplug
-{
-    switch_to back{}; // 0 means background thread
+SCENARIO("switch to", "[thread][messaging]") {
+  using namespace std;
+  using namespace std::literals;
+  const auto timeout = 2s;
 
-    before = current_thread_id();
-    co_await back; // switch to designated thread
+  WHEN("worker id is zero") {
+    wait_group group{};
+    thread_id_t before, after;
 
-    after = current_thread_id();
-    wg.done();
-}
+    auto continue_on = [&](thread_id_t target) noexcept(false)->unplug {
+      switch_to continuation{target}; // 0 means background thread
 
-auto MoveToSpeicified( // switch twice...
-    wait_group& wg,
-    thread_id_t target_id) noexcept(false) -> unplug
-{
-    const auto start_id = current_thread_id();
-    // std::printf("MoveToSpecifid %lx \n", start_id);
+      before = current_thread_id();
+      co_await continuation; // switch to designated thread
 
-    switch_to back{}, front{static_cast<uint64_t>(target_id)};
+      after = current_thread_id();
+      group.done();
+    };
 
-    co_await back;
-    // std::printf("co_await back \n");
-    REQUIRE(start_id != current_thread_id());
+    auto tid = thread_id_t{0};
 
-    co_await front;
-    // std::printf("co_await front \n");
-    REQUIRE(target_id == current_thread_id());
+    THEN("move to background") {
+      group.add(1);
+      continue_on(tid);
 
-    wg.done();
-}
+      REQUIRE(group.wait(timeout));
+      // Before switching, it was on this thread.
+      // After switching, the flow continued on another thread.
+      REQUIRE(before == current_thread_id());
+      REQUIRE(before != after);
+    }
+  }
 
-TEST_CASE("SwitchToThreadTest", "[thread][messaging]")
-{
-    SECTION("ToUnknown")
-    {
-        wait_group wg{};
-        thread_id_t id1, id2;
+  WHEN("move to same thread id") {
+    wait_group group{};
+    thread_id_t before, after;
 
-        wg.add(1);
-        MoveOnce(wg, id1, id2);
-        wg.wait();
+    auto continue_on = [&](thread_id_t target) noexcept(false)->unplug {
+      switch_to continuation{target};
 
-        // get different thread id
-        REQUIRE(id1 != id2);
+      before = current_thread_id();
+      co_await continuation; // switch to designated thread
+
+      after = current_thread_id();
+      group.done();
+    };
+
+    auto tid = current_thread_id();
+
+    THEN("flow continues") {
+      group.add(1);
+      continue_on(tid);
+
+      REQUIRE(group.wait(timeout));
+      REQUIRE(before == tid);
+      REQUIRE(after == tid);
+    }
+  }
+
+  GIVEN("thread worker") {
+
+    thread_id_t worker, tester = current_thread_id();
+
+    thread th1{[&]() {
+      // assign and send a message for synchronization
+      message_t msg{};
+      worker = current_thread_id();
+      REQUIRE(post_message(tester, msg));
+
+      // fetch 1 coroutine and exit
+      std::experimental::coroutine_handle<void> coro{};
+      while (peek_switched(coro) == false)
+        std::this_thread::sleep_for(1ms);
+
+      coro.resume();
+    }};
+
+    message_t msg{};
+    // wait for worker start
+    while (peek_message(msg) == false)
+      std::this_thread::sleep_for(1ms);
+
+    WHEN("specific thread id") {
+
+      // must different thread id
+      REQUIRE(tester != worker);
+
+      THEN("move to the thread") {
+        wait_group group{};
+        group.add(1);
+        thread_id_t receiver{};
+
+        auto continue_on = [&](thread_id_t target) noexcept(false)->unplug {
+          co_await switch_to{target}; // switch to designated thread
+
+          receiver = current_thread_id();
+          group.done();
+        };
+
+        continue_on(worker);
+
+        REQUIRE(group.wait(timeout));
+        REQUIRE(receiver != tester);
+        REQUIRE(receiver == worker);
+      }
     }
 
-    SECTION("ToForeground")
-    {
-        using namespace std::experimental;
-
-        coroutine_handle<void> coro{};
-        wait_group wg{};
-        thread_id_t id = current_thread_id();
-
-        wg.add(1);
-        MoveToSpeicified(wg, id);
-
-        while (peek_switched(coro) == false)
-        {
-            // printf("coro %p \n", coro.address());
-
-            // retry until we fetch the coroutine
-            using namespace std::literals;
-            std::this_thread::sleep_for(1s);
-        }
-        // std::printf("peek_switched %p \n", coro.address());
-
-        coro.resume();
-
-        wg.wait();
-    }
-
-    // SECTION("ForkJoin")
-    // {
-    //     // ...
-    // }
+    REQUIRE_NOTHROW(th1.join());
+  }
 }

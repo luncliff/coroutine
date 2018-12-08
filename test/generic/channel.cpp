@@ -146,7 +146,7 @@ TEST_CASE("ChannelTest", "[generic][channel]")
             uint32_t success = 0, failure = 0;
 
             // go to background (id: 0)
-            static constexpr auto back_id = 0;
+            auto back_id = thread_id_t{};
             static constexpr size_t TryCount = 6'000;
 
             wait_group group{};

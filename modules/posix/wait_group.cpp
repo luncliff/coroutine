@@ -4,15 +4,21 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include "./adapter.h"
 #include <coroutine/sync.h>
 
+#include <ctime>
 #include <system_error>
+
+#include <pthread.h>
+
+using namespace std;
+using namespace std::chrono;
 
 struct wait_group_posix final
 {
-    posix_condvar_t event{};
-    std::atomic<uint32_t> count{};
+    atomic<uint32_t> count{};
+    pthread_cond_t cv{};
+    pthread_mutex_t mtx{};
 };
 
 auto for_posix(wait_group* wg) noexcept
@@ -23,15 +29,33 @@ auto for_posix(wait_group* wg) noexcept
 
 wait_group::wait_group() noexcept(false) : storage{}
 {
-    new (for_posix(this)) wait_group_posix{};
+    auto* wg = for_posix(this);
+
+    new (wg) wait_group_posix{};
+
+    // init attr?
+    if (auto ec = pthread_mutex_init(addressof(wg->mtx), nullptr))
+        throw system_error{ec, system_category(), "pthread_mutex_init"};
+
+    if (auto ec = pthread_cond_init(addressof(wg->cv), nullptr))
+        throw system_error{ec, system_category(), "pthread_cond_init"};
 }
 
 wait_group::~wait_group() noexcept
 {
     auto* wg = for_posix(this);
+    try
+    {
+        if (auto ec = pthread_cond_destroy(addressof(wg->cv)))
+            throw system_error{ec, system_category(), "pthread_cond_destroy"};
 
-    // possible logic error in the case. but just delete
-    wg->event.~posix_condvar_t();
+        if (auto ec = pthread_mutex_destroy(addressof(wg->mtx)))
+            throw system_error{ec, system_category(), "pthread_mutex_destroy"};
+    }
+    catch (const system_error& ex)
+    {
+        fputs(ex.what(), stderr);
+    }
 }
 
 void wait_group::add(uint16_t delta) noexcept
@@ -54,18 +78,49 @@ void wait_group::done() noexcept
         return;
 
     // notify
-    wg->event.signal();
+    pthread_cond_signal(&wg->cv);
 }
 
 bool wait_group::wait(duration timeout) noexcept(false)
 {
-    using namespace std::chrono;
-    auto* wg = for_posix(this);
+    auto wg = for_posix(this);
+    auto abs_time = microseconds{};
+    auto until = timespec{};
+    auto reason = 0;
 
-    // start timer
+    // check count first
+    if (wg->count.load(memory_order_relaxed) == 0)
+        return true;
 
-    wg->event.wait(duration_cast<milliseconds>(timeout).count());
+    // timedwait uses absolute time.
+    // so we have to calculate the timepoin first
+    abs_time = (system_clock::now() + timeout).time_since_epoch();
+    until.tv_sec = duration_cast<seconds>(abs_time).count();
+    until.tv_nsec = duration_cast<nanoseconds>(abs_time).count() % 1'000'000;
 
-    // pick timer. if elapsed time is longer, consider failed
-    return false;
+CheckCurrentTime:
+    // check count again
+    if (wg->count.load(memory_order_acquire) == 0)
+        return true;
+
+    // This loop is for possible spurious wakeup.
+    // Wait if there is more time
+    if (abs_time < system_clock::now().time_since_epoch())
+        return false;
+
+    if (auto ec = pthread_mutex_lock(addressof(wg->mtx)))
+        throw system_error{ec, system_category(), "pthread_mutex_lock"};
+
+    reason = pthread_cond_timedwait(addressof(wg->cv), addressof(wg->mtx),
+                                    addressof(until));
+
+    if (auto ec = pthread_mutex_unlock(addressof(wg->mtx)))
+        throw system_error{ec, system_category(), "pthread_mutex_unlock"};
+
+    if (reason == ETIMEDOUT)
+        // check the time again. is it spurious wakeup?
+        goto CheckCurrentTime;
+
+    // reason containes error code at this moment
+    return reason == 0;
 }

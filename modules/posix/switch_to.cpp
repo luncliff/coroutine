@@ -4,7 +4,6 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include "./adapter.h"
 #include <coroutine/frame.h>
 #include <coroutine/switch.h>
 #include <coroutine/sync.h>
@@ -39,27 +38,30 @@ struct switch_to_posix
     thread_id_t thread_id{};
     void* work{};
 };
-static_assert(sizeof(switch_to_posix) <= sizeof(switch_to));
 
 auto* for_posix(switch_to* s) noexcept
 {
+    static_assert(sizeof(switch_to_posix) <= sizeof(switch_to));
     return reinterpret_cast<switch_to_posix*>(s);
 }
 auto* for_posix(const switch_to* s) noexcept
 {
+    static_assert(sizeof(switch_to_posix) <= sizeof(switch_to));
     return reinterpret_cast<const switch_to_posix*>(s);
 }
 
-switch_to::switch_to(uint64_t target) noexcept(false) : storage{}
+switch_to::switch_to(thread_id_t target) noexcept(false) : storage{}
 {
     auto* sw = for_posix(this);
-    sw->thread_id = static_cast<thread_id_t>(target);
+
+    new (sw) switch_to_posix{};
+    sw->thread_id = target;
 }
 
 switch_to::~switch_to() noexcept
 {
-    // auto* sw = for_posix(this);
-    // assert(sw->work == nullptr);
+    auto* sw = for_posix(this);
+    assert(sw->work == nullptr);
 }
 
 bool switch_to::ready() const noexcept
@@ -74,12 +76,7 @@ bool switch_to::ready() const noexcept
     return false;
 }
 
-//
-// !!! notice that this is not atomic !!!
-//
-//  See 'worker_group.cpp' for the detail.
-//
-extern thread_id_t unknown_worker_id;
+extern thread_id_t background_thread_id;
 
 void switch_to::suspend( //
     std::experimental::coroutine_handle<void> coro) noexcept(false)
@@ -89,10 +86,12 @@ void switch_to::suspend( //
     message_t msg{};
     msg.ptr = coro.address();
 
-    const thread_id_t worker_id
-        = (sw->thread_id != thread_id_t{}) ? sw->thread_id : unknown_worker_id;
+    const thread_id_t worker_id = (sw->thread_id != thread_id_t{})
+                                      ? sw->thread_id
+                                      : background_thread_id;
 
-    post_message(worker_id, msg);
+    if (post_message(worker_id, msg) == false)
+        throw std::runtime_error{"post_message failed in suspend"};
 }
 
 void switch_to::resume() noexcept

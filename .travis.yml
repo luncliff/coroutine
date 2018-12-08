@@ -42,10 +42,10 @@ script:
       -DCMAKE_BUILD_TYPE=$CONFIG
       -DCMAKE_INSTALL_PREFIX=../install
   - ninja install
-  # - ./test/coroutine_test
-  # - ./test/coroutine_test [thread]
-  # - ./test/coroutine_test [generic]
-  # - ./test/coroutine_test [messaging]
+  - ./test/coroutine_test [thread]
+  - ./test/coroutine_test [generic]
+  - ./test/coroutine_test [messaging]
+  - ./test/coroutine_test
 
 matrix: 
   include:
@@ -93,7 +93,7 @@ matrix:
       compiler: clang # expect 5.0.0+
       addons:
         apt:
-          update: true
+          # update: true
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-xenial-6.0
@@ -121,7 +121,7 @@ matrix:
       compiler: clang # expect 5.0.0+
       addons:
         apt:
-          update: true
+          # update: true
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-xenial-6.0

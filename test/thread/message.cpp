@@ -9,107 +9,75 @@
 
 #include <coroutine/sync.h>
 
-TEST_CASE("MessageTest", "[messaging]")
-{
-    using namespace std::literals;
+TEST_CASE("message operations", "[messaging]") {
+  using namespace std::literals;
 
-    const thread_id_t main_id = current_thread_id();
+  const thread_id_t main_id = current_thread_id();
 
-    SECTION("SyncWithMessage")
-    {
-        thread_id_t worker_id{};
-        REQUIRE(worker_id == thread_id_t{});
+  SECTION("sync with message") {
 
-        // some background thread
-        //  will send a message to main thread
-        auto f = std::async(std::launch::async, [=, &worker_id]() {
-            message_t msg{};
+    thread_id_t worker_id{};
+    REQUIRE(worker_id == thread_id_t{});
 
-            // modify the location
-            worker_id = current_thread_id();
+    // some background thread
+    //  will send a message to main thread
+    auto f = std::async(std::launch::async, [=, &worker_id]() {
+      // modify the value
+      worker_id = current_thread_id();
+      // and then send a message
+      message_t msg{};
+      post_message(main_id, msg);
+    });
 
-            // and then send a message
-            post_message(main_id, msg);
-        });
+    message_t msg{};
+    // wait for message ...
+    while (peek_message(msg) == false)
+      continue;
 
-        message_t msg{};
-        // wait for message ...
-        while (peek_message(msg) == false)
-            continue;
+    // after we received a message, the value must be modified
+    REQUIRE_FALSE(worker_id == thread_id_t{});
 
-        // after we received a message, the value must be modified
-        REQUIRE_FALSE(worker_id == thread_id_t{});
+    // no exception from worker
+    REQUIRE_NOTHROW(f.get());
+  }
 
-        // no exception from worker
-        REQUIRE_NOTHROW(f.get());
-    }
+  SECTION("merge") {
+    constexpr auto amount_of_message = 4'000;
 
-    SECTION("DeliveryFromWorkers")
-    {
-        constexpr auto retry_count = 4;
+    auto fwork = [=]() {
+      message_t msg{};
+      msg.u64 = static_cast<uint64_t>(current_thread_id());
 
-        auto fwork = [=]() {
-            message_t msg{};
+      auto repeat = amount_of_message;
+      while (repeat--)
+        // send some messages
+        if (post_message(main_id, msg) == false)
+          // if failed, try again
+          repeat += 1;
+    };
 
-            auto repeat = retry_count;
-            while (repeat--)
-            {
-                msg.u64 = static_cast<uint64_t>(current_thread_id());
+    std::thread //
+        t1{fwork},
+        t2{fwork}, t3{fwork}, //
+        t4{fwork}, t5{fwork}, t6{fwork}, t7{fwork};
+    constexpr auto num_worker = 7;
 
-                // send some messages
-                post_message(main_id, msg);
+    size_t count = 0;
+    message_t msg{};
+    while (count < num_worker * amount_of_message)
+      // wait for workers' messages
+      if (peek_message(msg) == true)
+        // wait for next message ...
+        count += 1;
 
-                // zero the message
-                msg = message_t{};
+    REQUIRE_NOTHROW(t1.join());
+    REQUIRE_NOTHROW(t2.join());
+    REQUIRE_NOTHROW(t3.join());
+    REQUIRE_NOTHROW(t4.join());
+    REQUIRE_NOTHROW(t5.join());
+    REQUIRE_NOTHROW(t6.join());
+    REQUIRE_NOTHROW(t7.join());
 
-                // auto max_trial = 10'000;
-                // while (max_trial--)
-                //     if (peek_message(msg) == true)
-                //         // wait for messages for limitied time ...
-                //         break;
-                while (peek_message(msg) == false)
-                    std::this_thread::sleep_for(30ms);
-
-                REQUIRE(msg.u64 != 0);
-                REQUIRE(msg.u64 == static_cast<uint64_t>(main_id));
-            }
-        };
-
-        std::thread t1{fwork};
-        std::thread t2{fwork};
-        std::thread t3{fwork};
-        std::thread t4{fwork};
-        std::thread t5{fwork};
-        std::thread t6{fwork};
-        std::thread t7{fwork};
-
-        // this will be always true, but just check once more
-        // REQUIRE(current_thread_id() == main_id);
-
-        size_t count = 0;
-        message_t msg{};
-        while (count < 7 * retry_count)
-            // wait for workers' messages
-            if (peek_message(msg) == true)
-            {
-                // simply check the sender and echo back
-
-                const auto sender_id = static_cast<thread_id_t>(msg.u64);
-                REQUIRE(sender_id != main_id);
-
-                msg.u64 = static_cast<uint64_t>(main_id);
-                post_message(sender_id, msg);
-
-                // wait for next message ...
-                count += 1;
-            }
-
-        REQUIRE_NOTHROW(t1.join());
-        REQUIRE_NOTHROW(t2.join());
-        REQUIRE_NOTHROW(t3.join());
-        REQUIRE_NOTHROW(t4.join());
-        REQUIRE_NOTHROW(t5.join());
-        REQUIRE_NOTHROW(t6.join());
-        REQUIRE_NOTHROW(t7.join());
-    }
+    REQUIRE(count == amount_of_message * num_worker);
+  }
 }

@@ -5,9 +5,6 @@
 //
 // ---------------------------------------------------------------------------
 #include <cassert>
-#include <numeric>
-
-#include "./adapter.h"
 
 #define LIB_PROLOGUE __attribute__((constructor))
 #define LIB_EPILOGUE __attribute__((destructor))

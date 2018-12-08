@@ -106,12 +106,12 @@ void CALLBACK _activate_( // resume switched tasks
     sw->coro.resume();
 }
 
-switch_to::switch_to(uint64_t target) noexcept(false) : storage{}
+switch_to::switch_to(thread_id_t target) noexcept(false) : storage{}
 {
     auto* sw = for_win32(this);
     if (target != 0)
     {
-        sw->tid = static_cast<thread_id_t>(target);
+        sw->tid = target;
         return;
     }
 
@@ -130,8 +130,6 @@ switch_to::~switch_to() noexcept
     auto* sw = for_win32(this);
     if (sw->work)
         ::CloseThreadpoolWork(sw->work);
-
-    storage[0] = 0;
 }
 
 bool switch_to::ready() const noexcept
