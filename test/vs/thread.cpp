@@ -297,7 +297,7 @@ class SwitchingTest : public TestClass<SwitchingTest>
         wait_group& wg, uint64_t target) noexcept(false) -> unplug
     {
         const auto start = GetCurrentThreadId();
-        switch_to back{}, fore{target}; // 0 means background thread
+        switch_to back{}, fore{ thread_id_t{target} }; // 0 means background thread
 
         co_await back;
         Assert::IsTrue(start != GetCurrentThreadId());

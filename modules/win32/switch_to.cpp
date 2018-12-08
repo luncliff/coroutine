@@ -109,7 +109,7 @@ void CALLBACK _activate_( // resume switched tasks
 switch_to::switch_to(thread_id_t target) noexcept(false) : storage{}
 {
     auto* sw = for_win32(this);
-    if (target != 0)
+    if (target != thread_id_t{})
     {
         sw->tid = target;
         return;

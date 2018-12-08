@@ -28,6 +28,8 @@
 #define LIB_PROLOGUE __attribute__((constructor))
 #define LIB_EPILOGUE __attribute__((destructor))
 
+using namespace std;
+
 //
 // !!! notice that this is not atomic !!!
 //
@@ -53,10 +55,10 @@ LIB_PROLOGUE void setup_worker() noexcept(false)
         = reinterpret_cast<decltype(fthread)>(resume_coroutines_on_backgound);
 
     if (auto ec = pthread_create(
-            reinterpret_cast<pthread_t*>(std::addressof(background_thread_id)),
-            nullptr, fthread, std::addressof(registry)))
+            reinterpret_cast<pthread_t*>(addressof(background_thread_id)),
+            nullptr, fthread, addressof(registry)))
         // expect successful worker creation. unless kill the program
-        throw std::system_error{ec, std::system_category(), "pthread_create"};
+        throw system_error{ec, system_category(), "pthread_create"};
 
     assert(background_thread_id != thread_id_t{});
 }
@@ -67,10 +69,10 @@ LIB_EPILOGUE void teardown_worker() noexcept(false)
 
     pthread_cancel(worker);
     if (auto ec = pthread_join(worker, nullptr))
-        throw std::system_error{ec, std::system_category(), "pthread_join"};
+        throw system_error{ec, system_category(), "pthread_join"};
 }
 
-using namespace std::experimental;
+using namespace experimental;
 
 void* resume_coroutines_on_backgound(thread_registry& reg) noexcept(false)
 {
@@ -82,7 +84,7 @@ void* resume_coroutines_on_backgound(thread_registry& reg) noexcept(false)
 
     const auto tid = static_cast<uint64_t>(background_thread_id);
     // register this thread to receive messages
-    *(registry.reserve(tid)) = std::addressof(current_data);
+    *(registry.reserve(tid)) = addressof(current_data);
 
     try
     {
@@ -96,13 +98,10 @@ void* resume_coroutines_on_backgound(thread_registry& reg) noexcept(false)
         pthread_testcancel();
         goto ResumeNext;
     }
-    catch (const std::exception& e)
+    catch (const exception& e)
     {
         ::fputs(e.what(), stderr);
     }
-    catch (...)
-    {
-        ::fputs(__FUNCTION__, stderr);
-    }
+
     return nullptr;
 }
