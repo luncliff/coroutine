@@ -9,7 +9,7 @@ cmake_minimum_required(VERSION 3.5)
 add_executable(coroutine_test
     entry.cpp
     
-    generic/unplug.cpp
+    generic/returns.cpp
     # generic/channel.cpp
     generic/generator.cpp
     generic/async_generator.cpp
@@ -40,6 +40,6 @@ if(UNIX)
     )
     target_compile_options(coroutine_test
     PRIVATE
-        -std=c++2a -stdlib=libc++ 
+        -std=c++2a -stdlib=libc++ -g -O0
     )
 endif()

@@ -6,7 +6,7 @@
 // ---------------------------------------------------------------------------
 #include "./vstest.h"
 
-#include <coroutine/unplug.hpp>
+#include <coroutine/return.h>
 
 class UnplugTest : public TestClass<UnplugTest>
 {
@@ -16,7 +16,8 @@ class UnplugTest : public TestClass<UnplugTest>
         int status = 0;
 
         {
-            auto try_plugging = [=](await_point& point, int& status) -> unplug {
+            auto try_plugging
+                = [=](suspend_hook& point, int& status) -> unplug {
                 // ensure final action
                 auto a = defer([&]() { status = 3; });
 
@@ -29,7 +30,7 @@ class UnplugTest : public TestClass<UnplugTest>
                 co_return;
             };
 
-            await_point point{};
+            suspend_hook point{};
             try_plugging(point, status);
             Assert::IsTrue(status == 1);
 

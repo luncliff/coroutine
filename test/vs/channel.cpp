@@ -5,9 +5,9 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/channel.hpp>
+#include <coroutine/return.h>
 #include <coroutine/switch.h>
 #include <coroutine/sync.h>
-#include <coroutine/unplug.hpp>
 
 #include "./vstest.h"
 

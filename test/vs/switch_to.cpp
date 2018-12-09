@@ -6,9 +6,9 @@
 // ---------------------------------------------------------------------------
 #include "./vstest.h"
 
+#include <coroutine/return.h>
 #include <coroutine/switch.h>
 #include <coroutine/sync.h>
-#include <coroutine/unplug.hpp>
 
 using namespace std::literals;
 using namespace std::experimental;

@@ -7,7 +7,7 @@
 #include "./vstest.h"
 
 #include <coroutine/enumerable.hpp>
-#include <coroutine/unplug.hpp>
+#include <coroutine/return.h>
 
 using namespace std::literals;
 using namespace std::experimental;

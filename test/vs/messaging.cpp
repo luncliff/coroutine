@@ -7,8 +7,8 @@
 #include "./vstest.h"
 
 #include <coroutine/enumerable.hpp>
+#include <coroutine/return.h>
 #include <coroutine/sync.h>
-#include <coroutine/unplug.hpp>
 
 auto current_threads() noexcept(false) -> enumerable<thread_id_t>;
 
@@ -86,7 +86,7 @@ auto current_threads() noexcept(false) -> enumerable<thread_id_t>
                                 "CreateToolhelp32Snapshot"};
 
     // auto h = gsl::finally([=]() { CloseHandle(snapshot); });
-    auto entry = THREADENTRY32{};
+    THREADENTRY32 entry{};
     entry.dwSize = sizeof(entry);
 
     thread_id_t tid{};

@@ -7,8 +7,8 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/enumerable.hpp>
+#include <coroutine/return.h>
 #include <coroutine/sync.h>
-#include <coroutine/unplug.hpp>
 #include <thread/types.h>
 
 #include <cassert>

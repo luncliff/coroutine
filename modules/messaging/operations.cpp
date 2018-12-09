@@ -4,8 +4,8 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
+#include <coroutine/return.h>
 #include <coroutine/sync.h>
-#include <coroutine/unplug.hpp>
 #include <messaging/concurrent.h>
 #include <thread/types.h>
 

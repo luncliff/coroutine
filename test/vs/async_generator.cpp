@@ -6,8 +6,8 @@
 // ---------------------------------------------------------------------------
 #include "./vstest.h"
 
+#include <coroutine/return.h>
 #include <coroutine/sequence.hpp>
-#include <coroutine/unplug.hpp>
 
 using namespace std::literals;
 using namespace std::experimental;
@@ -39,19 +39,19 @@ class AsyncGeneratorTest : public TestClass<AsyncGeneratorTest>
 
     TEST_METHOD(YieldThenAwait)
     {
-        auto get_sequence = [&](await_point& p) -> sequence<int> {
+        auto get_sequence = [&](suspend_hook& p) -> sequence<int> {
             int value = 137;
             co_yield value;
             co_yield p;
         };
-        auto try_sequence = [=](await_point& p, int& ref) -> unplug {
+        auto try_sequence = [=](suspend_hook& p, int& ref) -> unplug {
             /* clang-format off */
             for co_await(int v : get_sequence(p)) 
                 ref = v;
             /* clang-format on */
         };
 
-        await_point p{};
+        suspend_hook p{};
         int value = 0;
         try_sequence(p, value);
         p.resume();
@@ -60,19 +60,19 @@ class AsyncGeneratorTest : public TestClass<AsyncGeneratorTest>
 
     TEST_METHOD(AwaitThenYield)
     {
-        auto get_sequence = [&](await_point& p) -> sequence<int> {
+        auto get_sequence = [&](suspend_hook& p) -> sequence<int> {
             int value = 131;
             co_yield p;
             co_yield value;
         };
-        auto try_sequence = [=](await_point& p, int& ref) -> unplug {
+        auto try_sequence = [=](suspend_hook& p, int& ref) -> unplug {
             /* clang-format off */
             for co_await(int v : get_sequence(p)) 
                 ref = v;
             /* clang-format on */
         };
 
-        await_point p{};
+        suspend_hook p{};
         int value = 0;
         try_sequence(p, value);
         p.resume();
@@ -102,7 +102,7 @@ class AsyncGeneratorTest : public TestClass<AsyncGeneratorTest>
 
     TEST_METHOD(MultipleAwait)
     {
-        auto get_sequence = [&](await_point& p, int& value) -> sequence<int> {
+        auto get_sequence = [&](suspend_hook& p, int& value) -> sequence<int> {
             co_yield p;
 
             co_yield value = 1;
@@ -119,7 +119,7 @@ class AsyncGeneratorTest : public TestClass<AsyncGeneratorTest>
         };
 
         auto try_sequence
-            = [=](await_point& p, int& sum, int& value) -> unplug {
+            = [=](suspend_hook& p, int& sum, int& value) -> unplug {
             Assert::IsTrue(sum == 0);
             auto s = get_sequence(p, value);
             Assert::IsTrue(sum == 0);
@@ -141,7 +141,7 @@ class AsyncGeneratorTest : public TestClass<AsyncGeneratorTest>
             sum += 5;
         };
 
-        await_point p{};
+        suspend_hook p{};
         int sum = 0, value = 0;
 
         try_sequence(p, sum, value);

@@ -7,9 +7,9 @@
 
 #include <thread>
 
+#include <coroutine/return.h>
 #include <coroutine/switch.h>
 #include <coroutine/sync.h>
-#include <coroutine/unplug.hpp>
 
 SCENARIO("switch_to", "[thread][messaging]")
 {

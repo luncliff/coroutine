@@ -35,14 +35,14 @@
     <ClInclude Include="..\interface\coroutine\sync.h">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\unplug.hpp">
-      <Filter>coroutine</Filter>
-    </ClInclude>
     <ClInclude Include="thread\types.h">
       <Filter>thread</Filter>
     </ClInclude>
     <ClInclude Include="messaging\concurrent.h">
       <Filter>messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\return.h">
+      <Filter>coroutine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

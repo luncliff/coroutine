@@ -4,7 +4,9 @@
 //  License : CC BY 4.0
 //
 //  Note
-//      The abstraction for the async generator
+//      `sequence` is an abstraction for the async generator
+//      It is not named `async_generator`
+//       to imply that it's just one of the concept's implementations
 //
 // ---------------------------------------------------------------------------
 #ifndef COROUTINE_SEQUENCE_HPP
@@ -43,6 +45,12 @@ struct sequence final
   private:
     handle_t coro{}; // resumable handle
 
+  private:
+    sequence(sequence&) = delete;
+    sequence(sequence&&) = delete;
+    sequence& operator=(sequence&) = delete;
+    sequence& operator=(sequence&&) = delete;
+
   public:
     sequence(promise_type* ptr) noexcept
         : coro{handle_promise_t::from_promise(*ptr)}
@@ -50,7 +58,10 @@ struct sequence final
     }
     ~sequence() noexcept
     {
-        if (coro) // delete the coroutine frame
+        // delete the coroutine frame
+        //  coro.done() won't be checked since the usecase might want it
+        //  the library only guarantees there is no leak
+        if (coro)
             coro.destroy();
     }
 
@@ -240,15 +251,15 @@ struct sequence final
             //    Continue the loop
             return promise ? promise->current != empty() : true;
         }
-        void await_suspend(handle_t coro) noexcept
+        void await_suspend(handle_t rh) noexcept
         {
             // case empty:
             //   Promise suspended for some reason. Wait for it to yield
             //   Expect promise to resume this iterator appropriately
-            promise->task = coro;
+            promise->task = rh;
 
             // auto order = std::memory_order::memory_order_release;
-            // promise->task.store(coro, order);
+            // promise->task.store(rh, order);
         }
         iterator& await_resume() noexcept
         {

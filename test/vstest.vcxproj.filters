@@ -24,7 +24,7 @@
     <ClInclude Include="..\interface\coroutine\sync.h">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\unplug.hpp">
+    <ClInclude Include="..\interface\coroutine\return.h">
       <Filter>coroutine</Filter>
     </ClInclude>
     <ClInclude Include="..\interface\coroutine\enumerable.hpp">

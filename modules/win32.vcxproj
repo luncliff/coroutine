@@ -22,10 +22,10 @@
     <ClInclude Include="..\interface\coroutine\channel.hpp" />
     <ClInclude Include="..\interface\coroutine\enumerable.hpp" />
     <ClInclude Include="..\interface\coroutine\frame.h" />
+    <ClInclude Include="..\interface\coroutine\return.h" />
     <ClInclude Include="..\interface\coroutine\sequence.hpp" />
     <ClInclude Include="..\interface\coroutine\switch.h" />
     <ClInclude Include="..\interface\coroutine\sync.h" />
-    <ClInclude Include="..\interface\coroutine\unplug.hpp" />
     <ClInclude Include="messaging\concurrent.h" />
     <ClInclude Include="thread\types.h" />
   </ItemGroup>
