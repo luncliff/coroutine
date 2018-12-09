@@ -7,12 +7,12 @@
 
 #include <coroutine/enumerable.hpp>
 
-TEST_CASE("GeneratorTest", "[generic]")
+TEST_CASE("generator", "[generic]")
 {
     SECTION("yield_never")
     {
         auto generate_values = []() -> enumerable<uint16_t> {
-            // >
+            //
             co_return;
         };
 

@@ -5,9 +5,6 @@
 //
 // ---------------------------------------------------------------------------
 #include <messaging/concurrent.h>
-// #include <gsl/gsl_util>
-
-//#ifndef _MSC_VER
 
 bool concurrent_message_queue::is_full() const noexcept
 {
@@ -17,7 +14,6 @@ bool concurrent_message_queue::empty() const noexcept
 {
     return qu.empty();
 }
-
 bool concurrent_message_queue::push(const value_type msg) noexcept
 {
     std::unique_lock lck{cs};
@@ -28,6 +24,7 @@ bool concurrent_message_queue::try_pop(reference msg) noexcept
     std::unique_lock lck{cs};
     return qu.try_pop(msg);
 }
+
 /*
 #else
 bool concurrent_message_queue::is_full() const noexcept

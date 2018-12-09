@@ -7,6 +7,9 @@
 #include <thread/types.h>
 
 extern thread_registry registry;
+
+#if __APPLE__ || __linux__ || __unix__
+
 thread_local thread_data current_data{};
 
 thread_id_t current_thread_id() noexcept
@@ -14,8 +17,6 @@ thread_id_t current_thread_id() noexcept
     // trigger thread local object instantiation
     return current_data.get_id();
 }
-
-#if __APPLE__ || __linux__ || __unix__
 
 #include <pthread.h>
 
@@ -50,27 +51,23 @@ thread_id_t thread_data::get_id() const noexcept
 
 #include <Windows.h> // System API
 
+thread_id_t current_thread_id() noexcept
+{
+    // return static_cast<thread_id_t>(GetCurrentThreadId());
+    return get_local_data()->get_id();
+}
+
 thread_data::thread_data() noexcept(false) : queue{}
 {
-    try
-    {
-        // ... thread life start. trigger setup ...
-
-        const auto tid = static_cast<uint64_t>(GetCurrentThreadId());
-        auto ptr = registry.reserve(tid);
-        *ptr = this;
-    }
-    catch (const std::exception& ex)
-    {
-        ::perror(ex.what());
-        std::terminate();
-    }
+    // ... thread life start. trigger setup ...
+    const auto tid = static_cast<uint64_t>(GetCurrentThreadId());
+    auto ptr = registry.reserve(tid);
+    *ptr = this;
 }
 
 thread_data::~thread_data() noexcept
 {
     // ... thread life end. trigger teardown ...
-
     const auto tid = static_cast<uint64_t>(GetCurrentThreadId());
     registry.remove(tid); // this line might throw exception.
                           // which WILL kill the program.

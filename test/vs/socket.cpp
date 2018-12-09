@@ -12,13 +12,12 @@
 #include <sdkddkver.h>
 
 using namespace std::literals;
-/*
+
 class SocketTest : public TestClass<SocketTest>
 {
     using error_t = uint32_t;
 
-    //
-https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsastartup
+    // https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsastartup
     TEST_CLASS_INITIALIZE(Setup)
     {
         error_t e{};
@@ -34,13 +33,10 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsastart
         Assert::IsTrue(e != WSAEFAULT);
     }
 
-    //
-https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsacleanup
+    // https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsacleanup
     TEST_CLASS_CLEANUP(TearDown)
     {
-        error_t e{};
-
-        e = WSACleanup();
+        const error_t e = WSACleanup();
         Assert::IsTrue(e != WSANOTINITIALISED);
         Assert::IsTrue(e != WSAENETDOWN);
         Assert::IsTrue(e != WSAEINPROGRESS);
@@ -94,14 +90,14 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsaclean
             // ipv4
             if (iter->ai_family == AF_INET)
             {
-                sockaddr_in* v4a =
-                    reinterpret_cast<sockaddr_in*>(iter->ai_addr);
+                sockaddr_in* v4a
+                    = reinterpret_cast<sockaddr_in*>(iter->ai_addr);
                 port = ntohs(v4a->sin_port);
             }
             else if (iter->ai_family == AF_INET6)
             {
-                sockaddr_in6* v6a =
-                    reinterpret_cast<sockaddr_in6*>(iter->ai_addr);
+                sockaddr_in6* v6a
+                    = reinterpret_cast<sockaddr_in6*>(iter->ai_addr);
                 port = ntohs(v6a->sin6_port);
             }
             iter = iter->ai_next;
@@ -119,14 +115,14 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsaclean
         const char* serv = "45678";
 
         // for `bind()`, `listen()`    // TCP + IPv6
-        addrinfo hint =
-            make_hint(AI_PASSIVE | AI_V4MAPPED, AF_INET6, SOCK_STREAM);
+        addrinfo hint
+            = make_hint(AI_PASSIVE | AI_V4MAPPED, AF_INET6, SOCK_STREAM);
         addrinfo* list = nullptr;
 
         // Success : zero
         // Failure : non-zero uint32_t code
-        e = ::getaddrinfo(
-            name, serv, std::addressof(hint), std::addressof(list));
+        e = ::getaddrinfo(name, serv, std::addressof(hint),
+                          std::addressof(list));
 
         Assert::IsTrue(e == NO_ERROR);
         Assert::IsNotNull(list);
@@ -139,14 +135,14 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsaclean
             // ipv4
             if (iter->ai_family == AF_INET)
             {
-                sockaddr_in* v4a =
-                    reinterpret_cast<sockaddr_in*>(iter->ai_addr);
+                sockaddr_in* v4a
+                    = reinterpret_cast<sockaddr_in*>(iter->ai_addr);
                 port = ntohs(v4a->sin_port);
             }
             else if (iter->ai_family == AF_INET6)
             {
-                sockaddr_in6* v6a =
-                    reinterpret_cast<sockaddr_in6*>(iter->ai_addr);
+                sockaddr_in6* v6a
+                    = reinterpret_cast<sockaddr_in6*>(iter->ai_addr);
                 port = ntohs(v6a->sin6_port);
             }
 
@@ -169,8 +165,8 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsaclean
 
         // Success : zero
         // Failure : non-zero uint32_t code
-        e = ::getaddrinfo(
-            name, serv, std::addressof(hint), std::addressof(list));
+        e = ::getaddrinfo(name, serv, std::addressof(hint),
+                          std::addressof(list));
 
         Assert::IsTrue(e == NO_ERROR);
         Assert::IsNotNull(list);
@@ -180,7 +176,8 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsaclean
         while (iter != nullptr)
         {
             // continue
-            if (iter->ai_family != AF_INET6) iter = iter->ai_next;
+            if (iter->ai_family != AF_INET6)
+                iter = iter->ai_next;
 
             sockaddr_in6* v6a = reinterpret_cast<sockaddr_in6*>(iter->ai_addr);
             remote = *v6a;
@@ -198,12 +195,8 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsaclean
         const sockaddr* ptr = reinterpret_cast<const sockaddr*>(&remote);
         // Success : zero
         // Failure : non-zero uint32_t code
-        e = ::getnameinfo(ptr,
-                          sizeof(sockaddr_in6),
-                          name_buf,
-                          NI_MAXHOST,
-                          serv_buf,
-                          NI_MAXSERV,
+        e = ::getnameinfo(ptr, sizeof(sockaddr_in6), name_buf, NI_MAXHOST,
+                          serv_buf, NI_MAXSERV,
                           NI_NUMERICHOST | NI_NUMERICSERV);
 
         Assert::IsTrue(e == NO_ERROR);
@@ -223,9 +216,11 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsaclean
     {
         error_t e{};
         SOCKET sd = ::WSASocketW(
-            //AF_INET6, SOCK_RAW, IPPROTO_RAW, nullptr, 0, WSA_FLAG_OVERLAPPED);
+            // AF_INET6, SOCK_RAW, IPPROTO_RAW, nullptr, 0,
+            // WSA_FLAG_OVERLAPPED);
             AF_INET6, SOCK_STREAM, IPPROTO_TCP, nullptr, 0,
-WSA_FLAG_OVERLAPPED); e = WSAGetLastError();
+            WSA_FLAG_OVERLAPPED);
+        e = WSAGetLastError();
 
         Assert::IsTrue(e == NO_ERROR);
         Assert::IsTrue(sd != INVALID_SOCKET);
@@ -237,9 +232,10 @@ WSA_FLAG_OVERLAPPED); e = WSAGetLastError();
     {
         error_t e{};
         SOCKET sd = ::WSASocketW(
-            //AF_INET6, SOCK_RAW, IPPROTO_RAW, nullptr, 0, WSA_FLAG_OVERLAPPED);
+            // AF_INET6, SOCK_RAW, IPPROTO_RAW, nullptr, 0,
+            // WSA_FLAG_OVERLAPPED);
             AF_INET6, SOCK_STREAM, IPPROTO_TCP, nullptr, 0,
-WSA_FLAG_OVERLAPPED);
+            WSA_FLAG_OVERLAPPED);
 
         e = WSAGetLastError();
 
@@ -260,11 +256,7 @@ WSA_FLAG_OVERLAPPED);
     TEST_METHOD(SocketListen)
     {
         error_t e{};
-        SOCKET sd = ::WSASocketW(AF_INET6,
-                                 SOCK_STREAM,
-                                 IPPROTO_TCP,
-                                 nullptr,
-                                 0,
+        SOCKET sd = ::WSASocketW(AF_INET6, SOCK_STREAM, IPPROTO_TCP, nullptr, 0,
                                  WSA_FLAG_OVERLAPPED);
         e = WSAGetLastError();
 
@@ -291,21 +283,13 @@ WSA_FLAG_OVERLAPPED);
     {
         error_t e{};
         // listener socket
-        SOCKET ls = ::WSASocketW(AF_INET6,
-                                 SOCK_STREAM,
-                                 IPPROTO_TCP,
-                                 nullptr,
-                                 0,
+        SOCKET ls = ::WSASocketW(AF_INET6, SOCK_STREAM, IPPROTO_TCP, nullptr, 0,
                                  WSA_FLAG_OVERLAPPED);
         Assert::IsTrue(ls != INVALID_SOCKET);
         auto d1 = defer([=]() { closesocket(ls); });
 
         // client socket
-        SOCKET cs = ::WSASocketW(AF_INET6,
-                                 SOCK_STREAM,
-                                 IPPROTO_TCP,
-                                 nullptr,
-                                 0,
+        SOCKET cs = ::WSASocketW(AF_INET6, SOCK_STREAM, IPPROTO_TCP, nullptr, 0,
                                  WSA_FLAG_OVERLAPPED);
         Assert::IsTrue(cs != INVALID_SOCKET);
         auto d2 = defer([=]() { closesocket(cs); });
@@ -328,9 +312,8 @@ WSA_FLAG_OVERLAPPED);
         remote.sin6_addr = ::in6addr_loopback;
         remote.sin6_port = ::htons(45675);
 
-        e = connect(
-            cs, reinterpret_cast<sockaddr*>(&remote), sizeof(sockaddr_in6));
+        e = connect(cs, reinterpret_cast<sockaddr*>(&remote),
+                    sizeof(sockaddr_in6));
         Assert::IsTrue(e == NO_ERROR);
     }
 };
-*/

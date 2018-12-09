@@ -103,7 +103,7 @@ auto recv_from(SOCKET sd, endpoint& remote, buffer* buf, uint32_t buflen,
     work.count = buflen;
     work.from = addressof(remote);
 
-    return *reinterpret_cast<io_recv_from*>(addressof(work));
+    return *static_cast<io_recv_from*>(addressof(work));
 }
 
 // GSL_SUPPRESS(type .1)
@@ -149,7 +149,7 @@ auto send(SOCKET sd, buffer* buf, uint32_t buflen, io_work& work) noexcept
     work.count = buflen;
     work.to = nullptr;
 
-    return *reinterpret_cast<io_send*>(addressof(work));
+    return *static_cast<io_send*>(addressof(work));
 }
 
 // GSL_SUPPRESS(type .1)
@@ -195,7 +195,7 @@ auto recv(SOCKET sd, buffer* buf, uint32_t buflen, io_work& work) noexcept
     work.count = buflen;
     work.to = nullptr;
 
-    return *reinterpret_cast<io_recv*>(addressof(work));
+    return *static_cast<io_recv*>(addressof(work));
 }
 
 // GSL_SUPPRESS(type .1)

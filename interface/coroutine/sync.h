@@ -89,7 +89,7 @@ class wait_group final
     _INTERFACE_ void add(uint16_t delta) noexcept;
     _INTERFACE_ void done() noexcept;
     _INTERFACE_
-    bool wait(duration d = std::chrono::seconds{10}) noexcept(false);
+    bool wait(duration d = std::chrono::milliseconds{100}) noexcept(false);
 };
 
 enum class thread_id_t : uint64_t;
@@ -97,9 +97,9 @@ enum class thread_id_t : uint64_t;
 struct _INTERFACE_ message_t final
 {
     union {
-        uint64_t u64{};
+        uint32_t u32[2]{};
+        uint64_t u64;
         void* ptr;
-        uint32_t u32[2];
     };
 
     bool operator==(const message_t& rhs) const noexcept

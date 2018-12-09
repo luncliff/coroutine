@@ -5,9 +5,9 @@
 #include "./test.h"
 #include <catch.hpp>
 
-#include <coroutine/unplug.hpp>
+#include <coroutine/return.h>
 
-TEST_CASE("UnplugTest", "[generic]")
+TEST_CASE("unplug", "[generic]")
 {
     SECTION("default_use")
     {
@@ -19,19 +19,19 @@ TEST_CASE("UnplugTest", "[generic]")
     }
 }
 
-TEST_CASE("AwaitPointTest", "[generic]")
+TEST_CASE("suspend_hook", "[generic]")
 {
     SECTION("empty")
     {
         // if empty, do nothing
-        REQUIRE_NOTHROW(await_point{}.resume());
+        REQUIRE_NOTHROW(suspend_hook{}.resume());
     }
 
     SECTION("plug_and_resume")
     {
         int status = 0;
         {
-            auto try_plugging = [=](await_point& p, int& status) -> unplug {
+            auto try_plugging = [=](suspend_hook& p, int& status) -> unplug {
                 auto a = defer([&]() {
                     // ensure final action
                     status = 3;
@@ -44,7 +44,7 @@ TEST_CASE("AwaitPointTest", "[generic]")
                 co_return;
             };
 
-            await_point p{};
+            suspend_hook p{};
 
             REQUIRE_NOTHROW(try_plugging(p, status));
             REQUIRE(status == 1);

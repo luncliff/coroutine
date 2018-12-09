@@ -21,7 +21,6 @@
 #pragma warning(disable : 4455 4494 4577 4619 4643 4702 4984 4988)
 #pragma warning(disable : 26490 26481 26476)
 
-#include <cassert>
 #include <cstdint>
 #include <type_traits>
 
@@ -74,7 +73,9 @@ struct clang_frame_prefix final
 };
 static_assert(sizeof(clang_frame_prefix) == 16);
 
-// redirect for `_coro_done`
+// - Note
+//      Alternative of `_coro_done` of msvc for this library.
+//      It is renamed to avoid redefinition
 bool _coro_finished(const msvc_frame_prefix*) noexcept;
 
 // -------------------- Compiler intrinsic: MSVC  --------------------
@@ -293,6 +294,7 @@ class coroutine_handle : public coroutine_handle<void>
         return coroutine_handle{};
     }
 };
+static_assert(sizeof(coroutine_handle<void>) == sizeof(void*));
 
 inline bool operator==(const coroutine_handle<void> lhs,
                        const coroutine_handle<void> rhs) noexcept
@@ -354,9 +356,46 @@ struct suspend_always
 };
 } // namespace std::experimental
 
-#ifdef _MSC_VER
-// ---------------------------------------------------------------------------
-// Helper:  MSVC
+#ifdef __clang__
+//
+//  Note
+//      VC++ header expects msvc intrinsics. Redirect them to Clang intrinsics.
+//      If the project uses libc++ header files, this code won't be a problem
+//      because they wont't be used
+//  Reference
+//      https://clang.llvm.org/docs/LanguageExtensions.html#c-coroutines-support-builtins
+//      https://llvm.org/docs/Coroutines.html#example
+//
+
+inline bool _coro_finished(msvc_frame_prefix* m) noexcept
+{
+    // expect: coroutine == suspended
+    // expect: coroutine != destroyed
+    auto* c = reinterpret_cast<clang_frame_prefix*>(m);
+    return __builtin_coro_done(c) ? 1 : 0;
+}
+
+inline size_t _coro_resume(void* addr)
+{
+    auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
+    __builtin_coro_resume(c);
+    return 0;
+}
+
+inline void _coro_destroy(void* addr)
+{
+    auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
+    __builtin_coro_destroy(c);
+}
+
+#elif _MSC_VER
+
+inline bool _coro_finished(const msvc_frame_prefix* prefix) noexcept
+{
+    // expect: coroutine == suspended
+    // expect: coroutine != destroyed
+    return prefix->index == 0;
+}
 
 namespace std::experimental
 {
@@ -366,25 +405,24 @@ namespace std::experimental
 template <typename _Ret, typename... _Ts>
 struct _Resumable_helper_traits
 {
-    using _Traits = coroutine_traits<_Ret, _Ts...>;
-    using _PromiseT = typename _Traits::promise_type;
-    using _Handle_type = coroutine_handle<_PromiseT>;
+    using promise_type = typename coroutine_traits<_Ret, _Ts...>::promise_type;
+    using handle_type = coroutine_handle<promise_type>;
 
-    static _PromiseT* _Promise_from_frame(void* addr) noexcept
+    static promise_type* _Promise_from_frame(void* addr) noexcept
     {
-        auto& prom = _Handle_type::from_address(addr).promise();
+        auto& prom = handle_type::from_address(addr).promise();
         return std::addressof(prom);
     }
 
-    static _Handle_type _Handle_from_frame(void* _Addr) noexcept
+    static handle_type _Handle_from_frame(void* _Addr) noexcept
     {
         auto* p = _Promise_from_frame(_Addr);
-        return _Handle_type::from_promise(*p);
+        return handle_type::from_promise(*p);
     }
 
     static void _Set_exception(void* addr) noexcept
     {
-        auto& prom = _Handle_type::from_address(addr).promise();
+        auto& prom = handle_type::from_address(addr).promise();
         prom->set_exception(std::current_exception());
     }
 
@@ -399,127 +437,17 @@ struct _Resumable_helper_traits
         *ptr = 2 + (_HeapElision ? 0 : 0x10000);
 
         auto* prom = _Promise_from_frame(prefix);
-        ::new (prom) _PromiseT();
+        ::new (prom) promise_type();
     }
 
     static void _DestructPromise(void* addr) noexcept
     {
         auto prefix = static_cast<msvc_frame_prefix*>(addr);
-        _Promise_from_frame(prefix)->~_PromiseT();
+        _Promise_from_frame(prefix)->~promise_type();
     }
 };
 
 } // namespace std::experimental
-
-#endif // _MSC_VER
-
-#ifdef __clang__
-// ---------------------------------------------------------------------------
-// Helper:  clang-cl
-
-//
-//  Note
-//      VC++ header expects msvc intrinsics. Redirect them to Clang intrinsics.
-//      If the project uses libc++ header files, this code won't be a problem
-//      because they wont't be used
-//  Reference
-//      https://clang.llvm.org/docs/LanguageExtensions.html#c-coroutines-support-builtins
-//      https://llvm.org/docs/Coroutines.html#example
-//
-
-#include <utility>
-
-// bool  __builtin_coro_done(void *addr);
-inline bool _coro_finished(msvc_frame_prefix* m) noexcept // _coro_done
-{
-    // expect: coroutine == suspended
-    // expect: coroutine != destroyed
-    auto* c = reinterpret_cast<clang_frame_prefix*>(m);
-
-    return __builtin_coro_done(c) ? 1 : 0;
-    /*
-    // what if resume just bypass and destroy evenything?
-    // see `coroutine_handle<void>` in VC++ header
-    if (__builtin_coro_done(c))
-    {
-        // expect: c->activate == nullptr
-
-        // If the coroutine is finished, it's ok to override the value
-        //  in the frame since they won't be visible anyway.
-        // Since VC++ implementation doesn't rely on intrinsic,
-        //  we have to mark the frame's index manually
-
-        // m->index = 0; // <-- like this
-
-        // However, `fdestroy` is modified after `m->index = 0;`
-        //  So we will swap it with `factivate` and
-        //  make it work like `m->index = 0;`
-        std::swap(c->factivate, c->fdestroy);
-
-        // ensure: m->index == 0;
-    }
-    return m->index == 0;
-    */
-}
-
-// void  __builtin_coro_resume(void *addr);
-inline size_t _coro_resume(void* addr)
-{
-    auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
-    // auto* m = reinterpret_cast<msvc_frame_prefix*>(addr);
-    // auto fn = c->factivate;
-
-    __builtin_coro_resume(c);
-    return 0;
-    /*
-     //
-     // If some coroutines doen't 'final_suspend',
-     //  it's frame will be deleted after above resume operation.
-     //
-     if (c->factivate != nullptr && c->factivate != fn)
-         // nullptr if the coroutine is 'final_suspend'ed
-         // address mismatch because of free operation
-         //
-         // !!! But accessing freed address space yields access violation !!!
-         //
-         return 0;
-     //
-     // For 'final_suspend'ing coroutines,
-     //  the following line is required to work with VC++ implementation
-
-     //
-     // See `coroutine_handle<void>` in VC++ header.
-     // It doesn't rely on `_coro_done` to check its coroutine is returned
-     //
-     // Therefore, there was no way but to place
-     //  additional intrinsic here...
-     return _coro_done(addr);
-     */
-}
-
-// void  __builtin_coro_destroy(void *addr);
-inline void _coro_destroy(void* addr)
-{
-    auto* c = reinterpret_cast<clang_frame_prefix*>(addr);
-    /*
-    // Notice the trick we used in `_coro_done`.
-    // since we exchanged the function pointers, we need to revoke the change
-    // before start intrinsic;
-    std::swap(c->factivate, c->fdestroy);
-    */
-    __builtin_coro_destroy(c);
-}
-
-#elif _MSC_VER
-
-// alternative of `_coro_done` of msvc for this library,
-// it's renamed to avoid redefinition
-inline bool _coro_finished(const msvc_frame_prefix* prefix) noexcept
-{
-    // expect: coroutine == suspended
-    // expect: coroutine != destroyed
-    return prefix->index == 0;
-}
 
 #endif // __clang__ || _MSC_VER
 

@@ -1,42 +1,36 @@
 // ---------------------------------------------------------------------------
 //
-//  Author
-//      Park DongHa     | luncliff@gmail.com
-//
-//  License
-//      CC BY 4.0
-//
-//  Reference
-//      -
-//      https://docs.microsoft.com/en-us/windows/desktop/ProcThread/using-the-thread-pool-functions
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-
 #include "./vstest.h"
 
+#include <coroutine/return.h>
 #include <coroutine/sequence.hpp>
-#include <coroutine/switch.h>
-#include <coroutine/sync.h>
-#include <coroutine/unplug.hpp>
 
 using namespace std::literals;
 using namespace std::experimental;
 
-class SequenceTest : public TestClass<SequenceTest>
+class AsyncGeneratorTest : public TestClass<AsyncGeneratorTest>
 {
-    TEST_METHOD(CheckSpeedAndLeak) // just repeat a lot
+    TEST_METHOD(CheckLeak) // just repeat a lot
     {
         auto get_sequence = [](int value = rand()) -> sequence<int> {
+            // yield random
             co_yield value;
         };
         auto try_sequence = [=](int& ref) -> unplug {
-            for
-                co_await(int v : get_sequence()) ref = v;
+            /* clang-format off */
+            for co_await(int v : get_sequence())
+                ref = v;
+            /* clang-format on*/
         };
 
         constexpr auto max_repeat = 100'000;
         int dummy{};
-        unsigned repeat = max_repeat;
+
+        size_t repeat = max_repeat;
         while (--repeat)
             try_sequence(dummy);
 
@@ -45,17 +39,19 @@ class SequenceTest : public TestClass<SequenceTest>
 
     TEST_METHOD(YieldThenAwait)
     {
-        auto get_sequence = [&](await_point& p) -> sequence<int> {
+        auto get_sequence = [&](suspend_hook& p) -> sequence<int> {
             int value = 137;
             co_yield value;
             co_yield p;
         };
-        auto try_sequence = [=](await_point& p, int& ref) -> unplug {
-            for
-                co_await(int v : get_sequence(p)) ref = v;
+        auto try_sequence = [=](suspend_hook& p, int& ref) -> unplug {
+            /* clang-format off */
+            for co_await(int v : get_sequence(p)) 
+                ref = v;
+            /* clang-format on */
         };
 
-        await_point p{};
+        suspend_hook p{};
         int value = 0;
         try_sequence(p, value);
         p.resume();
@@ -64,17 +60,19 @@ class SequenceTest : public TestClass<SequenceTest>
 
     TEST_METHOD(AwaitThenYield)
     {
-        auto get_sequence = [&](await_point& p) -> sequence<int> {
+        auto get_sequence = [&](suspend_hook& p) -> sequence<int> {
             int value = 131;
             co_yield p;
             co_yield value;
         };
-        auto try_sequence = [=](await_point& p, int& ref) -> unplug {
-            for
-                co_await(int v : get_sequence(p)) ref = v;
+        auto try_sequence = [=](suspend_hook& p, int& ref) -> unplug {
+            /* clang-format off */
+            for co_await(int v : get_sequence(p)) 
+                ref = v;
+            /* clang-format on */
         };
 
-        await_point p{};
+        suspend_hook p{};
         int value = 0;
         try_sequence(p, value);
         p.resume();
@@ -85,17 +83,16 @@ class SequenceTest : public TestClass<SequenceTest>
     {
         auto get_sequence = []() -> sequence<int> {
             int value{};
-
             co_yield value = 7;
-            // co_yield value = 9;
         };
         auto try_sequence = [=](int& ref) -> unplug {
-            for
-                co_await(int v : get_sequence())
-                {
-                    ref = v;
-                    break;
-                }
+            /* clang-format off */
+            for co_await(int v : get_sequence())
+            {
+                ref = v;
+                break;
+            }
+            /* clang-format on */
         };
 
         int value = 0;
@@ -103,9 +100,9 @@ class SequenceTest : public TestClass<SequenceTest>
         Assert::IsTrue(value == 7);
     }
 
-    TEST_METHOD(Interleaved)
+    TEST_METHOD(MultipleAwait)
     {
-        auto get_sequence = [&](await_point& p, int& value) -> sequence<int> {
+        auto get_sequence = [&](suspend_hook& p, int& value) -> sequence<int> {
             co_yield p;
 
             co_yield value = 1;
@@ -121,28 +118,30 @@ class SequenceTest : public TestClass<SequenceTest>
             co_yield value = 4;
         };
 
-        auto try_sequence =
-            [=](await_point& p, int& sum, int& value) -> unplug {
+        auto try_sequence
+            = [=](suspend_hook& p, int& sum, int& value) -> unplug {
             Assert::IsTrue(sum == 0);
             auto s = get_sequence(p, value);
             Assert::IsTrue(sum == 0);
+
+            /* clang-format off */
 
             // for (auto it = co_await s.begin(); // begin
             //     it != s.end();                // check
             //     co_await++ it                 // advance
             //)
-            for
-                co_await(int v : s)
-                {
-                    // auto value = *it;
-                    sum += v;
-                }
+            for co_await(int v : s)
+            {
+                // auto value = *it;
+                sum += v;
+            }
+            /* clang-format on */
 
             Assert::IsTrue(sum == 10);
             sum += 5;
         };
 
-        await_point p{};
+        suspend_hook p{};
         int sum = 0, value = 0;
 
         try_sequence(p, sum, value);

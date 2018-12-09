@@ -24,7 +24,7 @@
     <ClInclude Include="..\interface\coroutine\sync.h">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\unplug.hpp">
+    <ClInclude Include="..\interface\coroutine\return.h">
       <Filter>coroutine</Filter>
     </ClInclude>
     <ClInclude Include="..\interface\coroutine\enumerable.hpp">
@@ -41,19 +41,19 @@
     <ClCompile Include="vs\channel.cpp">
       <Filter>test\vs</Filter>
     </ClCompile>
-    <ClCompile Include="vs\memory.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
-    <ClCompile Include="vs\sequence.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
-    <ClCompile Include="vs\socket.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
-    <ClCompile Include="vs\thread.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
     <ClCompile Include="vs\unplug.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="vs\generator.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="vs\async_generator.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="vs\wait_group.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="vs\messaging.cpp">
       <Filter>test\vs</Filter>
     </ClCompile>
   </ItemGroup>

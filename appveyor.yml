@@ -82,9 +82,9 @@ for:
     - ps: New-Item -Name build -ItemType Directory
     - ps: Push-Location -Path build
     - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-    # - cmd: set CC=clang-cl  # ps: $env:CC  = "clang-cl"
-    # - cmd: set CXX=clang-cl # ps: $env:CXX = "clang-cl"
-    - cmd: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration% -DCMAKE_C_COMPILER=clang-cl -DCMAKE_CXX_COMPILER=clang-cl
+    - cmd: set CXX=clang-cl # ps: $env:CXX = "clang-cl"
+    # for cmake, this can be ok. -DCMAKE_CXX_COMPILER=clang-cl
+    - cmd: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration% 
     - cmd: ninja
   after_build:
     # copy dll for test executable

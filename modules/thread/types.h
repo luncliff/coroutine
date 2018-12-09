@@ -9,7 +9,6 @@
 #include <messaging/concurrent.h>
 
 #include <array>
-// #include <gsl/gsl>
 
 struct thread_data final
 {
@@ -22,33 +21,30 @@ struct thread_data final
     thread_data& operator=(thread_data&&) = delete;
 
   public:
-    // GSL_SUPPRESS(type .1)
-    // GSL_SUPPRESS(con .4)
     thread_data() noexcept(false);
-    // GSL_SUPPRESS(f .6)
     ~thread_data() noexcept;
 
   public:
     thread_id_t get_id() const noexcept;
 };
 
+thread_data* get_local_data() noexcept;
+
 struct thread_registry final
 {
   private:
     // If the program is goiing to use more threads,
     // this library must be recompiled after changing this limit
-#pragma message("Maximum number of thread: 300")
     static constexpr auto max_thread_count = 300;
+    static constexpr uint16_t invalid_idx = UINT16_MAX;
+    static constexpr uint64_t invalid_key = UINT64_MAX;
 
   public:
     using key_type = uint64_t;
     using value_type = thread_data*;
     using pointer = value_type*;
 
-  private: // constants to disable copy/move
-    const uint16_t invalid_idx;
-    const uint64_t invalid_key;
-
+  private:
     section mtx;
     std::array<key_type, max_thread_count> keys;
     std::array<value_type, max_thread_count> values;

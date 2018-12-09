@@ -7,17 +7,11 @@
 #include <thread/types.h>
 
 #include <iterator>
-
 using namespace std;
 
 thread_registry registry{};
 
-thread_registry::thread_registry() noexcept(false)
-    : invalid_idx{numeric_limits<uint16_t>::max()},
-      invalid_key{numeric_limits<uint64_t>::max()},
-      mtx{},
-      keys{},
-      values{}
+thread_registry::thread_registry() noexcept(false) : mtx{}, keys{}, values{}
 {
     for (auto& k : keys)
         k = invalid_key;
@@ -27,7 +21,6 @@ thread_registry::thread_registry() noexcept(false)
 
 thread_registry::~thread_registry() noexcept
 {
-    assert(true);
     // for (const auto& k : keys)
     //    assert(k == invalid_key);
     // for (const auto& v : values)
@@ -69,7 +62,6 @@ auto thread_registry::reserve(key_type key) noexcept(false) -> pointer
     return addressof(ref);
 }
 
-// GSL_SUPPRESS(type.1)
 void thread_registry::remove(key_type key) noexcept(false)
 {
     //  unique_lock lck{ writer(mtx) };
@@ -78,7 +70,8 @@ void thread_registry::remove(key_type key) noexcept(false)
     const auto it = find(keys.begin(), keys.end(), key);
     if (it == keys.end())
         // unregistered one. nothing to do ?
-        throw runtime_error{"unregistered key received"};
+        // throw runtime_error{"unregistered key received"};
+        return;
 
     // forget
     const auto idx = distance(keys.begin(), it);
@@ -86,7 +79,6 @@ void thread_registry::remove(key_type key) noexcept(false)
     *it = invalid_key;
 }
 
-// GSL_SUPPRESS(f.6)
 uint16_t thread_registry::index_of(key_type key) const noexcept
 {
     //  unique_lock lck{ reader(mtx) };
