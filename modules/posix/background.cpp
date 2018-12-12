@@ -24,6 +24,7 @@
 #include <cassert>
 #include <csignal>
 #include <future>
+#include <string>
 #include <system_error>
 
 #include <pthread.h>   // implement over pthread
