@@ -39,10 +39,6 @@ class unplug final
         }
         void unhandled_exception() noexcept(false)
         {
-            // throw again
-            if (auto eptr = std::current_exception())
-                std::rethrow_exception(eptr);
-
             // terminate the program.
             std::terminate();
         }

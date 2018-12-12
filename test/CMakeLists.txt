@@ -10,7 +10,7 @@ add_executable(coroutine_test
     entry.cpp
     
     generic/returns.cpp
-    # generic/channel.cpp
+    generic/channel.cpp
     generic/generator.cpp
     generic/async_generator.cpp
 

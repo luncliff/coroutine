@@ -10,6 +10,11 @@
 //      So the code below focus on maintaining only 1 thread
 //      in safe, robust manner
 //
+//  To Do
+//      Save CPU power
+//      Timed wait for peek_switched
+//      Remain idle background is not used (possibly with signal)
+//
 // ---------------------------------------------------------------------------
 #include <coroutine/frame.h>
 #include <coroutine/switch.h>
@@ -29,6 +34,8 @@
 #define LIB_EPILOGUE __attribute__((destructor))
 
 using namespace std;
+using namespace std::experimental;
+using namespace std::literals;
 
 //
 // !!! notice that this is not atomic !!!
@@ -50,9 +57,8 @@ LIB_PROLOGUE void setup_worker() noexcept(false)
 {
     static_assert(sizeof(pthread_t) == sizeof(thread_id_t));
 
-    void* (*fthread)(void*) = nullptr;
-    fthread
-        = reinterpret_cast<decltype(fthread)>(resume_coroutines_on_backgound);
+    auto fthread
+        = reinterpret_cast<void* (*)(void*)>(resume_coroutines_on_backgound);
 
     if (auto ec = pthread_create(
             reinterpret_cast<pthread_t*>(addressof(background_thread_id)),
@@ -60,6 +66,7 @@ LIB_PROLOGUE void setup_worker() noexcept(false)
         // expect successful worker creation. unless kill the program
         throw system_error{ec, system_category(), "pthread_create"};
 
+    // it rarely happens that background_thread_id is not modified
     assert(background_thread_id != thread_id_t{});
 }
 
@@ -72,36 +79,55 @@ LIB_EPILOGUE void teardown_worker() noexcept(false)
         throw system_error{ec, system_category(), "pthread_join"};
 }
 
-using namespace experimental;
-
 void* resume_coroutines_on_backgound(thread_registry& reg) noexcept(false)
 {
     coroutine_handle<void> coro{};
 
-    // the variable is set by `pthread_create`,
-    //  but make it sure since we are in another thread
-    background_thread_id = current_thread_id();
-
-    const auto tid = static_cast<uint64_t>(background_thread_id);
+    const auto tid = static_cast<uint64_t>(current_thread_id());
     // register this thread to receive messages
     *(registry.reserve(tid)) = addressof(current_data);
 
+    // the variable is set by `pthread_create`,
+    //  but make it sure since we are in another thread
+    background_thread_id = static_cast<thread_id_t>(tid);
+
+ResumeNext:
     try
     {
-    ResumeNext:
-        if (peek_switched(coro) == true)
+        while (peek_switched(coro) == true)
         {
             coro.resume();
             coro = nullptr;
         }
 
         pthread_testcancel();
-        goto ResumeNext;
+        // std::this_thread::sleep_for(1ms);
+    }
+    catch (const error_code& e)
+    {
+        ::fputs(e.message().c_str(), stderr);
+    }
+    catch (const error_condition& e)
+    {
+        ::fputs(e.message().c_str(), stderr);
     }
     catch (const exception& e)
     {
         ::fputs(e.what(), stderr);
     }
+    goto ResumeNext;
 
     return nullptr;
+}
+
+void post_to_background(
+    std::experimental::coroutine_handle<void> coro) noexcept(false)
+{
+    message_t msg{};
+    msg.ptr = coro.address();
+
+    // if post failes,
+    //  give some time consume messages
+    while (post_message(background_thread_id, msg) == false)
+        std::this_thread::yield();
 }

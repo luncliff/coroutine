@@ -76,21 +76,22 @@ bool switch_to::ready() const noexcept
     return false;
 }
 
-extern thread_id_t background_thread_id;
+void post_to_background(
+    std::experimental::coroutine_handle<void> coro) noexcept(false);
 
 void switch_to::suspend( //
     std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
     auto* sw = for_posix(this);
+
+    if (sw->thread_id == thread_id_t{})
+        return post_to_background(coro);
+
     // submit to specific thread
     message_t msg{};
     msg.ptr = coro.address();
 
-    const thread_id_t worker_id = (sw->thread_id != thread_id_t{})
-                                      ? sw->thread_id
-                                      : background_thread_id;
-
-    if (post_message(worker_id, msg) == false)
+    if (post_message(sw->thread_id, msg) == false)
         throw std::runtime_error{"post_message failed in suspend"};
 }
 

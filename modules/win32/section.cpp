@@ -15,7 +15,6 @@
 #include <concrt.h> // Windows Concurrency Runtime
 using namespace concurrency;
 
-// GSL_SUPPRESS(type.1)
 auto for_win32(section* s) noexcept
 {
     static_assert(sizeof(reader_writer_lock) <= sizeof(section));
@@ -31,10 +30,14 @@ section::section(uint16_t) noexcept(false) : storage{}
 section::~section() noexcept
 {
     auto rwl = for_win32(this);
-
-    // rwl->try_lock();
-    // rwl->unlock();
-    rwl->~reader_writer_lock();
+    try
+    {
+        rwl->~reader_writer_lock();
+    }
+    catch (const std::exception& e)
+    {
+        std::fputs(e.what(), stderr);
+    }
 }
 
 // GSL_SUPPRESS(f.6)

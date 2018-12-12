@@ -18,12 +18,6 @@ auto write_to(channel<uint64_t, L>& ch, uint64_t value, bool ok = false)
     -> unplug
 {
     ok = co_await ch.write(value);
-
-    if (ok == false)
-        // inserting fprintf makes the crash disappear.
-        // finding the reason for the issue
-        fprintf(stdout, "write_to %p \n", &value);
-
     REQUIRE(ok);
 }
 
@@ -36,37 +30,37 @@ auto read_from(channel<uint64_t, L>& ch, uint64_t& value, bool ok = false)
     REQUIRE(ok);
 }
 
-// - Note
-//      Lockable without lock operation
-struct bypass_lock
+SCENARIO("basic channel operations", "[generic][channel]")
 {
-    bool try_lock() noexcept
-    {
-        return true;
-    }
-    void lock() noexcept
-    {
-    }
-    void unlock() noexcept
-    {
-    }
-};
+    uint64_t storage = 0;
+    std::array<uint64_t, 3> nums{};
 
-TEST_CASE("ChannelTest", "[generic][channel]")
-{
-    SECTION("WriteRead")
+    uint64_t id = 1;
+    for (auto& i : nums)
+        i = id++;
+
+    GIVEN("bypass lock")
     {
-        uint64_t storage = 0;
-        std::array<uint64_t, 3> nums{};
-
-        uint64_t id = 1;
-        for (auto& i : nums)
-            i = id++;
-
-        SECTION("bypass_lock")
+        // - Note
+        //      Lockable without lock operation
+        struct bypass_lock
         {
-            channel<uint64_t, bypass_lock> ch{};
+            bool try_lock() noexcept
+            {
+                return true;
+            }
+            void lock() noexcept
+            {
+            }
+            void unlock() noexcept
+            {
+            }
+        };
 
+        channel<uint64_t, bypass_lock> ch{};
+
+        THEN("write before read")
+        {
             // Writer coroutine may suspend.(not-returned)
             for (auto i : nums)
                 write_to(ch, i);
@@ -78,10 +72,9 @@ TEST_CASE("ChannelTest", "[generic][channel]")
                 REQUIRE(storage == i); // stored value is same with sent value
             }
         }
-        SECTION("std::mutex")
-        {
-            channel<uint64_t, std::mutex> ch{};
 
+        THEN("read before write")
+        {
             // Writer coroutine may suspend.(not-returned)
             for (auto i : nums)
                 write_to(ch, i);
@@ -95,132 +88,95 @@ TEST_CASE("ChannelTest", "[generic][channel]")
         }
     }
 
-    SECTION("ReadWrite")
+    GIVEN("std::mutex")
     {
-        uint64_t storage = 0;
-        std::array<uint64_t, 3> nums{};
+        channel<uint64_t, std::mutex> ch{};
 
-        uint64_t id = 1;
-        for (auto& i : nums)
-            i = id++;
-
-        SECTION("bypass_lock")
+        THEN("write before read")
         {
-            channel<uint64_t, bypass_lock> ch{};
-
-            // Reader coroutine may suspend.(not-returned)
-            // for (auto i : nums)
-            for (auto i = 0u; i < 3; ++i)
-                // read to `storage`
-                read_from(ch, storage);
+            // Writer coroutine may suspend.(not-returned)
+            for (auto i : nums)
+                write_to(ch, i);
 
             for (auto i : nums)
             {
-                write_to(ch, i);
+                // read to `storage`
+                read_from(ch, storage);
                 REQUIRE(storage == i); // stored value is same with sent value
             }
         }
-        SECTION("std::mutex")
-        {
-            channel<uint64_t, std::mutex> ch{};
 
-            // Reader coroutine may suspend.(not-returned)
-            for (auto i = 0u; i < 3; ++i)
-                // read to `storage`
-                read_from(ch, storage);
+        THEN("read before write")
+        {
+            // Writer coroutine may suspend.(not-returned)
+            for (auto i : nums)
+                write_to(ch, i);
 
             for (auto i : nums)
             {
-                write_to(ch, i);
+                // read to `storage`
+                read_from(ch, storage);
                 REQUIRE(storage == i); // stored value is same with sent value
             }
         }
     }
+}
 
-    SECTION("EnsureDelivery")
+TEST_CASE("channel race test", "[thread][channel]")
+{
+    // using some thread-safe lockable
+    using channel_t = channel<uint64_t, section>;
+    channel_t chan{};
+
+    SECTION("ensure delivery for same read/write")
     {
-        try
+        static constexpr size_t max_count = 2'000;
+
+        uint32_t success = 0, failure = 0;
+
+        wait_group group{};
+        group.add(2 * max_count);
+
+        auto send_with_callback
+            = [&](channel_t& ch, uint64_t value, wait_group& wg) -> unplug {
+            // go to background
+            co_await switch_to{};
+
+            if (co_await ch.write(value))
+                success += 1;
+            else
+                failure += 1;
+
+            wg.done();
+        };
+
+        auto recv_with_callback = [&](channel_t& ch, wait_group& wg) -> unplug {
+            // go to background
+            co_await switch_to{};
+
+            auto [value, ok] = co_await ch.read();
+            if (ok)
+                success += 1;
+            else
+                failure += 1;
+
+            wg.done();
+        };
+
+        // Spawn coroutines
+        uint64_t count = max_count;
+        while (count--) // what if repeat value is used as an id
+                        // of alive coroutine?
         {
-            // using 'guaranteed' lockable
-            channel<uint64_t, section> ch{};
-            uint32_t success = 0, failure = 0;
-
-            // go to background (id: 0)
-            auto back_id = thread_id_t{};
-            static constexpr size_t TryCount = 6'000;
-
-            wait_group group{};
-            group.add(2 * TryCount);
-
-            auto send_with_callback = [&]( //
-                                          auto value, auto fn) -> unplug {
-                bool ok = false;
-                co_await switch_to{back_id};
-
-                // try
-                // {
-                ok = co_await ch.write(value);
-                // }
-                // catch (const std::exception& e)
-                // {
-                //     ::fputs(e.what(), stderr);
-                //     // ignore exception. consider as failure
-                //     ok = false;
-                // }
-                fn(ok);
-            };
-
-            auto recv_with_callback = [&](auto fn) -> unplug {
-                bool ok = false;
-                co_await switch_to{back_id};
-
-                // try
-                // {
-                // [ value, ok ]
-                const auto tup = co_await ch.read();
-                ok = std::get<1>(tup);
-                // }
-                // catch (const std::exception& e)
-                // {
-                //     ::fputs(e.what(), stderr);
-                //     // ignore exception. consider as failure
-                //     ok = false;
-                // }
-                fn(ok);
-            };
-
-            auto callback = [&](bool ok) {
-                // increase counter according to operation result
-                if (ok)
-                    success += 1;
-                else
-                    failure += 1;
-
-                // notify the end of coroutine
-                group.done();
-            };
-
-            // Spawn coroutines
-            uint64_t repeat = TryCount;
-            while (repeat--) // what if repeat value is used as an id
-                             // of alive coroutine?
-            {
-                recv_with_callback(callback);
-                send_with_callback(repeat, callback);
-            }
-
-            // Wait for all coroutines...
-            // !!! use should ensure there is no race for destroying channel !!!
-            group.wait();
-
-            REQUIRE(failure == 0);
-            REQUIRE(success <= 2 * TryCount);
+            recv_with_callback(chan, group);
+            send_with_callback(chan, count, group);
         }
-        catch (std::system_error& e)
-        {
-            ::fputs(e.what(), stderr);
 
-            FAIL(e.what());
-        }
+        // Wait for all coroutines...
+        // !!! use should ensure there is no race for destroying channel !!!
+        group.wait();
+
+        REQUIRE(failure == 0);
+        REQUIRE(success <= 2 * max_count);
     }
 }

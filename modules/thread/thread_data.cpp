@@ -10,6 +10,9 @@ extern thread_registry registry;
 
 #if __APPLE__ || __linux__ || __unix__
 
+#include <csignal>
+#include <pthread.h>
+
 thread_local thread_data current_data{};
 
 thread_id_t current_thread_id() noexcept
@@ -18,7 +21,14 @@ thread_id_t current_thread_id() noexcept
     return current_data.get_id();
 }
 
-#include <pthread.h>
+bool check_thread_exists(thread_id_t id) noexcept
+{
+    // expect ESRCH for return error code
+    if (pthread_kill((pthread_t)id, 0) == 0)
+        return true;
+
+    return false;
+}
 
 thread_data::thread_data() noexcept(false) : queue{}
 {

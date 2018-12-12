@@ -11,7 +11,9 @@
 
 TEST_CASE("async_generator", "[generic]")
 {
-    // ....
+    // when the coroutine's frame needs to be alive,
+    //  `frame_holder` can be used.
+    // the frame will be destroyed when frame_holder is destructed
     frame_holder h{};
 
     SECTION("return without yield")
