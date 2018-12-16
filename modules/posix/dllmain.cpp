@@ -8,6 +8,7 @@
 #include <thread/types.h>
 
 #include <cassert>
+#include <csignal>
 #include <numeric>
 
 #include <pthread.h>   // implement over pthread API
@@ -17,11 +18,13 @@
 #define LIB_PROLOGUE __attribute__((constructor))
 #define LIB_EPILOGUE __attribute__((destructor))
 
-thread_local thread_data current_data{};
-
-thread_data* get_local_data() noexcept
+bool check_thread_exists(thread_id_t id) noexcept
 {
-    return std::addressof(current_data);
+    if (id == thread_id_t{})
+        return false;
+
+    // expect ESRCH for return error code
+    return pthread_kill((pthread_t)id, 0) == 0;
 }
 
 void lazy_delivery(thread_id_t thread_id, message_t msg) noexcept(false)

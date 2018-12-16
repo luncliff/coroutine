@@ -11,7 +11,7 @@
 class unplug_frame_test : public TestClass<unplug_frame_test>
 {
   public:
-    TEST_METHOD(unplug_frame_destroy_after_return)
+    TEST_METHOD(unplug_destroy_frame_after_return)
     {
         int status = 0;
         {

@@ -32,8 +32,8 @@
   <ItemGroup>
     <ClCompile Include="messaging\operations.cpp" />
     <ClCompile Include="messaging\queue.cpp" />
-    <ClCompile Include="thread\thread_registry.cpp" />
-    <ClCompile Include="thread\thread_data.cpp" />
+    <ClCompile Include="thread\compatible.cpp" />
+    <ClCompile Include="thread\win32.cpp" />
     <ClCompile Include="win32\dllmain.cpp" />
     <ClCompile Include="win32\section.cpp" />
     <ClCompile Include="win32\switch_to.cpp" />

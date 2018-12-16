@@ -23,7 +23,9 @@ bool peek_switched( // ... better name?
     if (peek_message(msg) == true)
     {
         coro = coroutine_handle<void>::from_address(msg.ptr);
-        return true;
+        // ensure again
+        // because sender might return empty frame(null)
+        return msg.ptr != nullptr;
     }
     return false;
 }

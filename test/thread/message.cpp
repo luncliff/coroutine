@@ -35,52 +35,51 @@ TEST_CASE("message operations", "[messaging]")
         thread_id_t tid{};
 
         message_t msg{};
-        // send to unknown throwed exception
+        // throws exception
         REQUIRE_THROWS(post_message(tid, msg));
+        // REQUIRE_THROWS_AS(post_message(tid, msg), std::exception);
     }
 
-#if __APPLE__ || __linux__ || __unix__
-    SECTION("send message to unregisterd threads throws")
+    SECTION("send message to unregisterd threads")
     {
-        WARN("this test is only for POSIX");
-
-        std::mutex mtx{};
-        std::condition_variable cv{};
         auto fwork = [&]() {
-            std::unique_lock lck{mtx};
-            cv.wait_for(lck, 2s);
+            // sleep and do nothing
+            std::this_thread::sleep_for(2s);
         };
 
-        std::thread //
-            t1{fwork},
-            t2{fwork};
-        try
-        {
-            message_t msg{};
-            static_assert(sizeof(thread_id_t) == sizeof(decltype(t1.get_id())));
+        std::thread t1{fwork}, t2{fwork};
 
-            {
-                auto tid = t1.get_id();
-                auto id = *reinterpret_cast<thread_id_t*>(std::addressof(tid));
-                REQUIRE(id != thread_id_t{});
-                REQUIRE_THROWS(post_message(id, msg));
-            }
-            {
-                auto tid = t2.get_id();
-                auto id = *reinterpret_cast<thread_id_t*>(std::addressof(tid));
-                REQUIRE(id != thread_id_t{});
-                REQUIRE_THROWS(post_message(id, msg));
-            }
+        message_t msg{};
+        // this is a valid id, but it is not registered
+        auto std_id = t1.get_id();
 
-            REQUIRE_NOTHROW(t1.join());
-            REQUIRE_NOTHROW(t2.join());
-        }
-        catch (const std::exception& ex)
-        {
-            FAIL(ex.what());
-        }
-    }
+#if __APPLE__ || __linux__ || __unix__
+        static_assert(sizeof(thread_id_t) == sizeof(decltype(t1.get_id())));
+        auto tid = *reinterpret_cast<thread_id_t*>(std::addressof(std_id));
+#elif _MSC_VER
+        static_assert(sizeof(uint32_t) == sizeof(decltype(t1.get_id())));
+        auto tid = static_cast<thread_id_t>(
+            *reinterpret_cast<uint32_t*>(std::addressof(std_id)));
 #endif
+
+        REQUIRE(tid != thread_id_t{});
+        // if the thread id is valid,
+        //  library will buffer the message
+        REQUIRE(post_message(tid, msg) == true);
+
+        std_id = t2.get_id();
+#if __APPLE__ || __linux__ || __unix__
+        tid = *reinterpret_cast<thread_id_t*>(std::addressof(std_id));
+#elif _MSC_VER
+        tid = static_cast<thread_id_t>(
+            *reinterpret_cast<uint32_t*>(std::addressof(std_id)));
+#endif
+        REQUIRE(tid != thread_id_t{});
+        REQUIRE(post_message(tid, msg) == true);
+
+        REQUIRE_NOTHROW(t1.join());
+        REQUIRE_NOTHROW(t2.join());
+    }
 
     SECTION("send message for sync")
     {

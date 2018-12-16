@@ -79,8 +79,7 @@ SCENARIO("switch_to", "[thread][messaging]")
 
     GIVEN("thread worker")
     {
-
-        thread_id_t worker, tester = current_thread_id();
+        thread_id_t worker{}, tester = current_thread_id();
 
         thread th1{[&]() {
             // assign and send a message for synchronization
@@ -90,9 +89,11 @@ SCENARIO("switch_to", "[thread][messaging]")
 
             // fetch 1 coroutine and exit
             std::experimental::coroutine_handle<void> coro{};
+
             while (peek_switched(coro) == false)
                 std::this_thread::sleep_for(1ms);
 
+            REQUIRE(coro.address() != nullptr);
             coro.resume();
         }};
 
@@ -101,9 +102,10 @@ SCENARIO("switch_to", "[thread][messaging]")
         while (peek_message(msg) == false)
             std::this_thread::sleep_for(1ms);
 
+        REQUIRE(worker != thread_id_t{});
+
         WHEN("specific thread id")
         {
-
             // must different thread id
             REQUIRE(tester != worker);
 
@@ -116,6 +118,7 @@ SCENARIO("switch_to", "[thread][messaging]")
                 auto continue_on
                     = [&](thread_id_t target) noexcept(false)->unplug
                 {
+                    CAPTURE(target);
                     co_await switch_to{target}; // switch to designated thread
 
                     receiver = current_thread_id();

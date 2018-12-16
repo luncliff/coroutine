@@ -30,7 +30,6 @@ bool post_message(thread_id_t tid, message_t msg) noexcept(false)
         lazy_delivery(tid, msg);
         return true;
     }
-
     return receiver->queue.push(msg);
 }
 
