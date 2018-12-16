@@ -89,28 +89,3 @@ struct concurrent_message_queue final
     bool push(const value_type msg) noexcept;
     [[nodiscard]] bool try_pop(reference msg) noexcept;
 };
-/*
-#else
-
-#include <concurrent_queue.h>
-
-// alternative of concurrency::concurrent_queue<message_t> qu{};
-struct concurrent_message_queue final
-{
-    concurrency::concurrent_queue<message_t> qu{};
-
-  public:
-    using value_type = message_t;
-    using pointer = value_type*;
-    using reference = value_type&;
-
-  public:
-    bool is_full() const noexcept;
-    bool empty() const noexcept;
-
-    bool push(const value_type msg) noexcept;
-    [[nodiscard]] bool try_pop(reference msg) noexcept;
-};
-
-#endif
-*/

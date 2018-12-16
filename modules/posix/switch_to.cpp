@@ -79,7 +79,7 @@ bool switch_to::ready() const noexcept
 void post_to_background(
     std::experimental::coroutine_handle<void> coro) noexcept(false);
 
-void switch_to::suspend( //
+void switch_to::suspend(
     std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
     auto* sw = for_posix(this);

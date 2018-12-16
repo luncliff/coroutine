@@ -12,7 +12,8 @@ TEST_CASE("generator", "[generic]")
     SECTION("yield_never")
     {
         auto generate_values = []() -> enumerable<uint16_t> {
-            //
+            // co_return is necessary so compiler can notice that
+            // this is a coroutine when there is no co_yield.
             co_return;
         };
 
@@ -56,5 +57,34 @@ TEST_CASE("generator", "[generic]")
         auto g = generate_values(10);
         auto total = std::accumulate(g.begin(), g.end(), 0u);
         REQUIRE(total == 55);
+    }
+
+    SECTION("max_element")
+    {
+        std::array<uint16_t, 10> container{};
+        uint16_t id = 15;
+        for (auto& e : container)
+            e = id--; // [15, 14, 13 ...
+                      // so the first element will hold the largest number
+
+        // since generator is not a container,
+        //  using max_element (or min_element) function on it
+        //  will return invalid iterator
+        auto generate_values = [&]() -> enumerable<uint16_t> {
+            for (auto e : container)
+                co_yield e;
+
+            co_return;
+        };
+
+        auto g = generate_values();
+        auto it = std::max_element(g.begin(), g.end());
+
+        // after iteration is finished (co_return),
+        // the iterator will hold nullptr.
+        REQUIRE(it.operator->() == nullptr);
+
+        // so referencing it will lead to access violation
+        // REQUIRE(*it == 15);
     }
 }
