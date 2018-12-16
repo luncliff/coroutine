@@ -12,9 +12,10 @@
 using namespace std::literals;
 using namespace std::experimental;
 
-class AsyncGeneratorTest : public TestClass<AsyncGeneratorTest>
+class async_generator_test : public TestClass<async_generator_test>
 {
-    TEST_METHOD(CheckLeak) // just repeat a lot
+  public:
+    TEST_METHOD(async_generator_ensure_no_leak) // just repeat a lot
     {
         auto get_sequence = [](int value = rand()) -> sequence<int> {
             // yield random
@@ -37,127 +38,113 @@ class AsyncGeneratorTest : public TestClass<AsyncGeneratorTest>
         Assert::IsTrue(repeat == 0);
     }
 
-    TEST_METHOD(YieldThenAwait)
+    TEST_METHOD(async_generator_return_without_yield)
     {
-        auto get_sequence = [&](suspend_hook& p) -> sequence<int> {
-            int value = 137;
-            co_yield value;
-            co_yield p;
-        };
-        auto try_sequence = [=](suspend_hook& p, int& ref) -> unplug {
-            /* clang-format off */
-            for co_await(int v : get_sequence(p)) 
-                ref = v;
-            /* clang-format on */
+        auto example = []() -> sequence<int> {
+            co_return; // do nothing
         };
 
-        suspend_hook p{};
-        int value = 0;
-        try_sequence(p, value);
-        p.resume();
-        Assert::IsTrue(value == 137);
+        auto try_sequence = [=](int& ref) -> unplug {
+            // clang-format off
+            for co_await(int v : example())
+                ref = v;
+            // clang-format on
+        };
+
+        int value = 111;
+        try_sequence(value);
+        Assert::IsTrue(value == 111);
     }
 
-    TEST_METHOD(AwaitThenYield)
+    TEST_METHOD(async_generator_suspend_then_return)
     {
-        auto get_sequence = [&](suspend_hook& p) -> sequence<int> {
-            int value = 131;
-            co_yield p;
-            co_yield value;
+        suspend_hook sp{};
+
+        auto example = [&]() -> sequence<int> {
+            co_yield sp; // suspend
+            co_return;
         };
-        auto try_sequence = [=](suspend_hook& p, int& ref) -> unplug {
-            /* clang-format off */
-            for co_await(int v : get_sequence(p)) 
+        auto try_sequence = [&](int& ref) -> unplug {
+            // clang-format off
+            for co_await(int v : example())
                 ref = v;
-            /* clang-format on */
+            // clang-format on
+            co_return;
         };
 
-        suspend_hook p{};
-        int value = 0;
-        try_sequence(p, value);
-        p.resume();
-        Assert::IsTrue(value == 131);
+        int value = 222;
+        try_sequence(value);
+        Assert::IsTrue(value == 222);
+        sp.resume();
     }
-
-    TEST_METHOD(BreakAfterOne)
+    TEST_METHOD(async_generator_yield_once)
     {
-        auto get_sequence = []() -> sequence<int> {
-            int value{};
-            co_yield value = 7;
+        auto example = []() -> sequence<int> {
+            int v = 333;
+            co_yield v;
+            co_return;
         };
         auto try_sequence = [=](int& ref) -> unplug {
-            /* clang-format off */
-            for co_await(int v : get_sequence())
-            {
+            // clang-format off
+            for co_await(int v : example())
                 ref = v;
-                break;
-            }
-            /* clang-format on */
+            // clang-format on
+            co_return;
         };
 
         int value = 0;
         try_sequence(value);
-        Assert::IsTrue(value == 7);
+        Assert::IsTrue(value == 333);
     }
 
-    TEST_METHOD(MultipleAwait)
+    TEST_METHOD(async_generator_yield_suspend_yield)
     {
-        auto get_sequence = [&](suspend_hook& p, int& value) -> sequence<int> {
-            co_yield p;
+        suspend_hook sp{};
 
-            co_yield value = 1;
-            co_yield p;
-
-            co_yield value = 2;
-            co_yield value = 3;
-            co_yield p;
-
-            value = -3;
-            co_yield p;
-
-            co_yield value = 4;
+        auto example = [&]() -> sequence<int> {
+            int v{};
+            co_yield v = 444;
+            co_yield sp;
+            co_yield v = 555;
+            co_return;
+        };
+        auto try_sequence = [&](int& ref) -> unplug {
+            // clang-format off
+            for co_await(int v : example())
+                ref = v;
+            // clang-format on
+            co_return;
         };
 
-        auto try_sequence
-            = [=](suspend_hook& p, int& sum, int& value) -> unplug {
-            Assert::IsTrue(sum == 0);
-            auto s = get_sequence(p, value);
-            Assert::IsTrue(sum == 0);
-
-            /* clang-format off */
-
-            // for (auto it = co_await s.begin(); // begin
-            //     it != s.end();                // check
-            //     co_await++ it                 // advance
-            //)
-            for co_await(int v : s)
-            {
-                // auto value = *it;
-                sum += v;
-            }
-            /* clang-format on */
-
-            Assert::IsTrue(sum == 10);
-            sum += 5;
-        };
-
-        suspend_hook p{};
-        int sum = 0, value = 0;
-
-        try_sequence(p, sum, value);
-        Assert::IsTrue(value == 0);
-
-        p.resume();
-        Assert::IsTrue(value == 1);
-
-        p.resume();
-        Assert::IsTrue(value == 3);
-
-        p.resume();
-        Assert::IsTrue(value == -3);
-
-        p.resume();
-        Assert::IsTrue(value == 4);
-        Assert::IsTrue(sum == 15);
+        int value = 0;
+        try_sequence(value);
+        Assert::IsTrue(value == 444);
+        sp.resume();
+        Assert::IsTrue(value == 555);
     }
+
+    TEST_METHOD(async_generator_destroy_in_suspend)
+    {
+        int value = 0;
+        suspend_hook sp{};
+        {
+            auto example = [&]() -> sequence<int> {
+                int v{};
+                co_yield v = 666;
+                co_yield sp;
+                co_yield v = 777;
+            };
+            auto try_sequence = [&](int& ref) -> unplug {
+                // clang-format off
+                for co_await(int v : example())
+                    ref = v;
+                // clang-format on
+                co_return;
+            };
+
+            try_sequence(value);
+        }
+        Assert::IsTrue(value == 666);
+    }
+
 };

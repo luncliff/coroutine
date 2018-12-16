@@ -6,20 +6,16 @@
 // ---------------------------------------------------------------------------
 #include <thread/types.h>
 
-extern thread_registry registry;
+thread_id_t current_thread_id() noexcept
+{
+    // trigger thread local object instantiation
+    return get_local_data()->get_id();
+}
 
 #if __APPLE__ || __linux__ || __unix__
 
 #include <csignal>
 #include <pthread.h>
-
-thread_local thread_data current_data{};
-
-thread_id_t current_thread_id() noexcept
-{
-    // trigger thread local object instantiation
-    return current_data.get_id();
-}
 
 bool check_thread_exists(thread_id_t id) noexcept
 {
@@ -30,24 +26,22 @@ bool check_thread_exists(thread_id_t id) noexcept
     return false;
 }
 
-thread_data::thread_data() noexcept(false) : queue{}
+thread_data::thread_data() noexcept(false) : cv{}, queue{}
 {
-    // ... thread life start. trigger setup ...
     const void* p = (void*)pthread_self();
     const auto tid = reinterpret_cast<uint64_t>(p);
 
-    auto ptr = registry.reserve(tid);
+    auto ptr = get_thread_registry() //
+                   ->find_or_insert( //
+                       static_cast<thread_id_t>(tid));
     *ptr = this;
 }
 
 thread_data::~thread_data() noexcept
 {
-    // ... thread life end. trigger teardown ...
-    const void* p = (void*)pthread_self();
-    const auto tid = reinterpret_cast<uint64_t>(p);
-
-    registry.remove(tid); // this line might throw exception.
-                          // which WILL kill the program.
+    get_thread_registry()->erase( //
+        this->get_id());          // this line might throw exception.
+                                  // which WILL kill the program.
 }
 
 thread_id_t thread_data::get_id() const noexcept
@@ -61,26 +55,18 @@ thread_id_t thread_data::get_id() const noexcept
 
 #include <Windows.h> // System API
 
-thread_id_t current_thread_id() noexcept
+thread_data::thread_data() noexcept(false) : cv{}, queue{}
 {
-    // return static_cast<thread_id_t>(GetCurrentThreadId());
-    return get_local_data()->get_id();
-}
-
-thread_data::thread_data() noexcept(false) : queue{}
-{
-    // ... thread life start. trigger setup ...
-    const auto tid = static_cast<uint64_t>(GetCurrentThreadId());
-    auto ptr = registry.reserve(tid);
+    const auto tid = static_cast<thread_id_t>(GetCurrentThreadId());
+    auto ptr = get_thread_registry()->find_or_insert(tid);
     *ptr = this;
 }
 
 thread_data::~thread_data() noexcept
 {
-    // ... thread life end. trigger teardown ...
-    const auto tid = static_cast<uint64_t>(GetCurrentThreadId());
-    registry.remove(tid); // this line might throw exception.
-                          // which WILL kill the program.
+    // this line might throw exception.
+    // which WILL kill the program.
+    get_thread_registry()->erase(get_id());
 }
 
 thread_id_t thread_data::get_id() const noexcept

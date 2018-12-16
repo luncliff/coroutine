@@ -12,10 +12,10 @@
 
 auto current_threads() noexcept(false) -> enumerable<thread_id_t>;
 
-class MessagingTest : public TestClass<MessagingTest>
+class messaging_test : public TestClass<messaging_test>
 {
   public:
-    TEST_METHOD(SendToSelf)
+    TEST_METHOD(send_message_to_itself)
     {
         message_t msg{};
         msg.u64 = 0xE81F;
@@ -29,7 +29,7 @@ class MessagingTest : public TestClass<MessagingTest>
         Assert::IsTrue(msg.u64 == 0xE820);
     }
 
-    TEST_METHOD(SendToUnknownThrows)
+    TEST_METHOD(send_message_to_unknown_throws)
     {
         // since there is no thread with id 0,
         // this will be the id of unknown
@@ -48,7 +48,7 @@ class MessagingTest : public TestClass<MessagingTest>
         Assert::Fail(L"Expect an exception but nothing catched");
     }
 
-    TEST_METHOD(SendToEveryThreads)
+    TEST_METHOD(send_message_to_every_threads)
     {
         try
         {

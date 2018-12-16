@@ -9,14 +9,22 @@
 #include <iterator>
 using namespace std;
 
-thread_registry registry{};
+namespace hidden
+{
+thread_registry tr{};
+}
+
+auto get_thread_registry() noexcept -> thread_registry*
+{
+    return std::addressof(hidden::tr);
+}
 
 thread_registry::thread_registry() noexcept(false) : mtx{}, keys{}, values{}
 {
     for (auto& k : keys)
         k = invalid_key;
     for (auto& v : values)
-        v = reinterpret_cast<thread_data*>(0xFFE0);
+        v = nullptr;
 }
 
 thread_registry::~thread_registry() noexcept
@@ -27,45 +35,36 @@ thread_registry::~thread_registry() noexcept
     //    assert(v == reinterpret_cast<thread_data*>(0xFFE0));
 }
 
-auto thread_registry::search(key_type key) noexcept -> pointer
+extern bool check_thread_exists(thread_id_t id) noexcept;
+
+auto thread_registry::find_or_insert(key_type tid) noexcept(false) -> pointer
 {
-    //  unique_lock lck{ reader(mtx) };
-    const auto idx = index_of(key);
-    if (idx == invalid_idx)
-        return nullptr;
+    unique_lock lck{mtx}; // writer lock
+    auto it = find(keys.begin(), keys.end(), tid);
+    if (it != keys.end())
+        // already exists
+        goto Found;
 
-    value_type& ref = values.at(idx);
-    return addressof(ref);
-}
+    // not found. need to create a new one
 
-auto thread_registry::reserve(key_type key) noexcept(false) -> pointer
-{
-    //  unique_lock lck{ writer(mtx) };
-    unique_lock lck{mtx};
+    // check if the thread id is valid.
+    if (check_thread_exists(tid) == false)
+        throw std::invalid_argument{"invalid thread id"};
 
-    auto idx = index_of(key);
-    if (idx != invalid_idx)
-    {
-        value_type& ref = values.at(idx);
-        return addressof(ref);
-    }
-
-    // not found. create a new one
-    const auto it = find(keys.begin(), keys.end(), invalid_key);
+    // find available memory location
+    it = find(keys.begin(), keys.end(), invalid_key);
     if (it == keys.end())
-        throw runtime_error{"registry is full"};
+        throw std::runtime_error{"registry is full"};
 
     // remember
-    idx = static_cast<uint16_t>(distance(keys.begin(), it));
-    *it = key;
-    value_type& ref = values.at(idx);
-    return addressof(ref);
+    *it = tid;
+Found:
+    return addressof(values.at(distance(keys.begin(), it)));
 }
 
-void thread_registry::remove(key_type key) noexcept(false)
+void thread_registry::erase(key_type key) noexcept(false)
 {
-    //  unique_lock lck{ writer(mtx) };
-    unique_lock lck{mtx};
+    unique_lock lck{mtx}; // writer lock
 
     const auto it = find(keys.begin(), keys.end(), key);
     if (it == keys.end())
@@ -75,15 +74,7 @@ void thread_registry::remove(key_type key) noexcept(false)
 
     // forget
     const auto idx = distance(keys.begin(), it);
-    values.at(idx) = reinterpret_cast<thread_data*>(0xFFE0);
-    *it = invalid_key;
-}
+    values.at(idx) = nullptr;
 
-uint16_t thread_registry::index_of(key_type key) const noexcept
-{
-    //  unique_lock lck{ reader(mtx) };
-    const auto it = find(keys.cbegin(), keys.cend(), key);
-    return (it != cend(keys))
-               ? static_cast<uint16_t>(distance(cbegin(keys), it))
-               : invalid_idx;
+    *it = invalid_key;
 }

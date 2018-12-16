@@ -17,7 +17,7 @@
 #define LIB_PROLOGUE __attribute__((constructor))
 #define LIB_EPILOGUE __attribute__((destructor))
 
-extern thread_local thread_data current_data;
+thread_local thread_data current_data{};
 
 thread_data* get_local_data() noexcept
 {
@@ -26,5 +26,7 @@ thread_data* get_local_data() noexcept
 
 void lazy_delivery(thread_id_t thread_id, message_t msg) noexcept(false)
 {
-    throw std::runtime_error{"lazy_delivery is not implemented"};
+    throw std::runtime_error{
+        "The library requires user code to invoke `current_thread_id` in "
+        "receiver thread before `post_message` to it"};
 }

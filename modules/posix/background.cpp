@@ -47,9 +47,7 @@ using namespace std::literals;
 //
 thread_id_t background_thread_id;
 
-extern thread_registry registry;
-extern thread_local thread_data current_data;
-void* resume_coroutines_on_backgound(thread_registry& registry) noexcept(false);
+void* resume_coroutines_on_backgound(thread_registry&) noexcept(false);
 
 // - Note
 //      attach only 1 worker for now. unless it's necessary,
@@ -63,7 +61,7 @@ LIB_PROLOGUE void setup_worker() noexcept(false)
 
     if (auto ec = pthread_create(
             reinterpret_cast<pthread_t*>(addressof(background_thread_id)),
-            nullptr, fthread, addressof(registry)))
+            nullptr, fthread, get_thread_registry()))
         // expect successful worker creation. unless kill the program
         throw system_error{ec, system_category(), "pthread_create"};
 
@@ -84,9 +82,9 @@ void* resume_coroutines_on_backgound(thread_registry& reg) noexcept(false)
 {
     coroutine_handle<void> coro{};
 
-    const auto tid = static_cast<uint64_t>(current_thread_id());
+    const auto tid = current_thread_id();
     // register this thread to receive messages
-    *(registry.reserve(tid)) = addressof(current_data);
+    *(reg.find_or_insert(tid)) = get_local_data();
 
     // the variable is set by `pthread_create`,
     //  but make it sure since we are in another thread

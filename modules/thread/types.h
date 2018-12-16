@@ -12,6 +12,7 @@
 
 struct thread_data final
 {
+    std::condition_variable cv;
     concurrent_message_queue queue;
 
   private:
@@ -28,7 +29,9 @@ struct thread_data final
     thread_id_t get_id() const noexcept;
 };
 
-thread_data* get_local_data() noexcept;
+// - Note
+//      Get the address of thread data for this library
+auto get_local_data() noexcept -> thread_data*;
 
 struct thread_registry final
 {
@@ -36,11 +39,11 @@ struct thread_registry final
     // If the program is goiing to use more threads,
     // this library must be recompiled after changing this limit
     static constexpr auto max_thread_count = 300;
-    static constexpr uint16_t invalid_idx = UINT16_MAX;
-    static constexpr uint64_t invalid_key = UINT64_MAX;
+    static constexpr auto invalid_idx = uint16_t{UINT16_MAX};
+    static constexpr auto invalid_key = thread_id_t{UINT64_MAX};
 
   public:
-    using key_type = uint64_t;
+    using key_type = thread_id_t;
     using value_type = thread_data*;
     using pointer = value_type*;
 
@@ -60,10 +63,10 @@ struct thread_registry final
     ~thread_registry() noexcept;
 
   public:
-    auto search(key_type id) noexcept -> pointer;
-    auto reserve(key_type id) noexcept(false) -> pointer;
-    void remove(key_type id) noexcept(false);
-
-  private:
-    uint16_t index_of(key_type id) const noexcept;
+    auto find_or_insert(key_type id) noexcept(false) -> pointer;
+    void erase(key_type id) noexcept(false);
 };
+
+// - Note
+//      Get manager type for threads
+auto get_thread_registry() noexcept -> thread_registry*;

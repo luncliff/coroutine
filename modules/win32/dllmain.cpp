@@ -22,80 +22,53 @@ using namespace std;
 DWORD tls_index = 0;
 
 auto current_threads() noexcept(false) -> enumerable<thread_id_t>;
-extern thread_registry registry;
 
 BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID)
 {
     UNREFERENCED_PARAMETER(instance);
+
+    auto* registry = get_thread_registry();
+
     try
     {
-        const auto tid = current_thread_id();
-        if (tid == thread_id_t{0})
-            throw runtime_error{"suspecious thread id"};
+        switch (reason)
+        {
+        case DLL_PROCESS_DETACH:
+            // remove existing threads
+            for (auto tid : current_threads())
+                registry->erase(tid);
 
-        if (reason == DLL_THREAD_ATTACH)
-        {
-            // add current thread
-            // auto tls_data = (LPVOID)LocalAlloc(LPTR, sizeof(thread_data));
-            // if (tls_data)
-            //{
-            //    TlsSetValue(tls_index, tls_data);
-            //    new (tls_data) thread_data{};
-            //}
-            auto ptr = get_local_data();
-            if (ptr == nullptr)
-                return FALSE;
-
-            assert(*registry.search(static_cast<uint64_t>(current_thread_id()))
-                   != nullptr);
-        }
-        else if (reason == DLL_THREAD_DETACH)
-        {
-            // remove current thread
-            auto ptr = get_local_data();
-            if (ptr)
-            {
-                ptr->~thread_data();
-                LocalFree((HLOCAL)ptr);
-            }
-        }
-        else if (reason == DLL_PROCESS_ATTACH)
-        {
+            // teardown tls
+            TlsFree(tls_index);
+            break;
+        case DLL_PROCESS_ATTACH:
             // setup TLS
             tls_index = TlsAlloc();
             if (tls_index == TLS_OUT_OF_INDEXES)
                 return FALSE;
 
             // add existing threads
-            for (auto t : current_threads())
-                *registry.reserve(static_cast<uint64_t>(t)) = nullptr;
+            for (auto tid : current_threads())
+                *(registry->find_or_insert(tid)) = nullptr;
 
+        case DLL_THREAD_ATTACH:
             // add current thread
-            auto ptr = get_local_data();
-            if (ptr == nullptr)
+            if (get_local_data() == nullptr)
                 return FALSE;
 
-            // add current thread
-        }
-        else if (reason == DLL_PROCESS_DETACH)
-        {
+            break;
+        case DLL_THREAD_DETACH:
             // remove current thread
-            auto ptr = get_local_data();
-            if (ptr)
+            if (auto tls = get_local_data())
             {
-                ptr->~thread_data();
-                LocalFree((HLOCAL)ptr);
+                tls->~thread_data();
+                LocalFree((HLOCAL)tls);
             }
-
-            // remove existing threads
-            for (auto t : current_threads())
-                registry.remove(static_cast<uint64_t>(t));
-
-            // teardown tls
-            TlsFree(tls_index);
-
-            // teardown messaging for library
+            break;
+        default:
+            return FALSE;
         }
+
         return TRUE;
     }
     catch (const exception& e)
@@ -118,6 +91,28 @@ thread_data* get_local_data() noexcept
         new (tls_data) thread_data{};
     }
     return static_cast<thread_data*>(tls_data);
+}
+
+bool check_thread_exists(thread_id_t id) noexcept
+{
+    // if receiver thread exists, OpenThread will be successful
+    HANDLE thread = OpenThread(
+        // for current implementation,
+        // lazy_delivery requires this operation
+        THREAD_SET_CONTEXT, FALSE, static_cast<DWORD>(id));
+
+    if (thread == NULL) // *possibly* invalid thread id
+        return false;
+
+    CloseHandle(thread);
+    return true;
+
+    // bool exist = false;
+    // for (auto tid : current_threads()) // ensure CloseHandle(snapshot)
+    //    if (tid == id)
+    //        exist = true;
+
+    // return exist;
 }
 
 auto current_threads() noexcept(false) -> enumerable<thread_id_t>
@@ -160,7 +155,7 @@ void CALLBACK deliver(const message_t msg) noexcept(false)
 
 void lazy_delivery(thread_id_t thread_id, message_t msg) noexcept(false)
 {
-    SleepEx(0, true); // handle some APC
+    // SleepEx(0, true); // handle some APC
 
     DWORD ec{}, tid = static_cast<DWORD>(thread_id);
     // receiver thread
@@ -176,7 +171,7 @@ void lazy_delivery(thread_id_t thread_id, message_t msg) noexcept(false)
     if (QueueUserAPC(reinterpret_cast<PAPCFUNC>(deliver), thread, msg.u64))
     {
         CloseHandle(thread);
-        SleepEx(0, true); // handle some APC
+        // SleepEx(0, true); // handle some APC
     }
     else
     {

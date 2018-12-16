@@ -35,6 +35,6 @@ if(UNIX)
     )
     target_compile_options(coroutine_test
     PRIVATE
-        -std=c++2a -stdlib=libc++ -g -O2
+        -std=c++2a -stdlib=libc++ -g #-O2
     )
 endif()

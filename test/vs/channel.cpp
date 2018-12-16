@@ -11,50 +11,42 @@
 
 #include "./vstest.h"
 
-// - Note
-//      Lockable without lock operation
-struct bypass_lock
+class channel_operation_test : public TestClass<channel_operation_test>
 {
-    bool try_lock() noexcept
+    // - Note
+    //      Lockable without lock operation
+    struct bypass_lock
     {
-        return true;
-    }
-    void lock() noexcept
-    {
-    }
-    void unlock() noexcept
-    {
-    }
-};
+        bool try_lock() noexcept
+        {
+            return true;
+        }
+        void lock() noexcept
+        {
+        }
+        void unlock() noexcept
+        {
+        }
+    };
 
-class ChannelTest : public TestClass<ChannelTest>
-{
-    // ensure successful write to channel
     template <typename L>
-    static auto write_to(channel<uint64_t, L>& ch, uint64_t value,
-                         bool ok = false) -> unplug
+    auto write_to(channel<uint64_t, L>& ch, uint64_t value, bool ok = false)
+        -> unplug
     {
         ok = co_await ch.write(value);
-
-        // if (ok == false)
-        //    // inserting fprintf makes the crash disappear.
-        //    // finding the reason for the issue
-        //    fprintf(stdout, "write_to %p %llx \n", &value, value);
-
         Assert::IsTrue(ok);
     }
 
-    // ensure successful read from channel
     template <typename L>
-    static auto read_from(channel<uint64_t, L>& ch, uint64_t& value,
-                          bool ok = false) -> unplug
+    auto read_from(channel<uint64_t, L>& ch, uint64_t& value, bool ok = false)
+        -> unplug
     {
         std::tie(value, ok) = co_await ch.read();
         Assert::IsTrue(ok);
     }
 
   public:
-    TEST_METHOD(WriteRead)
+    TEST_METHOD(channel_write_before_read)
     {
         uint64_t storage = 0;
         channel<uint64_t, bypass_lock> ch{};
@@ -72,7 +64,7 @@ class ChannelTest : public TestClass<ChannelTest>
         }
     }
 
-    TEST_METHOD(ReadWrite)
+    TEST_METHOD(channel_read_before_write)
     {
         uint64_t storage = 0;
         channel<uint64_t, bypass_lock> ch{};
@@ -89,8 +81,12 @@ class ChannelTest : public TestClass<ChannelTest>
             Assert::IsTrue(storage == i);
         }
     }
+};
 
-    TEST_METHOD(EnsureDelivery)
+class channel_race_test : public TestClass<channel_race_test>
+{
+  public:
+    TEST_METHOD(channel_ensure_delivery)
     {
         // using 'guaranteed' lockable
         // but it doesn't guarantee coroutines' serialized execution

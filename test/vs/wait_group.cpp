@@ -12,7 +12,7 @@
 using namespace std::literals;
 using namespace std::experimental;
 
-class WaitGroupTest : public TestClass<WaitGroupTest>
+class wait_group_test : public TestClass<wait_group_test>
 {
     static void CALLBACK onWork1(PTP_CALLBACK_INSTANCE instance,
                                  wait_group& group, PTP_WORK work) noexcept
@@ -25,19 +25,19 @@ class WaitGroupTest : public TestClass<WaitGroupTest>
     wait_group group{};
     PTP_WORK work{};
 
-    TEST_METHOD_INITIALIZE(Initialize)
+    TEST_METHOD_INITIALIZE(setup)
     {
         work = ::CreateThreadpoolWork(
             reinterpret_cast<PTP_WORK_CALLBACK>(onWork1), std::addressof(group),
             nullptr);
         Assert::IsNotNull(work);
     }
-    TEST_METHOD_CLEANUP(CleanUp)
+    TEST_METHOD_CLEANUP(teardown)
     {
         ::CloseThreadpoolWork(work);
     }
 
-    TEST_METHOD(WaitWorkers)
+    TEST_METHOD(wait_group_wait_once)
     {
         constexpr auto num_of_work = 1000;
 
@@ -49,7 +49,7 @@ class WaitGroupTest : public TestClass<WaitGroupTest>
         Assert::IsTrue(group.wait());
     }
 
-    TEST_METHOD(NoThrowMultipleWait)
+    TEST_METHOD(wait_group_multiple_wait)
     {
         group.add(1);
         group.done();

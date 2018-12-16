@@ -12,12 +12,78 @@
 TEST_CASE("message operations", "[messaging]")
 {
     using namespace std::literals;
-
     const thread_id_t main_id = current_thread_id();
 
-    SECTION("sync with message")
+    SECTION("send message to itself")
     {
+        message_t msg{};
+        msg.u64 = 0xE81F;
+        REQUIRE(post_message(current_thread_id(), msg));
+        msg.u64 = 0xE820;
+        REQUIRE(post_message(current_thread_id(), msg));
 
+        REQUIRE(peek_message(msg)); // receive in order
+        REQUIRE(msg.u64 == 0xE81F);
+        REQUIRE(peek_message(msg));
+        REQUIRE(msg.u64 == 0xE820);
+    }
+
+    SECTION("send message to unknown throws")
+    {
+        // since there is no thread with id 0,
+        // this will be the id of unknown
+        thread_id_t tid{};
+
+        message_t msg{};
+        // send to unknown throwed exception
+        REQUIRE_THROWS(post_message(tid, msg));
+    }
+
+#if __APPLE__ || __linux__ || __unix__
+    SECTION("send message to unregisterd threads throws")
+    {
+        WARN("this test is only for POSIX");
+
+        std::mutex mtx{};
+        std::condition_variable cv{};
+        auto fwork = [&]() {
+            std::unique_lock lck{mtx};
+            cv.wait_for(lck, 2s);
+        };
+
+        std::thread //
+            t1{fwork},
+            t2{fwork};
+        try
+        {
+            message_t msg{};
+            static_assert(sizeof(thread_id_t) == sizeof(decltype(t1.get_id())));
+
+            {
+                auto tid = t1.get_id();
+                auto id = *reinterpret_cast<thread_id_t*>(std::addressof(tid));
+                REQUIRE(id != thread_id_t{});
+                REQUIRE_THROWS(post_message(id, msg));
+            }
+            {
+                auto tid = t2.get_id();
+                auto id = *reinterpret_cast<thread_id_t*>(std::addressof(tid));
+                REQUIRE(id != thread_id_t{});
+                REQUIRE_THROWS(post_message(id, msg));
+            }
+
+            REQUIRE_NOTHROW(t1.join());
+            REQUIRE_NOTHROW(t2.join());
+        }
+        catch (const std::exception& ex)
+        {
+            FAIL(ex.what());
+        }
+    }
+#endif
+
+    SECTION("send message for sync")
+    {
         thread_id_t worker_id{};
         REQUIRE(worker_id == thread_id_t{});
 
@@ -43,7 +109,7 @@ TEST_CASE("message operations", "[messaging]")
         REQUIRE_NOTHROW(f.get());
     }
 
-    SECTION("merge")
+    SECTION("receive message from multiple senders")
     {
         constexpr auto amount_of_message = 4'000;
 
