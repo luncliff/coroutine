@@ -62,7 +62,18 @@ elseif(MSVC)
         /std:c++latest 
         /await
     )
+endif()
 
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+    target_compile_options(${PROJECT_NAME} 
+    PRIVATE
+        /Od
+    )
+else()
+    target_compile_options(${PROJECT_NAME} 
+    PRIVATE
+        /O2
+    )
 endif()
 
 set_target_properties(${PROJECT_NAME}

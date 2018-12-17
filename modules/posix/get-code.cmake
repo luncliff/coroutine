@@ -16,14 +16,29 @@ PRIVATE
     posix/wait_group.cpp
     posix/background.cpp
 )
+
 target_compile_options(${PROJECT_NAME} 
 PUBLIC
+    -std=c++2a
     -stdlib=libc++
     -fcoroutines-ts -fPIC 
 PRIVATE
     -Wall -Wno-unknown-pragmas -Wno-unused-private-field
     -fvisibility=hidden -fno-rtti 
 )
+
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+    target_compile_options(${PROJECT_NAME} 
+    PRIVATE
+        -g -O0
+    )
+else()
+    target_compile_options(${PROJECT_NAME} 
+    PRIVATE
+        -O3
+    )
+endif()
+
 target_link_libraries(${PROJECT_NAME}
 PUBLIC
     pthread

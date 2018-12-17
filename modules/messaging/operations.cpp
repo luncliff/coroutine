@@ -15,25 +15,21 @@
 using namespace std;
 using namespace std::chrono;
 
-extern thread_registry registry;
-
 void lazy_delivery(thread_id_t thread_id, message_t msg) noexcept(false);
 
-bool post_message(thread_id_t thread_id, message_t msg) noexcept(false)
+bool post_message(thread_id_t tid, message_t msg) noexcept(false)
 {
-    auto* info = registry.search(static_cast<uint64_t>(thread_id));
-    if (info == nullptr)
-        throw std::runtime_error{"sending message to unregisted thread id"};
+    auto* info = get_thread_registry()->find_or_insert(tid);
 
     thread_data* receiver = *info;
-
-    // the given thread is registered, but its queue is not.
+    // the given thread is registered,
+    // but its queue is not initialized
     if (receiver == nullptr)
     {
-        lazy_delivery(thread_id, msg);
+        // throw if something goes wrong
+        lazy_delivery(tid, msg);
         return true;
     }
-
     return receiver->queue.push(msg);
 }
 

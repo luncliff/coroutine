@@ -8,18 +8,17 @@
 
 #include <coroutine/return.h>
 
-class UnplugTest : public TestClass<UnplugTest>
+class unplug_frame_test : public TestClass<unplug_frame_test>
 {
   public:
-    TEST_METHOD(InvokeFinalAction)
+    TEST_METHOD(unplug_destroy_frame_after_return)
     {
         int status = 0;
-
         {
             auto try_plugging
                 = [=](suspend_hook& point, int& status) -> unplug {
                 // ensure final action
-                auto a = defer([&]() { status = 3; });
+                auto f = final_action([&]() { status = 3; });
 
                 status = 1;
                 co_await point;
@@ -30,14 +29,14 @@ class UnplugTest : public TestClass<UnplugTest>
                 co_return;
             };
 
-            suspend_hook point{};
-            try_plugging(point, status);
+            suspend_hook sp{};
+            try_plugging(sp, status);
             Assert::IsTrue(status == 1);
 
-            point.resume();
+            sp.resume();
             Assert::IsTrue(status == 2);
 
-            point.resume();
+            sp.resume();
         }
         // did we pass through final action?
         Assert::IsTrue(status == 3);

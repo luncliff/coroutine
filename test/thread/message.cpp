@@ -12,12 +12,77 @@
 TEST_CASE("message operations", "[messaging]")
 {
     using namespace std::literals;
-
     const thread_id_t main_id = current_thread_id();
 
-    SECTION("sync with message")
+    SECTION("send message to itself")
     {
+        message_t msg{};
+        msg.u64 = 0xE81F;
+        REQUIRE(post_message(current_thread_id(), msg));
+        msg.u64 = 0xE820;
+        REQUIRE(post_message(current_thread_id(), msg));
 
+        REQUIRE(peek_message(msg)); // receive in order
+        REQUIRE(msg.u64 == 0xE81F);
+        REQUIRE(peek_message(msg));
+        REQUIRE(msg.u64 == 0xE820);
+    }
+
+    SECTION("send message to unknown throws")
+    {
+        // since there is no thread with id 0,
+        // this will be the id of unknown
+        thread_id_t tid{};
+
+        message_t msg{};
+        // throws exception
+        REQUIRE_THROWS(post_message(tid, msg));
+        // REQUIRE_THROWS_AS(post_message(tid, msg), std::exception);
+    }
+
+    SECTION("send message to unregisterd threads")
+    {
+        auto fwork = [&]() {
+            // sleep and do nothing
+            std::this_thread::sleep_for(2s);
+        };
+
+        std::thread t1{fwork}, t2{fwork};
+
+        message_t msg{};
+        // this is a valid id, but it is not registered
+        auto std_id = t1.get_id();
+
+#if __APPLE__ || __linux__ || __unix__
+        static_assert(sizeof(thread_id_t) == sizeof(decltype(t1.get_id())));
+        auto tid = *reinterpret_cast<thread_id_t*>(std::addressof(std_id));
+#elif _MSC_VER
+        static_assert(sizeof(uint32_t) == sizeof(decltype(t1.get_id())));
+        auto tid = static_cast<thread_id_t>(
+            *reinterpret_cast<uint32_t*>(std::addressof(std_id)));
+#endif
+
+        REQUIRE(tid != thread_id_t{});
+        // if the thread id is valid,
+        //  library will buffer the message
+        REQUIRE(post_message(tid, msg) == true);
+
+        std_id = t2.get_id();
+#if __APPLE__ || __linux__ || __unix__
+        tid = *reinterpret_cast<thread_id_t*>(std::addressof(std_id));
+#elif _MSC_VER
+        tid = static_cast<thread_id_t>(
+            *reinterpret_cast<uint32_t*>(std::addressof(std_id)));
+#endif
+        REQUIRE(tid != thread_id_t{});
+        REQUIRE(post_message(tid, msg) == true);
+
+        REQUIRE_NOTHROW(t1.join());
+        REQUIRE_NOTHROW(t2.join());
+    }
+
+    SECTION("send message for sync")
+    {
         thread_id_t worker_id{};
         REQUIRE(worker_id == thread_id_t{});
 
@@ -43,7 +108,7 @@ TEST_CASE("message operations", "[messaging]")
         REQUIRE_NOTHROW(f.get());
     }
 
-    SECTION("merge")
+    SECTION("receive message from multiple senders")
     {
         constexpr auto amount_of_message = 4'000;
 

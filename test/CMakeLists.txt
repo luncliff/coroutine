@@ -19,11 +19,6 @@ add_executable(coroutine_test
     thread/sync.cpp
 )
 
-# set_target_properties(coroutine_test
-# PROPERTIES 
-#     CXX_STANDARD    17
-# )
-
 target_include_directories(coroutine_test
 PRIVATE
     ${PROJECT_DIR}/test
@@ -40,6 +35,6 @@ if(UNIX)
     )
     target_compile_options(coroutine_test
     PRIVATE
-        -std=c++2a -stdlib=libc++ -g -O0
+        -std=c++2a -stdlib=libc++ -g -O2
     )
 endif()

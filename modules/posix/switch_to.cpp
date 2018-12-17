@@ -23,7 +23,9 @@ bool peek_switched( // ... better name?
     if (peek_message(msg) == true)
     {
         coro = coroutine_handle<void>::from_address(msg.ptr);
-        return true;
+        // ensure again
+        // because sender might return empty frame(null)
+        return msg.ptr != nullptr;
     }
     return false;
 }
@@ -79,7 +81,7 @@ bool switch_to::ready() const noexcept
 void post_to_background(
     std::experimental::coroutine_handle<void> coro) noexcept(false);
 
-void switch_to::suspend( //
+void switch_to::suspend(
     std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
     auto* sw = for_posix(this);

@@ -74,7 +74,7 @@ TEST_CASE("wait_group", "[sync][thread]")
         REQUIRE(watch.pick<milliseconds>() <= 1ms);
     }
 
-    SECTION("multiple wait doen't throw")
+    SECTION("multiple wait doesn't throw")
     {
         wg.add(1);
         wg.done();
