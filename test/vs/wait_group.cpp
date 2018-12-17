@@ -4,13 +4,21 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include "./vstest.h"
-
 #include <coroutine/return.h>
 #include <coroutine/sync.h>
 
+#include <Windows.h>
+#include <sdkddkver.h>
+
+#include <CppUnitTest.h>
+#include <TlHelp32.h>
+#include <threadpoolapiset.h>
+
 using namespace std::literals;
 using namespace std::experimental;
+
+using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
+using Microsoft::VisualStudio::CppUnitTestFramework::TestClass;
 
 class wait_group_test : public TestClass<wait_group_test>
 {

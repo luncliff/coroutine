@@ -4,11 +4,22 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include "./vstest.h"
-
 #include <coroutine/enumerable.hpp>
 #include <coroutine/return.h>
 #include <coroutine/sync.h>
+
+#include <Windows.h>
+#include <sdkddkver.h>
+
+#include <CppUnitTest.h>
+#include <TlHelp32.h>
+#include <threadpoolapiset.h>
+
+using namespace std::literals;
+using namespace std::experimental;
+
+using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
+using Microsoft::VisualStudio::CppUnitTestFramework::TestClass;
 
 auto current_threads() noexcept(false) -> enumerable<thread_id_t>;
 
@@ -72,7 +83,6 @@ class messaging_test : public TestClass<messaging_test>
         }
     }
 };
-
 
 auto current_threads() noexcept(false) -> enumerable<thread_id_t>
 {

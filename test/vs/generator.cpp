@@ -4,16 +4,24 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include "./vstest.h"
+#include <coroutine/enumerable.hpp>
+#include <coroutine/return.h>
 
 #include <array>
 #include <numeric>
 
-#include <coroutine/enumerable.hpp>
-#include <coroutine/return.h>
+#include <Windows.h>
+#include <sdkddkver.h>
+
+#include <CppUnitTest.h>
+#include <TlHelp32.h>
+#include <threadpoolapiset.h>
 
 using namespace std::literals;
 using namespace std::experimental;
+
+using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
+using Microsoft::VisualStudio::CppUnitTestFramework::TestClass;
 
 class generator_test : public TestClass<generator_test>
 {

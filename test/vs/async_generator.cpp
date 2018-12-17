@@ -4,13 +4,21 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include "./vstest.h"
-
 #include <coroutine/return.h>
 #include <coroutine/sequence.hpp>
 
+#include <Windows.h>
+#include <sdkddkver.h>
+
+#include <CppUnitTest.h>
+#include <TlHelp32.h>
+#include <threadpoolapiset.h>
+
 using namespace std::literals;
 using namespace std::experimental;
+
+using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
+using Microsoft::VisualStudio::CppUnitTestFramework::TestClass;
 
 class async_generator_test : public TestClass<async_generator_test>
 {
@@ -146,5 +154,4 @@ class async_generator_test : public TestClass<async_generator_test>
         }
         Assert::IsTrue(value == 666);
     }
-
 };

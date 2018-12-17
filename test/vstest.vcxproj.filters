@@ -33,9 +33,6 @@
     <ClInclude Include="test.h">
       <Filter>test</Filter>
     </ClInclude>
-    <ClInclude Include="vs\vstest.h">
-      <Filter>test\vs</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="vs\channel.cpp">

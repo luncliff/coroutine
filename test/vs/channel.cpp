@@ -9,7 +9,18 @@
 #include <coroutine/switch.h>
 #include <coroutine/sync.h>
 
-#include "./vstest.h"
+#include <Windows.h>
+#include <sdkddkver.h>
+
+#include <CppUnitTest.h>
+#include <TlHelp32.h>
+#include <threadpoolapiset.h>
+
+using namespace std::literals;
+using namespace std::experimental;
+
+using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
+using Microsoft::VisualStudio::CppUnitTestFramework::TestClass;
 
 class channel_operation_test : public TestClass<channel_operation_test>
 {
