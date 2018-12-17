@@ -83,31 +83,12 @@ bool _coro_finished(const msvc_frame_prefix*) noexcept;
 extern "C" size_t _coro_resume(void*);
 extern "C" void _coro_destroy(void*);
 extern "C" size_t _coro_done(void*); // <- leads compiler error
-// extern "C" size_t _coro_frame_size();
-// extern "C" void* _coro_frame_ptr();
-// extern "C" void _coro_init_block();
-// extern "C" void* _coro_resume_addr();
-// extern "C" void _coro_init_frame(void*);
-// extern "C" void _coro_save(size_t);
-// extern "C" void _coro_suspend(size_t);
-// extern "C" void _coro_cancel();
-// extern "C" void _coro_resume_block();
 
 // -------------------- Compiler intrinsic: Clang --------------------
 
 extern "C" bool __builtin_coro_done(void*);
 extern "C" void __builtin_coro_resume(void*);
 extern "C" void __builtin_coro_destroy(void*);
-// void *__builtin_coro_promise(void *addr, int alignment, bool from_promise)
-// size_t __builtin_coro_size()
-// void  *__builtin_coro_frame()
-// void  *__builtin_coro_free(void *coro_frame)
-// void  *__builtin_coro_id(int align, void *promise, void *fnaddr, void *parts)
-// bool   __builtin_coro_alloc()
-// void  *__builtin_coro_begin(void *memory)
-// void   __builtin_coro_end(void *coro_frame, bool unwind)
-// char   __builtin_coro_suspend(bool final)
-// bool   __builtin_coro_param(void *original, void *copy)
 
 namespace std::experimental
 {
@@ -132,7 +113,6 @@ class coroutine_handle<void>
         void* v{};
         msvc_frame_prefix* m;
         clang_frame_prefix* c;
-        // gcc_frame_prefix* g;
     };
 
     prefix_t prefix;
@@ -143,7 +123,7 @@ class coroutine_handle<void>
     coroutine_handle() noexcept : prefix{nullptr}
     {
     }
-    coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr}
+    explicit coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr}
     {
     }
 
@@ -239,7 +219,7 @@ class coroutine_handle : public coroutine_handle<void>
                 ptr - aligned_size_v<promise_type>);
             return promise;
         }
-        if constexpr (is_gcc)
+        else if constexpr (is_gcc)
         {
             // !!! crash !!!
             return nullptr;
@@ -327,31 +307,39 @@ inline bool operator>=(const coroutine_handle<void> lhs,
     return !(lhs < rhs);
 }
 
-struct suspend_never
+class suspend_never
 {
+  public:
     constexpr bool await_ready() const noexcept
     {
         return true;
     }
     void await_suspend(coroutine_handle<void>) const noexcept
     {
+        // Since the class won't suspend,
+        // this function won't be invoked
     }
     constexpr void await_resume() const noexcept
     {
+        // Nothing to do for this utility class
     }
 };
 
-struct suspend_always
+class suspend_always
 {
+  public:
     constexpr bool await_ready() const noexcept
     {
         return false;
     }
     void await_suspend(coroutine_handle<void>) const noexcept
     {
+        // The routine will suspend but the class ignores
+        // resumable handle
     }
     constexpr void await_resume() const noexcept
     {
+        // Nothing to do for this utility class
     }
 };
 } // namespace std::experimental

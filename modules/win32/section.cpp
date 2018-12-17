@@ -21,7 +21,7 @@ auto for_win32(section* s) noexcept
     return reinterpret_cast<reader_writer_lock*>(s);
 }
 
-section::section(uint16_t) noexcept(false) : storage{}
+section::section() noexcept(false) : storage{}
 {
     auto rwl = for_win32(this);
     new (rwl) reader_writer_lock{};

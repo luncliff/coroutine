@@ -61,7 +61,7 @@ class enumerable final
         {
             coro.resume();
             if (coro.done()) // finished?
-                return nullptr;
+                return iterator{nullptr};
         }
         return iterator{coro};
     }
@@ -71,9 +71,10 @@ class enumerable final
     }
 
   public:
-    struct promise_type // Resumable Promise Requirement
+    class promise_type final // Resumable Promise Requirement
     {
         friend class iterator;
+        friend class enumerable;
 
         pointer current = nullptr;
 
@@ -127,11 +128,11 @@ class enumerable final
 
       public:
         // `enumerable::end()`
-        iterator(std::nullptr_t) noexcept : coro{nullptr}
+        explicit iterator(std::nullptr_t) noexcept : coro{nullptr}
         {
         }
         // `enumerable::begin()`
-        iterator(handle_promise_t handle) noexcept : coro{handle}
+        explicit iterator(handle_promise_t handle) noexcept : coro{handle}
         {
         }
 

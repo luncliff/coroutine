@@ -15,7 +15,8 @@
 
 #include <Windows.h>
 #include <sdkddkver.h>
-#include <tlhelp32.h>
+
+#include <TlHelp32.h>
 
 using namespace std;
 
@@ -106,13 +107,6 @@ bool check_thread_exists(thread_id_t id) noexcept
 
     CloseHandle(thread);
     return true;
-
-    // bool exist = false;
-    // for (auto tid : current_threads()) // ensure CloseHandle(snapshot)
-    //    if (tid == id)
-    //        exist = true;
-
-    // return exist;
 }
 
 auto current_threads() noexcept(false) -> enumerable<thread_id_t>
@@ -124,7 +118,6 @@ auto current_threads() noexcept(false) -> enumerable<thread_id_t>
         throw system_error{static_cast<int>(GetLastError()), system_category(),
                            "CreateToolhelp32Snapshot"};
 
-    // auto h = gsl::finally([=]() { CloseHandle(snapshot); });
     auto entry = THREADENTRY32{};
     entry.dwSize = sizeof(entry);
 
@@ -138,6 +131,7 @@ auto current_threads() noexcept(false) -> enumerable<thread_id_t>
             co_yield tid;
         }
 
+    // the line should be replaced to gsl::finally
     CloseHandle(snapshot);
 }
 

@@ -73,7 +73,6 @@ class messaging_test : public TestClass<messaging_test>
     }
 };
 
-#include <tlhelp32.h>
 
 auto current_threads() noexcept(false) -> enumerable<thread_id_t>
 {

@@ -254,8 +254,6 @@ class channel final : private internal::list<reader<T, Lockable>>,
         size_t repeat = 1; // recommend 5'000+ repeat for hazard usage
         do
         {
-            // Give chance to other coroutines to come into the lists
-            // std::this_thread::yield();
             std::unique_lock lck{this->mtx};
 
             while (writers.is_empty() == false)

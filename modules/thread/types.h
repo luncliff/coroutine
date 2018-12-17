@@ -33,7 +33,7 @@ struct thread_data final
 //      Get the address of thread data for this library
 auto get_local_data() noexcept -> thread_data*;
 
-struct thread_registry final
+class thread_registry final
 {
   private:
     // If the program is goiing to use more threads,

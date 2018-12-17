@@ -23,7 +23,7 @@ auto for_posix(const section* s) noexcept
     return reinterpret_cast<const pthread_rwlock_t*>(s);
 }
 
-section::section(uint16_t) noexcept(false) : storage{}
+section::section() noexcept(false) : storage{}
 {
     auto* rwlock = for_posix(this);
 

@@ -21,7 +21,7 @@
 class unplug final
 {
   public:
-    struct promise_type
+    class promise_type final
     {
       public:
         // No suspend for init/final suspension point
@@ -47,19 +47,6 @@ class unplug final
         {
             return this;
         }
-
-        // void* operator new(size_t sz) noexcept(false)
-        // {
-        //     auto ptr = calloc(sz, sizeof(char));
-        //     printf("new(unplug): %p %zu \n", ptr, sz);
-        //     return ptr;
-        // }
-
-        // void operator delete(void* ptr, size_t sz) noexcept
-        // {
-        //     printf("delete(unplug): %p %zu \n", ptr, sz);
-        //     free(ptr);
-        // }
     };
 
   public:
@@ -77,7 +64,7 @@ class unplug final
 class frame_holder final
 {
   public:
-    struct promise_type;
+    class promise_type;
 
     template <typename P>
     using coroutine_handle = std::experimental::coroutine_handle<P>;
@@ -113,7 +100,7 @@ class frame_holder final
     }
 
   public:
-    struct promise_type final
+    class promise_type final
     {
       public:
         // No suspend for init/final suspension point
@@ -131,28 +118,14 @@ class frame_holder final
         }
         void unhandled_exception() noexcept(false)
         {
-            // throw again
-            if (auto eptr = std::current_exception())
-                std::rethrow_exception(eptr);
+            // terminate the program.
+            std::terminate();
         }
 
         promise_type* get_return_object() noexcept
         {
             return this;
         }
-
-        // void* operator new(size_t sz) noexcept(false)
-        // {
-        //     auto ptr = calloc(sz, sizeof(char));
-        //     printf("new(frame_holder): %p %zu \n", ptr, sz);
-        //     return ptr;
-        // }
-
-        // void operator delete(void* ptr, size_t sz) noexcept
-        // {
-        //     printf("delete(frame_holder): %p %zu \n", ptr, sz);
-        //     free(ptr);
-        // }
     };
 };
 

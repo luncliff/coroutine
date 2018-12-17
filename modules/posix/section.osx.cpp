@@ -28,7 +28,7 @@ auto for_osx(const section* s) noexcept
     return reinterpret_cast<const section_osx*>(s);
 }
 
-section::section(uint16_t) noexcept(false) : storage{}
+section::section() noexcept(false) : storage{}
 {
     int ec = 0;
     const char* message = nullptr;
