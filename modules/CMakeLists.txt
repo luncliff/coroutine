@@ -3,7 +3,7 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 # ---------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.8)
 
 add_library(${PROJECT_NAME} # -> coroutine.lib
     ${PLATFORM}/dllmain.cpp
@@ -28,7 +28,6 @@ PRIVATE
 
 # to prevent creating sub-library,
 #   incrementally attach code/properties using CMake include
-include(messaging/get-code.cmake)
 include(thread/get-code.cmake)
 include(${PLATFORM}/get-code.cmake)
 

@@ -211,7 +211,6 @@
     <ClInclude Include="..\interface\coroutine\switch.h" />
     <ClInclude Include="..\interface\coroutine\sync.h" />
     <ClInclude Include="..\interface\coroutine\return.h" />
-    <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="vs\channel.cpp" />

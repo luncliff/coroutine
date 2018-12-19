@@ -6,14 +6,10 @@
 // ---------------------------------------------------------------------------
 #pragma once
 #include <coroutine/switch.h>
-#include <messaging/concurrent.h>
-
-#include <array>
+#include <thread/queue.h>
 
 class thread_data final
 {
-  public:
-    std::condition_variable cv;
     concurrent_message_queue queue;
 
   private:
@@ -28,6 +24,9 @@ class thread_data final
 
   public:
     thread_id_t get_id() const noexcept;
+
+    bool post(message_t msg) noexcept(false);
+    bool try_pop(message_t& msg) noexcept;
 };
 
 // - Note

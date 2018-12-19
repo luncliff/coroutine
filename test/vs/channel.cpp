@@ -122,7 +122,8 @@ class channel_operation_test : public TestClass<channel_operation_test>
     TEST_METHOD(channel_cancel_write_when_destroy)
     {
         uint64_t storage{};
-        uint32_t success{}, failure{};
+        uint32_t success{};
+        uint32_t failure{};
         {
             channel_type ch{};
 
@@ -141,7 +142,8 @@ class channel_operation_test : public TestClass<channel_operation_test>
     TEST_METHOD(channel_cancel_read_when_destroy)
     {
         uint64_t storage{};
-        uint32_t success{}, failure{};
+        uint32_t success{};
+        uint32_t failure{};
         {
             channel_type ch{};
 
@@ -160,18 +162,21 @@ class channel_operation_test : public TestClass<channel_operation_test>
 
 class channel_race_test : public TestClass<channel_race_test>
 {
+    using channel_type = channel<uint64_t, section>;
+
   public:
-    TEST_METHOD(channel_ensure_delivery)
+    TEST_METHOD(channel_ensure_delivery_under_race)
     {
         // using 'guaranteed' lockable
         // but it doesn't guarantee coroutines' serialized execution
-        channel<uint64_t, section> ch{};
-        uint32_t success = 0, failure = 0;
+        channel_type ch{};
+        uint32_t success{};
+        uint32_t failure{};
 
-        static constexpr size_t TryCount = 2'000;
+        static constexpr size_t max_try_count = 2'000;
 
         wait_group group{};
-        group.add(2 * TryCount);
+        group.add(2 * max_try_count);
 
         auto send_with_callback = [](auto& ch, auto value, auto fn) -> unplug {
             switch_to back{};
@@ -201,7 +206,7 @@ class channel_race_test : public TestClass<channel_race_test>
         };
 
         // Spawn coroutines
-        uint64_t repeat = TryCount;
+        uint64_t repeat = max_try_count;
         while (repeat--)
         {
             recv_with_callback(ch, callback);
@@ -210,12 +215,12 @@ class channel_race_test : public TestClass<channel_race_test>
 
         const auto timeout = std::chrono::seconds{10};
         // Wait for all coroutines...
-        // !!! use should ensure there is no race for destroying channel !!!
+        // !!! user should ensure there is no race for destroying channel !!!
         Assert::IsTrue(group.wait(timeout));
 
         // channel ensures the delivery for same number of send/recv
         Assert::IsTrue(failure == 0);
-        // but the race makes the caks success != 2 * TryCount
-        Assert::IsTrue(success <= 2 * TryCount);
+        // but the race makes the caks success != 2 * max_try_count
+        Assert::IsTrue(success <= 2 * max_try_count);
     }
 };

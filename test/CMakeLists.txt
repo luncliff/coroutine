@@ -29,12 +29,14 @@ PRIVATE
 )
 
 if(UNIX)
+    # code coverage option lead to compiler crash
+    # list(APPEND CMAKE_CXX_FLAGS "--coverage")
     target_link_libraries(coroutine_test
     PRIVATE
         stdc++ # solve possible gnu-dependency
     )
     target_compile_options(coroutine_test
     PRIVATE
-        -std=c++2a -stdlib=libc++ -g -O2
+        -std=c++2a -stdlib=libc++ -g
     )
 endif()

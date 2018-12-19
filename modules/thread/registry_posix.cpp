@@ -6,13 +6,20 @@
 // ---------------------------------------------------------------------------
 #include <thread/types.h>
 
-#include <Windows.h> // System API
 #include <iterator>
+#include <pthread.h>
 
 using namespace std;
 
 thread_registry::~thread_registry() noexcept
 {
+    // since we are allocating some resources,
+    // this condition must be checked to prevent resource leak
+    for (const auto& k : keys)
+        // this might lead to delete using variables
+        // current version doesn't support graceful closing for the usecase
+        if (k != invalid_key)
+            this->erase(k);
 }
 
 extern bool check_thread_exists(thread_id_t id) noexcept;
@@ -39,7 +46,12 @@ auto thread_registry::find_or_insert(key_type tid) noexcept(false) -> pointer
     // remember
     *it = tid;
 Found:
-    return addressof(values.at(distance(keys.begin(), it)));
+    auto& info = values.at(distance(keys.begin(), it));
+    if (info == nullptr)
+        // allocate thread data for the given ID
+        info = new thread_data{};
+
+    return addressof(info);
 }
 
 void thread_registry::erase(key_type key) noexcept(false)
@@ -48,15 +60,28 @@ void thread_registry::erase(key_type key) noexcept(false)
 
     const auto it = find(keys.begin(), keys.end(), key);
     if (it == keys.end())
-        // unregistered one. nothing to do ?
-        // throw runtime_error{"unregistered key received"};
+        // unregistered one. nothing to do
         return;
 
     // forget
+
     const auto idx = distance(keys.begin(), it);
+    // deallocate thread data for the given ID
+    delete values.at(idx);
     values.at(idx) = nullptr;
 
     *it = invalid_key;
+}
+
+thread_data* get_local_data() noexcept
+{
+    const void* p = (void*)pthread_self();
+    const auto tid = reinterpret_cast<uint64_t>(p);
+
+    auto info = get_thread_registry() //
+                    ->find_or_insert( //
+                        static_cast<thread_id_t>(tid));
+    return *info;
 }
 
 thread_id_t current_thread_id() noexcept
@@ -65,21 +90,27 @@ thread_id_t current_thread_id() noexcept
     return get_local_data()->get_id();
 }
 
-thread_data::thread_data() noexcept(false) : cv{}, queue{}
+thread_data::thread_data() noexcept(false) : queue{}
 {
-    const auto tid = static_cast<thread_id_t>(GetCurrentThreadId());
-    auto ptr = get_thread_registry()->find_or_insert(tid);
-    *ptr = this;
 }
 
 thread_data::~thread_data() noexcept
 {
-    // this line might throw exception.
-    // which WILL kill the program.
-    get_thread_registry()->erase(get_id());
 }
 
 thread_id_t thread_data::get_id() const noexcept
 {
-    return static_cast<thread_id_t>(GetCurrentThreadId());
+    const void* p = (void*)pthread_self();
+    const auto tid = reinterpret_cast<uint64_t>(p);
+    return static_cast<thread_id_t>(tid);
+}
+
+bool thread_data::post(message_t msg) noexcept(false)
+{
+    return queue.push(msg);
+}
+
+bool thread_data::try_pop(message_t& msg) noexcept
+{
+    return queue.try_pop(msg);
 }

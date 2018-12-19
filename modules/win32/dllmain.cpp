@@ -29,69 +29,59 @@ BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID)
     UNREFERENCED_PARAMETER(instance);
 
     auto* registry = get_thread_registry();
-
-    try
+    switch (reason)
     {
-        switch (reason)
-        {
-        case DLL_PROCESS_DETACH:
-            // remove existing threads
-            for (auto tid : current_threads())
-                registry->erase(tid);
+    case DLL_PROCESS_DETACH:
+        // remove existing threads
+        for (auto tid : current_threads())
+            registry->erase(tid);
 
-            // teardown tls
-            TlsFree(tls_index);
-            break;
-        case DLL_PROCESS_ATTACH:
-            // setup TLS
-            tls_index = TlsAlloc();
-            if (tls_index == TLS_OUT_OF_INDEXES)
-                return FALSE;
-
-            // add existing threads
-            for (auto tid : current_threads())
-                *(registry->find_or_insert(tid)) = nullptr;
-
-        case DLL_THREAD_ATTACH:
-            // add current thread
-            if (get_local_data() == nullptr)
-                return FALSE;
-
-            break;
-        case DLL_THREAD_DETACH:
-            // remove current thread
-            if (auto tls = get_local_data())
-            {
-                tls->~thread_data();
-                LocalFree((HLOCAL)tls);
-            }
-            break;
-        default:
+        // teardown tls
+        TlsFree(tls_index);
+        break;
+    case DLL_PROCESS_ATTACH:
+        // setup TLS
+        tls_index = TlsAlloc();
+        if (tls_index == TLS_OUT_OF_INDEXES)
             return FALSE;
-        }
 
-        return TRUE;
+        // add existing threads
+        for (auto tid : current_threads())
+            *(registry->find_or_insert(tid)) = nullptr;
+
+    case DLL_THREAD_ATTACH:
+        // add current thread
+        if (get_local_data() == nullptr)
+            return FALSE;
+
+        break;
+    case DLL_THREAD_DETACH:
+        // remove current thread
+        if (auto tls = get_local_data())
+        {
+            tls->~thread_data();
+            LocalFree((HLOCAL)tls);
+        }
+        break;
+    default:
+        return FALSE;
     }
-    catch (const exception& e)
-    {
-        ::perror(e.what());
-    }
-    return FALSE;
+
+    return TRUE;
 }
 
 thread_data* get_local_data() noexcept
 {
-    auto tls_data = TlsGetValue(tls_index);
-    if (tls_data == nullptr)
-    {
-        tls_data = (LPVOID)LocalAlloc(LPTR, sizeof(thread_data));
+    if (auto tls = TlsGetValue(tls_index))
+        return static_cast<thread_data*>(tls);
 
-        if (tls_data == nullptr || TlsSetValue(tls_index, tls_data) == FALSE)
-            return nullptr;
+    auto tls = (LPVOID)LocalAlloc(LPTR, sizeof(thread_data));
 
-        new (tls_data) thread_data{};
-    }
-    return static_cast<thread_data*>(tls_data);
+    // allocation / remember failure
+    if (tls == nullptr || TlsSetValue(tls_index, tls) == FALSE)
+        return nullptr;
+
+    return new (tls) thread_data{};
 }
 
 bool check_thread_exists(thread_id_t id) noexcept
@@ -100,7 +90,9 @@ bool check_thread_exists(thread_id_t id) noexcept
     HANDLE thread = OpenThread(
         // for current implementation,
         // lazy_delivery requires this operation
-        THREAD_SET_CONTEXT, FALSE, static_cast<DWORD>(id));
+        THREAD_SET_CONTEXT,
+        FALSE,
+        static_cast<DWORD>(id));
 
     if (thread == NULL) // *possibly* invalid thread id
         return false;
@@ -115,7 +107,8 @@ auto current_threads() noexcept(false) -> enumerable<thread_id_t>
     // for current process
     HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
     if (snapshot == INVALID_HANDLE_VALUE)
-        throw system_error{static_cast<int>(GetLastError()), system_category(),
+        throw system_error{static_cast<int>(GetLastError()),
+                           system_category(),
                            "CreateToolhelp32Snapshot"};
 
     auto entry = THREADENTRY32{};
@@ -140,38 +133,30 @@ void CALLBACK deliver(const message_t msg) noexcept(false)
 {
     static_assert(sizeof(message_t) == sizeof(ULONG_PTR));
 
-    auto* thread_data = get_local_data();
-    assert(thread_data != nullptr);
+    auto* tls = get_local_data();
+    assert(tls != nullptr);
 
-    if (thread_data->queue.push(msg) == false)
+    if (tls->post(msg) == false)
         throw runtime_error{"failed to deliver message"};
 }
 
 void lazy_delivery(thread_id_t thread_id, message_t msg) noexcept(false)
 {
-    // SleepEx(0, true); // handle some APC
-
-    DWORD ec{}, tid = static_cast<DWORD>(thread_id);
     // receiver thread
-    HANDLE thread = OpenThread(THREAD_SET_CONTEXT, FALSE, tid);
+    HANDLE thread
+        = OpenThread(THREAD_SET_CONTEXT, FALSE, static_cast<DWORD>(thread_id));
     if (thread == NULL)
-    {
-        ec = GetLastError();
-        throw system_error{static_cast<int>(ec), system_category(),
-                           "OpenThread"};
-    }
+        throw system_error{
+            static_cast<int>(GetLastError()), system_category(), "OpenThread"};
 
     // use apc queue to deliver message
     if (QueueUserAPC(reinterpret_cast<PAPCFUNC>(deliver), thread, msg.u64))
-    {
         CloseHandle(thread);
-        // SleepEx(0, true); // handle some APC
-    }
     else
     {
-        ec = GetLastError();
+        const auto ec = GetLastError();
         CloseHandle(thread);
-        throw system_error{static_cast<int>(ec), system_category(),
-                           "QueueUserAPC"};
+        throw system_error{
+            static_cast<int>(ec), system_category(), "QueueUserAPC"};
     }
 }

@@ -59,7 +59,7 @@ class messaging_test : public TestClass<messaging_test>
         Assert::Fail(L"Expect an exception but nothing catched");
     }
 
-    TEST_METHOD(send_message_to_every_threads)
+    TEST_METHOD(send_message_to_peer_threads)
     {
         try
         {
@@ -86,27 +86,25 @@ class messaging_test : public TestClass<messaging_test>
 
 auto current_threads() noexcept(false) -> enumerable<thread_id_t>
 {
-    auto pid = GetCurrentProcessId();
-    // for current process
-    auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+    DWORD pid{};
+    thread_id_t tid{};
+    HANDLE snapshot{};
+    THREADENTRY32 entry{};
+
+    pid = GetCurrentProcessId();
+
+    snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
     if (snapshot == INVALID_HANDLE_VALUE)
         throw std::system_error{static_cast<int>(GetLastError()),
                                 std::system_category(),
                                 "CreateToolhelp32Snapshot"};
 
-    // auto h = gsl::finally([=]() { CloseHandle(snapshot); });
-    THREADENTRY32 entry{};
     entry.dwSize = sizeof(entry);
-
-    thread_id_t tid{};
     for (Thread32First(snapshot, &entry); Thread32Next(snapshot, &entry);
          entry.dwSize = sizeof(entry))
-        // filter other process's threads
+        // ignore other process's threads
         if (entry.th32OwnerProcessID == pid)
-        {
-            tid = static_cast<thread_id_t>(entry.th32ThreadID);
-            co_yield tid;
-        }
+            co_yield tid = static_cast<thread_id_t>(entry.th32ThreadID);
 
     CloseHandle(snapshot);
 }

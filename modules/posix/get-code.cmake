@@ -3,7 +3,6 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 # ---------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.5)
 
 if(NOT UNIX)
     message(FATAL_ERROR "Expect UNIX platform. Current platform is ${CMAKE_SYSTEM}")
@@ -14,7 +13,7 @@ target_sources(${PROJECT_NAME}
 PRIVATE
     posix/switch_to.cpp
     posix/wait_group.cpp
-    posix/background.cpp
+    thread/background.cpp
 )
 
 target_compile_options(${PROJECT_NAME} 
@@ -28,6 +27,8 @@ PRIVATE
 )
 
 if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+    # code coverage option lead to compiler crash
+    # list(APPEND CMAKE_CXX_FLAGS "--coverage")
     target_compile_options(${PROJECT_NAME} 
     PRIVATE
         -g -O0

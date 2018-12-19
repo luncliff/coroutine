@@ -26,14 +26,14 @@
     <ClInclude Include="..\interface\coroutine\sequence.hpp" />
     <ClInclude Include="..\interface\coroutine\switch.h" />
     <ClInclude Include="..\interface\coroutine\sync.h" />
-    <ClInclude Include="messaging\concurrent.h" />
+    <ClInclude Include="thread\queue.h" />
     <ClInclude Include="thread\types.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="messaging\operations.cpp" />
-    <ClCompile Include="messaging\queue.cpp" />
     <ClCompile Include="thread\compatible.cpp" />
-    <ClCompile Include="thread\win32.cpp" />
+    <ClCompile Include="thread\operations.cpp" />
+    <ClCompile Include="thread\queue.cpp" />
+    <ClCompile Include="thread\registry_win32.cpp" />
     <ClCompile Include="win32\dllmain.cpp" />
     <ClCompile Include="win32\section.cpp" />
     <ClCompile Include="win32\switch_to.cpp" />

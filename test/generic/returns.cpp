@@ -2,7 +2,6 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "./test.h"
 #include <catch.hpp>
 
 #include <coroutine/return.h>
@@ -17,6 +16,32 @@ TEST_CASE("unplug", "[generic]")
         };
         REQUIRE_NOTHROW(try_coroutine());
     }
+}
+
+template <typename Fn>
+auto defer(Fn&& todo)
+{
+    struct caller
+    {
+      private:
+        Fn func;
+
+      private:
+        caller(const caller&) = delete;
+        caller(caller&&) = delete;
+        caller& operator=(const caller&) = delete;
+        caller& operator=(caller&&) = delete;
+
+      public:
+        caller(Fn&& todo) : func{todo}
+        {
+        }
+        ~caller()
+        {
+            func();
+        }
+    };
+    return caller{std::move(todo)};
 }
 
 TEST_CASE("suspend_hook", "[generic]")
