@@ -32,47 +32,10 @@ bool peek_switched(coroutine_handle<void>& rh) noexcept(false)
     return false;
 }
 
-//// - Note
-////      The function won't use GetMessage function
-////      since it can disable Overlapped I/O
-// bool get(coroutine_handle<void>& rh) noexcept
-//{
-//    // Handle APC calls (Expecially I/O)
-//    // Message >> WAIT_OBJECT_0
-//    // Overlapped I/O  >> WAIT_IO_COMPLETION
-//    // Failed >> WAIT_FAILED
-//    const DWORD reason = ::MsgWaitForMultipleObjectsEx( //
-//        0,
-//        nullptr, // no handles
-//        10'000,  // Not INFINITE.
-//        QS_ALLINPUT,
-//        MWMO_ALERTABLE | MWMO_INPUTAVAILABLE);
-//
-//    if (reason == WAIT_OBJECT_0) // Message received
-//        return peek(rh);
-//
-//    // it might be one of Handled I/O || Timeout || Error
-//    // just return false.
-//    return false;
-//}
-
 static_assert(is_nothrow_move_assignable_v<switch_to> == false);
 static_assert(is_nothrow_move_constructible_v<switch_to> == false);
 static_assert(is_nothrow_copy_assignable_v<switch_to> == false);
 static_assert(is_nothrow_copy_constructible_v<switch_to> == false);
-
-//// - Note
-////      Thread Pool Callback. Expect `noexcept` operation
-// void resume_coroutine(PTP_CALLBACK_INSTANCE instance,
-//                      PVOID context,
-//                      PTP_WORK work) noexcept
-//{
-//    // debug info from these args?
-//    UNREFERENCED_PARAMETER(instance);
-//    UNREFERENCED_PARAMETER(work);
-//
-//    coroutine_handle<void>::from_address(context).resume();
-//}
 
 struct switch_to_win32
 {

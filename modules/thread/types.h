@@ -10,8 +10,9 @@
 
 #include <array>
 
-struct thread_data final
+class thread_data final
 {
+  public:
     std::condition_variable cv;
     concurrent_message_queue queue;
 

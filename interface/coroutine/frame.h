@@ -126,6 +126,18 @@ class coroutine_handle<void>
     explicit coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr}
     {
     }
+    coroutine_handle(coroutine_handle const&) noexcept = default;
+    coroutine_handle& operator=(coroutine_handle const&) noexcept = default;
+
+    coroutine_handle(coroutine_handle&& rhs) noexcept : prefix{rhs.prefix}
+    {
+        rhs.prefix = prefix_t{};
+    }
+    coroutine_handle& operator=(coroutine_handle&& rhs) noexcept
+    {
+        std::swap(this->prefix.v, rhs.prefix.v);
+        return *this;
+    }
 
     coroutine_handle& operator=(nullptr_t) noexcept
     {
@@ -206,14 +218,14 @@ class coroutine_handle : public coroutine_handle<void>
         if constexpr (is_clang)
         {
             // calculate the location of the coroutine frame prefix
-            auto prefix = addr.c;
+            auto* prefix = addr.c;
             // for clang, promise is placed just after frame prefix
             auto* promise = reinterpret_cast<promise_type*>(prefix + 1);
             return promise;
         }
         else if constexpr (is_msvc)
         {
-            auto ptr = reinterpret_cast<char*>(addr.m);
+            auto* ptr = reinterpret_cast<char*>(addr.m);
             // for msvc, promise is placed before frame prefix
             auto* promise = reinterpret_cast<promise_type*>(
                 ptr - aligned_size_v<promise_type>);

@@ -11,18 +11,18 @@
 #include <cstdint>
 
 template <typename ItemType>
-struct circular_queue final
+class circular_queue final
 {
     static constexpr auto capacity = 500 + 1;
 
     using value_type = ItemType;
-    using pointer = value_type*;
     using reference = value_type&;
 
     using index_type = uint16_t;
 
   private:
-    index_type begin = 0, end = 0;
+    index_type begin = 0;
+    index_type end = 0;
     std::array<value_type, capacity> storage{};
 
   private:
@@ -47,7 +47,7 @@ struct circular_queue final
             return false;
 
         const auto index = end;
-        end = next(end); // count += 1;
+        end = next(end); // increase count;
 
         storage.at(index) = msg; // expect copy
         return true;
@@ -59,14 +59,14 @@ struct circular_queue final
             return false;
 
         const auto index = begin;
-        begin = next(begin); // count -= 1;
+        begin = next(begin); // decrease count;
 
         msg = std::move(storage.at(index)); // expect move
         return true;
     }
 };
 
-struct concurrent_message_queue final
+class concurrent_message_queue final
 {
     section cs{};
     circular_queue<message_t> qu{};

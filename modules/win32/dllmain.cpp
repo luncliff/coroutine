@@ -113,7 +113,7 @@ auto current_threads() noexcept(false) -> enumerable<thread_id_t>
 {
     auto pid = GetCurrentProcessId();
     // for current process
-    auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+    HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
     if (snapshot == INVALID_HANDLE_VALUE)
         throw system_error{static_cast<int>(GetLastError()), system_category(),
                            "CreateToolhelp32Snapshot"};

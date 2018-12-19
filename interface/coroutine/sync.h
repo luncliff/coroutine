@@ -94,21 +94,23 @@ class wait_group final
 
 enum class thread_id_t : uint64_t;
 
-struct _INTERFACE_ message_t final
+class _INTERFACE_ message_t final
 {
+  public:
     union {
         uint32_t u32[2]{};
         uint64_t u64;
         void* ptr;
     };
 
+  public:
     bool operator==(const message_t& rhs) const noexcept
     {
         return u64 == rhs.u64;
     }
     bool operator!=(const message_t& rhs) const noexcept
     {
-        return u64 != rhs.u64;
+        return !(*this == rhs);
     }
 };
 static_assert(sizeof(message_t) <= sizeof(uint64_t));
