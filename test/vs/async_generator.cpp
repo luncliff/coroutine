@@ -23,15 +23,17 @@ using Microsoft::VisualStudio::CppUnitTestFramework::TestClass;
 class async_generator_test : public TestClass<async_generator_test>
 {
   public:
+    static auto return_random_int(int value = rand()) -> sequence<int>
+    {
+        co_yield value; // random
+        co_return;
+    };
+
     TEST_METHOD(async_generator_ensure_no_leak) // just repeat a lot
     {
-        auto get_sequence = [](int value = rand()) -> sequence<int> {
-            // yield random
-            co_yield value;
-        };
-        auto try_sequence = [=](int& ref) -> unplug {
+        auto try_sequence = [](int& ref) -> unplug {
             /* clang-format off */
-            for co_await(int v : get_sequence())
+            for co_await(int v : return_random_int())
                 ref = v;
             /* clang-format on*/
         };
@@ -46,15 +48,16 @@ class async_generator_test : public TestClass<async_generator_test>
         Assert::IsTrue(repeat == 0);
     }
 
+    static auto return_nothing() -> sequence<int>
+    {
+        co_return; // do nothing
+    };
+
     TEST_METHOD(async_generator_return_without_yield)
     {
-        auto example = []() -> sequence<int> {
-            co_return; // do nothing
-        };
-
-        auto try_sequence = [=](int& ref) -> unplug {
+        auto try_sequence = [](int& ref) -> unplug {
             // clang-format off
-            for co_await(int v : example())
+            for co_await(int v : return_nothing())
                 ref = v;
             // clang-format on
         };
@@ -68,7 +71,7 @@ class async_generator_test : public TestClass<async_generator_test>
     {
         suspend_hook sp{};
 
-        auto example = [&]() -> sequence<int> {
+        auto example = [&sp]() -> sequence<int> {
             co_yield sp; // suspend
             co_return;
         };
@@ -85,6 +88,7 @@ class async_generator_test : public TestClass<async_generator_test>
         Assert::IsTrue(value == 222);
         sp.resume();
     }
+
     TEST_METHOD(async_generator_yield_once)
     {
         auto example = []() -> sequence<int> {
@@ -92,7 +96,9 @@ class async_generator_test : public TestClass<async_generator_test>
             co_yield v;
             co_return;
         };
-        auto try_sequence = [=](int& ref) -> unplug {
+
+        // copy capture
+        auto try_sequence = [example](int& ref) -> unplug {
             // clang-format off
             for co_await(int v : example())
                 ref = v;
@@ -116,7 +122,9 @@ class async_generator_test : public TestClass<async_generator_test>
             co_yield v = 555;
             co_return;
         };
-        auto try_sequence = [&](int& ref) -> unplug {
+
+        // reference capture
+        auto try_sequence = [&example](int& ref) -> unplug {
             // clang-format off
             for co_await(int v : example())
                 ref = v;
@@ -142,7 +150,7 @@ class async_generator_test : public TestClass<async_generator_test>
                 co_yield sp;
                 co_yield v = 777;
             };
-            auto try_sequence = [&](int& ref) -> unplug {
+            auto try_sequence = [&example](int& ref) -> unplug {
                 // clang-format off
                 for co_await(int v : example())
                     ref = v;

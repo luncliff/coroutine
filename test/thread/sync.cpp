@@ -2,12 +2,11 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "./test.h"
 #include <catch.hpp>
 
 #include <thread>
 
-#include "../modules/stop_watch.hpp"
+#include "stop_watch.hpp"
 #include <coroutine/sync.h>
 
 TEST_CASE("section", "[sync][thread]")

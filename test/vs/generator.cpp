@@ -87,7 +87,7 @@ class generator_test : public TestClass<generator_test>
         // since generator is not a container,
         //  using max_element (or min_element) function on it
         //  will return invalid iterator
-        auto generate_values = [&]() -> enumerable<uint16_t> {
+        auto generate_values = [&container]() -> enumerable<uint16_t> {
             for (auto e : container)
                 co_yield e;
 

@@ -20,7 +20,7 @@ template <typename T>
 class enumerable final
 {
   public:
-    struct promise_type;
+    class promise_type;
     class iterator;
 
     using value_type = T;

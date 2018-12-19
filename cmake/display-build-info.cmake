@@ -11,7 +11,7 @@ message(STATUS "  Project   \t: ${PROJECT_DIR}")
 message(STATUS "  Install   \t: ${CMAKE_INSTALL_PREFIX}")
 
 message(STATUS "System      \t: ${CMAKE_SYSTEM}")
-message(STATUS "Platform    \t: ${PLATFORM}")
+message(STATUS "Platform    \t: ${CMAKE_CXX_PLATFORM_ID} -> ${PLATFORM}")
 
 message(STATUS "Compiler")
 message(STATUS "  ID        \t: ${CMAKE_CXX_COMPILER_ID}")

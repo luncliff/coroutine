@@ -30,9 +30,6 @@
     <ClInclude Include="..\interface\coroutine\enumerable.hpp">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="test.h">
-      <Filter>test</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="vs\channel.cpp">

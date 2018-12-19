@@ -2,15 +2,14 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include <catch.hpp>
+
+#include <array>
+
 #include <coroutine/channel.hpp>
 #include <coroutine/return.h>
 #include <coroutine/switch.h>
 #include <coroutine/sync.h>
-
-#include <mutex>
-
-#include "./test.h"
-#include <catch.hpp>
 
 // ensure successful write to channel
 template <typename L>
