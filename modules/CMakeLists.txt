@@ -32,7 +32,7 @@ include(${CMAKE_SYSTEM_NAME})
 include(thread)
 
 # simply install header & binary
-install(DIRECTORY       ${PROJECT_DIR}/interface/coroutine
+install(DIRECTORY       ${CMAKE_CURRENT_LIST_DIR}/../interface/coroutine
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/include
 )
 install(TARGETS         ${PROJECT_NAME}

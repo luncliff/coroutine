@@ -122,3 +122,31 @@ matrix:
         - otool -L ./modules/libcoroutine.a
         - popd
         - tree ./install
+
+    # OS X : iPhone OS Release
+    - os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      addons:
+        homebrew:
+          packages:
+            - ninja
+            - tree
+      env:
+        - PLATFORM=ios
+        - CONFIG=Release
+        - BUILD_SHARED=true
+      script:
+        - cmake ../ 
+            -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+            -DCMAKE_BUILD_TYPE=$CONFIG
+            -DCMAKE_INSTALL_PREFIX=../install
+            -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
+            -DENABLE_BITCODE=false
+            -DIOS_DEPLOYMENT_TARGET=10.13
+        - make install
+      after_success:
+        - file ./modules/libcoroutine.dylib
+        - otool -L ./modules/libcoroutine.dylib
+        - popd
+        - tree ./install
