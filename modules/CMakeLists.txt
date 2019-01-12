@@ -29,7 +29,7 @@ list(APPEND CMAKE_MODULE_PATH
 )
 string(TOLOWER ${CMAKE_SYSTEM_NAME} CMAKE_SYSTEM_NAME)
 include(${CMAKE_SYSTEM_NAME})
-include(thread)
+# include(thread)
 
 # simply install header & binary
 install(DIRECTORY       ${CMAKE_CURRENT_LIST_DIR}/../interface/coroutine

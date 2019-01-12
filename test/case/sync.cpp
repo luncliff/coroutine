@@ -33,13 +33,8 @@ TEST_CASE("section", "[sync][thread]")
         t2{stress_on_lock}, t3{stress_on_lock}, t4{stress_on_lock},
         t5{stress_on_lock}, t6{stress_on_lock}, t7{stress_on_lock};
 
-    REQUIRE_NOTHROW(t1.join());
-    REQUIRE_NOTHROW(t2.join());
-    REQUIRE_NOTHROW(t3.join());
-    REQUIRE_NOTHROW(t4.join());
-    REQUIRE_NOTHROW(t5.join());
-    REQUIRE_NOTHROW(t6.join());
-    REQUIRE_NOTHROW(t7.join());
+    REQUIRE_NOTHROW(t1.join(), t2.join(), t3.join(), t4.join(), t5.join(),
+                    t6.join(), t7.join());
 }
 
 TEST_CASE("wait_group", "[sync][thread]")

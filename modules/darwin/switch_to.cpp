@@ -6,7 +6,6 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/frame.h>
 #include <coroutine/switch.h>
-#include <coroutine/sync.h>
 
 #include <cassert>
 #include <csignal>
@@ -16,29 +15,15 @@
 using namespace std;
 using namespace std::experimental;
 
-bool peek_switched( // ... better name?
-    std::experimental::coroutine_handle<void>& coro) noexcept(false)
-{
-    message_t msg{};
-    if (peek_message(msg) == true)
-    {
-        coro = coroutine_handle<void>::from_address(msg.ptr);
-        // ensure again
-        // because sender might return empty frame(null)
-        return msg.ptr != nullptr;
-    }
-    return false;
-}
-
 static_assert(std::is_nothrow_move_assignable_v<switch_to> == false);
 static_assert(std::is_nothrow_move_constructible_v<switch_to> == false);
 static_assert(std::is_nothrow_copy_assignable_v<switch_to> == false);
 static_assert(std::is_nothrow_copy_constructible_v<switch_to> == false);
 
-struct switch_to_posix
+struct switch_to_posix final
 {
-    thread_id_t thread_id{};
-    void* work{};
+    atomic_bool is_closed{};
+    std::unique_ptr<messaging_queue_t> queue{};
 };
 
 auto* for_posix(switch_to* s) noexcept
@@ -52,56 +37,78 @@ auto* for_posix(const switch_to* s) noexcept
     return reinterpret_cast<const switch_to_posix*>(s);
 }
 
-switch_to::switch_to(thread_id_t target) noexcept(false) : storage{}
+switch_to::switch_to() noexcept(false) : storage{}
 {
     auto* sw = for_posix(this);
 
     new (sw) switch_to_posix{};
-    sw->thread_id = target;
+    sw->is_closed = false;
+    sw->queue = create_message_queue();
 }
 
 switch_to::~switch_to() noexcept
 {
     auto* sw = for_posix(this);
-    assert(sw->work == nullptr);
+    auto trunc = std::move(sw->queue);
 }
 
 bool switch_to::ready() const noexcept
 {
-    const auto* sw = for_posix(this);
-
-    if (sw->thread_id != thread_id_t{})
-        // check if already in the target thread
-        return sw->thread_id == current_thread_id();
-
-    // for background work, always false
-    return false;
+    return false; // always trigger switching
 }
-
-void post_to_background(
-    std::experimental::coroutine_handle<void> coro) noexcept(false);
 
 void switch_to::suspend(
     std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
     auto* sw = for_posix(this);
-
-    if (sw->thread_id == thread_id_t{})
-        return post_to_background(coro);
-
-    // submit to specific thread
     message_t msg{};
     msg.ptr = coro.address();
 
-    if (post_message(sw->thread_id, msg) == false)
-        throw std::runtime_error{"post_message failed in suspend"};
+    // expect consumer will pop from the queue fast enough
+    while (sw->queue->post(msg) == false)
+        std::this_thread::yield();
 }
 
 void switch_to::resume() noexcept
 {
-    const auto* sw = for_posix(this);
+    // nothing to do
+}
 
-    if (sw->thread_id != thread_id_t{})
-        // check thread id
-        assert(sw->thread_id == current_thread_id());
+auto* for_posix(const scheduler_t* s) noexcept
+{
+    static_assert(sizeof(switch_to_posix) <= sizeof(scheduler_t));
+    return reinterpret_cast<const switch_to_posix*>(s);
+}
+auto* for_posix(scheduler_t* s) noexcept
+{
+    static_assert(sizeof(switch_to_posix) <= sizeof(scheduler_t));
+    return reinterpret_cast<switch_to_posix*>(s);
+}
+
+auto switch_to::scheduler() noexcept(false) -> scheduler_t&
+{
+    static_assert(sizeof(scheduler_t) == sizeof(switch_to));
+    return *(reinterpret_cast<scheduler_t*>(this));
+}
+
+void scheduler_t::close() noexcept
+{
+    auto* sw = for_posix(this);
+    sw->is_closed = true;
+}
+
+bool scheduler_t::closed() const noexcept
+{
+    auto* sw = for_posix(this);
+    return sw->is_closed;
+}
+
+auto scheduler_t::wait(duration d) noexcept(false) -> coroutine_task
+{
+    auto* sw = for_posix(this);
+    message_t m{};
+
+    // discarding boolean return
+    sw->queue->wait(m, d);
+    return coroutine_task::from_address(m.ptr);
 }

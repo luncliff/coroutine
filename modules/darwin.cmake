@@ -14,7 +14,7 @@ PRIVATE
     ${CMAKE_SYSTEM_NAME}/switch_to.cpp
     ${CMAKE_SYSTEM_NAME}/wait_group.cpp
     ${CMAKE_SYSTEM_NAME}/section.cpp
-    thread/background.cpp
+    ${CMAKE_SYSTEM_NAME}/sync.cpp
 )
 
 target_compile_options(${PROJECT_NAME} 

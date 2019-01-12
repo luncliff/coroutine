@@ -20,53 +20,69 @@
 #include <coroutine/frame.h>
 #include <coroutine/sync.h>
 
-_INTERFACE_
-bool peek_switched( //
-    std::experimental::coroutine_handle<void>& rh) noexcept(false);
+class scheduler_t final
+{
+  public:
+    using coroutine_task = std::experimental::coroutine_handle<void>;
+    using duration = std::chrono::microseconds;
+
+  private:
+    const uint64_t storage[4]{};
+
+  public:
+    scheduler_t(scheduler_t const&) = delete;
+    scheduler_t(scheduler_t&&) = delete;
+    scheduler_t& operator=(scheduler_t const&) = delete;
+    scheduler_t& operator=(scheduler_t&&) = delete;
+    _INTERFACE_ scheduler_t() = default;
+    _INTERFACE_ ~scheduler_t() = default;
+
+    _INTERFACE_ void close() noexcept;
+    _INTERFACE_ bool closed() const noexcept;
+    [[nodiscard]] _INTERFACE_ //
+        auto
+        wait(duration d) noexcept(false) -> coroutine_task;
+};
 
 // - Note
 //      Routine switching to another thread with MSVC Coroutine
 //      and Windows Thread Pool
 class switch_to final
 {
-    template <typename Promise>
-    using coroutine_handle = std::experimental::coroutine_handle<Promise>;
+  public:
+    using coroutine_task = std::experimental::coroutine_handle<void>;
 
   private:
     // reserve enough size to provide platform compatibility
     const uint64_t storage[4]{};
 
-  private:
+  public:
     switch_to(switch_to&&) noexcept = delete;
     switch_to& operator=(switch_to&&) noexcept = delete;
     switch_to(const switch_to&) noexcept = delete;
     switch_to& operator=(const switch_to&) noexcept = delete;
-
-  public:
-    _INTERFACE_ explicit //
-        switch_to(thread_id_t target = thread_id_t{0}) noexcept(false);
+    _INTERFACE_ switch_to() noexcept(false);
     _INTERFACE_ ~switch_to() noexcept;
 
-  public:
+    _INTERFACE_ auto scheduler() noexcept(false) -> scheduler_t&;
+
     _INTERFACE_ bool ready() const noexcept;
-    _INTERFACE_ void suspend(coroutine_handle<void> rh) noexcept(false);
+    _INTERFACE_ void suspend(coroutine_task coro) noexcept(false);
     _INTERFACE_ void resume() noexcept;
 
     // Lazy code generation in library user code
 #pragma warning(disable : 4505)
     bool await_ready() const noexcept
     {
-        // redirect
         return this->ready();
     }
-    void await_suspend(coroutine_handle<void> rh) noexcept(false)
+    void await_suspend( //
+        std::experimental::coroutine_handle<void> rh) noexcept(false)
     {
-        // redirect
         return this->suspend(rh);
     }
     void await_resume() noexcept
     {
-        // redirect
         return this->resume();
     }
 #pragma warning(default : 4505)

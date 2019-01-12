@@ -15,16 +15,14 @@ endif()
 
 # testing the library 
 add_executable(coroutine_test
-    entry.cpp
-    
-    generic/returns.cpp
-    generic/channel.cpp
-    generic/generator.cpp
-    generic/async_generator.cpp
-
-    thread/message.cpp
-    thread/switch_to.cpp
-    thread/sync.cpp
+    scenario/entry.cpp
+    scenario/switch_to.cpp
+    scenario/channel.cpp
+    case/message.cpp
+    case/sync.cpp
+    case/returns.cpp
+    case/generator.cpp
+    case/async_generator.cpp
 )
 
 set_target_properties(coroutine_test
@@ -33,8 +31,9 @@ PROPERTIES
 )
 
 target_include_directories(coroutine_test
-PUBLIC
+PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/modules/
 )
 
 target_link_libraries(coroutine_test
