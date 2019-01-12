@@ -54,19 +54,25 @@ void* resume_coroutines_on_backgound(thread_registry&) noexcept(false);
 //      thread pool approach won't be used to minimize code of this library
 LIB_PROLOGUE void setup_worker() noexcept(false)
 {
-    static_assert(sizeof(pthread_t) == sizeof(thread_id_t));
+    static_assert(sizeof(pthread_t) == sizeof(void*));
+    try
+    {
+        auto fthread = reinterpret_cast<void* (*)(void*)>(
+            resume_coroutines_on_backgound);
 
-    auto fthread
-        = reinterpret_cast<void* (*)(void*)>(resume_coroutines_on_backgound);
+        if (auto ec = pthread_create(
+                reinterpret_cast<pthread_t*>(addressof(background_thread_id)),
+                nullptr, fthread, get_thread_registry()))
+            // expect successful worker creation. unless kill the program
+            throw system_error{ec, system_category(), "pthread_create"};
 
-    if (auto ec = pthread_create(
-            reinterpret_cast<pthread_t*>(addressof(background_thread_id)),
-            nullptr, fthread, get_thread_registry()))
-        // expect successful worker creation. unless kill the program
-        throw system_error{ec, system_category(), "pthread_create"};
-
-    // it rarely happens that background_thread_id is not modified
-    assert(background_thread_id != thread_id_t{});
+        // it rarely happens that background_thread_id is not modified
+        assert(background_thread_id != thread_id_t{});
+    }
+    catch (const std::system_error& e)
+    {
+        perror(e.what());
+    }
 }
 
 LIB_EPILOGUE void teardown_worker() noexcept(false)

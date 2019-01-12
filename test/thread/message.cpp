@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 
 #include <future>
 
@@ -36,7 +36,7 @@ TEST_CASE("message operations", "[messaging]")
         message_t msg{};
         // throws exception
         REQUIRE_THROWS(post_message(tid, msg));
-        // REQUIRE_THROWS_AS(post_message(tid, msg), std::exception);
+        REQUIRE_THROWS_AS(post_message(tid, msg), std::exception);
     }
 
     SECTION("send message to unregisterd threads")

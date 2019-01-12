@@ -11,8 +11,9 @@ endif()
 # Rely on POSIX API
 target_sources(${PROJECT_NAME}
 PRIVATE
-    posix/switch_to.cpp
-    posix/wait_group.cpp
+    ${CMAKE_SYSTEM_NAME}/switch_to.cpp
+    ${CMAKE_SYSTEM_NAME}/wait_group.cpp
+    ${CMAKE_SYSTEM_NAME}/section.cpp
     thread/background.cpp
 )
 
@@ -46,15 +47,9 @@ PUBLIC
 )
 
 if(APPLE) # macos custom
-    target_sources(${PROJECT_NAME}
-    PRIVATE
-        posix/section.osx.cpp
-    )
+
 elseif(LINUX) # linux custom
-    target_sources(${PROJECT_NAME}
-    PRIVATE
-        posix/section.linux.cpp
-    )
+
     target_link_libraries(${PROJECT_NAME}
     PUBLIC
         rt c++ # c++abi c++experimental

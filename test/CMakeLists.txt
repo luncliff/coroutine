@@ -3,7 +3,15 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 # ---------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.8)
+
+# if package does not exist, use submodule instead
+find_package(Catch2)
+if(NOT Catch2_FOUND)    
+    add_subdirectory(${CMAKE_SOURCE_DIR}/external/catch2
+                     ${CMAKE_BINARY_DIR}/catch2
+    )
+endif()
 
 # testing the library 
 add_executable(coroutine_test
@@ -19,13 +27,20 @@ add_executable(coroutine_test
     thread/sync.cpp
 )
 
-target_include_directories(coroutine_test
-PRIVATE
-    ${PROJECT_DIR}/test
+set_target_properties(coroutine_test
+PROPERTIES
+    CXX_STANDARD 17
 )
+
+target_include_directories(coroutine_test
+PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 target_link_libraries(coroutine_test
-PRIVATE
+PUBLIC
     coroutine
+    Catch2::Catch2
 )
 
 if(UNIX)

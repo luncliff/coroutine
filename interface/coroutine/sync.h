@@ -113,8 +113,7 @@ class _INTERFACE_ message_t final
         return !(*this == rhs);
     }
 };
-static_assert(sizeof(message_t) <= sizeof(uint64_t));
-static_assert(sizeof(message_t) <= sizeof(void*));
+static_assert(sizeof(message_t) == sizeof(uint64_t));
 
 // - Note
 //      Get the current thread id
