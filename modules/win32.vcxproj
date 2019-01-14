@@ -28,11 +28,11 @@
     <ClInclude Include="..\interface\coroutine\sync.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="win32\dllmain.cpp" />
-    <ClCompile Include="win32\section.cpp" />
-    <ClCompile Include="win32\switch_to.cpp" />
-    <ClCompile Include="win32\sync.cpp" />
-    <ClCompile Include="win32\wait_group.cpp" />
+    <ClCompile Include="windows\dllmain.cpp" />
+    <ClCompile Include="windows\section.cpp" />
+    <ClCompile Include="windows\switch_to.cpp" />
+    <ClCompile Include="windows\sync.cpp" />
+    <ClCompile Include="windows\wait_group.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
