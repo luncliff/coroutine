@@ -12,7 +12,6 @@ message(STATUS "  Project   \t: ${CMAKE_CURRENT_SOURCE_DIR}")
 message(STATUS "  Install   \t: ${CMAKE_INSTALL_PREFIX}")
 
 message(STATUS "System      \t: ${CMAKE_SYSTEM}")
-message(STATUS "  Processor \t: ${CMAKE_SYSTEM_PROCESSOR}")
 message(STATUS "Platform    \t: ${CMAKE_CXX_PLATFORM_ID}")
 
 message(STATUS "Compiler")

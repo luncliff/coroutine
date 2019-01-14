@@ -13,8 +13,8 @@ sudo: false
 
 git:
   submodules: true
-  depth: 1
-  
+  depth: 5
+
 notifications:
   email:
     - luncliff@gmail.com
@@ -49,6 +49,58 @@ script:
 
 matrix: 
   include:
+    # Linux : x86_64 Debug Dynamic
+    - os: linux
+      dist: xenial
+      compiler: clang # expect 5.0.0+
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-xenial-6.0
+          packages:
+            - gcc-7
+            - g++-7
+            - libc++-dev
+            - libc++abi-dev
+            - unzip
+            - ninja-build
+            - tree
+            - cmake
+      env:
+        - CONFIG=Debug
+        - BUILD_SHARED=true
+      after_success:
+        - ldd ./modules/libcoroutine.so
+        - popd;
+        - tree ./install
+
+    # Linux : x86_64 Release Dynamic
+    - os: linux
+      dist: xenial
+      compiler: clang # expect 5.0.0+
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-xenial-6.0
+          packages:
+            - gcc-7
+            - g++-7
+            - libc++-dev
+            - libc++abi-dev
+            - unzip
+            - ninja-build
+            - tree
+            - cmake
+      env:
+        - CONFIG=Release
+        - BUILD_SHARED=true
+      after_success:
+        - ldd ./modules/libcoroutine.so
+        - popd;
+        - tree ./install
+
     # OS X : x86_64 Debug Dynamic
     - os: osx
       osx_image: xcode10.1
@@ -59,7 +111,6 @@ matrix:
             - ninja
             - tree
       env:
-        - PLATFORM=osx
         - CONFIG=Debug
         - BUILD_SHARED=true
       after_success:
@@ -77,7 +128,6 @@ matrix:
             - ninja
             - tree
       env:
-        - PLATFORM=osx
         - CONFIG=Release
         - BUILD_SHARED=true
       after_success:
@@ -95,7 +145,6 @@ matrix:
             - ninja
             - tree
       env:
-        - PLATFORM=osx
         - CONFIG=Debug
         - BUILD_SHARED=false
       after_success:
@@ -114,7 +163,6 @@ matrix:
             - ninja
             - tree
       env:
-        - PLATFORM=osx
         - CONFIG=Release
         - BUILD_SHARED=false
       after_success:
@@ -133,7 +181,6 @@ matrix:
             - ninja
             - tree
       env:
-        - PLATFORM=ios
         - CONFIG=Release
         - BUILD_SHARED=true
       script:

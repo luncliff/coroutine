@@ -11,6 +11,7 @@
 #include <csignal>
 #include <future>
 #include <system_error>
+#include <type_traits>
 
 using namespace std;
 using namespace std::experimental;

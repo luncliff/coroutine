@@ -13,7 +13,7 @@ target_sources(${PROJECT_NAME}
 PRIVATE
     posix/switch_to.cpp
     posix/wait_group.cpp
-    darwin/section.cpp
+    linux/section.cpp
     darwin/sync.cpp
 )
 
@@ -44,4 +44,6 @@ endif()
 target_link_libraries(${PROJECT_NAME}
 PUBLIC
     pthread
+    rt c++ # c++abi c++experimental
 )
+

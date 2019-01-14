@@ -5,6 +5,9 @@
 # ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.8)
 
+# make lower case
+string(TOLOWER ${CMAKE_SYSTEM_NAME} CMAKE_SYSTEM_NAME)
+
 add_library(${PROJECT_NAME} # -> coroutine.lib
     ${CMAKE_SYSTEM_NAME}/dllmain.cpp
 )
@@ -27,9 +30,7 @@ PRIVATE
 list(APPEND CMAKE_MODULE_PATH 
             ${CMAKE_CURRENT_SOURCE_DIR}
 )
-string(TOLOWER ${CMAKE_SYSTEM_NAME} CMAKE_SYSTEM_NAME)
 include(${CMAKE_SYSTEM_NAME})
-# include(thread)
 
 # simply install header & binary
 install(DIRECTORY       ${CMAKE_CURRENT_LIST_DIR}/../interface/coroutine
