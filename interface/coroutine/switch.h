@@ -34,8 +34,8 @@ class scheduler_t final
     scheduler_t(scheduler_t&&) = delete;
     scheduler_t& operator=(scheduler_t const&) = delete;
     scheduler_t& operator=(scheduler_t&&) = delete;
-    _INTERFACE_ scheduler_t() = default;
-    _INTERFACE_ ~scheduler_t() = default;
+    scheduler_t() noexcept = default;
+    ~scheduler_t() noexcept = default;
 
     _INTERFACE_ void close() noexcept;
     _INTERFACE_ bool closed() const noexcept;
