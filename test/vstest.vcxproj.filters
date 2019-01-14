@@ -47,8 +47,5 @@
     <ClCompile Include="vs\wait_group.cpp">
       <Filter>test\vs</Filter>
     </ClCompile>
-    <ClCompile Include="vs\messaging.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

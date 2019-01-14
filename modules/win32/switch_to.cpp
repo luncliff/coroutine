@@ -9,144 +9,106 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/frame.h>
 #include <coroutine/switch.h>
-// #include <gsl/gsl_util>
 
-#include <cassert>
-#include <system_error>
-
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#include <threadpoolapiset.h>
+#include <atomic>
 
 using namespace std;
 using namespace std::experimental;
 
-bool peek_switched(coroutine_handle<void>& rh) noexcept(false)
-{
-    message_t msg{};
-    if (peek_message(msg) == true)
-    {
-        rh = coroutine_handle<void>::from_address(msg.ptr);
-        return true;
-    }
-    return false;
-}
+static_assert(std::is_nothrow_move_assignable_v<switch_to> == false);
+static_assert(std::is_nothrow_move_constructible_v<switch_to> == false);
+static_assert(std::is_nothrow_copy_assignable_v<switch_to> == false);
+static_assert(std::is_nothrow_copy_constructible_v<switch_to> == false);
 
-static_assert(is_nothrow_move_assignable_v<switch_to> == false);
-static_assert(is_nothrow_move_constructible_v<switch_to> == false);
-static_assert(is_nothrow_copy_assignable_v<switch_to> == false);
-static_assert(is_nothrow_copy_constructible_v<switch_to> == false);
-
-struct switch_to_win32
+struct switch_to_win32 final
 {
-    thread_id_t tid{};
-    PTP_WORK work{};
-    coroutine_handle<void> coro{};
+    std::atomic_bool is_closed{};
+    std::unique_ptr<messaging_queue_t> queue{};
 };
-static_assert(sizeof(switch_to_win32) <= sizeof(switch_to));
 
-// GSL_SUPPRESS(type.1)
-auto for_win32(switch_to* s) noexcept
+auto* for_win32(switch_to* s) noexcept
 {
+    static_assert(sizeof(switch_to_win32) <= sizeof(switch_to));
     return reinterpret_cast<switch_to_win32*>(s);
 }
-
-// GSL_SUPPRESS(type.1)
-auto for_win32(const switch_to* s) noexcept
+auto* for_win32(const switch_to* s) noexcept
 {
+    static_assert(sizeof(switch_to_win32) <= sizeof(switch_to));
     return reinterpret_cast<const switch_to_win32*>(s);
 }
 
-void CALLBACK _activate_( // resume switched tasks
-    PTP_CALLBACK_INSTANCE, PVOID context, PTP_WORK) noexcept(false)
-{
-    auto* sw = static_cast<switch_to_win32*>(context);
-
-#ifdef _DEBUG
-    // check again for safety
-    assert(sw->coro.done() == false);
-#endif
-
-    sw->coro.resume();
-}
-
-switch_to::switch_to(thread_id_t target) noexcept(false) : storage{}
+switch_to::switch_to() noexcept(false) : storage{}
 {
     auto* sw = for_win32(this);
-    if (target != thread_id_t{})
-    {
-        sw->tid = target;
-        return;
-    }
 
-    sw->work = CreateThreadpoolWork(_activate_, this, nullptr);
-    // throw if allocation failed
-    if (sw->work == nullptr)
-    {
-        auto ec = static_cast<int>(GetLastError());
-        throw system_error{ec, system_category(), "CreateThreadpoolWork"};
-    }
+    new (sw) switch_to_win32{};
+    sw->is_closed = false;
+    sw->queue = create_message_queue();
 }
 
 switch_to::~switch_to() noexcept
 {
     auto* sw = for_win32(this);
-    if (sw->work)
-        ::CloseThreadpoolWork(sw->work);
+    auto trunc = std::move(sw->queue);
 }
 
 bool switch_to::ready() const noexcept
 {
-    auto* sw = for_win32(this);
-
-    // non-zero : Specific thread's queue
-    //     zero : Windows Thread Pool
-    if (sw->tid != thread_id_t{})
-        // already in the thread ?
-        return sw->tid == current_thread_id();
-
-    // trigger switching
-    return false;
+    return false; // always trigger switching
 }
 
-//  - Caution
-//
-//  The caller will suspend after return.
-//  So this is the last chance to notify the error
-//
-//  If the target thread can't receive message,
-//  there is nothing this code can do.
-//
-//  Since there is no way to create a thread with a designated ID,
-//  this function will throw exception. (which might kill the program)
-//  The SERIOUS error situation must be prevented before this code.
-//
-void switch_to::suspend(coroutine_handle<void> rh) noexcept(false)
+void switch_to::suspend(
+    std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
     auto* sw = for_win32(this);
-    // Post work to the thread
-    if (sw->tid != thread_id_t{})
-    {
-        message_t msg{};
-        msg.ptr = rh.address();
+    message_t msg{};
+    msg.ptr = coro.address();
 
-        // ... possible throw here ...
-        post_message(sw->tid, msg);
-    }
-    // Submit work to Windows Thread Pool API
-    else
-    {
-        sw->coro = rh;
-        ::SubmitThreadpoolWork(sw->work);
-    }
+    // expect consumer will pop from the queue fast enough
+    while (sw->queue->post(msg) == false)
+        std::this_thread::yield();
 }
 
 void switch_to::resume() noexcept
 {
-#ifdef _DEBUG
-    const auto* sw = for_win32(this);
-    if (sw->tid != thread_id_t{})
-        // Are we in correct thread_id?
-        assert(sw->tid == current_thread_id());
-#endif
+    // nothing to do
+}
+
+auto* for_win32(const scheduler_t* s) noexcept
+{
+    static_assert(sizeof(switch_to_win32) <= sizeof(scheduler_t));
+    return reinterpret_cast<const switch_to_win32*>(s);
+}
+auto* for_win32(scheduler_t* s) noexcept
+{
+    static_assert(sizeof(switch_to_win32) <= sizeof(scheduler_t));
+    return reinterpret_cast<switch_to_win32*>(s);
+}
+
+auto switch_to::scheduler() noexcept(false) -> scheduler_t&
+{
+    static_assert(sizeof(scheduler_t) == sizeof(switch_to));
+    return *(reinterpret_cast<scheduler_t*>(this));
+}
+
+void scheduler_t::close() noexcept
+{
+    auto* sw = for_win32(this);
+    sw->is_closed = true;
+}
+
+bool scheduler_t::closed() const noexcept
+{
+    auto* sw = for_win32(this);
+    return sw->is_closed;
+}
+
+auto scheduler_t::wait(duration d) noexcept(false) -> coroutine_task
+{
+    auto* sw = for_win32(this);
+    message_t m{};
+
+    // discarding boolean return
+    sw->queue->wait(m, d);
+    return coroutine_task::from_address(m.ptr);
 }

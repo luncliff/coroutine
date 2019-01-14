@@ -167,27 +167,29 @@ class channel_race_test : public TestClass<channel_race_test>
   public:
     TEST_METHOD(channel_ensure_delivery_under_race)
     {
+        constexpr size_t max_try_count = 2'000;
+
         // using 'guaranteed' lockable
         // but it doesn't guarantee coroutines' serialized execution
         channel_type ch{};
         uint32_t success{};
         uint32_t failure{};
 
-        static constexpr size_t max_try_count = 2'000;
-
         wait_group group{};
+        switch_to back{};
+        scheduler_t& scheduler = back.scheduler();
+
         group.add(2 * max_try_count);
 
-        auto send_with_callback = [](auto& ch, auto value, auto fn) -> unplug {
-            switch_to back{};
-            co_await back;
+        auto send_with_callback
+            = [&back](auto& ch, auto value, auto fn) -> unplug {
+            co_await back; // move to background
 
             const auto ok = co_await ch.write(value);
             fn(ok);
         };
-        auto recv_with_callback = [](auto& ch, auto fn) -> unplug {
-            switch_to back{};
-            co_await back;
+        auto recv_with_callback = [&back](auto& ch, auto fn) -> unplug {
+            co_await back; // move to background
 
             // [ value, ok ]
             const auto tup = co_await ch.read();
@@ -201,8 +203,7 @@ class channel_race_test : public TestClass<channel_race_test>
             else
                 failure += 1;
 
-            // notify the end of coroutine
-            group.done();
+            group.done(); // notify the end of coroutine
         };
 
         // Spawn coroutines
@@ -213,14 +214,16 @@ class channel_race_test : public TestClass<channel_race_test>
             send_with_callback(ch, repeat, callback);
         }
 
-        const auto timeout = std::chrono::seconds{10};
         // Wait for all coroutines...
         // !!! user should ensure there is no race for destroying channel !!!
-        Assert::IsTrue(group.wait(timeout));
+        Assert::IsTrue(group.wait(10s));
+
+        scheduler.close();
 
         // channel ensures the delivery for same number of send/recv
         Assert::IsTrue(failure == 0);
         // but the race makes the caks success != 2 * max_try_count
+        Assert::IsTrue(success > 0);
         Assert::IsTrue(success <= 2 * max_try_count);
     }
 };

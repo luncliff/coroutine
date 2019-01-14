@@ -216,7 +216,6 @@
     <ClCompile Include="vs\channel.cpp" />
     <ClCompile Include="vs\generator.cpp" />
     <ClCompile Include="vs\async_generator.cpp" />
-    <ClCompile Include="vs\messaging.cpp" />
     <ClCompile Include="vs\unplug.cpp" />
     <ClCompile Include="vs\wait_group.cpp" />
   </ItemGroup>

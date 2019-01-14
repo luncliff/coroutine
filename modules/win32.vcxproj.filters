@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="thread">
-      <UniqueIdentifier>{4d043c42-3033-4681-a9cd-868f8724ee16}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\interface\coroutine\channel.hpp">
@@ -32,14 +29,8 @@
     <ClInclude Include="..\interface\coroutine\sync.h">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="thread\types.h">
-      <Filter>thread</Filter>
-    </ClInclude>
     <ClInclude Include="..\interface\coroutine\return.h">
       <Filter>coroutine</Filter>
-    </ClInclude>
-    <ClInclude Include="thread\queue.h">
-      <Filter>thread</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -55,17 +46,8 @@
     <ClCompile Include="win32\wait_group.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="thread\compatible.cpp">
-      <Filter>thread</Filter>
-    </ClCompile>
-    <ClCompile Include="thread\queue.cpp">
-      <Filter>thread</Filter>
-    </ClCompile>
-    <ClCompile Include="thread\registry_win32.cpp">
-      <Filter>thread</Filter>
-    </ClCompile>
-    <ClCompile Include="thread\operations.cpp">
-      <Filter>thread</Filter>
+    <ClCompile Include="win32\sync.cpp">
+      <Filter>win32</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

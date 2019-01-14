@@ -72,7 +72,7 @@ class wait_group final
     const uint64_t storage[16]{};
 
   public:
-    using duration = std::chrono::milliseconds;
+    using duration = std::chrono::microseconds;
 
   public:
     wait_group(wait_group&) = delete;
@@ -101,7 +101,7 @@ static_assert(sizeof(message_t) == sizeof(uint64_t));
 class _INTERFACE_ messaging_queue_t
 {
   public:
-    using duration = std::chrono::nanoseconds;
+    using duration = std::chrono::microseconds;
 
   public:
     virtual ~messaging_queue_t() noexcept = default;
