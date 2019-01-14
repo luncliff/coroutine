@@ -6,10 +6,10 @@
 
 target_sources(${PROJECT_NAME}
 PRIVATE
-    win32/sync.cpp
-    win32/section.cpp
-    win32/switch_to.cpp
-    win32/wait_group.cpp
+    windows/sync.cpp
+    windows/section.cpp
+    windows/switch_to.cpp
+    windows/wait_group.cpp
 )
 
 target_compile_definitions(${PROJECT_NAME}
@@ -17,13 +17,13 @@ PUBLIC
     NOMINMAX
 )
 
-# CMake variable MSVC follows WIN32. 
+# CMake variable MSVC follows windows. 
 #   So we have to check clang first to be correct
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     # Additional source code for clang
     target_sources(${PROJECT_NAME}
     PRIVATE
-        win32/clang.cpp
+        windows/clang.cpp
     )
 
     # Need additional macro because this is not vcxproj

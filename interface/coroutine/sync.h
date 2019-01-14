@@ -85,7 +85,7 @@ class wait_group final
 
     _INTERFACE_ void add(uint16_t delta) noexcept;
     _INTERFACE_ void done() noexcept;
-    _INTERFACE_ bool wait(duration d = duration{100}) noexcept(false);
+    _INTERFACE_ bool wait(duration d) noexcept(false);
 };
 
 struct _INTERFACE_ message_t final

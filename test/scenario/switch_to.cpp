@@ -9,11 +9,11 @@
 #include <coroutine/return.h>
 #include <coroutine/switch.h>
 
-using namespace std::literals;
-
 SCENARIO("switch_to", "[thread][messaging]")
 {
     using namespace std;
+    using namespace std::literals;
+
     GIVEN("switch instance")
     {
         switch_to sw{};
@@ -88,8 +88,8 @@ SCENARIO("switch_to", "[thread][messaging]")
             thread_id_t after{};
             group.add(1);
 
-            [&group, &sw ](thread_id_t & th1, thread_id_t & th2) noexcept(false)
-                ->unplug
+            [&group,
+             &sw ](thread_id_t & th1, thread_id_t & th2) noexcept(false)->unplug
             {
                 th1 = current_thread_id();
                 // switch to designated thread
@@ -140,7 +140,7 @@ SCENARIO("switch_to", "[thread][messaging]")
             while (repeat--)
                 pipeline_task(counter1, counter2);
 
-            group.wait();
+            group.wait(30s);
             CAPTURE(counter1);
             CAPTURE(counter2);
 

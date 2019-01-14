@@ -81,6 +81,6 @@ TEST_CASE("wait_group", "[sync][thread]")
 
         // in the case. it must return immediately
         watch.reset();
-        REQUIRE(wg.wait());
+        REQUIRE(wg.wait(1ms));
     }
 }

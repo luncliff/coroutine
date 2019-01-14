@@ -39,6 +39,9 @@ auto read_from(channel<uint64_t, L>& ch, uint64_t& value, bool ok = false)
 
 SCENARIO("channel", "[generic][channel]")
 {
+    using namespace std;
+    using namespace std::literals;
+
     GIVEN("channel with bypass lock")
     {
         // lockable without lock operation
@@ -198,7 +201,7 @@ SCENARIO("channel", "[generic][channel]")
 
             // Wait for all coroutines...
             // !!! use should ensure there is no race for destroying channel !!!
-            group.wait();
+            group.wait(30s);
 
             // there is no failure for same read/write
             REQUIRE(failure == 0);
