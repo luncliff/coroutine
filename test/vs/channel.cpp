@@ -164,6 +164,45 @@ class channel_race_test : public TestClass<channel_race_test>
 {
     using channel_type = channel<uint64_t, section>;
 
+    static void CALLBACK resume_switched_tasks( //
+        PTP_CALLBACK_INSTANCE, PVOID context, PTP_WORK work) noexcept(false)
+    {
+        using namespace std::experimental;
+
+        auto task = coroutine_handle<void>::from_address(context);
+        task.resume();
+
+        // delete the tasks anyway
+        // since we can't check `task.done()` for this test
+        ::CloseThreadpoolWork(work);
+    }
+    static void CALLBACK spawn_tasks( //
+        PTP_CALLBACK_INSTANCE, PVOID context, PTP_WORK work) noexcept(false)
+    {
+        using namespace std::literals;
+
+        auto sc = reinterpret_cast<scheduler_t*>(context);
+        while (sc->closed() == false)
+            if (auto coro = sc->wait(1s))
+            {
+                auto task = ::CreateThreadpoolWork(resume_switched_tasks,
+                                                   coro.address(), nullptr);
+                Assert::IsNotNull(task);
+                ::SubmitThreadpoolWork(task);
+            }
+        ::CloseThreadpoolWork(work);
+    }
+
+    static void attach_thread_pool(scheduler_t& sc) noexcept(false)
+    {
+        auto task
+            = ::CreateThreadpoolWork(spawn_tasks, std::addressof(sc), nullptr);
+        Assert::IsNotNull(task);
+
+        // thread pool callback will destroy it
+        ::SubmitThreadpoolWork(task);
+    }
+
   public:
     TEST_METHOD(channel_ensure_delivery_under_race)
     {
@@ -177,7 +216,10 @@ class channel_race_test : public TestClass<channel_race_test>
 
         wait_group group{};
         switch_to back{};
+
+		// get the reference and start a thread pool
         scheduler_t& scheduler = back.scheduler();
+        attach_thread_pool(scheduler);
 
         group.add(2 * max_try_count);
 
@@ -218,6 +260,8 @@ class channel_race_test : public TestClass<channel_race_test>
         // !!! user should ensure there is no race for destroying channel !!!
         Assert::IsTrue(group.wait(10s));
 
+        // current version doesn't implement gracful shutdown.
+        // memory leak can occur in this version
         scheduler.close();
 
         // channel ensures the delivery for same number of send/recv

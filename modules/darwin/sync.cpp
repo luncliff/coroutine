@@ -65,8 +65,7 @@ class messaging_queue_darwin_t final : public messaging_queue_t
   public:
     bool post(message_t msg) noexcept override;
     bool peek(message_t& msg) noexcept override;
-    bool wait(message_t& msg,
-              std::chrono::nanoseconds timeout) noexcept override;
+    bool wait(message_t& msg, duration timeout) noexcept override;
 };
 
 bool messaging_queue_darwin_t::post(message_t msg) noexcept
@@ -86,8 +85,7 @@ bool messaging_queue_darwin_t::peek(message_t& msg) noexcept
     return this->try_pop(msg);
 }
 
-bool messaging_queue_darwin_t::wait(message_t& msg,
-                                    std::chrono::nanoseconds timeout) noexcept
+bool messaging_queue_darwin_t::wait(message_t& msg, duration timeout) noexcept
 {
     msg = message_t{}; // zero the memory
 
