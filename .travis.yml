@@ -13,8 +13,8 @@ sudo: false
 
 git:
   submodules: true
-  depth: 1
-  
+  depth: 5
+
 notifications:
   email:
     - luncliff@gmail.com
@@ -22,12 +22,13 @@ notifications:
 language: cpp
 
 before_install:
-  - uname -a;
+  - uname -a
 install:
   - echo ${TRAVIS_OS_NAME};
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
       sudo bash ./scripts/install-libc++.sh;
       sudo rm -rf prebuilt;
+      export CC=clang-6.0 CXX=clang-6.0;
     fi
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
       brew info llvm;
@@ -49,51 +50,12 @@ script:
 
 matrix: 
   include:
-    # OS X : x86_64 Debug Dynamic
-    - os: osx
-      osx_image: xcode9.4
-      compiler: clang
-      addons:
-        homebrew:
-          # update: true
-          packages:
-            - ninja
-            - tree
-      env:
-        - PLATFORM=osx
-        - CONFIG=Debug
-        - BUILD_SHARED=true
-      after_success:
-        - otool -L ./modules/libcoroutine.dylib
-        - popd;
-        - tree ./install
-
-    # OS X : x86_64 Release Dynamic
-    - os: osx
-      osx_image: xcode9.4
-      compiler: clang
-      addons:
-        homebrew:
-          # update: true
-          packages:
-            - ninja
-            - tree
-      env:
-        - PLATFORM=osx
-        - CONFIG=Release
-        - BUILD_SHARED=true
-      after_success:
-        - otool -L ./modules/libcoroutine.dylib
-        - popd;
-        - tree ./install
-
     # Linux : x86_64 Debug Dynamic
     - os: linux
       dist: xenial
       compiler: clang # expect 5.0.0+
       addons:
         apt:
-          # update: true
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-xenial-6.0
@@ -107,7 +69,6 @@ matrix:
             - tree
             - cmake
       env:
-        - PLATFORM=linux
         - CONFIG=Debug
         - BUILD_SHARED=true
       after_success:
@@ -121,7 +82,6 @@ matrix:
       compiler: clang # expect 5.0.0+
       addons:
         apt:
-          # update: true
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-xenial-6.0
@@ -135,10 +95,106 @@ matrix:
             - tree
             - cmake
       env:
-        - PLATFORM=linux
         - CONFIG=Release
         - BUILD_SHARED=true
       after_success:
         - ldd ./modules/libcoroutine.so
         - popd;
+        - tree ./install
+
+    # OS X : x86_64 Debug Dynamic
+    - os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      addons:
+        homebrew:
+          packages:
+            - ninja
+            - tree
+      env:
+        - CONFIG=Debug
+        - BUILD_SHARED=true
+      after_success:
+        - otool -L ./modules/libcoroutine.dylib
+        - popd;
+        - tree ./install
+
+    # OS X : x86_64 Release Dynamic
+    - os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      addons:
+        homebrew:
+          packages:
+            - ninja
+            - tree
+      env:
+        - CONFIG=Release
+        - BUILD_SHARED=true
+      after_success:
+        - otool -L ./modules/libcoroutine.dylib
+        - popd
+        - tree ./install
+
+    # OS X : x86_64 Debug Static
+    - os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      addons:
+        homebrew:
+          packages:
+            - ninja
+            - tree
+      env:
+        - CONFIG=Debug
+        - BUILD_SHARED=false
+      after_success:
+        - file ./modules/libcoroutine.a
+        - otool -L ./modules/libcoroutine.a
+        - popd
+        - tree ./install
+
+    # OS X : x86_64 Release Static
+    - os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      addons:
+        homebrew:
+          packages:
+            - ninja
+            - tree
+      env:
+        - CONFIG=Release
+        - BUILD_SHARED=false
+      after_success:
+        - file ./modules/libcoroutine.a
+        - otool -L ./modules/libcoroutine.a
+        - popd
+        - tree ./install
+
+    # OS X : iPhone OS Release
+    - os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      addons:
+        homebrew:
+          packages:
+            - ninja
+            - tree
+      env:
+        - CONFIG=Release
+        - BUILD_SHARED=true
+      script:
+        - cmake ../ 
+            -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+            -DCMAKE_BUILD_TYPE=$CONFIG
+            -DCMAKE_INSTALL_PREFIX=../install
+            -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
+            -DENABLE_BITCODE=false
+            -DIOS_DEPLOYMENT_TARGET=10.13
+        - make install
+      after_success:
+        - file ./modules/libcoroutine.dylib
+        - otool -L ./modules/libcoroutine.dylib
+        - popd
         - tree ./install

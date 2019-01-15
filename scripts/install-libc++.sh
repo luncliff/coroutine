@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
@@ -59,7 +60,7 @@ export CC=gcc-7
 export CXX=g++-7
 
 # build libcxx
-mkdir -p prebuilt && pushd prebuilt;
+mkdir -p prebuilt && cd ./prebuilt;
     cmake ../libcxx                                         \
         -DLLVM_PATH=../llvm                                 \
         -DLIBCXX_CXX_ABI=libcxxabi                          \
@@ -69,9 +70,9 @@ mkdir -p prebuilt && pushd prebuilt;
         ;
     sudo make -j7 install;
     rm CMakeCache.txt;
-popd;
+cd ../;
 # build libcxxabi
-mkdir -p prebuilt && pushd prebuilt;
+mkdir -p prebuilt && cd ./prebuilt;
     cmake ../libcxxabi                      \
         -DLLVM_PATH=../llvm                 \
         -DLIBCXXABI_LIBCXX_PATH=../libcxx/  \
@@ -79,4 +80,4 @@ mkdir -p prebuilt && pushd prebuilt;
         ;
     sudo make -j7 install;
     rm CMakeCache.txt;
-popd;
+cd ../;

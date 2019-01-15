@@ -58,7 +58,7 @@ struct msvc_frame_prefix final
     uint16_t index;
     uint16_t flag;
 };
-static_assert(sizeof(msvc_frame_prefix) == 16);
+static_assert(aligned_size_v<msvc_frame_prefix> == 16);
 
 // - Note
 //      Clang coroutine frame's prefix
@@ -71,7 +71,7 @@ struct clang_frame_prefix final
     procedure_t factivate;
     procedure_t fdestroy;
 };
-static_assert(sizeof(clang_frame_prefix) == 16);
+static_assert(aligned_size_v<clang_frame_prefix> == 16);
 
 // - Note
 //      Alternative of `_coro_done` of msvc for this library.

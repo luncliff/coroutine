@@ -26,18 +26,13 @@
     <ClInclude Include="..\interface\coroutine\sequence.hpp" />
     <ClInclude Include="..\interface\coroutine\switch.h" />
     <ClInclude Include="..\interface\coroutine\sync.h" />
-    <ClInclude Include="thread\queue.h" />
-    <ClInclude Include="thread\types.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="thread\compatible.cpp" />
-    <ClCompile Include="thread\operations.cpp" />
-    <ClCompile Include="thread\queue.cpp" />
-    <ClCompile Include="thread\registry_win32.cpp" />
-    <ClCompile Include="win32\dllmain.cpp" />
-    <ClCompile Include="win32\section.cpp" />
-    <ClCompile Include="win32\switch_to.cpp" />
-    <ClCompile Include="win32\wait_group.cpp" />
+    <ClCompile Include="windows\dllmain.cpp" />
+    <ClCompile Include="windows\section.cpp" />
+    <ClCompile Include="windows\switch_to.cpp" />
+    <ClCompile Include="windows\sync.cpp" />
+    <ClCompile Include="windows\wait_group.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
