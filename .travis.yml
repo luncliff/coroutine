@@ -26,11 +26,12 @@ addons:
   chocolatey:
     packages:
       - llvm
+      - ninja
 
   homebrew:
     packages:
-    - ninja
-    - tree
+      - ninja
+      - tree
 
   apt:
     sources:
@@ -58,7 +59,7 @@ install:
       brew info llvm;
     fi
   - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
-      choco info llvm
+      choco info llvm;
     fi    
 script:
   - mkdir -p build && pushd build;
@@ -70,7 +71,7 @@ script:
   - ninja install
   # windows: move dll
   - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
-      cp ./modules/coroutine.dll ./test
+      cp ./modules/coroutine.dll ./test;
     fi
   - ./test/coroutine_test
   - popd;
@@ -78,10 +79,11 @@ after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install
 
-jobs: 
+matrix: 
+  allow_failures:
+    - os: windows
   include:
-    - stage: build
-      name: "iPhone OS"
+    - name: "iPhone OS"
       os: osx
       osx_image: xcode10.1
       compiler: clang
@@ -127,7 +129,7 @@ jobs:
       env:
        - CONFIG=Release  SHARED=true
 
-    - name: Ubuntu Xenial Debug Shared
+    - name: Ubuntu(Xenial) Debug Shared
       os: linux
       dist: xenial
       env:
@@ -135,7 +137,7 @@ jobs:
       before_script:
        - export CC=clang-6.0 CXX=clang-6.0;
 
-    - name: Ubuntu Xenial Release Shared
+    - name: Ubuntu(Xenial) Release Shared
       os: linux
       dist: xenial
       env:
@@ -143,20 +145,18 @@ jobs:
       before_script:
        - export CC=clang-6.0 CXX=clang-6.0;
 
-    - name: Windows clang-cl
+    - name: Windows clang-cl Debug
       os: windows
       dist: 1803-containers
       env:
-       - CONFIG=Release  SHARED=true
+       - CONFIG=Debug  SHARED=true
       before_script:
-       - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
        - set CXX=clang-cl
 
-    - name: Windows clang-cl
+    - name: Windows clang-cl Release
       os: windows
       dist: 1803-containers
       env:
        - CONFIG=Release  SHARED=true
       before_script:
-       - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
        - set CXX=clang-cl
