@@ -148,17 +148,17 @@ matrix:
     - name: Windows clang-cl Debug
       os: windows
       dist: 1803-containers
+      compiler: clang-cl
       env:
        - CONFIG=Debug  SHARED=true
       before_script:
        - choco install -y ninja
-       - set CXX=clang-cl
 
     - name: Windows clang-cl Release
       os: windows
       dist: 1803-containers
+      compiler: clang-cl
       env:
        - CONFIG=Release  SHARED=true
       before_script:
        - choco install -y ninja
-       - set CXX=clang-cl
