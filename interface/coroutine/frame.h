@@ -120,9 +120,9 @@ class coroutine_handle<void>
     static_assert(sizeof(prefix_t) == sizeof(void*));
 
   public:
-    coroutine_handle() noexcept : prefix{nullptr}
-    {
-    }
+    coroutine_handle() noexcept = default;
+    ~coroutine_handle() noexcept = default;
+
     explicit coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr}
     {
     }

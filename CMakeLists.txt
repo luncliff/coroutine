@@ -2,7 +2,7 @@
 #
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #   Note
-#       CMake support for project with LLVM toolchain 
+#       CMake support for project with LLVM toolchain
 #       GCC will be added ASAP when it supports coroutine
 #
 #   Support
@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 3.8)
 project(coroutine LANGUAGES CXX VERSION 1.3)
 
 # import cmake code snippets. see `cmake/`
-list(APPEND CMAKE_MODULE_PATH 
+list(APPEND CMAKE_MODULE_PATH
             ${CMAKE_CURRENT_SOURCE_DIR}/cmake
 )
 include(test-target-platform)
@@ -29,6 +29,9 @@ endif()
 
 # show project's build configuration
 include(display-build-info)
+
+# import external projects
+add_subdirectory(external/guideline)
 
 # delegate the build jobs to sub-directories
 add_subdirectory(modules)

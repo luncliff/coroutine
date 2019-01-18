@@ -7,13 +7,13 @@ cmake_minimum_required(VERSION 3.8)
 
 # if package does not exist, use submodule instead
 find_package(Catch2)
-if(NOT Catch2_FOUND)    
+if(NOT Catch2_FOUND)
     add_subdirectory(${CMAKE_SOURCE_DIR}/external/catch2
                      ${CMAKE_BINARY_DIR}/catch2
     )
 endif()
 
-# testing the library 
+# testing the library
 add_executable(coroutine_test
     scenario/entry.cpp
     scenario/switch_to.cpp

@@ -17,25 +17,25 @@ PRIVATE
     darwin/sync.cpp
 )
 
-target_compile_options(${PROJECT_NAME} 
+target_compile_options(${PROJECT_NAME}
 PUBLIC
     -std=c++2a
     -stdlib=libc++
-    -fcoroutines-ts -fPIC 
+    -fcoroutines-ts -fPIC
 PRIVATE
     -Wall -Wno-unknown-pragmas -Wno-unused-private-field
-    -fvisibility=hidden -fno-rtti 
+    -fvisibility=hidden -fno-rtti
 )
 
 if(${CMAKE_BUILD_TYPE} MATCHES Debug)
     # code coverage option lead to compiler crash
     # list(APPEND CMAKE_CXX_FLAGS "--coverage")
-    target_compile_options(${PROJECT_NAME} 
+    target_compile_options(${PROJECT_NAME}
     PRIVATE
         -g -O0
     )
 else()
-    target_compile_options(${PROJECT_NAME} 
+    target_compile_options(${PROJECT_NAME}
     PRIVATE
         -O3
     )
@@ -46,4 +46,3 @@ PUBLIC
     pthread
     rt c++ # c++abi c++experimental
 )
-

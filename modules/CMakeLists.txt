@@ -13,7 +13,7 @@ add_library(${PROJECT_NAME} # -> coroutine.lib
 )
 
 set_target_properties(${PROJECT_NAME}
-PROPERTIES 
+PROPERTIES
     CXX_STANDARD    17
 )
 
@@ -25,9 +25,14 @@ PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+target_link_libraries(${PROJECT_NAME}
+PUBLIC
+    GSL
+)
+
 # to prevent creating sub-library,
 #   incrementally attach code/properties using CMake include
-list(APPEND CMAKE_MODULE_PATH 
+list(APPEND CMAKE_MODULE_PATH
             ${CMAKE_CURRENT_SOURCE_DIR}
 )
 include(${CMAKE_SYSTEM_NAME})
