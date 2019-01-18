@@ -3,7 +3,7 @@
 #   Note
 #       Check if the compiler supports coroutine
 #
-cmake_policy(VERSION 3.5)
+cmake_policy(VERSION 3.8)
 
 include(CheckCXXCompilerFlag)
 
@@ -15,6 +15,5 @@ elseif(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     check_cxx_compiler_flag(-fcoroutines-ts cxx_coroutine   )
 else()
     # elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)    # GCC
-    message(WARNING "${CMAKE_CXX_COMPILER_ID} is not checkd by the author")
+    message(FATAL_ERROR "Current version doesn't support GCC")
 endif()
-#end

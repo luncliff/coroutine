@@ -2,16 +2,15 @@
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
+//  Reference
+//    https://weblogs.asp.net/kennykerr/parallel-programming-with-c-part-2-asynchronous-procedure-calls-and-window-messages
+//    http://www.wrongbananas.net/cpp/2006.09.13_win32_msg_loops.html
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/frame.h>
 #include <coroutine/switch.h>
 
-#include <cassert>
-#include <csignal>
-#include <future>
-#include <system_error>
-#include <type_traits>
+#include <atomic>
 
 using namespace std;
 using namespace std::experimental;
@@ -21,35 +20,35 @@ static_assert(std::is_nothrow_move_constructible_v<switch_to> == false);
 static_assert(std::is_nothrow_copy_assignable_v<switch_to> == false);
 static_assert(std::is_nothrow_copy_constructible_v<switch_to> == false);
 
-struct switch_to_posix final
+struct switch_to_win32 final
 {
-    atomic_bool is_closed{};
+    std::atomic_bool is_closed{};
     std::unique_ptr<messaging_queue_t> queue{};
 };
 
-auto* for_posix(switch_to* s) noexcept
+auto* for_win32(switch_to* s) noexcept
 {
-    static_assert(sizeof(switch_to_posix) <= sizeof(switch_to));
-    return reinterpret_cast<switch_to_posix*>(s);
+    static_assert(sizeof(switch_to_win32) <= sizeof(switch_to));
+    return reinterpret_cast<switch_to_win32*>(s);
 }
-auto* for_posix(const switch_to* s) noexcept
+auto* for_win32(const switch_to* s) noexcept
 {
-    static_assert(sizeof(switch_to_posix) <= sizeof(switch_to));
-    return reinterpret_cast<const switch_to_posix*>(s);
+    static_assert(sizeof(switch_to_win32) <= sizeof(switch_to));
+    return reinterpret_cast<const switch_to_win32*>(s);
 }
 
 switch_to::switch_to() noexcept(false) : storage{}
 {
-    auto* sw = for_posix(this);
+    auto* sw = for_win32(this);
 
-    new (sw) switch_to_posix{};
+    new (sw) switch_to_win32{};
     sw->is_closed = false;
     sw->queue = create_message_queue();
 }
 
 switch_to::~switch_to() noexcept
 {
-    auto* sw = for_posix(this);
+    auto* sw = for_win32(this);
     auto trunc = std::move(sw->queue);
 }
 
@@ -61,7 +60,7 @@ bool switch_to::ready() const noexcept
 void switch_to::suspend(
     std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
-    auto* sw = for_posix(this);
+    auto* sw = for_win32(this);
     message_t msg{};
     msg.ptr = coro.address();
 
@@ -75,15 +74,15 @@ void switch_to::resume() noexcept
     // nothing to do
 }
 
-auto* for_posix(const scheduler_t* s) noexcept
+auto* for_win32(const scheduler_t* s) noexcept
 {
-    static_assert(sizeof(switch_to_posix) <= sizeof(scheduler_t));
-    return reinterpret_cast<const switch_to_posix*>(s);
+    static_assert(sizeof(switch_to_win32) <= sizeof(scheduler_t));
+    return reinterpret_cast<const switch_to_win32*>(s);
 }
-auto* for_posix(scheduler_t* s) noexcept
+auto* for_win32(scheduler_t* s) noexcept
 {
-    static_assert(sizeof(switch_to_posix) <= sizeof(scheduler_t));
-    return reinterpret_cast<switch_to_posix*>(s);
+    static_assert(sizeof(switch_to_win32) <= sizeof(scheduler_t));
+    return reinterpret_cast<switch_to_win32*>(s);
 }
 
 auto switch_to::scheduler() noexcept(false) -> scheduler_t&
@@ -94,19 +93,19 @@ auto switch_to::scheduler() noexcept(false) -> scheduler_t&
 
 void scheduler_t::close() noexcept
 {
-    auto* sw = for_posix(this);
+    auto* sw = for_win32(this);
     sw->is_closed = true;
 }
 
 bool scheduler_t::closed() const noexcept
 {
-    auto* sw = for_posix(this);
+    auto* sw = for_win32(this);
     return sw->is_closed;
 }
 
 auto scheduler_t::wait(duration d) noexcept(false) -> coroutine_task
 {
-    auto* sw = for_posix(this);
+    auto* sw = for_win32(this);
     message_t m{};
 
     // discarding boolean return

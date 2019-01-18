@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 
 #include <array>
 #include <numeric>

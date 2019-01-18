@@ -6,9 +6,12 @@
 #     - https://www.appveyor.com/docs/appveyor-yml/
 #
 # ---------------------------------------------------------------------------
-version: 1.2.{build}
+version: 1.3.{build}
 
-shallow_clone: true
+clone_script:
+  # https://github.com/appveyor/ci/issues/899#issuecomment-230360978
+ - ps: git clone -q --recursive --branch $env:APPVEYOR_REPO_BRANCH https://github.com/$env:APPVEYOR_REPO_NAME.git $env:APPVEYOR_BUILD_FOLDER
+ - ps: git checkout -qf $env:APPVEYOR_REPO_COMMIT
 
 notifications:
   - provider: Email
@@ -40,7 +43,8 @@ matrix:
       compiler: clang
 
 for:
-- # MSVC: use Visual Studio solution file
+# MSVC: use Visual Studio solution file
+- 
   matrix:
     only:
       - image: Visual Studio 2017
@@ -58,10 +62,14 @@ for:
   before_test:
     - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/coroutine_vstest.dll"
   test_script:
-    - ps: vstest.console.exe $TestDLL /EnableCodeCoverage
+    - ps: vstest.console.exe $TestDLL /Tests:generator
+    - ps: vstest.console.exe $TestDLL /Tests:unplug
+    - ps: vstest.console.exe $TestDLL /Tests:channel
+    - ps: vstest.console.exe $TestDLL /Tests:wait_group
 
-- # clang-cl: use CMake + Ninja + Clang
-  # The build step expects cmdlet environment...
+# clang-cl: use CMake + Ninja + Clang
+# The build step expects cmdlet environment...
+- 
   matrix:
     only:
       - image: Visual Studio 2017
@@ -84,7 +92,7 @@ for:
     - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
     - cmd: set CXX=clang-cl # ps: $env:CXX = "clang-cl"
     # for cmake, this can be ok. -DCMAKE_CXX_COMPILER=clang-cl
-    - cmd: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration% 
+    - cmd: cmake ../ -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration% 
     - cmd: ninja
   after_build:
     # copy dll for test executable
@@ -95,7 +103,8 @@ for:
     - ps: ./build/test/coroutine_test.exe [generic]
     - ps: ./build/test/coroutine_test.exe [messaging]
 
-- # Linux clang: expect 6.0+ (the feature became available since 5.0)
+# Linux clang: expect 6.0+ (the feature became available since 5.0)
+- 
   matrix:
     only:
       - image: Ubuntu1804

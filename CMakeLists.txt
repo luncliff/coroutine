@@ -12,39 +12,31 @@
 #       - Clang + Linux     (Unix Makefiles. WSL, Ubuntu 1604 and later)
 #
 # ---------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.8)
 
-project(coroutine LANGUAGES CXX VERSION 1.2)
-
-# add external libraries
-# add_subdirectory(external/guideline)
+project(coroutine LANGUAGES CXX VERSION 1.3)
 
 # import cmake code snippets. see `cmake/`
-include(cmake/alias.cmake)
-include(cmake/test-cxx-coroutine.cmake)
+list(APPEND CMAKE_MODULE_PATH 
+            ${CMAKE_CURRENT_SOURCE_DIR}/cmake
+)
+include(test-target-platform)
+include(test-cxx-coroutine)
 
 if(NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
-if(NOT IOS)
-    set(BUILD_SHARED_LIBS true)
-endif()
 
 # show project's build configuration
-include(cmake/display-build-info.cmake)
+include(display-build-info)
 
-if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)    # GCC
-    message(FATAL_ERROR "Current version doesn't support GCC")
-    return(1)
-endif()
-
+# delegate the build jobs to sub-directories
 add_subdirectory(modules)
 
+# ---------------------------------------------------------------------------
 if(IOS OR ANDROID)
     return()
 endif()
 
 add_subdirectory(test)
 add_dependencies(coroutine_test coroutine)
-
-# good bye. 

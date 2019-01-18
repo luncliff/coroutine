@@ -47,13 +47,12 @@ class section final
     // reserve enough size to provide platform compatibility
     const uint64_t storage[16]{};
 
-  private:
+  public:
     section(section&) = delete;
     section(section&&) = delete;
     section& operator=(section&) = delete;
     section& operator=(section&&) = delete;
 
-  public:
     _INTERFACE_ section() noexcept(false);
     _INTERFACE_ ~section() noexcept;
 
@@ -73,48 +72,49 @@ class wait_group final
     const uint64_t storage[16]{};
 
   public:
-    using duration = std::chrono::milliseconds;
+    using duration = std::chrono::microseconds;
 
-  private:
+  public:
     wait_group(wait_group&) = delete;
     wait_group(wait_group&&) = delete;
     wait_group& operator=(wait_group&) = delete;
     wait_group& operator=(wait_group&&) = delete;
 
-  public:
     _INTERFACE_ wait_group() noexcept(false);
     _INTERFACE_ ~wait_group() noexcept;
 
-  public:
     _INTERFACE_ void add(uint16_t delta) noexcept;
     _INTERFACE_ void done() noexcept;
-    _INTERFACE_
-    bool wait(duration d = std::chrono::milliseconds{100}) noexcept(false);
+    _INTERFACE_ bool wait(duration d) noexcept(false);
 };
 
-enum class thread_id_t : uint64_t;
-
-class _INTERFACE_ message_t final
+struct _INTERFACE_ message_t final
 {
-  public:
     union {
         uint32_t u32[2]{};
         uint64_t u64;
         void* ptr;
     };
+};
+static_assert(sizeof(message_t) == sizeof(uint64_t));
+
+class _INTERFACE_ messaging_queue_t
+{
+  public:
+    using duration = std::chrono::microseconds;
 
   public:
-    bool operator==(const message_t& rhs) const noexcept
-    {
-        return u64 == rhs.u64;
-    }
-    bool operator!=(const message_t& rhs) const noexcept
-    {
-        return !(*this == rhs);
-    }
+    virtual ~messaging_queue_t() noexcept = default;
+
+    virtual bool post(message_t msg) noexcept = 0;
+    virtual bool peek(message_t& msg) noexcept = 0;
+    virtual bool wait(message_t& msg, duration timeout) noexcept = 0;
 };
-static_assert(sizeof(message_t) <= sizeof(uint64_t));
-static_assert(sizeof(message_t) <= sizeof(void*));
+
+_INTERFACE_ auto create_message_queue() noexcept(false)
+    -> std::unique_ptr<messaging_queue_t>;
+
+enum class thread_id_t : uint64_t;
 
 // - Note
 //      Get the current thread id
@@ -122,21 +122,5 @@ static_assert(sizeof(message_t) <= sizeof(void*));
 //      But it uses type system to use `post_message`
 _INTERFACE_
 thread_id_t current_thread_id() noexcept;
-
-// - Note
-//      Post a message to the thread with given id
-_INTERFACE_
-bool post_message(thread_id_t thread_id, message_t msg) noexcept(false);
-
-// - Note
-//      Peek a message from current thread's message queue
-// - Return
-//      message holds `nullptr` if the queue is empty
-_INTERFACE_
-bool peek_message(message_t& msg) noexcept(false);
-
-_INTERFACE_
-bool get_message(message_t& msg,
-                 std::chrono::nanoseconds timeout) noexcept(false);
 
 #endif // CONTROL_FLOW_SYNC_H

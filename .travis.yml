@@ -13,132 +13,152 @@ sudo: false
 
 git:
   submodules: true
-  depth: 1
-  
+  depth: 5
+
 notifications:
   email:
     - luncliff@gmail.com
 
 language: cpp
+compiler: clang  # expect 5.0+
 
-before_install:
-  - uname -a;
+addons:
+  chocolatey:
+    packages:
+      - llvm
+      - ninja
+
+  homebrew:
+    packages:
+      - ninja
+      - tree
+
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-xenial-6.0
+    packages:
+      - gcc-7
+      - g++-7
+      - clang-6.0
+      - llvm-6.0-tools
+      - libc++-dev
+      - libc++abi-dev
+      - unzip
+      - ninja-build
+      - tree
+      - cmake
+
 install:
   - echo ${TRAVIS_OS_NAME};
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
       sudo bash ./scripts/install-libc++.sh;
-      sudo rm -rf prebuilt;
+      sudo rm -rf prebuilt libcxx* llvm*;
     fi
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
       brew info llvm;
     fi
-before_script:
-  - cd ${TRAVIS_BUILD_DIR}
-  - mkdir -p build && pushd build;
+  - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
+      choco info llvm;
+    fi    
 script:
+  - mkdir -p build && pushd build;
   - cmake ../ 
       -G "Ninja" 
-      -DBUILD_SHARED_LIBS=$BUILD_SHARED 
+      -DBUILD_SHARED_LIBS=$SHARED 
       -DCMAKE_BUILD_TYPE=$CONFIG
       -DCMAKE_INSTALL_PREFIX=../install
   - ninja install
-  - ./test/coroutine_test [thread]
-  - ./test/coroutine_test [generic]
-  - ./test/coroutine_test [messaging]
+  # windows: move dll
+  - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
+      cp ./modules/coroutine.dll ./test;
+    fi
   - ./test/coroutine_test
+  - popd;
+after_success:
+  - cd ${TRAVIS_BUILD_DIR}
+  - tree ./install
 
 matrix: 
+  allow_failures:
+    - os: windows
   include:
-    # OS X : x86_64 Debug Dynamic
-    - os: osx
-      osx_image: xcode9.4
+    - name: "iPhone OS"
+      os: osx
+      osx_image: xcode10.1
       compiler: clang
-      addons:
-        homebrew:
-          # update: true
-          packages:
-            - ninja
-            - tree
-      env:
-        - PLATFORM=osx
-        - CONFIG=Debug
-        - BUILD_SHARED=true
+      script:
+        - mkdir -p build && pushd build;
+        - cmake ../ 
+            -DBUILD_SHARED_LIBS=$SHARED 
+            -DCMAKE_BUILD_TYPE=$CONFIG
+            -DCMAKE_INSTALL_PREFIX=../install
+            -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
+            -DENABLE_BITCODE=false
+            -DIOS_DEPLOYMENT_TARGET=10.13
+        - make install
       after_success:
-        - otool -L ./modules/libcoroutine.dylib
-        - popd;
-        - tree ./install
+        - tree --version
 
-    # OS X : x86_64 Release Dynamic
-    - os: osx
-      osx_image: xcode9.4
-      compiler: clang
-      addons:
-        homebrew:
-          # update: true
-          packages:
-            - ninja
-            - tree
+    # - name: "Android"
+    #   language: android
+    #   android:
+    #     components:
+    #       - tools
+    #       - platform-tools
+    #       - android-27
+    #   install:
+    #     - curl -s "https://get.sdkman.io" | bash > /dev/null
+    #     - source "$HOME/.sdkman/bin/sdkman-init.sh"
+    #     - sdk version
+    #     - sdk install gradle 5.1.1
+    #   script:
+    #     - gradle --version
+    #   after_success:
+    #     - tree --version
+
+    - name: Mac Debug Shared
+      os: osx
+      osx_image: xcode10.1
       env:
-        - PLATFORM=osx
-        - CONFIG=Release
-        - BUILD_SHARED=true
-      after_success:
-        - otool -L ./modules/libcoroutine.dylib
-        - popd;
-        - tree ./install
+       - CONFIG=Debug    SHARED=true
 
-    # Linux : x86_64 Debug Dynamic
-    - os: linux
+    - name: Mac Release Shared
+      os: osx
+      osx_image: xcode10.1
+      env:
+       - CONFIG=Release  SHARED=true
+
+    - name: Ubuntu(Xenial) Debug Shared
+      os: linux
       dist: xenial
-      compiler: clang # expect 5.0.0+
-      addons:
-        apt:
-          # update: true
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-xenial-6.0
-          packages:
-            - gcc-7
-            - g++-7
-            - libc++-dev
-            - libc++abi-dev
-            - unzip
-            - ninja-build
-            - tree
-            - cmake
       env:
-        - PLATFORM=linux
-        - CONFIG=Debug
-        - BUILD_SHARED=true
-      after_success:
-        - ldd ./modules/libcoroutine.so
-        - popd;
-        - tree ./install
+       - CONFIG=Debug    SHARED=true
+      before_script:
+       - export CC=clang-6.0 CXX=clang-6.0;
 
-    # Linux : x86_64 Release Dynamic
-    - os: linux
+    - name: Ubuntu(Xenial) Release Shared
+      os: linux
       dist: xenial
-      compiler: clang # expect 5.0.0+
-      addons:
-        apt:
-          # update: true
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-xenial-6.0
-          packages:
-            - gcc-7
-            - g++-7
-            - libc++-dev
-            - libc++abi-dev
-            - unzip
-            - ninja-build
-            - tree
-            - cmake
       env:
-        - PLATFORM=linux
-        - CONFIG=Release
-        - BUILD_SHARED=true
-      after_success:
-        - ldd ./modules/libcoroutine.so
-        - popd;
-        - tree ./install
+       - CONFIG=Release  SHARED=true
+      before_script:
+       - export CC=clang-6.0 CXX=clang-6.0;
+
+    - name: Windows clang-cl Debug
+      os: windows
+      dist: 1803-containers
+      compiler: clang-cl
+      env:
+       - CONFIG=Debug  SHARED=true
+      before_script:
+       - choco install -y ninja
+
+    - name: Windows clang-cl Release
+      os: windows
+      dist: 1803-containers
+      compiler: clang-cl
+      env:
+       - CONFIG=Release  SHARED=true
+      before_script:
+       - choco install -y ninja

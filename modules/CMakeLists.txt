@@ -5,8 +5,11 @@
 # ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.8)
 
+# make lower case
+string(TOLOWER ${CMAKE_SYSTEM_NAME} CMAKE_SYSTEM_NAME)
+
 add_library(${PROJECT_NAME} # -> coroutine.lib
-    ${PLATFORM}/dllmain.cpp
+    ${CMAKE_SYSTEM_NAME}/dllmain.cpp
 )
 
 set_target_properties(${PROJECT_NAME}
@@ -16,23 +19,21 @@ PROPERTIES
 
 target_include_directories(${PROJECT_NAME}
 PUBLIC
-    ${PROJECT_DIR}/interface
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../interface>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
 PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# target_link_libraries(${PROJECT_NAME}
-# PUBLIC
-#     GSL
-# )
-
 # to prevent creating sub-library,
 #   incrementally attach code/properties using CMake include
-include(thread/get-code.cmake)
-include(${PLATFORM}/get-code.cmake)
+list(APPEND CMAKE_MODULE_PATH 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+)
+include(${CMAKE_SYSTEM_NAME})
 
 # simply install header & binary
-install(DIRECTORY       ${PROJECT_DIR}/interface/coroutine
+install(DIRECTORY       ${CMAKE_CURRENT_LIST_DIR}/../interface/coroutine
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/include
 )
 install(TARGETS         ${PROJECT_NAME}

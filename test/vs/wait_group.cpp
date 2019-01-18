@@ -54,7 +54,7 @@ class wait_group_test : public TestClass<wait_group_test>
         for (auto i = 0u; i < num_of_work; ++i)
             ::SubmitThreadpoolWork(work);
 
-        Assert::IsTrue(group.wait());
+        Assert::IsTrue(group.wait(10s));
     }
 
     TEST_METHOD(wait_group_multiple_wait)
@@ -62,9 +62,9 @@ class wait_group_test : public TestClass<wait_group_test>
         group.add(1);
         group.done();
         // Ok. since 1 add, 1 done
-        Assert::IsTrue(group.wait());
+        Assert::IsTrue(group.wait(10s));
 
         // Multiple wait is ok and return true
-        Assert::IsTrue(group.wait());
+        Assert::IsTrue(group.wait(10s));
     }
 };
