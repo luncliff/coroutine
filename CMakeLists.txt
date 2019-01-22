@@ -23,7 +23,7 @@ list(APPEND CMAKE_MODULE_PATH
 include(test-target-platform)
 include(test-cxx-coroutine)
 
-if(NOT DEFINED CMAKE_BUILD_TYPE)
+if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
@@ -34,7 +34,14 @@ include(display-build-info)
 add_subdirectory(modules)
 
 # ---------------------------------------------------------------------------
+
 if(IOS OR ANDROID)
+    message(STATUS "Mobile cross build doesn't support tests")
+    return()
+endif()
+
+if(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+    message(STATUS "This is not a root project. Skip tests")
     return()
 endif()
 

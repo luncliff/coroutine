@@ -43,7 +43,7 @@ endif()
 
 target_link_libraries(${PROJECT_NAME}
 PUBLIC
-    pthread
-    rt c++ # c++abi c++experimental
+    pthread rt 
+    c++ # c++abi c++experimental
+    stdc++
 )
-
