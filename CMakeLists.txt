@@ -2,7 +2,7 @@
 #
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #   Note
-#       CMake support for project with LLVM toolchain 
+#       CMake support for project with LLVM toolchain
 #       GCC will be added ASAP when it supports coroutine
 #
 #   Support
@@ -28,6 +28,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 include(display-build-info)
 
+add_subdirectory(external/guideline)
 add_subdirectory(modules)
 
 # ---------------------------------------------------------------------------

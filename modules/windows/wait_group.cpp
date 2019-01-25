@@ -5,12 +5,13 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/sync.h>
-// #include <gsl/gsl_util>
 
 #include <atomic>
 #include <system_error>
 
 #include <Windows.h>
+
+#include <gsl/gsl>
 
 using namespace std;
 
@@ -21,31 +22,27 @@ struct wait_group_win32 final
     SECURITY_ATTRIBUTES attr{};
 };
 
-auto for_win32(wait_group* wg) noexcept
+GSL_SUPPRESS(type .1)
+auto for_win32(wait_group* wg) noexcept -> gsl::not_null<wait_group_win32*>
 {
     static_assert(sizeof(wait_group_win32) <= sizeof(wait_group));
     return reinterpret_cast<wait_group_win32*>(wg);
 }
 
+GSL_SUPPRESS(r .11)
 wait_group::wait_group() noexcept(false) : storage{}
 {
-    auto* wg = new (for_win32(this)) wait_group_win32{};
+    auto wg = for_win32(this);
+    new (wg) wait_group_win32{};
 
-    // ... replaced to CreateEventA for simplicity ...
-    // wg->ev = CreateEventExA(nullptr, // default security attributes
-    //                        nullptr, // unnamed object
-    //                        CREATE_EVENT_MANUAL_RESET,
-    //                        NULL // default access right
-    //);
     wg->ev = CreateEventA(nullptr, false, false, nullptr);
 
     if (wg->ev == INVALID_HANDLE_VALUE)
-    {
-        const auto code = static_cast<int>(GetLastError());
-        throw system_error{code, system_category(), "CreateEventA"};
-    }
+        throw system_error{gsl::narrow_cast<int>(GetLastError()),
+                           system_category(), "CreateEventA"};
 }
 
+GSL_SUPPRESS(con .4)
 wait_group::~wait_group() noexcept
 {
     auto wg = for_win32(this);
@@ -58,12 +55,14 @@ wait_group::~wait_group() noexcept
     }
 }
 
+GSL_SUPPRESS(con .4)
 void wait_group::add(uint16_t delta) noexcept
 {
     auto wg = for_win32(this);
     wg->count.fetch_add(delta, memory_order::memory_order_acq_rel);
 }
 
+GSL_SUPPRESS(con .4)
 void wait_group::done() noexcept
 {
     auto wg = for_win32(this);
@@ -75,6 +74,7 @@ void wait_group::done() noexcept
         SetEvent(wg->ev);
 }
 
+GSL_SUPPRESS(con .4)
 bool wait_group::wait(duration d) noexcept(false)
 {
     auto wg = for_win32(this);
@@ -83,8 +83,8 @@ bool wait_group::wait(duration d) noexcept(false)
     {
         // This makes APC available.
         // expecially for Overlapped I/O
-        DWORD ec = WaitForSingleObjectEx(wg->ev, static_cast<DWORD>(d.count()),
-                                         TRUE);
+        DWORD ec = WaitForSingleObjectEx(
+            wg->ev, gsl::narrow_cast<DWORD>(d.count()), TRUE);
 
         if (ec == WAIT_FAILED)
             // update error code
@@ -104,7 +104,7 @@ bool wait_group::wait(duration d) noexcept(false)
             return false;
 
         // ... the other case will be considered exception ...
-        throw system_error{static_cast<int>(ec), system_category(),
+        throw system_error{gsl::narrow_cast<int>(ec), system_category(),
                            "WaitForSingleObjectEx"};
     }
 

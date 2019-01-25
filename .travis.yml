@@ -60,14 +60,15 @@ install:
     fi
   - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
       choco info llvm;
-    fi    
+    fi
 script:
   - mkdir -p build && pushd build;
-  - cmake ../ 
-      -G "Ninja" 
-      -DBUILD_SHARED_LIBS=$SHARED 
-      -DCMAKE_BUILD_TYPE=$CONFIG
+  - cmake ../
+      -G "Ninja"
+      -DBUILD_SHARED_LIBS=${SHARED}
+      -DCMAKE_BUILD_TYPE=${CONFIG}
       -DCMAKE_INSTALL_PREFIX=../install
+      -DCMAKE_CXX_COMPILER=${CXX}
   - ninja install
   # windows: move dll
   - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
@@ -79,7 +80,7 @@ after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install
 
-matrix: 
+matrix:
   allow_failures:
     - os: windows
     - language: android

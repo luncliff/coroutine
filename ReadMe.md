@@ -28,7 +28,8 @@ Expect Clang 6 or later versions. Notice that the feature, c++ coroutine, was av
 
 ### Test
 
-Example/Test codes are in [test/](./test) directory. As mentioned above, the project supports 4 kind of tools.  
+Example/Test codes are in [test/](./test) directory.  
+As mentioned above, the project supports 4 kind of tools.  
 Visual Studio project uses its own testing tools. CMake generated project will create a test executable.
 
 ### Import
@@ -37,7 +38,7 @@ The project will NOT support package or prebuilt artifact until the feature come
 
 #### Visual Studio Project
 
-For Visual Studio users,   
+For Visual Studio users,  
 I recommend you to import(add reference) [win32.vcxproj](./modules/win32.vcxproj) in [modules](./modules/).
 
 #### CMake Project
@@ -62,7 +63,7 @@ PUBLIC
 
 Exploring [test(example) codes](./test) will be helpful.
 
-#### [coroutine frame](./interface/coroutine/frame.h)    
+#### [coroutine frame](./interface/coroutine/frame.h)
 
 This library replaces `<experimental/coroutine>` to support multiple compilers.
 
@@ -74,9 +75,9 @@ class coroutine_handle;
 }
 ```
 
-#### [thread switching](./interface/coroutine/switch.h)  
+#### [thread switching](./interface/coroutine/switch.h)
 
-With this feature, [each routine can select thread](./test/thread/switch_to.cpp). 
+With this feature, [each routine can select thread](./test/thread/switch_to.cpp).
 
 ```c++
 #include <coroutine/return.h>
@@ -112,7 +113,7 @@ void switch_to_background_thread()
 }
 ```
 
-#### [channel](./interface/coroutine/channel.hpp)  
+#### [channel](./interface/coroutine/channel.hpp)
 
 Similar to that of [the Go language](https://golang.org/), but simplified form. [You can read before write](./test/vs/channel.cpp).
 
@@ -135,7 +136,7 @@ auto read_from(channel_type& ch) -> unplug
 }
 ```
 
-#### [generator](./interface/coroutine/enumerable.hpp)  
+#### [generator](./interface/coroutine/enumerable.hpp)
 
 Alternative type for `<experimental/generator>` where the header doesn't exists. [It is renamed to `enumberable<T>`](./test/vs/generator.cpp).
 
@@ -159,7 +160,7 @@ TEST_METHOD(generator_for_accumulate)
 }
 ```
 
-#### [sequence](./interface/coroutine/sequence.hpp)  
+#### [sequence](./interface/coroutine/sequence.hpp)
 
 Asynchronous version of generator. That means, [both producer and consumer can suspend](./test/vs/async_generator.cpp).
 

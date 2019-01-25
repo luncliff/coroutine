@@ -8,21 +8,23 @@ cmake_minimum_required(VERSION 3.8)
 # if package does not exist, use submodule instead
 find_package(Catch2)
 if(NOT Catch2_FOUND)    
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../external/catch2
+    add_subdirectory(${PROJECT_SOURCE_DIR}/external/catch2
                      ${CMAKE_BINARY_DIR}/catch2
     )
 endif()
 
-# testing the library 
+# testing the library
 add_executable(coroutine_test
     scenario/entry.cpp
-    # scenario/switch_to.cpp
-    # scenario/channel.cpp
-    # case/message.cpp
-    # case/sync.cpp
-    # case/returns.cpp
-    # case/generator.cpp
-    # case/async_generator.cpp
+
+    scenario/switch_to.cpp
+    scenario/channel.cpp
+    case/message.cpp
+    case/sync.cpp
+    case/returns.cpp
+    case/generator.cpp
+    case/async_generator.cpp
+
     switch_to/schedule.cpp 
     switch_to/epoll.cpp 
     switch_to/switch.cpp
