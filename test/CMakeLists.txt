@@ -16,13 +16,16 @@ endif()
 # testing the library 
 add_executable(coroutine_test
     scenario/entry.cpp
-    scenario/switch_to.cpp
-    scenario/channel.cpp
-    case/message.cpp
-    case/sync.cpp
-    case/returns.cpp
-    case/generator.cpp
-    case/async_generator.cpp
+    # scenario/switch_to.cpp
+    # scenario/channel.cpp
+    # case/message.cpp
+    # case/sync.cpp
+    # case/returns.cpp
+    # case/generator.cpp
+    # case/async_generator.cpp
+    switch_to/schedule.cpp 
+    switch_to/epoll.cpp 
+    switch_to/switch.cpp
 )
 
 set_target_properties(coroutine_test

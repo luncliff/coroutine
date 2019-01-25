@@ -18,7 +18,7 @@ project(coroutine LANGUAGES CXX VERSION 1.3)
 
 # import cmake code snippets. see `cmake/`
 list(APPEND CMAKE_MODULE_PATH 
-            ${CMAKE_CURRENT_SOURCE_DIR}/cmake
+            ${PROJECT_SOURCE_DIR}/cmake
 )
 include(test-target-platform)
 include(test-cxx-coroutine)
@@ -26,11 +26,8 @@ include(test-cxx-coroutine)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
-
-# show project's build configuration
 include(display-build-info)
 
-# delegate the build jobs to sub-directories
 add_subdirectory(modules)
 
 # ---------------------------------------------------------------------------

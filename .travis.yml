@@ -82,41 +82,9 @@ after_success:
 matrix: 
   allow_failures:
     - os: windows
+    - language: android
+
   include:
-    - name: "iPhone OS"
-      os: osx
-      osx_image: xcode10.1
-      compiler: clang
-      script:
-        - mkdir -p build && pushd build;
-        - cmake ../ 
-            -DBUILD_SHARED_LIBS=$SHARED 
-            -DCMAKE_BUILD_TYPE=$CONFIG
-            -DCMAKE_INSTALL_PREFIX=../install
-            -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
-            -DENABLE_BITCODE=false
-            -DIOS_DEPLOYMENT_TARGET=10.13
-        - make install
-      after_success:
-        - tree --version
-
-    # - name: "Android"
-    #   language: android
-    #   android:
-    #     components:
-    #       - tools
-    #       - platform-tools
-    #       - android-27
-    #   install:
-    #     - curl -s "https://get.sdkman.io" | bash > /dev/null
-    #     - source "$HOME/.sdkman/bin/sdkman-init.sh"
-    #     - sdk version
-    #     - sdk install gradle 5.1.1
-    #   script:
-    #     - gradle --version
-    #   after_success:
-    #     - tree --version
-
     - name: Mac Debug Shared
       os: osx
       osx_image: xcode10.1
@@ -162,3 +130,46 @@ matrix:
        - CONFIG=Release  SHARED=true
       before_script:
        - choco install -y ninja
+
+    - name: "Android"
+      language: android
+      android:
+        components:
+          - tools
+          - platform-tools
+          - android-28
+          - build-tools-28.0.3
+      licenses:
+        - 'android-sdk-license-.+'
+        - 'google-gdk-license-.+'
+      install:
+        # Android NDK
+        - yes | sdkmanager --update > /dev/null 2>&1;
+        - sdkmanager ndk-bundle > /dev/null 2>&1;
+        # Gradle from https://sdkman.io/
+        - curl -s "https://get.sdkman.io" | bash > /dev/null
+        - source "$HOME/.sdkman/bin/sdkman-init.sh"
+        - sdk version
+        - sdk install gradle 5.1.1
+      script:
+        - gradle clean
+        - gradle assemble
+      after_success:
+        - tree ./install
+
+    - name: "iPhone OS"
+      os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      script:
+        - mkdir -p build && pushd build;
+        - cmake ../ 
+            -DBUILD_SHARED_LIBS=$SHARED 
+            -DCMAKE_BUILD_TYPE=$CONFIG
+            -DCMAKE_INSTALL_PREFIX=../install
+            -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
+            -DENABLE_BITCODE=false
+            -DIOS_DEPLOYMENT_TARGET=10.13
+        - make install
+      after_success:
+        - tree ./install

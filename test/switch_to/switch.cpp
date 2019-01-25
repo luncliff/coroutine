@@ -1,8 +1,6 @@
 
 #include "switch.h"
 
-using coroutine_task_t = std::experimental::coroutine_handle<void>;
-
 auto switch_to_2::schedule() noexcept -> enumerable<coroutine_task_t>
 {
     std::unique_lock lck{mtx};
@@ -25,7 +23,7 @@ bool switch_to_2::await_ready() const noexcept
 
 void switch_to_2::await_suspend(coroutine_task_t coro) noexcept(false)
 {
-    std::unique_lock lck{mtx};
+    std::lock_guard lck{mtx};
     queue.push_back(coro);
 }
 
