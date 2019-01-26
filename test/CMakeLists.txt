@@ -17,18 +17,33 @@ endif()
 add_executable(coroutine_test
     scenario/entry.cpp
 
-    scenario/switch_to.cpp
-    scenario/channel.cpp
-    case/message.cpp
-    case/sync.cpp
-    case/returns.cpp
-    case/generator.cpp
-    case/async_generator.cpp
+    # scenario/switch_to.cpp
+    # scenario/channel.cpp
+    # case/message.cpp
+    # case/sync.cpp
+    # case/returns.cpp
+    # case/generator.cpp
+    # case/async_generator.cpp
+
+    net/net_aio.cpp
+    net/aio.cpp
 
     switch_to/schedule.cpp 
-    switch_to/epoll.cpp 
     switch_to/switch.cpp
 )
+
+if(APPLE)
+    target_sources(coroutine_test
+    PRIVATE
+        switch_to/kqueue.cpp     
+    )
+elseif(UNIX)
+    target_sources(coroutine_test
+    PRIVATE
+        switch_to/epoll.cpp 
+    )
+endif()
+
 
 set_target_properties(coroutine_test
 PROPERTIES
@@ -56,6 +71,9 @@ if(UNIX)
     )
     target_compile_options(coroutine_test
     PRIVATE
-        -std=c++2a -stdlib=libc++ -g
+        -std=c++2a -stdlib=libc++
+        -g
+        -Wall -Wextra 
+        -Wno-unknown-pragmas # ignore pragma incompatibility
     )
 endif()
