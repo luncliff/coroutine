@@ -24,20 +24,14 @@ add_executable(coroutine_test
     # case/returns.cpp
     # case/generator.cpp
     # case/async_generator.cpp
-
-    net/net_aio.cpp
     net/aio.cpp
+    net/resolver.cpp
 
     switch_to/schedule.cpp 
     switch_to/switch.cpp
 )
 
-if(APPLE)
-    target_sources(coroutine_test
-    PRIVATE
-        switch_to/kqueue.cpp     
-    )
-elseif(UNIX)
+if(UNIX AND NOT APPLE)
     target_sources(coroutine_test
     PRIVATE
         switch_to/epoll.cpp 

@@ -20,7 +20,6 @@ notifications:
 
 image:
   - Visual Studio 2017
-  - Ubuntu1804
 
 platform:
   - x64
@@ -35,13 +34,9 @@ environment:
     - compiler: clang
 
 matrix:
-  exclude:
-    - image: Ubuntu1804
-      compiler: msvc
   allow_failures:
     - image: Visual Studio 2017
       compiler: clang
-    - image: Ubuntu1804
 
 for:
 # MSVC: use Visual Studio solution file
@@ -91,7 +86,8 @@ for:
     - ps: New-Item -Name build -ItemType Directory
     - ps: Push-Location -Path build
     - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-    - cmd: set CXX=clang-cl # ps: $env:CXX = "clang-cl"
+    # ps: $env:CXX = "clang-cl"
+    - cmd: set CXX=clang-cl 
     # for cmake, this can be ok. -DCMAKE_CXX_COMPILER=clang-cl
     - cmd: cmake ../ -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration% 
     - cmd: ninja
@@ -103,44 +99,4 @@ for:
     - ps: ./build/test/coroutine_test.exe [thread]
     - ps: ./build/test/coroutine_test.exe [generic]
     - ps: ./build/test/coroutine_test.exe [messaging]
-
-# Linux clang: expect 6.0+ (the feature became available since 5.0)
--
-  matrix:
-    only:
-      - image: Ubuntu1804
-        compiler: clang
-  install:
-    - sh: uname -a
-    # install utilities
-    - sh: sudo apt update -y -qq
-    - sh: sudo apt install -y -qq --fix-missing wget unzip ninja-build cmake gnupg2 tree
-    # install GCC
-    - sh: sudo apt install -y -qq --fix-missing gcc-7 g++-7 libc++abi-dev libc++-dev    
-    # install LLVM toolchain
-    # - sh: wget -O llvm.key https://apt.llvm.org/llvm-snapshot.gpg.key
-    # - sh: sudo apt-key add ./llvm.key
-    # - sh: sudo apt update -y
-    - sh: sudo apt install -y --fix-missing clang-6.0 llvm-6.0 llvm-6.0-tools
-    # report version    
-    - sh: cmake --version
-    - sh: ninja --version
-    - sh: clang-6.0 --version
-  before_build:
-    - sh: pwd
-    - sh: sudo bash ./scripts/install-libc++.sh
-    - sh: sudo rm -rf ./prebuilt
-    - sh: mkdir -p build && pushd build
-  build_script:
-    - sh: export CC=clang-6.0
-    - sh: export CXX=clang-6.0
-    - sh: echo "$CC $CXX"
-    - sh: cmake ../ -G Ninja -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX=./install
-    - sh: ninja install
-  after_build:
-    - sh: popd
-  test_script:
-    # - ps: ./build/test/coroutine_test
-    - ps: ./build/test/coroutine_test [messaging]
-    - ps: ./build/test/coroutine_test [thread]
-    - ps: ./build/test/coroutine_test [generic]
+    - ps: ./build/test/coroutine_test.exe [network]

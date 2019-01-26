@@ -5,11 +5,10 @@
 # ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.8)
 
-# make lower case
-string(TOLOWER ${CMAKE_SYSTEM_NAME} CMAKE_SYSTEM_NAME)
+string(TOLOWER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME)
 
 add_library(${PROJECT_NAME} # -> coroutine.lib
-    ${CMAKE_SYSTEM_NAME}/dllmain.cpp
+    ${SYSTEM_NAME}/dllmain.cpp
 )
 
 set_target_properties(${PROJECT_NAME}
@@ -35,10 +34,10 @@ PUBLIC
 list(APPEND CMAKE_MODULE_PATH
             ${CMAKE_CURRENT_SOURCE_DIR}
 )
-include(${CMAKE_SYSTEM_NAME})
+include(${SYSTEM_NAME})
 
 # simply install header & binary
-install(DIRECTORY       ${CMAKE_CURRENT_LIST_DIR}/../interface/coroutine
+install(DIRECTORY       ${PROJECT_SOURCE_DIR}/interface/coroutine
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/include
 )
 install(TARGETS         ${PROJECT_NAME}

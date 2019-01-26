@@ -83,7 +83,6 @@ after_success:
 matrix:
   allow_failures:
     - os: windows
-    - language: android
 
   include:
     - name: Mac Debug Shared
@@ -103,60 +102,12 @@ matrix:
       dist: xenial
       env:
        - CONFIG=Debug    SHARED=true
-      before_script:
-       - export CC=clang-6.0 CXX=clang-6.0;
 
     - name: Ubuntu(Xenial) Release Shared
       os: linux
       dist: xenial
       env:
        - CONFIG=Release  SHARED=true
-      before_script:
-       - export CC=clang-6.0 CXX=clang-6.0;
-
-    - name: Windows clang-cl Debug
-      os: windows
-      dist: 1803-containers
-      compiler: clang-cl
-      env:
-       - CONFIG=Debug  SHARED=true
-      before_script:
-       - choco install -y ninja
-
-    - name: Windows clang-cl Release
-      os: windows
-      dist: 1803-containers
-      compiler: clang-cl
-      env:
-       - CONFIG=Release  SHARED=true
-      before_script:
-       - choco install -y ninja
-
-    - name: "Android"
-      language: android
-      android:
-        components:
-          - tools
-          - platform-tools
-          - android-28
-          - build-tools-28.0.3
-      licenses:
-        - 'android-sdk-license-.+'
-        - 'google-gdk-license-.+'
-      install:
-        # Android NDK
-        - yes | sdkmanager --update > /dev/null 2>&1;
-        - sdkmanager ndk-bundle > /dev/null 2>&1;
-        # Gradle from https://sdkman.io/
-        - curl -s "https://get.sdkman.io" | bash > /dev/null
-        - source "$HOME/.sdkman/bin/sdkman-init.sh"
-        - sdk version
-        - sdk install gradle 5.1.1
-      script:
-        - gradle clean
-        - gradle assemble
-      after_success:
-        - tree ./install
 
     - name: "iPhone OS"
       os: osx

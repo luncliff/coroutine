@@ -1,181 +1,94 @@
-#include "net/async.h"
-#include <vector>
+//
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
+//
+#include <catch2/catch.hpp>
 
-#include <sys/event.h>
+#include <coroutine/net.h>
+#include <coroutine/return.h>
 
-auto kqfd = kqueue();
-constexpr auto max_event_size = 20;
-auto events = std::make_unique<kevent64_s[]>(max_event_size);
+#include <future>
 
-extern void print_kevent(const kevent64_s& ev);
+using packet_chunk_t = std::array<gsl::byte, 2842>;
 
-auto fetch_io_tasks() noexcept(false) -> enumerable<coroutine_task_t>
+auto apply_nonblock_async(int sd)
 {
-    assert(kqfd != -1);
+    REQUIRE(fcntl(sd, F_SETFL, // non block
+                               //  allow sigio redirection
+                  O_NONBLOCK | O_ASYNC | fcntl(sd, F_GETFL, 0))
+            != -1);
+};
 
-    timespec* timeout = nullptr;
-    // wait (indefinitely) for some event
-    auto count = kevent64(kqfd,                         //
-                          nullptr, 0,                   //
-                          events.get(), max_event_size, //
-                          0, timeout);
+auto coro_recv_from(int sd,              //
+                    sockaddr_in& remote, //
+                    packet_chunk_t& buffer) -> unplug
+{
+    io_work_t wk{};
+    auto rsz = co_await recv_from(sd, remote, buffer, wk);
 
-    assert(count != -1);
-    std::printf("%s %d \n", __FUNCTION__, count);
-    coroutine_task_t task{};
-    for (auto i = 0; i < count; ++i)
+    REQUIRE(rsz == buffer.size());
+};
+
+auto coro_send_to(int sd,                    //
+                  const sockaddr_in& remote, //
+                  packet_chunk_t& buffer) -> unplug
+{
+    io_work_t wk{};
+    auto ssz = co_await send_to(sd, remote, buffer, wk);
+    REQUIRE(ssz == buffer.size());
+};
+
+SCENARIO("async network api", "[network]")
+{
+
+    GIVEN("udp ipv4 socket")
     {
-        auto& ev = events[i];
-        print_kevent(ev);
+        // service address for bind
+        sockaddr_in local{};
+        local.sin_family = AF_INET;
+        local.sin_port = htons(11320);
+        local.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
 
-        task = coroutine_task_t::from_address(
-            // user data is coroutine frame in this case
-            reinterpret_cast<void*>(ev.udata));
+        // use service in loopback address
+        sockaddr_in remote{};
+        remote.sin_family = AF_INET;
+        remote.sin_port = htons(11320);
+        remote.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
 
-        co_yield task;
+        auto rs = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+        REQUIRE(rs > 0);
+        auto d1 = gsl::finally([=]() noexcept { close(rs); });
+        apply_nonblock_async(rs);
+
+        auto ws = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+        REQUIRE(ws > 0);
+        auto d2 = gsl::finally([=]() noexcept { close(ws); });
+        apply_nonblock_async(ws);
+
+        WHEN("recv and then send")
+        {
+            auto chunk = std::make_unique<packet_chunk_t>();
+
+            if (bind(rs, (sockaddr*)&local, sizeof(sockaddr_in)) == -1)
+                FAIL(strerror(errno));
+
+            coro_recv_from(rs, local, *chunk);
+            coro_send_to(ws, remote, *chunk);
+
+            // run on another thread
+            auto f = std::async(std::launch::async, []() {
+                auto count = 0;
+                while (count < 2) // the library recommends
+                                  // to continue loop without break
+                                  // so that there is no leak of event
+                    for (auto task : fetch_io_tasks())
+                    {
+                        task.resume();
+                        ++count;
+                    }
+                REQUIRE(count == 2);
+            });
+            REQUIRE_NOTHROW(f.get());
+        }
     }
-}
-
-bool io_work_t::ready() const noexcept
-{
-    return false;
-}
-
-uint32_t io_work_t::resume() noexcept
-{
-    return this->buffer.size();
-}
-
-auto send_to(int sd, const endpoint_t& remote, buffer_view_t buffer,
-             io_work_t& work) noexcept(false) -> io_send_to&
-{
-    work.socket = sd;
-    work.to = std::addressof(remote);
-    work.buffer = buffer;
-    return *reinterpret_cast<io_send_to*>(std::addressof(work));
-}
-
-void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
-{
-    // system operation
-    kevent64_s req{};
-    req.ident = socket;
-    req.filter = EVFILT_WRITE;
-    req.flags = EV_ADD | EV_ENABLE | EV_ONESHOT;
-    req.fflags = 0;
-    req.data = 0;
-    req.udata = reinterpret_cast<uint64_t>(rh.address());
-
-    timespec* timeout = nullptr;
-    // attach the event config
-    auto ec = kevent64(kqfd,       //
-                       &req, 1,    // change
-                       nullptr, 0, //
-                       0, timeout);
-    assert(ec != -1);
-
-    // user operation
-    this->tag = rh.address();
-
-    auto sz = sendto(socket,                                //
-                     buffer.data(), buffer.size_bytes(), 0, //
-                     reinterpret_cast<const sockaddr*>(to), sizeof(endpoint_t));
-
-    if (sz == -1 && errno != EAGAIN)
-        throw std::system_error{errno, std::system_category(), "sendto"};
-}
-
-auto recv_from(int sd, endpoint_t& remote, buffer_view_t buffer,
-               io_work_t& work) noexcept(false) -> io_recv_from&
-{
-    work.socket = sd;
-    work.to = std::addressof(remote);
-    work.buffer = buffer;
-
-    return *reinterpret_cast<io_recv_from*>(std::addressof(work));
-}
-
-void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
-{
-    // system operation
-    kevent64_s req{};
-    req.ident = socket;
-    req.filter = EVFILT_READ;
-    req.flags = EV_ADD | EV_ENABLE | EV_ONESHOT;
-    req.fflags = 0;
-    req.data = 0;
-    req.udata = reinterpret_cast<uint64_t>(rh.address());
-
-    timespec* timeout = nullptr;
-    // attach the event config
-    auto ec = kevent64(kqfd,       //
-                       &req, 1,    // change
-                       nullptr, 0, //
-                       0, timeout);
-    assert(ec != -1);
-
-    // user operation
-    this->tag = rh.address();
-
-    auto sz = recvfrom(socket, buffer.data(), buffer.size_bytes(), 0,
-                       reinterpret_cast<sockaddr*>(from),
-                       std::addressof(this->length));
-
-    if (sz == -1 && errno != EAGAIN)
-        throw std::system_error{errno, std::system_category(), "recvfrom"};
-}
-
-void print_kevent(const kevent64_s& ev)
-{
-    printf(" ev.ident \t: %llu\n", ev.ident);
-    printf(" ev.filter\t: %d\n", ev.filter);
-
-    if (ev.flags & EV_ADD)
-        printf(" ev.flags\t: EV_ADD\n");
-    if (ev.flags & EV_DELETE)
-        printf(" ev.flags\t: EV_DELETE\n");
-    if (ev.flags & EV_ENABLE)
-        printf(" ev.flags\t: EV_ENABLE\n");
-    if (ev.flags & EV_DISABLE)
-        printf(" ev.flags\t: EV_DISABLE\n");
-    if (ev.flags & EV_ONESHOT)
-        printf(" ev.flags\t: EV_ONESHOT\n");
-    if (ev.flags & EV_CLEAR)
-        printf(" ev.flags\t: EV_CLEAR\n");
-    if (ev.flags & EV_RECEIPT)
-        printf(" ev.flags\t: EV_RECEIPT\n");
-    if (ev.flags & EV_DISPATCH)
-        printf(" ev.flags\t: EV_DISPATCH\n");
-    if (ev.flags & EV_UDATA_SPECIFIC)
-        printf(" ev.flags\t: EV_UDATA_SPECIFIC\n");
-    if (ev.flags & EV_VANISHED)
-        printf(" ev.flags\t: EV_VANISHED\n");
-    if (ev.flags & EV_ERROR)
-        printf(" ev.flags\t: EV_ERROR\n");
-    if (ev.flags & EV_OOBAND)
-        printf(" ev.flags\t: EV_OOBAND\n");
-    if (ev.flags & EV_EOF)
-        printf(" ev.flags\t: EV_EOF\n");
-
-    if (ev.fflags & EVFILT_READ)
-        printf(" ev.fflags\t: EVFILT_READ\n");
-    if (ev.fflags & EVFILT_EXCEPT)
-        printf(" ev.fflags\t: EVFILT_EXCEPT\n");
-    if (ev.fflags & EVFILT_WRITE)
-        printf(" ev.fflags\t: EVFILT_WRITE\n");
-    if (ev.fflags & EVFILT_AIO)
-        printf(" ev.fflags\t: EVFILT_AIO\n");
-    if (ev.fflags & EVFILT_VNODE)
-        printf(" ev.fflags\t: EVFILT_VNODE\n");
-    if (ev.fflags & EVFILT_PROC)
-        printf(" ev.fflags\t: EVFILT_PROC\n");
-    if (ev.fflags & EVFILT_SIGNAL)
-        printf(" ev.fflags\t: EVFILT_SIGNAL\n");
-    if (ev.fflags & EVFILT_MACHPORT)
-        printf(" ev.fflags\t: EVFILT_MACHPORT\n");
-    if (ev.fflags & EVFILT_TIMER)
-        printf(" ev.fflags\t: EVFILT_TIMER\n");
-
-    printf(" ev.data\t: %lld\n", ev.data);
-    printf(" ev.udata\t: %llx, %llu\n", ev.udata, ev.udata);
 }

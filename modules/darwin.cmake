@@ -15,6 +15,7 @@ PRIVATE
     posix/wait_group.cpp
     darwin/section.cpp
     darwin/sync.cpp
+    darwin/net.cpp
 )
 
 target_compile_options(${PROJECT_NAME}
