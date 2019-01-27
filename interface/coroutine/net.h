@@ -36,11 +36,16 @@
 
 #include <gsl/gsl>
 
-#if __UNIX__ || __APPLE__ || __LINUX__
+#if _MSC_VER
+#include <WinSock2.h>
+#include <ws2def.h>
+
+#elif __unix__ || __linux__
 #include <fcntl.h>
 #include <netdb.h>
-#include <netinet/in.h>
+#include <netinet/ip.h>
 #include <unistd.h>
+
 #endif
 
 using coroutine_task_t = std::experimental::coroutine_handle<void>;

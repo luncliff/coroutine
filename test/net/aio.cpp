@@ -25,7 +25,6 @@ auto coro_recv_from(int sd,              //
 {
     io_work_t wk{};
     auto rsz = co_await recv_from(sd, remote, buffer, wk);
-
     REQUIRE(rsz == buffer.size());
 };
 

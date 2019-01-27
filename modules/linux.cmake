@@ -15,6 +15,8 @@ PRIVATE
     posix/wait_group.cpp
     linux/section.cpp
     darwin/sync.cpp
+    linux/net.cpp
+    net/resolver.cpp
 )
 
 target_compile_options(${PROJECT_NAME}
@@ -25,6 +27,7 @@ PUBLIC
 PRIVATE
     -Wall -Wno-unknown-pragmas -Wno-unused-private-field
     -fvisibility=hidden -fno-rtti
+    -ferror-limit=5
 )
 
 if(${CMAKE_BUILD_TYPE} MATCHES Debug)
