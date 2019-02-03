@@ -36,48 +36,62 @@
 
 #include <gsl/gsl>
 
-#if _MSC_VER
+#ifdef _MSC_VER
+#include <WS2tcpip.h>
 #include <WinSock2.h>
 #include <ws2def.h>
+
+#pragma comment(lib, "Ws2_32.lib")
+
+using io_control_block = OVERLAPPED;
 
 #elif __unix__ || __linux__
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/ip.h>
+#include <sys/socket.h>
 #include <unistd.h>
 
+struct io_control_block
+{
+    int64_t sd;
+    socklen_t addrlen;
+};
 #endif
 
 using coroutine_task_t = std::experimental::coroutine_handle<void>;
 using buffer_view_t = gsl::span<gsl::byte>;
 
-struct _INTERFACE_ io_work_t
+struct _INTERFACE_ io_work_t : public io_control_block
 {
-    int sd = -1;
     coroutine_task_t task{};
     buffer_view_t buffer{};
     union {
-        sockaddr_in* from{};
+        sockaddr* ep{}; // endpoint
+        sockaddr_in6* from6;
+        const sockaddr_in6* to6;
+        sockaddr_in* from;
         const sockaddr_in* to;
     };
 
   public:
     bool ready() const noexcept;
 };
+static_assert(sizeof(buffer_view_t) <= sizeof(void*) * 2);
 static_assert(sizeof(io_work_t) <= 64);
 
-class _INTERFACE_ io_send_to final : public io_work_t
+class io_send_to final : public io_work_t
 {
   public:
-    void suspend(coroutine_task_t rh) noexcept(false);
-    int64_t resume() noexcept;
+    _INTERFACE_ void suspend(coroutine_task_t rh) noexcept(false);
+    _INTERFACE_ int64_t resume() noexcept;
 
   public:
-    bool await_ready() const noexcept
+    auto await_ready() const noexcept
     {
         return this->ready();
     }
-    void await_suspend(coroutine_task_t rh) noexcept(false)
+    auto await_suspend(coroutine_task_t rh) noexcept(false)
     {
         return this->suspend(rh);
     }
@@ -87,18 +101,18 @@ class _INTERFACE_ io_send_to final : public io_work_t
     }
 };
 
-class _INTERFACE_ io_recv_from final : public io_work_t
+class io_recv_from final : public io_work_t
 {
   public:
-    void suspend(coroutine_task_t rh) noexcept(false);
-    int64_t resume() noexcept;
+    _INTERFACE_ void suspend(coroutine_task_t rh) noexcept(false);
+    _INTERFACE_ int64_t resume() noexcept;
 
   public:
-    bool await_ready() const noexcept
+    auto await_ready() const noexcept
     {
         return this->ready();
     }
-    void await_suspend(coroutine_task_t rh) noexcept(false)
+    auto await_suspend(coroutine_task_t rh) noexcept(false)
     {
         return this->suspend(rh);
     }
@@ -111,35 +125,52 @@ class _INTERFACE_ io_recv_from final : public io_work_t
 static_assert(sizeof(io_send_to) == sizeof(io_work_t));
 static_assert(sizeof(io_recv_from) == sizeof(io_work_t));
 
-_INTERFACE_ //
-    auto
-    send_to(int sd, const sockaddr_in& remote, //
-            buffer_view_t buffer, io_work_t& work) noexcept(false)
-        -> io_send_to&;
+_INTERFACE_
+auto send_to(uint64_t sd, const sockaddr_in& remote, //
+             buffer_view_t buffer, io_work_t& work) noexcept(false)
+    -> io_send_to&;
 
-_INTERFACE_ //
-    auto
-    recv_from(int sd, sockaddr_in& remote, //
-              buffer_view_t buffer, io_work_t& work) noexcept(false)
-        -> io_recv_from&;
+_INTERFACE_
+auto send_to(uint64_t sd, const sockaddr_in6& remote, //
+             buffer_view_t buffer, io_work_t& work) noexcept(false)
+    -> io_send_to&;
+
+_INTERFACE_
+auto recv_from(uint64_t sd, sockaddr_in6& remote, //
+               buffer_view_t buffer, io_work_t& work) noexcept(false)
+    -> io_recv_from&;
+
+_INTERFACE_
+auto recv_from(uint64_t sd, sockaddr_in& remote, //
+               buffer_view_t buffer, io_work_t& work) noexcept(false)
+    -> io_recv_from&;
+
+#ifndef _MSC_VER
 
 // - Note
 //      Caller must continue loop without break
 //      so that there is no leak of event
-_INTERFACE_ //
-    auto
-    fetch_io_tasks() noexcept(false) -> enumerable<coroutine_task_t>;
+_INTERFACE_
+auto fetch_io_tasks() noexcept(false) -> enumerable<coroutine_task_t>;
 
-_INTERFACE_ auto host_name() noexcept -> gsl::czstring<NI_MAXHOST>;
-_INTERFACE_ auto resolve(const addrinfo& hint, //
-                         gsl::czstring<NI_MAXHOST> name,
-                         gsl::czstring<NI_MAXSERV> serv) noexcept
+#endif
+
+_INTERFACE_
+auto host_name() noexcept -> gsl::czstring<NI_MAXHOST>;
+
+_INTERFACE_
+auto resolve(const addrinfo& hint, //
+             gsl::czstring<NI_MAXHOST> name,
+             gsl::czstring<NI_MAXSERV> serv) noexcept
     -> enumerable<sockaddr_in6>;
 
-_INTERFACE_ uint32_t nameof(const sockaddr_in6& ep, //
-                            gsl::zstring<NI_MAXHOST> name) noexcept;
-_INTERFACE_ uint32_t nameof(const sockaddr_in6& ep, //
-                            gsl::zstring<NI_MAXHOST> name,
-                            gsl::zstring<NI_MAXSERV> serv) noexcept;
+_INTERFACE_
+uint32_t nameof(const sockaddr_in6& ep, //
+                gsl::zstring<NI_MAXHOST> name) noexcept;
+
+_INTERFACE_
+uint32_t nameof(const sockaddr_in6& ep, //
+                gsl::zstring<NI_MAXHOST> name,
+                gsl::zstring<NI_MAXSERV> serv) noexcept;
 
 #endif // COROUTINE_NET_IO_H

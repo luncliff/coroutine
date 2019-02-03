@@ -24,14 +24,12 @@
 #include <cstdint>
 #include <type_traits>
 
-#if __clang__
+#if defined(__clang__)
 static constexpr auto is_msvc = false;
 static constexpr auto is_clang = true;
 static constexpr auto is_gcc = false;
 
-#elif _MSC_VER // <-- need alternative
-               //     since it might be declared explicitly
-
+#elif defined(_MSC_VER)
 static constexpr auto is_msvc = true;
 static constexpr auto is_clang = false;
 static constexpr auto is_gcc = false;

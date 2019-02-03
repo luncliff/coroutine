@@ -41,6 +41,7 @@ uint32_t nameof(const sockaddr_in6& ep, //
                          NI_MAXSERV, flag);
 }
 
+GSL_SUPPRESS(es.76)
 auto resolve(const addrinfo& hint, //
              gsl::czstring<NI_MAXHOST> name,
              gsl::czstring<NI_MAXSERV> serv) noexcept

@@ -10,6 +10,8 @@ PRIVATE
     windows/section.cpp
     windows/switch_to.cpp
     windows/wait_group.cpp
+    windows/net.cpp
+    net/resolver.cpp
 )
 
 target_compile_definitions(${PROJECT_NAME}
@@ -60,8 +62,8 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
 elseif(MSVC)
     target_compile_options(${PROJECT_NAME}
     PUBLIC
-        /std:c++latest
-        /await
+        /std:c++latest /await
+        /W4
     )
 endif()
 

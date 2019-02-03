@@ -7,17 +7,12 @@
 #include <coroutine/net.h>
 #include <coroutine/return.h>
 
-#include <future>
+#include <thread>
 
 using packet_chunk_t = std::array<gsl::byte, 2842>;
 
-auto apply_nonblock_async(int sd)
-{
-    REQUIRE(fcntl(sd, F_SETFL, // non block
-                               //  allow sigio redirection
-                  O_NONBLOCK | O_ASYNC | fcntl(sd, F_GETFL, 0))
-            != -1);
-};
+extern void apply_nonblock_async(int64_t sd);
+extern void dispose_socket(int64_t sd);
 
 auto coro_recv_from(int sd,              //
                     sockaddr_in& remote, //
@@ -56,12 +51,12 @@ SCENARIO("async network api", "[network]")
 
         auto rs = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
         REQUIRE(rs > 0);
-        auto d1 = gsl::finally([=]() noexcept { close(rs); });
+        auto d1 = gsl::finally([=]() noexcept { dispose_socket(rs); });
         apply_nonblock_async(rs);
 
         auto ws = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
         REQUIRE(ws > 0);
-        auto d2 = gsl::finally([=]() noexcept { close(ws); });
+        auto d2 = gsl::finally([=]() noexcept { dispose_socket(ws); });
         apply_nonblock_async(ws);
 
         WHEN("recv and then send")
@@ -75,19 +70,50 @@ SCENARIO("async network api", "[network]")
             coro_send_to(ws, remote, *chunk);
 
             // run on another thread
-            auto f = std::async(std::launch::async, []() {
+            std::thread t{[]() {
                 auto count = 0;
                 while (count < 2) // the library recommends
                                   // to continue loop without break
                                   // so that there is no leak of event
                     for (auto task : fetch_io_tasks())
                     {
-                        task.resume();
+                        if (task)
+                            task.resume();
                         ++count;
                     }
                 REQUIRE(count == 2);
-            });
-            REQUIRE_NOTHROW(f.get());
+            }};
+            REQUIRE_NOTHROW(t.join());
         }
     }
 }
+
+#if _MSC_VER
+
+void dispose_socket(int64_t sd)
+{
+    closesocket(sd);
+}
+
+void apply_nonblock_async(int64_t sd)
+{
+    u_long mode = TRUE;
+    REQUIRE(ioctlsocket(sd, FIONBIO, &mode) == NO_ERROR);
+};
+
+#elif __unix__ || __linux__
+
+void dispose_socket(int64_t sd)
+{
+    close(sd);
+}
+
+void apply_nonblock_async(int64_t sd)
+{
+    REQUIRE(fcntl(sd, F_SETFL, // non block
+                               //  allow sigio redirection
+                  O_NONBLOCK | O_ASYNC | fcntl(sd, F_GETFL, 0))
+            != -1);
+};
+
+#endif
