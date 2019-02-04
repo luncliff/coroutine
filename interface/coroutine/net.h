@@ -62,6 +62,16 @@ struct io_control_block
 using coroutine_task_t = std::experimental::coroutine_handle<void>;
 using buffer_view_t = gsl::span<gsl::byte>;
 
+// - Note
+//      Even though this class violates C++ Core Guidelines,
+//      it will be used for simplicity
+union endpoint_t final {
+    sockaddr_storage storage{};
+    sockaddr addr;
+    sockaddr_in in4;
+    sockaddr_in6 in6;
+};
+
 struct _INTERFACE_ io_work_t : public io_control_block
 {
     coroutine_task_t task{};

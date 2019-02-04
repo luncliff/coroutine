@@ -7,54 +7,36 @@
     <Filter Include="test">
       <UniqueIdentifier>{4a28942f-11c5-4837-8735-cbd30c80bfaa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="test\vs">
-      <UniqueIdentifier>{cab41e1e-9780-4bf4-a721-9bb404c93723}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\interface\coroutine\channel.hpp">
+    <ClCompile Include="net\vs_resolver.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="net\vs_socket_broadcast.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="net\vs_socket_multicast.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="net\vs_socket_echo_tcp.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="net\vs_socket_echo_udp.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\interface\coroutine\enumerable.hpp">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\sequence.hpp">
+    <ClInclude Include="..\interface\coroutine\frame.h">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\switch.h">
-      <Filter>coroutine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\interface\coroutine\sync.h">
+    <ClInclude Include="..\interface\coroutine\net.h">
       <Filter>coroutine</Filter>
     </ClInclude>
     <ClInclude Include="..\interface\coroutine\return.h">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\enumerable.hpp">
-      <Filter>coroutine</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="vs\channel.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
-    <ClCompile Include="vs\unplug.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
-    <ClCompile Include="vs\generator.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
-    <ClCompile Include="vs\async_generator.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
-    <ClCompile Include="vs\wait_group.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
-    <ClCompile Include="vs\resolver.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
-    <ClCompile Include="vs\socket_server.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
-    <ClCompile Include="vs\socket_client.cpp">
-      <Filter>test\vs</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

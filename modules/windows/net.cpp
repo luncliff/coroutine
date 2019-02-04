@@ -12,19 +12,20 @@ void CALLBACK onWorkDone(DWORD errc, DWORD sz, LPWSAOVERLAPPED pover,
                          DWORD flags) noexcept
 {
     UNREFERENCED_PARAMETER(flags);
-    UNREFERENCED_PARAMETER(errc);
-    UNREFERENCED_PARAMETER(sz);
 
     io_work_t* work = reinterpret_cast<io_work_t*>(pover);
-    // this is expected value for x64
-    work->Internal = errc;
-    work->InternalHigh = sz;
+
+    // mostly Internal and InternalHigh holds same value.
+    // so this assignment is redundant, but make it sure.
+    work->Internal = errc;   // -> return of `await_resume()`
+    work->InternalHigh = sz; // -> return of `work.error()`
+
     work->task.resume();
 }
 
 bool io_work_t::ready() const noexcept
 {
-    return false; // trigger await_suspend
+    return false; // trigger `await_suspend`
 }
 
 uint32_t io_work_t::error() const noexcept

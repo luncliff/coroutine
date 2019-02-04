@@ -15,9 +15,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 TEST_MODULE_INITIALIZE(winsock_init)
 {
     // https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsastartup
-
     WSAData wsa{};
-
     auto e = WSAGetLastError();
     Assert::IsTrue(e == NO_ERROR);
 
@@ -31,7 +29,6 @@ TEST_MODULE_INITIALIZE(winsock_init)
 TEST_MODULE_CLEANUP(winsock_clean)
 {
     // https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsacleanup
-
     const auto e = WSACleanup();
     Assert::IsTrue(e != WSANOTINITIALISED);
     Assert::IsTrue(e != WSAENETDOWN);
