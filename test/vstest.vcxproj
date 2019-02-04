@@ -107,7 +107,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\guideline\include;$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -132,7 +132,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\guideline\include;$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -159,7 +159,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\guideline\include;$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -185,7 +185,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\guideline\include;$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -213,9 +213,12 @@
     <ClInclude Include="..\interface\coroutine\return.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="vs\socket_client.cpp" />
+    <ClCompile Include="vs\socket_server.cpp" />
     <ClCompile Include="vs\channel.cpp" />
     <ClCompile Include="vs\generator.cpp" />
     <ClCompile Include="vs\async_generator.cpp" />
+    <ClCompile Include="vs\resolver.cpp" />
     <ClCompile Include="vs\unplug.cpp" />
     <ClCompile Include="vs\wait_group.cpp" />
   </ItemGroup>

@@ -47,5 +47,14 @@
     <ClCompile Include="vs\wait_group.cpp">
       <Filter>test\vs</Filter>
     </ClCompile>
+    <ClCompile Include="vs\resolver.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="vs\socket_server.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
+    <ClCompile Include="vs\socket_client.cpp">
+      <Filter>test\vs</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

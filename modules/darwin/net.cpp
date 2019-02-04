@@ -5,31 +5,58 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/net.h>
+
+#include <fcntl.h>
 #include <sys/event.h>
+#include <unistd.h>
 
 static_assert(sizeof(ssize_t) <= sizeof(int64_t));
 
-// use 2 page for generator
-const size_t max_event_size = 2 * getpagesize() / sizeof(kevent64_s);
-
-auto kq_fd = kqueue();
-auto kq_dtor = gsl::finally([]() noexcept { close(kq_fd); });
-auto kq_events = std::make_unique<kevent64_s[]>(max_event_size);
-
-auto fetch_io_tasks() noexcept(false) -> enumerable<coroutine_task_t>
+struct kqueue_data_t
 {
-    // wait (indefinitely) for events ...
-    timespec* timeout{};
+    int fd;
+    const size_t capacity;
+    std::unique_ptr<kevent64_s[]> events;
 
-    auto count = kevent64(kq_fd, nullptr, 0,               //
-                          kq_events.get(), max_event_size, //
-                          0, timeout);
+  public:
+    kqueue_data_t() noexcept(false)
+        : fd{-1},
+          // use 2 page for polling
+          capacity{2 * getpagesize() / sizeof(kevent64_s)},
+          events{std::make_unique<kevent64_s[]>(capacity)}
+    {
+        fd = kqueue();
+        if (fd < 0)
+            throw std::system_error{errno, std::system_category(), "kqueue"};
+    }
+    ~kqueue_data_t() noexcept
+    {
+        close(fd);
+    }
+};
+
+kqueue_data_t kq{};
+
+using namespace std::chrono;
+
+auto wait_io_tasks(nanoseconds timeout) noexcept(false)
+    -> enumerable<coroutine_task_t>
+{
+    timespec ts{};
+    const auto sec = duration_cast<seconds>(timeout);
+    ts.tv_sec = sec.count();
+    ts.tv_nsec = (timeout - sec).count();
+
+    // wait for events ...
+    auto count = kevent64(kq.fd, nullptr, 0,            //
+                          kq.events.get(), kq.capacity, //
+                          0, &ts);
     if (count == -1)
         throw std::system_error{errno, std::system_category(), "kevent64"};
 
     for (auto i = 0; i < count; ++i)
     {
-        auto& ev = kq_events[i];
+        auto& ev = kq.events[i];
         auto& work = *reinterpret_cast<io_work_t*>(ev.udata);
         // need to pass error information from
         // kevent to io_work
@@ -49,20 +76,34 @@ bool io_work_t::ready() const noexcept
     return true;
 }
 
-auto send_to(int sd, const sockaddr_in& remote, buffer_view_t buffer,
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+
+auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to&
 {
     work.sd = sd;
     work.to = std::addressof(remote);
+    work.addrlen = sizeof(sockaddr_in);
+    work.buffer = buffer;
+    return *reinterpret_cast<io_send_to*>(std::addressof(work));
+}
+
+auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
+             io_work_t& work) noexcept(false) -> io_send_to&
+{
+    work.sd = sd;
+    work.to6 = std::addressof(remote);
+    work.addrlen = sizeof(sockaddr_in6);
     work.buffer = buffer;
     return *reinterpret_cast<io_send_to*>(std::addressof(work));
 }
 
 void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
 {
+    static_assert(sizeof(void*) <= sizeof(uint64_t));
     this->task = rh;
 
-    // system operation
+    // one-shot, write registration (edge-trigger)
     kevent64_s req{};
     req.ident = sd;
     req.filter = EVFILT_WRITE;
@@ -71,7 +112,7 @@ void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
     req.data = 0;
     req.udata = reinterpret_cast<uint64_t>(static_cast<io_work_t*>(this));
 
-    auto ec = kevent64(kq_fd, &req, 1, // change
+    auto ec = kevent64(kq.fd, &req, 1, // change
                        nullptr, 0, 0, nullptr);
     if (ec == -1)
         throw std::system_error{errno, std::system_category(), "kevent64"};
@@ -80,24 +121,125 @@ void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
 int64_t io_send_to::resume() noexcept
 {
     // now, available to send
-    auto sz
-        = sendto(sd, buffer.data(), buffer.size_bytes(), 0,
-                 reinterpret_cast<const sockaddr*>(to), sizeof(sockaddr_in));
-    // return follows that sendto
+    auto sz = sendto(sd, buffer.data(), buffer.size_bytes(), //
+                     0, ep, addrlen);
+    // follow that of `sendto`
     return sz;
 }
-auto recv_from(int sd, sockaddr_in& remote, buffer_view_t buffer,
+
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+
+auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from&
 {
     work.sd = sd;
-    work.to = std::addressof(remote);
+    work.from = std::addressof(remote);
+    work.addrlen = sizeof(sockaddr_in);
     work.buffer = buffer;
-
+    return *reinterpret_cast<io_recv_from*>(std::addressof(work));
+}
+auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
+               io_work_t& work) noexcept(false) -> io_recv_from&
+{
+    work.sd = sd;
+    work.from6 = std::addressof(remote);
+    work.addrlen = sizeof(sockaddr_in6);
+    work.buffer = buffer;
     return *reinterpret_cast<io_recv_from*>(std::addressof(work));
 }
 
 void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
 {
+    static_assert(sizeof(void*) <= sizeof(uint64_t));
+
+    this->task = rh;
+    // system operation
+    kevent64_s req{};
+    req.ident = sd;
+    req.filter = EVFILT_READ;
+    req.flags = EV_ADD | EV_ENABLE | EV_ONESHOT;
+    req.fflags = 0;
+    req.data = 0;
+
+    // it is possible to pass `rh` for the user data,
+    // but will pass this object to support
+    // receiving some values from `wait_io_tasks`
+    req.udata = reinterpret_cast<uint64_t>(static_cast<io_work_t*>(this));
+
+    // attach the event config
+    auto ec = kevent64(kq.fd, &req, 1, nullptr, 0, 0, nullptr);
+    if (ec == -1)
+        throw std::system_error{errno, std::system_category(), "kevent64"};
+}
+
+int64_t io_recv_from::resume() noexcept
+{
+    // recv event is detected
+    auto sz = recvfrom(sd, buffer.data(), buffer.size_bytes(), //
+                       0, ep, std::addressof(addrlen));
+    // follow that of `recvfrom`
+    return sz;
+}
+
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+
+auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+                 io_work_t& work) noexcept(false) -> io_send&
+{
+    static_assert(sizeof(socklen_t) == sizeof(uint32_t));
+
+    work.sd = sd;
+    work.addrlen = flag;
+    work.buffer = buffer;
+    return *reinterpret_cast<io_send*>(std::addressof(work));
+}
+
+void io_send::suspend(coroutine_task_t rh) noexcept(false)
+{
+    static_assert(sizeof(void*) <= sizeof(uint64_t));
+    this->task = rh;
+
+    // one-shot, write registration (edge-trigger)
+    kevent64_s req{};
+    req.ident = sd;
+    req.filter = EVFILT_WRITE;
+    req.flags = EV_ADD | EV_ENABLE | EV_ONESHOT;
+    req.fflags = 0;
+    req.data = 0;
+    req.udata = reinterpret_cast<uint64_t>(static_cast<io_work_t*>(this));
+
+    auto ec = kevent64(kq.fd, &req, 1, // change
+                       nullptr, 0, 0, nullptr);
+    if (ec == -1)
+        throw std::system_error{errno, std::system_category(), "kevent64"};
+}
+
+int64_t io_send::resume() noexcept
+{
+    // send buffer is available
+    const auto flag = this->addrlen;
+    const auto sz = send(sd, buffer.data(), buffer.size_bytes(), flag);
+    // follow that of `send`
+    return sz;
+}
+
+// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+
+auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+                 io_work_t& work) noexcept(false) -> io_recv&
+{
+    static_assert(sizeof(socklen_t) == sizeof(uint32_t));
+
+    work.sd = sd;
+    work.addrlen = flag;
+    work.buffer = buffer;
+    return *reinterpret_cast<io_recv*>(std::addressof(work));
+}
+
+void io_recv::suspend(coroutine_task_t rh) noexcept(false)
+{
+    static_assert(sizeof(void*) <= sizeof(uint64_t));
+
     this->task = rh;
     // system operation
     kevent64_s req{};
@@ -109,19 +251,17 @@ void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
     req.udata = reinterpret_cast<uint64_t>(static_cast<io_work_t*>(this));
 
     // attach the event config
-    auto ec = kevent64(kq_fd, &req, 1, nullptr, 0, 0, nullptr);
+    auto ec = kevent64(kq.fd, &req, 1, nullptr, 0, 0, nullptr);
     if (ec == -1)
         throw std::system_error{errno, std::system_category(), "kevent64"};
 }
 
-int64_t io_recv_from::resume() noexcept
+int64_t io_recv::resume() noexcept
 {
     // recv event is detected
-    socklen_t length = sizeof(sockaddr_in);
-    auto sz = recvfrom(sd, buffer.data(), buffer.size_bytes(), //
-                       0, reinterpret_cast<sockaddr*>(from),
-                       std::addressof(length));
-    // return follows that recvfrom
+    const auto flag = this->addrlen;
+    const auto sz = recv(sd, buffer.data(), buffer.size_bytes(), flag);
+    // follow that of `recv`
     return sz;
 }
 
@@ -177,4 +317,26 @@ void print_kevent(const kevent64_s& ev)
 
     printf(" ev.data\t: %lld\n", ev.data);
     printf(" ev.udata\t: %llx, %llu\n", ev.udata, ev.udata);
+}
+
+std::errc peer_name(uint64_t sd, sockaddr_in6& ep) noexcept
+{
+    socklen_t len = sizeof(sockaddr_in6);
+    std::errc ec{};
+
+    if (getpeername(static_cast<int>(sd), reinterpret_cast<sockaddr*>(&ep),
+                    &len))
+        ec = std::errc{errno};
+    return ec;
+}
+
+std::errc sock_name(uint64_t sd, sockaddr_in6& ep) noexcept
+{
+    socklen_t len = sizeof(sockaddr_in6);
+    std::errc ec{};
+
+    if (getsockname(static_cast<int>(sd), reinterpret_cast<sockaddr*>(&ep),
+                    &len))
+        ec = std::errc{errno};
+    return ec;
 }

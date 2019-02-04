@@ -354,7 +354,7 @@ class suspend_always
 };
 } // namespace std::experimental
 
-#ifdef __clang__
+#if defined(__clang__)
 //
 //  Note
 //      VC++ header expects msvc intrinsics. Redirect them to Clang intrinsics.
@@ -386,7 +386,7 @@ inline void _coro_destroy(void* addr)
     __builtin_coro_destroy(c);
 }
 
-#elif _MSC_VER
+#elif defined(_MSC_VER)
 
 inline bool _coro_finished(const msvc_frame_prefix* prefix) noexcept
 {

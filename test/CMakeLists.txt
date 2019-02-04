@@ -24,7 +24,8 @@ add_executable(coroutine_test
     # case/returns.cpp
     # case/generator.cpp
     # case/async_generator.cpp
-    net/aio.cpp
+    net/aio_udp.cpp
+    net/aio_tcp.cpp
     net/resolver.cpp
 
     switch_to/schedule.cpp 

@@ -6,15 +6,19 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/net.h>
 
+GSL_SUPPRESS(type .1)
+GSL_SUPPRESS(f .6)
 void CALLBACK onWorkDone(DWORD errc, DWORD sz, LPWSAOVERLAPPED pover,
                          DWORD flags) noexcept
 {
     UNREFERENCED_PARAMETER(flags);
+    UNREFERENCED_PARAMETER(errc);
+    UNREFERENCED_PARAMETER(sz);
 
     io_work_t* work = reinterpret_cast<io_work_t*>(pover);
     // this is expected value for x64
-    assert(work->Internal == errc);
-    assert(work->InternalHigh == sz);
+    work->Internal = errc;
+    work->InternalHigh = sz;
     work->task.resume();
 }
 
@@ -23,17 +27,38 @@ bool io_work_t::ready() const noexcept
     return false; // trigger await_suspend
 }
 
+uint32_t io_work_t::error() const noexcept
+{
+    static_assert(sizeof(DWORD) == sizeof(uint32_t));
+    return gsl::narrow_cast<uint32_t>(this->Internal);
+}
+
+auto zero_overlapped(gsl::not_null<io_work_t*> work) noexcept
+    -> gsl::not_null<OVERLAPPED*>
+{
+    OVERLAPPED* pover = work;
+    *pover = OVERLAPPED{};
+    return pover;
+}
+
+GSL_SUPPRESS(type .1)
+auto make_wsa_buf(buffer_view_t v) noexcept -> WSABUF
+{
+    WSABUF buf{}; // expect NRVO
+    buf.buf = reinterpret_cast<char*>(v.data());
+    buf.len = gsl::narrow_cast<ULONG>(v.size_bytes());
+    return buf;
+}
+
+GSL_SUPPRESS(type .1)
 auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to&
 {
     static_assert(sizeof(SOCKET) == sizeof(uint64_t));
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
-    // start i/o request construction.
     work.buffer = buffer;
     work.to6 = std::addressof(remote);
-
-    // forward the other args using OVERLAPPED
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
 
@@ -41,47 +66,33 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_send_to*>(std::addressof(work));
 }
 
+GSL_SUPPRESS(type .1)
 auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to&
 {
     static_assert(sizeof(SOCKET) == sizeof(uint64_t));
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
-    // start i/o request construction.
     work.buffer = buffer;
     work.to = std::addressof(remote);
-
-    // forward the other args using OVERLAPPED
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
-
     // lead to co_await operations with `io_send_to` type
     return *reinterpret_cast<io_send_to*>(std::addressof(work));
 }
 
 void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
 {
-    const auto addrlen = static_cast<socklen_t>(this->InternalHigh);
+    const auto addrlen = gsl::narrow_cast<socklen_t>(this->InternalHigh);
     const auto flag = DWORD{0};
-    // socket must be known before zero the overlapped
-    const auto sd = static_cast<SOCKET>(this->Internal);
-    WSABUF buffers[1]{};
+    const auto sd = gsl::narrow_cast<SOCKET>(this->Internal);
+    auto bufs = make_wsa_buf(this->buffer);
 
-    // for now, scatter-gather is not supported
-    buffers[0].buf = reinterpret_cast<char*>(this->buffer.data());
-    buffers[0].len = static_cast<ULONG>(this->buffer.size_bytes());
-
-    // coroutine frame for the i/o callback
-    this->task = rh;
-
-    // zero the memory
-    OVERLAPPED* pover = this;
-    *pover = OVERLAPPED{};
-
-    // rely on Overlapped Callback
-    //  in case of IOCP, callback must be null
-    ::WSASendTo(sd, buffers, 1, nullptr, flag, //
-                this->ep, addrlen, pover, onWorkDone);
+    this->task = rh;               // coroutine for the i/o callback
+    ::WSASendTo(sd, &bufs, 1,      //
+                nullptr, flag,     //
+                this->ep, addrlen, //
+                zero_overlapped(this), onWorkDone);
 
     const auto ec = WSAGetLastError();
     if (ec == NO_ERROR || ec == ERROR_IO_PENDING)
@@ -92,21 +103,18 @@ void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_send_to::resume() noexcept
 {
-    // need error handling
-    return static_cast<uint32_t>(this->InternalHigh);
+    return gsl::narrow_cast<int64_t>(this->InternalHigh);
 }
 
+GSL_SUPPRESS(type .1)
 auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from&
 {
     static_assert(sizeof(SOCKET) == sizeof(uint64_t));
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
-    // start i/o request construction.
     work.buffer = buffer;
     work.from6 = std::addressof(remote);
-
-    // forward the other args using OVERLAPPED
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
 
@@ -114,17 +122,15 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_recv_from*>(std::addressof(work));
 }
 
+GSL_SUPPRESS(type .1)
 auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from&
 {
     static_assert(sizeof(SOCKET) == sizeof(uint64_t));
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
-    // start i/o request construction.
     work.buffer = buffer;
     work.from = std::addressof(remote);
-
-    // forward the other args using OVERLAPPED
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
 
@@ -134,26 +140,16 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
 
 void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
 {
-    auto addrlen = static_cast<socklen_t>(this->InternalHigh);
+    const auto sd = gsl::narrow_cast<SOCKET>(this->Internal);
+    auto addrlen = gsl::narrow_cast<socklen_t>(this->InternalHigh);
     auto flag = DWORD{0};
-    // socket must be known before zero the overlapped
-    const auto sd = static_cast<SOCKET>(this->Internal);
-    WSABUF buffers[1]{};
+    auto buf = make_wsa_buf(this->buffer);
 
-    // for now, scatter-gather is not supported
-    buffers[0].buf = reinterpret_cast<char*>(this->buffer.data());
-    buffers[0].len = static_cast<ULONG>(this->buffer.size_bytes());
-
-    // coroutine frame for the i/o callback
-    task = rh;
-
-    OVERLAPPED* pover = this;
-    *pover = OVERLAPPED{}; // zero the memory
-
-    // rely on Overlapped Callback
-    //  in case of IOCP, callback must be null
-    ::WSARecvFrom(sd, buffers, 1, nullptr, &flag, //
-                  this->ep, &addrlen, pover, onWorkDone);
+    this->task = rh;                  // coroutine for the i/o callback
+    ::WSARecvFrom(sd, &buf, 1,        //
+                  nullptr, &flag,     //
+                  this->ep, &addrlen, //
+                  zero_overlapped(this), onWorkDone);
 
     const auto ec = WSAGetLastError();
     if (ec == NO_ERROR || ec == ERROR_IO_PENDING)
@@ -164,21 +160,77 @@ void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_recv_from::resume() noexcept
 {
-    // need error handling
-    return static_cast<uint32_t>(this->InternalHigh);
+    return gsl::narrow_cast<int64_t>(this->InternalHigh);
 }
 
-class wsa_api_data : public WSADATA
+GSL_SUPPRESS(type .1)
+auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+                 io_work_t& work) noexcept(false) -> io_send&
 {
-  public:
-    wsa_api_data() noexcept(false)
-    {
-        ::WSAStartup(MAKEWORD(2, 2), this);
-    }
-    ~wsa_api_data() noexcept
-    {
-        ::WSACleanup();
-    }
-};
+    static_assert(sizeof(SOCKET) == sizeof(uint64_t));
+    static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
-wsa_api_data trigger_winsock_load{};
+    work.buffer = buffer;
+    work.Internal = sd;
+    work.InternalHigh = flag;
+    // trigger co_await operations with `io_send` type
+    return *reinterpret_cast<io_send*>(std::addressof(work));
+}
+
+void io_send::suspend(coroutine_task_t rh) noexcept(false)
+{
+    const auto sd = gsl::narrow_cast<SOCKET>(this->Internal);
+    const auto flag = gsl::narrow_cast<DWORD>(this->InternalHigh);
+    auto buf = make_wsa_buf(this->buffer);
+
+    this->task = rh;       // coroutine frame for
+    ::WSASend(sd, &buf, 1, //   overlapped callback
+              nullptr, flag, zero_overlapped(this), onWorkDone);
+
+    const auto ec = WSAGetLastError();
+    if (ec == NO_ERROR || ec == ERROR_IO_PENDING)
+        return; // ok. expected for async i/o
+
+    throw std::system_error{ec, std::system_category(), "WSASend"};
+}
+
+int64_t io_send::resume() noexcept
+{
+    return gsl::narrow_cast<int64_t>(this->InternalHigh);
+}
+
+GSL_SUPPRESS(type .1)
+auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+                 io_work_t& work) noexcept(false) -> io_recv&
+{
+    static_assert(sizeof(SOCKET) == sizeof(uint64_t));
+    static_assert(sizeof(HANDLE) == sizeof(SOCKET));
+
+    work.buffer = buffer;
+    work.Internal = sd;
+    work.InternalHigh = flag;
+    // lead to co_await operations with `io_recv` type
+    return *reinterpret_cast<io_recv*>(std::addressof(work));
+}
+
+void io_recv::suspend(coroutine_task_t rh) noexcept(false)
+{
+    const auto sd = gsl::narrow_cast<SOCKET>(this->Internal);
+    auto flag = gsl::narrow_cast<DWORD>(this->InternalHigh);
+    auto buf = make_wsa_buf(this->buffer);
+
+    this->task = rh;       // coroutine frame for
+    ::WSARecv(sd, &buf, 1, //   overlapped callback
+              nullptr, &flag, zero_overlapped(this), onWorkDone);
+
+    const auto ec = WSAGetLastError();
+    if (ec == NO_ERROR || ec == ERROR_IO_PENDING)
+        return; // ok. expected for async i/o
+
+    throw std::system_error{ec, std::system_category(), "WSARecv"};
+}
+
+int64_t io_recv::resume() noexcept
+{
+    return gsl::narrow_cast<int64_t>(this->InternalHigh);
+}

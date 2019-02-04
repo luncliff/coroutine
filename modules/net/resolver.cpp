@@ -7,26 +7,38 @@
 #include <coroutine/net.h>
 #include <gsl/gsl>
 
-char buf[NI_MAXHOST]{};
+std::array<char, NI_MAXHOST> buf{};
 auto host_name() noexcept -> gsl::czstring<NI_MAXHOST>
 {
-    ::gethostname(buf, NI_MAXHOST);
-    return buf;
+    ::gethostname(buf.data(), buf.size());
+    return buf.data();
 }
 
-uint32_t nameof(const sockaddr_in6& ep, gsl::zstring<NI_MAXHOST> name) noexcept
+GSL_SUPPRESS(type .1)
+std::errc nameof(const sockaddr_in6& ep, gsl::zstring<NI_MAXHOST> name) noexcept
 {
     constexpr int flag = NI_NUMERICHOST | NI_NUMERICSERV;
     const sockaddr* ptr = reinterpret_cast<const sockaddr*>(&ep);
-    // Success : zero
-    // Failure : non-zero uint32_t code
-    return ::getnameinfo(ptr, sizeof(sockaddr_in6), name, NI_MAXHOST, nullptr,
-                         0, flag);
+    const auto ec = ::getnameinfo(ptr, sizeof(sockaddr_in6), name, NI_MAXHOST,
+                                  nullptr, 0, flag);
+    return static_cast<std::errc>(ec);
 }
 
-uint32_t nameof(const sockaddr_in6& ep, //
-                gsl::zstring<NI_MAXHOST> name,
-                gsl::zstring<NI_MAXSERV> serv) noexcept
+GSL_SUPPRESS(type .1)
+std::errc nameof(const sockaddr_in& ep, //
+                 gsl::zstring<NI_MAXHOST> name) noexcept
+{
+    constexpr int flag = NI_NUMERICHOST | NI_NUMERICSERV;
+    const sockaddr* ptr = reinterpret_cast<const sockaddr*>(&ep);
+    const auto ec = ::getnameinfo(ptr, sizeof(sockaddr_in), name, NI_MAXHOST,
+                                  nullptr, 0, flag);
+    return static_cast<std::errc>(ec);
+}
+
+GSL_SUPPRESS(type .1)
+std::errc nameof(const sockaddr_in6& ep, //
+                 gsl::zstring<NI_MAXHOST> name,
+                 gsl::zstring<NI_MAXSERV> serv) noexcept
 {
     //      NI_NAMEREQD
     //      NI_DGRAM
@@ -37,11 +49,14 @@ uint32_t nameof(const sockaddr_in6& ep, //
     const sockaddr* ptr = reinterpret_cast<const sockaddr*>(&ep);
     // Success : zero
     // Failure : non-zero uint32_t code
-    return ::getnameinfo(ptr, sizeof(sockaddr_in6), name, NI_MAXHOST, serv,
-                         NI_MAXSERV, flag);
+    const auto ec = ::getnameinfo(ptr, sizeof(sockaddr_in6), name, NI_MAXHOST,
+                                  serv, NI_MAXSERV, flag);
+    return static_cast<std::errc>(ec);
 }
 
-GSL_SUPPRESS(es.76)
+GSL_SUPPRESS(es .76)
+GSL_SUPPRESS(type .1)
+GSL_SUPPRESS(gsl.util)
 auto resolve(const addrinfo& hint, //
              gsl::czstring<NI_MAXHOST> name,
              gsl::czstring<NI_MAXSERV> serv) noexcept
@@ -49,10 +64,11 @@ auto resolve(const addrinfo& hint, //
 {
     addrinfo* list = nullptr;
 
-    if (auto ec = ::getaddrinfo(name, serv, //
+    if (const auto ec = ::getaddrinfo(name, serv, //
                                 std::addressof(hint), &list))
     {
-        fputs(gai_strerror(ec), stderr);
+        const auto msg = gai_strerror(ec);
+        fputs(msg, stderr);
         co_return;
     }
 
@@ -61,8 +77,11 @@ auto resolve(const addrinfo& hint, //
     //      when the generator is destroyed
     auto d1 = gsl::finally([list]() noexcept { ::freeaddrinfo(list); });
 
-    for (addrinfo* iter = list; iter; iter = iter->ai_next)
+    for (addrinfo* iter = list; nullptr != iter; iter = iter->ai_next)
     {
+        if (iter->ai_family != AF_INET6)
+            continue;
+
         sockaddr_in6& ep = *reinterpret_cast<sockaddr_in6*>(iter->ai_addr);
         // yield and proceed
         co_yield ep;

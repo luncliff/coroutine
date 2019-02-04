@@ -87,8 +87,6 @@ int64_t io_send_to::resume() noexcept
     auto sz = sendto(sd, buffer.data(), buffer.size_bytes(),   //
                      0, reinterpret_cast<const sockaddr*>(to), //
                      sizeof(sockaddr_in));
-    if (sz == -1)
-        fputs(strerror(errno), stderr);
     return sz;
 }
 auto recv_from(int sd, sockaddr_in& remote, buffer_view_t buffer,
@@ -117,8 +115,6 @@ int64_t io_recv_from::resume() noexcept
     auto sz = recvfrom(sd, buffer.data(), buffer.size_bytes(), //
                        0, reinterpret_cast<sockaddr*>(from),
                        std::addressof(length));
-    if (sz == -1)
-        fputs(strerror(errno), stderr);
     // return follows that recvfrom
     return sz;
 }

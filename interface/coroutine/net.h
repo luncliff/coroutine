@@ -34,21 +34,20 @@
 
 #include <coroutine/enumerable.hpp>
 
+#include <chrono>
 #include <gsl/gsl>
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #include <WS2tcpip.h>
 #include <WinSock2.h>
 #include <ws2def.h>
-
 #pragma comment(lib, "Ws2_32.lib")
 
 using io_control_block = OVERLAPPED;
 
-#elif __unix__ || __linux__
-#include <fcntl.h>
+#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
 #include <netdb.h>
-#include <netinet/ip.h>
+#include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -57,6 +56,7 @@ struct io_control_block
     int64_t sd;
     socklen_t addrlen;
 };
+
 #endif
 
 using coroutine_task_t = std::experimental::coroutine_handle<void>;
@@ -76,6 +76,7 @@ struct _INTERFACE_ io_work_t : public io_control_block
 
   public:
     bool ready() const noexcept;
+    uint32_t error() const noexcept;
 };
 static_assert(sizeof(buffer_view_t) <= sizeof(void*) * 2);
 static_assert(sizeof(io_work_t) <= 64);
@@ -100,6 +101,18 @@ class io_send_to final : public io_work_t
         return this->resume();
     }
 };
+static_assert(sizeof(io_send_to) == sizeof(io_work_t));
+
+[[nodiscard]] _INTERFACE_ auto
+    send_to(uint64_t sd, const sockaddr_in& remote, //
+            buffer_view_t buffer, io_work_t& work) noexcept(false)
+        -> io_send_to&;
+
+[[nodiscard]] _INTERFACE_ //
+    auto
+    send_to(uint64_t sd, const sockaddr_in6& remote, //
+            buffer_view_t buffer, io_work_t& work) noexcept(false)
+        -> io_send_to&;
 
 class io_recv_from final : public io_work_t
 {
@@ -121,42 +134,94 @@ class io_recv_from final : public io_work_t
         return this->resume();
     }
 };
-
-static_assert(sizeof(io_send_to) == sizeof(io_work_t));
 static_assert(sizeof(io_recv_from) == sizeof(io_work_t));
 
-_INTERFACE_
-auto send_to(uint64_t sd, const sockaddr_in& remote, //
-             buffer_view_t buffer, io_work_t& work) noexcept(false)
-    -> io_send_to&;
+[[nodiscard]] _INTERFACE_ //
+    auto
+    recv_from(uint64_t sd, sockaddr_in6& remote, //
+              buffer_view_t buffer, io_work_t& work) noexcept(false)
+        -> io_recv_from&;
 
-_INTERFACE_
-auto send_to(uint64_t sd, const sockaddr_in6& remote, //
-             buffer_view_t buffer, io_work_t& work) noexcept(false)
-    -> io_send_to&;
+[[nodiscard]] _INTERFACE_ //
+    auto
+    recv_from(uint64_t sd, sockaddr_in& remote, //
+              buffer_view_t buffer, io_work_t& work) noexcept(false)
+        -> io_recv_from&;
 
-_INTERFACE_
-auto recv_from(uint64_t sd, sockaddr_in6& remote, //
-               buffer_view_t buffer, io_work_t& work) noexcept(false)
-    -> io_recv_from&;
+class io_send final : public io_work_t
+{
+  public:
+    _INTERFACE_ void suspend(coroutine_task_t rh) noexcept(false);
+    _INTERFACE_ int64_t resume() noexcept;
 
-_INTERFACE_
-auto recv_from(uint64_t sd, sockaddr_in& remote, //
-               buffer_view_t buffer, io_work_t& work) noexcept(false)
-    -> io_recv_from&;
+  public:
+    auto await_ready() const noexcept
+    {
+        return this->ready();
+    }
+    auto await_suspend(coroutine_task_t rh) noexcept(false)
+    {
+        return this->suspend(rh);
+    }
+    auto await_resume() noexcept
+    {
+        return this->resume();
+    }
+};
+static_assert(sizeof(io_send) == sizeof(io_work_t));
 
-#ifndef _MSC_VER
+[[nodiscard]] _INTERFACE_ //
+    auto
+    send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+                io_work_t& work) noexcept(false) -> io_send&;
+
+class io_recv final : public io_work_t
+{
+  public:
+    _INTERFACE_ void suspend(coroutine_task_t rh) noexcept(false);
+    _INTERFACE_ int64_t resume() noexcept;
+
+  public:
+    auto await_ready() const noexcept
+    {
+        return this->ready();
+    }
+    auto await_suspend(coroutine_task_t rh) noexcept(false)
+    {
+        return this->suspend(rh);
+    }
+    auto await_resume() noexcept
+    {
+        return this->resume();
+    }
+};
+static_assert(sizeof(io_recv) == sizeof(io_work_t));
+
+[[nodiscard]] _INTERFACE_ //
+    auto
+    recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+                io_work_t& work) noexcept(false) -> io_recv&;
+
+#if defined(_MSC_VER)
+#else
 
 // - Note
 //      Caller must continue loop without break
 //      so that there is no leak of event
 _INTERFACE_
-auto fetch_io_tasks() noexcept(false) -> enumerable<coroutine_task_t>;
+auto wait_io_tasks(std::chrono::nanoseconds timeout) noexcept(false)
+    -> enumerable<coroutine_task_t>;
 
 #endif
 
 _INTERFACE_
 auto host_name() noexcept -> gsl::czstring<NI_MAXHOST>;
+
+_INTERFACE_
+std::errc peer_name(uint64_t sd, sockaddr_in6& ep) noexcept;
+
+_INTERFACE_
+std::errc sock_name(uint64_t sd, sockaddr_in6& ep) noexcept;
 
 _INTERFACE_
 auto resolve(const addrinfo& hint, //
@@ -165,12 +230,16 @@ auto resolve(const addrinfo& hint, //
     -> enumerable<sockaddr_in6>;
 
 _INTERFACE_
-uint32_t nameof(const sockaddr_in6& ep, //
-                gsl::zstring<NI_MAXHOST> name) noexcept;
+std::errc nameof(const sockaddr_in& ep, //
+                 gsl::zstring<NI_MAXHOST> name) noexcept;
 
 _INTERFACE_
-uint32_t nameof(const sockaddr_in6& ep, //
-                gsl::zstring<NI_MAXHOST> name,
-                gsl::zstring<NI_MAXSERV> serv) noexcept;
+std::errc nameof(const sockaddr_in6& ep, //
+                 gsl::zstring<NI_MAXHOST> name) noexcept;
+
+_INTERFACE_
+std::errc nameof(const sockaddr_in6& ep, //
+                 gsl::zstring<NI_MAXHOST> name,
+                 gsl::zstring<NI_MAXSERV> serv) noexcept;
 
 #endif // COROUTINE_NET_IO_H
