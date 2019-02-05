@@ -58,10 +58,7 @@ for:
   before_test:
     - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/coroutine_vstest.dll"
   test_script:
-    - ps: vstest.console.exe $TestDLL /Tests:generator
-    - ps: vstest.console.exe $TestDLL /Tests:unplug
-    - ps: vstest.console.exe $TestDLL /Tests:channel
-    - ps: vstest.console.exe $TestDLL /Tests:wait_group
+    - ps: vstest.console.exe $TestDLL
 
 # clang-cl: use CMake + Ninja + Clang
 # The build step expects cmdlet environment...
@@ -96,7 +93,4 @@ for:
     - ps: Copy-Item ./modules/coroutine.dll ./test
     - ps: Pop-Location
   test_script:
-    - ps: ./build/test/coroutine_test.exe [thread]
-    - ps: ./build/test/coroutine_test.exe [generic]
-    - ps: ./build/test/coroutine_test.exe [messaging]
-    - ps: ./build/test/coroutine_test.exe [network]
+    - ps: ./build/test/coroutine_test.exe

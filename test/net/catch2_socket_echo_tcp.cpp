@@ -36,7 +36,7 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
 
     endpoint_t ep{};
     ep.in6.sin6_family = hint.ai_family;
-    ep.in6.sin6_addr = in6addr_loopback;
+    ep.in6.sin6_addr = in6addr_any;
     ep.in6.sin6_port = htons(test_listen_port);
     socket_bind(ln, ep.in6);
     socket_listen(ln);

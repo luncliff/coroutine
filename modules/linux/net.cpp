@@ -56,7 +56,8 @@ struct event_data_t
     {
         epoll_event req{}; // just prevent non-null input
         const auto ec = epoll_ctl(fd, EPOLL_CTL_DEL, sd, &req);
-        assert(ec == 0);
+        if (ec != 0)
+            throw system_error{errno, system_category(), "epoll_ctl"};
     }
 
     auto wait(int timeout) noexcept(false) -> enumerable<coroutine_task_t>
