@@ -42,12 +42,11 @@ class socket_udp_multicast_test : public TestClass<socket_udp_multicast_test>
         // C didn't
     }
 
-    TEST_METHOD(socket_udp_multicast_with_loopback)
-    {
-        // A send packet
-
-        // B recv packet
-        // A recv packet
-        // C didn't
-    }
+    //TEST_METHOD(socket_udp_multicast_with_loopback)
+    //{
+    //    // A send packet
+    //    // B recv packet
+    //    // A recv packet
+    //    // C didn't
+    //}
 };

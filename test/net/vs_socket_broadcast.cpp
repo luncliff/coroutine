@@ -35,16 +35,13 @@ class socket_tcp_broadcast_test
         // stop the service
     }
 
-    TEST_METHOD(socket_tcp_broadcast)
-    {
-        // connect 3 socket. A, B, C
-
-        // A send packet
-
-        // B recv packet
-        // C recv packet
-        // A recv packet
-
-        // A == B == C
-    }
+    //TEST_METHOD(socket_tcp_broadcast)
+    //{
+    //    // connect 3 socket. A, B, C
+    //    // A send packet
+    //    // B recv packet
+    //    // C recv packet
+    //    // A recv packet
+    //    // A == B == C
+    //}
 };

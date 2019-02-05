@@ -211,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="net\vs_resolver.cpp" />
+    <ClCompile Include="net\vs_socket.cpp" />
     <ClCompile Include="net\vs_socket_broadcast.cpp" />
     <ClCompile Include="net\vs_socket_echo_tcp.cpp" />
     <ClCompile Include="net\vs_socket_echo_udp.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="..\interface\coroutine\frame.h" />
     <ClInclude Include="..\interface\coroutine\net.h" />
     <ClInclude Include="..\interface\coroutine\return.h" />
+    <ClInclude Include="net\socket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

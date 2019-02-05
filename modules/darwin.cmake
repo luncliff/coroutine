@@ -8,7 +8,6 @@ if(NOT UNIX)
     message(FATAL_ERROR "Expect UNIX platform. Current platform is ${CMAKE_SYSTEM}")
 endif()
 
-# Rely on POSIX API
 target_sources(${PROJECT_NAME}
 PRIVATE
     posix/switch_to.cpp
@@ -31,7 +30,7 @@ PRIVATE
 )
 
 if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-    # code coverage option lead to compiler crash
+    # code coverage option can lead to compiler crash
     # list(APPEND CMAKE_CXX_FLAGS "--coverage")
     target_compile_options(${PROJECT_NAME}
     PRIVATE

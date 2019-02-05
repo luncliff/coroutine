@@ -31,7 +31,7 @@ bool io_work_t::ready() const noexcept
 uint32_t io_work_t::error() const noexcept
 {
     static_assert(sizeof(DWORD) == sizeof(uint32_t));
-    return gsl::narrow_cast<uint32_t>(this->Internal);
+    return gsl::narrow_cast<uint32_t>(Internal);
 }
 
 auto zero_overlapped(gsl::not_null<io_work_t*> work) noexcept
@@ -84,15 +84,14 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
 
 void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
 {
-    const auto addrlen = gsl::narrow_cast<socklen_t>(this->InternalHigh);
+    const auto addrlen = gsl::narrow_cast<socklen_t>(InternalHigh);
     const auto flag = DWORD{0};
-    const auto sd = gsl::narrow_cast<SOCKET>(this->Internal);
-    auto bufs = make_wsa_buf(this->buffer);
+    const auto sd = gsl::narrow_cast<SOCKET>(Internal);
+    auto bufs = make_wsa_buf(buffer);
 
-    this->task = rh;               // coroutine for the i/o callback
-    ::WSASendTo(sd, &bufs, 1,      //
-                nullptr, flag,     //
-                this->ep, addrlen, //
+    task = rh;                                // coroutine for the i/o callback
+    ::WSASendTo(sd, &bufs, 1,                 //
+                nullptr, flag, addr, addrlen, //
                 zero_overlapped(this), onWorkDone);
 
     const auto ec = WSAGetLastError();
@@ -104,7 +103,7 @@ void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_send_to::resume() noexcept
 {
-    return gsl::narrow_cast<int64_t>(this->InternalHigh);
+    return gsl::narrow_cast<int64_t>(InternalHigh);
 }
 
 GSL_SUPPRESS(type .1)
@@ -141,15 +140,14 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
 
 void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
 {
-    const auto sd = gsl::narrow_cast<SOCKET>(this->Internal);
-    auto addrlen = gsl::narrow_cast<socklen_t>(this->InternalHigh);
+    const auto sd = gsl::narrow_cast<SOCKET>(Internal);
+    auto addrlen = gsl::narrow_cast<socklen_t>(InternalHigh);
     auto flag = DWORD{0};
-    auto buf = make_wsa_buf(this->buffer);
+    auto buf = make_wsa_buf(buffer);
 
-    this->task = rh;                  // coroutine for the i/o callback
-    ::WSARecvFrom(sd, &buf, 1,        //
-                  nullptr, &flag,     //
-                  this->ep, &addrlen, //
+    task = rh;                 // coroutine for the i/o callback
+    ::WSARecvFrom(sd, &buf, 1, //
+                  nullptr, &flag, addr, &addrlen, //
                   zero_overlapped(this), onWorkDone);
 
     const auto ec = WSAGetLastError();
@@ -161,7 +159,7 @@ void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_recv_from::resume() noexcept
 {
-    return gsl::narrow_cast<int64_t>(this->InternalHigh);
+    return gsl::narrow_cast<int64_t>(InternalHigh);
 }
 
 GSL_SUPPRESS(type .1)
@@ -180,11 +178,11 @@ auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
 
 void io_send::suspend(coroutine_task_t rh) noexcept(false)
 {
-    const auto sd = gsl::narrow_cast<SOCKET>(this->Internal);
-    const auto flag = gsl::narrow_cast<DWORD>(this->InternalHigh);
-    auto buf = make_wsa_buf(this->buffer);
+    const auto sd = gsl::narrow_cast<SOCKET>(Internal);
+    const auto flag = gsl::narrow_cast<DWORD>(InternalHigh);
+    auto buf = make_wsa_buf(buffer);
 
-    this->task = rh;       // coroutine frame for
+    task = rh;             // coroutine frame for
     ::WSASend(sd, &buf, 1, //   overlapped callback
               nullptr, flag, zero_overlapped(this), onWorkDone);
 
@@ -197,7 +195,7 @@ void io_send::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_send::resume() noexcept
 {
-    return gsl::narrow_cast<int64_t>(this->InternalHigh);
+    return gsl::narrow_cast<int64_t>(InternalHigh);
 }
 
 GSL_SUPPRESS(type .1)
@@ -216,11 +214,11 @@ auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
 
 void io_recv::suspend(coroutine_task_t rh) noexcept(false)
 {
-    const auto sd = gsl::narrow_cast<SOCKET>(this->Internal);
-    auto flag = gsl::narrow_cast<DWORD>(this->InternalHigh);
-    auto buf = make_wsa_buf(this->buffer);
+    const auto sd = gsl::narrow_cast<SOCKET>(Internal);
+    auto flag = gsl::narrow_cast<DWORD>(InternalHigh);
+    auto buf = make_wsa_buf(buffer);
 
-    this->task = rh;       // coroutine frame for
+    task = rh;             // coroutine frame for
     ::WSARecv(sd, &buf, 1, //   overlapped callback
               nullptr, &flag, zero_overlapped(this), onWorkDone);
 
@@ -233,5 +231,5 @@ void io_recv::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_recv::resume() noexcept
 {
-    return gsl::narrow_cast<int64_t>(this->InternalHigh);
+    return gsl::narrow_cast<int64_t>(InternalHigh);
 }

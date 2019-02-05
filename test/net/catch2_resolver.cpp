@@ -6,16 +6,16 @@
 
 #include <coroutine/net.h>
 
-TEST_CASE("get name info", "[network]")
+TEST_CASE("getnameinfo", "[network]")
 {
-    SECTION("host name")
+    SECTION("host_name")
     {
         const auto name = host_name();
         CAPTURE(name);
         REQUIRE(name); // non-null
     }
 
-    SECTION("name of an address")
+    SECTION("nameof")
     {
         auto buffer = std::make_unique<char[]>(NI_MAXHOST);
         auto name = buffer.get(); // expect gsl::zstring<NI_MAXHOST>
@@ -45,7 +45,7 @@ TEST_CASE("get name info", "[network]")
     }
 }
 
-TEST_CASE("get addr info", "[network]")
+TEST_CASE("getaddrinfo", "[network]")
 {
     auto count = 0u;
     addrinfo hint{};

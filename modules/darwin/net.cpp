@@ -76,6 +76,11 @@ bool io_work_t::ready() const noexcept
     return true;
 }
 
+uint32_t io_work_t::error() const noexcept
+{
+    return errc;
+}
+
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
 auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
@@ -120,10 +125,9 @@ void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_send_to::resume() noexcept
 {
-    // now, available to send
     auto sz = sendto(sd, buffer.data(), buffer.size_bytes(), //
                      0, addr, addrlen);
-    // follow that of `sendto`
+    errc = sz < 0 ? errno : 0;
     return sz;
 }
 
@@ -174,10 +178,9 @@ void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_recv_from::resume() noexcept
 {
-    // recv event is detected
     auto sz = recvfrom(sd, buffer.data(), buffer.size_bytes(), //
                        0, addr, addressof(addrlen));
-    // follow that of `recvfrom`
+    errc = sz < 0 ? errno : 0;
     return sz;
 }
 
@@ -216,10 +219,9 @@ void io_send::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_send::resume() noexcept
 {
-    // send buffer is available
     const auto flag = addrlen;
     const auto sz = send(sd, buffer.data(), buffer.size_bytes(), flag);
-    // follow that of `send`
+    errc = sz < 0 ? errno : 0;
     return sz;
 }
 
@@ -258,10 +260,9 @@ void io_recv::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_recv::resume() noexcept
 {
-    // recv event is detected
     const auto flag = addrlen;
     const auto sz = recv(sd, buffer.data(), buffer.size_bytes(), flag);
-    // follow that of `recv`
+    errc = sz < 0 ? errno : 0;
     return sz;
 }
 

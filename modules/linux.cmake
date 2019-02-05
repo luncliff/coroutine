@@ -8,7 +8,6 @@ if(NOT UNIX)
     message(FATAL_ERROR "Expect UNIX platform. Current platform is ${CMAKE_SYSTEM}")
 endif()
 
-# Rely on POSIX API
 target_sources(${PROJECT_NAME}
 PRIVATE
     posix/switch_to.cpp

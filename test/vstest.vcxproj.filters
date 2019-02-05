@@ -24,6 +24,9 @@
     <ClCompile Include="net\vs_socket_echo_udp.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="net\vs_socket.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\interface\coroutine\enumerable.hpp">
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="..\interface\coroutine\return.h">
       <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="net\socket.h">
+      <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

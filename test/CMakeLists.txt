@@ -17,6 +17,7 @@ endif()
 add_executable(coroutine_test
     catch2_entry.cpp
 
+    net/socket.h
     net/catch2_resolver.cpp
     net/catch2_socket.cpp
     net/catch2_socket_echo_tcp.cpp
@@ -48,7 +49,12 @@ PUBLIC
     Catch2::Catch2
 )
 
-if(UNIX)
+if(WIN32)
+    target_compile_definitions(coroutine_test
+    PRIVATE
+        _CRT_SECURE_NO_WARNINGS
+    )
+elseif(UNIX)
     # code coverage option lead to compiler crash
     # list(APPEND CMAKE_CXX_FLAGS "--coverage")
     target_link_libraries(coroutine_test

@@ -46,6 +46,7 @@
 using io_control_block = OVERLAPPED;
 
 #elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
+#include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>

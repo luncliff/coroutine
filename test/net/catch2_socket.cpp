@@ -4,81 +4,84 @@
 //
 #include <catch2/catch.hpp>
 
-#include <coroutine/net.h>
-#include <coroutine/return.h>
-#include <gsl/gsl>
+#include "./socket.h"
 
-#include <fcntl.h>
-#include <sys/socket.h>
-#include <unistd.h>
+#if defined(_MSC_VER)
+#include <Ws2tcpip.h>
+#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
+#include <netinet/tcp.h>
+#endif
 
 using namespace std;
 using namespace gsl;
 
-void apply_nonblock_async(int64_t sd)
+int64_t socket_create(const addrinfo& hint)
+{
+    int64_t sd = socket(hint.ai_family, hint.ai_socktype, hint.ai_protocol);
+    if (sd == -1)
+        FAIL(strerror(errno));
+    return sd;
+}
+
+auto socket_create(const addrinfo& hint, size_t count) -> enumerable<int64_t>
+{
+    while (count--)
+    {
+        auto sd = socket_create(hint);
+        co_yield sd;
+    }
+}
+
+void socket_close(int64_t sd)
+{
+#if defined(_MSC_VER)
+    shutdown(sd, SD_BOTH);
+    closesocket(sd);
+#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
+    shutdown(sd, SHUT_RDWR);
+    close(sd);
+#endif
+}
+
+void socket_bind(int64_t sd, sockaddr_in6& ep)
+{
+    // bind socket and address
+    if (::bind(sd, reinterpret_cast<sockaddr*>(&ep), sizeof(ep)) != 0)
+        FAIL(strerror(errno));
+}
+
+void socket_listen(int64_t sd)
+{
+    if (listen(sd, 7) != 0)
+        FAIL(strerror(errno));
+}
+
+void socket_set_option_nonblock(int64_t sd)
 {
 #if defined(_MSC_VER)
     u_long mode = TRUE;
     REQUIRE(ioctlsocket(sd, FIONBIO, &mode) == NO_ERROR);
 #elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
     // make non-block/async
-    // REQUIRE(fcntl(sd, F_SETFL, O_NONBLOCK | O_ASYNC | fcntl(sd, F_GETFL, 0))
-    //         != -1);
-    REQUIRE(fcntl(sd, F_SETFL, O_NONBLOCK) != -1);
+    REQUIRE(fcntl(sd, F_SETFL, O_NONBLOCK | O_ASYNC | fcntl(sd, F_GETFL, 0))
+            != -1);
 #endif
-};
-
-void create_bound_socket(int64_t& sd, sockaddr_in6& ep, const addrinfo& hint,
-                         czstring<> host, czstring<> port)
-{
-    sd = socket(hint.ai_family, hint.ai_socktype, hint.ai_protocol);
-    if (sd == -1)
-        WARN(strerror(errno));
-
-    REQUIRE(sd > 0);
-    apply_nonblock_async(sd);
-
-    // acquire address
-    for (auto e : resolve(hint, host, port))
-        ep = e;
-    REQUIRE_FALSE(ep.sin6_port == 0);
-
-    // bind socket and address
-    REQUIRE(::bind(sd, reinterpret_cast<sockaddr*>(&ep), sizeof(ep)) == 0);
 }
 
-void dispose_socket(int64_t sd)
+void socket_set_option_reuse_address(int64_t sd)
 {
-    shutdown(sd, SHUT_RDWR);
-    close(sd);
+    // reuse address for multiple test execution
+    int opt = true;
+    opt = setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, (char*)&opt, sizeof(opt));
+    if (opt != 0)
+        FAIL(strerror(errno));
 }
 
-auto create_bound_sockets(const addrinfo& hint, uint16_t port, size_t count)
-    -> enumerable<int64_t>
+void socket_set_option_nodelay(int64_t sd)
 {
-    int64_t sd = -1;
-    endpoint_t ep{};
-
-    REQUIRE(hint.ai_family == AF_INET6);
-
-    ep.in6.sin6_family = hint.ai_family;
-    ep.in6.sin6_addr = in6addr_any;
-
-    while (count--)
-    {
-        // use address hint in test class
-        sd = socket(hint.ai_family, hint.ai_socktype, hint.ai_protocol);
-        if (sd == -1)
-            WARN(strerror(errno));
-
-        REQUIRE(sd > 0);
-
-        // datagram socket need to be bound to operate
-        ep.in6.sin6_port = htons(port + count);
-
-        // bind socket and address
-        REQUIRE(::bind(sd, addressof(ep.addr), sizeof(sockaddr_in6)) == 0);
-
-        co_yield sd;
-    }
+    // reuse address for multiple test execution
+    int opt = true;
+    opt = setsockopt(sd, IPPROTO_TCP, TCP_NODELAY, (char*)&opt, sizeof(opt));
+    if (opt != 0)
+        FAIL(strerror(errno));
 }
