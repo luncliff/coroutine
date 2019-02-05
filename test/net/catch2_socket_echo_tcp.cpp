@@ -66,6 +66,8 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
         for (auto sd : clients)
         {
             connect(sd, addressof(ep.addr), sizeof(sockaddr_in6));
+            CAPTURE(errno);
+            CAPTURE(strerror(errno));
             REQUIRE((errno == EINPROGRESS || errno == 0));
             socket_set_option_nodelay(sd);
         }

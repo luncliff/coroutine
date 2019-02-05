@@ -104,7 +104,7 @@ class io_send_to final : public io_work_t
     {
         return this->ready();
     }
-    auto await_suspend(coroutine_task_t rh) noexcept(false)
+    void await_suspend(coroutine_task_t rh) noexcept(false)
     {
         return this->suspend(rh);
     }
@@ -137,7 +137,7 @@ class io_recv_from final : public io_work_t
     {
         return this->ready();
     }
-    auto await_suspend(coroutine_task_t rh) noexcept(false)
+    void await_suspend(coroutine_task_t rh) noexcept(false)
     {
         return this->suspend(rh);
     }
@@ -171,7 +171,7 @@ class io_send final : public io_work_t
     {
         return this->ready();
     }
-    auto await_suspend(coroutine_task_t rh) noexcept(false)
+    void await_suspend(coroutine_task_t rh) noexcept(false)
     {
         return this->suspend(rh);
     }
@@ -198,7 +198,7 @@ class io_recv final : public io_work_t
     {
         return this->ready();
     }
-    auto await_suspend(coroutine_task_t rh) noexcept(false)
+    void await_suspend(coroutine_task_t rh) noexcept(false)
     {
         return this->suspend(rh);
     }
