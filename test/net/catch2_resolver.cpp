@@ -6,7 +6,7 @@
 
 #include <coroutine/net.h>
 
-TEST_CASE("name info", "[network]")
+TEST_CASE("get name info", "[network]")
 {
     SECTION("host name")
     {
@@ -45,17 +45,17 @@ TEST_CASE("name info", "[network]")
     }
 }
 
-SCENARIO("addr info", "[network]")
+TEST_CASE("get addr info", "[network]")
 {
     auto count = 0u;
     addrinfo hint{};
 
-    GIVEN("tcpv6")
+    SECTION("tcpv6")
     {
         hint.ai_family = AF_INET6;
         hint.ai_socktype = SOCK_STREAM;
 
-        WHEN("for listen")
+        SECTION("for listen")
         {
             hint.ai_flags = AI_PASSIVE | AI_V4MAPPED //
                             | AI_NUMERICSERV | AI_NUMERICHOST;
@@ -68,8 +68,9 @@ SCENARIO("addr info", "[network]")
                 REQUIRE(linklocal);
                 ++count;
             }
+            REQUIRE(count > 0);
         }
-        WHEN("for connect")
+        SECTION("for connect")
         {
             hint.ai_flags = AI_ALL | AI_V4MAPPED //
                             | AI_NUMERICHOST;
@@ -81,16 +82,16 @@ SCENARIO("addr info", "[network]")
                 REQUIRE(loopback);
                 ++count;
             }
+            REQUIRE(count > 0);
         }
-        REQUIRE(count > 0);
     }
 
-    GIVEN("udpv6")
+    SECTION("udpv6")
     {
         hint.ai_family = AF_INET6;
         hint.ai_socktype = SOCK_DGRAM;
 
-        WHEN("for bind")
+        SECTION("for bind")
         {
             hint.ai_flags = AI_ALL | AI_V4MAPPED //
                             | AI_NUMERICHOST | AI_NUMERICSERV;
@@ -102,32 +103,27 @@ SCENARIO("addr info", "[network]")
                 REQUIRE(unspec);
                 ++count;
             }
+            REQUIRE(count > 0);
         }
-        REQUIRE(count > 0);
-    }
 
-    GIVEN("ipv6")
-    {
-        hint.ai_family = AF_INET6;
-        hint.ai_socktype = SOCK_RAW;
-
-        WHEN("for bind")
+        SECTION("for bind v4mapped")
         {
             hint.ai_flags = AI_ALL | AI_V4MAPPED //
                             | AI_NUMERICHOST | AI_NUMERICSERV;
-            for (auto ep : resolve(hint, "0.0.0.0", "9287"))
+            for (auto ep : resolve(hint, "192.168.0.1", "9287"))
             {
                 REQUIRE(ep.sin6_port == htons(9287));
+
                 auto v4mapped = IN6_IS_ADDR_V4MAPPED(&ep.sin6_addr);
                 REQUIRE(v4mapped);
                 ++count;
             }
+            REQUIRE(count > 0);
         }
 
-        WHEN("for multicast")
+        SECTION("for multicast")
         {
             // https://www.iana.org/assignments/ipv6-multicast-addresses/ipv6-multicast-addresses.xhtml
-
             hint.ai_flags = AI_ALL //
                             | AI_NUMERICHOST | AI_NUMERICSERV;
             for (auto ep : resolve(hint, "FF0E::1", "7283"))
@@ -140,7 +136,7 @@ SCENARIO("addr info", "[network]")
 
                 ++count;
             }
+            REQUIRE(count > 0);
         }
-        REQUIRE(count > 0);
     }
 }

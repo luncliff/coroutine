@@ -157,6 +157,7 @@ void socket_tcp_echo_test::start_listen()
 
 void socket_tcp_echo_test::stop_listen()
 {
+    shutdown(ln, SD_BOTH);
     closesocket(ln);
 }
 

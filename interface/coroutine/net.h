@@ -55,6 +55,7 @@ struct io_control_block
 {
     int64_t sd;
     socklen_t addrlen;
+    uint32_t errc;
 };
 
 #endif
@@ -77,7 +78,7 @@ struct _INTERFACE_ io_work_t : public io_control_block
     coroutine_task_t task{};
     buffer_view_t buffer{};
     union {
-        sockaddr* ep{}; // endpoint
+        sockaddr* addr{};
         sockaddr_in6* from6;
         const sockaddr_in6* to6;
         sockaddr_in* from;

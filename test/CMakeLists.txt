@@ -15,21 +15,12 @@ endif()
 
 # testing the library
 add_executable(coroutine_test
-    scenario/entry.cpp
+    catch2_entry.cpp
 
-    # scenario/switch_to.cpp
-    # scenario/channel.cpp
-    # case/message.cpp
-    # case/sync.cpp
-    # case/returns.cpp
-    # case/generator.cpp
-    # case/async_generator.cpp
-    net/aio_udp.cpp
-    net/aio_tcp.cpp
-    net/resolver.cpp
-
-    switch_to/schedule.cpp 
-    switch_to/switch.cpp
+    net/catch2_resolver.cpp
+    net/catch2_socket.cpp
+    net/catch2_socket_echo_tcp.cpp
+    net/catch2_socket_echo_udp.cpp
 )
 
 if(UNIX AND NOT APPLE)
