@@ -20,32 +20,14 @@
 
 using namespace std;
 
-thread_id_t current_thread_id() noexcept
-{
-    return static_cast<thread_id_t>(GetCurrentThreadId());
-}
-
-bool check_thread_exists(thread_id_t id) noexcept
-{
-    // if the thread exists, OpenThread will be successful
-    if (HANDLE thread = OpenThread(
-            THREAD_SET_CONTEXT, FALSE, static_cast<DWORD>(id)))
-    {
-        CloseHandle(thread);
-        return true;
-    }
-    return false;
-}
-
 auto current_threads() -> enumerable<DWORD>
 {
     const auto pid = GetCurrentProcessId();
     // for current process
     auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
     if (snapshot == INVALID_HANDLE_VALUE)
-        throw std::system_error{gsl::narrow_cast<int>(GetLastError()),
-                                std::system_category(),
-                                "CreateToolhelp32Snapshot"};
+        throw system_error{gsl::narrow_cast<int>(GetLastError()),
+                           system_category(), "CreateToolhelp32Snapshot"};
 
     auto h = gsl::finally([=]() noexcept { CloseHandle(snapshot); });
     auto entry = THREADENTRY32{};

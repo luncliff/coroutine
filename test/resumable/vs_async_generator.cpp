@@ -7,18 +7,14 @@
 #include <coroutine/return.h>
 #include <coroutine/sequence.hpp>
 
-#include <Windows.h>
+// clang-format off
 #include <sdkddkver.h>
-
 #include <CppUnitTest.h>
-#include <TlHelp32.h>
-#include <threadpoolapiset.h>
+// clang-format on
 
 using namespace std::literals;
 using namespace std::experimental;
-
-using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
-using Microsoft::VisualStudio::CppUnitTestFramework::TestClass;
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 class async_generator_test : public TestClass<async_generator_test>
 {
@@ -31,7 +27,7 @@ class async_generator_test : public TestClass<async_generator_test>
 
     TEST_METHOD(async_generator_ensure_no_leak) // just repeat a lot
     {
-        auto try_sequence = [](int& ref) -> unplug {
+        auto try_sequence = [](int& ref) -> return_ignore {
             /* clang-format off */
             for co_await(int v : return_random_int())
                 ref = v;
@@ -55,7 +51,7 @@ class async_generator_test : public TestClass<async_generator_test>
 
     TEST_METHOD(async_generator_return_without_yield)
     {
-        auto try_sequence = [](int& ref) -> unplug {
+        auto try_sequence = [](int& ref) -> return_ignore {
             // clang-format off
             for co_await(int v : return_nothing())
                 ref = v;
@@ -75,7 +71,7 @@ class async_generator_test : public TestClass<async_generator_test>
             co_yield sp; // suspend
             co_return;
         };
-        auto try_sequence = [&](int& ref) -> unplug {
+        auto try_sequence = [&](int& ref) -> return_ignore {
             // clang-format off
             for co_await(int v : example())
                 ref = v;
@@ -86,7 +82,9 @@ class async_generator_test : public TestClass<async_generator_test>
         int value = 222;
         try_sequence(value);
         Assert::IsTrue(value == 222);
-        sp.resume();
+
+        coroutine_handle<void> coro = sp;
+        coro.resume();
     }
 
     TEST_METHOD(async_generator_yield_once)
@@ -98,7 +96,7 @@ class async_generator_test : public TestClass<async_generator_test>
         };
 
         // copy capture
-        auto try_sequence = [example](int& ref) -> unplug {
+        auto try_sequence = [example](int& ref) -> return_ignore {
             // clang-format off
             for co_await(int v : example())
                 ref = v;
@@ -124,7 +122,7 @@ class async_generator_test : public TestClass<async_generator_test>
         };
 
         // reference capture
-        auto try_sequence = [&example](int& ref) -> unplug {
+        auto try_sequence = [&example](int& ref) -> return_ignore {
             // clang-format off
             for co_await(int v : example())
                 ref = v;
@@ -135,7 +133,8 @@ class async_generator_test : public TestClass<async_generator_test>
         int value = 0;
         try_sequence(value);
         Assert::IsTrue(value == 444);
-        sp.resume();
+        coroutine_handle<void> coro = sp;
+        coro.resume();
         Assert::IsTrue(value == 555);
     }
 
@@ -150,7 +149,7 @@ class async_generator_test : public TestClass<async_generator_test>
                 co_yield sp;
                 co_yield v = 777;
             };
-            auto try_sequence = [&example](int& ref) -> unplug {
+            auto try_sequence = [&example](int& ref) -> return_ignore {
                 // clang-format off
                 for co_await(int v : example())
                     ref = v;

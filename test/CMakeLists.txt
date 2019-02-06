@@ -15,6 +15,15 @@ endif()
 
 add_executable(coroutine_test
     catch2_entry.cpp
+
+    suspend/catch2_suspend_queue.cpp
+    suspend/catch2_wait_group.cpp
+
+    resumable/catch2_returns.cpp
+    resumable/catch2_generator.cpp
+    resumable/catch2_async_generator.cpp
+
+    channel/catch2_channel.cpp
 )
 
 set_target_properties(coroutine_test

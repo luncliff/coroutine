@@ -4,14 +4,12 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include <coroutine/sync.h>
+#include "suspend/section.h"
 
-#include <cstdio>
-#include <system_error>
+#include <gsl/gsl>
 
-#include <pthread.h> // implement over pthread API
-#include <sys/time.h>
-#include <sys/types.h> // system types
+#include <pthread.h>
+#include <sys/types.h>
 
 auto for_posix(section* s) noexcept
 {

@@ -11,16 +11,16 @@
 
 TEST_CASE("generator", "[generic]")
 {
-    SECTION("yield_never")
+    SECTION("yield never")
     {
-        auto generate_values = []() -> enumerable<uint16_t> {
+        auto try_enumerable = []() -> enumerable<uint16_t> {
             // co_return is necessary so compiler can notice that
             // this is a coroutine when there is no co_yield.
             co_return;
         };
 
         int trunc, count = 0;
-        for (uint16_t v : generate_values())
+        for (uint16_t v : try_enumerable())
         {
             trunc = v;
             count += 1;
@@ -29,16 +29,16 @@ TEST_CASE("generator", "[generic]")
         REQUIRE(count == 0);
     }
 
-    SECTION("yield_once")
+    SECTION("yield once")
     {
-        auto generate_values = []() -> enumerable<int> {
+        auto try_enumerable = []() -> enumerable<int> {
             int value = 0;
             co_yield value;
             co_return;
         };
 
         int count = 0;
-        for (int v : generate_values())
+        for (int v : try_enumerable())
         {
             REQUIRE(v == 0);
             count += 1;
@@ -48,7 +48,7 @@ TEST_CASE("generator", "[generic]")
 
     SECTION("accumulate")
     {
-        auto generate_values = [](uint16_t n) -> enumerable<uint16_t> {
+        auto try_enumerable = [](uint16_t n) -> enumerable<uint16_t> {
             co_yield n;
             while (--n)
                 co_yield n;
@@ -56,7 +56,7 @@ TEST_CASE("generator", "[generic]")
             co_return;
         };
 
-        auto g = generate_values(10);
+        auto g = try_enumerable(10);
         auto total = std::accumulate(g.begin(), g.end(), 0u);
         REQUIRE(total == 55);
     }
@@ -72,14 +72,14 @@ TEST_CASE("generator", "[generic]")
         // since generator is not a container,
         //  using max_element (or min_element) function on it
         //  will return invalid iterator
-        auto generate_values = [&]() -> enumerable<uint16_t> {
+        auto try_enumerable = [&]() -> enumerable<uint16_t> {
             for (auto e : container)
                 co_yield e;
 
             co_return;
         };
 
-        auto g = generate_values();
+        auto g = try_enumerable();
         auto it = std::max_element(g.begin(), g.end());
 
         // after iteration is finished (co_return),

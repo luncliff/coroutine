@@ -10,12 +10,17 @@ endif()
 
 target_sources(${PROJECT_NAME}
 PRIVATE
-    posix/switch_to.cpp
     posix/wait_group.cpp
+
+    suspend/circular_queue.hpp
+    suspend/message_queue.h
+    suspend/lock_cond_queue.cpp
+    suspend/section.h
+    suspend/queue.cpp
     linux/section.cpp
-    darwin/sync.cpp
-    linux/net.cpp
+
     net/resolver.cpp
+    linux/net.cpp
 )
 
 target_compile_options(${PROJECT_NAME}

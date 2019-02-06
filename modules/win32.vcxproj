@@ -27,14 +27,17 @@
     <ClInclude Include="..\interface\coroutine\sequence.hpp" />
     <ClInclude Include="..\interface\coroutine\switch.h" />
     <ClInclude Include="..\interface\coroutine\sync.h" />
+    <ClInclude Include="suspend\circular_queue.hpp" />
+    <ClInclude Include="suspend\message_queue.h" />
+    <ClInclude Include="suspend\section.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="net\resolver.cpp" />
+    <ClCompile Include="suspend\lock_cond_queue.cpp" />
+    <ClCompile Include="suspend\queue.cpp" />
     <ClCompile Include="windows\dllmain.cpp" />
     <ClCompile Include="windows\net.cpp" />
     <ClCompile Include="windows\section.cpp" />
-    <ClCompile Include="windows\switch_to.cpp" />
-    <ClCompile Include="windows\sync.cpp" />
     <ClCompile Include="windows\wait_group.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

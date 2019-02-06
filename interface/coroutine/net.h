@@ -8,10 +8,11 @@
 //
 // ---------------------------------------------------------------------------
 #pragma once
+
 #ifndef LINKABLE_DLL_MACRO
 #define LINKABLE_DLL_MACRO
 
-#ifdef _MSC_VER // MSVC
+#if defined(_MSC_VER) // MSVC or clang-cl
 #define _HIDDEN_
 #ifdef _WINDLL
 #define _INTERFACE_ __declspec(dllexport)
@@ -19,7 +20,7 @@
 #define _INTERFACE_ __declspec(dllimport)
 #endif
 
-#elif __GNUC__ || __clang__ // GCC or Clang
+#elif defined(__GNUC__) || defined(__clang__) // GCC or Clang
 #define _INTERFACE_ __attribute__((visibility("default")))
 #define _HIDDEN_ __attribute__((visibility("hidden")))
 
@@ -74,7 +75,7 @@ union endpoint_t final {
     sockaddr_in6 in6;
 };
 
-struct _INTERFACE_ io_work_t : public io_control_block
+struct io_work_t : public io_control_block
 {
     coroutine_task_t task{};
     buffer_view_t buffer{};
@@ -87,8 +88,8 @@ struct _INTERFACE_ io_work_t : public io_control_block
     };
 
   public:
-    bool ready() const noexcept;
-    uint32_t error() const noexcept;
+    _INTERFACE_ bool ready() const noexcept;
+    _INTERFACE_ uint32_t error() const noexcept;
 };
 static_assert(sizeof(buffer_view_t) <= sizeof(void*) * 2);
 static_assert(sizeof(io_work_t) <= 64);
