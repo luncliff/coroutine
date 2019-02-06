@@ -11,7 +11,7 @@ AlignTrailingComments: true
 AllowShortFunctionsOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
-AlwaysBreakTemplateDeclarations: true 
+AlwaysBreakTemplateDeclarations: true
 
 BreakBeforeBinaryOperators: true
 BreakBeforeBraces: Allman

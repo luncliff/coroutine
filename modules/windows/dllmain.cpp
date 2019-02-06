@@ -10,12 +10,13 @@
 #include <coroutine/return.h>
 #include <coroutine/sync.h>
 
-#include <cassert>
+#include <gsl/gsl_util>
 
+// clang-format off
 #include <Windows.h>
 #include <sdkddkver.h>
-
 #include <TlHelp32.h>
+// clang-format on
 
 using namespace std;
 
@@ -26,38 +27,32 @@ thread_id_t current_thread_id() noexcept
 
 bool check_thread_exists(thread_id_t id) noexcept
 {
-    // if receiver thread exists, OpenThread will be successful
-    HANDLE thread = OpenThread(
-        // for current implementation,
-        // lazy_delivery requires this operation
-        THREAD_SET_CONTEXT, FALSE, static_cast<DWORD>(id));
-
-    if (thread == NULL) // *possibly* invalid thread id
-        return false;
-
-    CloseHandle(thread);
-    return true;
+    // if the thread exists, OpenThread will be successful
+    if (HANDLE thread = OpenThread(
+            THREAD_SET_CONTEXT, FALSE, static_cast<DWORD>(id)))
+    {
+        CloseHandle(thread);
+        return true;
+    }
+    return false;
 }
 
 auto current_threads() -> enumerable<DWORD>
 {
-    auto pid = GetCurrentProcessId();
+    const auto pid = GetCurrentProcessId();
     // for current process
     auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
     if (snapshot == INVALID_HANDLE_VALUE)
-        throw std::system_error{static_cast<int>(GetLastError()),
+        throw std::system_error{gsl::narrow_cast<int>(GetLastError()),
                                 std::system_category(),
                                 "CreateToolhelp32Snapshot"};
 
-    // auto h = gsl::finally([=]() { CloseHandle(snapshot); });
+    auto h = gsl::finally([=]() noexcept { CloseHandle(snapshot); });
     auto entry = THREADENTRY32{};
     entry.dwSize = sizeof(entry);
-
     for (Thread32First(snapshot, &entry); Thread32Next(snapshot, &entry);
          entry.dwSize = sizeof(entry))
         // filter other process's threads
         if (entry.th32OwnerProcessID != pid)
             co_yield entry.th32ThreadID;
-
-    CloseHandle(snapshot);
 }

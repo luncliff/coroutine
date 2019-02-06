@@ -107,7 +107,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\guideline\include;$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -132,7 +132,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\guideline\include;$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -159,7 +159,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\guideline\include;$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -185,7 +185,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\guideline\include;$(SolutionDir)interface;$(ProjectDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
@@ -205,24 +205,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\interface\coroutine\channel.hpp" />
-    <ClInclude Include="..\interface\coroutine\enumerable.hpp" />
-    <ClInclude Include="..\interface\coroutine\sequence.hpp" />
-    <ClInclude Include="..\interface\coroutine\switch.h" />
-    <ClInclude Include="..\interface\coroutine\sync.h" />
-    <ClInclude Include="..\interface\coroutine\return.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="vs\channel.cpp" />
-    <ClCompile Include="vs\generator.cpp" />
-    <ClCompile Include="vs\async_generator.cpp" />
-    <ClCompile Include="vs\unplug.cpp" />
-    <ClCompile Include="vs\wait_group.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\modules\win32.vcxproj">
       <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="net\vs_resolver.cpp" />
+    <ClCompile Include="net\vs_socket.cpp" />
+    <ClCompile Include="net\vs_socket_broadcast.cpp" />
+    <ClCompile Include="net\vs_socket_echo_tcp.cpp" />
+    <ClCompile Include="net\vs_socket_echo_udp.cpp" />
+    <ClCompile Include="net\vs_socket_multicast.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\interface\coroutine\enumerable.hpp" />
+    <ClInclude Include="..\interface\coroutine\frame.h" />
+    <ClInclude Include="..\interface\coroutine\net.h" />
+    <ClInclude Include="..\interface\coroutine\return.h" />
+    <ClInclude Include="net\socket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

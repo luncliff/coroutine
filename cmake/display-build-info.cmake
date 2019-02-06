@@ -8,8 +8,9 @@ message(STATUS "Build Type  \t: ${CMAKE_BUILD_TYPE}")
 
 message(STATUS "Path")
 message(STATUS "  Root      \t: ${CMAKE_SOURCE_DIR}")
-message(STATUS "  Project   \t: ${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "  Project   \t: ${PROJECT_SOURCE_DIR}")
 message(STATUS "  Install   \t: ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "  Current   \t: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 message(STATUS "System      \t: ${CMAKE_SYSTEM}")
 message(STATUS "Platform    \t: ${CMAKE_CXX_PLATFORM_ID}")

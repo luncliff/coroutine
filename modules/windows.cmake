@@ -10,6 +10,8 @@ PRIVATE
     windows/section.cpp
     windows/switch_to.cpp
     windows/wait_group.cpp
+    windows/net.cpp
+    net/resolver.cpp
 )
 
 target_compile_definitions(${PROJECT_NAME}
@@ -17,7 +19,7 @@ PUBLIC
     NOMINMAX
 )
 
-# CMake variable MSVC follows windows. 
+# CMake variable MSVC follows windows.
 #   So we have to check clang first to be correct
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     # Additional source code for clang
@@ -40,44 +42,44 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
 
     # Argument for `clang-cl`
     #
-    # `target_compile_options` removes duplicated -Xclang argument 
+    # `target_compile_options` removes duplicated -Xclang argument
     # which must be protected. An alternative is to use CMAKE_CXX_FLAGS,
     # but the method will be used only when there is no way but to use it
     #
     # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
-    target_compile_options(${PROJECT_NAME} 
+    target_compile_options(${PROJECT_NAME}
     PUBLIC
-        /std:c++latest 
-        -fms-compatibility 
+        /std:c++latest
+        -fms-compatibility
         -Xclang -fcoroutines-ts
     PRIVATE
         -Wno-unused-private-field
         -Wno-unused-function
-        -Wno-c++98-compat 
-        -Wno-reserved-id-macro 
+        -Wno-c++98-compat
+        -Wno-reserved-id-macro
         -Wno-missing-prototypes
     )
 elseif(MSVC)
-    target_compile_options(${PROJECT_NAME} 
+    target_compile_options(${PROJECT_NAME}
     PUBLIC
-        /std:c++latest 
-        /await
+        /std:c++latest /await
+        /W4
     )
 endif()
 
 if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-    target_compile_options(${PROJECT_NAME} 
+    target_compile_options(${PROJECT_NAME}
     PRIVATE
         /Od
     )
 else()
-    target_compile_options(${PROJECT_NAME} 
+    target_compile_options(${PROJECT_NAME}
     PRIVATE
         /O2
     )
 endif()
 
 set_target_properties(${PROJECT_NAME}
-PROPERTIES 
+PROPERTIES
     LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
 )

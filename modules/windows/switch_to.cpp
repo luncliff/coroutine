@@ -10,6 +10,8 @@
 #include <coroutine/frame.h>
 #include <coroutine/switch.h>
 
+#include <gsl/gsl>
+
 #include <atomic>
 
 using namespace std;
@@ -26,29 +28,35 @@ struct switch_to_win32 final
     std::unique_ptr<messaging_queue_t> queue{};
 };
 
-auto* for_win32(switch_to* s) noexcept
+GSL_SUPPRESS(type .1)
+auto for_win32(switch_to* s) noexcept -> gsl::not_null<switch_to_win32*>
 {
     static_assert(sizeof(switch_to_win32) <= sizeof(switch_to));
     return reinterpret_cast<switch_to_win32*>(s);
 }
-auto* for_win32(const switch_to* s) noexcept
+
+GSL_SUPPRESS(type .1)
+auto for_win32(const switch_to* s) noexcept
+    -> gsl::not_null<const switch_to_win32*>
 {
     static_assert(sizeof(switch_to_win32) <= sizeof(switch_to));
     return reinterpret_cast<const switch_to_win32*>(s);
 }
 
+GSL_SUPPRESS(r .11)
 switch_to::switch_to() noexcept(false) : storage{}
 {
-    auto* sw = for_win32(this);
+    auto sw = for_win32(this);
 
     new (sw) switch_to_win32{};
     sw->is_closed = false;
     sw->queue = create_message_queue();
 }
 
+GSL_SUPPRESS(con .4)
 switch_to::~switch_to() noexcept
 {
-    auto* sw = for_win32(this);
+    auto sw = for_win32(this);
     auto trunc = std::move(sw->queue);
 }
 
@@ -57,10 +65,11 @@ bool switch_to::ready() const noexcept
     return false; // always trigger switching
 }
 
+GSL_SUPPRESS(con .4)
 void switch_to::suspend(
     std::experimental::coroutine_handle<void> coro) noexcept(false)
 {
-    auto* sw = for_win32(this);
+    auto sw = for_win32(this);
     message_t msg{};
     msg.ptr = coro.address();
 
@@ -74,12 +83,16 @@ void switch_to::resume() noexcept
     // nothing to do
 }
 
-auto* for_win32(const scheduler_t* s) noexcept
+GSL_SUPPRESS(type .1)
+auto for_win32(const scheduler_t* s) noexcept
+    -> gsl::not_null<const switch_to_win32*>
 {
     static_assert(sizeof(switch_to_win32) <= sizeof(scheduler_t));
     return reinterpret_cast<const switch_to_win32*>(s);
 }
-auto* for_win32(scheduler_t* s) noexcept
+
+GSL_SUPPRESS(type .1)
+auto for_win32(scheduler_t* s) noexcept -> gsl::not_null<switch_to_win32*>
 {
     static_assert(sizeof(switch_to_win32) <= sizeof(scheduler_t));
     return reinterpret_cast<switch_to_win32*>(s);
@@ -91,21 +104,24 @@ auto switch_to::scheduler() noexcept(false) -> scheduler_t&
     return *(reinterpret_cast<scheduler_t*>(this));
 }
 
+GSL_SUPPRESS(con .4)
 void scheduler_t::close() noexcept
 {
-    auto* sw = for_win32(this);
+    auto sw = for_win32(this);
     sw->is_closed = true;
 }
 
+GSL_SUPPRESS(con .4)
 bool scheduler_t::closed() const noexcept
 {
-    auto* sw = for_win32(this);
+    auto sw = for_win32(this);
     return sw->is_closed;
 }
 
+GSL_SUPPRESS(con .4)
 auto scheduler_t::wait(duration d) noexcept(false) -> coroutine_task
 {
-    auto* sw = for_win32(this);
+    auto sw = for_win32(this);
     message_t m{};
 
     // discarding boolean return

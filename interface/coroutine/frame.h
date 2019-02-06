@@ -24,14 +24,12 @@
 #include <cstdint>
 #include <type_traits>
 
-#if __clang__
+#if defined(__clang__)
 static constexpr auto is_msvc = false;
 static constexpr auto is_clang = true;
 static constexpr auto is_gcc = false;
 
-#elif _MSC_VER // <-- need alternative
-               //     since it might be declared explicitly
-
+#elif defined(_MSC_VER)
 static constexpr auto is_msvc = true;
 static constexpr auto is_clang = false;
 static constexpr auto is_gcc = false;
@@ -120,9 +118,9 @@ class coroutine_handle<void>
     static_assert(sizeof(prefix_t) == sizeof(void*));
 
   public:
-    coroutine_handle() noexcept : prefix{nullptr}
-    {
-    }
+    coroutine_handle() noexcept = default;
+    ~coroutine_handle() noexcept = default;
+
     explicit coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr}
     {
     }
@@ -356,7 +354,7 @@ class suspend_always
 };
 } // namespace std::experimental
 
-#ifdef __clang__
+#if defined(__clang__)
 //
 //  Note
 //      VC++ header expects msvc intrinsics. Redirect them to Clang intrinsics.
@@ -388,7 +386,7 @@ inline void _coro_destroy(void* addr)
     __builtin_coro_destroy(c);
 }
 
-#elif _MSC_VER
+#elif defined(_MSC_VER)
 
 inline bool _coro_finished(const msvc_frame_prefix* prefix) noexcept
 {

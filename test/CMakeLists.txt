@@ -8,21 +8,13 @@ cmake_minimum_required(VERSION 3.8)
 # if package does not exist, use submodule instead
 find_package(Catch2)
 if(NOT Catch2_FOUND)    
-    add_subdirectory(${CMAKE_SOURCE_DIR}/external/catch2
+    add_subdirectory(${PROJECT_SOURCE_DIR}/external/catch2
                      ${CMAKE_BINARY_DIR}/catch2
     )
 endif()
 
-# testing the library 
 add_executable(coroutine_test
-    scenario/entry.cpp
-    scenario/switch_to.cpp
-    scenario/channel.cpp
-    case/message.cpp
-    case/sync.cpp
-    case/returns.cpp
-    case/generator.cpp
-    case/async_generator.cpp
+    catch2_entry.cpp
 )
 
 set_target_properties(coroutine_test
@@ -42,7 +34,12 @@ PUBLIC
     Catch2::Catch2
 )
 
-if(UNIX)
+if(WIN32)
+    target_compile_definitions(coroutine_test
+    PRIVATE
+        _CRT_SECURE_NO_WARNINGS
+    )
+elseif(UNIX)
     # code coverage option lead to compiler crash
     # list(APPEND CMAKE_CXX_FLAGS "--coverage")
     target_link_libraries(coroutine_test
@@ -51,6 +48,9 @@ if(UNIX)
     )
     target_compile_options(coroutine_test
     PRIVATE
-        -std=c++2a -stdlib=libc++ -g
+        -std=c++2a -stdlib=libc++
+        -g
+        -Wall -Wextra 
+        -Wno-unknown-pragmas # ignore pragma incompatibility
     )
 endif()

@@ -10,29 +10,32 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/sync.h>
-// #include <gsl/gsl_assert>
+
+#include <gsl/gsl>
 
 #include <concrt.h> // Windows Concurrency Runtime
 using namespace concurrency;
 
-auto for_win32(section* s) noexcept
+GSL_SUPPRESS(type .1)
+auto for_win32(section* s) noexcept -> gsl::not_null<reader_writer_lock*>
 {
     static_assert(sizeof(reader_writer_lock) <= sizeof(section));
     return reinterpret_cast<reader_writer_lock*>(s);
 }
 
+GSL_SUPPRESS(r .11)
 section::section() noexcept(false) : storage{}
 {
-    auto rwl = for_win32(this);
-    new (rwl) reader_writer_lock{};
+    new (for_win32(this)) reader_writer_lock{};
 }
 
+GSL_SUPPRESS(f .6)
+GSL_SUPPRESS(f .11)
 section::~section() noexcept
 {
-    auto rwl = for_win32(this);
     try
     {
-        rwl->~reader_writer_lock();
+        for_win32(this)->~reader_writer_lock();
     }
     catch (const std::exception& e)
     {
@@ -40,21 +43,18 @@ section::~section() noexcept
     }
 }
 
-// GSL_SUPPRESS(f.6)
+GSL_SUPPRESS(f .6)
 bool section::try_lock() noexcept
 {
-    auto rwl = for_win32(this);
-    return rwl->try_lock();
+    return for_win32(this)->try_lock();
 }
 
 void section::lock() noexcept(false)
 {
-    auto rwl = for_win32(this);
-    return rwl->lock();
+    return for_win32(this)->lock();
 }
 
 void section::unlock() noexcept(false)
 {
-    auto rwl = for_win32(this);
-    return rwl->unlock();
+    return for_win32(this)->unlock();
 }
