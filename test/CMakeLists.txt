@@ -21,6 +21,17 @@ add_executable(coroutine_test
     net/catch2_socket.cpp
     net/catch2_socket_echo_udp.cpp
     net/catch2_socket_echo_tcp.cpp
+
+    suspend/suspend_test.h
+    suspend/catch2_suspend.cpp
+    suspend/catch2_suspend_queue.cpp
+    suspend/catch2_wait_group.cpp
+
+    resumable/catch2_returns.cpp
+    resumable/catch2_generator.cpp
+    resumable/catch2_async_generator.cpp
+
+    channel/catch2_channel.cpp
 )
 
 set_target_properties(coroutine_test

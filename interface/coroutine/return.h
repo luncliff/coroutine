@@ -3,6 +3,9 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+//  Note
+//      Return and utility types for coroutine frame management
+//
 // ---------------------------------------------------------------------------
 #pragma once
 #ifndef COROUTINE_RETURN_TYPES_H
@@ -13,12 +16,9 @@
 
 // - Note
 //      General `void` return for coroutine.
-//      It doesn't provide any method to get flow/value
-//       from the resumable function frame.
-//
-//      This type is an alternative of
-//       the `std::future<void>` without final suspend
-class unplug final
+//      It doesn't provide any method to get control or value
+//       from the resumable function
+class return_ignore final
 {
   public:
     class promise_type final
@@ -39,7 +39,7 @@ class unplug final
         }
         void unhandled_exception() noexcept(false)
         {
-            // terminate the program.
+            // customize this part
             // std::terminate();
         }
 
@@ -50,66 +50,50 @@ class unplug final
     };
 
   public:
-    unplug(const promise_type*) noexcept
+    return_ignore(const promise_type*) noexcept
     {
+        // the type truncates all given info about its frame
     }
 };
 
 // - Note
 //      Holds the resumable function's frame
 //      This type can be used when final suspend is required
-//
-//      This type is an alternative of
-//       the `std::future<void>` with final suspend
-class frame_holder final
+class return_frame final
 {
+    template <typename P>
+    using handle_type = std::experimental::coroutine_handle<P>;
+
   public:
     class promise_type;
 
-    template <typename P>
-    using coroutine_handle = std::experimental::coroutine_handle<P>;
-
   private:
-    coroutine_handle<void> frame;
-
-  private:
-    frame_holder(const frame_holder&) = delete;
-    frame_holder& operator=(const frame_holder&) = delete;
+    handle_type<void> frame;
 
   public:
-    frame_holder() noexcept : frame{}
+    return_frame() noexcept = default;
+    return_frame(promise_type* ptr) noexcept
+        : frame{handle_type<promise_type>::from_promise(*ptr)}
     {
     }
-    frame_holder(promise_type* ptr) noexcept
-        : frame{coroutine_handle<promise_type>::from_promise(*ptr)}
+
+  public:
+    operator handle_type<void>() const noexcept
     {
-    }
-    frame_holder(frame_holder&& rhs) noexcept : frame{nullptr}
-    {
-        std::swap(this->frame, rhs.frame);
-    }
-    frame_holder& operator=(frame_holder&& rhs) noexcept
-    {
-        std::swap(this->frame, rhs.frame);
-        return *this;
-    }
-    ~frame_holder() noexcept
-    {
-        if (frame)
-            frame.destroy();
+        return frame;
     }
 
   public:
     class promise_type final
     {
       public:
-        // No suspend for init/final suspension point
         auto initial_suspend() noexcept
         {
             return std::experimental::suspend_never{};
         }
         auto final_suspend() noexcept
         {
+            // !!! notice this behavior !!!
             return std::experimental::suspend_always{};
         }
         void return_void(void) noexcept
@@ -118,7 +102,8 @@ class frame_holder final
         }
         void unhandled_exception() noexcept(false)
         {
-            // terminate the program.
+            // user can customize this point with std::current_exception ...
+            // by default, terminate the program.
             std::terminate();
         }
 
@@ -131,31 +116,25 @@ class frame_holder final
 
 // - Note
 //      Receiver for explicit `co_await` to enable manual resume
-class suspend_hook final
+class suspend_hook final : public std::experimental::suspend_always
 {
-    std::experimental::coroutine_handle<void> frame{};
+  public:
+    using handle_t = std::experimental::coroutine_handle<void>;
+
+  private:
+    handle_t frame{};
 
   public:
-    bool await_ready() const noexcept
+    void await_suspend(handle_t coro) noexcept
     {
-        return false; // suspend_always
-    }
-    void await_suspend(std::experimental::coroutine_handle<void> coro) noexcept
-    {
-        // coroutine frame's prefix
+        // update frame value
         frame = std::move(coro);
     }
-    void await_resume() noexcept
-    {
-        frame = nullptr; // forget
-    }
 
   public:
-    void resume() noexcept(false)
+    operator handle_t() const noexcept
     {
-        // resume if available
-        if (frame && frame.done() == false)
-            frame.resume();
+        return frame;
     }
 };
 

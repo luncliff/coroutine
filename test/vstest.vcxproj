@@ -210,19 +210,26 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="net\vs_resolver.cpp" />
-    <ClCompile Include="net\vs_socket.cpp" />
-    <ClCompile Include="net\vs_socket_broadcast.cpp" />
-    <ClCompile Include="net\vs_socket_echo_tcp.cpp" />
-    <ClCompile Include="net\vs_socket_echo_udp.cpp" />
-    <ClCompile Include="net\vs_socket_multicast.cpp" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="..\interface\coroutine\channel.hpp" />
     <ClInclude Include="..\interface\coroutine\enumerable.hpp" />
     <ClInclude Include="..\interface\coroutine\frame.h" />
     <ClInclude Include="..\interface\coroutine\net.h" />
     <ClInclude Include="..\interface\coroutine\return.h" />
-    <ClInclude Include="net\socket.h" />
+    <ClInclude Include="..\interface\coroutine\sequence.hpp" />
+    <ClInclude Include="..\interface\coroutine\suspend_queue.h" />
+    <ClInclude Include="..\interface\coroutine\sync.h" />
+    <ClInclude Include="channel\channel_test.h" />
+    <ClInclude Include="net\socket_test.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="channel\vs_channel.cpp" />
+    <ClCompile Include="net\vs_resolver.cpp" />
+    <ClCompile Include="net\vs_socket.cpp" />
+    <ClCompile Include="resumable\vs_async_generator.cpp" />
+    <ClCompile Include="resumable\vs_generator.cpp" />
+    <ClCompile Include="resumable\vs_return_types.cpp" />
+    <ClCompile Include="suspend\vs_suspend_queue.cpp" />
+    <ClCompile Include="suspend\vs_wait_group.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

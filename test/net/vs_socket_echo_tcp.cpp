@@ -9,8 +9,10 @@
 #include <coroutine/sync.h>
 #include <gsl/gsl>
 
-#include <CppUnitTest.h>
+// clang-format off
 #include <sdkddkver.h>
+#include <CppUnitTest.h>
+// clang-format on
 
 using namespace std;
 using namespace std::chrono_literals;
@@ -20,9 +22,9 @@ using namespace gsl;
 void create_bound_socket(SOCKET& sd, sockaddr_in6& ep, const addrinfo& hint,
                          czstring<> host, czstring<> port);
 
-auto coro_recv_stream(SOCKET sd, int64_t& rsz, wait_group& wg) -> unplug;
-auto coro_send_stream(SOCKET sd, int64_t& ssz, wait_group& wg) -> unplug;
-auto echo_incoming_stream(SOCKET sd) -> unplug;
+auto coro_recv_stream(SOCKET sd, int64_t& rsz, wait_group& wg) -> return_ignore;
+auto coro_send_stream(SOCKET sd, int64_t& ssz, wait_group& wg) -> return_ignore;
+auto echo_incoming_stream(SOCKET sd) -> return_ignore;
 
 //  - Note
 //      TCP Echo Server/Client
@@ -177,7 +179,7 @@ auto socket_tcp_echo_test::create_async_sockets(size_t count)
 }
 
 auto coro_recv_stream( //
-    SOCKET sd, int64_t& rsz, wait_group& wg) -> unplug
+    SOCKET sd, int64_t& rsz, wait_group& wg) -> return_ignore
 {
     // ensure noti to wait_group
     auto d = finally([&wg]() { wg.done(); });
@@ -191,7 +193,7 @@ auto coro_recv_stream( //
 }
 
 auto coro_send_stream( //
-    SOCKET sd, int64_t& ssz, wait_group& wg) -> unplug
+    SOCKET sd, int64_t& ssz, wait_group& wg) -> return_ignore
 {
     // ensure noti to wait_group
     auto d = finally([&wg]() { wg.done(); });
@@ -206,7 +208,7 @@ auto coro_send_stream( //
     shutdown(sd, SD_SEND);
 }
 
-auto echo_incoming_stream(SOCKET sd) -> unplug
+auto echo_incoming_stream(SOCKET sd) -> return_ignore
 {
     auto d = finally([=]() {
         shutdown(sd, SD_BOTH);

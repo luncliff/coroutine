@@ -7,10 +7,13 @@
 #include <coroutine/net.h>
 #include <coroutine/return.h>
 #include <coroutine/sync.h>
+
 #include <gsl/gsl>
 
-#include <CppUnitTest.h>
+// clang-format off
 #include <sdkddkver.h>
+#include <CppUnitTest.h>
+// clang-format on
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -20,11 +23,11 @@ void create_bound_socket(SOCKET& sd, sockaddr_in6& ep, const addrinfo& hint,
                          gsl::czstring<> host, gsl::czstring<> port);
 
 auto coro_recv_dgram(SOCKET sd, sockaddr_in6& remote, int64_t& rsz,
-                     wait_group& wg) -> unplug;
+                     wait_group& wg) -> return_ignore;
 auto coro_send_dgram(SOCKET sd, const sockaddr_in6& remote, int64_t& ssz,
-                     wait_group& wg) -> unplug;
+                     wait_group& wg) -> return_ignore;
 
-auto echo_incoming_datagram(SOCKET sd) -> unplug;
+auto echo_incoming_datagram(SOCKET sd) -> return_ignore;
 
 //  - Note
 //      UDP Echo Server/Client
@@ -154,7 +157,8 @@ auto socket_udp_echo_test::create_async_sockets(size_t count)
 }
 
 auto coro_recv_dgram( //
-    SOCKET sd, sockaddr_in6& remote, int64_t& rsz, wait_group& wg) -> unplug
+    SOCKET sd, sockaddr_in6& remote, int64_t& rsz, wait_group& wg)
+    -> return_ignore
 {
     // ensure noti to wait_group
     auto d = finally([&wg]() { wg.done(); });
@@ -169,7 +173,7 @@ auto coro_recv_dgram( //
 
 auto coro_send_dgram( //
     SOCKET sd, const sockaddr_in6& remote, int64_t& ssz, wait_group& wg)
-    -> unplug
+    -> return_ignore
 {
     // ensure noti to wait_group
     auto d = finally([&wg]() { wg.done(); });
@@ -182,7 +186,7 @@ auto coro_send_dgram( //
     Assert::IsTrue(work.error() == NO_ERROR);
 }
 
-auto echo_incoming_datagram(SOCKET sd) -> unplug
+auto echo_incoming_datagram(SOCKET sd) -> return_ignore
 {
     io_work_t work{};
     buffer_view_t buf{};

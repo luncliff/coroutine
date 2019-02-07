@@ -8,6 +8,12 @@
     <Filter Include="windows">
       <UniqueIdentifier>{737376e5-3f53-4b44-85d3-0e4212b62559}</UniqueIdentifier>
     </Filter>
+    <Filter Include="suspend">
+      <UniqueIdentifier>{bd13a58b-4f1e-4cf4-a7ed-8fc9103db22b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="net">
+      <UniqueIdentifier>{0519d8a2-1283-4abb-8894-7628c971e825}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\interface\coroutine\channel.hpp">
@@ -34,6 +40,15 @@
     <ClInclude Include="..\interface\coroutine\net.h">
       <Filter>coroutine</Filter>
     </ClInclude>
+    <ClInclude Include="suspend\circular_queue.hpp">
+      <Filter>suspend</Filter>
+    </ClInclude>
+    <ClInclude Include="suspend\message_queue.h">
+      <Filter>suspend</Filter>
+    </ClInclude>
+    <ClInclude Include="suspend\section.h">
+      <Filter>suspend</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="windows\dllmain.cpp">
@@ -42,20 +57,20 @@
     <ClCompile Include="windows\section.cpp">
       <Filter>windows</Filter>
     </ClCompile>
-    <ClCompile Include="windows\switch_to.cpp">
-      <Filter>windows</Filter>
-    </ClCompile>
-    <ClCompile Include="windows\sync.cpp">
-      <Filter>windows</Filter>
-    </ClCompile>
     <ClCompile Include="windows\wait_group.cpp">
-      <Filter>windows</Filter>
-    </ClCompile>
-    <ClCompile Include="net\resolver.cpp">
       <Filter>windows</Filter>
     </ClCompile>
     <ClCompile Include="windows\net.cpp">
       <Filter>windows</Filter>
+    </ClCompile>
+    <ClCompile Include="suspend\lock_cond_queue.cpp">
+      <Filter>suspend</Filter>
+    </ClCompile>
+    <ClCompile Include="suspend\queue.cpp">
+      <Filter>suspend</Filter>
+    </ClCompile>
+    <ClCompile Include="net\resolver.cpp">
+      <Filter>net</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

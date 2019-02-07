@@ -16,11 +16,11 @@ using namespace gsl;
 using namespace std::chrono_literals;
 
 auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz,
-                     wait_group& wg) -> unplug;
+                     wait_group& wg) -> return_ignore;
 auto coro_send_dgram(int64_t sd, const sockaddr_in& remote, int64_t& ssz,
-                     wait_group& wg) -> unplug;
+                     wait_group& wg) -> return_ignore;
 
-auto echo_incoming_datagram(int64_t sd) -> unplug;
+auto echo_incoming_datagram(int64_t sd) -> return_ignore;
 
 TEST_CASE("socket udp echo test", "[network][socket]")
 {
@@ -115,7 +115,7 @@ TEST_CASE("socket udp echo test", "[network][socket]")
 }
 
 auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz,
-                     wait_group& wg) -> unplug
+                     wait_group& wg) -> return_ignore
 {
     using gsl::byte;
     auto d = finally([&wg]() { // ensure noti to wait_group
@@ -131,7 +131,7 @@ auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz,
 }
 
 auto coro_send_dgram(int64_t sd, const sockaddr_in& remote, int64_t& ssz,
-                     wait_group& wg) -> unplug
+                     wait_group& wg) -> return_ignore
 {
     using gsl::byte;
     auto d = finally([&wg]() { // ensure noti to wait_group
@@ -146,7 +146,7 @@ auto coro_send_dgram(int64_t sd, const sockaddr_in& remote, int64_t& ssz,
     REQUIRE(work.error() == 0);
 }
 
-auto echo_incoming_datagram(int64_t sd) -> unplug
+auto echo_incoming_datagram(int64_t sd) -> return_ignore
 {
     using gsl::byte;
     io_work_t work{};

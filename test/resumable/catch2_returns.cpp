@@ -5,78 +5,85 @@
 #include <catch2/catch.hpp>
 
 #include <coroutine/return.h>
+#include <gsl/gsl>
 
-TEST_CASE("unplug", "[generic]")
+TEST_CASE("return_ignore", "[return]")
 {
-    SECTION("default_use")
-    {
-        auto try_coroutine = []() -> unplug {
-            co_await std::experimental::suspend_never{};
-            co_return;
-        };
-        REQUIRE_NOTHROW(try_coroutine());
-    }
-}
-
-template <typename Fn>
-auto defer(Fn&& todo)
-{
-    struct caller
-    {
-      private:
-        Fn func;
-
-      private:
-        caller(const caller&) = delete;
-        caller(caller&&) = delete;
-        caller& operator=(const caller&) = delete;
-        caller& operator=(caller&&) = delete;
-
-      public:
-        caller(Fn&& todo) : func{todo}
-        {
-        }
-        ~caller()
-        {
-            func();
-        }
+    // user won't care about coroutine life cycle.
+    // the routine will be resumed(continued) properly,
+    //   and co_return will destroy the frame
+    auto routine = []() -> return_ignore {
+        co_await std::experimental::suspend_never{};
+        co_return;
     };
-    return caller{std::move(todo)};
+    REQUIRE_NOTHROW(routine());
 }
 
-TEST_CASE("suspend_hook", "[generic]")
+TEST_CASE("return_frame", "[return]")
 {
+    using namespace std::experimental;
+
+    // when the coroutine frame destuction need to be controlled manually,
+    //   `return_frame` can do the work
+    auto routine = []() -> return_frame {
+        // no initial suspend
+        co_await suspend_never{};
+        co_return;
+    };
+
+    // invoke of coroutine will create a new frame
+    auto fm = routine();
+
+    // now the frame is 'final suspend'ed, so it can be deleted.
+    auto coro = static_cast<coroutine_handle<void>>(fm);
+    REQUIRE(coro == true);
+
+    REQUIRE(coro.done());            // 'final suspend'ed?
+    REQUIRE_NOTHROW(coro.destroy()); // destroy it
+}
+
+TEST_CASE("suspend_hook", "[return]")
+{
+    using namespace std::experimental;
+
+    suspend_hook hk{};
+
     SECTION("empty")
     {
-        // if empty, do nothing
-        REQUIRE_NOTHROW(suspend_hook{}.resume());
+        auto coro = static_cast<coroutine_handle<void>>(hk);
+        REQUIRE(coro.address() == nullptr);
     }
 
-    SECTION("plug_and_resume")
+    SECTION("resume via coroutine handle")
     {
-        int status = 0;
-        {
-            auto try_plugging = [=](suspend_hook& p, int& status) -> unplug {
-                auto a = defer([&]() {
-                    // ensure final action
-                    status = 3;
-                });
-                status = 1;
-                co_await std::experimental::suspend_never{};
-                co_await p;
-                status = 2;
-                co_await p;
-                co_return;
-            };
+        gsl::index status = 0;
 
-            suspend_hook p{};
+        auto routine = [=](suspend_hook& hook, auto& status) -> return_ignore {
+            auto defer = gsl::finally([&]() {
+                // ensure final action
+                status = 3;
+            });
 
-            REQUIRE_NOTHROW(try_plugging(p, status));
-            REQUIRE(status == 1);
-            p.resume();
-            REQUIRE(status == 2);
-            p.resume();
-        }
+            status = 1;
+            co_await suspend_never{};
+            co_await hook;
+            status = 2;
+            co_await hook;
+            co_return;
+        };
+
+        REQUIRE_NOTHROW(routine(hk, status));
+        REQUIRE(status == 1);
+        auto coro = static_cast<coroutine_handle<void>>(hk);
+        coro.resume();
+
+        REQUIRE(status == 2);
+        coro.resume();
+
+        // coroutine reached end.
+        // so `defer` in the routine must be destroyed
         REQUIRE(status == 3);
     }
+
+    // test end
 }

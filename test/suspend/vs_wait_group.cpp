@@ -7,18 +7,16 @@
 #include <coroutine/return.h>
 #include <coroutine/sync.h>
 
+// clang-format off
 #include <Windows.h>
 #include <sdkddkver.h>
-
 #include <CppUnitTest.h>
-#include <TlHelp32.h>
 #include <threadpoolapiset.h>
+// clang-format on
 
 using namespace std::literals;
 using namespace std::experimental;
-
-using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
-using Microsoft::VisualStudio::CppUnitTestFramework::TestClass;
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 class wait_group_test : public TestClass<wait_group_test>
 {
@@ -30,24 +28,15 @@ class wait_group_test : public TestClass<wait_group_test>
         group.done();
     }
 
-    wait_group group{};
-    PTP_WORK work{};
-
-    TEST_METHOD_INITIALIZE(setup)
+    TEST_METHOD(wait_group_wait_once)
     {
-        work = ::CreateThreadpoolWork(
+        wait_group group{};
+        PTP_WORK work = ::CreateThreadpoolWork(
             reinterpret_cast<PTP_WORK_CALLBACK>(onWork1), std::addressof(group),
             nullptr);
         Assert::IsNotNull(work);
-    }
-    TEST_METHOD_CLEANUP(teardown)
-    {
-        ::CloseThreadpoolWork(work);
-    }
 
-    TEST_METHOD(wait_group_wait_once)
-    {
-        constexpr auto num_of_work = 1000;
+        constexpr auto num_of_work = 10;
 
         // fork - join
         group.add(num_of_work);
@@ -55,10 +44,13 @@ class wait_group_test : public TestClass<wait_group_test>
             ::SubmitThreadpoolWork(work);
 
         Assert::IsTrue(group.wait(10s));
+        ::CloseThreadpoolWork(work);
     }
 
     TEST_METHOD(wait_group_multiple_wait)
     {
+        wait_group group{};
+
         group.add(1);
         group.done();
         // Ok. since 1 add, 1 done

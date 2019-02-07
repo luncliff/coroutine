@@ -17,7 +17,7 @@
 // - Note
 //      Another implementation of <experimental/generator>
 template <typename T>
-class enumerable final
+class enumerable
 {
   public:
     class promise_type;

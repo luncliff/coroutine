@@ -6,14 +6,20 @@
 
 #include <coroutine/return.h>
 #include <coroutine/sequence.hpp>
-#include <coroutine/sync.h>
+#include <gsl/gsl>
 
 TEST_CASE("async_generator", "[generic]")
 {
-    // when the coroutine's frame needs to be alive,
-    //  `frame_holder` can be used.
-    // the frame will be destroyed when frame_holder is destructed
-    frame_holder h{};
+    using namespace std::experimental;
+
+    // for async generator,
+    //  its coroutine frame must be alive for some case.
+    return_frame fm{};
+    auto ensure_destroy_frame = gsl::finally([=]() {
+        auto coro = static_cast<coroutine_handle<void>>(fm);
+        if (coro)
+            coro.destroy();
+    });
 
     SECTION("return without yield")
     {
@@ -21,7 +27,7 @@ TEST_CASE("async_generator", "[generic]")
             co_return; // do nothing
         };
 
-        auto try_sequence = [=](int& ref) -> frame_holder {
+        auto try_sequence = [=](int& ref) -> return_frame {
             // clang-format off
             for co_await(int v : example())
                 ref = v;
@@ -29,7 +35,7 @@ TEST_CASE("async_generator", "[generic]")
         };
 
         int value = 111;
-        REQUIRE_NOTHROW(h = try_sequence(value));
+        REQUIRE_NOTHROW(fm = try_sequence(value));
         REQUIRE(value == 111);
     }
 
@@ -41,7 +47,7 @@ TEST_CASE("async_generator", "[generic]")
             co_yield sp; // suspend
             co_return;
         };
-        auto try_sequence = [&](int& ref) -> frame_holder {
+        auto try_sequence = [&](int& ref) -> return_frame {
             // clang-format off
             for co_await(int v : example()) 
                 ref = v;
@@ -50,9 +56,11 @@ TEST_CASE("async_generator", "[generic]")
         };
 
         int value = 222;
-        REQUIRE_NOTHROW(h = try_sequence(value));
+        REQUIRE_NOTHROW(fm = try_sequence(value));
         REQUIRE(value == 222);
-        REQUIRE_NOTHROW(sp.resume());
+
+        auto coro = static_cast<coroutine_handle<void>>(sp);
+        REQUIRE_NOTHROW(coro.resume());
     }
 
     SECTION("yield once")
@@ -62,7 +70,7 @@ TEST_CASE("async_generator", "[generic]")
             co_yield v;
             co_return;
         };
-        auto try_sequence = [=](int& ref) -> frame_holder {
+        auto try_sequence = [=](int& ref) -> return_frame {
             // clang-format off
             for co_await(int v : example()) 
                 ref = v;
@@ -71,7 +79,7 @@ TEST_CASE("async_generator", "[generic]")
         };
 
         int value = 0;
-        REQUIRE_NOTHROW(h = try_sequence(value));
+        REQUIRE_NOTHROW(fm = try_sequence(value));
         REQUIRE(value == 333);
     }
 
@@ -86,7 +94,7 @@ TEST_CASE("async_generator", "[generic]")
             co_yield v = 555;
             co_return;
         };
-        auto try_sequence = [&](int& ref) -> frame_holder {
+        auto try_sequence = [&](int& ref) -> return_frame {
             // clang-format off
             for co_await(int v : example()) 
                 ref = v;
@@ -95,9 +103,11 @@ TEST_CASE("async_generator", "[generic]")
         };
 
         int value = 0;
-        REQUIRE_NOTHROW(h = try_sequence(value));
+        REQUIRE_NOTHROW(fm = try_sequence(value));
         REQUIRE(value == 444);
-        REQUIRE_NOTHROW(sp.resume());
+
+        auto coro = static_cast<coroutine_handle<void>>(sp);
+        REQUIRE_NOTHROW(coro.resume());
         REQUIRE(value == 555);
     }
 
@@ -105,7 +115,6 @@ TEST_CASE("async_generator", "[generic]")
     {
         int value = 0;
         suspend_hook sp{};
-
         {
             auto example = [&]() -> sequence<int> {
                 int v{};
@@ -113,7 +122,7 @@ TEST_CASE("async_generator", "[generic]")
                 co_yield sp;
                 co_yield v = 777;
             };
-            auto try_sequence = [&](int& ref) -> frame_holder {
+            auto try_sequence = [&](int& ref) -> return_frame {
                 // clang-format off
                 for co_await(int v : example()) 
                     ref = v;
@@ -121,7 +130,7 @@ TEST_CASE("async_generator", "[generic]")
                 co_return;
             };
 
-            REQUIRE_NOTHROW(h = try_sequence(value));
+            REQUIRE_NOTHROW(fm = try_sequence(value));
         }
         REQUIRE(value == 666);
     }

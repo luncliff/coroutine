@@ -4,31 +4,23 @@
     <Filter Include="coroutine">
       <UniqueIdentifier>{44f42267-f0ae-40c4-ac5d-efb837088044}</UniqueIdentifier>
     </Filter>
-    <Filter Include="test">
+    <Filter Include="net">
       <UniqueIdentifier>{4a28942f-11c5-4837-8735-cbd30c80bfaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resumable">
+      <UniqueIdentifier>{4d63c98c-d0e4-44d8-b688-02684f64aa9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="channel">
+      <UniqueIdentifier>{55c934e7-5cc5-471a-87a3-e1d2d6d7abde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="suspend">
+      <UniqueIdentifier>{191b4c48-2040-4a22-8dc8-c6e5ce857a26}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="net\vs_resolver.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="net\vs_socket_broadcast.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="net\vs_socket_multicast.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="net\vs_socket_echo_tcp.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="net\vs_socket_echo_udp.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="net\vs_socket.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="..\interface\coroutine\channel.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
     <ClInclude Include="..\interface\coroutine\enumerable.hpp">
       <Filter>coroutine</Filter>
     </ClInclude>
@@ -41,8 +33,46 @@
     <ClInclude Include="..\interface\coroutine\return.h">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="net\socket.h">
-      <Filter>test</Filter>
+    <ClInclude Include="..\interface\coroutine\sequence.hpp">
+      <Filter>coroutine</Filter>
     </ClInclude>
+    <ClInclude Include="..\interface\coroutine\suspend_queue.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\sync.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="net\socket_test.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="channel\channel_test.h">
+      <Filter>channel</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="net\vs_resolver.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="net\vs_socket.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="channel\vs_channel.cpp">
+      <Filter>channel</Filter>
+    </ClCompile>
+    <ClCompile Include="resumable\vs_async_generator.cpp">
+      <Filter>resumable</Filter>
+    </ClCompile>
+    <ClCompile Include="resumable\vs_generator.cpp">
+      <Filter>resumable</Filter>
+    </ClCompile>
+    <ClCompile Include="suspend\vs_wait_group.cpp">
+      <Filter>suspend</Filter>
+    </ClCompile>
+    <ClCompile Include="suspend\vs_suspend_queue.cpp">
+      <Filter>suspend</Filter>
+    </ClCompile>
+    <ClCompile Include="resumable\vs_return_types.cpp">
+      <Filter>resumable</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

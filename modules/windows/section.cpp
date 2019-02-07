@@ -9,7 +9,7 @@
 //      https://docs.microsoft.com/en-us/cpp/parallel/concrt/concurrency-runtime?view=vs-2017
 //
 // ---------------------------------------------------------------------------
-#include <coroutine/sync.h>
+#include "suspend/section.h"
 
 #include <gsl/gsl>
 

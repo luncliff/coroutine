@@ -32,8 +32,7 @@ auto for_win32(wait_group* wg) noexcept -> gsl::not_null<wait_group_win32*>
 GSL_SUPPRESS(r .11)
 wait_group::wait_group() noexcept(false) : storage{}
 {
-    auto wg = for_win32(this);
-    new (wg) wait_group_win32{};
+    auto wg = new (for_win32(this)) wait_group_win32{};
 
     wg->ev = CreateEventA(nullptr, false, false, nullptr);
 

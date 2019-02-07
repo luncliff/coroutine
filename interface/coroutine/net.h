@@ -70,7 +70,7 @@ union endpoint_t final {
     sockaddr_in6 in6;
 };
 
-struct _INTERFACE_ io_work_t : public io_control_block
+struct io_work_t : public io_control_block
 {
     coroutine_task_t task{};
     buffer_view_t buffer{};
@@ -83,8 +83,8 @@ struct _INTERFACE_ io_work_t : public io_control_block
     };
 
   public:
-    bool ready() const noexcept;
-    uint32_t error() const noexcept;
+    _INTERFACE_ bool ready() const noexcept;
+    _INTERFACE_ uint32_t error() const noexcept;
 };
 static_assert(sizeof(buffer_view_t) <= sizeof(void*) * 2);
 static_assert(sizeof(io_work_t) <= 64);

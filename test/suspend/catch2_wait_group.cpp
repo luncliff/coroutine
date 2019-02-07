@@ -9,35 +9,7 @@
 #include "stop_watch.hpp"
 #include <coroutine/sync.h>
 
-TEST_CASE("section", "[sync][thread]")
-{
-    // mutex for critical section
-    section mtx{};
-
-    constexpr auto max_repeat = 1'000;
-
-    auto stress_on_lock = [&]() {
-        auto repeat = max_repeat;
-        while (repeat--)
-        {
-            std::lock_guard lck{mtx};
-
-            using namespace std::literals;
-            std::this_thread::yield();
-        }
-    };
-
-    // threads will race on the mutex
-    std::thread //
-        t1{stress_on_lock},
-        t2{stress_on_lock}, t3{stress_on_lock}, t4{stress_on_lock},
-        t5{stress_on_lock}, t6{stress_on_lock}, t7{stress_on_lock};
-
-    REQUIRE_NOTHROW(t1.join(), t2.join(), t3.join(), t4.join(), t5.join(),
-                    t6.join(), t7.join());
-}
-
-TEST_CASE("wait_group", "[sync][thread]")
+TEST_CASE("wait_group", "[sync]")
 {
     using namespace std::chrono;
     using namespace std::literals;

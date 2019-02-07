@@ -6,12 +6,17 @@
 
 target_sources(${PROJECT_NAME}
 PRIVATE
-    windows/sync.cpp
-    windows/section.cpp
-    windows/switch_to.cpp
     windows/wait_group.cpp
-    windows/net.cpp
+
+    suspend/circular_queue.hpp
+    suspend/message_queue.h
+    suspend/lock_cond_queue.cpp
+    suspend/section.h
+    suspend/queue.cpp
+    windows/section.cpp
+
     net/resolver.cpp
+    windows/net.cpp
 )
 
 target_compile_definitions(${PROJECT_NAME}

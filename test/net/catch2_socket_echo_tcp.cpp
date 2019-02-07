@@ -15,9 +15,11 @@ using namespace std;
 using namespace gsl;
 using namespace std::chrono_literals;
 
-auto coro_recv_stream(int64_t sd, int64_t& rsz, wait_group& wg) -> unplug;
-auto coro_send_stream(int64_t sd, int64_t& ssz, wait_group& wg) -> unplug;
-auto echo_incoming_stream(int64_t sd) -> unplug;
+auto coro_recv_stream(int64_t sd, int64_t& rsz, wait_group& wg)
+    -> return_ignore;
+auto coro_send_stream(int64_t sd, int64_t& ssz, wait_group& wg)
+    -> return_ignore;
+auto echo_incoming_stream(int64_t sd) -> return_ignore;
 
 TEST_CASE("socket tcp echo test", "[network][socket]")
 {
@@ -131,7 +133,7 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
 }
 
 auto coro_recv_stream( //
-    int64_t sd, int64_t& rsz, wait_group& wg) -> unplug
+    int64_t sd, int64_t& rsz, wait_group& wg) -> return_ignore
 {
     using gsl::byte;
     auto d = finally([&wg]() { // ensure noti to wait_group
@@ -147,7 +149,7 @@ auto coro_recv_stream( //
     REQUIRE(rsz > 0);
 }
 
-auto coro_send_stream(int64_t sd, int64_t& ssz, wait_group& wg) -> unplug
+auto coro_send_stream(int64_t sd, int64_t& ssz, wait_group& wg) -> return_ignore
 {
     using gsl::byte;
 
@@ -164,7 +166,7 @@ auto coro_send_stream(int64_t sd, int64_t& ssz, wait_group& wg) -> unplug
     REQUIRE(ssz > 0);
 }
 
-auto echo_incoming_stream(int64_t sd) -> unplug
+auto echo_incoming_stream(int64_t sd) -> return_ignore
 {
     using gsl::byte;
 

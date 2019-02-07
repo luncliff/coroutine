@@ -4,13 +4,12 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include <coroutine/sync.h>
+#include "suspend/section.h"
 
-#include <cstdio>
-#include <system_error>
+#include <gsl/gsl>
 
-#include <pthread.h>   // implement over pthread API
-#include <sys/types.h> // system types
+#include <pthread.h>
+#include <sys/types.h>
 
 struct section_osx final
 {

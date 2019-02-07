@@ -10,18 +10,14 @@
 #include <array>
 #include <numeric>
 
-#include <Windows.h>
+// clang-format off
 #include <sdkddkver.h>
-
 #include <CppUnitTest.h>
-#include <TlHelp32.h>
-#include <threadpoolapiset.h>
+// clang-format on
 
 using namespace std::literals;
 using namespace std::experimental;
-
-using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
-using Microsoft::VisualStudio::CppUnitTestFramework::TestClass;
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 class generator_test : public TestClass<generator_test>
 {
