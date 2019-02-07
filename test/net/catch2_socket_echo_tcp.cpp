@@ -24,7 +24,7 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
     constexpr auto test_listen_port = 32345;
 
     addrinfo hint{};
-    hint.ai_family = AF_INET; // AF_INET or AF_INET6
+    hint.ai_family = AF_INET; // test with ipv4
     hint.ai_socktype = SOCK_STREAM;
     hint.ai_protocol = IPPROTO_TCP;
 

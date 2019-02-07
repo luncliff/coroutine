@@ -15,9 +15,9 @@ using namespace std;
 using namespace gsl;
 using namespace std::chrono_literals;
 
-auto coro_recv_dgram(int64_t sd, sockaddr_in6& remote, int64_t& rsz,
+auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz,
                      wait_group& wg) -> unplug;
-auto coro_send_dgram(int64_t sd, const sockaddr_in6& remote, int64_t& ssz,
+auto coro_send_dgram(int64_t sd, const sockaddr_in& remote, int64_t& ssz,
                      wait_group& wg) -> unplug;
 
 auto echo_incoming_datagram(int64_t sd) -> unplug;
@@ -25,8 +25,8 @@ auto echo_incoming_datagram(int64_t sd) -> unplug;
 TEST_CASE("socket udp echo test", "[network][socket]")
 {
     constexpr auto test_service_port = 32771;
-    addrinfo hint{}; // address hint
-    hint.ai_family = AF_INET6;
+    addrinfo hint{};
+    hint.ai_family = AF_INET; // test with ipv4
     hint.ai_socktype = SOCK_DGRAM;
     hint.ai_protocol = IPPROTO_UDP;
 
@@ -38,9 +38,10 @@ TEST_CASE("socket udp echo test", "[network][socket]")
     socket_set_option_nonblock(ss);
 
     endpoint_t ep{};
-    ep.in6.sin6_family = hint.ai_family;
-    ep.in6.sin6_addr = in6addr_any;
-    ep.in6.sin6_port = htons(test_service_port);
+    ep.in6.sin6_family = hint.ai_family;        //   -- ipv6 --
+    ep.in4.sin_addr.s_addr = htonl(INADDR_ANY); // in6.sin6_addr <- in6addr_any
+    ep.in4.sin_port = htons(test_service_port); // in6.sin6_port <- htons(port)
+
     socket_bind(ss, ep.storage);
 
     // start service
@@ -53,7 +54,7 @@ TEST_CASE("socket udp echo test", "[network][socket]")
         array<int64_t, max_clients> clients{};
         array<int64_t, max_clients> recv_lengths{};
         array<int64_t, max_clients> send_lengths{};
-        array<sockaddr_in6, max_clients> recv_endpoints{};
+        array<sockaddr_in, max_clients> recv_endpoints{};
 
         gsl::index i = 0u;
         for (auto sd : socket_create(hint, clients.size()))
@@ -77,9 +78,10 @@ TEST_CASE("socket udp echo test", "[network][socket]")
                                 wg);
 
             // send packets to service address
-            ep.in6.sin6_addr = in6addr_loopback;
+            // in6.sin6_addr <- in6addr_loopback; // for ipv6
+            ep.in4.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
             for (i = 0; i < max_clients; ++i)
-                coro_send_dgram(clients[i], ep.in6, send_lengths[i], wg);
+                coro_send_dgram(clients[i], ep.in4, send_lengths[i], wg);
 
 #if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
             // !!!!!
@@ -100,9 +102,9 @@ TEST_CASE("socket udp echo test", "[network][socket]")
         for (i = 0; i < max_clients; ++i)
         {
             REQUIRE(send_lengths[i] == recv_lengths[i]);
-            bool equal = memcmp(addressof(ep.in6.sin6_addr),
-                                addressof(recv_endpoints[i].sin6_addr),
-                                sizeof(in6_addr))
+            bool equal = memcmp(addressof(ep.in4.sin_addr),
+                                addressof(recv_endpoints[i].sin_addr), //
+                                sizeof(in_addr))
                          == 0;
             REQUIRE(equal);
         }
@@ -110,7 +112,7 @@ TEST_CASE("socket udp echo test", "[network][socket]")
     // test end
 }
 
-auto coro_recv_dgram(int64_t sd, sockaddr_in6& remote, int64_t& rsz,
+auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz,
                      wait_group& wg) -> unplug
 {
     using gsl::byte;
@@ -126,7 +128,7 @@ auto coro_recv_dgram(int64_t sd, sockaddr_in6& remote, int64_t& rsz,
     REQUIRE(work.error() == 0);
 }
 
-auto coro_send_dgram(int64_t sd, const sockaddr_in6& remote, int64_t& ssz,
+auto coro_send_dgram(int64_t sd, const sockaddr_in& remote, int64_t& ssz,
                      wait_group& wg) -> unplug
 {
     using gsl::byte;
@@ -148,7 +150,7 @@ auto echo_incoming_datagram(int64_t sd) -> unplug
     io_work_t work{};
     buffer_view_t buf{};
     int64_t rsz = 0, ssz = 0;
-    sockaddr_in6 remote{};
+    sockaddr_in remote{};
     array<byte, 3927> storage{};
 
     while (true)
