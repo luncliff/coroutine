@@ -6,7 +6,7 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/sync.h>
 
-#include <cstdio>
+#include <atomic>
 #include <ctime>
 #include <system_error>
 
@@ -22,7 +22,7 @@ struct wait_group_posix final
     pthread_mutex_t mtx{};
 };
 
-auto for_posix(wait_group* wg) noexcept
+auto for_posix(wait_group* wg) noexcept -> wait_group_posix*
 {
     static_assert(sizeof(wait_group_posix) <= sizeof(wait_group));
     return reinterpret_cast<wait_group_posix*>(wg);
@@ -30,9 +30,7 @@ auto for_posix(wait_group* wg) noexcept
 
 wait_group::wait_group() noexcept(false) : storage{}
 {
-    auto* wg = for_posix(this);
-
-    new (wg) wait_group_posix{};
+    auto wg = new (for_posix(this)) wait_group_posix{};
 
     // init attr?
     if (auto ec = pthread_mutex_init(addressof(wg->mtx), nullptr))
@@ -44,7 +42,7 @@ wait_group::wait_group() noexcept(false) : storage{}
 
 wait_group::~wait_group() noexcept
 {
-    auto* wg = for_posix(this);
+    auto wg = for_posix(this);
     try
     {
         if (auto ec = pthread_cond_destroy(addressof(wg->cv)))
@@ -61,7 +59,7 @@ wait_group::~wait_group() noexcept
 
 void wait_group::add(uint16_t delta) noexcept
 {
-    auto* wg = for_posix(this);
+    auto wg = for_posix(this);
 
     // just increase count.
     // notice that delta is always positive
@@ -70,7 +68,7 @@ void wait_group::add(uint16_t delta) noexcept
 
 void wait_group::done() noexcept
 {
-    auto* wg = for_posix(this);
+    auto wg = for_posix(this);
 
     if (wg->count > 0)
         wg->count.fetch_sub(1);

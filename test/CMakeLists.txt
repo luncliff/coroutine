@@ -16,6 +16,8 @@ endif()
 add_executable(coroutine_test
     catch2_entry.cpp
 
+    suspend/suspend_test.h
+    suspend/catch2_suspend.cpp
     suspend/catch2_suspend_queue.cpp
     suspend/catch2_wait_group.cpp
 

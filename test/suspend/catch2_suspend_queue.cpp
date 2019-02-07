@@ -4,11 +4,11 @@
 //
 #include <catch2/catch.hpp>
 
-#include <thread>
-
 #include <coroutine/return.h>
 #include <coroutine/suspend_queue.h>
 #include <coroutine/sync.h>
+
+#include "./suspend_test.h"
 
 using namespace std;
 using namespace std::literals;
@@ -62,23 +62,19 @@ TEST_CASE("suspend_queue", "[suspend][thread]")
             REQUIRE_NOTHROW(coro.resume());
         }};
 
-        using thread_id_t = std::thread::id;
-
         auto routine = [&sq](thread_id_t& invoke_id,
                              thread_id_t& resume_id) -> return_ignore {
-            invoke_id = this_thread::get_id();
+            invoke_id = get_current_thread_id();
             co_await sq.wait();
-            resume_id = this_thread::get_id();
+            resume_id = get_current_thread_id();
         };
 
         thread_id_t id1{}, id2{};
         routine(id1, id2);
 
-        auto worker_id = worker.get_id();
         REQUIRE_NOTHROW(worker.join());
-        REQUIRE(id1 != id2);
-        REQUIRE(id1 == this_thread::get_id()); // invoke id == this thread
-        REQUIRE(id2 == worker_id);             // resume id == worker thread
+        REQUIRE(id1 != id2);                     // resume id == worker thread
+        REQUIRE(id1 == get_current_thread_id()); // invoke id == this thread
     }
 
     SECTION("multiple worker thread")
