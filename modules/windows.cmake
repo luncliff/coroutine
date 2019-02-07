@@ -34,9 +34,16 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
         _RESUMABLE_FUNCTIONS_SUPPORTED
     )
     if(BUILD_SHARED_LIBS)
+        # clang-cl build failes for this condition.
+        # finding a solution, but can't sure about it...
         target_compile_definitions(${PROJECT_NAME}
         PRIVATE
             _WINDLL
+        )
+    else()
+        target_compile_definitions(${PROJECT_NAME}
+        PUBLIC
+            USE_STATIC_LINK_MACRO
         )
     endif()
 

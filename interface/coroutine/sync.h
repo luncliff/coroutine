@@ -13,26 +13,25 @@
 //
 // ---------------------------------------------------------------------------
 #pragma once
-#ifndef LINKABLE_DLL_MACRO
-#define LINKABLE_DLL_MACRO
 
-#ifdef _MSC_VER // MSVC
-#define _HIDDEN_
-#ifdef _WINDLL
-#define _INTERFACE_ __declspec(dllexport)
-#else
-#define _INTERFACE_ __declspec(dllimport)
-#endif
-
-#elif __GNUC__ || __clang__ // GCC or Clang
-#define _INTERFACE_ __attribute__((visibility("default")))
-#define _HIDDEN_ __attribute__((visibility("hidden")))
-
-#else
-#error "unexpected compiler"
-
-#endif // compiler check
-#endif // LINKABLE_DLL_MACRO
+#ifdef USE_STATIC_LINK_MACRO // clang-format off
+#   define _INTERFACE_
+#   define _HIDDEN_
+#else // ignore macro declaration in static build
+#   if defined(_MSC_VER) // MSVC
+#       define _HIDDEN_
+#       ifdef _WINDLL
+#           define _INTERFACE_ __declspec(dllexport)
+#       else
+#           define _INTERFACE_ __declspec(dllimport)
+#       endif
+#   elif defined(__GNUC__) || defined(__clang__)
+#       define _INTERFACE_ __attribute__((visibility("default")))
+#       define _HIDDEN_ __attribute__((visibility("hidden")))
+#   else
+#       error "unexpected compiler"
+#   endif // compiler check
+#endif // clang-format on
 
 #ifndef CONTROL_FLOW_SYNC_H
 #define CONTROL_FLOW_SYNC_H

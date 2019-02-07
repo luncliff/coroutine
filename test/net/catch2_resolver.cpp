@@ -4,10 +4,12 @@
 //
 #include <catch2/catch.hpp>
 
-#include <coroutine/net.h>
+#include "./socket_test.h"
 
 TEST_CASE("getnameinfo", "[network]")
 {
+    load_network_api();
+
     SECTION("host_name")
     {
         const auto name = host_name();
@@ -47,6 +49,8 @@ TEST_CASE("getnameinfo", "[network]")
 
 TEST_CASE("getaddrinfo", "[network]")
 {
+    load_network_api();
+
     auto count = 0u;
     addrinfo hint{};
 

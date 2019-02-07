@@ -21,6 +21,8 @@ auto echo_incoming_stream(int64_t sd) -> unplug;
 
 TEST_CASE("socket tcp echo test", "[network][socket]")
 {
+    load_network_api();
+
     constexpr auto test_listen_port = 32345;
 
     addrinfo hint{};

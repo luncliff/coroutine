@@ -24,6 +24,8 @@ auto echo_incoming_datagram(int64_t sd) -> unplug;
 
 TEST_CASE("socket udp echo test", "[network][socket]")
 {
+    load_network_api();
+
     constexpr auto test_service_port = 32771;
     addrinfo hint{};
     hint.ai_family = AF_INET; // test with ipv4

@@ -5,6 +5,8 @@
 #pragma once
 #include <coroutine/net.h>
 
+void load_network_api() noexcept(false);
+
 // - Note
 //      create 1 socket
 int64_t socket_create(const addrinfo& hint);

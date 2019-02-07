@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 3.8)
 project(coroutine LANGUAGES CXX VERSION 1.3.2)
 
 # import cmake code snippets. see `cmake/`
-list(APPEND CMAKE_MODULE_PATH 
+list(APPEND CMAKE_MODULE_PATH
             ${PROJECT_SOURCE_DIR}/cmake
 )
 include(test-target-platform)

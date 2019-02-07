@@ -3,6 +3,7 @@
 //  License : CC BY 4.0
 //
 #include <catch2/catch.hpp>
+#include <gsl/gsl>
 
 #include "./socket_test.h"
 
@@ -91,3 +92,40 @@ void socket_set_option_nodelay(int64_t sd)
     if (opt != 0)
         FAIL(strerror(errno));
 }
+
+#if defined(_MSC_VER)
+
+WSADATA wsa_data{};
+
+auto net_api_release = gsl::finally([]() noexcept {
+    // check and release
+    if (wsa_data.wVersion != 0)
+        ::WSACleanup();
+
+    wsa_data.wVersion = 0;
+});
+
+void load_network_api() noexcept(false)
+{
+    using namespace std;
+    if (wsa_data.wVersion) // already initialized
+        return;
+
+    // init version 2.2
+    if (::WSAStartup(MAKEWORD(2, 2), &wsa_data))
+    {
+        auto errc = WSAGetLastError();
+        auto em = system_category().message(errc);
+        fputs(em.c_str(), stderr);
+        // throw system_error{errc, system_category(), "WSAStartup"};
+    }
+}
+
+#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
+
+void load_network_api() noexcept(false)
+{
+    // do nothing for posix system. network operation already available
+}
+
+#endif

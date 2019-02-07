@@ -40,7 +40,7 @@ class unplug final
         void unhandled_exception() noexcept(false)
         {
             // terminate the program.
-            std::terminate();
+            // std::terminate();
         }
 
         promise_type* get_return_object() noexcept
