@@ -10,9 +10,10 @@
 #pragma once
 
 #ifdef USE_STATIC_LINK_MACRO // clang-format off
+// ignore macro declaration in static build
 #   define _INTERFACE_
 #   define _HIDDEN_
-#else // ignore macro declaration in static build
+#else
 #   if defined(_MSC_VER) // MSVC
 #       define _HIDDEN_
 #       ifdef _WINDLL
@@ -44,6 +45,8 @@
 using io_control_block = OVERLAPPED;
 
 #else
+#include <fcntl.h>
+#include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
