@@ -9,7 +9,7 @@
 #include <coroutine/sync.h>
 #include <gsl/gsl>
 
-#include "./socket.h"
+#include "./socket_test.h"
 
 using namespace std;
 using namespace gsl;
@@ -24,7 +24,7 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
     constexpr auto test_listen_port = 32345;
 
     addrinfo hint{};
-    hint.ai_family = AF_INET6;
+    hint.ai_family = AF_INET; // AF_INET or AF_INET6
     hint.ai_socktype = SOCK_STREAM;
     hint.ai_protocol = IPPROTO_TCP;
 
@@ -32,13 +32,13 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
     auto d1 = gsl::finally([ln]() { socket_close(ln); });
 
     socket_set_option_reuse_address(ln);
-    socket_set_option_nonblock(ln);
 
     endpoint_t ep{};
-    ep.in6.sin6_family = hint.ai_family;
-    ep.in6.sin6_addr = in6addr_any;
-    ep.in6.sin6_port = htons(test_listen_port);
-    socket_bind(ln, ep.in6);
+    ep.in6.sin6_family = hint.ai_family;        //   -- ipv6 --
+    ep.in4.sin_addr.s_addr = htonl(INADDR_ANY); // in6.sin6_addr <- in6addr_any
+    ep.in4.sin_port = htons(test_listen_port);  // in6.sin6_port <- htons(port)
+
+    socket_bind(ln, ep.storage);
     socket_listen(ln);
 
     SECTION("multiple clients")
@@ -62,10 +62,12 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
         });
 
         // connect to the service
-        ep.in6.sin6_addr = in6addr_loopback;
+        // in6.sin6_addr <- in6addr_loopback; // for ipv6
+        ep.in4.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
         for (auto sd : clients)
         {
-            connect(sd, addressof(ep.addr), sizeof(sockaddr_in6));
+            // be cautious aboud addrlen
+            connect(sd, addressof(ep.addr), sizeof(sockaddr_in));
             CAPTURE(errno);
             CAPTURE(strerror(errno));
             REQUIRE((errno == EINPROGRESS || errno == 0));
@@ -80,13 +82,15 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
         //
         while (true)
         {
-            // notice that `ln` is non-blocking socket.
+            socket_set_option_nonblock(ln); // next accept is non-blocking
+
             auto cs = accept(ln, nullptr, nullptr);
             if (cs == -1) // accept failed
                 break;
 
-            socket_set_option_nodelay(cs);
-            echo_incoming_stream(cs); // attach service coroutine
+            socket_set_option_nonblock(cs); // set some options
+            socket_set_option_nodelay(cs);  // and then
+            echo_incoming_stream(cs);       // attach service coroutine
         }
 
         wait_group wg{};         // wait group for coroutine sync
@@ -136,7 +140,8 @@ auto coro_recv_stream( //
     array<byte, 2000> storage{};
 
     rsz = co_await recv_stream(sd, storage, 0, work);
-    REQUIRE(work.error() == 0);
+    if (auto errc = work.error())
+        FAIL(strerror(errc));
     REQUIRE(rsz > 0);
 }
 
@@ -152,7 +157,8 @@ auto coro_send_stream(int64_t sd, int64_t& ssz, wait_group& wg) -> unplug
     array<byte, 1523> storage{};
 
     ssz = co_await send_stream(sd, storage, 0, work);
-    REQUIRE(work.error() == 0);
+    if (auto errc = work.error())
+        FAIL(strerror(errc));
     REQUIRE(ssz > 0);
 }
 

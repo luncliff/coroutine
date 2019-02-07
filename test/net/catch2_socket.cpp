@@ -4,7 +4,7 @@
 //
 #include <catch2/catch.hpp>
 
-#include "./socket.h"
+#include "./socket_test.h"
 
 #if defined(_MSC_VER)
 #include <Ws2tcpip.h>
@@ -43,10 +43,17 @@ void socket_close(int64_t sd)
 #endif
 }
 
-void socket_bind(int64_t sd, sockaddr_in6& ep)
+void socket_bind(int64_t sd, sockaddr_storage& storage)
 {
+    const auto family = storage.ss_family;
+    socklen_t addrlen = sizeof(sockaddr_in);
+
+    REQUIRE((family == AF_INET || family == AF_INET6));
+    if (family == AF_INET6)
+        addrlen = sizeof(sockaddr_in6);
+
     // bind socket and address
-    if (::bind(sd, reinterpret_cast<sockaddr*>(&ep), sizeof(ep)) != 0)
+    if (::bind(sd, reinterpret_cast<sockaddr*>(&storage), addrlen))
         FAIL(strerror(errno));
 }
 
@@ -63,8 +70,7 @@ void socket_set_option_nonblock(int64_t sd)
     REQUIRE(ioctlsocket(sd, FIONBIO, &mode) == NO_ERROR);
 #elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
     // make non-block/async
-    REQUIRE(fcntl(sd, F_SETFL, O_NONBLOCK | O_ASYNC | fcntl(sd, F_GETFL, 0))
-            != -1);
+    REQUIRE(fcntl(sd, F_SETFL, O_NONBLOCK) != -1);
 #endif
 }
 

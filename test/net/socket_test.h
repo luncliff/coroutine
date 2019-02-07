@@ -19,7 +19,7 @@ void socket_close(int64_t sd);
 
 // - Note
 //      bind the socket to given address
-void socket_bind(int64_t sd, sockaddr_in6& ep);
+void socket_bind(int64_t sd, sockaddr_storage& ep);
 
 // - Note
 //      start listen with the socket
