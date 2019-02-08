@@ -8,6 +8,8 @@
 #include <coroutine/suspend_queue.h>
 #include <coroutine/sync.h>
 
+#include <atomic>
+
 #include "./suspend_test.h"
 
 using namespace std;
@@ -80,7 +82,7 @@ TEST_CASE("suspend_queue", "[suspend][thread]")
     SECTION("multiple worker thread")
     {
         auto resume_only_one = [&sq]() {
-            size_t retry_count = 5;
+            size_t retry_count = 50;
             coroutine_task_t coro{};
 
             while (sq.try_pop(coro) == false)
@@ -89,23 +91,28 @@ TEST_CASE("suspend_queue", "[suspend][thread]")
                 else
                     FAIL("failed to pop from suspend queue");
 
-            REQUIRE_NOTHROW(coro.resume());
+            REQUIRE(coro.done() == false);
+            coro.resume();
         };
 
         // do work with 3 thread
         // suspend_queue works in thread-safe manner
         thread w1{resume_only_one}, w2{resume_only_one}, w3{resume_only_one};
 
-        auto routine = [&sq]() -> return_ignore {
+        auto routine = [&sq](std::atomic<size_t>& count) -> return_ignore {
             co_await sq.wait(); // just wait schedule
+            count += 1;
         };
 
-        routine(); // spawn 3 (num of worker) coroutines
-        routine();
-        routine();
+        std::atomic<size_t> count{};
+
+        routine(count); // spawn 3 (num of worker) coroutines
+        routine(count);
+        routine(count);
 
         // all workers must resumed their own tasks
         REQUIRE_NOTHROW(w1.join(), w2.join(), w3.join());
+        REQUIRE(count == 3);
     }
 
     // test end
