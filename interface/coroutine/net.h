@@ -44,6 +44,8 @@
 
 using io_control_block = OVERLAPPED;
 
+static constexpr bool is_winsock = true;
+static constexpr bool is_netinet = false;
 #else
 #include <fcntl.h>
 #include <netdb.h>
@@ -58,6 +60,8 @@ struct io_control_block
     uint32_t errc;
 };
 
+static constexpr bool is_winsock = false;
+static constexpr bool is_netinet = true;
 #endif
 
 using coroutine_task_t = std::experimental::coroutine_handle<void>;
@@ -213,17 +217,17 @@ static_assert(sizeof(io_recv) == sizeof(io_work_t));
     recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
                 io_work_t& work) noexcept(false) -> io_recv&;
 
-#if defined(_MSC_VER)
-#else
-
 // - Note
-//      Caller must continue loop without break
-//      so that there is no leak of event
+//      This function is only non-windows platform.
+//      Over windows api, it always yields nothing.
+//
+//      User must continue looping without break so that there is no leak of
+//      event. Also, the library doesn't guarantee all coroutines(i/o tasks)
+//      will be fetched at once. Therefore it is strongly recommended for user
+//      to have a method to detect that coroutines are returned.
 _INTERFACE_
 auto wait_io_tasks(std::chrono::nanoseconds timeout) noexcept(false)
     -> enumerable<coroutine_task_t>;
-
-#endif
 
 _INTERFACE_
 auto host_name() noexcept -> gsl::czstring<NI_MAXHOST>;

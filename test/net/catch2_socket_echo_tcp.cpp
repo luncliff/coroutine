@@ -108,21 +108,20 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
             for (i = 0; i < max_clients; ++i)
                 coro_send_stream(clients[i], send_lengths[i], wg);
 
-#if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
-            // !!!!!
-            // unlike windows api, we have to resume tasks manually
-            // the library doesn't guarantee they will be fetched at once
-            // so user have to repeat enough to finish all i/o tasks
-            // !!!!!
-            auto count = 30;
-            while (count--)
+            if constexpr (is_winsock == false)
             {
-                for (auto task : wait_io_tasks(10ms))
-                    task.resume();
+                // unlike windows api, we have to resume tasks manually
+                // the library doesn't guarantee they will be fetched at once
+                // so user have to repeat enough to finish all i/o tasks
+                auto count = 30;
+                while (count--)
+                {
+                    for (auto task : wait_io_tasks(10ms))
+                        task.resume();
+                }
             }
-#endif
         }
-        wg.wait(4s); // ensure all coroutines are finished
+        REQUIRE(wg.wait(4s)); // ensure all coroutines are finished
 
         // now, receive coroutines must hold same data
         // sent by each client sockets
@@ -145,7 +144,10 @@ auto coro_recv_stream( //
 
     rsz = co_await recv_stream(sd, storage, 0, work);
     if (auto errc = work.error())
-        FAIL(strerror(errc));
+    {
+        CAPTURE(errc);
+        FAIL(std::system_category().message(errc));
+    }
     REQUIRE(rsz > 0);
 }
 
@@ -162,7 +164,10 @@ auto coro_send_stream(int64_t sd, int64_t& ssz, wait_group& wg) -> return_ignore
 
     ssz = co_await send_stream(sd, storage, 0, work);
     if (auto errc = work.error())
-        FAIL(strerror(errc));
+    {
+        CAPTURE(errc);
+        FAIL(std::system_category().message(errc));
+    }
     REQUIRE(ssz > 0);
 }
 

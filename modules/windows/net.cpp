@@ -6,6 +6,14 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/net.h>
 
+auto wait_io_tasks(std::chrono::nanoseconds) noexcept(false)
+    -> enumerable<coroutine_task_t>
+{
+    // windows implementation rely on callback.
+    // So this function will always yield nothing
+    co_return;
+}
+
 GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(f .6)
 void CALLBACK onWorkDone(DWORD errc, DWORD sz, LPWSAOVERLAPPED pover,

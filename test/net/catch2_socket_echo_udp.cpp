@@ -63,7 +63,13 @@ TEST_CASE("socket udp echo test", "[network][socket]")
         {
             clients[i++] = sd;
             socket_set_option_nonblock(sd);
+
+            auto local = ep;        // copy family and addr
+            local.in4.sin_port = 0; // system will assign port for the socket
+            socket_bind(sd, local.storage); // socket must be bound
+                                            //  before starting I/O operation
         }
+
         auto d2 = gsl::finally([&clients]() {
             for (auto sd : clients)
                 socket_close(sd);
@@ -85,19 +91,18 @@ TEST_CASE("socket udp echo test", "[network][socket]")
             for (i = 0; i < max_clients; ++i)
                 coro_send_dgram(clients[i], ep.in4, send_lengths[i], wg);
 
-#if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
-            // !!!!!
-            // unlike windows api, we have to resume tasks manually
-            // the library doesn't guarantee they will be fetched at once
-            // so user have to repeat enough to finish all i/o tasks
-            // !!!!!
-            auto count = 30;
-            while (count--)
-                for (auto task : wait_io_tasks(10ms))
-                    task.resume();
-#endif
+            if constexpr (is_winsock == false)
+            {
+                // unlike windows api, we have to resume tasks manually
+                // the library doesn't guarantee they will be fetched at once
+                // so user have to repeat enough to finish all i/o tasks
+                auto count = 30;
+                while (count--)
+                    for (auto task : wait_io_tasks(10ms))
+                        task.resume();
+            }
         }
-        wg.wait(4s); // ensure all coroutines are finished
+        REQUIRE(wg.wait(4s)); // ensure all coroutines are finished
 
         // now, receive coroutines must hold same data
         // sent by each client sockets
@@ -126,8 +131,12 @@ auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz,
     array<byte, 1253> storage{};
 
     rsz = co_await recv_from(sd, remote, storage, work);
+    if (auto errc = work.error())
+    {
+        CAPTURE(errc);
+        FAIL(std::system_category().message(errc));
+    }
     REQUIRE(rsz > 0);
-    REQUIRE(work.error() == 0);
 }
 
 auto coro_send_dgram(int64_t sd, const sockaddr_in& remote, int64_t& ssz,
@@ -142,8 +151,12 @@ auto coro_send_dgram(int64_t sd, const sockaddr_in& remote, int64_t& ssz,
     array<byte, 782> storage{};
 
     ssz = co_await send_to(sd, remote, storage, work);
+    if (auto errc = work.error())
+    {
+        CAPTURE(errc);
+        FAIL(std::system_category().message(errc));
+    }
     REQUIRE(ssz == storage.size());
-    REQUIRE(work.error() == 0);
 }
 
 auto echo_incoming_datagram(int64_t sd) -> return_ignore
@@ -168,5 +181,5 @@ auto echo_incoming_datagram(int64_t sd) -> return_ignore
     co_return;
 OnError:
     auto em = std::system_category().message(work.error());
-    FAIL(em);
+    CAPTURE(em);
 }

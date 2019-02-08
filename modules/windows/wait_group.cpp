@@ -98,9 +98,9 @@ bool wait_group::wait(duration d) noexcept(false)
         else if (ec == WAIT_TIMEOUT)
             return false;
 
-        // return because of APC. same with WAIT_TIMEOUT
+        // return because of APC
         else if (ec == WAIT_IO_COMPLETION)
-            return false;
+            continue;
 
         // ... the other case will be considered exception ...
         throw system_error{gsl::narrow_cast<int>(ec), system_category(),

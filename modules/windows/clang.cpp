@@ -10,13 +10,20 @@
 #error "This library must be compiled with clang 6.0 or later";
 #endif
 
-// manual symbol export for linking
+// let's check the compiler supports coroutine functions
 
-// clang-format off
-// __FUNCTION__ __FUNCDNAME__
-#define LINKER_EXPORT_1(name, dname) "/export:"#name"="#dname
+// in-use functions
+static_assert(__has_builtin(__builtin_coro_done));
+static_assert(__has_builtin(__builtin_coro_resume));
+static_assert(__has_builtin(__builtin_coro_destroy));
 
-// #pragma message(LINKER_EXPORT_1(__FUNCTION__, __FUNCDNAME__))
-// #pragma comment(linker, LINKER_EXPORT_1(__FUNCTION__, __FUNCDNAME__))
-
-// clang-format on
+// known functions
+static_assert(__has_builtin(__builtin_coro_promise));
+static_assert(__has_builtin(__builtin_coro_size));
+static_assert(__has_builtin(__builtin_coro_frame));
+static_assert(__has_builtin(__builtin_coro_free));
+static_assert(__has_builtin(__builtin_coro_id));
+static_assert(__has_builtin(__builtin_coro_begin));
+static_assert(__has_builtin(__builtin_coro_end));
+static_assert(__has_builtin(__builtin_coro_suspend));
+static_assert(__has_builtin(__builtin_coro_param));

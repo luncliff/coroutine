@@ -114,7 +114,7 @@ TEST_CASE("getaddrinfo", "[network]")
         {
             hint.ai_flags = AI_ALL | AI_V4MAPPED //
                             | AI_NUMERICHOST | AI_NUMERICSERV;
-            for (auto ep : resolve(hint, "192.168.0.1", "9287"))
+            for (auto ep : resolve(hint, "::ffff:192.168.0.1", "9287"))
             {
                 REQUIRE(ep.sin6_port == htons(9287));
 
