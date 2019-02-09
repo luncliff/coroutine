@@ -5,15 +5,62 @@
 #include <catch2/catch.hpp>
 
 #include <coroutine/return.h>
-#include <coroutine/suspend_queue.h>
+#include <coroutine/suspend.h>
 #include <coroutine/sync.h>
 
 #include <atomic>
+#include <gsl/gsl>
 
 #include "./suspend_test.h"
 
 using namespace std;
 using namespace std::literals;
+
+TEST_CASE("suspend_hook", "[return]")
+{
+    using namespace std::experimental;
+
+    suspend_hook hk{};
+
+    SECTION("empty")
+    {
+        auto coro = static_cast<coroutine_handle<void>>(hk);
+        REQUIRE(coro.address() == nullptr);
+    }
+
+    SECTION("resume via coroutine handle")
+    {
+        gsl::index status = 0;
+
+        auto routine = [=](suspend_hook& hook, auto& status) -> return_ignore {
+            auto defer = gsl::finally([&]() {
+                // ensure final action
+                status = 3;
+            });
+
+            status = 1;
+            co_await suspend_never{};
+            co_await hook;
+            status = 2;
+            co_await hook;
+            co_return;
+        };
+
+        REQUIRE_NOTHROW(routine(hk, status));
+        REQUIRE(status == 1);
+        auto coro = static_cast<coroutine_handle<void>>(hk);
+        coro.resume();
+
+        REQUIRE(status == 2);
+        coro.resume();
+
+        // coroutine reached end.
+        // so `defer` in the routine must be destroyed
+        REQUIRE(status == 3);
+    }
+
+    // test end
+}
 
 TEST_CASE("suspend_queue", "[suspend][thread]")
 {

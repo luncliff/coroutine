@@ -28,53 +28,27 @@
 #   endif // compiler check
 #endif // clang-format on
 
-#ifndef COROUTINE_SUSPEND_QUEUE_H
-#define COROUTINE_SUSPEND_QUEUE_H
+#ifndef COROUTINE_SUSPEND_HELPER_TYPES_H
+#define COROUTINE_SUSPEND_HELPER_TYPES_H
 
 #include <coroutine/frame.h>
 
 using coroutine_task_t = std::experimental::coroutine_handle<void>;
 
-class suspend_queue;
-
 // - Note
-//      awaitable for suspend queue
-class suspend_wait final
+//      Provide interface for manual resume operation after
+//      being used as an argument of `co_await` *by reference*
+class suspend_hook final : public std::experimental::suspend_always,
+                           public coroutine_task_t
 {
-    friend class suspend_queue;
-
-    suspend_queue& sq;
-
   public:
-    ~suspend_wait() noexcept = default;
-    suspend_wait(suspend_wait&&) noexcept = default;
-    suspend_wait& operator=(suspend_wait&&) noexcept = default;
-    suspend_wait(const suspend_wait&) noexcept = default;
-    suspend_wait& operator=(const suspend_wait&) noexcept = default;
-
-  private:
-    _INTERFACE_ explicit suspend_wait(suspend_queue& q) noexcept;
-
-  public:
-    _INTERFACE_ bool ready() const noexcept;
-    _INTERFACE_ void suspend(coroutine_task_t coro) noexcept(false);
-    _INTERFACE_ void resume() noexcept;
-
-#pragma warning(disable : 4505)
-    bool await_ready() const noexcept
+    void await_suspend(coroutine_task_t rh) noexcept
     {
-        return this->ready();
+        coroutine_task_t& coro = *this;
+        coro = std::move(rh); // update frame value
     }
-    void await_suspend(coroutine_task_t coro) noexcept(false)
-    {
-        return this->suspend(coro);
-    }
-    void await_resume() noexcept
-    {
-        return this->resume();
-    }
-#pragma warning(default : 4505)
 };
+static_assert(sizeof(suspend_hook) == sizeof(coroutine_task_t));
 
 // - Note
 //      Interface to suspend coroutines and fetch them *manually*.
@@ -92,10 +66,32 @@ class suspend_queue final
     _INTERFACE_ suspend_queue() noexcept(false);
     _INTERFACE_ ~suspend_queue() noexcept;
 
-    _INTERFACE_ auto wait() noexcept -> suspend_wait;
-
     _INTERFACE_ void push(coroutine_task_t coro) noexcept(false);
     _INTERFACE_ bool try_pop(coroutine_task_t& coro) noexcept;
+
+    // - Note
+    //      Return an awaitable that enqueue the coroutine
+    //      Relay code will be generated with this header to minimize dllexport
+    //      functions
+    auto wait() noexcept
+    {
+        // awaitable for suspend queue
+        class redirect_to final : public std::experimental::suspend_always
+        {
+            suspend_queue& sq;
+
+          public:
+            redirect_to(suspend_queue& q) noexcept : sq{q}
+            {
+            }
+            void await_suspend(coroutine_task_t coro) noexcept(false)
+            {
+                return sq.push(coro);
+            }
+        };
+        static_assert(sizeof(redirect_to) == sizeof(void*));
+        return redirect_to{*this};
+    }
 };
 
-#endif // COROUTINE_SUSPEND_QUEUE_H
+#endif // COROUTINE_SUSPEND_HELPER_TYPES_H

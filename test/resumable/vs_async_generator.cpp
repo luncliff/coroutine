@@ -5,6 +5,7 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/return.h>
+#include <coroutine/suspend.h>
 #include <coroutine/sequence.hpp>
 
 // clang-format off

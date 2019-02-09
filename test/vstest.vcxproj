@@ -216,7 +216,7 @@
     <ClInclude Include="..\interface\coroutine\net.h" />
     <ClInclude Include="..\interface\coroutine\return.h" />
     <ClInclude Include="..\interface\coroutine\sequence.hpp" />
-    <ClInclude Include="..\interface\coroutine\suspend_queue.h" />
+    <ClInclude Include="..\interface\coroutine\suspend.h" />
     <ClInclude Include="..\interface\coroutine\sync.h" />
     <ClInclude Include="channel\channel_test.h" />
     <ClInclude Include="net\socket_test.h" />

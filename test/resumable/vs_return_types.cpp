@@ -25,7 +25,3 @@ class return_ignore_test : public TestClass<return_ignore_test>
 class return_frame_test : public TestClass<return_frame_test>
 {
 };
-
-class suspend_hook_test : public TestClass<suspend_hook_test>
-{
-};

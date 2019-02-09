@@ -6,6 +6,7 @@
 
 #include <coroutine/return.h>
 #include <coroutine/sequence.hpp>
+#include <coroutine/suspend.h>
 #include <gsl/gsl>
 
 TEST_CASE("async_generator", "[generic]")
