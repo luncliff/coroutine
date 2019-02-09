@@ -225,6 +225,8 @@
     <ClCompile Include="channel\vs_channel.cpp" />
     <ClCompile Include="net\vs_resolver.cpp" />
     <ClCompile Include="net\vs_socket.cpp" />
+    <ClCompile Include="net\vs_socket_echo_tcp.cpp" />
+    <ClCompile Include="net\vs_socket_echo_udp.cpp" />
     <ClCompile Include="resumable\vs_async_generator.cpp" />
     <ClCompile Include="resumable\vs_generator.cpp" />
     <ClCompile Include="resumable\vs_return_types.cpp" />

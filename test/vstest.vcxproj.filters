@@ -74,5 +74,11 @@
     <ClCompile Include="resumable\vs_return_types.cpp">
       <Filter>resumable</Filter>
     </ClCompile>
+    <ClCompile Include="net\vs_socket_echo_tcp.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="net\vs_socket_echo_udp.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

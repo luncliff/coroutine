@@ -4,11 +4,10 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include <coroutine/net.h>
 #include <coroutine/return.h>
 #include <coroutine/sync.h>
 
-#include <gsl/gsl>
+#include "./socket_test.h"
 
 // clang-format off
 #include <sdkddkver.h>
@@ -17,10 +16,6 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
-using namespace gsl;
-
-void create_bound_socket(SOCKET& sd, sockaddr_in6& ep, const addrinfo& hint,
-                         gsl::czstring<> host, gsl::czstring<> port);
 
 auto coro_recv_dgram(SOCKET sd, sockaddr_in6& remote, int64_t& rsz,
                      wait_group& wg) -> return_ignore;
@@ -50,8 +45,20 @@ class socket_udp_echo_test : public TestClass<socket_udp_echo_test>
         hint.ai_flags
             = AI_PASSIVE | AI_NUMERICHOST | AI_NUMERICHOST | AI_NUMERICSERV;
 
-        create_bound_socket(ss, ep.in6, hint, "::1", "32771");
-        Assert::IsTrue(ep.in6.sin6_port == htons(32771));
+        ss = static_cast<SOCKET>(socket_create(hint));
+
+        auto af = ep.storage.ss_family = hint.ai_family;
+        if (af == AF_INET)
+        {
+            ep.in4.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+            ep.in4.sin_port = htons(32771);
+        }
+        else if (af == AF_INET6)
+        {
+            ep.in6.sin6_addr = in6addr_loopback;
+            ep.in6.sin6_port = htons(32771);
+        }
+        socket_bind(ss, ep.storage);
 
         start_service();
     }
@@ -60,8 +67,6 @@ class socket_udp_echo_test : public TestClass<socket_udp_echo_test>
     {
         stop_service();
     }
-
-    auto create_async_sockets(size_t count) -> enumerable<SOCKET>;
 
     TEST_METHOD(socket_udp_echo)
     {
@@ -75,12 +80,17 @@ class socket_udp_echo_test : public TestClass<socket_udp_echo_test>
         array<int64_t, max_clients> send_lengths{};
         array<sockaddr_in6, max_clients> recv_endpoints{};
 
-        index i = 0u;
-        for (auto sd : create_async_sockets(clients.size()))
+        gsl::index i = 0u;
+        for (auto sd : socket_create(hint, clients.size()))
+        {
             clients[i++] = sd;
 
-        // send to echo service
-        ep.in6.sin6_addr = in6addr_loopback;
+            endpoint_t local{};
+            local.in6.sin6_family = AF_INET6;
+            local.in6.sin6_addr = in6addr_any;
+            local.in6.sin6_port = 0; // let system define the port
+            socket_bind(sd, local.storage);
+        }
 
         // each client will perform 1 recv and 1 send
         wg.add(max_clients * 2);
@@ -90,11 +100,12 @@ class socket_udp_echo_test : public TestClass<socket_udp_echo_test>
             coro_recv_dgram(clients[i], recv_endpoints[i], recv_lengths[i], wg);
 
         // send packets to service address
+        ep.in6.sin6_addr = in6addr_loopback;
         for (i = 0; i < max_clients; ++i)
             coro_send_dgram(clients[i], ep.in6, send_lengths[i], wg);
 
         // wait for coroutines
-        wg.wait(10s);
+        Assert::IsTrue(wg.wait(10s));
 
         // now, receive coroutines must hold same data
         // sent by each client sockets
@@ -108,10 +119,7 @@ class socket_udp_echo_test : public TestClass<socket_udp_echo_test>
 
         // close
         for (auto sd : clients)
-        {
-            shutdown(sd, SD_BOTH);
-            closesocket(sd);
-        }
+            socket_close(sd);
     }
 };
 
@@ -122,46 +130,14 @@ void socket_udp_echo_test::start_service()
 
 void socket_udp_echo_test::stop_service()
 {
-    shutdown(ss, SD_RECEIVE);
-    closesocket(ss);
+    socket_close(ss);
 }
 
-auto socket_udp_echo_test::create_async_sockets(size_t count)
-    -> enumerable<SOCKET>
-{
-    SOCKET sd = INVALID_SOCKET;
-    endpoint_t ep{};
-
-    Assert::IsTrue(hint.ai_family == AF_INET6);
-
-    ep.in6.sin6_family = hint.ai_family;
-    ep.in6.sin6_addr = in6addr_any;
-    ep.in6.sin6_port = htons(64211);
-
-    while (count--)
-    {
-        // use address hint in test class
-        sd = ::WSASocketW(hint.ai_family, hint.ai_socktype, hint.ai_protocol,
-                          nullptr, 0, WSA_FLAG_OVERLAPPED);
-        Assert::IsTrue(sd != INVALID_SOCKET);
-
-        // datagram socket need to be bound to operate
-        ep.in6.sin6_port = htons(64211 + count);
-
-        // bind socket and address
-        Assert::IsTrue( //
-            NO_ERROR == ::bind(sd, addressof(ep.addr), sizeof(sockaddr_in6)));
-
-        co_yield sd;
-    }
-}
-
-auto coro_recv_dgram( //
-    SOCKET sd, sockaddr_in6& remote, int64_t& rsz, wait_group& wg)
-    -> return_ignore
+auto coro_recv_dgram(SOCKET sd, sockaddr_in6& remote, int64_t& rsz,
+                     wait_group& wg) -> return_ignore
 {
     // ensure noti to wait_group
-    auto d = finally([&wg]() { wg.done(); });
+    auto d = gsl::finally([&wg]() { wg.done(); });
 
     io_work_t work{};
     array<byte, 1253> storage{};
@@ -171,12 +147,11 @@ auto coro_recv_dgram( //
     Assert::IsTrue(work.error() == NO_ERROR);
 }
 
-auto coro_send_dgram( //
-    SOCKET sd, const sockaddr_in6& remote, int64_t& ssz, wait_group& wg)
-    -> return_ignore
+auto coro_send_dgram(SOCKET sd, const sockaddr_in6& remote, int64_t& ssz,
+                     wait_group& wg) -> return_ignore
 {
     // ensure noti to wait_group
-    auto d = finally([&wg]() { wg.done(); });
+    auto d = gsl::finally([&wg]() { wg.done(); });
 
     io_work_t work{};
     array<byte, 782> storage{};
