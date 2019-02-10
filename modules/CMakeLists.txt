@@ -23,20 +23,9 @@ PUBLIC
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
 PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}    
+    ${GSL_INCLUDE_DIR}  # since the library is header-only, 
+                        # end user will manage the path properly
 )
-
-if(TARGET GSL)
-    target_link_libraries(${PROJECT_NAME}
-    PRIVATE # prevent exporting with dependency
-        GSL
-    )
-else()
-    target_include_directories(${PROJECT_NAME}
-    PRIVATE
-        ${GSL_INCLUDE_DIR}  # since the library is header-only, 
-                            # end user will manage the path properly
-    )
-endif()
 
 # to prevent creating sub-library,
 #   incrementally attach code/properties using CMake include
