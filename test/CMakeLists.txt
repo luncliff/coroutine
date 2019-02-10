@@ -43,6 +43,7 @@ target_include_directories(coroutine_test
 PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/modules/
+    ${GSL_INCLUDE_DIR}
 )
 
 target_link_libraries(coroutine_test

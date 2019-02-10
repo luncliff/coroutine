@@ -28,20 +28,34 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 include(display-build-info)
 
-find_package(GSL)
-if(NOT GSL_FOUND)
-    add_subdirectory(external/guideline)
+# GSL(Guideline Support Library) configuration
+if(${CMAKE_TOOLCHAIN_FILE} MATCHES vcpkg.cmake)
+    # portfile in vcpkg must give the path
+else()
+    # try find_package first
+    find_package(GSL)
+    if(NOT GSL_FOUND)
+        # last chance. use submodule
+        add_subdirectory(external/guideline)
+    endif()
+    get_target_property(GSL_INCLUDE_DIR     GSL INTERFACE_INCLUDE_DIRECTORIES)
 endif()
+
+# ensure the path is defined
+if(NOT DEFINED GSL_INCLUDE_DIR)
+    message(FATAL_ERROR "Path - GSL_INCLUDE_DIR is required")
+endif()
+
 add_subdirectory(modules)
 
-# ---------------------------------------------------------------------------
-
-if(IOS OR ANDROID)
+# build test project?
+if(TEST_DISABLED)
+    message(STATUS "Test is disabled.")
+    return()
+elseif(IOS OR ANDROID)
     message(STATUS "Mobile cross build doesn't support tests")
     return()
-endif()
-
-if(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+elseif(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     message(STATUS "This is not a root project. Skip tests")
     return()
 endif()
