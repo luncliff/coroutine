@@ -46,7 +46,7 @@
     <ClInclude Include="suspend\section.h">
       <Filter>suspend</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\suspend_queue.h">
+    <ClInclude Include="..\interface\coroutine\suspend.h">
       <Filter>coroutine</Filter>
     </ClInclude>
   </ItemGroup>

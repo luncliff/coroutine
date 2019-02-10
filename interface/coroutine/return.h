@@ -114,28 +114,4 @@ class return_frame final
     };
 };
 
-// - Note
-//      Receiver for explicit `co_await` to enable manual resume
-class suspend_hook final : public std::experimental::suspend_always
-{
-  public:
-    using handle_t = std::experimental::coroutine_handle<void>;
-
-  private:
-    handle_t frame{};
-
-  public:
-    void await_suspend(handle_t coro) noexcept
-    {
-        // update frame value
-        frame = std::move(coro);
-    }
-
-  public:
-    operator handle_t() const noexcept
-    {
-        return frame;
-    }
-};
-
 #endif // COROUTINE_RETURN_TYPES_H

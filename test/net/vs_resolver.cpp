@@ -1,11 +1,8 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
-#include <coroutine/net.h>
-#include <gsl/gsl>
+#include "./socket_test.h"
 
 #include <CppUnitTest.h>
 #include <sdkddkver.h>
@@ -14,25 +11,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 TEST_MODULE_INITIALIZE(winsock_init)
 {
-    // https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsastartup
-    WSAData wsa{};
-    auto e = WSAGetLastError();
-    Assert::IsTrue(e == NO_ERROR);
-
-    e = WSAStartup(MAKEWORD(2, 2), &wsa);
-    Assert::IsTrue(e == S_OK);
-    Assert::IsTrue(e != WSASYSNOTREADY);
-    Assert::IsTrue(e != WSAVERNOTSUPPORTED);
-    Assert::IsTrue(e != WSAEFAULT);
-}
-
-TEST_MODULE_CLEANUP(winsock_clean)
-{
-    // https://docs.microsoft.com/en-us/windows/desktop/api/winsock/nf-winsock-wsacleanup
-    const auto e = WSACleanup();
-    Assert::IsTrue(e != WSANOTINITIALISED);
-    Assert::IsTrue(e != WSAENETDOWN);
-    Assert::IsTrue(e != WSAEINPROGRESS);
+    load_network_api();
 }
 
 class resolver_name_info_test : public TestClass<resolver_name_info_test>
@@ -160,7 +139,7 @@ class resolver_addr_info_test : public TestClass<resolver_addr_info_test>
             Assert::IsTrue(ep.sin6_family == AF_INET6);
             Assert::IsTrue(ep.sin6_port == htons(9287));
 
-            auto unspec= IN6_IS_ADDR_UNSPECIFIED(&ep.sin6_addr);
+            auto unspec = IN6_IS_ADDR_UNSPECIFIED(&ep.sin6_addr);
             Assert::IsTrue(unspec);
             ++count;
         }

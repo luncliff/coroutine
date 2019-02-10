@@ -4,31 +4,12 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include <coroutine/suspend_queue.h>
+#include <coroutine/suspend.h>
 
 #include <atomic>
 #include <gsl/gsl>
 
 #include "suspend/message_queue.h"
-
-suspend_wait::suspend_wait(suspend_queue& q) noexcept : sq{q}
-{
-}
-
-bool suspend_wait::ready() const noexcept
-{
-    return false;
-}
-
-void suspend_wait::suspend(coroutine_task_t coro) noexcept(false)
-{
-    sq.push(coro);
-}
-
-void suspend_wait::resume() noexcept
-{
-    return;
-}
 
 struct suspend_queue_impl final
 {
@@ -54,11 +35,6 @@ suspend_queue::suspend_queue() noexcept(false) : storage{}
 suspend_queue::~suspend_queue() noexcept
 {
     get_impl(this)->~suspend_queue_impl();
-}
-
-auto suspend_queue::wait() noexcept -> suspend_wait
-{
-    return suspend_wait{*this};
 }
 
 void suspend_queue::push(coroutine_task_t coro) noexcept(false)

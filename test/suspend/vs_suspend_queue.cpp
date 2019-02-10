@@ -2,21 +2,66 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <CppUnitTest.h>
+#include <coroutine/return.h>
+#include <coroutine/suspend.h>
+#include <coroutine/sync.h>
 
+#include <gsl/gsl>
 #include <thread>
 
-#include <coroutine/return.h>
-#include <coroutine/suspend_queue.h>
-#include <coroutine/sync.h>
+#include <CppUnitTest.h>
 
 using namespace std;
 using namespace std::literals;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+class suspend_hook_test : public TestClass<suspend_hook_test>
+{
+    static_assert(is_same_v<coroutine_task_t, //
+                            std::experimental::coroutine_handle<void>>);
+
+    suspend_hook hk{};
+
+    TEST_METHOD(suspend_hook_empty)
+    {
+        auto coro = static_cast<coroutine_task_t>(hk);
+        Assert::IsTrue(coro.address() == nullptr);
+    }
+
+    TEST_METHOD(suspend_hook_to_coroutine_handle)
+    {
+        gsl::index status = 0;
+
+        auto routine = [=](suspend_hook& hook, auto& status) -> return_ignore {
+            auto defer = gsl::finally([&]() {
+                // ensure final action
+                status = 3;
+            });
+
+            status = 1;
+            co_await std::experimental::suspend_never{};
+            co_await hook;
+            status = 2;
+            co_await hook;
+            co_return;
+        };
+
+        routine(hk, status);
+        Assert::IsTrue(status == 1);
+        auto coro = static_cast<coroutine_task_t>(hk);
+        coro.resume();
+
+        Assert::IsTrue(status == 2);
+        coro.resume();
+
+        // coroutine reached end.
+        // so `defer` in the routine must be destroyed
+        Assert::IsTrue(status == 3);
+    }
+};
+
 class suspend_queue_test : public TestClass<suspend_queue_test>
 {
-
     TEST_METHOD(suspend_queue_no_await)
     {
         suspend_queue sq{};

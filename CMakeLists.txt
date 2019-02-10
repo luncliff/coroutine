@@ -28,7 +28,10 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 include(display-build-info)
 
-add_subdirectory(external/guideline)
+find_package(GSL)
+if(NOT GSL_FOUND)
+    add_subdirectory(external/guideline)
+endif()
 add_subdirectory(modules)
 
 # ---------------------------------------------------------------------------

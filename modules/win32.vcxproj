@@ -25,7 +25,7 @@
     <ClInclude Include="..\interface\coroutine\net.h" />
     <ClInclude Include="..\interface\coroutine\return.h" />
     <ClInclude Include="..\interface\coroutine\sequence.hpp" />
-    <ClInclude Include="..\interface\coroutine\suspend_queue.h" />
+    <ClInclude Include="..\interface\coroutine\suspend.h" />
     <ClInclude Include="..\interface\coroutine\sync.h" />
     <ClInclude Include="suspend\circular_queue.hpp" />
     <ClInclude Include="suspend\message_queue.h" />

@@ -38,19 +38,18 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     PUBLIC
         _RESUMABLE_FUNCTIONS_SUPPORTED
     )
+    
+    
     if(BUILD_SHARED_LIBS)
-        # clang-cl build failes for this condition.
-        # finding a solution, but can't sure about it...
-        target_compile_definitions(${PROJECT_NAME}
-        PRIVATE
-            _WINDLL
-        )
-    else()
-        target_compile_definitions(${PROJECT_NAME}
-        PUBLIC
-            USE_STATIC_LINK_MACRO
-        )
+        message(FATAL_ERROR "clang-cl build need to use static linking for current version")
     endif()
+
+    # clang-cl build failes for this condition.
+    # finding a solution, but can't sure about it...
+    target_compile_definitions(${PROJECT_NAME}
+    PUBLIC
+        USE_STATIC_LINK_MACRO
+    )
 
     # Argument for `clang-cl`
     #
@@ -83,11 +82,6 @@ if(${CMAKE_BUILD_TYPE} MATCHES Debug)
     target_compile_options(${PROJECT_NAME}
     PRIVATE
         /Od
-    )
-else()
-    target_compile_options(${PROJECT_NAME}
-    PRIVATE
-        /O2
     )
 endif()
 

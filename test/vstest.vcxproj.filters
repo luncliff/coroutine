@@ -36,9 +36,6 @@
     <ClInclude Include="..\interface\coroutine\sequence.hpp">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\suspend_queue.h">
-      <Filter>coroutine</Filter>
-    </ClInclude>
     <ClInclude Include="..\interface\coroutine\sync.h">
       <Filter>coroutine</Filter>
     </ClInclude>
@@ -47,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="channel\channel_test.h">
       <Filter>channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\suspend.h">
+      <Filter>coroutine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
