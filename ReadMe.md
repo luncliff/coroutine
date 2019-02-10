@@ -10,8 +10,8 @@ C++ Coroutine in Action. [Wiki](https://github.com/luncliff/coroutine/wiki)
 
 The main goal of this library is ...
 
-* Help understanding of the C++ coroutine
-* Provide meaningful design example with the feature
+  * Help understanding of the C++ coroutine
+  * Provide meaningful design example with the feature
 
 In that perspective, the library will be maintained as small as possible. Have fun with them. **And try your own coroutines !** 
 
@@ -22,15 +22,31 @@ In that perspective, the library will be maintained as small as possible. Have f
 To support multiple compilers, this library replaces `<experimental/coroutine>`. This might lead to conflict with existing library like libcxx and VC++.  
 Prefer what you like. If the issue is severe, please create an issue.
 
+
 ```c++
-#include <coroutine/frame.h> 
-// std::experimental::coroutine_handle<T> is redefined
+// You can replace this header to <experimental/coroutine>
+#include <coroutine/frame.h>
 ```
 
-Return types to make ease of declaration and definition
+Generator and async generator
 
 ```c++
-#include <coroutine/return.h>
+#include <coroutine/enumerable.hpp> // enumerable<T> : generator
+#include <coroutine/sequence.hpp>   // sequence<T>   : async generator
+```
+
+Utility types are in the following headers
+
+```c++
+#include <coroutine/return.h>   // return type for coroutine
+#include <coroutine/suspend.h>  // helper type for suspend / await
+#include <coroutine/sync.h>     // synchronization utilities
+```
+
+Network Asnyc I/O and some helper functions are placed in
+
+```c++
+#include <coroutine/net.h>      // shows asnyc i/o
 ```
 
 ### Build
@@ -39,13 +55,15 @@ Please reference [`.travis.yml`](./.travis.yml) and [`appveyor.yml`](./appveyor.
 
 #### Tool Support
 
-* Visual Studio 2017 or later
-  * `msvc`
-* CMake
-  * `msvc`: Why not?
-  * `clang-cl`: for Windows with VC++ headers
-  * `clang`: for Linux
-  * `AppleClang`: for Mac
+  * Visual Studio 2017 or later
+    * `msvc`
+  * CMake
+    * `msvc`
+    * `clang-cl`: Windows with VC++ headers. **Requires static linking**
+    * `clang`: Linux
+    * `AppleClang`: Mac
+
+This library only supports x64
 
 Expect Clang 6 or later versions. Notice that the feature, c++ coroutine, was available since Clang 5
 
@@ -53,12 +71,10 @@ Expect Clang 6 or later versions. Notice that the feature, c++ coroutine, was av
 
 Exploring [test(example) codes](./test) will be helpful.
 
-* Visual Studio Native Testing Tool
-* CMake generated project with [Catch2](https://github.com/catchorg/catch2)
+  * Visual Studio Native Testing Tool
+  * CMake generated project with [Catch2](https://github.com/catchorg/catch2)
 
 ### Import
-
-The project will NOT support package or prebuilt artifact until the feature comes into the standard.
 
 #### Visual Studio Project
 
@@ -82,7 +98,6 @@ PUBLIC
     coroutine
 )
 ```
-
 
 ## License
 

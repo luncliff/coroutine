@@ -6,7 +6,7 @@
 #     - https://www.appveyor.com/docs/appveyor-yml/
 #
 # ---------------------------------------------------------------------------
-version: 1.3.{build}
+version: 1.4.{build}
 
 clone_script:
   # https://github.com/appveyor/ci/issues/899#issuecomment-230360978
