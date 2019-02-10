@@ -86,8 +86,8 @@ for:
     # ps: $env:CXX = "clang-cl"
     - cmd: set CXX=clang-cl
     # for cmake, this can be ok. -DCMAKE_CXX_COMPILER=clang-cl
-    - cmd: cmake ../ -G Ninja -DBUILD_SHARED_LIBS=false -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=./%platform%/%configuration% 
-    - cmd: ninja
+    - cmd: cmake ../ -G Ninja -DBUILD_SHARED_LIBS=false -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=../install/%platform%/%configuration% 
+    - cmd: ninja install
   after_build:
     # copy dll for test executable
     # - ps: Copy-Item ./modules/coroutine.dll ./test
