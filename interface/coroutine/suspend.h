@@ -8,11 +8,11 @@
 //
 // ---------------------------------------------------------------------------
 #pragma once
-
-#ifdef USE_STATIC_LINK_MACRO // clang-format off
+// clang-format off
+#ifdef USE_STATIC_LINK_MACRO // ignore macro declaration in static build
 #   define _INTERFACE_
 #   define _HIDDEN_
-#else // ignore macro declaration in static build
+#else 
 #   if defined(_MSC_VER) // MSVC
 #       define _HIDDEN_
 #       ifdef _WINDLL
@@ -26,7 +26,8 @@
 #   else
 #       error "unexpected compiler"
 #   endif // compiler check
-#endif // clang-format on
+#endif
+// clang-format on
 
 #ifndef COROUTINE_SUSPEND_HELPER_TYPES_H
 #define COROUTINE_SUSPEND_HELPER_TYPES_H
@@ -42,6 +43,8 @@ class suspend_hook final : public std::experimental::suspend_always,
                            public coroutine_task_t
 {
   public:
+    // - Note
+    //    Override `suspend_always::await_suspend`
     void await_suspend(coroutine_task_t rh) noexcept
     {
         coroutine_task_t& coro = *this;
@@ -84,6 +87,7 @@ class suspend_queue final
             redirect_to(suspend_queue& q) noexcept : sq{q}
             {
             }
+            // override `suspend_always::await_suspend`
             void await_suspend(coroutine_task_t coro) noexcept(false)
             {
                 return sq.push(coro);

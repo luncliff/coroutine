@@ -8,12 +8,11 @@
 //
 // ---------------------------------------------------------------------------
 #pragma once
-
-#ifdef USE_STATIC_LINK_MACRO // clang-format off
-// ignore macro declaration in static build
+// clang-format off
+#ifdef USE_STATIC_LINK_MACRO // ignore macro declaration in static build
 #   define _INTERFACE_
 #   define _HIDDEN_
-#else
+#else 
 #   if defined(_MSC_VER) // MSVC
 #       define _HIDDEN_
 #       ifdef _WINDLL
@@ -27,7 +26,8 @@
 #   else
 #       error "unexpected compiler"
 #   endif // compiler check
-#endif // clang-format on
+#endif
+// clang-format on
 
 #ifndef COROUTINE_NET_IO_H
 #define COROUTINE_NET_IO_H

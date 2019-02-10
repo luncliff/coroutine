@@ -20,8 +20,41 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 class return_ignore_test : public TestClass<return_ignore_test>
 {
+    TEST_METHOD(return_ignore_nothrow)
+    {
+        // user won't care about coroutine life cycle.
+        // the routine will be resumed(continued) properly,
+        //   and co_return will destroy the frame
+        auto routine = []() -> return_ignore {
+            co_await std::experimental::suspend_never{};
+            co_return;
+        };
+        routine();
+    }
 };
 
 class return_frame_test : public TestClass<return_frame_test>
 {
+    TEST_METHOD(return_frame_to_coroutine)
+    {
+        using namespace std::experimental;
+
+        // when the coroutine frame destuction need to be controlled manually,
+        //   `return_frame` can do the work
+        auto routine = []() -> return_frame {
+            // no initial suspend
+            co_await suspend_never{};
+            co_return;
+        };
+
+        // invoke of coroutine will create a new frame
+        auto fm = routine();
+
+        // now the frame is 'final suspend'ed, so it can be deleted.
+        auto coro = static_cast<coroutine_handle<void>>(fm);
+        Assert::IsTrue(coro == true);
+
+        Assert::IsTrue(coro.done()); // 'final suspend'ed?
+        coro.destroy();              // destroy it
+    }
 };
