@@ -266,7 +266,7 @@ class coroutine_handle : public coroutine_handle<void>
 
     static coroutine_handle from_promise(promise_type& prom) noexcept
     {
-        promise_type* promise = std::addressof(prom);
+        promise_type* promise = &prom;
 
         // calculate the location of the coroutine frame prefix
         if constexpr (is_clang)
@@ -409,7 +409,7 @@ struct _Resumable_helper_traits
     static promise_type* _Promise_from_frame(void* addr) noexcept
     {
         auto& prom = handle_type::from_address(addr).promise();
-        return std::addressof(prom);
+        return &prom;
     }
 
     static handle_type _Handle_from_frame(void* _Addr) noexcept
