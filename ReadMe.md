@@ -43,7 +43,13 @@ Utility types are in the following headers
 #include <coroutine/sync.h>     // synchronization utilities
 ```
 
-Network Asnyc I/O and some helper functions are placed in
+Go language style channel to deliver data between coroutines
+
+```c++
+#include <coroutine/channel.hpp>  // channel<T, Lockable>
+```
+
+Network Asnyc I/O and some helper functions are placed in one header.
 
 ```c++
 #include <coroutine/net.h>      // shows asnyc i/o
@@ -56,7 +62,7 @@ Please reference [`.travis.yml`](./.travis.yml) and [`appveyor.yml`](./appveyor.
 #### Tool Support
 
   * Visual Studio 2017 or later
-    * `msvc`
+    * `msvc` (vc141)
   * CMake
     * `msvc`
     * `clang-cl`: Windows with VC++ headers. **Requires static linking**
@@ -83,7 +89,6 @@ I recommend you to import(add reference) [win32.vcxproj](./modules/win32.vcxproj
 
 #### CMake Project
 
-Currently version doesn't export build results for CMake's `find_package`.
 Expect there is a higher CMake project which uses this library.
 
 ```cmake
@@ -98,6 +103,15 @@ PUBLIC
     coroutine
 )
 ```
+
+#### Package Manager
+
+Following package managers and build options are available.
+
+* [vcpkg](https://github.com/Microsoft/vcpkg/tree/master/ports/coroutine)
+  * x64-windows
+  * x64-linux
+  * x64-osx
 
 ## License
 
