@@ -1,14 +1,7 @@
-# ---------------------------------------------------------------------------
 #
 #   Author
 #     - luncliff@gmail.com
-#   Reference
-#     - https://docs.travis-ci.com/user/languages/cpp/
-#     - https://libcxx.llvm.org/docs/BuildingLibcxx.html
-#     - http://rkh.github.io/travis-encrypt/public/index.html
-#     - https://blog.kowalczyk.info/article/k/how-to-install-latest-clang-6.0-on-ubuntu-16.04-xenial-wsl.html
 #
-# ---------------------------------------------------------------------------
 sudo: false
 
 git:
@@ -20,7 +13,7 @@ notifications:
     - luncliff@gmail.com
 
 language: cpp
-compiler: clang  # expect 5.0+
+compiler: clang # expect 5.0+
 
 addons:
   chocolatey:
@@ -52,11 +45,11 @@ addons:
 install:
   - echo ${TRAVIS_OS_NAME};
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
-      sudo bash ./scripts/install-libc++.sh;
-      sudo rm -rf prebuilt libcxx* llvm*;
+    sudo bash ./scripts/install-libc++.sh;
+    sudo rm -rf prebuilt libcxx* llvm*;
     fi
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
-      brew info llvm;
+    brew info llvm;
     fi
   # - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
   #     choco info llvm;
@@ -64,11 +57,11 @@ install:
 script:
   - mkdir -p build && pushd build;
   - cmake ../
-      -G "Ninja"
-      -DBUILD_SHARED_LIBS=${SHARED}
-      -DCMAKE_BUILD_TYPE=${CONFIG}
-      -DCMAKE_INSTALL_PREFIX=../install
-      -DCMAKE_CXX_COMPILER=${CXX}
+    -G "Ninja"
+    -DBUILD_SHARED_LIBS=${SHARED}
+    -DCMAKE_BUILD_TYPE=${CONFIG}
+    -DCMAKE_INSTALL_PREFIX=../install
+    -DCMAKE_CXX_COMPILER=${CXX}
   - ninja install
   # # windows: move dll
   # - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
@@ -89,39 +82,39 @@ matrix:
       os: osx
       osx_image: xcode10.1
       env:
-       - CONFIG=Debug    SHARED=true
+        - CONFIG=Debug    SHARED=true
 
     - name: Mac Release Shared
       os: osx
       osx_image: xcode10.1
       env:
-       - CONFIG=Release  SHARED=true
+        - CONFIG=Release  SHARED=true
 
     - name: Ubuntu(Xenial) Debug Shared
       os: linux
       dist: xenial
       env:
-       - CONFIG=Debug    SHARED=true
+        - CONFIG=Debug    SHARED=true
 
     - name: Ubuntu(Xenial) Release Shared
       os: linux
       dist: xenial
       env:
-       - CONFIG=Release  SHARED=true
+        - CONFIG=Release  SHARED=true
 
-    - name: "iPhone OS"
+    - name: iPhone OS
       os: osx
       osx_image: xcode10.1
       compiler: clang
       script:
         - mkdir -p build && pushd build;
-        - cmake ../ 
-            -DBUILD_SHARED_LIBS=$SHARED 
-            -DCMAKE_BUILD_TYPE=$CONFIG
-            -DCMAKE_INSTALL_PREFIX=../install
-            -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
-            -DENABLE_BITCODE=false
-            -DIOS_DEPLOYMENT_TARGET=10.13
+        - cmake ../
+          -DBUILD_SHARED_LIBS=$SHARED
+          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DCMAKE_INSTALL_PREFIX=../install
+          -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
+          -DENABLE_BITCODE=false
+          -DIOS_DEPLOYMENT_TARGET=10.13
         - make install
       after_success:
         - tree ./install

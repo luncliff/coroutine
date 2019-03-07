@@ -29,28 +29,31 @@ class enumerable
 
   private:
     // alias resumable handle types
-
-    using handle_t = std::experimental::coroutine_handle<void>;
     using handle_promise_t = std::experimental::coroutine_handle<promise_type>;
 
     handle_promise_t coro;
-
-  private: // disable copy / move for safe usage
-    enumerable(const enumerable&) = delete;
-    enumerable& operator=(const enumerable&) = delete;
-    enumerable(enumerable&&) = delete;
-    enumerable& operator=(enumerable&&) = delete;
 
   public:
     enumerable(promise_type* ptr) noexcept
         : coro{handle_promise_t::from_promise(*ptr)}
     {
     }
-
+    enumerable(const enumerable&) = delete;
+    enumerable& operator=(const enumerable&) = delete;
+    enumerable(enumerable&& rhs) noexcept : coro{rhs.coro}
+    {
+        rhs.coro = nullptr;
+    }
+    enumerable& operator=(enumerable&& rhs)
+    {
+        std::swap(coro, rhs.coro);
+        return *this;
+    }
     ~enumerable() noexcept
     {
         // enumerable will destroy the frame.
-        if (coro) // therefore promise/iterator are free from those ownership
+        //  promise/iterator are free from those ownership
+        if (coro)
             coro.destroy();
     }
 

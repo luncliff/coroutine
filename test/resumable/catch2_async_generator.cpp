@@ -15,10 +15,9 @@ TEST_CASE("async_generator", "[generic]")
 
     // for async generator,
     //  its coroutine frame must be alive for some case.
-    return_frame fm{};
+    return_frame holder{};
     auto ensure_destroy_frame = gsl::finally([=]() {
-        auto coro = static_cast<coroutine_handle<void>>(fm);
-        if (coro)
+        if (auto coro = holder.get())
             coro.destroy();
     });
 
@@ -36,7 +35,7 @@ TEST_CASE("async_generator", "[generic]")
         };
 
         int value = 111;
-        REQUIRE_NOTHROW(fm = try_sequence(value));
+        REQUIRE_NOTHROW(holder = try_sequence(value));
         REQUIRE(value == 111);
     }
 
@@ -57,7 +56,7 @@ TEST_CASE("async_generator", "[generic]")
         };
 
         int value = 222;
-        REQUIRE_NOTHROW(fm = try_sequence(value));
+        REQUIRE_NOTHROW(holder = try_sequence(value));
         REQUIRE(value == 222);
 
         auto coro = static_cast<coroutine_handle<void>>(sp);
@@ -80,7 +79,7 @@ TEST_CASE("async_generator", "[generic]")
         };
 
         int value = 0;
-        REQUIRE_NOTHROW(fm = try_sequence(value));
+        REQUIRE_NOTHROW(holder = try_sequence(value));
         REQUIRE(value == 333);
     }
 
@@ -104,7 +103,7 @@ TEST_CASE("async_generator", "[generic]")
         };
 
         int value = 0;
-        REQUIRE_NOTHROW(fm = try_sequence(value));
+        REQUIRE_NOTHROW(holder = try_sequence(value));
         REQUIRE(value == 444);
 
         auto coro = static_cast<coroutine_handle<void>>(sp);
@@ -131,7 +130,7 @@ TEST_CASE("async_generator", "[generic]")
                 co_return;
             };
 
-            REQUIRE_NOTHROW(fm = try_sequence(value));
+            REQUIRE_NOTHROW(holder = try_sequence(value));
         }
         REQUIRE(value == 666);
     }

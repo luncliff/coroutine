@@ -43,13 +43,18 @@ class sequence final
   private:
     handle_t coro{}; // resumable handle
 
-  private:
-    sequence(sequence&) = delete;
-    sequence(sequence&&) = delete;
-    sequence& operator=(sequence&) = delete;
-    sequence& operator=(sequence&&) = delete;
-
   public:
+    sequence(sequence&) = delete;
+    sequence& operator=(sequence&) = delete;
+    sequence(sequence&& rhs) noexcept : coro{rhs.coro}
+    {
+        rhs.coro = nullptr;
+    }
+    sequence& operator=(sequence&& rhs)
+    {
+        std::swap(coro, rhs.coro);
+        return *this;
+    }
     sequence(promise_type* ptr) noexcept
         : coro{handle_promise_t::from_promise(*ptr)}
     {

@@ -33,19 +33,22 @@ class return_ignore final
         {
             return std::experimental::suspend_never{};
         }
-        void return_void(void) noexcept
+        void return_void() noexcept
         {
             // nothing to do because this is `void` return
         }
         void unhandled_exception() noexcept(false)
         {
-            // customize this part
-            // std::terminate();
+            std::terminate(); // customize this part
         }
 
         promise_type* get_return_object() noexcept
         {
             return this;
+        }
+        static promise_type* get_return_object_on_allocation_failure() noexcept
+        {
+            return nullptr;
         }
     };
 
@@ -61,24 +64,26 @@ class return_ignore final
 //      This type can be used when final suspend is required
 class return_frame final
 {
-    template <typename P>
-    using handle_type = std::experimental::coroutine_handle<P>;
-
   public:
     class promise_type;
 
   private:
-    handle_type<void> frame;
+    std::experimental::coroutine_handle<void> frame{};
 
   public:
     return_frame() noexcept = default;
-    return_frame(promise_type* ptr) noexcept
-        : frame{handle_type<promise_type>::from_promise(*ptr)}
+    return_frame(promise_type* ptr) noexcept : return_frame{}
     {
+        using namespace std::experimental;
+        frame = coroutine_handle<promise_type>::from_promise(*ptr);
     }
 
   public:
-    operator handle_type<void>() const noexcept
+    auto get() const noexcept
+    {
+        return frame;
+    }
+    explicit operator std::experimental::coroutine_handle<void>() const noexcept
     {
         return frame;
     }
@@ -96,7 +101,7 @@ class return_frame final
             // !!! notice this behavior !!!
             return std::experimental::suspend_always{};
         }
-        void return_void(void) noexcept
+        void return_void() noexcept
         {
             // nothing to do because this is `void` return
         }

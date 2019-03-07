@@ -1,17 +1,15 @@
-# ---------------------------------------------------------------------------
 #
 #   Author
 #     - luncliff@gmail.com
 #   Reference
 #     - https://www.appveyor.com/docs/appveyor-yml/
 #
-# ---------------------------------------------------------------------------
 version: 1.4.{build}
 
 clone_script:
   # https://github.com/appveyor/ci/issues/899#issuecomment-230360978
- - ps: git clone -q --recursive --branch $env:APPVEYOR_REPO_BRANCH https://github.com/$env:APPVEYOR_REPO_NAME.git $env:APPVEYOR_BUILD_FOLDER
- - ps: git checkout -qf $env:APPVEYOR_REPO_COMMIT
+  - ps: git clone -q --recursive --branch $env:APPVEYOR_REPO_BRANCH https://github.com/$env:APPVEYOR_REPO_NAME.git $env:APPVEYOR_BUILD_FOLDER
+  - ps: git checkout -qf $env:APPVEYOR_REPO_COMMIT
 
 notifications:
   - provider: Email
@@ -39,58 +37,56 @@ matrix:
       compiler: clang
 
 for:
-# MSVC: use Visual Studio solution file
--
-  matrix:
-    only:
-      - image: Visual Studio 2017
-        compiler: msvc
-  install:
-    - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER 
-  build:
-    parallel: true
-    project: coroutine.sln
-    verbosity: quiet
-  after_build:
-    # Rename the variable for build output
-    - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
-    - ps: tree /F ./$env:PLATFORM
-  before_test:
-    - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/coroutine_vstest.dll"
-  test_script:
-    - ps: vstest.console.exe $TestDLL
+  # MSVC: use Visual Studio solution file
+  - matrix:
+      only:
+        - image: Visual Studio 2017
+          compiler: msvc
+    install:
+      - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER
+    build:
+      parallel: true
+      project: coroutine.sln
+      verbosity: quiet
+    after_build:
+      # Rename the variable for build output
+      - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
+      - ps: tree /F ./$env:PLATFORM
+    before_test:
+      - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/coroutine_vstest.dll"
+    test_script:
+      - ps: vstest.console.exe $TestDLL
 
-# clang-cl: use CMake + Ninja + Clang
-# The build step expects cmdlet environment...
--
-  matrix:
-    only:
-      - image: Visual Studio 2017
-        compiler: clang
-  install:
-    - ps: Write-Host $env:APPVEYOR_BUILD_FOLDER
-    - ps: choco install ninja   # Download Ninja with chocolaty package manager
-    - ps: choco info    llvm    # LLVM is already installed. So just show the version info
-    - ps: cmake --version
-    - ps: ninja --version
-    - ps: clang --version       # version: 6.0+
-    - ps: clang-cl --version    # cl.exe for clang
-    # Rename the variable for build output
-    - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32" }
-  before_build:
-    - ps: Write-Host $env:PLATFORM $env:CONFIGURATION
-  build_script:
-    - ps: New-Item -Name build -ItemType Directory
-    - ps: Push-Location -Path build
-    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-    # ps: $env:CXX = "clang-cl"
-    - cmd: set CXX=clang-cl
-    # for cmake, this can be ok. -DCMAKE_CXX_COMPILER=clang-cl
-    - cmd: cmake ../ -G Ninja -DBUILD_SHARED_LIBS=false -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=../install/%platform%/%configuration% 
-    - cmd: ninja install
-  after_build:
-    # copy dll for test executable
-    # - ps: Copy-Item ./modules/coroutine.dll ./test
-    - ps: Pop-Location
-  test_script:
-    - ps: ./build/test/coroutine_test.exe
+  # clang-cl: use CMake + Ninja + Clang
+  # The build step expects cmdlet environment...
+  - matrix:
+      only:
+        - image: Visual Studio 2017
+          compiler: clang
+    install:
+      - ps: Write-Host $env:APPVEYOR_BUILD_FOLDER
+      - ps: choco install ninja # Download Ninja with chocolaty package manager
+      - ps: choco info    llvm # LLVM is already installed. So just show the version info
+      - ps: cmake --version
+      - ps: ninja --version
+      - ps: clang --version # version: 6.0+
+      - ps: clang-cl --version # cl.exe for clang
+      # Rename the variable for build output
+      - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32" }
+    before_build:
+      - ps: Write-Host $env:PLATFORM $env:CONFIGURATION
+    build_script:
+      - ps: New-Item -Name build -ItemType Directory
+      - ps: Push-Location -Path build
+      - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+      # ps: $env:CXX = "clang-cl"
+      - cmd: set CXX=clang-cl
+      # for cmake, this can be ok. -DCMAKE_CXX_COMPILER=clang-cl
+      - cmd: cmake ../ -G Ninja -DBUILD_SHARED_LIBS=false -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=../install/%platform%/%configuration%
+      - cmd: ninja install
+    after_build:
+      # copy dll for test executable
+      # - ps: Copy-Item ./modules/coroutine.dll ./test
+      - ps: Pop-Location
+    test_script:
+      - ps: ./build/test/coroutine_test.exe
