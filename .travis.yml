@@ -25,11 +25,13 @@ addons:
     packages:
       - ninja
       - tree
+      - cmake
 
   apt:
     sources:
       - ubuntu-toolchain-r-test
       - llvm-toolchain-xenial-6.0
+      - llvm-toolchain-xenial-7
     packages:
       - gcc-7
       - g++-7
@@ -45,8 +47,10 @@ addons:
 install:
   - echo ${TRAVIS_OS_NAME};
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
+    sudo bash ./scripts/install-cmake-3.14.sh;
     sudo bash ./scripts/install-libc++.sh;
     sudo rm -rf prebuilt libcxx* llvm*;
+    sudo rm -rf cmake-3.14*;
     fi
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
     brew info llvm;
