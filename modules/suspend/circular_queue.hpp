@@ -44,7 +44,7 @@ class bounded_circular_queue_t
             return false;
 
         const auto index = end;
-        end = next(end); // increase count;
+        end = next(end); // increase count
 
         storage.at(index) = msg; // expect copy
         return true;
@@ -56,7 +56,7 @@ class bounded_circular_queue_t
             return false;
 
         const auto index = begin;
-        begin = next(begin); // decrease count;
+        begin = next(begin); // decrease count
 
         msg = std::move(storage.at(index)); // expect move
         return true;

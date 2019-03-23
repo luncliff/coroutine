@@ -84,7 +84,7 @@ class suspend_queue final
             suspend_queue& sq;
 
           public:
-            redirect_to(suspend_queue& q) noexcept : sq{q}
+            explicit redirect_to(suspend_queue& q) noexcept : sq{q}
             {
             }
             // override `suspend_always::await_suspend`

@@ -124,6 +124,7 @@ class reader final
         std::swap(this->chan, rhs.chan);
         return *this;
     }
+    ~reader() noexcept = default;
 
   public:
     bool await_ready() const noexcept(false);
@@ -184,6 +185,7 @@ class writer final
         std::swap(this->chan, rhs.chan);
         return *this;
     }
+    ~writer() noexcept = default;
 
   public:
     bool await_ready() const noexcept(false);
