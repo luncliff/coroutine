@@ -51,8 +51,10 @@ install(FILES           ${VERSION_FILE}
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/share/coroutine
 )
 install(TARGETS         ${PROJECT_NAME}
-        EXPORT          coroutine-config    # --> coro-config.cmake
-        DESTINATION     ${CMAKE_INSTALL_PREFIX}/lib/
+        EXPORT          coroutine-config    # --> config for find_package
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
 )
 install(EXPORT          coroutine-config
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/share/coroutine
