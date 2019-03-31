@@ -50,12 +50,19 @@ install(DIRECTORY       ${PROJECT_SOURCE_DIR}/interface/coroutine
 install(FILES           ${VERSION_FILE}
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/share/coroutine
 )
-install(TARGETS         ${PROJECT_NAME}
-        EXPORT          coroutine-config    # --> config for find_package
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-)
+if(WIN32)
+    install(TARGETS         ${PROJECT_NAME}
+            EXPORT          coroutine-config    # --> config for find_package
+            RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+            LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    )
+else()
+    install(TARGETS         ${PROJECT_NAME}
+            EXPORT          coroutine-config
+            DESTINATION     ${CMAKE_INSTALL_PREFIX}/lib
+    )
+endif()
 install(EXPORT          coroutine-config
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/share/coroutine
 )

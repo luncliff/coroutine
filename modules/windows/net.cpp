@@ -6,11 +6,13 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/net.h>
 
-auto wait_io_tasks(std::chrono::nanoseconds) noexcept(false)
+using namespace std;
+
+auto wait_io_tasks(chrono::nanoseconds) noexcept(false)
     -> enumerable<coroutine_task_t>
 {
     // windows implementation rely on callback.
-    // So this function will always yield nothing
+    // So this function will yield nothing
     co_return;
 }
 
@@ -20,13 +22,12 @@ void CALLBACK onWorkDone(DWORD errc, DWORD sz, LPWSAOVERLAPPED pover,
                          DWORD flags) noexcept
 {
     UNREFERENCED_PARAMETER(flags);
-
     io_work_t* work = reinterpret_cast<io_work_t*>(pover);
 
-    // mostly Internal and InternalHigh holds same value.
-    // so this assignment is redundant, but make it sure.
-    work->Internal = errc;   // -> return of `await_resume()`
-    work->InternalHigh = sz; // -> return of `work.error()`
+    // mostly Internal and InternalHigh holds the value.
+    // so this assignment is redundant, but code is added to make sure of it.
+    work->Internal = errc;   // -> return of `work.error()`
+    work->InternalHigh = sz; // -> return of `await_resume()`
 
     work->task.resume();
 }
@@ -67,12 +68,13 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
     work.buffer = buffer;
-    work.to6 = std::addressof(remote);
+    work.ep = reinterpret_cast<endpoint_t*>(
+        const_cast<sockaddr_in6*>(addressof(remote)));
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
 
     // lead to co_await operations with `io_send_to` type
-    return *reinterpret_cast<io_send_to*>(std::addressof(work));
+    return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
 GSL_SUPPRESS(type .1)
@@ -83,18 +85,20 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
     work.buffer = buffer;
-    work.to = std::addressof(remote);
+    work.ep = reinterpret_cast<endpoint_t*>(
+        const_cast<sockaddr_in*>(addressof(remote)));
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
     // lead to co_await operations with `io_send_to` type
-    return *reinterpret_cast<io_send_to*>(std::addressof(work));
+    return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
 void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
 {
+    const auto sd = gsl::narrow_cast<SOCKET>(Internal);
+    const auto addr = addressof(this->ep->addr);
     const auto addrlen = gsl::narrow_cast<socklen_t>(InternalHigh);
     const auto flag = DWORD{0};
-    const auto sd = gsl::narrow_cast<SOCKET>(Internal);
     auto bufs = make_wsa_buf(buffer);
 
     task = rh;                                // coroutine for the i/o callback
@@ -106,7 +110,7 @@ void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
     if (ec == NO_ERROR || ec == ERROR_IO_PENDING)
         return; // ok. expected for async i/o
 
-    throw std::system_error{ec, std::system_category(), "WSASendTo"};
+    throw system_error{ec, system_category(), "WSASendTo"};
 }
 
 int64_t io_send_to::resume() noexcept
@@ -122,12 +126,13 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
     work.buffer = buffer;
-    work.from6 = std::addressof(remote);
+    work.ep = reinterpret_cast<endpoint_t*>(
+        const_cast<sockaddr_in6*>(addressof(remote)));
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
 
     // lead to co_await operations with `io_recv_from` type
-    return *reinterpret_cast<io_recv_from*>(std::addressof(work));
+    return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
 GSL_SUPPRESS(type .1)
@@ -138,17 +143,19 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
     work.buffer = buffer;
-    work.from = std::addressof(remote);
+    work.ep = reinterpret_cast<endpoint_t*>(
+        const_cast<sockaddr_in*>(addressof(remote)));
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
 
     // lead to co_await operations with `io_recv_from` type
-    return *reinterpret_cast<io_recv_from*>(std::addressof(work));
+    return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
 void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
 {
     const auto sd = gsl::narrow_cast<SOCKET>(Internal);
+    auto addr = addressof(this->ep->addr);
     auto addrlen = gsl::narrow_cast<socklen_t>(InternalHigh);
     auto flag = DWORD{0};
     auto buf = make_wsa_buf(buffer);
@@ -162,7 +169,7 @@ void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
     if (ec == NO_ERROR || ec == ERROR_IO_PENDING)
         return; // ok. expected for async i/o
 
-    throw std::system_error{ec, std::system_category(), "WSARecvFrom"};
+    throw system_error{ec, system_category(), "WSARecvFrom"};
 }
 
 int64_t io_recv_from::resume() noexcept
@@ -181,7 +188,7 @@ auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
     work.Internal = sd;
     work.InternalHigh = flag;
     // trigger co_await operations with `io_send` type
-    return *reinterpret_cast<io_send*>(std::addressof(work));
+    return *reinterpret_cast<io_send*>(addressof(work));
 }
 
 void io_send::suspend(coroutine_task_t rh) noexcept(false)
@@ -198,7 +205,7 @@ void io_send::suspend(coroutine_task_t rh) noexcept(false)
     if (ec == NO_ERROR || ec == ERROR_IO_PENDING)
         return; // ok. expected for async i/o
 
-    throw std::system_error{ec, std::system_category(), "WSASend"};
+    throw system_error{ec, system_category(), "WSASend"};
 }
 
 int64_t io_send::resume() noexcept
@@ -217,7 +224,7 @@ auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
     work.Internal = sd;
     work.InternalHigh = flag;
     // lead to co_await operations with `io_recv` type
-    return *reinterpret_cast<io_recv*>(std::addressof(work));
+    return *reinterpret_cast<io_recv*>(addressof(work));
 }
 
 void io_recv::suspend(coroutine_task_t rh) noexcept(false)
@@ -234,7 +241,7 @@ void io_recv::suspend(coroutine_task_t rh) noexcept(false)
     if (ec == NO_ERROR || ec == ERROR_IO_PENDING)
         return; // ok. expected for async i/o
 
-    throw std::system_error{ec, std::system_category(), "WSARecv"};
+    throw system_error{ec, system_category(), "WSARecv"};
 }
 
 int64_t io_recv::resume() noexcept

@@ -64,11 +64,10 @@ auto resolve(const addrinfo& hint, //
 {
     addrinfo* list = nullptr;
 
-    if (const auto ec = ::getaddrinfo(name, serv, //
-                                      std::addressof(hint), &list))
+    if (auto ec = ::getaddrinfo(name, serv, //
+                                std::addressof(hint), &list))
     {
-        const auto msg = gai_strerror(ec);
-        fputs(msg, stderr);
+        fputs(gai_strerror(ec), stderr);
         co_return;
     }
 
