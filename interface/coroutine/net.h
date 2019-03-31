@@ -53,11 +53,21 @@ static constexpr bool is_netinet = false;
 #include <sys/socket.h>
 #include <unistd.h>
 
+// - Note
+// follow the definition of Windows `OVERLAPPED`
 struct io_control_block
 {
-    int64_t sd;
-    socklen_t addrlen;
-    uint32_t errc;
+    uint64_t internal; // uint32_t errc; int32_t flag;
+    uint64_t internal_high;
+    union {
+        struct
+        {
+            int32_t offset; // socklen_t addrlen;
+            int32_t offset_high;
+        };
+        void* ptr;
+    };
+    int64_t handle; // int64_t sd;
 };
 
 static constexpr bool is_winsock = false;
@@ -81,13 +91,7 @@ struct io_work_t : public io_control_block
 {
     coroutine_task_t task{};
     buffer_view_t buffer{};
-    union {
-        sockaddr* addr{};
-        sockaddr_in6* from6;
-        const sockaddr_in6* to6;
-        sockaddr_in* from;
-        const sockaddr_in* to;
-    };
+    endpoint_t* ep{};
 
   public:
     _INTERFACE_ bool ready() const noexcept;

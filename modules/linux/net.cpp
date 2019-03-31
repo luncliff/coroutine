@@ -90,6 +90,7 @@ auto wait_io_tasks(nanoseconds timeout) noexcept(false)
 
 bool io_work_t::ready() const noexcept
 {
+    auto sd = this->handle;
     // non blocking operation is expected
     // going to suspend
     if (fcntl(sd, F_GETFL, 0) & O_NONBLOCK)
@@ -102,7 +103,7 @@ bool io_work_t::ready() const noexcept
 
 uint32_t io_work_t::error() const noexcept
 {
-    return errc;
+    return gsl::narrow_cast<uint32_t>(this->internal);
 }
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -110,9 +111,10 @@ uint32_t io_work_t::error() const noexcept
 auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to&
 {
-    work.sd = sd;
-    work.to = addressof(remote);
-    work.addrlen = sizeof(sockaddr_in);
+    work.handle = sd;
+    work.ep = reinterpret_cast<endpoint_t*>(
+        const_cast<sockaddr_in*>(addressof(remote)));
+    work.offset = sizeof(sockaddr_in);
     work.buffer = buffer;
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
@@ -120,15 +122,18 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
 auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to&
 {
-    work.sd = sd;
-    work.to6 = addressof(remote);
-    work.addrlen = sizeof(sockaddr_in6);
+    work.handle = sd;
+    work.ep = reinterpret_cast<endpoint_t*>(
+        const_cast<sockaddr_in6*>(addressof(remote)));
+    work.offset = sizeof(sockaddr_in6);
     work.buffer = buffer;
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
 void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
 {
+    auto sd = this->handle;
+    auto& errc = this->internal;
     errc = 0;
 
     epoll_event req{};
@@ -140,6 +145,10 @@ void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_send_to::resume() noexcept
 {
+    auto sd = this->handle;
+    auto addr = addressof(this->ep->addr);
+    auto addrlen = static_cast<socklen_t>(this->offset);
+    auto& errc = this->internal;
     auto sz = sendto(sd, buffer.data(), buffer.size_bytes(), //
                      0, addr, addrlen);
     // update error code upon i/o failure
@@ -152,9 +161,9 @@ int64_t io_send_to::resume() noexcept
 auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from&
 {
-    work.sd = sd;
-    work.from = addressof(remote);
-    work.addrlen = sizeof(sockaddr_in);
+    work.handle = sd;
+    work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
+    work.offset = sizeof(sockaddr_in);
     work.buffer = buffer;
     return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
@@ -162,15 +171,17 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
 auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from&
 {
-    work.sd = sd;
-    work.from6 = addressof(remote);
-    work.addrlen = sizeof(sockaddr_in6);
+    work.handle = sd;
+    work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
+    work.offset = sizeof(sockaddr_in6);
     work.buffer = buffer;
     return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
 void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
 {
+    auto sd = this->handle;
+    auto& errc = this->internal;
     errc = 0;
 
     epoll_event req{};
@@ -182,6 +193,10 @@ void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_recv_from::resume() noexcept
 {
+    auto sd = this->handle;
+    auto addr = addressof(this->ep->addr);
+    auto addrlen = static_cast<socklen_t>(this->offset);
+    auto& errc = this->internal;
     auto sz = recvfrom(sd, buffer.data(), buffer.size_bytes(), //
                        0, addr, addressof(addrlen));
     // update error code upon i/o failure
@@ -195,15 +210,16 @@ auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_send&
 {
     static_assert(sizeof(socklen_t) == sizeof(uint32_t));
-
-    work.sd = sd;
-    work.addrlen = flag;
+    work.handle = sd;
+    work.internal = flag;
     work.buffer = buffer;
     return *reinterpret_cast<io_send*>(addressof(work));
 }
 
 void io_send::suspend(coroutine_task_t rh) noexcept(false)
 {
+    auto sd = this->handle;
+    auto& errc = this->internal;
     errc = 0;
 
     epoll_event req{};
@@ -215,7 +231,9 @@ void io_send::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_send::resume() noexcept
 {
-    const auto flag = addrlen;
+    auto sd = this->handle;
+    auto flag = this->internal;
+    auto& errc = this->internal;
     const auto sz = send(sd, buffer.data(), buffer.size_bytes(), flag);
     // update error code upon i/o failure
     errc = sz < 0 ? errno : 0;
@@ -228,15 +246,16 @@ auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_recv&
 {
     static_assert(sizeof(socklen_t) == sizeof(uint32_t));
-
-    work.sd = sd;
-    work.addrlen = flag;
+    work.handle = sd;
+    work.internal = flag;
     work.buffer = buffer;
     return *reinterpret_cast<io_recv*>(addressof(work));
 }
 
 void io_recv::suspend(coroutine_task_t rh) noexcept(false)
 {
+    auto sd = this->handle;
+    auto& errc = this->internal;
     errc = 0;
 
     epoll_event req{};
@@ -248,7 +267,9 @@ void io_recv::suspend(coroutine_task_t rh) noexcept(false)
 
 int64_t io_recv::resume() noexcept
 {
-    const auto flag = addrlen;
+    auto sd = this->handle;
+    auto flag = this->internal;
+    auto& errc = this->internal;
     const auto sz = recv(sd, buffer.data(), buffer.size_bytes(), flag);
     // update error code upon i/o failure
     errc = sz < 0 ? errno : 0;
