@@ -1,9 +1,7 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
 #include <coroutine/return.h>
 #include <coroutine/sync.h>
 
@@ -18,7 +16,7 @@ using namespace std::literals;
 using namespace std::experimental;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-class return_ignore_test : public TestClass<return_ignore_test>
+class return_type_test : public TestClass<return_type_test>
 {
     TEST_METHOD(return_ignore_nothrow)
     {
@@ -26,19 +24,14 @@ class return_ignore_test : public TestClass<return_ignore_test>
         // the routine will be resumed(continued) properly,
         //   and co_return will destroy the frame
         auto routine = []() -> return_ignore {
-            co_await std::experimental::suspend_never{};
+            co_await suspend_never{};
             co_return;
         };
         routine();
     }
-};
 
-class return_frame_test : public TestClass<return_frame_test>
-{
     TEST_METHOD(return_frame_to_coroutine)
     {
-        using namespace std::experimental;
-
         // when the coroutine frame destuction need to be controlled manually,
         //   `return_frame` can do the work
         auto routine = []() -> return_frame {

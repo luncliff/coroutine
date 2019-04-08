@@ -14,7 +14,7 @@
       <UniqueIdentifier>{55c934e7-5cc5-471a-87a3-e1d2d6d7abde}</UniqueIdentifier>
     </Filter>
     <Filter Include="suspend">
-      <UniqueIdentifier>{191b4c48-2040-4a22-8dc8-c6e5ce857a26}</UniqueIdentifier>
+      <UniqueIdentifier>{b7431fd5-bb50-44ae-91f3-a4d1e62162aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -34,9 +34,6 @@
       <Filter>coroutine</Filter>
     </ClInclude>
     <ClInclude Include="..\interface\coroutine\sequence.hpp">
-      <Filter>coroutine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\interface\coroutine\sync.h">
       <Filter>coroutine</Filter>
     </ClInclude>
     <ClInclude Include="net\socket_test.h">
@@ -59,26 +56,23 @@
     <ClCompile Include="channel\vs_channel.cpp">
       <Filter>channel</Filter>
     </ClCompile>
-    <ClCompile Include="resumable\vs_async_generator.cpp">
-      <Filter>resumable</Filter>
-    </ClCompile>
-    <ClCompile Include="resumable\vs_generator.cpp">
-      <Filter>resumable</Filter>
-    </ClCompile>
-    <ClCompile Include="suspend\vs_wait_group.cpp">
-      <Filter>suspend</Filter>
-    </ClCompile>
-    <ClCompile Include="suspend\vs_suspend_queue.cpp">
-      <Filter>suspend</Filter>
-    </ClCompile>
-    <ClCompile Include="resumable\vs_return_types.cpp">
-      <Filter>resumable</Filter>
-    </ClCompile>
     <ClCompile Include="net\vs_socket_echo_tcp.cpp">
       <Filter>net</Filter>
     </ClCompile>
     <ClCompile Include="net\vs_socket_echo_udp.cpp">
       <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="resumable\vs_yield.cpp">
+      <Filter>resumable</Filter>
+    </ClCompile>
+    <ClCompile Include="resumable\vs_return.cpp">
+      <Filter>resumable</Filter>
+    </ClCompile>
+    <ClCompile Include="suspend\vs_suspend.cpp">
+      <Filter>suspend</Filter>
+    </ClCompile>
+    <ClCompile Include="suspend\vs_concurrency.cpp">
+      <Filter>suspend</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

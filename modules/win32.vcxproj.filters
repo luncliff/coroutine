@@ -28,25 +28,16 @@
     <ClInclude Include="..\interface\coroutine\sequence.hpp">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\sync.h">
-      <Filter>coroutine</Filter>
-    </ClInclude>
     <ClInclude Include="..\interface\coroutine\return.h">
       <Filter>coroutine</Filter>
     </ClInclude>
     <ClInclude Include="..\interface\coroutine\net.h">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="suspend\circular_queue.hpp">
-      <Filter>suspend</Filter>
-    </ClInclude>
-    <ClInclude Include="suspend\message_queue.h">
-      <Filter>suspend</Filter>
-    </ClInclude>
-    <ClInclude Include="suspend\section.h">
-      <Filter>suspend</Filter>
-    </ClInclude>
     <ClInclude Include="..\interface\coroutine\suspend.h">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\concurrency_adapter.h">
       <Filter>coroutine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -54,23 +45,17 @@
     <ClCompile Include="windows\dllmain.cpp">
       <Filter>windows</Filter>
     </ClCompile>
-    <ClCompile Include="windows\section.cpp">
-      <Filter>windows</Filter>
-    </ClCompile>
-    <ClCompile Include="windows\wait_group.cpp">
-      <Filter>windows</Filter>
-    </ClCompile>
     <ClCompile Include="windows\net.cpp">
       <Filter>windows</Filter>
     </ClCompile>
-    <ClCompile Include="suspend\lock_cond_queue.cpp">
-      <Filter>suspend</Filter>
-    </ClCompile>
-    <ClCompile Include="suspend\queue.cpp">
-      <Filter>suspend</Filter>
-    </ClCompile>
     <ClCompile Include="net\resolver.cpp">
       <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="windows\concurrency_adapter.cpp">
+      <Filter>windows</Filter>
+    </ClCompile>
+    <ClCompile Include="windows\limited_lock_queue.cpp">
+      <Filter>windows</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/return.h>
-#include <coroutine/sync.h>
+#include <coroutine/concurrency_adapter.h>
 
 #include "./socket_test.h"
 
@@ -18,8 +18,8 @@ using namespace std;
 using namespace std::chrono_literals;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-auto coro_recv_stream(SOCKET sd, int64_t& rsz, wait_group& wg) -> return_ignore;
-auto coro_send_stream(SOCKET sd, int64_t& ssz, wait_group& wg) -> return_ignore;
+auto coro_recv_stream(SOCKET sd, int64_t& rsz, cc::latch& wg) -> return_ignore;
+auto coro_send_stream(SOCKET sd, int64_t& ssz, cc::latch& wg) -> return_ignore;
 auto echo_incoming_stream(SOCKET sd) -> return_ignore;
 
 //  - Note
@@ -71,8 +71,6 @@ class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test>
     {
         constexpr auto max_clients = 4;
 
-        // wait group for coroutine sync
-        wait_group wg{};
         // create some client sockets and data
         array<SOCKET, max_clients> clients{};
         array<int64_t, max_clients> recv_lengths{};
@@ -100,8 +98,9 @@ class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test>
         //
         accept_dials();
 
+        // wait group for coroutine sync
         // each client will perform 1 recv and 1 send
-        wg.add(max_clients * 2);
+        cc::latch wg{max_clients * 2};
 
         // recv packets. later echo response will resume the coroutines
         for (i = 0; i < max_clients; ++i)
@@ -112,7 +111,7 @@ class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test>
             coro_send_stream(clients[i], send_lengths[i], wg);
 
         // wait for coroutines
-        Assert::IsTrue(wg.wait(10s));
+        wg.wait();
 
         // now, receive coroutines must hold same data
         // sent by each client sockets
@@ -165,10 +164,10 @@ void socket_tcp_echo_test::stop_listen()
     closesocket(ln);
 }
 
-auto coro_recv_stream(SOCKET sd, int64_t& rsz, wait_group& wg) -> return_ignore
+auto coro_recv_stream(SOCKET sd, int64_t& rsz, cc::latch& wg) -> return_ignore
 {
-    // ensure noti to wait_group
-    auto d = gsl::finally([&wg]() { wg.done(); });
+    // ensure noti to cc::latch
+    auto d = gsl::finally([&wg]() { wg.count_down(); });
 
     io_work_t work{};
     array<byte, 2000> storage{};
@@ -178,10 +177,10 @@ auto coro_recv_stream(SOCKET sd, int64_t& rsz, wait_group& wg) -> return_ignore
     Assert::IsTrue(work.error() == NO_ERROR);
 }
 
-auto coro_send_stream(SOCKET sd, int64_t& ssz, wait_group& wg) -> return_ignore
+auto coro_send_stream(SOCKET sd, int64_t& ssz, cc::latch& wg) -> return_ignore
 {
-    // ensure noti to wait_group
-    auto d = gsl::finally([&wg]() { wg.done(); });
+    // ensure noti to cc::latch
+    auto d = gsl::finally([&wg]() { wg.count_down(); });
 
     io_work_t work{};
     array<byte, 1523> storage{};

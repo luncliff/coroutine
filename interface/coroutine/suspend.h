@@ -33,6 +33,7 @@
 #define COROUTINE_SUSPEND_HELPER_TYPES_H
 
 #include <coroutine/frame.h>
+#include <memory>
 
 using coroutine_task_t = std::experimental::coroutine_handle<void>;
 
@@ -97,5 +98,47 @@ class suspend_queue final
         return redirect_to{*this};
     }
 };
+
+namespace cc
+{
+
+enum class queue_op_status
+{
+    success = 0,
+    empty,
+    full,
+    closed
+};
+
+class limited_lock_queue
+{
+  public:
+    using value_type = void*;
+
+  public:
+    static constexpr bool is_lock_free() noexcept
+    {
+        return false;
+    }
+
+  public:
+    limited_lock_queue() noexcept = default;
+    _INTERFACE_ virtual ~limited_lock_queue() noexcept = default;
+
+    _INTERFACE_ virtual queue_op_status wait_push(value_type) noexcept(false)
+        = 0;
+    _INTERFACE_ virtual queue_op_status wait_pop(value_type&) noexcept(false)
+        = 0;
+    _INTERFACE_ virtual void close() noexcept = 0;
+    _INTERFACE_ virtual bool is_closed() const noexcept = 0;
+    _INTERFACE_ virtual void open() = 0;
+    _INTERFACE_ virtual bool is_empty() const noexcept = 0;
+    _INTERFACE_ virtual bool is_full() const noexcept = 0;
+};
+
+_INTERFACE_
+auto make_lock_queue(int v = 0) -> std::unique_ptr<limited_lock_queue>;
+
+} // namespace cc
 
 #endif // COROUTINE_SUSPEND_HELPER_TYPES_H

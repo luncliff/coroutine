@@ -20,25 +20,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\interface\coroutine\channel.hpp" />
+    <ClInclude Include="..\interface\coroutine\concurrency_adapter.h" />
     <ClInclude Include="..\interface\coroutine\enumerable.hpp" />
     <ClInclude Include="..\interface\coroutine\frame.h" />
     <ClInclude Include="..\interface\coroutine\net.h" />
     <ClInclude Include="..\interface\coroutine\return.h" />
     <ClInclude Include="..\interface\coroutine\sequence.hpp" />
     <ClInclude Include="..\interface\coroutine\suspend.h" />
-    <ClInclude Include="..\interface\coroutine\sync.h" />
-    <ClInclude Include="suspend\circular_queue.hpp" />
-    <ClInclude Include="suspend\message_queue.h" />
-    <ClInclude Include="suspend\section.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="net\resolver.cpp" />
-    <ClCompile Include="suspend\lock_cond_queue.cpp" />
-    <ClCompile Include="suspend\queue.cpp" />
     <ClCompile Include="windows\dllmain.cpp" />
+    <ClCompile Include="windows\concurrency_adapter.cpp" />
+    <ClCompile Include="windows\limited_lock_queue.cpp" />
     <ClCompile Include="windows\net.cpp" />
-    <ClCompile Include="windows\section.cpp" />
-    <ClCompile Include="windows\wait_group.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
