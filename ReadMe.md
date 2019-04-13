@@ -31,8 +31,7 @@ Prefer what you like. If the issue is severe, please create an issue.
 Generator and async generator
 
 ```c++
-#include <coroutine/enumerable.hpp> // enumerable<T> : generator
-#include <coroutine/sequence.hpp>   // sequence<T>   : async generator
+#include <coroutine/yield.hpp>  // enumerable<T> & sequence<T>
 ```
 
 Utility types are in the following headers
@@ -40,7 +39,7 @@ Utility types are in the following headers
 ```c++
 #include <coroutine/return.h>   // return type for coroutine
 #include <coroutine/suspend.h>  // helper type for suspend / await
-#include <coroutine/sync.h>     // synchronization utilities
+#include <coroutine/concrt.h>   // synchronization utilities
 ```
 
 Go language style channel to deliver data between coroutines
@@ -52,7 +51,7 @@ Go language style channel to deliver data between coroutines
 Network Asnyc I/O and some helper functions are placed in one header.
 
 ```c++
-#include <coroutine/net.h>      // shows asnyc i/o
+#include <coroutine/net.h>      // async i/o for sockets
 ```
 
 ### Build

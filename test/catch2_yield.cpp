@@ -5,8 +5,8 @@
 #include <catch2/catch.hpp>
 
 #include <coroutine/return.h>
-#include <coroutine/sequence.hpp>
 #include <coroutine/suspend.h>
+#include <coroutine/yield.hpp>
 #include <gsl/gsl>
 
 using namespace std;

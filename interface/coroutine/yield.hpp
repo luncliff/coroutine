@@ -4,16 +4,16 @@
 //  License : CC BY 4.0
 //
 //  Note
-//      `enumerable` is an alias of `generator`.
-//      Since the name is being used already, it uses another name
+//      `enumerable` is simply an alias of `generator`.
+//      Notice <experimental/generator> is already in VC++
 //
 //      `sequence` is an abstraction for the async generator.
 //      However, it is not named `async_generator` to imply that
 //      it's just one of the concept's implementations
 //
 // ---------------------------------------------------------------------------
-#ifndef COROUTINE_SEQUENCE_HPP
-#define COROUTINE_SEQUENCE_HPP
+#ifndef COROUTINE_YIELD_HPP
+#define COROUTINE_YIELD_HPP
 
 #include <coroutine/frame.h>
 #include <iterator>
@@ -36,14 +36,11 @@ class enumerable
     using pointer = value_type*;
 
   private:
-    // alias resumable handle types
-    using handle_promise_t = coroutine_handle<promise_type>;
-
-    handle_promise_t coro;
+    coroutine_handle<promise_type> coro;
 
   public:
     enumerable(promise_type* ptr) noexcept
-        : coro{handle_promise_t::from_promise(*ptr)}
+        : coro{coroutine_handle<promise_type>::from_promise(*ptr)}
     {
     }
     enumerable(const enumerable&) = delete;
@@ -135,7 +132,7 @@ class enumerable
         using pointer = T*;
 
       public:
-        handle_promise_t coro; // resumable handle
+        coroutine_handle<promise_type> coro;
 
       public:
         // `enumerable::end()`
@@ -143,7 +140,8 @@ class enumerable
         {
         }
         // `enumerable::begin()`
-        explicit iterator(handle_promise_t handle) noexcept : coro{handle}
+        explicit iterator(coroutine_handle<promise_type> handle) noexcept
+            : coro{handle}
         {
         }
 
@@ -163,16 +161,7 @@ class enumerable
             pointer ptr = coro.promise().current;
             return ptr;
         }
-        pointer operator->() const noexcept
-        {
-            pointer ptr = coro.promise().current;
-            return ptr;
-        }
         reference operator*() noexcept
-        {
-            return *(this->operator->());
-        }
-        reference operator*() const noexcept
         {
             return *(this->operator->());
         }
@@ -188,6 +177,8 @@ class enumerable
     };
 };
 
+// - Note
+//      Async Generator for `for co_await` statement
 template <typename T>
 class sequence final
 {
@@ -200,10 +191,6 @@ class sequence final
     using pointer = value_type*;
 
   private:
-    using handle_promise_t = coroutine_handle<promise_type>;
-    using handle_t = coroutine_handle<>;
-
-  private:
     static constexpr pointer finished() noexcept
     {
         return reinterpret_cast<pointer>(0xDEAD);
@@ -214,7 +201,7 @@ class sequence final
     }
 
   private:
-    handle_t coro{}; // resumable handle
+    coroutine_handle<promise_type> coro{}; // resumable handle
 
   public:
     sequence(sequence&) = delete;
@@ -229,7 +216,7 @@ class sequence final
         return *this;
     }
     sequence(promise_type* ptr) noexcept
-        : coro{handle_promise_t::from_promise(*ptr)}
+        : coro{coroutine_handle<promise_type>::from_promise(*ptr)}
     {
     }
     ~sequence() noexcept
@@ -256,9 +243,7 @@ class sequence final
             return iterator{nullptr};
 
         // check if it's finished after first resume
-        auto& promise
-            = handle_promise_t::from_address(coro.address()).promise();
-        if (promise.current == finished()) //
+        if (coro.promise().current == finished()) //
             return iterator{nullptr};
 
         return iterator{coro};
@@ -276,7 +261,7 @@ class sequence final
 
       public:
         pointer current{};
-        handle_t task{};
+        coroutine_handle<void> task{};
 
       public:
         void unhandled_exception() noexcept
@@ -343,18 +328,18 @@ class sequence final
             //
             return task.address() != nullptr;
         }
-        void await_suspend(handle_t rh) noexcept
+        void await_suspend(coroutine_handle<void> coro) noexcept
         {
             // iterator will reactivate this
-            task = rh;
+            task = coro;
         }
         void await_resume() noexcept
         {
-            handle_t _task = task;
-            task = nullptr; // std::swap(_task, task);
-
-            if (_task)          // Resume if and only if
-                _task.resume(); // there is a waiting work
+            if (auto coro = task)
+            {
+                task = nullptr; // Resume if and only if
+                coro.resume();  // there is a waiting work
+            }
         }
     };
 
@@ -374,14 +359,9 @@ class sequence final
         explicit iterator(std::nullptr_t) noexcept : promise{nullptr}
         {
         }
-        explicit iterator(handle_t rh) noexcept : promise{nullptr}
+        explicit iterator(coroutine_handle<promise_type> coro) noexcept
+            : promise{std::addressof(coro.promise())}
         {
-            auto& p = handle_promise_t::from_address(rh.address()).promise();
-
-            // After some trial,
-            // `coroutine_handle` became a source of tedious code.
-            // So we will use `promise_type` directly
-            promise = std::addressof(p);
         }
 
       public:
@@ -390,14 +370,12 @@ class sequence final
         {
             // reset and advance
             promise->current = empty();
-
             // iterator resumes promise if it is suspended
-            handle_t _task = promise->task;
-            promise->task = nullptr;
-
-            if (_task)
-                _task.resume();
-
+            if (auto coro = promise->task)
+            {
+                promise->task = nullptr;
+                coro.resume();
+            }
             return await_resume();
         }
 
@@ -410,12 +388,12 @@ class sequence final
             //    Continue the loop
             return promise ? promise->current != empty() : true;
         }
-        void await_suspend(handle_t rh) noexcept
+        void await_suspend(coroutine_handle<void> coro) noexcept
         {
             // case empty:
             //   Promise suspended for some reason. Wait for it to yield
             //   Expect promise to resume this iterator appropriately
-            promise->task = rh;
+            promise->task = coro;
         }
         iterator& await_resume() noexcept
         {
@@ -425,7 +403,6 @@ class sequence final
             if (promise &&                      //
                 promise->current == finished()) //
                 promise = nullptr;              // forget the promise
-
             return *this;
         }
 
@@ -433,19 +410,10 @@ class sequence final
         {
             return promise->current;
         }
-        pointer operator->() const noexcept
-        {
-            return promise->current;
-        }
         reference operator*() noexcept
         {
             return *(this->operator->());
         }
-        reference operator*() const noexcept
-        {
-            return *(this->operator->());
-        }
-
         bool operator==(const iterator& rhs) const noexcept
         {
             return this->promise == rhs.promise;
@@ -458,4 +426,4 @@ class sequence final
 };
 } // namespace coro
 
-#endif // COROUTINE_SEQUENCE_HPP
+#endif //  COROUTINE_YIELD_HPP

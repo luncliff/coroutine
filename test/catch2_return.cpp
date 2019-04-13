@@ -10,7 +10,7 @@
 using namespace coro;
 using namespace std::experimental;
 
-TEST_CASE("return_ignore", "[return]")
+TEST_CASE("return_ignore", "[primitive]")
 {
     // user won't care about coroutine life cycle.
     // the routine will be resumed(continued) properly,
@@ -22,9 +22,8 @@ TEST_CASE("return_ignore", "[return]")
     REQUIRE_NOTHROW(example());
 }
 
-TEST_CASE("return_frame", "[return]")
+TEST_CASE("return_frame", "[primitive]")
 {
-
     // when the coroutine frame destuction need to be controlled manually,
     //   `return_frame` can do the work
     //   it returns `suspend_always` for `final_suspend`

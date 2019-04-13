@@ -15,20 +15,16 @@ endif()
 
 add_executable(coroutine_test
     catch2_entry.cpp
+    catch2_return.cpp
+    catch2_yield.cpp
+    catch2_concrt.cpp
+    catch2_suspend.cpp
 
     net/catch2_resolver.cpp
     net/socket_test.h
     net/catch2_socket.cpp
     net/catch2_socket_echo_udp.cpp
     net/catch2_socket_echo_tcp.cpp
-
-    suspend/suspend_test.h
-    suspend/catch2_suspend.cpp
-    suspend/catch2_suspend_queue.cpp
-    suspend/catch2_concurrency.cpp
-
-    catch2_return.cpp
-    catch2_yield.cpp
 
     channel/catch2_channel.cpp
 )

@@ -11,7 +11,7 @@
 using namespace std;
 using namespace std::experimental;
 
-TEST_CASE("coroutine_handle", "[semantics]")
+TEST_CASE("coroutine_handle", "[primitive][semantics]")
 {
     // helper object to use address
     std::byte blob[64]{};
@@ -20,15 +20,15 @@ TEST_CASE("coroutine_handle", "[semantics]")
 
     SECTION("move")
     {
-        void* ptr = blob + 1; // some address
-        c1 = coroutine_handle<void>::from_address(ptr);
+        c1 = coroutine_handle<void>::from_address(blob + 2);
+        c2 = coroutine_handle<void>::from_address(blob + 3);
 
-        REQUIRE(c1.address() != nullptr);
-        REQUIRE(c2.address() == nullptr);
+        REQUIRE(c1.address() == blob + 2);
+        REQUIRE(c2.address() == blob + 3);
         c2 = move(c1);
         // expect the address is moved to c2
-        REQUIRE(c1.address() != nullptr);
-        REQUIRE(c2.address() != nullptr);
+        REQUIRE(c1.address() == blob + 2);
+        REQUIRE(c2.address() == blob + 2);
     }
 
     SECTION("swap")

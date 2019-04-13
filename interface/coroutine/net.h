@@ -31,7 +31,7 @@
 
 #ifndef COROUTINE_NET_IO_H
 #define COROUTINE_NET_IO_H
-#include <coroutine/sequence.hpp>
+#include <coroutine/yield.hpp>
 
 #include <chrono>
 #include <gsl/gsl>

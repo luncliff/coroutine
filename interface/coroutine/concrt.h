@@ -33,6 +33,7 @@
 #ifndef EXPERIMENTAL_CONCURRENCY_TS_ADAPTER_H
 #define EXPERIMENTAL_CONCURRENCY_TS_ADAPTER_H
 
+#include <cstddef>
 #include <cstdint>
 
 namespace concrt
@@ -46,7 +47,7 @@ namespace concrt
 class latch
 {
     // reserve enough size to provide platform compatibility
-    mutable uint64_t storage[16]{};
+    std::byte storage[128]{};
 
   public:
     latch(latch&) = delete;
@@ -70,7 +71,7 @@ class latch
 class barrier
 {
     // reserve enough size to provide platform compatibility
-    mutable uint64_t storage[8]{};
+    std::byte storage[128]{};
 
   public:
     barrier(barrier&) = delete;

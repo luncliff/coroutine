@@ -15,6 +15,7 @@ add_library(coro ALIAS ${PROJECT_NAME})
 set_target_properties(${PROJECT_NAME}
 PROPERTIES
     CXX_STANDARD    17
+    SOVERSION       ${PROJECT_VERSION}
 )
 
 target_include_directories(${PROJECT_NAME}

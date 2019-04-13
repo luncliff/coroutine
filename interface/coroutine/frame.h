@@ -90,7 +90,7 @@ extern "C" void __builtin_coro_destroy(void*);
 
 namespace std::experimental
 {
-// traits to enforce promise_type. no sfinae consideration.
+// traits to enforce promise_type, without sfinae consideration.
 template <typename ReturnType, typename... Args>
 struct coroutine_traits
 {
@@ -209,6 +209,7 @@ class coroutine_handle : public coroutine_handle<void>
             // calculate the location of the coroutine frame prefix
             auto* prefix = addr.c;
             // for clang, promise is placed just after frame prefix
+            // so this line works like `__builtin_coro_promise`,
             auto* promise = reinterpret_cast<promise_type*>(prefix + 1);
             return promise;
         }
