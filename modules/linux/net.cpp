@@ -60,7 +60,7 @@ struct event_data_t
             throw system_error{errno, system_category(), "epoll_ctl"};
     }
 
-    auto wait(int timeout) noexcept(false) -> enumerable<coroutine_task_t>
+    auto wait(int timeout) noexcept(false) -> coro::enumerable<io_task_t>
     {
         auto count = epoll_wait(fd, events.get(), capacity, timeout);
         if (count == -1)
@@ -69,7 +69,7 @@ struct event_data_t
         for (auto i = 0; i < count; ++i)
         {
             auto& ev = events[i];
-            auto task = coroutine_task_t::from_address(ev.data.ptr);
+            auto task = io_task_t::from_address(ev.data.ptr);
             co_yield task;
         }
     }
@@ -78,7 +78,7 @@ struct event_data_t
 event_data_t inbound{}, outbound{};
 
 auto wait_io_tasks(nanoseconds timeout) noexcept(false)
-    -> enumerable<coroutine_task_t>
+    -> coro::enumerable<io_task_t>
 {
     const int half_time = duration_cast<milliseconds>(timeout).count() / 2;
 
@@ -130,7 +130,7 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
-void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
+void io_send_to::suspend(io_task_t rh) noexcept(false)
 {
     auto sd = this->handle;
     auto& errc = this->internal;
@@ -178,7 +178,7 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
-void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
+void io_recv_from::suspend(io_task_t rh) noexcept(false)
 {
     auto sd = this->handle;
     auto& errc = this->internal;
@@ -216,7 +216,7 @@ auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
     return *reinterpret_cast<io_send*>(addressof(work));
 }
 
-void io_send::suspend(coroutine_task_t rh) noexcept(false)
+void io_send::suspend(io_task_t rh) noexcept(false)
 {
     auto sd = this->handle;
     auto& errc = this->internal;
@@ -252,7 +252,7 @@ auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
     return *reinterpret_cast<io_recv*>(addressof(work));
 }
 
-void io_recv::suspend(coroutine_task_t rh) noexcept(false)
+void io_recv::suspend(io_task_t rh) noexcept(false)
 {
     auto sd = this->handle;
     auto& errc = this->internal;

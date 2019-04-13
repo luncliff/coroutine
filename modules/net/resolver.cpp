@@ -9,11 +9,10 @@
 
 using namespace coro;
 
-std::array<char, NI_MAXHOST> buf{};
+extern std::array<char, NI_MAXHOST> hnbuf;
 auto host_name() noexcept -> gsl::czstring<NI_MAXHOST>
 {
-    ::gethostname(buf.data(), buf.size());
-    return buf.data();
+    return hnbuf.data();
 }
 
 GSL_SUPPRESS(type .1)
