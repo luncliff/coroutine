@@ -13,7 +13,8 @@ int64_t socket_create(const addrinfo& hint);
 
 // - Note
 //      create multiple socket
-auto socket_create(const addrinfo& hint, size_t count) -> enumerable<int64_t>;
+auto socket_create(const addrinfo& hint, size_t count)
+    -> coro::enumerable<int64_t>;
 
 // - Note
 //      dispose given socket

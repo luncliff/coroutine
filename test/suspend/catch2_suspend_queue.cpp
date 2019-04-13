@@ -6,7 +6,6 @@
 
 #include <coroutine/return.h>
 #include <coroutine/suspend.h>
-#include <coroutine/sync.h>
 
 #include <atomic>
 #include <gsl/gsl>
@@ -15,11 +14,11 @@
 
 using namespace std;
 using namespace std::literals;
+using namespace std::experimental;
+using namespace coro;
 
 TEST_CASE("suspend_hook", "[return]")
 {
-    using namespace std::experimental;
-
     suspend_hook hk{};
 
     SECTION("empty")
@@ -64,37 +63,38 @@ TEST_CASE("suspend_hook", "[return]")
 
 TEST_CASE("suspend_queue", "[suspend][thread]")
 {
-    suspend_queue sq{};
+    auto sq = make_lock_queue();
 
     SECTION("no await")
     {
         // do nothing with this awaitable object
-        auto aw = sq.wait();
+        auto aw = push_to(*sq);
         REQUIRE(aw.await_ready() == false);
     }
 
     SECTION("no thread")
     {
-        auto routine = [&sq](int& status) -> return_ignore {
+        auto routine
+            = [](limited_lock_queue& queue, int& status) -> return_ignore {
             status = 1;
-            co_await sq.wait();
+            co_await push_to(queue);
             status = 2;
-            co_await sq.wait();
+            co_await push_to(queue);
             status = 3;
         };
 
-        int status = 0;
-        routine(status);
+        auto status = 0;
+        routine(*sq, status);
         REQUIRE(status == 1);
 
-        coroutine_task_t coro{};
-
         // we know there is a waiting coroutine
-        REQUIRE(sq.try_pop(coro));
+        auto coro = pop_from(*sq);
+        REQUIRE(coro);
         REQUIRE_NOTHROW(coro.resume());
         REQUIRE(status == 2);
 
-        REQUIRE(sq.try_pop(coro));
+        coro = pop_from(*sq);
+        REQUIRE(coro);
         REQUIRE_NOTHROW(coro.resume());
         REQUIRE(status == 3);
     }
@@ -102,24 +102,27 @@ TEST_CASE("suspend_queue", "[suspend][thread]")
     SECTION("one worker thread")
     {
         // do work with 1 thread
-        thread worker{[&sq]() {
-            coroutine_task_t coro{};
+        thread worker{[](limited_lock_queue* queue) {
+                          auto coro = pop_from(*queue);
+                          while (coro == false)
+                          {
+                              this_thread::sleep_for(1s);
+                              coro = pop_from(*queue);
+                          }
+                          REQUIRE_NOTHROW(coro.resume());
+                      },
+                      sq.get()};
 
-            while (sq.try_pop(coro) == false)
-                this_thread::sleep_for(1s);
-
-            REQUIRE_NOTHROW(coro.resume());
-        }};
-
-        auto routine = [&sq](thread_id_t& invoke_id,
-                             thread_id_t& resume_id) -> return_ignore {
+        auto routine = [](limited_lock_queue& queue, //
+                          thread_id_t& invoke_id,    //
+                          thread_id_t& resume_id) -> return_ignore {
             invoke_id = get_current_thread_id();
-            co_await sq.wait();
+            co_await push_to(queue);
             resume_id = get_current_thread_id();
         };
 
         thread_id_t id1{}, id2{};
-        routine(id1, id2);
+        routine(*sq, id1, id2);
 
         REQUIRE_NOTHROW(worker.join());
         REQUIRE(id1 != id2);                     // resume id == worker thread
@@ -128,35 +131,37 @@ TEST_CASE("suspend_queue", "[suspend][thread]")
 
     SECTION("multiple worker thread")
     {
-        auto resume_only_one = [&sq]() {
-            size_t retry_count = 50;
-            coroutine_task_t coro{};
-
-            while (sq.try_pop(coro) == false)
-                if (retry_count--)
-                    this_thread::sleep_for(500ms);
+        auto resume_only_one = [](limited_lock_queue* queue) {
+            void* ptr = nullptr;
+            size_t retry_count = 10;
+            while (retry_count--)
+                if (queue->wait_pop(ptr))
+                    break;
                 else
-                    FAIL("failed to pop from suspend queue");
+                    this_thread::sleep_for(500ms);
 
+            if (retry_count == 0)
+                FAIL("failed to pop from suspend queue");
+
+            auto coro = coroutine_handle<void>::from_address(ptr);
+            REQUIRE(coro);
             REQUIRE(coro.done() == false);
             coro.resume();
         };
-
-        // do work with 3 thread
-        // suspend_queue works in thread-safe manner
-        thread w1{resume_only_one}, w2{resume_only_one}, w3{resume_only_one};
-
-        auto routine = [&sq](std::atomic<size_t>& count) -> return_ignore {
-            co_await sq.wait(); // just wait schedule
-            count += 1;
+        auto routine = [](limited_lock_queue& queue,
+                          std::atomic<size_t>& ref) -> return_ignore {
+            // just wait schedule
+            co_await push_to(queue);
+            ref += 1;
         };
 
         std::atomic<size_t> count{};
+        thread w1{resume_only_one, sq.get()}, // do work with 3 thread
+            w2{resume_only_one, sq.get()}, w3{resume_only_one, sq.get()};
 
-        routine(count); // spawn 3 (num of worker) coroutines
-        routine(count);
-        routine(count);
-
+        routine(*sq, count); // spawn 3 (num of worker) coroutines
+        routine(*sq, count);
+        routine(*sq, count);
         // all workers must resumed their own tasks
         REQUIRE_NOTHROW(w1.join(), w2.join(), w3.join());
         REQUIRE(count == 3);

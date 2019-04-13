@@ -35,7 +35,7 @@
 
 #include <cstdint>
 
-namespace cc
+namespace concrt
 {
 
 // - Note
@@ -85,6 +85,6 @@ class barrier
     //_INTERFACE_ void arrive_and_drop() noexcept;
 };
 
-} // namespace cc
+} // namespace concrt
 
 #endif // EXPERIMENTAL_CONCURRENCY_TS_ADAPTER_H

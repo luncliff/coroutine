@@ -4,9 +4,12 @@
 //  License : CC BY 4.0
 //
 //  Note
-//      `sequence` is an abstraction for the async generator
-//      It is not named `async_generator`
-//       to imply that it's just one of the concept's implementations
+//      `enumerable` is an alias of `generator`.
+//      Since the name is being used already, it uses another name
+//
+//      `sequence` is an abstraction for the async generator.
+//      However, it is not named `async_generator` to imply that
+//      it's just one of the concept's implementations
 //
 // ---------------------------------------------------------------------------
 #ifndef COROUTINE_SEQUENCE_HPP
@@ -14,6 +17,176 @@
 
 #include <coroutine/frame.h>
 #include <iterator>
+
+namespace coro
+{
+using namespace std::experimental;
+
+// - Note
+//      Another implementation of <experimental/generator>
+template <typename T>
+class enumerable
+{
+  public:
+    class promise_type;
+    class iterator;
+
+    using value_type = T;
+    using reference = value_type&;
+    using pointer = value_type*;
+
+  private:
+    // alias resumable handle types
+    using handle_promise_t = coroutine_handle<promise_type>;
+
+    handle_promise_t coro;
+
+  public:
+    enumerable(promise_type* ptr) noexcept
+        : coro{handle_promise_t::from_promise(*ptr)}
+    {
+    }
+    enumerable(const enumerable&) = delete;
+    enumerable& operator=(const enumerable&) = delete;
+    enumerable(enumerable&& rhs) noexcept : coro{rhs.coro}
+    {
+        rhs.coro = nullptr;
+    }
+    enumerable& operator=(enumerable&& rhs)
+    {
+        std::swap(coro, rhs.coro);
+        return *this;
+    }
+    ~enumerable() noexcept
+    {
+        // enumerable will destroy the frame.
+        //  promise/iterator are free from those ownership
+        if (coro)
+            coro.destroy();
+    }
+
+  public:
+    iterator begin() noexcept(false)
+    {
+        if (coro) // resumeable?
+        {
+            coro.resume();
+            if (coro.done()) // finished?
+                return iterator{nullptr};
+        }
+        return iterator{coro};
+    }
+    iterator end() noexcept
+    {
+        return iterator{nullptr};
+    }
+
+  public:
+    class promise_type final // Resumable Promise Requirement
+    {
+        friend class iterator;
+        friend class enumerable;
+
+        pointer current = nullptr;
+
+      public:
+        auto initial_suspend() const noexcept
+        {
+            return suspend_always{};
+        }
+        auto final_suspend() const noexcept
+        {
+            return suspend_always{};
+        }
+
+        // `co_yield` expression. only for reference
+        auto yield_value(reference ref) noexcept
+        {
+            current = std::addressof(ref);
+            return suspend_always{};
+        }
+
+        // `co_return` expression
+        void return_void() noexcept
+        {
+            // no more access to value
+            current = nullptr;
+        }
+        void unhandled_exception() noexcept
+        {
+            // just terminate?
+            std::terminate();
+        }
+
+        promise_type* get_return_object() noexcept
+        {
+            // enumerable will create coroutine handle from the address
+            return this;
+        }
+    };
+
+    class iterator final
+    {
+      public:
+        using iterator_category = std::input_iterator_tag;
+        using difference_type = ptrdiff_t;
+        using value_type = T;
+        using reference = T&;
+        using pointer = T*;
+
+      public:
+        handle_promise_t coro; // resumable handle
+
+      public:
+        // `enumerable::end()`
+        explicit iterator(std::nullptr_t) noexcept : coro{nullptr}
+        {
+        }
+        // `enumerable::begin()`
+        explicit iterator(handle_promise_t handle) noexcept : coro{handle}
+        {
+        }
+
+      public:
+        iterator& operator++(int) = delete; // post increment
+        iterator& operator++() noexcept(false)
+        {
+            coro.resume();
+            if (coro.done())    // enumerable will destroy
+                coro = nullptr; // the frame later...
+
+            return *this;
+        }
+
+        pointer operator->() noexcept
+        {
+            pointer ptr = coro.promise().current;
+            return ptr;
+        }
+        pointer operator->() const noexcept
+        {
+            pointer ptr = coro.promise().current;
+            return ptr;
+        }
+        reference operator*() noexcept
+        {
+            return *(this->operator->());
+        }
+        reference operator*() const noexcept
+        {
+            return *(this->operator->());
+        }
+
+        bool operator==(const iterator& rhs) const noexcept
+        {
+            return this->coro == rhs.coro;
+        }
+        bool operator!=(const iterator& rhs) const noexcept
+        {
+            return !(*this == rhs);
+        }
+    };
+};
 
 template <typename T>
 class sequence final
@@ -27,8 +200,8 @@ class sequence final
     using pointer = value_type*;
 
   private:
-    using handle_promise_t = std::experimental::coroutine_handle<promise_type>;
-    using handle_t = std::experimental::coroutine_handle<>;
+    using handle_promise_t = coroutine_handle<promise_type>;
+    using handle_t = coroutine_handle<>;
 
   private:
     static constexpr pointer finished() noexcept
@@ -118,7 +291,7 @@ class sequence final
         auto initial_suspend() const noexcept
         {
             // Suspend immediately and let the iterator to resume
-            return std::experimental::suspend_always{};
+            return suspend_always{};
         }
         auto final_suspend() const noexcept
         {
@@ -128,7 +301,7 @@ class sequence final
             //   deleted before the other.
             // Just suspend here and let them cooperate for it.
             //
-            return std::experimental::suspend_always{};
+            return suspend_always{};
         }
 
         promise_type& yield_value(reference ref) noexcept
@@ -283,5 +456,6 @@ class sequence final
         }
     };
 };
+} // namespace coro
 
 #endif // COROUTINE_SEQUENCE_HPP

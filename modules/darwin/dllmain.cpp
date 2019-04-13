@@ -4,7 +4,7 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include <coroutine/sync.h>
+#include <coroutine/frame.h>
 
 #define LIB_PROLOGUE __attribute__((constructor))
 #define LIB_EPILOGUE __attribute__((destructor))

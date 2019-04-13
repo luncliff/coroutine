@@ -25,11 +25,10 @@ add_executable(coroutine_test
     suspend/suspend_test.h
     suspend/catch2_suspend.cpp
     suspend/catch2_suspend_queue.cpp
-    suspend/catch2_wait_group.cpp
+    suspend/catch2_concurrency.cpp
 
-    resumable/catch2_returns.cpp
-    resumable/catch2_generator.cpp
-    resumable/catch2_async_generator.cpp
+    catch2_return.cpp
+    catch2_yield.cpp
 
     channel/catch2_channel.cpp
 )

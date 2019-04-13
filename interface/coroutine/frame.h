@@ -90,7 +90,7 @@ extern "C" void __builtin_coro_destroy(void*);
 
 namespace std::experimental
 {
-// traits to enforce promise_type
+// traits to enforce promise_type. no sfinae consideration.
 template <typename ReturnType, typename... Args>
 struct coroutine_traits
 {
@@ -120,23 +120,14 @@ class coroutine_handle<void>
   public:
     coroutine_handle() noexcept = default;
     ~coroutine_handle() noexcept = default;
+    coroutine_handle(coroutine_handle const&) noexcept = default;
+    coroutine_handle(coroutine_handle&& rhs) noexcept = default;
+    coroutine_handle& operator=(coroutine_handle const&) noexcept = default;
+    coroutine_handle& operator=(coroutine_handle&& rhs) noexcept = default;
 
     explicit coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr}
     {
     }
-    coroutine_handle(coroutine_handle const&) noexcept = default;
-    coroutine_handle& operator=(coroutine_handle const&) noexcept = default;
-
-    coroutine_handle(coroutine_handle&& rhs) noexcept : prefix{rhs.prefix}
-    {
-        rhs.prefix = prefix_t{};
-    }
-    coroutine_handle& operator=(coroutine_handle&& rhs) noexcept
-    {
-        std::swap(this->prefix.v, rhs.prefix.v);
-        return *this;
-    }
-
     coroutine_handle& operator=(nullptr_t) noexcept
     {
         prefix.v = nullptr;
