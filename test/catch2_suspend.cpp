@@ -2,35 +2,6 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <thread>
-
-enum thread_id_t : uint64_t;
-
-// - Note
-//      Thin wrapper to prevent constant folding of std namespace
-//      thread id query
-auto get_current_thread_id() noexcept -> thread_id_t;
-
-#if defined(_MSC_VER)
-#include <Windows.h>
-#include <sdkddkver.h>
-
-thread_id_t get_current_thread_id() noexcept
-{
-    return static_cast<thread_id_t>(GetCurrentThreadId());
-}
-
-#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
-#include <pthread.h>
-
-auto get_current_thread_id() noexcept -> thread_id_t
-{
-    const void* p = (void*)pthread_self();
-    const auto tid = reinterpret_cast<uint64_t>(p);
-    return static_cast<thread_id_t>(tid);
-}
-#endif
-
 #include <catch2/catch.hpp>
 
 #include <coroutine/return.h>
@@ -40,9 +11,17 @@ auto get_current_thread_id() noexcept -> thread_id_t
 #include <gsl/gsl>
 #include <thread>
 
+enum thread_id_t : uint64_t;
+// if the function body is in the same file, clang triggers constatnt folding
+// and the thread id check will always fail...
+// atomic couldn't prevent the behavior.
+// this code will be updated soon
+extern void get_current_thread_id(std::atomic<thread_id_t>& tid) noexcept;
+extern auto get_current_thread_id() noexcept -> thread_id_t;
+
 using namespace std;
 using namespace literals;
-using namespace experimental;
+using namespace std::experimental;
 using namespace coro;
 
 TEST_CASE("suspend_hook", "[return]")
@@ -154,9 +133,11 @@ TEST_CASE("suspend_queue", "[suspend][thread]")
         auto routine = [](limited_lock_queue& queue,      //
                           atomic<thread_id_t>& invoke_id, //
                           atomic<thread_id_t>& resume_id) -> return_ignore {
-            invoke_id = get_current_thread_id();
+            get_current_thread_id(invoke_id);
+
             co_await push_to(queue);
-            resume_id = get_current_thread_id();
+
+            get_current_thread_id(resume_id);
         };
 
         atomic<thread_id_t> id1{}, id2{};

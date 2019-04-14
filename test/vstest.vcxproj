@@ -221,10 +221,10 @@
     <ClCompile Include="net\vs_socket.cpp" />
     <ClCompile Include="net\vs_socket_echo_tcp.cpp" />
     <ClCompile Include="net\vs_socket_echo_udp.cpp" />
-    <ClCompile Include="resumable\vs_yield.cpp" />
-    <ClCompile Include="resumable\vs_return.cpp" />
-    <ClCompile Include="suspend\vs_suspend.cpp" />
-    <ClCompile Include="suspend\vs_concurrency.cpp" />
+    <ClCompile Include="vs_concrt.cpp" />
+    <ClCompile Include="vs_return.cpp" />
+    <ClCompile Include="vs_suspend.cpp" />
+    <ClCompile Include="vs_yield.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\modules\windows.vcxproj">

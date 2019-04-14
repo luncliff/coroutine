@@ -5,6 +5,7 @@
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
 
+#include <atomic>
 #include <coroutine/frame.h>
 #include <cstddef>
 
@@ -44,3 +45,34 @@ TEST_CASE("coroutine_handle", "[primitive][semantics]")
         REQUIRE(c2.address() == blob + 1);
     }
 }
+
+enum thread_id_t : uint64_t;
+
+#if defined(_MSC_VER)
+#include <Windows.h>
+#include <sdkddkver.h>
+
+auto get_current_thread_id() noexcept -> thread_id_t
+{
+    return static_cast<thread_id_t>(GetCurrentThreadId());
+}
+void get_current_thread_id(std::atomic<thread_id_t>& tid) noexcept
+{
+    tid.store(get_current_thread_id());
+}
+
+#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
+#include <pthread.h>
+
+void get_current_thread_id(std::atomic<thread_id_t>& tid) noexcept
+{
+    auto id = reinterpret_cast<uint64_t>((void*)pthread_self());
+    tid.store(thread_id_t{id});
+}
+auto get_current_thread_id() noexcept -> thread_id_t
+{
+    auto id = reinterpret_cast<uint64_t>((void*)pthread_self());
+    return thread_id_t{id};
+}
+
+#endif
