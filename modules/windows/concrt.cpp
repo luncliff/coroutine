@@ -19,9 +19,15 @@ namespace concrt
 using namespace std;
 using namespace std::chrono;
 
-struct event_type
+class event_type
 {
     HANDLE ev{};
+
+  public:
+    event_type(const event_type&) = delete;
+    event_type(event_type&&) = delete;
+    event_type& operator=(const event_type&) = delete;
+    event_type& operator=(event_type&&) = delete;
 
     event_type() noexcept(false)
         : ev{CreateEventA(nullptr, false, false, nullptr)}

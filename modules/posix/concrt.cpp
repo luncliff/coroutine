@@ -158,17 +158,16 @@ void latch::wait() noexcept(false)
     }
 }
 
-barrier::barrier(uint32_t num_threads) noexcept(false) : storage{}
-{
-    throw runtime_error{"not implemented"};
-}
-barrier::~barrier() noexcept
-{
-}
-
-void barrier::arrive_and_wait() noexcept
-{
-    throw runtime_error{"not implemented"};
-}
+// barrier::barrier(uint32_t num_threads) noexcept(false) : storage{}
+// {
+//     throw runtime_error{"not implemented"};
+// }
+// barrier::~barrier() noexcept
+// {
+// }
+// void barrier::arrive_and_wait() noexcept
+// {
+//     throw runtime_error{"not implemented"};
+// }
 
 } // namespace concrt

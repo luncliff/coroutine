@@ -64,6 +64,8 @@ class latch
     _INTERFACE_ void wait() noexcept(false);
 };
 
+#if defined(_MSC_VER) // For VC++
+
 // - Note
 //		An opaque type for thread barrier
 // - See Also
@@ -85,6 +87,7 @@ class barrier
     _INTERFACE_ void arrive_and_wait() noexcept;
     //_INTERFACE_ void arrive_and_drop() noexcept;
 };
+#endif
 
 } // namespace concrt
 
