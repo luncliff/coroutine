@@ -4,8 +4,7 @@
 //
 #include <coroutine/return.h>
 #include <coroutine/suspend.h>
-#include <coroutine/sequence.hpp>
-#include <coroutine/enumerable.hpp>
+#include <coroutine/yield.hpp>
 
 #include <array>
 #include <numeric>
@@ -18,6 +17,7 @@
 using namespace std::literals;
 using namespace std::experimental;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace coro;
 
 class generator_test : public TestClass<generator_test>
 {

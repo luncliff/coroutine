@@ -4,7 +4,7 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
-#include <coroutine/concurrency_adapter.h>
+#include <coroutine/concrt.h>
 #include <coroutine/return.h>
 
 #include "./socket_test.h"
@@ -16,11 +16,12 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
+using namespace coro;
 
 auto coro_recv_dgram(SOCKET sd, sockaddr_in6& remote, int64_t& rsz,
-                     cc::latch& wg) -> return_ignore;
+                     concrt::latch& wg) -> return_ignore;
 auto coro_send_dgram(SOCKET sd, const sockaddr_in6& remote, int64_t& ssz,
-                     cc::latch& wg) -> return_ignore;
+                     concrt::latch& wg) -> return_ignore;
 
 auto echo_incoming_datagram(SOCKET sd) -> return_ignore;
 
@@ -92,7 +93,7 @@ class socket_udp_echo_test : public TestClass<socket_udp_echo_test>
 
         // wait group for coroutine sync
         // each client will perform 1 recv and 1 send
-        cc::latch wg{max_clients * 2};
+        concrt::latch wg{max_clients * 2};
 
         // recv packets. later echo response will resume the coroutines
         for (i = 0; i < max_clients; ++i)
@@ -133,9 +134,9 @@ void socket_udp_echo_test::stop_service()
 }
 
 auto coro_recv_dgram(SOCKET sd, sockaddr_in6& remote, int64_t& rsz,
-                     cc::latch& wg) -> return_ignore
+                     concrt::latch& wg) -> return_ignore
 {
-    // ensure noti to cc::latch
+    // ensure noti to concrt::latch
     auto d = gsl::finally([&wg]() { wg.count_down(); });
 
     io_work_t work{};
@@ -147,9 +148,9 @@ auto coro_recv_dgram(SOCKET sd, sockaddr_in6& remote, int64_t& rsz,
 }
 
 auto coro_send_dgram(SOCKET sd, const sockaddr_in6& remote, int64_t& ssz,
-                     cc::latch& wg) -> return_ignore
+                     concrt::latch& wg) -> return_ignore
 {
-    // ensure noti to cc::latch
+    // ensure noti to concrt::latch
     auto d = gsl::finally([&wg]() { wg.count_down(); });
 
     io_work_t work{};

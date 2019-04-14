@@ -4,8 +4,8 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
+#include <coroutine/concrt.h>
 #include <coroutine/return.h>
-#include <coroutine/concurrency_adapter.h>
 
 #include "./socket_test.h"
 
@@ -17,9 +17,12 @@
 using namespace std;
 using namespace std::chrono_literals;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace coro;
 
-auto coro_recv_stream(SOCKET sd, int64_t& rsz, cc::latch& wg) -> return_ignore;
-auto coro_send_stream(SOCKET sd, int64_t& ssz, cc::latch& wg) -> return_ignore;
+auto coro_recv_stream(SOCKET sd, int64_t& rsz, concrt::latch& wg)
+    -> return_ignore;
+auto coro_send_stream(SOCKET sd, int64_t& ssz, concrt::latch& wg)
+    -> return_ignore;
 auto echo_incoming_stream(SOCKET sd) -> return_ignore;
 
 //  - Note
@@ -100,7 +103,7 @@ class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test>
 
         // wait group for coroutine sync
         // each client will perform 1 recv and 1 send
-        cc::latch wg{max_clients * 2};
+        concrt::latch wg{max_clients * 2};
 
         // recv packets. later echo response will resume the coroutines
         for (i = 0; i < max_clients; ++i)
@@ -164,9 +167,10 @@ void socket_tcp_echo_test::stop_listen()
     closesocket(ln);
 }
 
-auto coro_recv_stream(SOCKET sd, int64_t& rsz, cc::latch& wg) -> return_ignore
+auto coro_recv_stream(SOCKET sd, int64_t& rsz, concrt::latch& wg)
+    -> return_ignore
 {
-    // ensure noti to cc::latch
+    // ensure noti to concrt::latch
     auto d = gsl::finally([&wg]() { wg.count_down(); });
 
     io_work_t work{};
@@ -177,9 +181,10 @@ auto coro_recv_stream(SOCKET sd, int64_t& rsz, cc::latch& wg) -> return_ignore
     Assert::IsTrue(work.error() == NO_ERROR);
 }
 
-auto coro_send_stream(SOCKET sd, int64_t& ssz, cc::latch& wg) -> return_ignore
+auto coro_send_stream(SOCKET sd, int64_t& ssz, concrt::latch& wg)
+    -> return_ignore
 {
-    // ensure noti to cc::latch
+    // ensure noti to concrt::latch
     auto d = gsl::finally([&wg]() { wg.count_down(); });
 
     io_work_t work{};

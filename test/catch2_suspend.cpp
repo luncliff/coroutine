@@ -37,12 +37,12 @@ auto get_current_thread_id() noexcept -> thread_id_t
 #include <coroutine/suspend.h>
 
 #include <atomic>
-#include <future>
 #include <gsl/gsl>
+#include <thread>
 
 using namespace std;
-using namespace std::literals;
-using namespace std::experimental;
+using namespace literals;
+using namespace experimental;
 using namespace coro;
 
 TEST_CASE("suspend_hook", "[return]")
@@ -149,21 +149,20 @@ TEST_CASE("suspend_queue", "[suspend][thread]")
     SECTION("one worker thread")
     {
         // do work with 1 thread
-        auto worker
-            = std::async(launch::async, resume_one_from_queue, sq.get());
+        thread worker{resume_one_from_queue, sq.get()};
 
-        auto routine = [](limited_lock_queue& queue, //
-                          thread_id_t& invoke_id,    //
-                          thread_id_t& resume_id) -> return_ignore {
+        auto routine = [](limited_lock_queue& queue,      //
+                          atomic<thread_id_t>& invoke_id, //
+                          atomic<thread_id_t>& resume_id) -> return_ignore {
             invoke_id = get_current_thread_id();
             co_await push_to(queue);
             resume_id = get_current_thread_id();
         };
 
-        thread_id_t id1{}, id2{};
+        atomic<thread_id_t> id1{}, id2{};
         routine(*sq, id1, id2);
 
-        REQUIRE_NOTHROW(worker.get());
+        REQUIRE_NOTHROW(worker.join());
         REQUIRE(id1 != id2);                     // resume id == worker thread
         REQUIRE(id1 == get_current_thread_id()); // invoke id == this thread
     }
@@ -171,23 +170,25 @@ TEST_CASE("suspend_queue", "[suspend][thread]")
     SECTION("multiple worker thread")
     {
         auto routine = [](limited_lock_queue& queue,
-                          std::atomic<size_t>& ref) -> return_ignore {
+                          atomic<size_t>& ref) -> return_ignore {
             // just wait schedule
             co_await push_to(queue);
             ref += 1;
         };
 
-        std::atomic<size_t> count{};
+        atomic<size_t> count{};
         // do work with 3 thread
-        auto w1 = std::async(launch::async, resume_one_from_queue, sq.get());
-        auto w2 = std::async(launch::async, resume_one_from_queue, sq.get());
-        auto w3 = std::async(launch::async, resume_one_from_queue, sq.get());
+        thread w1{resume_one_from_queue, sq.get()};
+        thread w2{resume_one_from_queue, sq.get()};
+        thread w3{resume_one_from_queue, sq.get()};
 
         routine(*sq, count); // spawn 3 (num of worker) coroutines
         routine(*sq, count);
         routine(*sq, count);
         // all workers must resumed their own tasks
-        REQUIRE_NOTHROW(w1.get(), w2.get(), w3.get());
+        REQUIRE_NOTHROW(w1.join());
+        REQUIRE_NOTHROW(w2.join());
+        REQUIRE_NOTHROW(w3.join());
         REQUIRE(count == 3);
     }
 

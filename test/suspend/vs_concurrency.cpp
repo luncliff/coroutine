@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <coroutine/concurrency_adapter.h>
+#include <coroutine/concrt.h>
 #include <coroutine/return.h>
 
 // clang-format off
@@ -18,7 +18,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 class latch_test : public TestClass<latch_test>
 {
-    using latch = cc::latch;
+    using latch = concrt::latch;
 
     static auto create_work(latch& group)
     {
@@ -93,7 +93,7 @@ class latch_test : public TestClass<latch_test>
 
 class barrier_test : public TestClass<barrier_test>
 {
-    using barrier = cc::barrier;
+    using barrier = concrt::barrier;
 
     static auto create_work(barrier& b)
     {

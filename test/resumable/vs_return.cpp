@@ -2,8 +2,8 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include <coroutine/concrt.h>
 #include <coroutine/return.h>
-#include <coroutine/sync.h>
 
 #include <gsl/gsl>
 
@@ -15,6 +15,7 @@
 using namespace std::literals;
 using namespace std::experimental;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace coro;
 
 class return_type_test : public TestClass<return_type_test>
 {

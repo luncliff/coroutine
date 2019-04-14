@@ -84,7 +84,7 @@ Exploring [test(example) codes](./test) will be helpful.
 #### Visual Studio Project
 
 For Visual Studio users,  
-I recommend you to import(add reference) [win32.vcxproj](./modules/win32.vcxproj) in [modules](./modules/).
+I recommend you to import(add reference) [windows.vcxproj](./modules/windows.vcxproj) in [modules](./modules/).
 
 #### CMake Project
 

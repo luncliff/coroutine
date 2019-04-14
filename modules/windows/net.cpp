@@ -9,7 +9,7 @@
 using namespace std;
 
 auto wait_io_tasks(chrono::nanoseconds) noexcept(false)
-    -> enumerable<coroutine_task_t>
+    -> coro::enumerable<io_task_t>
 {
     // windows implementation rely on callback.
     // So this function will yield nothing
@@ -93,7 +93,7 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
-void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
+void io_send_to::suspend(io_task_t rh) noexcept(false)
 {
     const auto sd = gsl::narrow_cast<SOCKET>(Internal);
     const auto addr = addressof(this->ep->addr);
@@ -152,7 +152,7 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
-void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
+void io_recv_from::suspend(io_task_t rh) noexcept(false)
 {
     const auto sd = gsl::narrow_cast<SOCKET>(Internal);
     auto addr = addressof(this->ep->addr);
@@ -191,7 +191,7 @@ auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
     return *reinterpret_cast<io_send*>(addressof(work));
 }
 
-void io_send::suspend(coroutine_task_t rh) noexcept(false)
+void io_send::suspend(io_task_t rh) noexcept(false)
 {
     const auto sd = gsl::narrow_cast<SOCKET>(Internal);
     const auto flag = gsl::narrow_cast<DWORD>(InternalHigh);
@@ -227,7 +227,7 @@ auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
     return *reinterpret_cast<io_recv*>(addressof(work));
 }
 
-void io_recv::suspend(coroutine_task_t rh) noexcept(false)
+void io_recv::suspend(io_task_t rh) noexcept(false)
 {
     const auto sd = gsl::narrow_cast<SOCKET>(Internal);
     auto flag = gsl::narrow_cast<DWORD>(InternalHigh);
