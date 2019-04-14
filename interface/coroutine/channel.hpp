@@ -355,7 +355,7 @@ class channel final : internal::list<reader<T, M>>, internal::list<writer<T, M>>
 
 // Extension of channel reader for subroutines
 template <typename T, typename M>
-class peeker final : public reader<T, M>
+class peeker final : protected reader<T, M>
 {
     using value_type = T;
     using channel_type = channel<T, M>;

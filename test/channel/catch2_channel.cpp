@@ -137,3 +137,60 @@ TEST_CASE("channel close", "[generic][channel]")
 
     REQUIRE(ok == false); // and channel is returned false
 }
+
+TEST_CASE("channel select", "[generic][channel]")
+{
+    // it's singe thread, so mutex for channels doesn't have to be real lockable
+    using u32_chan_t = channel<uint32_t, bypass_lock>;
+    using i32_chan_t = channel<int32_t, bypass_lock>;
+
+    SECTION("match one")
+    {
+        u32_chan_t ch1{};
+        i32_chan_t ch2{};
+
+        write_to(ch1, 17u);
+        select(ch2,
+               [](auto v) {
+                   static_assert(is_same_v<decltype(v), int32_t>);
+                   FAIL("select on empty channel must bypass");
+               },
+               ch1,
+               [](auto v) -> return_ignore {
+                   static_assert(is_same_v<decltype(v), uint32_t>);
+                   REQUIRE(v == 17u);
+
+                   co_await suspend_never{};
+               });
+    }
+
+    SECTION("no match")
+    {
+        u32_chan_t ch1{};
+        i32_chan_t ch2{};
+
+        select(ch1,
+               [](auto v) {
+                   static_assert(is_same_v<decltype(v), uint32_t>);
+                   FAIL("select on empty channel must bypass");
+               },
+               ch2,
+               [](auto v) {
+                   static_assert(is_same_v<decltype(v), int32_t>);
+                   FAIL("select on empty channel must bypass");
+               });
+    }
+
+    SECTION("match both")
+    {
+        u32_chan_t ch1{};
+        i32_chan_t ch2{};
+
+        write_to(ch1, 17u);
+        write_to(ch2, 15);
+
+        select(ch2, [](auto v) { REQUIRE(v == 15); }, //
+               ch1, [](auto v) { REQUIRE(v == 17u); } //
+        );
+    }
+};
