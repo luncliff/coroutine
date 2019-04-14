@@ -12,7 +12,11 @@
 #define COROUTINE_RETURN_TYPES_H
 
 #include <coroutine/frame.h>
-#include <stdexcept>
+#include <exception>
+
+namespace coro
+{
+using namespace std::experimental;
 
 // - Note
 //      General `void` return for coroutine.
@@ -27,11 +31,11 @@ class return_ignore final
         // No suspend for init/final suspension point
         auto initial_suspend() noexcept
         {
-            return std::experimental::suspend_never{};
+            return suspend_never{};
         }
         auto final_suspend() noexcept
         {
-            return std::experimental::suspend_never{};
+            return suspend_never{};
         }
         void return_void() noexcept
         {
@@ -68,7 +72,7 @@ class return_frame final
     class promise_type;
 
   private:
-    std::experimental::coroutine_handle<void> frame{};
+    coroutine_handle<void> frame{};
 
   public:
     return_frame() noexcept = default;
@@ -83,7 +87,7 @@ class return_frame final
     {
         return frame;
     }
-    explicit operator std::experimental::coroutine_handle<void>() const noexcept
+    explicit operator coroutine_handle<void>() const noexcept
     {
         return frame;
     }
@@ -94,12 +98,12 @@ class return_frame final
       public:
         auto initial_suspend() noexcept
         {
-            return std::experimental::suspend_never{};
+            return suspend_never{};
         }
         auto final_suspend() noexcept
         {
             // !!! notice this behavior !!!
-            return std::experimental::suspend_always{};
+            return suspend_always{};
         }
         void return_void() noexcept
         {
@@ -118,5 +122,7 @@ class return_frame final
         }
     };
 };
+
+} // namespace coro
 
 #endif // COROUTINE_RETURN_TYPES_H

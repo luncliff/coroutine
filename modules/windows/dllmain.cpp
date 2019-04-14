@@ -6,9 +6,9 @@
 //      https://msdn.microsoft.com/en-us/library/windows/desktop/ms682583(v=vs.85).aspx
 //
 // ---------------------------------------------------------------------------
-#include <coroutine/enumerable.hpp>
+#include <coroutine/net.h>
 #include <coroutine/return.h>
-#include <coroutine/sync.h>
+#include <coroutine/yield.hpp>
 
 #include <gsl/gsl_util>
 
@@ -20,7 +20,7 @@
 
 using namespace std;
 
-auto current_threads() -> enumerable<DWORD>
+auto current_threads() -> coro::enumerable<DWORD>
 {
     const auto pid = GetCurrentProcessId();
     // for current process
@@ -30,11 +30,17 @@ auto current_threads() -> enumerable<DWORD>
                            system_category(), "CreateToolhelp32Snapshot"};
 
     auto h = gsl::finally([=]() noexcept { CloseHandle(snapshot); });
+
     auto entry = THREADENTRY32{};
     entry.dwSize = sizeof(entry);
+
     for (Thread32First(snapshot, &entry); Thread32Next(snapshot, &entry);
          entry.dwSize = sizeof(entry))
+    {
         // filter other process's threads
         if (entry.th32OwnerProcessID != pid)
             co_yield entry.th32ThreadID;
+    }
 }
+
+std::array<char, NI_MAXHOST> hnbuf{};

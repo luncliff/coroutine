@@ -5,8 +5,8 @@
 //
 // ---------------------------------------------------------------------------
 #include <coroutine/channel.hpp>
+#include <coroutine/concrt.h>
 #include <coroutine/return.h>
-#include <coroutine/sync.h>
 
 // clang-format off
 #include <sdkddkver.h>

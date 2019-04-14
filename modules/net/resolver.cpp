@@ -7,11 +7,12 @@
 #include <coroutine/net.h>
 #include <gsl/gsl>
 
-std::array<char, NI_MAXHOST> buf{};
+using namespace coro;
+
+extern std::array<char, NI_MAXHOST> hnbuf;
 auto host_name() noexcept -> gsl::czstring<NI_MAXHOST>
 {
-    ::gethostname(buf.data(), buf.size());
-    return buf.data();
+    return hnbuf.data();
 }
 
 GSL_SUPPRESS(type .1)
@@ -60,7 +61,7 @@ GSL_SUPPRESS(gsl.util)
 auto resolve(const addrinfo& hint, //
              gsl::czstring<NI_MAXHOST> name,
              gsl::czstring<NI_MAXSERV> serv) noexcept
-    -> enumerable<sockaddr_in6>
+    -> coro::enumerable<sockaddr_in6>
 {
     addrinfo* list = nullptr;
 

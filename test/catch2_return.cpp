@@ -7,22 +7,23 @@
 #include <coroutine/return.h>
 #include <gsl/gsl>
 
-TEST_CASE("return_ignore", "[return]")
+using namespace coro;
+using namespace std::experimental;
+
+TEST_CASE("return_ignore", "[primitive]")
 {
     // user won't care about coroutine life cycle.
     // the routine will be resumed(continued) properly,
     //   and co_return will destroy the frame
     auto example = []() -> return_ignore {
-        co_await std::experimental::suspend_never{};
+        co_await suspend_never{};
         co_return;
     };
     REQUIRE_NOTHROW(example());
 }
 
-TEST_CASE("return_frame", "[return]")
+TEST_CASE("return_frame", "[primitive]")
 {
-    using namespace std::experimental;
-
     // when the coroutine frame destuction need to be controlled manually,
     //   `return_frame` can do the work
     //   it returns `suspend_always` for `final_suspend`

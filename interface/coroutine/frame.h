@@ -90,7 +90,7 @@ extern "C" void __builtin_coro_destroy(void*);
 
 namespace std::experimental
 {
-// traits to enforce promise_type
+// traits to enforce promise_type, without sfinae consideration.
 template <typename ReturnType, typename... Args>
 struct coroutine_traits
 {
@@ -120,23 +120,14 @@ class coroutine_handle<void>
   public:
     coroutine_handle() noexcept = default;
     ~coroutine_handle() noexcept = default;
+    coroutine_handle(coroutine_handle const&) noexcept = default;
+    coroutine_handle(coroutine_handle&& rhs) noexcept = default;
+    coroutine_handle& operator=(coroutine_handle const&) noexcept = default;
+    coroutine_handle& operator=(coroutine_handle&& rhs) noexcept = default;
 
     explicit coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr}
     {
     }
-    coroutine_handle(coroutine_handle const&) noexcept = default;
-    coroutine_handle& operator=(coroutine_handle const&) noexcept = default;
-
-    coroutine_handle(coroutine_handle&& rhs) noexcept : prefix{rhs.prefix}
-    {
-        rhs.prefix = prefix_t{};
-    }
-    coroutine_handle& operator=(coroutine_handle&& rhs) noexcept
-    {
-        std::swap(this->prefix.v, rhs.prefix.v);
-        return *this;
-    }
-
     coroutine_handle& operator=(nullptr_t) noexcept
     {
         prefix.v = nullptr;
@@ -218,6 +209,7 @@ class coroutine_handle : public coroutine_handle<void>
             // calculate the location of the coroutine frame prefix
             auto* prefix = addr.c;
             // for clang, promise is placed just after frame prefix
+            // so this line works like `__builtin_coro_promise`,
             auto* promise = reinterpret_cast<promise_type*>(prefix + 1);
             return promise;
         }

@@ -13,7 +13,6 @@ void test_require_true(bool cond)
 
 TEST_CASE("channel without lock", "[generic][channel]")
 {
-    using namespace std;
     using element_t = int;
     using channel_without_lock_t = channel<element_t, bypass_lock>;
 
@@ -53,7 +52,6 @@ TEST_CASE("channel without lock", "[generic][channel]")
 
 TEST_CASE("channel with mutex", "[generic][channel]")
 {
-    using namespace std;
     using element_t = int;
     using channel_with_lock_t = channel<element_t, mutex>;
 

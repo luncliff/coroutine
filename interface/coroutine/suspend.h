@@ -33,69 +33,92 @@
 #define COROUTINE_SUSPEND_HELPER_TYPES_H
 
 #include <coroutine/frame.h>
+#include <memory>
 
-using coroutine_task_t = std::experimental::coroutine_handle<void>;
+namespace coro
+{
+using namespace std::experimental;
 
 // - Note
 //      Provide interface for manual resume operation after
-//      being used as an argument of `co_await` *by reference*
-class suspend_hook final : public std::experimental::suspend_always,
-                           public coroutine_task_t
+//      being used as an argument of `co_await` by reference
+class suspend_hook final : public coroutine_handle<void>, public suspend_always
 {
   public:
     // - Note
     //    Override `suspend_always::await_suspend`
-    void await_suspend(coroutine_task_t rh) noexcept
+    void await_suspend(coroutine_handle<void> coro) noexcept
     {
-        coroutine_task_t& coro = *this;
-        coro = std::move(rh); // update frame value
+        coroutine_handle<void>& self = *this;
+        self = coro;
     }
 };
-static_assert(sizeof(suspend_hook) == sizeof(coroutine_task_t));
+static_assert(sizeof(suspend_hook) == sizeof(coroutine_handle<void>));
 
-// - Note
-//      Interface to suspend coroutines and fetch them *manually*.
-class suspend_queue final
+class limited_lock_queue
 {
-    // reserve enough size to provide platform compatibility
-    const uint64_t storage[8]{};
+  public:
+    using value_type = void*;
 
   public:
-    suspend_queue(suspend_queue&&) noexcept = delete;
-    suspend_queue& operator=(suspend_queue&&) noexcept = delete;
-    suspend_queue(const suspend_queue&) noexcept = delete;
-    suspend_queue& operator=(const suspend_queue&) noexcept = delete;
-
-    _INTERFACE_ suspend_queue() noexcept(false);
-    _INTERFACE_ ~suspend_queue() noexcept;
-
-    _INTERFACE_ void push(coroutine_task_t coro) noexcept(false);
-    _INTERFACE_ bool try_pop(coroutine_task_t& coro) noexcept;
-
-    // - Note
-    //      Return an awaitable that enqueue the coroutine
-    //      Relay code will be generated with this header to minimize dllexport
-    //      functions
-    auto wait() noexcept
+    static constexpr bool is_lock_free() noexcept
     {
-        // awaitable for suspend queue
-        class redirect_to final : public std::experimental::suspend_always
-        {
-            suspend_queue& sq;
-
-          public:
-            explicit redirect_to(suspend_queue& q) noexcept : sq{q}
-            {
-            }
-            // override `suspend_always::await_suspend`
-            void await_suspend(coroutine_task_t coro) noexcept(false)
-            {
-                return sq.push(coro);
-            }
-        };
-        static_assert(sizeof(redirect_to) == sizeof(void*));
-        return redirect_to{*this};
+        return false;
     }
+
+  public:
+    limited_lock_queue() noexcept = default;
+    limited_lock_queue(const limited_lock_queue&) = delete;
+    limited_lock_queue(limited_lock_queue&&) = delete;
+    limited_lock_queue& operator=(const limited_lock_queue&) = delete;
+    limited_lock_queue& operator=(limited_lock_queue&&) = delete;
+    _INTERFACE_ virtual ~limited_lock_queue() noexcept = default;
+
+  public:
+    _INTERFACE_ virtual bool wait_push(value_type) noexcept(false) = 0;
+    _INTERFACE_ virtual bool wait_pop(value_type&) noexcept(false) = 0;
+    _INTERFACE_ virtual void close() noexcept = 0;
+    _INTERFACE_ virtual bool is_closed() const noexcept = 0;
+    // _INTERFACE_ virtual void open() = 0;
+    _INTERFACE_ virtual bool is_empty() const noexcept = 0;
+    _INTERFACE_ virtual bool is_full() const noexcept = 0;
 };
+
+_INTERFACE_ auto make_lock_queue() -> std::unique_ptr<limited_lock_queue>;
+
+// - Note
+//      Return an awaitable that enqueue the coroutine
+//      Relay code will be generated with this header to minimize dllexport
+//      functions
+static auto push_to(limited_lock_queue& queue) noexcept
+{
+    // awaitable for the queue
+    class redirect_to final : public suspend_always
+    {
+        limited_lock_queue& sq;
+
+      public:
+        explicit redirect_to(limited_lock_queue& queue) noexcept : sq{queue}
+        {
+        }
+        // override `suspend_always::await_suspend`
+        void await_suspend(coroutine_handle<void> coro) noexcept(false)
+        {
+            sq.wait_push(coro.address());
+        }
+    };
+    static_assert(sizeof(redirect_to) == sizeof(limited_lock_queue*));
+    return redirect_to{queue};
+}
+
+static auto pop_from(limited_lock_queue& queue) noexcept
+    -> coroutine_handle<void>
+{
+    void* ptr = nullptr;
+    queue.wait_pop(ptr);
+    return coroutine_handle<void>::from_address(ptr);
+}
+
+} // namespace co_ex
 
 #endif // COROUTINE_SUSPEND_HELPER_TYPES_H

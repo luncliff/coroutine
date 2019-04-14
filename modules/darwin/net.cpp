@@ -40,7 +40,7 @@ struct kqueue_data_t
 kqueue_data_t kq{};
 
 auto wait_io_tasks(nanoseconds timeout) noexcept(false)
-    -> enumerable<coroutine_task_t>
+    -> coro::enumerable<io_task_t>
 {
     timespec ts{};
     const auto sec = duration_cast<seconds>(timeout);
@@ -106,7 +106,7 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
-void io_send_to::suspend(coroutine_task_t rh) noexcept(false)
+void io_send_to::suspend(io_task_t rh) noexcept(false)
 {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
     task = rh;
@@ -161,7 +161,7 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
-void io_recv_from::suspend(coroutine_task_t rh) noexcept(false)
+void io_recv_from::suspend(io_task_t rh) noexcept(false)
 {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
 
@@ -209,7 +209,7 @@ auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
     return *reinterpret_cast<io_send*>(addressof(work));
 }
 
-void io_send::suspend(coroutine_task_t rh) noexcept(false)
+void io_send::suspend(io_task_t rh) noexcept(false)
 {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
     task = rh;
@@ -251,7 +251,7 @@ auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
     return *reinterpret_cast<io_recv*>(addressof(work));
 }
 
-void io_recv::suspend(coroutine_task_t rh) noexcept(false)
+void io_recv::suspend(io_task_t rh) noexcept(false)
 {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
 

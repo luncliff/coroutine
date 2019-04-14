@@ -205,11 +205,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\modules\win32.vcxproj">
-      <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\interface\coroutine\channel.hpp" />
     <ClInclude Include="..\interface\coroutine\enumerable.hpp" />
     <ClInclude Include="..\interface\coroutine\frame.h" />
@@ -217,7 +212,6 @@
     <ClInclude Include="..\interface\coroutine\return.h" />
     <ClInclude Include="..\interface\coroutine\sequence.hpp" />
     <ClInclude Include="..\interface\coroutine\suspend.h" />
-    <ClInclude Include="..\interface\coroutine\sync.h" />
     <ClInclude Include="channel\channel_test.h" />
     <ClInclude Include="net\socket_test.h" />
   </ItemGroup>
@@ -227,11 +221,15 @@
     <ClCompile Include="net\vs_socket.cpp" />
     <ClCompile Include="net\vs_socket_echo_tcp.cpp" />
     <ClCompile Include="net\vs_socket_echo_udp.cpp" />
-    <ClCompile Include="resumable\vs_async_generator.cpp" />
-    <ClCompile Include="resumable\vs_generator.cpp" />
-    <ClCompile Include="resumable\vs_return_types.cpp" />
-    <ClCompile Include="suspend\vs_suspend_queue.cpp" />
-    <ClCompile Include="suspend\vs_wait_group.cpp" />
+    <ClCompile Include="vs_concrt.cpp" />
+    <ClCompile Include="vs_return.cpp" />
+    <ClCompile Include="vs_suspend.cpp" />
+    <ClCompile Include="vs_yield.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\modules\windows.vcxproj">
+      <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

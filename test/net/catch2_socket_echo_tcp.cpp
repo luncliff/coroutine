@@ -4,21 +4,22 @@
 //
 #include <catch2/catch.hpp>
 
+#include <coroutine/concrt.h>
 #include <coroutine/net.h>
 #include <coroutine/return.h>
-#include <coroutine/sync.h>
 #include <gsl/gsl>
 
 #include "./socket_test.h"
 
 using namespace std;
-using namespace gsl;
 using namespace std::chrono_literals;
+using namespace gsl;
+using namespace coro;
 
-auto coro_recv_stream(int64_t sd, int64_t& rsz, wait_group& wg)
-    -> return_ignore;
-auto coro_send_stream(int64_t sd, int64_t& ssz, wait_group& wg)
-    -> return_ignore;
+using concrt::latch;
+
+auto coro_recv_stream(int64_t sd, int64_t& rsz, latch& wg) -> return_ignore;
+auto coro_send_stream(int64_t sd, int64_t& ssz, latch& wg) -> return_ignore;
 auto echo_incoming_stream(int64_t sd) -> return_ignore;
 
 TEST_CASE("socket tcp echo test", "[network][socket]")
@@ -97,8 +98,8 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
             echo_incoming_stream(cs);       // attach service coroutine
         }
 
-        wait_group wg{};         // wait group for coroutine sync
-        wg.add(max_clients * 2); // each client will perform 1 recv and 1 send
+        latch wg{max_clients * 2}; // wait group for coroutine sync
+                                   // each client will perform 1 recv and 1 send
         {
             // recv packets. later echo response will resume the coroutines
             for (i = 0; i < max_clients; ++i)
@@ -121,7 +122,7 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
                 }
             }
         }
-        REQUIRE(wg.wait(4s)); // ensure all coroutines are finished
+        wg.wait(); // ensure all coroutines are finished
 
         // now, receive coroutines must hold same data
         // sent by each client sockets
@@ -132,11 +133,11 @@ TEST_CASE("socket tcp echo test", "[network][socket]")
 }
 
 auto coro_recv_stream( //
-    int64_t sd, int64_t& rsz, wait_group& wg) -> return_ignore
+    int64_t sd, int64_t& rsz, latch& wg) -> return_ignore
 {
     using gsl::byte;
-    auto d = finally([&wg]() { // ensure noti to wait_group
-        wg.done();
+    auto d = finally([&wg]() { // ensure noti to latch
+        wg.count_down();
     });
 
     io_work_t work{};
@@ -151,12 +152,12 @@ auto coro_recv_stream( //
     REQUIRE(rsz > 0);
 }
 
-auto coro_send_stream(int64_t sd, int64_t& ssz, wait_group& wg) -> return_ignore
+auto coro_send_stream(int64_t sd, int64_t& ssz, latch& wg) -> return_ignore
 {
     using gsl::byte;
 
-    auto d = finally([&wg]() { // ensure noti to wait_group
-        wg.done();
+    auto d = finally([&wg]() { // ensure noti to latch
+        wg.count_down();
     });
 
     io_work_t work{};

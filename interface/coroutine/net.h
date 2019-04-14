@@ -31,7 +31,7 @@
 
 #ifndef COROUTINE_NET_IO_H
 #define COROUTINE_NET_IO_H
-#include <coroutine/enumerable.hpp>
+#include <coroutine/yield.hpp>
 
 #include <chrono>
 #include <gsl/gsl>
@@ -74,9 +74,6 @@ static constexpr bool is_winsock = false;
 static constexpr bool is_netinet = true;
 #endif
 
-using coroutine_task_t = std::experimental::coroutine_handle<void>;
-using buffer_view_t = gsl::span<gsl::byte>;
-
 // - Note
 //      Even though this class violates C++ Core Guidelines,
 //      it will be used for simplicity
@@ -87,9 +84,12 @@ union endpoint_t final {
     sockaddr_in6 in6;
 };
 
+using io_task_t = std::experimental::coroutine_handle<void>;
+using buffer_view_t = gsl::span<gsl::byte>;
+
 struct io_work_t : public io_control_block
 {
-    coroutine_task_t task{};
+    io_task_t task{};
     buffer_view_t buffer{};
     endpoint_t* ep{};
 
@@ -103,7 +103,7 @@ static_assert(sizeof(io_work_t) <= 64);
 class io_send_to final : public io_work_t
 {
   public:
-    _INTERFACE_ void suspend(coroutine_task_t rh) noexcept(false);
+    _INTERFACE_ void suspend(io_task_t rh) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 
   public:
@@ -111,7 +111,7 @@ class io_send_to final : public io_work_t
     {
         return this->ready();
     }
-    void await_suspend(coroutine_task_t rh) noexcept(false)
+    void await_suspend(io_task_t rh) noexcept(false)
     {
         return this->suspend(rh);
     }
@@ -136,7 +136,7 @@ static_assert(sizeof(io_send_to) == sizeof(io_work_t));
 class io_recv_from final : public io_work_t
 {
   public:
-    _INTERFACE_ void suspend(coroutine_task_t rh) noexcept(false);
+    _INTERFACE_ void suspend(io_task_t rh) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 
   public:
@@ -144,7 +144,7 @@ class io_recv_from final : public io_work_t
     {
         return this->ready();
     }
-    void await_suspend(coroutine_task_t rh) noexcept(false)
+    void await_suspend(io_task_t rh) noexcept(false)
     {
         return this->suspend(rh);
     }
@@ -170,7 +170,7 @@ static_assert(sizeof(io_recv_from) == sizeof(io_work_t));
 class io_send final : public io_work_t
 {
   public:
-    _INTERFACE_ void suspend(coroutine_task_t rh) noexcept(false);
+    _INTERFACE_ void suspend(io_task_t rh) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 
   public:
@@ -178,7 +178,7 @@ class io_send final : public io_work_t
     {
         return this->ready();
     }
-    void await_suspend(coroutine_task_t rh) noexcept(false)
+    void await_suspend(io_task_t rh) noexcept(false)
     {
         return this->suspend(rh);
     }
@@ -197,7 +197,7 @@ static_assert(sizeof(io_send) == sizeof(io_work_t));
 class io_recv final : public io_work_t
 {
   public:
-    _INTERFACE_ void suspend(coroutine_task_t rh) noexcept(false);
+    _INTERFACE_ void suspend(io_task_t rh) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 
   public:
@@ -205,7 +205,7 @@ class io_recv final : public io_work_t
     {
         return this->ready();
     }
-    void await_suspend(coroutine_task_t rh) noexcept(false)
+    void await_suspend(io_task_t rh) noexcept(false)
     {
         return this->suspend(rh);
     }
@@ -231,7 +231,7 @@ static_assert(sizeof(io_recv) == sizeof(io_work_t));
 //      to have a method to detect that coroutines are returned.
 _INTERFACE_
 auto wait_io_tasks(std::chrono::nanoseconds timeout) noexcept(false)
-    -> enumerable<coroutine_task_t>;
+    -> coro::enumerable<io_task_t>;
 
 _INTERFACE_
 auto host_name() noexcept -> gsl::czstring<NI_MAXHOST>;
@@ -246,7 +246,7 @@ _INTERFACE_
 auto resolve(const addrinfo& hint, //
              gsl::czstring<NI_MAXHOST> name,
              gsl::czstring<NI_MAXSERV> serv) noexcept
-    -> enumerable<sockaddr_in6>;
+    -> coro::enumerable<sockaddr_in6>;
 
 _INTERFACE_
 std::errc nameof(const sockaddr_in& ep, //

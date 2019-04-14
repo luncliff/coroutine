@@ -16,6 +16,10 @@
 
 #include <coroutine/frame.h>
 
+namespace coro
+{
+using namespace std::experimental;
+
 namespace internal
 {
 static void* poison() noexcept(false)
@@ -82,9 +86,6 @@ class reader final
     using reference = T&;
     using channel_type = channel<T, Lockable>;
 
-    template <typename P>
-    using coroutine_handle = typename std::experimental::coroutine_handle<P>;
-
   private:
     using writer = typename channel_type::writer;
     using writer_list = typename channel_type::writer_list;
@@ -143,9 +144,6 @@ class writer final
     using reference = T&;
     using channel_type = channel<T, Lockable>;
 
-    template <typename P>
-    using coroutine_handle = typename std::experimental::coroutine_handle<P>;
-
   private:
     using reader = typename channel_type::reader;
     using writer_list = typename channel_type::writer_list;
@@ -202,9 +200,6 @@ class channel final : internal::list<reader<T, Lockable>>,
 {
     static_assert(std::is_reference<T>::value == false,
                   "Using reference for channel is forbidden.");
-
-    template <typename P>
-    using coroutine_handle = typename std::experimental::coroutine_handle<P>;
 
   public:
     using value_type = T;
@@ -392,5 +387,6 @@ bool writer<T, M>::await_resume() noexcept(false)
     }
     return true;
 }
+} // namespace coro
 
 #endif // COROUTINE_CHANNEL_HPP

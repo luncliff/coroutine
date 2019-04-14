@@ -4,8 +4,8 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
+#include <coroutine/concrt.h>
 #include <coroutine/return.h>
-#include <coroutine/sync.h>
 
 #include "./socket_test.h"
 
@@ -16,11 +16,12 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
+using namespace coro;
 
 auto coro_recv_dgram(SOCKET sd, sockaddr_in6& remote, int64_t& rsz,
-                     wait_group& wg) -> return_ignore;
+                     concrt::latch& wg) -> return_ignore;
 auto coro_send_dgram(SOCKET sd, const sockaddr_in6& remote, int64_t& ssz,
-                     wait_group& wg) -> return_ignore;
+                     concrt::latch& wg) -> return_ignore;
 
 auto echo_incoming_datagram(SOCKET sd) -> return_ignore;
 
@@ -72,8 +73,6 @@ class socket_udp_echo_test : public TestClass<socket_udp_echo_test>
     {
         constexpr auto max_clients = 4;
 
-        // wait group for coroutine sync
-        wait_group wg{};
         // create some client sockets and data
         array<SOCKET, max_clients> clients{};
         array<int64_t, max_clients> recv_lengths{};
@@ -92,8 +91,9 @@ class socket_udp_echo_test : public TestClass<socket_udp_echo_test>
             socket_bind(sd, local.storage);
         }
 
+        // wait group for coroutine sync
         // each client will perform 1 recv and 1 send
-        wg.add(max_clients * 2);
+        concrt::latch wg{max_clients * 2};
 
         // recv packets. later echo response will resume the coroutines
         for (i = 0; i < max_clients; ++i)
@@ -105,7 +105,7 @@ class socket_udp_echo_test : public TestClass<socket_udp_echo_test>
             coro_send_dgram(clients[i], ep.in6, send_lengths[i], wg);
 
         // wait for coroutines
-        Assert::IsTrue(wg.wait(10s));
+        wg.wait();
 
         // now, receive coroutines must hold same data
         // sent by each client sockets
@@ -134,10 +134,10 @@ void socket_udp_echo_test::stop_service()
 }
 
 auto coro_recv_dgram(SOCKET sd, sockaddr_in6& remote, int64_t& rsz,
-                     wait_group& wg) -> return_ignore
+                     concrt::latch& wg) -> return_ignore
 {
-    // ensure noti to wait_group
-    auto d = gsl::finally([&wg]() { wg.done(); });
+    // ensure noti to concrt::latch
+    auto d = gsl::finally([&wg]() { wg.count_down(); });
 
     io_work_t work{};
     array<byte, 1253> storage{};
@@ -148,10 +148,10 @@ auto coro_recv_dgram(SOCKET sd, sockaddr_in6& remote, int64_t& rsz,
 }
 
 auto coro_send_dgram(SOCKET sd, const sockaddr_in6& remote, int64_t& ssz,
-                     wait_group& wg) -> return_ignore
+                     concrt::latch& wg) -> return_ignore
 {
-    // ensure noti to wait_group
-    auto d = gsl::finally([&wg]() { wg.done(); });
+    // ensure noti to concrt::latch
+    auto d = gsl::finally([&wg]() { wg.count_down(); });
 
     io_work_t work{};
     array<byte, 782> storage{};

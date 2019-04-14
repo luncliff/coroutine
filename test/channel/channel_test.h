@@ -29,6 +29,10 @@ struct bypass_lock
 
 void test_require_true(bool cond);
 
+using namespace std;
+using namespace std::experimental;
+using namespace coro;
+
 // ensure successful write to channel
 template <typename E, typename L>
 auto write_to(channel<E, L>& ch, E value, bool ok = false) -> return_ignore
