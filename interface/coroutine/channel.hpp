@@ -87,9 +87,10 @@ class reader
     using channel_type = channel<T, M>;
 
   private:
+    using reader_list = typename channel_type::reader_list;
     using writer = typename channel_type::writer;
     using writer_list = typename channel_type::writer_list;
-    using reader_list = typename channel_type::reader_list;
+    using peeker = typename channel_type::peeker;
 
     friend channel_type;
     friend writer;
@@ -185,8 +186,9 @@ class writer final
 
   private:
     using reader = typename channel_type::reader;
-    using writer_list = typename channel_type::writer_list;
     using reader_list = typename channel_type::reader_list;
+    using writer_list = typename channel_type::writer_list;
+    using peeker = typename channel_type::peeker;
 
     friend channel_type;
     friend reader;
@@ -281,9 +283,9 @@ class channel final : internal::list<reader<T, M>>, internal::list<writer<T, M>>
   private:
     using reader = reader<value_type, mutex_type>;
     using reader_list = internal::list<reader>;
-
     using writer = writer<value_type, mutex_type>;
     using writer_list = internal::list<writer>;
+    using peeker = peeker<value_type, mutex_type>;
 
     friend reader;
     friend writer;
@@ -353,8 +355,13 @@ class channel final : internal::list<reader<T, M>>, internal::list<writer<T, M>>
 
 // Extension of channel reader for subroutines
 template <typename T, typename M>
-class peeker final : protected reader<T, M>
+class peeker final : public reader<T, M>
 {
+    using value_type = T;
+    using channel_type = channel<T, M>;
+    using reader = typename channel_type::reader;
+    using writer = typename channel_type::writer;
+
   public:
     explicit peeker(channel_type& ch) noexcept(false) : reader{ch}
     {
@@ -369,23 +376,23 @@ class peeker final : protected reader<T, M>
     void peek() const noexcept(false)
     {
         // since there is no suspension, use scoped locking
-        unique_lock lck{chan->mtx};
-        if (chan->writer_list::is_empty() == false)
+        unique_lock lck{this->chan->mtx};
+        if (this->chan->writer_list::is_empty() == false)
         {
-            writer* w = chan->writer_list::pop();
+            writer* w = this->chan->writer_list::pop();
             swap(this->ptr, w->ptr);
             swap(this->frame, w->frame);
         }
     }
-    bool acquire(reference storage) noexcept(false)
+    bool acquire(value_type& storage) noexcept(false)
     {
         // if there was a writer, take its value
-        if (ptr == nullptr)
+        if (this->ptr == nullptr)
             return false;
-        storage = move(*ptr);
+        storage = move(*this->ptr);
 
         // resume writer coroutine
-        if (auto coro = coroutine_handle<void>::from_address(frame))
+        if (auto coro = coroutine_handle<void>::from_address(this->frame))
             coro.resume();
         return true;
     }
