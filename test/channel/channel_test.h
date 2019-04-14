@@ -42,7 +42,7 @@ auto write_to(channel<E, L>& ch, E value, bool ok = false) -> return_ignore
     ok = co_await ch.write(value);
     if (ok == false)
         // !!!!!
-        // seems like optimizer is removing `value`.
+        // seems like clang optimizer is removing `value`.
         // so using it in some pass makes
         // the symbol and its memory location alive
         // !!!!!
