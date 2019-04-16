@@ -3,13 +3,9 @@
 #     - luncliff@gmail.com
 #   Reference
 #     - https://www.appveyor.com/docs/appveyor-yml/
+#     - https://github.com/appveyor/ci/issues/899#issuecomment-230360978
 #
 version: 1.4.{build}
-
-clone_script:
-  # https://github.com/appveyor/ci/issues/899#issuecomment-230360978
-  - ps: git clone -q --recursive --branch $env:APPVEYOR_REPO_BRANCH https://github.com/$env:APPVEYOR_REPO_NAME.git $env:APPVEYOR_BUILD_FOLDER
-  - ps: git checkout -qf $env:APPVEYOR_REPO_COMMIT
 
 notifications:
   - provider: Email
