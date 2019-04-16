@@ -10,7 +10,6 @@
 #ifndef COROUTINE_CHANNEL_HPP
 #define COROUTINE_CHANNEL_HPP
 
-#include <cassert>
 #include <mutex>
 #include <tuple>
 
@@ -18,6 +17,7 @@
 
 namespace coro
 {
+using namespace std;
 using namespace std::experimental;
 
 namespace internal
@@ -27,15 +27,14 @@ static void* poison() noexcept(false)
     return reinterpret_cast<void*>(0xFADE'038C'BCFA'9E64);
 }
 
-// - Note
-//      Minimal linked list without node allocation
-template <typename NodeType>
+// Linked list without allocation
+template <typename T>
 class list
 {
-    using node_t = NodeType;
+    using node_type = T;
 
-    node_t* head{};
-    node_t* tail{};
+    node_type* head{};
+    node_type* tail{};
 
   public:
     list() noexcept = default;
@@ -45,7 +44,7 @@ class list
     {
         return head == nullptr;
     }
-    void push(node_t* node) noexcept(false)
+    void push(node_type* node) noexcept(false)
     {
         if (tail)
         {
@@ -55,9 +54,9 @@ class list
         else
             head = tail = node;
     }
-    auto pop() noexcept(false) -> node_t*
+    auto pop() noexcept(false) -> node_type*
     {
-        node_t* node = head;
+        node_type* node = head;
         if (head == tail) // empty or 1
             head = tail = nullptr;
         else // 2 or more
@@ -68,34 +67,37 @@ class list
 };
 } // namespace internal
 
-template <typename T, typename Lockable>
+template <typename T, typename M>
 class channel;
-template <typename T, typename Lockable>
+template <typename T, typename M>
 class reader;
-template <typename T, typename Lockable>
+template <typename T, typename M>
 class writer;
+template <typename T, typename M>
+class peeker;
 
-// - Note
-//      Awaitable reader for `channel`
-template <typename T, typename Lockable>
-class reader final
+// Awaitable Type for channel's read operation
+template <typename T, typename M>
+class reader
 {
   public:
     using value_type = T;
     using pointer = T*;
     using reference = T&;
-    using channel_type = channel<T, Lockable>;
+    using channel_type = channel<T, M>;
 
   private:
+    using reader_list = typename channel_type::reader_list;
     using writer = typename channel_type::writer;
     using writer_list = typename channel_type::writer_list;
-    using reader_list = typename channel_type::reader_list;
+    using peeker = typename channel_type::peeker;
 
     friend channel_type;
     friend writer;
+    friend peeker;
     friend reader_list;
 
-  private:
+  protected:
     mutable pointer ptr; // Address of value
     mutable void* frame; // Resumeable Handle
     union {
@@ -105,7 +107,7 @@ class reader final
 
   private:
     explicit reader(channel_type& ch) noexcept(false)
-        : ptr{}, frame{nullptr}, chan{std::addressof(ch)}
+        : ptr{}, frame{nullptr}, chan{addressof(ch)}
     {
     }
     reader(const reader&) noexcept(false) = delete;
@@ -114,43 +116,83 @@ class reader final
   public:
     reader(reader&& rhs) noexcept(false)
     {
-        std::swap(this->ptr, rhs.ptr);
-        std::swap(this->frame, rhs.frame);
-        std::swap(this->chan, rhs.chan);
+        swap(this->ptr, rhs.ptr);
+        swap(this->frame, rhs.frame);
+        swap(this->chan, rhs.chan);
     }
     reader& operator=(reader&& rhs) noexcept(false)
     {
-        std::swap(this->ptr, rhs.ptr);
-        std::swap(this->frame, rhs.frame);
-        std::swap(this->chan, rhs.chan);
+        swap(this->ptr, rhs.ptr);
+        swap(this->frame, rhs.frame);
+        swap(this->chan, rhs.chan);
         return *this;
     }
     ~reader() noexcept = default;
 
   public:
-    bool await_ready() const noexcept(false);
-    void await_suspend(coroutine_handle<void> rh) noexcept(false);
-    auto await_resume() noexcept(false) -> std::tuple<value_type, bool>;
+    bool await_ready() const noexcept(false)
+    {
+        chan->mtx.lock();
+        if (chan->writer_list::is_empty())
+            return false;
+
+        writer* w = chan->writer_list::pop();
+        // exchange address & resumeable_handle
+        swap(this->ptr, w->ptr);
+        swap(this->frame, w->frame);
+
+        chan->mtx.unlock();
+        return true;
+    }
+    void await_suspend(coroutine_handle<void> coro) noexcept(false)
+    {
+        // notice that next & chan are sharing memory
+        channel_type& ch = *(this->chan);
+
+        this->frame = coro.address(); // remember handle before push/unlock
+        this->next = nullptr;         // clear to prevent confusing
+
+        ch.reader_list::push(this); // push to channel
+        ch.mtx.unlock();
+    }
+    auto await_resume() noexcept(false) -> tuple<value_type, bool>
+    {
+        auto t = make_tuple(value_type{}, false);
+        // frame holds poision if the channel is going to be destroyed
+        if (this->frame == internal::poison())
+            return t;
+
+        // Store first. we have to do this because the resume operation
+        // can destroy the writer coroutine
+        auto& value = get<0>(t);
+        value = move(*ptr);
+        if (auto coro = coroutine_handle<void>::from_address(frame))
+            coro.resume();
+
+        get<1>(t) = true;
+        return t;
+    }
 };
 
-// - Note
-//      Awaitable writer for `channel`
-template <typename T, typename Lockable>
+// Awaitable Type for channel's write operation
+template <typename T, typename M>
 class writer final
 {
   public:
     using value_type = T;
     using pointer = T*;
     using reference = T&;
-    using channel_type = channel<T, Lockable>;
+    using channel_type = channel<T, M>;
 
   private:
     using reader = typename channel_type::reader;
-    using writer_list = typename channel_type::writer_list;
     using reader_list = typename channel_type::reader_list;
+    using writer_list = typename channel_type::writer_list;
+    using peeker = typename channel_type::peeker;
 
     friend channel_type;
     friend reader;
+    friend peeker;
     friend writer_list;
 
   private:
@@ -163,7 +205,7 @@ class writer final
 
   private:
     explicit writer(channel_type& ch, pointer pv) noexcept(false)
-        : ptr{pv}, frame{nullptr}, chan{std::addressof(ch)}
+        : ptr{pv}, frame{nullptr}, chan{addressof(ch)}
     {
     }
     writer(const writer&) noexcept(false) = delete;
@@ -172,221 +214,211 @@ class writer final
   public:
     writer(writer&& rhs) noexcept(false)
     {
-        std::swap(this->ptr, rhs.ptr);
-        std::swap(this->frame, rhs.frame);
-        std::swap(this->chan, rhs.chan);
+        swap(this->ptr, rhs.ptr);
+        swap(this->frame, rhs.frame);
+        swap(this->chan, rhs.chan);
     }
     writer& operator=(writer&& rhs) noexcept(false)
     {
-        std::swap(this->ptr, rhs.ptr);
-        std::swap(this->frame, rhs.frame);
-        std::swap(this->chan, rhs.chan);
+        swap(this->ptr, rhs.ptr);
+        swap(this->frame, rhs.frame);
+        swap(this->chan, rhs.chan);
         return *this;
     }
     ~writer() noexcept = default;
 
   public:
-    bool await_ready() const noexcept(false);
-    void await_suspend(coroutine_handle<void> _rh) noexcept(false);
-    bool await_resume() noexcept(false);
+    bool await_ready() const noexcept(false)
+    {
+        chan->mtx.lock();
+        if (chan->reader_list::is_empty())
+            return false;
+
+        reader* r = chan->reader_list::pop();
+        // exchange address & resumeable_handle
+        swap(this->ptr, r->ptr);
+        swap(this->frame, r->frame);
+
+        chan->mtx.unlock();
+        return true;
+    }
+    void await_suspend(coroutine_handle<void> coro) noexcept(false)
+    {
+        // notice that next & chan are sharing memory
+        channel_type& ch = *(this->chan);
+
+        this->frame = coro.address(); // remember handle before push/unlock
+        this->next = nullptr;         // clear to prevent confusing
+
+        ch.writer_list::push(this); // push to channel
+        ch.mtx.unlock();
+    }
+    bool await_resume() noexcept(false)
+    {
+        // frame holds poision if the channel is going to destroy
+        if (this->frame == internal::poison())
+            return false;
+
+        if (auto coro = coroutine_handle<void>::from_address(frame))
+            coro.resume();
+
+        return true;
+    }
 };
 
-// - Note
-//      Coroutine Channel
-//      Channel doesn't support Copy, Move
-template <typename T, typename Lockable>
-class channel final : internal::list<reader<T, Lockable>>,
-                      internal::list<writer<T, Lockable>>
+// Coroutine based channel. User have to provide mutex(lockable) type
+template <typename T, typename M>
+class channel final : internal::list<reader<T, M>>, internal::list<writer<T, M>>
 {
-    static_assert(std::is_reference<T>::value == false,
-                  "Using reference for channel is forbidden.");
+    static_assert(is_reference<T>::value == false,
+                  "reference type can'y be channel's value_type.");
 
   public:
     using value_type = T;
     using pointer = value_type*;
     using reference = value_type&;
 
-    using mutex_t = Lockable;
+    using mutex_type = M;
 
   private:
-    using reader = reader<value_type, mutex_t>;
+    using reader = reader<value_type, mutex_type>;
     using reader_list = internal::list<reader>;
-
-    using writer = writer<value_type, mutex_t>;
+    using writer = writer<value_type, mutex_type>;
     using writer_list = internal::list<writer>;
+    using peeker = peeker<value_type, mutex_type>;
 
     friend reader;
     friend writer;
+    friend peeker;
 
   private:
-    mutex_t mtx{};
+    mutex_type mtx{};
 
   public:
+    channel(const channel&) noexcept(false) = delete;
+    channel(channel&&) noexcept(false) = delete;
+    channel& operator=(const channel&) noexcept(false) = delete;
+    channel& operator=(channel&&) noexcept(false) = delete;
     channel() noexcept(false) : reader_list{}, writer_list{}, mtx{}
     {
     }
-    channel(const channel&) noexcept(false) = delete;
-    channel(channel&&) noexcept(false) = delete;
-
-    channel& operator=(const channel&) noexcept(false) = delete;
-    channel& operator=(channel&&) noexcept(false) = delete;
-
-    ~channel() noexcept(false)
+    ~channel() noexcept(false) // channel can't provide exception guarantee...
     {
         writer_list& writers = *this;
         reader_list& readers = *this;
-
         //
-        // Because of thread scheduling,
-        // Some coroutines can be enqueued into list just after
-        // this destructor unlocks.
+        // If the channel is raced hardly, some coroutines can be
+        //  enqueued into list just after this destructor unlocks mutex.
         //
-        // But this can't be detected at once since
-        // we have 2 list in the channel...
+        // Unfortunately, this can't be detected at once since
+        //  we have 2 list (readers/writers) in the channel.
         //
-        // Current implementation triggers scheduling repeatedly
-        // to reduce the possibility. As repeat count becomes greater,
-        // the possibility drops to zero. But notice that it is NOT zero.
+        // Current implementation allows checking repeatedly to reduce the
+        //  probability of such interleaving.
+        // Increase the repeat count below if the situation occurs.
+        // But notice that it is NOT zero.
         //
-        size_t repeat = 1; // recommend 5'000+ repeat for hazard usage
+        size_t repeat = 1; // author experienced 5'000+ for hazard usage
         do
         {
-            std::unique_lock lck{this->mtx};
+            unique_lock lck{mtx};
 
             while (writers.is_empty() == false)
             {
                 writer* w = writers.pop();
-                auto rh = coroutine_handle<void>::from_address(w->frame);
+                auto coro = coroutine_handle<void>::from_address(w->frame);
                 w->frame = internal::poison();
 
-                rh.resume();
+                coro.resume();
             }
             while (readers.is_empty() == false)
             {
                 reader* r = readers.pop();
-                auto rh = coroutine_handle<void>::from_address(r->frame);
+                auto coro = coroutine_handle<void>::from_address(r->frame);
                 r->frame = internal::poison();
 
-                rh.resume();
+                coro.resume();
             }
         } while (repeat--);
     }
 
   public:
-    // - Note
-    //      Awaitable write.
-    //      `writer` type implements the awaitable concept
     decltype(auto) write(reference ref) noexcept(false)
     {
-        return writer{*this, std::addressof(ref)};
+        return writer{*this, addressof(ref)};
     }
-    // - Note
-    //      Awaitable read.
-    //      `reader` type implements the awaitable concept
     decltype(auto) read() noexcept(false)
     {
         return reader{*this};
     }
 };
 
+// Extension of channel reader for subroutines
 template <typename T, typename M>
-bool reader<T, M>::await_ready() const noexcept(false)
+class peeker final : protected reader<T, M>
 {
-    chan->mtx.lock();
-    if (chan->writer_list::is_empty())
-        return false;
+    using value_type = T;
+    using channel_type = channel<T, M>;
+    using reader = typename channel_type::reader;
+    using writer = typename channel_type::writer;
 
-    writer* w = chan->writer_list::pop();
-    assert(w != nullptr);
-    assert(w->ptr != nullptr);
-    assert(w->frame != nullptr);
-
-    // exchange address & resumeable_handle
-    std::swap(this->ptr, w->ptr);
-    std::swap(this->frame, w->frame);
-
-    chan->mtx.unlock();
-    return true;
-}
-
-template <typename T, typename M>
-void reader<T, M>::await_suspend(coroutine_handle<void> coro) noexcept(false)
-{
-    // notice that next & chan are sharing memory
-    channel_type& ch = *(this->chan);
-
-    this->frame = coro.address(); // remember handle before push/unlock
-    this->next = nullptr;         // clear to prevent confusing
-
-    ch.reader_list::push(this); // push to channel
-    ch.mtx.unlock();
-}
-
-template <typename T, typename M>
-auto reader<T, M>::await_resume() noexcept(false)
-    -> std::tuple<value_type, bool>
-{
-    // frame holds poision if the channel is going to destroy
-    if (this->frame == internal::poison())
-        return std::make_tuple(value_type{}, false);
-
-    // Store first. we have to do this
-    // because the resume operation can destroy the writer coroutine
-    value_type value = std::move(*ptr);
-    if (auto rh = coroutine_handle<void>::from_address(frame))
+  public:
+    explicit peeker(channel_type& ch) noexcept(false) : reader{ch}
     {
-        assert(this->frame != nullptr);
-        assert(*reinterpret_cast<uint64_t*>(frame) != 0);
-        rh.resume();
     }
+    peeker(const peeker&) noexcept(false) = delete;
+    peeker(peeker&& rhs) noexcept(false) = delete;
+    peeker& operator=(const peeker&) noexcept(false) = delete;
+    peeker& operator=(peeker&& rhs) noexcept(false) = delete;
+    ~peeker() noexcept = default;
 
-    return std::make_tuple(std::move(value), true);
-}
-
-template <typename T, typename M>
-bool writer<T, M>::await_ready() const noexcept(false)
-{
-    chan->mtx.lock();
-    if (chan->reader_list::is_empty())
-        return false;
-
-    reader* r = chan->reader_list::pop();
-    // exchange address & resumeable_handle
-    std::swap(this->ptr, r->ptr);
-    std::swap(this->frame, r->frame);
-
-    chan->mtx.unlock();
-    return true;
-}
-
-template <typename T, typename M>
-void writer<T, M>::await_suspend(coroutine_handle<void> coro) noexcept(false)
-{
-    // notice that next & chan are sharing memory
-    channel_type& ch = *(this->chan);
-
-    this->frame = coro.address(); // remember handle before push/unlock
-    this->next = nullptr;         // clear to prevent confusing
-
-    ch.writer_list::push(this); // push to channel
-    ch.mtx.unlock();
-}
-
-template <typename T, typename M>
-bool writer<T, M>::await_resume() noexcept(false)
-{
-    // frame holds poision if the channel is going to destroy
-    if (this->frame == internal::poison())
-        return false;
-
-    if (auto rh = coroutine_handle<void>::from_address(frame))
+  public:
+    void peek() const noexcept(false)
     {
-        assert(this->frame != nullptr);
-        assert(*reinterpret_cast<uint64_t*>(frame) != 0);
-        rh.resume();
+        // since there is no suspension, use scoped locking
+        unique_lock lck{this->chan->mtx};
+        if (this->chan->writer_list::is_empty() == false)
+        {
+            writer* w = this->chan->writer_list::pop();
+            swap(this->ptr, w->ptr);
+            swap(this->frame, w->frame);
+        }
     }
-    return true;
+    bool acquire(value_type& storage) noexcept(false)
+    {
+        // if there was a writer, take its value
+        if (this->ptr == nullptr)
+            return false;
+        storage = move(*this->ptr);
+
+        // resume writer coroutine
+        if (auto coro = coroutine_handle<void>::from_address(this->frame))
+            coro.resume();
+        return true;
+    }
+};
+
+// If the channel is readable, acquire the value and the function.
+template <typename T, typename M, typename Fn>
+void select(channel<T, M>& ch, Fn&& fn) noexcept(false)
+{
+    static_assert(sizeof(reader<T, M>) == sizeof(peeker<T, M>));
+
+    peeker<T, M> p{ch};
+    T storage{}; // peeker will move element into the call stack
+
+    if (p.peek(), p.acquire(storage)) // if acquired,
+        fn(storage);                  //   invoke the function
 }
+
+// Invoke `select` for pairs (channel + function)
+template <typename... Args, typename ChanType, typename FuncType>
+void select(ChanType& ch, FuncType&& fn, Args&&... args) noexcept(false)
+{
+    select(ch, forward<FuncType&&>(fn));     // evaluate
+    return select(forward<Args&&>(args)...); // try next pair
+}
+
 } // namespace coro
 
 #endif // COROUTINE_CHANNEL_HPP

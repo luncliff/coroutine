@@ -18,6 +18,7 @@
 using namespace std::literals;
 using namespace std::experimental;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace coro;
 
 void test_require_true(bool cond)
 {
@@ -42,8 +43,8 @@ class channel_operation_test : public TestClass<channel_operation_test>
         test_require_true(ok);
     }
 
-    static auto write_to(channel_type& ch, uint64_t value, uint32_t& success,
-                         uint32_t& failure) -> return_ignore
+    static auto write_to(channel_type& ch, uint64_t value, //
+                         uint32_t& success, uint32_t& failure) -> return_ignore
     {
         if (co_await ch.write(value))
             success += 1;
@@ -51,8 +52,8 @@ class channel_operation_test : public TestClass<channel_operation_test>
             failure += 1;
     }
 
-    static auto read_from(channel_type& ch, uint64_t& ref, uint32_t& success,
-                          uint32_t& failure) -> return_ignore
+    static auto read_from(channel_type& ch, uint64_t& ref, //
+                          uint32_t& success, uint32_t& failure) -> return_ignore
     {
         auto [value, ok] = co_await ch.read();
         if (ok == false)
@@ -140,5 +141,62 @@ class channel_operation_test : public TestClass<channel_operation_test>
         // channel returns false to reader when it's going to destroy
         Assert::IsTrue(success == 4);
         Assert::IsTrue(failure == 1);
+    }
+};
+
+class channel_select_test : public TestClass<channel_select_test>
+{
+    // it's singe thread, so mutex for channels doesn't have to be real lockable
+    using u32_chan_t = channel<uint32_t, bypass_lock>;
+    using i32_chan_t = channel<int32_t, bypass_lock>;
+
+    TEST_METHOD(channel_select_match_one)
+    {
+        u32_chan_t ch1{};
+        i32_chan_t ch2{};
+
+        write_to(ch1, 17u);
+        select(ch2,
+               [](auto v) {
+                   static_assert(is_same_v<decltype(v), int32_t>);
+                   Assert::Fail(L"select on empty channel must bypass");
+               },
+               ch1,
+               [](auto v) -> return_ignore {
+                   static_assert(is_same_v<decltype(v), uint32_t>);
+                   Assert::IsTrue(v == 17u);
+
+                   co_await suspend_never{};
+               });
+    }
+
+    TEST_METHOD(channel_select_no_match)
+    {
+        u32_chan_t ch1{};
+        i32_chan_t ch2{};
+
+        select(ch1,
+               [](auto v) {
+                   static_assert(is_same_v<decltype(v), uint32_t>);
+                   Assert::Fail(L"select on empty channel must bypass");
+               },
+               ch2,
+               [](auto v) {
+                   static_assert(is_same_v<decltype(v), int32_t>);
+                   Assert::Fail(L"select on empty channel must bypass");
+               });
+    }
+
+    TEST_METHOD(channel_select_match_both)
+    {
+        u32_chan_t ch1{};
+        i32_chan_t ch2{};
+
+        write_to(ch1, 17u);
+        write_to(ch2, 15);
+
+        select(ch2, [](auto v) { Assert::IsTrue(v == 15); }, //
+               ch1, [](auto v) { Assert::IsTrue(v == 17u); } //
+        );
     }
 };

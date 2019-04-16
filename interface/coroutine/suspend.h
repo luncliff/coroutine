@@ -90,7 +90,7 @@ _INTERFACE_ auto make_lock_queue() -> std::unique_ptr<limited_lock_queue>;
 //      Return an awaitable that enqueue the coroutine
 //      Relay code will be generated with this header to minimize dllexport
 //      functions
-static auto push_to(limited_lock_queue& queue) noexcept
+inline auto push_to(limited_lock_queue& queue) noexcept
 {
     // awaitable for the queue
     class redirect_to final : public suspend_always
@@ -111,7 +111,7 @@ static auto push_to(limited_lock_queue& queue) noexcept
     return redirect_to{queue};
 }
 
-static auto pop_from(limited_lock_queue& queue) noexcept
+inline auto pop_from(limited_lock_queue& queue) noexcept
     -> coroutine_handle<void>
 {
     void* ptr = nullptr;
@@ -119,6 +119,6 @@ static auto pop_from(limited_lock_queue& queue) noexcept
     return coroutine_handle<void>::from_address(ptr);
 }
 
-} // namespace co_ex
+} // namespace coro
 
 #endif // COROUTINE_SUSPEND_HELPER_TYPES_H
