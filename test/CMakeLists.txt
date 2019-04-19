@@ -19,14 +19,13 @@ add_executable(coroutine_test
     catch2_yield.cpp
     catch2_concrt.cpp
     catch2_suspend.cpp
+    catch2_channel.cpp
 
     net/catch2_resolver.cpp
     net/socket_test.h
     net/catch2_socket.cpp
     net/catch2_socket_echo_udp.cpp
     net/catch2_socket_echo_tcp.cpp
-
-    channel/catch2_channel.cpp
 )
 
 set_target_properties(coroutine_test
