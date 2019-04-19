@@ -51,11 +51,12 @@ class event_type
     {
         SetEvent(ev);
     }
+
     bool wait(uint32_t ms) noexcept
     {
         if (ev == INVALID_HANDLE_VALUE)
             return true;
-    TryWait:
+
         // This makes APC available.
         // expecially for Overlapped I/O
         DWORD ec = WaitForSingleObjectEx(ev, ms, TRUE);
@@ -66,21 +67,19 @@ class event_type
         // the only case for success
         else if (ec == WAIT_OBJECT_0)
         {
-            auto h = ev;
+            CloseHandle(ev);
             ev = INVALID_HANDLE_VALUE;
-            CloseHandle(h);
             return true;
         }
-
         // timeout. this is expected failure
         // the user code can try again
         else if (ec == WAIT_TIMEOUT)
             return false;
-
         // return because of APC
         else if (ec == WAIT_IO_COMPLETION)
-            goto TryWait;
+            return false;
 
+        // WAIT_ABANDONED
         return false; // user will check the error again
     }
 };
@@ -141,40 +140,6 @@ void latch::wait() noexcept(false)
     auto im = for_win32(this);
     while (im->event.wait(INFINITE) == false)
         ;
-}
-
-using barrier_win32 = ::SYNCHRONIZATION_BARRIER;
-
-auto for_win32(barrier* lc) noexcept
-{
-    static_assert(sizeof(barrier_win32) < sizeof(barrier));
-    return reinterpret_cast<barrier_win32*>(lc);
-}
-auto for_win32(const barrier* lc) noexcept
-{
-    return for_win32(const_cast<barrier*>(lc));
-}
-
-barrier::barrier(uint32_t num_threads) noexcept(false) : storage{}
-{
-    auto self = new (for_win32(this)) barrier_win32{};
-    // https://docs.microsoft.com/en-us/windows/desktop/api/synchapi/nf-synchapi-initializesynchronizationbarrier
-    if (::InitializeSynchronizationBarrier(self, num_threads, 1600) == FALSE)
-        throw system_error{static_cast<int>(::GetLastError()),
-                           system_category(),
-                           "InitializeSynchronizationBarrier"};
-}
-barrier::~barrier() noexcept
-{
-    // https://docs.microsoft.com/en-us/windows/desktop/api/SynchAPI/nf-synchapi-deletesynchronizationbarrier
-    ::DeleteSynchronizationBarrier(for_win32(this));
-}
-
-void barrier::arrive_and_wait() noexcept
-{
-    // https://docs.microsoft.com/en-us/windows/desktop/api/synchapi/nf-synchapi-entersynchronizationbarrier
-    ::EnterSynchronizationBarrier(for_win32(this),
-                                  SYNCHRONIZATION_BARRIER_FLAGS_BLOCK_ONLY);
 }
 
 } // namespace concrt

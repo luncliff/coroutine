@@ -64,31 +64,6 @@ class latch
     _INTERFACE_ void wait() noexcept(false);
 };
 
-#if defined(_MSC_VER) // For VC++
-
-// - Note
-//		An opaque type for thread barrier
-// - See Also
-//		https://en.cppreference.com/w/cpp/experimental/barrier
-class barrier
-{
-    // reserve enough size to provide platform compatibility
-    std::byte storage[128]{};
-
-  public:
-    barrier(barrier&) = delete;
-    barrier(barrier&&) = delete;
-    barrier& operator=(barrier&) = delete;
-    barrier& operator=(barrier&&) = delete;
-
-    _INTERFACE_ explicit barrier(uint32_t num_threads) noexcept(false);
-    _INTERFACE_ ~barrier() noexcept;
-
-    _INTERFACE_ void arrive_and_wait() noexcept;
-    //_INTERFACE_ void arrive_and_drop() noexcept;
-};
-#endif
-
 } // namespace concrt
 
 #endif // EXPERIMENTAL_CONCURRENCY_TS_ADAPTER_H
