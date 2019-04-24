@@ -11,8 +11,9 @@
 #ifndef COROUTINE_RETURN_TYPES_H
 #define COROUTINE_RETURN_TYPES_H
 
-#include <coroutine/frame.h>
 #include <exception>
+
+#include <coroutine/frame.h>
 
 namespace coro
 {

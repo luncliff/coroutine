@@ -319,7 +319,7 @@ class channel final : internal::list<reader<T, M>>, internal::list<writer<T, M>>
         // But notice that it is NOT zero.
         //
         size_t repeat = 1; // author experienced 5'000+ for hazard usage
-        do
+        while (repeat--)
         {
             unique_lock lck{mtx};
 
@@ -339,7 +339,7 @@ class channel final : internal::list<reader<T, M>>, internal::list<writer<T, M>>
 
                 coro.resume();
             }
-        } while (repeat--);
+        }
     }
 
   public:

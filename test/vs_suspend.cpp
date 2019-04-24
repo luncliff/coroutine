@@ -3,7 +3,6 @@
 //  License : CC BY 4.0
 //
 #include <coroutine/concrt.h>
-#include <coroutine/return.h>
 #include <coroutine/suspend.h>
 
 #include <atomic>
@@ -112,7 +111,7 @@ class suspend_queue_test : public TestClass<suspend_queue_test>
             if (queue->wait_pop(ptr))
                 break;
             else
-                this_thread::sleep_for(500ms);
+                this_thread::sleep_for(10ms);
 
         if (retry_count == 0)
             Assert::Fail(L"failed to pop from suspend queue");

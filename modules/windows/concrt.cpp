@@ -3,6 +3,7 @@
 //  License : CC BY 4.0
 //
 #include <coroutine/concrt.h>
+#include <coroutine/frame.h>
 
 #include <atomic>
 #include <chrono>
@@ -17,6 +18,7 @@
 namespace concrt
 {
 using namespace std;
+using namespace std::experimental;
 using namespace std::chrono;
 
 class event_type
@@ -140,6 +142,30 @@ void latch::wait() noexcept(false)
     auto im = for_win32(this);
     while (im->event.wait(INFINITE) == false)
         ;
+}
+
+void ptp_work::resume_on_thread_pool(PTP_CALLBACK_INSTANCE, //
+                                     PVOID ctx, PTP_WORK work)
+{
+    if (auto coro = coroutine_handle<void>::from_address(ctx))
+        if (coro.done() == false)
+            coro.resume();
+
+    ::CloseThreadpoolWork(work); // one-time work item
+}
+
+auto ptp_work::suspend(coroutine_handle<void> coro) noexcept -> errc
+{
+    // just make sure no data loss in `static_cast`
+    static_assert(sizeof(errc) >= sizeof(DWORD));
+
+    auto work = ::CreateThreadpoolWork(resume_on_thread_pool, coro.address(),
+                                       nullptr);
+    if (work == nullptr)
+        return static_cast<errc>(GetLastError());
+
+    SubmitThreadpoolWork(work);
+    return errc{};
 }
 
 } // namespace concrt

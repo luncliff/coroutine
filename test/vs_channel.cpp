@@ -6,19 +6,16 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/channel.hpp>
 #include <coroutine/concrt.h>
-#include <coroutine/return.h>
 
-// clang-format off
-#include <Windows.h>
-#include <sdkddkver.h>
 #include <CppUnitTest.h>
-#include <threadpoolapiset.h>
-// clang-format on
-
-using namespace std::literals;
-using namespace std::experimental;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+using namespace std;
+using namespace std::literals;
+
+using namespace std::experimental;
 using namespace coro;
+using namespace concrt;
 
 // lockable without lock operation
 struct bypass_lock
@@ -57,7 +54,7 @@ auto write_and_count(channel<T, M>& ch, T value, //
     -> return_ignore
 {
     bool ok = co_await ch.write(value);
-	// ... ??? ...  // channel address is strange ...
+    // ... ??? ...  // channel address is strange ...
     if (ok)
         success_count += 1;
     else
@@ -223,8 +220,7 @@ class channel_select_test : public TestClass<channel_select_test>
     }
 };
 
-// - Note
-//      Basic lockable for criticial section
+//	standard lockable concept with win32 criticial section
 class section final : public ::CRITICAL_SECTION
 {
   private:
@@ -242,7 +238,6 @@ class section final : public ::CRITICAL_SECTION
     {
         DeleteCriticalSection(this);
     }
-
     bool try_lock() noexcept
     {
         return TryEnterCriticalSection(this);
@@ -259,80 +254,57 @@ class section final : public ::CRITICAL_SECTION
 
 class channel_race_test : public TestClass<channel_race_test>
 {
-    using channel_type = channel<uint64_t, section>;
-    using value_type = typename channel_type::value_type;
+    using value_type = uint64_t;
+    using channel_type = channel<value_type, section>;
+    using wait_group = concrt::latch;
 
-    struct context final
+  public:
+    TEST_METHOD(channel_no_leak_under_race)
     {
-        uint32_t success, failure;
-        concrt::latch wg;
-        channel_type ch;
+        // see <coroutine/concrt.h>
+        using namespace concrt;
 
-        explicit context(uint32_t count) : ch{}, success{}, failure{}, wg{count}
+        // using 'guaranteed' lockable
+        // however, it doesn't guarantee coroutines' serialized execution
+        channel_type ch{};
+        uint32_t success{};
+        uint32_t failure{};
+
+        static constexpr size_t max_try_count = 6'000;
+        wait_group group{2 * max_try_count};
+
+        auto send_with_callback
+            = [&](channel_type& ch, value_type value) -> return_ignore {
+            co_await ptp_work{};
+
+            auto w = co_await ch.write(value);
+            w ? success += 1 : failure += 1;
+            group.count_down();
+        };
+        auto recv_with_callback = [&](channel_type& ch) -> return_ignore {
+            co_await ptp_work{};
+
+            auto [value, r] = co_await ch.read();
+            r ? success += 1 : failure += 1;
+            group.count_down();
+        };
+
+        // Spawn coroutines
+        uint64_t repeat = max_try_count;
+        while (repeat--)
         {
+            recv_with_callback(ch);
+            send_with_callback(ch, repeat);
         }
-        ~context() noexcept(false) = default;
 
-        void write()
-        {
-            write_and_count(ch, value_type{}, success, failure);
-            wg.count_down();
-        }
-        void read()
-        {
-            value_type value{};
-            read_and_count(ch, value, success, failure);
-            wg.count_down();
-        }
-    };
+        // Wait for all coroutines...
+        // !!! user should ensure there is no race for destroying channel !!!
+        group.wait();
 
-    static auto create_write_work(context& test_context)
-    {
-        return ::CreateThreadpoolWork(
-            [](PTP_CALLBACK_INSTANCE, void* ptr, PTP_WORK work) {
-                auto* ctx = reinterpret_cast<context*>(ptr);
-                ctx->write();
-
-                ::CloseThreadpoolWork(work);
-            },
-            addressof(test_context), nullptr);
-    }
-
-    static auto create_read_work(context& test_context)
-    {
-        return ::CreateThreadpoolWork(
-            [](PTP_CALLBACK_INSTANCE, void* ptr, PTP_WORK work) {
-                auto* ctx = reinterpret_cast<context*>(ptr);
-                ctx->read();
-
-                ::CloseThreadpoolWork(work);
-            },
-            addressof(test_context), nullptr);
-    }
-
-    TEST_METHOD(channel_under_race)
-    {
-        // issue: when work amount is over 30,
-        //	access vioation is detected at `write_and_count`
-        //  finding the reason...
-        uint32_t num_of_work = 30;
-
-        context ctx{2 * num_of_work};
-        // simple fork-join
-        for (auto i = 0u; i < num_of_work; ++i)
-        {
-            ::SubmitThreadpoolWork(create_read_work(ctx));
-            ::SubmitThreadpoolWork(create_write_work(ctx));
-        }
-        ctx.wg.wait();
-
-        // for same read/write operation,
-        //  channel guarantees all reader/writer will be executed.
-        Assert::IsTrue(ctx.failure == 0);
-
-        // however, the mutex in the channel is for matching of the coroutines.
-        // so the counter in the context will be raced
-        Assert::IsTrue(ctx.success > 0);
-        Assert::IsTrue(ctx.success <= 2 * num_of_work);
+        // channel ensures the delivery for same number of send/recv
+        Assert::IsTrue(failure == 0);
+        // but the race makes the caks success != 2 * max_try_count
+        Assert::IsTrue(success <= 2 * max_try_count);
+        Assert::IsTrue(success > 0);
     }
 };
