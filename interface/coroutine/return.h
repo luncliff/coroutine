@@ -11,8 +11,9 @@
 #ifndef COROUTINE_RETURN_TYPES_H
 #define COROUTINE_RETURN_TYPES_H
 
-#include <coroutine/frame.h>
 #include <exception>
+
+#include <coroutine/frame.h>
 
 namespace coro
 {
@@ -78,7 +79,6 @@ class return_frame final
     return_frame() noexcept = default;
     return_frame(promise_type* ptr) noexcept : return_frame{}
     {
-        using namespace std::experimental;
         frame = coroutine_handle<promise_type>::from_promise(*ptr);
     }
 

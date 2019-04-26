@@ -15,11 +15,39 @@
 // ---------------------------------------------------------------------------
 #pragma once
 
+#if defined(__clang__) && defined(_MSC_VER)
+//
+// case: clang-cl, VC++
+//	In this case, override <experimental/resumable>.
+//	since msvc and clang++ uses differnet frame layout,
+//	VC++ won't fit clang-cl's code generation. see the implementation below
+//
+#if defined(_EXPERIMENTAL_RESUMABLE_)
+#error                                                                         \
+    "This header replaces <experimental/coroutine> for clang-cl and VC++ header";
+#endif
+#define _EXPERIMENTAL_RESUMABLE_
+#else
+//
+// case: msvc, VC++
+// case: clang, libc++
+//	It is safe to use vendor's header.
+//	by defining macro variable, user can prevent template redefinition
+//
+#if __has_include(<coroutine>) // C++ 20 standard
+#include <coroutine>
+#define COROUTINE_FRAME_PREFIX_HPP
+#elif __has_include(<experimental/coroutine>) // C++ 17 experimetal
+#include <experimental/coroutine>
+#define COROUTINE_FRAME_PREFIX_HPP
+#endif
+#endif
+
 #ifndef COROUTINE_FRAME_PREFIX_HPP
 #define COROUTINE_FRAME_PREFIX_HPP
 #pragma warning(push, 4)
 #pragma warning(disable : 4455 4494 4577 4619 4643 4702 4984 4988)
-#pragma warning(disable : 26490 26481 26476)
+#pragma warning(disable : 26490 26481 26476 26429 26409)
 
 #include <cstdint>
 #include <type_traits>
@@ -134,7 +162,7 @@ class coroutine_handle<void>
         return *this;
     }
 
-    operator bool() const noexcept
+    explicit operator bool() const noexcept
     {
         return prefix.v != nullptr;
     }

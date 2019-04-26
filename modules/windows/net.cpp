@@ -61,6 +61,7 @@ auto make_wsa_buf(buffer_view_t v) noexcept -> WSABUF
 }
 
 GSL_SUPPRESS(type .1)
+GSL_SUPPRESS(type .3)
 auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to&
 {
@@ -76,8 +77,8 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
     // lead to co_await operations with `io_send_to` type
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
-
 GSL_SUPPRESS(type .1)
+GSL_SUPPRESS(type .3)
 auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to&
 {
@@ -126,8 +127,7 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
     work.buffer = buffer;
-    work.ep = reinterpret_cast<endpoint_t*>(
-        const_cast<sockaddr_in6*>(addressof(remote)));
+    work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
 
@@ -143,8 +143,7 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
     work.buffer = buffer;
-    work.ep = reinterpret_cast<endpoint_t*>(
-        const_cast<sockaddr_in*>(addressof(remote)));
+    work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
 

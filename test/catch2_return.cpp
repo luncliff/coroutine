@@ -2,9 +2,10 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include <coroutine/return.h>
+
 #include <catch2/catch.hpp>
 
-#include <coroutine/return.h>
 #include <gsl/gsl>
 
 using namespace coro;
@@ -38,7 +39,7 @@ TEST_CASE("return_frame", "[primitive]")
 
     // now the frame is 'final suspend'ed, so it can be deleted.
     auto coro = h.get();
-    REQUIRE(coro == true);
+    REQUIRE(coro);                   // not null
     REQUIRE(coro.done());            // 'final suspend'ed?
     REQUIRE_NOTHROW(coro.destroy()); // destroy it
 }

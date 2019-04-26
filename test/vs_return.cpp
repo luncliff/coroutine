@@ -46,7 +46,7 @@ class return_type_test : public TestClass<return_type_test>
 
         // now the frame is 'final suspend'ed, so it can be deleted.
         auto coro = static_cast<coroutine_handle<void>>(fm);
-        Assert::IsTrue(coro == true);
+        Assert::IsTrue(static_cast<bool>(coro));
 
         Assert::IsTrue(coro.done()); // 'final suspend'ed?
         coro.destroy();              // destroy it

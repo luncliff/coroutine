@@ -7,11 +7,14 @@
 #include <coroutine/net.h>
 #include <gsl/gsl>
 
+using namespace std;
 using namespace coro;
 
-extern std::array<char, NI_MAXHOST> hnbuf;
+array<char, NI_MAXHOST> hnbuf{};
+
 auto host_name() noexcept -> gsl::czstring<NI_MAXHOST>
 {
+    ::gethostname(hnbuf.data(), hnbuf.size());
     return hnbuf.data();
 }
 
@@ -64,13 +67,8 @@ auto resolve(const addrinfo& hint, //
     -> coro::enumerable<sockaddr_in6>
 {
     addrinfo* list = nullptr;
-
-    if (auto ec = ::getaddrinfo(name, serv, //
-                                std::addressof(hint), &list))
-    {
-        fputs(gai_strerror(ec), stderr);
+    if (::getaddrinfo(name, serv, addressof(hint), &list))
         co_return;
-    }
 
     // RAII clean up for the assigned addrinfo
     // This holder guarantees clean up

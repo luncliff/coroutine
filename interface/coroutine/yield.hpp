@@ -335,10 +335,10 @@ class sequence final
         }
         void await_resume() noexcept
         {
-            if (auto coro = task)
+            if (auto _coro = task)
             {
                 task = nullptr; // Resume if and only if
-                coro.resume();  // there is a waiting work
+                _coro.resume(); // there is a waiting work
             }
         }
     };

@@ -20,6 +20,24 @@ namespace coro
 using namespace std;
 using namespace std::experimental;
 
+// lockable without lock operation. 
+// this is a helper type for channel users
+struct bypass_lock
+{
+    constexpr bool try_lock() noexcept
+    {
+        return true;
+    }
+    constexpr void lock() noexcept
+    {
+        // do nothing since this is 'bypass' lock
+    }
+    constexpr void unlock() noexcept
+    {
+        // it is not locked
+    }
+};
+
 namespace internal
 {
 static void* poison() noexcept(false)
@@ -67,7 +85,7 @@ class list
 };
 } // namespace internal
 
-template <typename T, typename M>
+template <typename T, typename M = bypass_lock>
 class channel;
 template <typename T, typename M>
 class reader;
@@ -319,7 +337,7 @@ class channel final : internal::list<reader<T, M>>, internal::list<writer<T, M>>
         // But notice that it is NOT zero.
         //
         size_t repeat = 1; // author experienced 5'000+ for hazard usage
-        do
+        while (repeat--)
         {
             unique_lock lck{mtx};
 
@@ -339,7 +357,7 @@ class channel final : internal::list<reader<T, M>>, internal::list<writer<T, M>>
 
                 coro.resume();
             }
-        } while (repeat--);
+        }
     }
 
   public:

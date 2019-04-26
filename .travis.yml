@@ -13,14 +13,9 @@ notifications:
     - luncliff@gmail.com
 
 language: cpp
-compiler: clang # expect 5.0+
+compiler: clang # expect 5.0+, recommend 6.0
 
 addons:
-  chocolatey:
-    packages:
-      - llvm
-      - ninja
-
   homebrew:
     packages:
       - ninja
@@ -31,12 +26,12 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
       - llvm-toolchain-xenial-6.0
-      - llvm-toolchain-xenial-7
+      # - llvm-toolchain-xenial-7 # already installed
     packages:
-      - gcc-7
       - g++-7
-      # - clang-6.0
-      # - llvm-6.0-tools
+      - g++-8
+      - clang-6.0
+      - llvm-6.0-tools
       - libc++-dev
       - libc++abi-dev
       - unzip
@@ -47,32 +42,26 @@ addons:
 install:
   - echo ${TRAVIS_OS_NAME};
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
+    sudo bash ./scripts/install-compilers.sh;
     sudo bash ./scripts/install-cmake-3.14.sh;
-    sudo bash ./scripts/install-libc++.sh;
+    sudo bash ./scripts/install-libc++8.sh;
     sudo rm -rf prebuilt libcxx* llvm*;
     sudo rm -rf cmake-3.14*;
     fi
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
     brew info llvm;
     fi
-  # - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
-  #     choco info llvm;
-  #   fi
 script:
-  - mkdir -p build && pushd build;
+  - mkdir -p build && cd build;
   - cmake ../
     -G "Ninja"
     -DBUILD_SHARED_LIBS=${SHARED}
     -DCMAKE_BUILD_TYPE=${CONFIG}
     -DCMAKE_INSTALL_PREFIX=../install
     -DCMAKE_CXX_COMPILER=${CXX}
-  - ninja install
-  # # windows: move dll
-  # - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
-  #     cp ./modules/coroutine.dll ./test;
-  #   fi
-  - ./test/coroutine_test
-  - popd;
+  - ninja install;
+  - ./test/coroutine_test;
+  - cd -;
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install
@@ -82,25 +71,25 @@ matrix:
     - os: windows
 
   include:
-    - name: Mac Debug Shared
+    - name: Mac Debug
       os: osx
-      osx_image: xcode10.1
+      osx_image: xcode10.2
       env:
         - CONFIG=Debug    SHARED=true
 
-    - name: Mac Release Shared
+    - name: Mac Release
       os: osx
-      osx_image: xcode10.1
+      osx_image: xcode10.2
       env:
         - CONFIG=Release  SHARED=true
 
-    - name: Ubuntu(Xenial) Debug Shared
+    - name: Ubuntu(Xenial) Debug
       os: linux
       dist: xenial
       env:
         - CONFIG=Debug    SHARED=true
 
-    - name: Ubuntu(Xenial) Release Shared
+    - name: Ubuntu(Xenial) Release 
       os: linux
       dist: xenial
       env:
@@ -111,7 +100,7 @@ matrix:
       osx_image: xcode10.1
       compiler: clang
       script:
-        - mkdir -p build && pushd build;
+        - mkdir -p build && cd build;
         - cmake ../
           -DBUILD_SHARED_LIBS=$SHARED
           -DCMAKE_BUILD_TYPE=$CONFIG
@@ -119,6 +108,7 @@ matrix:
           -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
           -DENABLE_BITCODE=false
           -DIOS_DEPLOYMENT_TARGET=10.13
-        - make install
+        - make install;
+        - cd -;
       after_success:
-        - tree ./install
+        - tree ./install;

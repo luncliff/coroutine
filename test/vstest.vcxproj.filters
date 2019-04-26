@@ -7,15 +7,15 @@
     <Filter Include="net">
       <UniqueIdentifier>{4a28942f-11c5-4837-8735-cbd30c80bfaa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="channel">
-      <UniqueIdentifier>{55c934e7-5cc5-471a-87a3-e1d2d6d7abde}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="net\socket_test.h">
+      <Filter>net</Filter>
+    </ClInclude>
     <ClInclude Include="..\interface\coroutine\channel.hpp">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\enumerable.hpp">
+    <ClInclude Include="..\interface\coroutine\concrt.h">
       <Filter>coroutine</Filter>
     </ClInclude>
     <ClInclude Include="..\interface\coroutine\frame.h">
@@ -27,16 +27,10 @@
     <ClInclude Include="..\interface\coroutine\return.h">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\sequence.hpp">
+    <ClInclude Include="..\interface\coroutine\suspend.h">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="net\socket_test.h">
-      <Filter>net</Filter>
-    </ClInclude>
-    <ClInclude Include="channel\channel_test.h">
-      <Filter>channel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\interface\coroutine\suspend.h">
+    <ClInclude Include="..\interface\coroutine\yield.hpp">
       <Filter>coroutine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -46,9 +40,6 @@
     </ClCompile>
     <ClCompile Include="net\vs_socket.cpp">
       <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="channel\vs_channel.cpp">
-      <Filter>channel</Filter>
     </ClCompile>
     <ClCompile Include="net\vs_socket_echo_tcp.cpp">
       <Filter>net</Filter>
@@ -60,5 +51,6 @@
     <ClCompile Include="vs_return.cpp" />
     <ClCompile Include="vs_suspend.cpp" />
     <ClCompile Include="vs_yield.cpp" />
+    <ClCompile Include="vs_channel.cpp" />
   </ItemGroup>
 </Project>

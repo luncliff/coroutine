@@ -3,7 +3,6 @@
 //  License : CC BY 4.0
 //
 #include <coroutine/concrt.h>
-#include <coroutine/return.h>
 #include <coroutine/suspend.h>
 
 #include <atomic>
@@ -11,8 +10,6 @@
 #include <thread>
 
 #include <CppUnitTest.h>
-#include <Windows.h>
-#include <sdkddkver.h>
 
 using namespace std;
 using namespace std::literals;
@@ -92,12 +89,12 @@ class suspend_queue_test : public TestClass<suspend_queue_test>
 
         auto coro = pop_from(*sq);
         // we know there is a waiting coroutine
-        Assert::IsTrue(coro);
+        Assert::IsTrue(static_cast<bool>(coro));
         coro.resume();
         Assert::IsTrue(status == 2);
 
         coro = pop_from(*sq);
-        Assert::IsTrue(coro);
+        Assert::IsTrue(static_cast<bool>(coro));
         coro.resume();
         Assert::IsTrue(status == 3);
     }
@@ -112,14 +109,14 @@ class suspend_queue_test : public TestClass<suspend_queue_test>
             if (queue->wait_pop(ptr))
                 break;
             else
-                this_thread::sleep_for(500ms);
+                this_thread::sleep_for(10ms);
 
         if (retry_count == 0)
             Assert::Fail(L"failed to pop from suspend queue");
 
         // ok. resume poped coroutine
         auto coro = coroutine_handle<void>::from_address(ptr);
-        Assert::IsTrue(coro);
+        Assert::IsTrue(static_cast<bool>(coro));
         Assert::IsTrue(coro.done() == false);
         coro.resume();
     };

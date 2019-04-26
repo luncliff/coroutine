@@ -3,9 +3,11 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-//  Note
-//    https://en.cppreference.com/w/cpp/experimental/concurrency
-//    https://github.com/alasdairmackintosh/google-concurrency-library
+//  References
+//      https://en.cppreference.com/w/cpp/experimental/concurrency
+//		https://en.cppreference.com/w/cpp/experimental/latch
+//      https://github.com/alasdairmackintosh/google-concurrency-library
+//      https://docs.microsoft.com/en-us/windows/desktop/ProcThread/using-the-thread-pool-functions
 //
 // ---------------------------------------------------------------------------
 #pragma once
@@ -34,19 +36,18 @@
 #define EXPERIMENTAL_CONCURRENCY_TS_ADAPTER_H
 
 #include <cstddef>
-#include <cstdint>
+#include <system_error>
+
+#include <coroutine/return.h>
 
 namespace concrt
 {
 
-// - Note
-//		An opaque type for fork-join scenario
-//		Its interface might a bit different with latch in the TS
-// - See Also
-//		https://en.cppreference.com/w/cpp/experimental/latch
+//	An opaque implementation of `std::experimental::latch`.
+//	Useful for fork-join scenario. Its interface might slightly different
+//  with latch in the TS
 class latch
 {
-    // reserve enough size to provide platform compatibility
     std::byte storage[128]{};
 
   public:
@@ -64,31 +65,87 @@ class latch
     _INTERFACE_ void wait() noexcept(false);
 };
 
-#if defined(_MSC_VER) // For VC++
+} // namespace concrt
 
-// - Note
-//		An opaque type for thread barrier
-// - See Also
-//		https://en.cppreference.com/w/cpp/experimental/barrier
-class barrier
+#if defined(_MSC_VER) // ... VC++ only features ...
+// clang-format off
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <Windows.h>
+#include <sdkddkver.h>
+#include <threadpoolapiset.h>
+// clang-format on
+
+namespace concrt
 {
-    // reserve enough size to provide platform compatibility
-    std::byte storage[128]{};
+using namespace std;
+using namespace std::experimental;
+
+//	Move into the win32 thread pool and continue the routine
+class ptp_work final : public suspend_always
+{
+    static void __stdcall resume_on_thread_pool( //
+        PTP_CALLBACK_INSTANCE, PVOID, PTP_WORK);
 
   public:
-    barrier(barrier&) = delete;
-    barrier(barrier&&) = delete;
-    barrier& operator=(barrier&) = delete;
-    barrier& operator=(barrier&&) = delete;
+    // The `ctx` must be address of coroutine frame
+    _INTERFACE_ auto suspend(coroutine_handle<void> coro) noexcept -> uint32_t;
 
-    _INTERFACE_ explicit barrier(uint32_t num_threads) noexcept(false);
-    _INTERFACE_ ~barrier() noexcept;
-
-    _INTERFACE_ void arrive_and_wait() noexcept;
-    //_INTERFACE_ void arrive_and_drop() noexcept;
+    // Lazy code generation in importing code by header usage.
+    void await_suspend(coroutine_handle<void> coro) noexcept(false)
+    {
+        if (const auto ec = suspend(coro))
+            throw system_error{static_cast<int>(ec), system_category(),
+                               "CreateThreadpoolWork"};
+    }
 };
-#endif
+
+// standard lockable concept with win32 criticial section
+class section final : CRITICAL_SECTION
+{
+  public:
+    _INTERFACE_ section() noexcept(false);
+    _INTERFACE_ ~section() noexcept;
+    section(section&) = delete;
+    section(section&&) = delete;
+    section& operator=(section&) = delete;
+    section& operator=(section&&) = delete;
+
+    _INTERFACE_ bool try_lock() noexcept;
+    _INTERFACE_ void lock() noexcept(false);
+    _INTERFACE_ void unlock() noexcept(false);
+};
 
 } // namespace concrt
+
+#else // ... pthread based features ...
+
+#include <pthread.h>
+
+namespace concrt
+{
+using namespace std;
+using namespace std::experimental;
+
+class pthread_section final
+{
+    pthread_rwlock_t rwlock{};
+
+  public:
+    _INTERFACE_ pthread_section() noexcept(false);
+    _INTERFACE_ ~pthread_section() noexcept;
+    pthread_section(pthread_section&) = delete;
+    pthread_section(pthread_section&&) = delete;
+    pthread_section& operator=(pthread_section&) = delete;
+    pthread_section& operator=(pthread_section&&) = delete;
+
+    _INTERFACE_ bool try_lock() noexcept;
+    _INTERFACE_ void lock() noexcept(false);
+    _INTERFACE_ void unlock() noexcept(false);
+};
+
+} // namespace concrt
+#endif
 
 #endif // EXPERIMENTAL_CONCURRENCY_TS_ADAPTER_H

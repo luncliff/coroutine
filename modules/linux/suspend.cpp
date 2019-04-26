@@ -4,92 +4,24 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
+#include <coroutine/concrt.h>
 #include <coroutine/suspend.h>
 
 #include <gsl/gsl>
 #include <mutex>
 
-#include <pthread.h>
 #include <sys/types.h>
 
 #include "circular_queue.hpp"
 
 using namespace std;
 
-class section final
-{
-    pthread_rwlock_t rwlock{};
-
-  public:
-    section() noexcept(false);
-    ~section() noexcept;
-    bool try_lock() noexcept;
-    void lock() noexcept(false);
-    void unlock() noexcept(false);
-};
-
-section::section() noexcept(false) : rwlock{}
-{
-    if (auto ec = pthread_rwlock_init(&rwlock, nullptr))
-        throw std::system_error{ec, std::system_category(),
-                                "pthread_rwlock_init"};
-}
-
-section::~section() noexcept
-{
-    try
-    {
-        if (auto ec = pthread_rwlock_destroy(&rwlock))
-            throw std::system_error{ec, std::system_category(),
-                                    "pthread_rwlock_init"};
-    }
-    catch (const std::system_error& e)
-    {
-        ::perror(e.what());
-    }
-    catch (...)
-    {
-        ::perror("Unknown exception in section dtor");
-    }
-}
-
-bool section::try_lock() noexcept
-{
-    // EBUSY  // possible error
-    // EINVAL
-    // EDEADLK
-    auto ec = pthread_rwlock_trywrlock(&rwlock);
-    return ec == 0;
-}
-
-// - Note
-//
-//  There was an issue with `pthread_mutex_`
-//  it returned EINVAL for lock operation
-//  replacing it the rwlock
-//
-void section::lock() noexcept(false)
-{
-    if (auto ec = pthread_rwlock_wrlock(&rwlock))
-        // EINVAL ?
-        throw std::system_error{ec, std::system_category(),
-                                "pthread_rwlock_wrlock"};
-}
-
-void section::unlock() noexcept(false)
-{
-    if (auto ec = pthread_rwlock_unlock(&rwlock))
-        throw std::system_error{ec, std::system_category(),
-                                "pthread_rwlock_unlock"};
-}
-
 namespace coro
 {
-using namespace std;
 
 class concrt_circular_queue final : public limited_lock_queue
 {
-    section mtx{};
+    concrt::pthread_section mtx{};
     bounded_circular_queue_t<value_type> cq{};
 
   public:

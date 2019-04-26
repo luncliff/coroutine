@@ -4,122 +4,28 @@
 //  License : CC BY 4.0
 //
 // ---------------------------------------------------------------------------
+#include <coroutine/concrt.h>
 #include <coroutine/suspend.h>
 
 #include <gsl/gsl>
 #include <mutex>
 
-#include <pthread.h>
 #include <sys/types.h>
 
 #include "circular_queue.hpp"
 
 using namespace std;
 
-class section final
-{
-    pthread_mutex_t mtx;
-
-  public:
-    section() noexcept(false);
-    ~section() noexcept;
-    bool try_lock() noexcept;
-    void lock() noexcept(false);
-    void unlock() noexcept(false);
-};
-
-section::section() noexcept(false) : mtx{}
-{
-    int ec = 0;
-    const char* fname = nullptr;
-    pthread_mutexattr_t attr{};
-
-    ec = pthread_mutexattr_init(&attr);
-    if (ec)
-    {
-        fname = "pthread_mutexattr_init";
-        goto OnSystemError;
-    }
-    ec = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK);
-    if (ec)
-    {
-        fname = "pthread_mutexattr_settype";
-        goto OnSystemError;
-    }
-    ec = pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_NONE);
-    if (ec)
-    {
-        fname = "pthread_mutexattr_setprotocol";
-        goto OnSystemError;
-    }
-    ec = pthread_mutex_init(&mtx, &attr);
-    if (ec)
-    {
-        fname = "pthread_mutex_init";
-        goto OnSystemError;
-    }
-    ec = pthread_mutexattr_destroy(&attr);
-    if (ec)
-    {
-        fname = "pthread_mutexattr_destroy";
-        goto OnSystemError;
-    }
-
-    return;
-OnSystemError:
-    throw system_error{ec, system_category(), fname};
-}
-
-section::~section() noexcept
-{
-    try
-    {
-        if (auto ec = pthread_mutex_destroy(&mtx))
-            throw system_error{ec, system_category(), "pthread_mutex_destroy"};
-    }
-    catch (const system_error& e)
-    {
-        ::perror(e.what());
-    }
-    catch (...)
-    {
-        ::perror("Unknown exception in section dtor");
-    }
-}
-
-bool section::try_lock() noexcept
-{
-    // EBUSY  // possible error
-    // EINVAL
-    return pthread_mutex_trylock(&mtx) == 0;
-}
-
-// - Note
-//
-//  There was an issue with `pthread_mutex_`
-//  it returned EINVAL for lock operation
-//  replacing it the rwlock
-//
-void section::lock() noexcept(false)
-{
-    if (auto ec = pthread_mutex_lock(&mtx))
-        // EINVAL ?
-        throw system_error{ec, system_category(), "pthread_mutex_lock"};
-}
-
-void section::unlock() noexcept(false)
-{
-    if (auto ec = pthread_mutex_unlock(&mtx))
-        throw system_error{ec, system_category(), "pthread_mutex_unlock"};
-}
-
 namespace coro
 {
-using namespace std;
+
+// for pthread_mutex_t,  don't forget to use
+//  pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK);
+//  pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_NONE);
 
 class concrt_circular_queue final : public limited_lock_queue
 {
-    section mtx{};
+    concrt::pthread_section mtx{};
     bounded_circular_queue_t<value_type> cq{};
 
   public:
