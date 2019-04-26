@@ -104,6 +104,8 @@ class ptp_work final : public suspend_always
 };
 } // namespace concrt
 
+#else
+
 #endif
 
 #endif // EXPERIMENTAL_CONCURRENCY_TS_ADAPTER_H

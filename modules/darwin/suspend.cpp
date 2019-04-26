@@ -16,63 +16,53 @@
 
 using namespace std;
 
-class section final
+class pthread_section final
 {
     pthread_mutex_t mtx;
 
   public:
-    section() noexcept(false);
-    ~section() noexcept;
-    bool try_lock() noexcept;
-    void lock() noexcept(false);
-    void unlock() noexcept(false);
-};
+    pthread_section() noexcept(false) : mtx{}
+    {
+        int ec = 0;
+        const char* message = nullptr;
+        pthread_mutexattr_t attr{};
+        ec = pthread_mutexattr_init(&attr);
+        if (ec)
+        {
+            message = "pthread_mutexattr_init";
+            goto OnSystemError;
+        }
+        ec = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK);
+        if (ec)
+        {
+            message = "pthread_mutexattr_settype";
+            goto OnSystemError;
+        }
+        ec = pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_NONE);
+        if (ec)
+        {
+            message = "pthread_mutexattr_setprotocol";
+            goto OnSystemError;
+        }
+        ec = pthread_mutex_init(&mtx, &attr);
+        if (ec)
+        {
+            message = "pthread_mutex_init";
+            goto OnSystemError;
+        }
+        ec = pthread_mutexattr_destroy(&attr);
+        if (ec)
+        {
+            message = "pthread_mutexattr_destroy";
+            goto OnSystemError;
+        }
 
-section::section() noexcept(false) : mtx{}
-{
-    int ec = 0;
-    const char* fname = nullptr;
-    pthread_mutexattr_t attr{};
-
-    ec = pthread_mutexattr_init(&attr);
-    if (ec)
-    {
-        fname = "pthread_mutexattr_init";
-        goto OnSystemError;
-    }
-    ec = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK);
-    if (ec)
-    {
-        fname = "pthread_mutexattr_settype";
-        goto OnSystemError;
-    }
-    ec = pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_NONE);
-    if (ec)
-    {
-        fname = "pthread_mutexattr_setprotocol";
-        goto OnSystemError;
-    }
-    ec = pthread_mutex_init(&mtx, &attr);
-    if (ec)
-    {
-        fname = "pthread_mutex_init";
-        goto OnSystemError;
-    }
-    ec = pthread_mutexattr_destroy(&attr);
-    if (ec)
-    {
-        fname = "pthread_mutexattr_destroy";
-        goto OnSystemError;
+        return;
+    OnSystemError:
+        throw system_error{ec, system_category(), message};
     }
 
-    return;
-OnSystemError:
-    throw system_error{ec, system_category(), fname};
-}
-
-section::~section() noexcept
-{
-    try
+    ~pthread_section() noexcept try
     {
         if (auto ec = pthread_mutex_destroy(&mtx))
             throw system_error{ec, system_category(), "pthread_mutex_destroy"};
@@ -83,43 +73,42 @@ section::~section() noexcept
     }
     catch (...)
     {
-        ::perror("Unknown exception in section dtor");
+        ::perror("Unknown exception in pthread_section dtor");
     }
-}
 
-bool section::try_lock() noexcept
-{
-    // EBUSY  // possible error
-    // EINVAL
-    return pthread_mutex_trylock(&mtx) == 0;
-}
+    bool try_lock() noexcept
+    {
+        // EBUSY  // possible error
+        // EINVAL
+        return pthread_mutex_trylock(&mtx) == 0;
+    }
 
-// - Note
-//
-//  There was an issue with `pthread_mutex_`
-//  it returned EINVAL for lock operation
-//  replacing it the rwlock
-//
-void section::lock() noexcept(false)
-{
-    if (auto ec = pthread_mutex_lock(&mtx))
-        // EINVAL ?
-        throw system_error{ec, system_category(), "pthread_mutex_lock"};
-}
+    // - Note
+    //
+    //  There was an issue with `pthread_mutex_`
+    //  it returned EINVAL for lock operation
+    //  replacing it the rwlock
+    //
+    void lock() noexcept(false)
+    {
+        if (auto ec = pthread_mutex_lock(&mtx))
+            // EINVAL ?
+            throw system_error{ec, system_category(), "pthread_mutex_lock"};
+    }
 
-void section::unlock() noexcept(false)
-{
-    if (auto ec = pthread_mutex_unlock(&mtx))
-        throw system_error{ec, system_category(), "pthread_mutex_unlock"};
-}
+    void unlock() noexcept(false)
+    {
+        if (auto ec = pthread_mutex_unlock(&mtx))
+            throw system_error{ec, system_category(), "pthread_mutex_unlock"};
+    }
+};
 
 namespace coro
 {
-using namespace std;
 
 class concrt_circular_queue final : public limited_lock_queue
 {
-    section mtx{};
+    pthread_section mtx{};
     bounded_circular_queue_t<value_type> cq{};
 
   public:

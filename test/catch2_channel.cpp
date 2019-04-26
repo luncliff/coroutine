@@ -6,14 +6,15 @@
 
 #include <coroutine/channel.hpp>
 #include <coroutine/concrt.h>
-#include <coroutine/return.h>
+#include <coroutine/suspend.h>
+
+#include <gsl/gsl>
 
 #include <array>
 #include <future>
-#include <thread>
 
 using namespace std;
-using namespace std::experimental;
+using namespace experimental;
 using namespace coro;
 
 // lockable without lock operation
@@ -185,7 +186,7 @@ TEST_CASE("channel close", "[generic][channel]")
         // coroutine will suspend and wait in the channel
         auto h = coro_write(*ch, value_type{});
         {
-            auto truncator = std::move(ch); // if channel is destroyed ...
+            auto truncator = move(ch); // if channel is destroyed ...
         }
         REQUIRE(ch.get() == nullptr);
 
@@ -204,7 +205,7 @@ TEST_CASE("channel close", "[generic][channel]")
         // coroutine will suspend and wait in the channel
         auto h = coro_read(*ch, item);
         {
-            auto truncator = std::move(ch); // if channel is destroyed ...
+            auto truncator = move(ch); // if channel is destroyed ...
         }
         REQUIRE(ch.get() == nullptr);
 
@@ -273,70 +274,131 @@ TEST_CASE("channel select", "[generic][channel]")
     }
 };
 
+class background final : public suspend_never
+{
+    auto request_async_resume(void* ptr) noexcept(false)
+    {
+        std::async([=]() {
+            if (auto coro = coroutine_handle<void>::from_address(ptr))
+                coro.resume();
+        });
+    }
+
+  public:
+    void await_suspend(coroutine_handle<void> coro)
+    {
+        this->request_async_resume(coro.address());
+    }
+};
+
+class section final
+{
+    pthread_rwlock_t rwlock;
+
+  public:
+    section() noexcept(false) : rwlock{}
+    {
+
+        if (auto ec = pthread_rwlock_init(&rwlock, nullptr))
+            throw std::system_error{ec, std::system_category(),
+                                    "pthread_rwlock_init"};
+    }
+
+    ~section() noexcept try
+    {
+        if (auto ec = pthread_rwlock_destroy(&rwlock))
+            throw std::system_error{ec, std::system_category(),
+                                    "pthread_rwlock_init"};
+    }
+    catch (const std::system_error& e)
+    {
+        ::perror(e.what());
+    }
+    catch (...)
+    {
+        ::perror("Unknown exception in section dtor");
+    }
+
+    bool try_lock() noexcept
+    {
+        // EBUSY  // possible error
+        // EINVAL
+        // EDEADLK
+        auto ec = pthread_rwlock_trywrlock(&rwlock);
+        return ec == 0;
+    }
+
+    // - Note
+    //
+    //  There was an issue with `pthread_mutex_`
+    //  it returned EINVAL for lock operation
+    //  replacing it the rwlock
+    //
+    void lock() noexcept(false)
+    {
+        if (auto ec = pthread_rwlock_wrlock(&rwlock))
+            // EINVAL ?
+            throw std::system_error{ec, std::system_category(),
+                                    "pthread_rwlock_wrlock"};
+    }
+
+    void unlock() noexcept(false)
+    {
+        if (auto ec = pthread_rwlock_unlock(&rwlock))
+            throw std::system_error{ec, std::system_category(),
+                                    "pthread_rwlock_unlock"};
+    }
+};
+
 TEST_CASE("channel race", "[generic][channel]")
 {
-    using channel_type = channel<uint64_t, mutex>;
-    using value_type = typename channel_type::value_type;
+    using wait_group = concrt::latch;
+    using value_type = uint64_t;
+    using channel_type = channel<value_type, section>;
 
-    struct context final
+    SECTION("no leack under race")
     {
-        uint32_t success, failure;
-        concrt::latch wg;
-        channel_type ch;
+        static constexpr size_t max_try_count = 6'000;
+        uint32_t success{}, failure{};
+        wait_group group{2 * max_try_count};
 
-        explicit context(uint32_t count) : ch{}, success{}, failure{}, wg{count}
+        auto send_with_callback
+            = [&](channel_type& ch, value_type value) -> return_ignore {
+            co_await background{};
+
+            auto w = co_await ch.write(value);
+            w ? success += 1 : failure += 1;
+            group.count_down();
+        };
+        auto recv_with_callback = [&](channel_type& ch) -> return_ignore {
+            co_await background{};
+
+            auto [value, r] = co_await ch.read();
+            r ? success += 1 : failure += 1;
+            group.count_down();
+        };
+
+        channel_type ch{};
+
+        // Spawn coroutines
+        uint64_t repeat = max_try_count;
+        while (repeat--)
         {
+            recv_with_callback(ch);
+            send_with_callback(ch, repeat);
         }
-        ~context() noexcept(false) = default;
 
-        void write()
-        {
-            write_and_count(ch, value_type{}, success, failure);
-            wg.count_down();
-        }
-        void read()
-        {
-            value_type value{};
-            read_and_count(ch, value, success, failure);
-            wg.count_down();
-        }
-    };
-
-    SECTION("channel under race")
-    {
-        auto num_of_work = 1000u;
-
-        context ctx{2 * num_of_work};
-
-        auto futures = make_unique<future<void>[]>(num_of_work * 2);
-        // simple fork-join
-        for (auto i = 0u; i < num_of_work; ++i)
-        {
-            futures[2 * i + 0] = async(launch::async, //
-                                       [](context* tc) {
-                                           if (tc)
-                                               tc->read();
-                                       },
-                                       &ctx);
-            futures[2 * i + 1] = async(launch::async, //
-                                       [](context* tc) {
-                                           if (tc)
-                                               tc->write();
-                                       },
-                                       &ctx);
-        }
-        ctx.wg.wait();
-
-        std::for_each(futures.get(), futures.get() + num_of_work * 2,
-                      [](future<void>& f) { f.get(); });
+        // Wait for all coroutines...
+        // !!! user should ensure there is no race for destroying channel !!!
+        group.wait();
 
         // for same read/write operation,
         //  channel guarantees all reader/writer will be executed.
-        REQUIRE(ctx.failure == 0);
+        REQUIRE(failure == 0);
 
         // however, the mutex in the channel is for matching of the coroutines.
         // so the counter in the context will be raced
-        REQUIRE(ctx.success > 0);
-        REQUIRE(ctx.success <= 2 * num_of_work);
+        REQUIRE(success <= 2 * max_try_count);
+        REQUIRE(success > 0);
     }
 };
