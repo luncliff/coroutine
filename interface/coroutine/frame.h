@@ -34,7 +34,10 @@
 //	It is safe to use vendor's header.
 //	by defining macro variable, user can prevent template redefinition
 //
-#if __has_include(<experimental/coroutine>)
+#if __has_include(<coroutine>) // C++ 20 standard
+#include <coroutine>
+#define COROUTINE_FRAME_PREFIX_HPP
+#elif __has_include(<experimental/coroutine>) // C++ 17 experimetal
 #include <experimental/coroutine>
 #define COROUTINE_FRAME_PREFIX_HPP
 #endif
