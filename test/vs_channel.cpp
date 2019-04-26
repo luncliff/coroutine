@@ -203,25 +203,6 @@ class channel_select_test : public TestClass<channel_select_test>
     }
 };
 
-// standard lockable concept with win32 criticial section
-class section final
-{
-    CRITICAL_SECTION cs;
-
-  public:
-    section() noexcept(false);
-    ~section() noexcept;
-    section(section&) = delete;
-    section(section&&) = delete;
-    section& operator=(section&) = delete;
-    section& operator=(section&&) = delete;
-
-    bool try_lock() noexcept;
-    void lock() noexcept(false);
-    void unlock() noexcept(false);
-};
-
-
 class channel_race_test : public TestClass<channel_race_test>
 {
     using value_type = uint64_t;
@@ -278,24 +259,3 @@ class channel_race_test : public TestClass<channel_race_test>
         Assert::IsTrue(success > 0);
     }
 };
-
-section::section() noexcept(false)
-{
-    InitializeCriticalSectionAndSpinCount(&cs, 0600);
-}
-section::~section() noexcept
-{
-    DeleteCriticalSection(&cs);
-}
-bool section::try_lock() noexcept
-{
-    return TryEnterCriticalSection(&cs);
-}
-void section::lock() noexcept(false)
-{
-    EnterCriticalSection(&cs);
-}
-void section::unlock() noexcept(false)
-{
-    LeaveCriticalSection(&cs);
-}

@@ -166,4 +166,24 @@ auto ptp_work::suspend(coroutine_handle<void> coro) noexcept -> uint32_t
     return S_OK;
 }
 
+section::section() noexcept(false)
+{
+    InitializeCriticalSectionAndSpinCount(this, 0600);
+}
+section::~section() noexcept
+{
+    DeleteCriticalSection(this);
+}
+bool section::try_lock() noexcept
+{
+    return TryEnterCriticalSection(this);
+}
+void section::lock() noexcept(false)
+{
+    EnterCriticalSection(this);
+}
+void section::unlock() noexcept(false)
+{
+    LeaveCriticalSection(this);
+}
 } // namespace concrt

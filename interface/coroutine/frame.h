@@ -159,7 +159,7 @@ class coroutine_handle<void>
         return *this;
     }
 
-    operator bool() const noexcept
+    explicit operator bool() const noexcept
     {
         return prefix.v != nullptr;
     }

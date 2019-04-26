@@ -10,8 +10,6 @@
 #include <thread>
 
 #include <CppUnitTest.h>
-#include <Windows.h>
-#include <sdkddkver.h>
 
 using namespace std;
 using namespace std::literals;
@@ -91,12 +89,12 @@ class suspend_queue_test : public TestClass<suspend_queue_test>
 
         auto coro = pop_from(*sq);
         // we know there is a waiting coroutine
-        Assert::IsTrue(coro);
+        Assert::IsTrue(static_cast<bool>(coro));
         coro.resume();
         Assert::IsTrue(status == 2);
 
         coro = pop_from(*sq);
-        Assert::IsTrue(coro);
+        Assert::IsTrue(static_cast<bool>(coro));
         coro.resume();
         Assert::IsTrue(status == 3);
     }
@@ -118,7 +116,7 @@ class suspend_queue_test : public TestClass<suspend_queue_test>
 
         // ok. resume poped coroutine
         auto coro = coroutine_handle<void>::from_address(ptr);
-        Assert::IsTrue(coro);
+        Assert::IsTrue(static_cast<bool>(coro));
         Assert::IsTrue(coro.done() == false);
         coro.resume();
     };

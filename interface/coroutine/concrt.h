@@ -85,7 +85,7 @@ using namespace std::experimental;
 //	Move into the win32 thread pool and continue the routine
 class ptp_work final : public suspend_always
 {
-    static void resume_on_thread_pool( //
+    static void __stdcall resume_on_thread_pool( //
         PTP_CALLBACK_INSTANCE, PVOID, PTP_WORK);
 
   public:
@@ -100,10 +100,52 @@ class ptp_work final : public suspend_always
                                "CreateThreadpoolWork"};
     }
 };
+
+// standard lockable concept with win32 criticial section
+class section final : CRITICAL_SECTION
+{
+  public:
+    _INTERFACE_ section() noexcept(false);
+    _INTERFACE_ ~section() noexcept;
+    section(section&) = delete;
+    section(section&&) = delete;
+    section& operator=(section&) = delete;
+    section& operator=(section&&) = delete;
+
+    _INTERFACE_ bool try_lock() noexcept;
+    _INTERFACE_ void lock() noexcept(false);
+    _INTERFACE_ void unlock() noexcept(false);
+};
+
 } // namespace concrt
 
-#else
+#else // ... pthread based features ...
 
+#include <pthread.h>
+
+namespace concrt
+{
+using namespace std;
+using namespace std::experimental;
+
+class pthread_section final
+{
+    pthread_rwlock_t rwlock{};
+
+  public:
+    _INTERFACE_ pthread_section() noexcept(false);
+    _INTERFACE_ ~pthread_section() noexcept;
+    pthread_section(pthread_section&) = delete;
+    pthread_section(pthread_section&&) = delete;
+    pthread_section& operator=(pthread_section&) = delete;
+    pthread_section& operator=(pthread_section&&) = delete;
+
+    _INTERFACE_ bool try_lock() noexcept;
+    _INTERFACE_ void lock() noexcept(false);
+    _INTERFACE_ void unlock() noexcept(false);
+};
+
+} // namespace concrt
 #endif
 
 #endif // EXPERIMENTAL_CONCURRENCY_TS_ADAPTER_H

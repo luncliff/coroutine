@@ -17,7 +17,6 @@ using namespace std;
 using namespace experimental;
 using namespace coro;
 
-
 // ensure successful write to channel
 template <typename E, typename L>
 auto write_to(channel<E, L>& ch, E value, bool ok = false) -> return_ignore
@@ -276,33 +275,16 @@ class background final : public suspend_never
     }
 };
 
-#if !defined(_WINDOWS)
-using CRITICAL_SECTION = pthread_rwlock_t;
-#endif
-
-// standard lockable concept with win32 criticial section
-class section final
-{
-    CRITICAL_SECTION cs;
-
-  public:
-    section() noexcept(false);
-    ~section() noexcept;
-    section(section&) = delete;
-    section(section&&) = delete;
-    section& operator=(section&) = delete;
-    section& operator=(section&&) = delete;
-
-    bool try_lock() noexcept;
-    void lock() noexcept(false);
-    void unlock() noexcept(false);
-};
-
 TEST_CASE("channel race", "[generic][channel]")
 {
+#if !defined(_WINDOWS)
+    using system_lockable = concrt::pthread_section;
+#else
+    using system_lockable = concrt::section;
+#endif
     using wait_group = concrt::latch;
     using value_type = uint64_t;
-    using channel_type = channel<value_type, section>;
+    using channel_type = channel<value_type, system_lockable>;
 
     SECTION("no leack under race")
     {
@@ -350,78 +332,3 @@ TEST_CASE("channel race", "[generic][channel]")
         REQUIRE(success > 0);
     }
 };
-
-#if defined(_WINDOWS)
-section::section() noexcept(false)
-{
-    InitializeCriticalSectionAndSpinCount(&cs, 0600);
-}
-section::~section() noexcept
-{
-    DeleteCriticalSection(&cs);
-}
-bool section::try_lock() noexcept
-{
-    return TryEnterCriticalSection(&cs);
-}
-void section::lock() noexcept(false)
-{
-    EnterCriticalSection(&cs);
-}
-void section::unlock() noexcept(false)
-{
-    LeaveCriticalSection(&cs);
-}
-#else
-section::section() noexcept(false) : cs{}
-{
-    if (auto ec = pthread_rwlock_init(&cs, nullptr))
-        throw std::system_error{ec, std::system_category(),
-                                "pthread_rwlock_init"};
-}
-
-section ::~section() noexcept try
-{
-    if (auto ec = pthread_rwlock_destroy(&cs))
-        throw std::system_error{ec, std::system_category(),
-                                "pthread_rwlock_init"};
-}
-catch (const std::system_error& e)
-{
-    ::perror(e.what());
-}
-catch (...)
-{
-    ::perror("Unknown exception in section dtor");
-}
-
-bool section ::try_lock() noexcept
-{
-    // EBUSY  // possible error
-    // EINVAL
-    // EDEADLK
-    auto ec = pthread_rwlock_trywrlock(&cs);
-    return ec == 0;
-}
-
-// - Note
-//
-//  There was an issue with `pthread_mutex_`
-//  it returned EINVAL for lock operation
-//  replacing it the rwlock
-//
-void section ::lock() noexcept(false)
-{
-    if (auto ec = pthread_rwlock_wrlock(&cs))
-        // EINVAL ?
-        throw std::system_error{ec, std::system_category(),
-                                "pthread_rwlock_wrlock"};
-}
-
-void section ::unlock() noexcept(false)
-{
-    if (auto ec = pthread_rwlock_unlock(&cs))
-        throw std::system_error{ec, std::system_category(),
-                                "pthread_rwlock_unlock"};
-}
-#endif
