@@ -17,23 +17,6 @@ using namespace std::experimental;
 using namespace coro;
 using namespace concrt;
 
-// lockable without lock operation
-struct bypass_lock
-{
-    bool try_lock() noexcept
-    {
-        return true;
-    }
-    void lock() noexcept
-    {
-        // do nothing since this is bypass lock
-    }
-    void unlock() noexcept
-    {
-        // it is not locked
-    }
-};
-
 template <typename T, typename M>
 auto write_to(channel<T, M>& ch, T value, bool ok = false) -> return_ignore
 {
@@ -78,7 +61,7 @@ auto read_and_count(channel<T, M>& ch, T& ref, //
 
 class channel_operation_test : public TestClass<channel_operation_test>
 {
-    using channel_type = channel<uint64_t, bypass_lock>;
+    using channel_type = channel<uint64_t>;
 
     TEST_METHOD(channel_write_before_read)
     {
@@ -160,8 +143,8 @@ class channel_operation_test : public TestClass<channel_operation_test>
 class channel_select_test : public TestClass<channel_select_test>
 {
     // it's singe thread, so mutex for channels doesn't have to be real lockable
-    using u32_chan_t = channel<uint32_t, bypass_lock>;
-    using i32_chan_t = channel<int32_t, bypass_lock>;
+    using u32_chan_t = channel<uint32_t>;
+    using i32_chan_t = channel<int32_t>;
 
     TEST_METHOD(channel_select_match_one)
     {
@@ -220,37 +203,24 @@ class channel_select_test : public TestClass<channel_select_test>
     }
 };
 
-//	standard lockable concept with win32 criticial section
-class section final : public ::CRITICAL_SECTION
+// standard lockable concept with win32 criticial section
+class section final
 {
-  private:
+    CRITICAL_SECTION cs;
+
+  public:
+    section() noexcept(false);
+    ~section() noexcept;
     section(section&) = delete;
     section(section&&) = delete;
     section& operator=(section&) = delete;
     section& operator=(section&&) = delete;
 
-  public:
-    section() noexcept(false)
-    {
-        InitializeCriticalSectionAndSpinCount(this, 0600);
-    }
-    ~section() noexcept
-    {
-        DeleteCriticalSection(this);
-    }
-    bool try_lock() noexcept
-    {
-        return TryEnterCriticalSection(this);
-    }
-    void lock() noexcept(false)
-    {
-        EnterCriticalSection(this);
-    }
-    void unlock() noexcept(false)
-    {
-        LeaveCriticalSection(this);
-    }
+    bool try_lock() noexcept;
+    void lock() noexcept(false);
+    void unlock() noexcept(false);
 };
+
 
 class channel_race_test : public TestClass<channel_race_test>
 {
@@ -308,3 +278,24 @@ class channel_race_test : public TestClass<channel_race_test>
         Assert::IsTrue(success > 0);
     }
 };
+
+section::section() noexcept(false)
+{
+    InitializeCriticalSectionAndSpinCount(&cs, 0600);
+}
+section::~section() noexcept
+{
+    DeleteCriticalSection(&cs);
+}
+bool section::try_lock() noexcept
+{
+    return TryEnterCriticalSection(&cs);
+}
+void section::lock() noexcept(false)
+{
+    EnterCriticalSection(&cs);
+}
+void section::unlock() noexcept(false)
+{
+    LeaveCriticalSection(&cs);
+}

@@ -17,22 +17,6 @@ using namespace std;
 using namespace experimental;
 using namespace coro;
 
-// lockable without lock operation
-struct bypass_lock
-{
-    bool try_lock() noexcept
-    {
-        return true;
-    }
-    void lock() noexcept
-    {
-        // do nothing since this is bypass lock
-    }
-    void unlock() noexcept
-    {
-        // it is not locked
-    }
-};
 
 // ensure successful write to channel
 template <typename E, typename L>
@@ -93,7 +77,7 @@ auto read_and_count(channel<T, M>& ch, T& ref, //
 TEST_CASE("channel without lock", "[generic][channel]")
 {
     using value_type = int;
-    using channel_without_lock_t = channel<value_type, bypass_lock>;
+    using channel_without_lock_t = channel<value_type>;
 
     channel_without_lock_t ch{};
     value_type storage = 0;
@@ -172,7 +156,7 @@ TEST_CASE("channel close", "[generic][channel]")
 {
     using namespace std;
     using value_type = uint64_t;
-    using channel_without_lock_t = channel<value_type, bypass_lock>;
+    using channel_without_lock_t = channel<value_type>;
 
     auto ch = make_unique<channel_without_lock_t>();
     bool ok = true;
@@ -220,8 +204,8 @@ TEST_CASE("channel close", "[generic][channel]")
 TEST_CASE("channel select", "[generic][channel]")
 {
     // it's singe thread, so mutex for channels doesn't have to be real lockable
-    using u32_chan_t = channel<uint32_t, bypass_lock>;
-    using i32_chan_t = channel<int32_t, bypass_lock>;
+    using u32_chan_t = channel<uint32_t>;
+    using i32_chan_t = channel<int32_t>;
 
     SECTION("match one")
     {
@@ -276,9 +260,10 @@ TEST_CASE("channel select", "[generic][channel]")
 
 class background final : public suspend_never
 {
+    std::future<void> fut{};
     auto request_async_resume(void* ptr) noexcept(false)
     {
-        std::async([=]() {
+        fut = std::async([=]() {
             if (auto coro = coroutine_handle<void>::from_address(ptr))
                 coro.resume();
         });
@@ -291,63 +276,26 @@ class background final : public suspend_never
     }
 };
 
+#if !defined(_WINDOWS)
+using CRITICAL_SECTION = pthread_rwlock_t;
+#endif
+
+// standard lockable concept with win32 criticial section
 class section final
 {
-    pthread_rwlock_t rwlock;
+    CRITICAL_SECTION cs;
 
   public:
-    section() noexcept(false) : rwlock{}
-    {
+    section() noexcept(false);
+    ~section() noexcept;
+    section(section&) = delete;
+    section(section&&) = delete;
+    section& operator=(section&) = delete;
+    section& operator=(section&&) = delete;
 
-        if (auto ec = pthread_rwlock_init(&rwlock, nullptr))
-            throw std::system_error{ec, std::system_category(),
-                                    "pthread_rwlock_init"};
-    }
-
-    ~section() noexcept try
-    {
-        if (auto ec = pthread_rwlock_destroy(&rwlock))
-            throw std::system_error{ec, std::system_category(),
-                                    "pthread_rwlock_init"};
-    }
-    catch (const std::system_error& e)
-    {
-        ::perror(e.what());
-    }
-    catch (...)
-    {
-        ::perror("Unknown exception in section dtor");
-    }
-
-    bool try_lock() noexcept
-    {
-        // EBUSY  // possible error
-        // EINVAL
-        // EDEADLK
-        auto ec = pthread_rwlock_trywrlock(&rwlock);
-        return ec == 0;
-    }
-
-    // - Note
-    //
-    //  There was an issue with `pthread_mutex_`
-    //  it returned EINVAL for lock operation
-    //  replacing it the rwlock
-    //
-    void lock() noexcept(false)
-    {
-        if (auto ec = pthread_rwlock_wrlock(&rwlock))
-            // EINVAL ?
-            throw std::system_error{ec, std::system_category(),
-                                    "pthread_rwlock_wrlock"};
-    }
-
-    void unlock() noexcept(false)
-    {
-        if (auto ec = pthread_rwlock_unlock(&rwlock))
-            throw std::system_error{ec, std::system_category(),
-                                    "pthread_rwlock_unlock"};
-    }
+    bool try_lock() noexcept;
+    void lock() noexcept(false);
+    void unlock() noexcept(false);
 };
 
 TEST_CASE("channel race", "[generic][channel]")
@@ -402,3 +350,78 @@ TEST_CASE("channel race", "[generic][channel]")
         REQUIRE(success > 0);
     }
 };
+
+#if defined(_WINDOWS)
+section::section() noexcept(false)
+{
+    InitializeCriticalSectionAndSpinCount(&cs, 0600);
+}
+section::~section() noexcept
+{
+    DeleteCriticalSection(&cs);
+}
+bool section::try_lock() noexcept
+{
+    return TryEnterCriticalSection(&cs);
+}
+void section::lock() noexcept(false)
+{
+    EnterCriticalSection(&cs);
+}
+void section::unlock() noexcept(false)
+{
+    LeaveCriticalSection(&cs);
+}
+#else
+section::section() noexcept(false) : cs{}
+{
+    if (auto ec = pthread_rwlock_init(&cs, nullptr))
+        throw std::system_error{ec, std::system_category(),
+                                "pthread_rwlock_init"};
+}
+
+section ::~section() noexcept try
+{
+    if (auto ec = pthread_rwlock_destroy(&cs))
+        throw std::system_error{ec, std::system_category(),
+                                "pthread_rwlock_init"};
+}
+catch (const std::system_error& e)
+{
+    ::perror(e.what());
+}
+catch (...)
+{
+    ::perror("Unknown exception in section dtor");
+}
+
+bool section ::try_lock() noexcept
+{
+    // EBUSY  // possible error
+    // EINVAL
+    // EDEADLK
+    auto ec = pthread_rwlock_trywrlock(&cs);
+    return ec == 0;
+}
+
+// - Note
+//
+//  There was an issue with `pthread_mutex_`
+//  it returned EINVAL for lock operation
+//  replacing it the rwlock
+//
+void section ::lock() noexcept(false)
+{
+    if (auto ec = pthread_rwlock_wrlock(&cs))
+        // EINVAL ?
+        throw std::system_error{ec, std::system_category(),
+                                "pthread_rwlock_wrlock"};
+}
+
+void section ::unlock() noexcept(false)
+{
+    if (auto ec = pthread_rwlock_unlock(&cs))
+        throw std::system_error{ec, std::system_category(),
+                                "pthread_rwlock_unlock"};
+}
+#endif

@@ -26,7 +26,7 @@ include(test-cxx-coroutine)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
-include(display-build-info)
+include(report-project-info)
 
 # GSL(Guideline Support Library) configuration
 if(${CMAKE_TOOLCHAIN_FILE} MATCHES vcpkg.cmake)
@@ -34,11 +34,12 @@ if(${CMAKE_TOOLCHAIN_FILE} MATCHES vcpkg.cmake)
 else()
     # try find_package first
     find_package(GSL)
-    if(NOT GSL_FOUND)
-        # last chance. use submodule
+	if(GSL_FOUND)
+		get_target_property(GSL_INCLUDE_DIR     GSL INTERFACE_INCLUDE_DIRECTORIES)
+	else() # last chance. use submodule
         add_subdirectory(external/guideline)
-    endif()
-    get_target_property(GSL_INCLUDE_DIR     GSL INTERFACE_INCLUDE_DIRECTORIES)
+		set(GSL_INCLUDE_DIR	${CMAKE_CURRENT_SOURCE_DIR}/external/guideline/include)
+    endif()    
 endif()
 
 # ensure the path is defined

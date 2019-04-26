@@ -15,6 +15,25 @@
 // ---------------------------------------------------------------------------
 #pragma once
 
+#if defined(__clang__) && defined(_MSC_VER)
+//
+// case: clang-cl, VC++
+//	In this case, override <experimental/resumable>.
+//	since msvc and clang++ uses differnet frame layout, 
+//	VC++ won't fit clang-cl's code generation. see the implementation below
+//
+#define _EXPERIMENTAL_RESUMABLE_
+#else
+// 
+// case: msvc, VC++
+// case: clang, libc++
+//	It is safe to use vendor's header. 
+//	by defining macro variable, user can prevent template redefinition
+//
+// #include <experimental/coroutine>
+// #define COROUTINE_FRAME_PREFIX_HPP
+#endif
+
 #ifndef COROUTINE_FRAME_PREFIX_HPP
 #define COROUTINE_FRAME_PREFIX_HPP
 #pragma warning(push, 4)
