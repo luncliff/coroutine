@@ -44,8 +44,8 @@ namespace concrt
 {
 
 //	An opaque implementation of `std::experimental::latch`.
-//	Useful for fork-join scenario. Its interface might a bit different with
-//	latch in the TS
+//	Useful for fork-join scenario. Its interface might slightly different
+//  with latch in the TS
 class latch
 {
     std::byte storage[128]{};
@@ -68,7 +68,6 @@ class latch
 } // namespace concrt
 
 #if defined(_MSC_VER) // ... VC++ only features ...
-
 // clang-format off
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -91,14 +90,13 @@ class ptp_work final : public suspend_always
 
   public:
     // The `ctx` must be address of coroutine frame
-    _INTERFACE_ auto suspend(coroutine_handle<void> coro) noexcept -> errc;
+    _INTERFACE_ auto suspend(coroutine_handle<void> coro) noexcept -> uint32_t;
 
     // Lazy code generation in importing code by header usage.
     void await_suspend(coroutine_handle<void> coro) noexcept(false)
     {
-        auto ec = suspend(coro);
-        if (ec != errc{})
-            throw system_error{static_cast<int>(ec), std::system_category(),
+        if (const auto ec = suspend(coro))
+            throw system_error{static_cast<int>(ec), system_category(),
                                "CreateThreadpoolWork"};
     }
 };

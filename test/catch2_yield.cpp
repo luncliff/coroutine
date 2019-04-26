@@ -2,11 +2,12 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <catch2/catch.hpp>
-
 #include <coroutine/return.h>
 #include <coroutine/suspend.h>
 #include <coroutine/yield.hpp>
+
+#include <catch2/catch.hpp>
+
 #include <gsl/gsl>
 
 using namespace std;

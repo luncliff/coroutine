@@ -2,11 +2,11 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <catch2/catch.hpp>
-
 #include <coroutine/channel.hpp>
 #include <coroutine/concrt.h>
 #include <coroutine/suspend.h>
+
+#include <catch2/catch.hpp>
 
 #include <gsl/gsl>
 

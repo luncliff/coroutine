@@ -79,7 +79,6 @@ class return_frame final
     return_frame() noexcept = default;
     return_frame(promise_type* ptr) noexcept : return_frame{}
     {
-        using namespace std::experimental;
         frame = coroutine_handle<promise_type>::from_promise(*ptr);
     }
 

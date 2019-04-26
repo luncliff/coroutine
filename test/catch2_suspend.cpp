@@ -2,10 +2,10 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <catch2/catch.hpp>
-
 #include <coroutine/return.h>
 #include <coroutine/suspend.h>
+
+#include <catch2/catch.hpp>
 
 #include <atomic>
 #include <gsl/gsl>
@@ -16,7 +16,6 @@ enum thread_id_t : uint64_t;
 // and the thread id check will always fail...
 // atomic couldn't prevent the behavior.
 // this code will be updated soon
-extern void get_current_thread_id(std::atomic<thread_id_t>& tid) noexcept;
 extern auto get_current_thread_id() noexcept -> thread_id_t;
 
 using namespace std;
@@ -133,11 +132,11 @@ TEST_CASE("suspend_queue", "[suspend][thread]")
         auto routine = [](limited_lock_queue& queue,      //
                           atomic<thread_id_t>& invoke_id, //
                           atomic<thread_id_t>& resume_id) -> return_ignore {
-            get_current_thread_id(invoke_id);
+            invoke_id = get_current_thread_id();
 
             co_await push_to(queue);
 
-            get_current_thread_id(resume_id);
+            resume_id = get_current_thread_id();
         };
 
         atomic<thread_id_t> id1{}, id2{};

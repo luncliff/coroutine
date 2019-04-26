@@ -43,4 +43,3 @@ auto current_threads() -> coro::enumerable<DWORD>
     }
 }
 
-std::array<char, NI_MAXHOST> hnbuf{};

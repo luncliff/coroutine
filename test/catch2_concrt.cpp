@@ -2,8 +2,9 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <catch2/catch.hpp>
 #include <coroutine/concrt.h>
+
+#include <catch2/catch.hpp>
 
 #include <array>
 #include <functional>
@@ -24,10 +25,12 @@ TEST_CASE("latch", "[concurrency][thread]")
 
         // fork - join
         for (auto& fut : contexts)
-            fut = std::async(
-                launch::async,
-                [](wait_group* group) -> void { group->count_down(); },
-                addressof(group));
+            fut = async(launch::async,
+                        [](wait_group* group) -> void {
+                            // simply count down
+                            group->count_down();
+                        },
+                        addressof(group));
         for (auto& fut : contexts)
             fut.wait();
 
@@ -42,6 +45,7 @@ TEST_CASE("latch", "[concurrency][thread]")
 
         group.count_down_and_wait();
         REQUIRE(group.is_ready());
+        REQUIRE(group.is_ready()); // mutliple test is ok
     }
 
     SECTION("throws for negative")

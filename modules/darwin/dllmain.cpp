@@ -9,12 +9,3 @@
 
 #define LIB_PROLOGUE __attribute__((constructor))
 #define LIB_EPILOGUE __attribute__((destructor))
-
-using namespace coro;
-
-std::array<char, NI_MAXHOST> hnbuf{};
-
-LIB_PROLOGUE void init_host_name() noexcept
-{
-    ::gethostname(hnbuf.data(), hnbuf.size());
-}

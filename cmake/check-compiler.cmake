@@ -5,15 +5,16 @@
 #
 cmake_policy(VERSION 3.8)
 
+# Compiler flag for C++ Coroutine
 include(CheckCXXCompilerFlag)
-
-if(MSVC)
-    check_cxx_compiler_flag(/std:c++latest  cxx_latest      )
-    check_cxx_compiler_flag(/await          cxx_coroutine   )
-elseif(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     check_cxx_compiler_flag(-std=c++2a      cxx_latest      )
     check_cxx_compiler_flag(-fcoroutines-ts cxx_coroutine   )
-else()
-    # elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)    # GCC
+elseif(MSVC)
+    check_cxx_compiler_flag(/std:c++latest  cxx_latest      )
+    check_cxx_compiler_flag(/await          cxx_coroutine   )
+elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)    # GCC
     message(FATAL_ERROR "Current version doesn't support GCC")
 endif()
+
+# test compiler flag for C++ Coroutine

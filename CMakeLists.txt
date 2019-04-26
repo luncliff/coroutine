@@ -12,25 +12,26 @@
 #       - Clang + Linux     (Unix Makefiles. WSL, Ubuntu 1604 and later)
 #
 # ---------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.8) # c++ 17
 
 project(coroutine LANGUAGES CXX VERSION 1.4.2)
 
 # import cmake code snippets. see `cmake/`
-list(APPEND CMAKE_MODULE_PATH
-            ${PROJECT_SOURCE_DIR}/cmake
-)
-include(test-target-platform)
-include(test-cxx-coroutine)
-
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+include(check-target-platform)
+include(check-compiler)
+if(NOT BUILD_SHARED_LIBS AND WIN32)
+    message(WARNING "Current version is for DLL build. STATIC build is only for clang-cl")
+endif()
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 include(report-project-info)
 
-# GSL(Guideline Support Library) configuration
+# Dependency configuration
 if(${CMAKE_TOOLCHAIN_FILE} MATCHES vcpkg.cmake)
     # portfile in vcpkg must give the path
+    set(GSL_INCLUDE_DIR	${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include)
 else()
     # try find_package first
     find_package(GSL)
@@ -41,15 +42,18 @@ else()
 		set(GSL_INCLUDE_DIR	${CMAKE_CURRENT_SOURCE_DIR}/external/guideline/include)
     endif()    
 endif()
-
 # ensure the path is defined
 if(NOT DEFINED GSL_INCLUDE_DIR)
     message(FATAL_ERROR "Path - GSL_INCLUDE_DIR is required")
+else()
+    message(STATUS "GSL (C++ Core Guideline Support Library)")
+    message(STATUS "  Path      \t: ${GSL_INCLUDE_DIR}")
 endif()
 
+# Project modules
 add_subdirectory(modules)
 
-# build test project?
+# Test projects
 if(TEST_DISABLED)
     message(STATUS "Test is disabled.")
     return()

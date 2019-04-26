@@ -5,26 +5,22 @@
 echo "----------------------------------------------------------------------"
 echo "                                                                      "
 echo " Build/Install libcxx & libcxxabi                                     "
-echo "  - Version   : 7.0                                                   "
+echo "  - Version   : 8.0                                                   "
 echo "  - Path      : /usr/{include, lib}                                   "
-echo "  - Compiler  : gcc-7, g++-7                                          "
-echo "                                                                      "
-echo "  - Tools     :                                                       "
-echo "      gcc-7, g++-7, libc++-dev libc++abi-dev                          "
-echo "      wget, unzip, cmake                                              "
+echo "  - Compiler  : gcc-8, g++-8                                          "
 echo "                                                                      "
 echo "----------------------------------------------------------------------"
 
 # get the packages with specified version
-echo "Download"
+echo "Download 8.0 ..."
 if [ ! -f llvm.zip ]; then
-    wget -q -O llvm.zip         https://github.com/llvm-mirror/llvm/archive/release_70.zip &
+    wget -q -O llvm.zip         https://github.com/llvm-mirror/llvm/archive/release_80.zip &
 fi
 if [ ! -f libcxx.zip ]; then
-    wget -q -O libcxx.zip       https://github.com/llvm-mirror/libcxx/archive/release_70.zip &
+    wget -q -O libcxx.zip       https://github.com/llvm-mirror/libcxx/archive/release_80.zip &
 fi
 if [ ! -f libcxxabi.zip ]; then
-    wget -q -O libcxxabi.zip    https://github.com/llvm-mirror/libcxxabi/archive/release_70.zip &
+    wget -q -O libcxxabi.zip    https://github.com/llvm-mirror/libcxxabi/archive/release_80.zip &
 fi
 # wait for background downloads
 for pid in `jobs -p`
@@ -34,33 +30,26 @@ done
 rm -rf wget*
 
 # unzip and rename directories
-echo "Unzip"
-if [ ! -d llvm ]; then
+echo "Unzip ..."
     unzip -q llvm.zip &
-fi
-if [ ! -d libcxx ]; then
     unzip -q libcxx.zip &
-fi
-if [ ! -d libcxxabi ]; then
     unzip -q libcxxabi.zip &
-fi
 # wait for background downloads
 for pid in `jobs -p`
 do
     wait $pid
 done
 
-mv ./llvm-release_70        ./llvm;
-mv ./libcxx-release_70      ./libcxx;
-mv ./libcxxabi-release_70   ./libcxxabi;
+ln -s --force ./llvm        ./llvm-release_80;
+ln -s --force ./libcxx      ./libcxx-release_80;
+ln -s --force ./libcxxabi   ./libcxxabi-release_80;
 
-echo "Build/Install with GCC"
+echo "Build/Install ..."
 
-export CC=gcc-7
-export CXX=g++-7
+export CC=gcc CXX=g++
 
 # build libcxx
-mkdir -p prebuilt && cd ./prebuilt;
+mkdir -p build-libcpp && cd ./build-libcpp;
     cmake ../libcxx                                         \
         -DLLVM_PATH=../llvm                                 \
         -DLIBCXX_CXX_ABI=libcxxabi                          \
@@ -68,16 +57,16 @@ mkdir -p prebuilt && cd ./prebuilt;
         -DCMAKE_BUILD_TYPE=Release                          \
         -DCMAKE_INSTALL_PREFIX=/usr                         \
         ;
-    sudo make -j7 install;
+    make -j7 install;
     rm CMakeCache.txt;
 cd -;
 # build libcxxabi
-mkdir -p prebuilt && cd ./prebuilt;
+mkdir -p build-libcpp && cd ./build-libcpp;
     cmake ../libcxxabi                      \
         -DLLVM_PATH=../llvm                 \
         -DLIBCXXABI_LIBCXX_PATH=../libcxx/  \
         -DCMAKE_INSTALL_PREFIX=/usr         \
         ;
-    sudo make -j7 install;
+    make -j7 install;
     rm CMakeCache.txt;
 cd -;
