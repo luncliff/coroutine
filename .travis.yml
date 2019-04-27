@@ -101,13 +101,17 @@ matrix:
       compiler: clang
       script:
         - mkdir -p build && cd build;
+        # to ensure intended symbols are in the library,
+        # the build generated shared object.
+        # however, for deployment, it needs te be static. (libcoroutine.a)
         - cmake ../
           -DBUILD_SHARED_LIBS=true
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_INSTALL_PREFIX=../install
           -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
           -DENABLE_BITCODE=false
-          -DIOS_DEPLOYMENT_TARGET=10.13
+          -DIOS_DEPLOYMENT_TARGET=11.0
+        # by using 11.0 or later, ensure target platform is 64 bit.
         - make install;
         - cd -;
       after_success:

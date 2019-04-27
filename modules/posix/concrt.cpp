@@ -9,10 +9,27 @@
 #include <cstdio>
 #include <ctime>
 
+#include <pthread.h>
+
 namespace concrt {
 
 using namespace std;
 using namespace std::chrono;
+
+void setup_mutex_attr(pthread_mutexattr_t& attr) noexcept(false){
+    if (auto ec = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK))
+        throw system_error{ec, system_category(), "pthread_mutexattr_settype"};
+
+// see pthread.h in /ndk/sysroot/usr/include
+// general POSIX or NDK high version
+#if !defined(__ANDROID_API__) \
+    || (defined(__ANDROID_API__) && __ANDROID_API__ >= 28)
+
+    if (auto ec = pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_NONE))
+        throw system_error{ec, system_category(),
+                           "pthread_mutexattr_setprotocol"};
+#endif
+}
 
 latch::latch(uint32_t count) noexcept(false) : ref{count}, cv{}, mtx{} {
     // increase count on ctor phase
@@ -22,12 +39,7 @@ latch::latch(uint32_t count) noexcept(false) : ref{count}, cv{}, mtx{} {
     if (auto ec = pthread_mutexattr_init(&attr))
         throw system_error{ec, system_category(), "pthread_mutexattr_init"};
 
-    if (auto ec = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK))
-        throw system_error{ec, system_category(), "pthread_mutexattr_settype"};
-
-    if (auto ec = pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_NONE))
-        throw system_error{ec, system_category(),
-                           "pthread_mutexattr_setprotocol"};
+    setup_mutex_attr(attr);
 
     if (auto ec = pthread_mutex_init(addressof(this->mtx), &attr))
         throw system_error{ec, system_category(), "pthread_mutex_init"};

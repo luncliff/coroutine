@@ -90,6 +90,5 @@ endif()
 target_link_libraries(${PROJECT_NAME}
 PUBLIC
     ${CMAKE_DL_LIBS}
-    android log m
     ${ANDROID_STL}
 )
