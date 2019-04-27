@@ -1,56 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="coroutine">
-      <UniqueIdentifier>{44f42267-f0ae-40c4-ac5d-efb837088044}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="net">
-      <UniqueIdentifier>{4a28942f-11c5-4837-8735-cbd30c80bfaa}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="net\socket_test.h">
-      <Filter>net</Filter>
-    </ClInclude>
-    <ClInclude Include="..\interface\coroutine\channel.hpp">
-      <Filter>coroutine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\interface\coroutine\concrt.h">
-      <Filter>coroutine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\interface\coroutine\frame.h">
-      <Filter>coroutine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\interface\coroutine\net.h">
-      <Filter>coroutine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\interface\coroutine\return.h">
-      <Filter>coroutine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\interface\coroutine\suspend.h">
-      <Filter>coroutine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\interface\coroutine\yield.hpp">
-      <Filter>coroutine</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="net\vs_resolver.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="net\vs_socket.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="net\vs_socket_echo_tcp.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="net\vs_socket_echo_udp.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
     <ClCompile Include="vs_concrt.cpp" />
     <ClCompile Include="vs_return.cpp" />
-    <ClCompile Include="vs_suspend.cpp" />
     <ClCompile Include="vs_yield.cpp" />
     <ClCompile Include="vs_channel.cpp" />
+    <ClCompile Include="vs_resolver.cpp" />
+    <ClCompile Include="vs_socket.cpp" />
+    <ClCompile Include="vs_socket_echo_tcp.cpp" />
+    <ClCompile Include="vs_socket_echo_udp.cpp" />
   </ItemGroup>
 </Project>

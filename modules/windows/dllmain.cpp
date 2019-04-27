@@ -6,23 +6,16 @@
 //      https://msdn.microsoft.com/en-us/library/windows/desktop/ms682583(v=vs.85).aspx
 //
 // ---------------------------------------------------------------------------
-#include <coroutine/net.h>
-#include <coroutine/return.h>
-#include <coroutine/yield.hpp>
+#include <coroutine/concrt.h>
 
 #include <gsl/gsl_util>
 
-// clang-format off
-#include <Windows.h>
-#include <sdkddkver.h>
 #include <TlHelp32.h>
-// clang-format on
 
 using namespace std;
+namespace concrt {
 
-auto current_threads() -> coro::enumerable<DWORD>
-{
-    const auto pid = GetCurrentProcessId();
+auto get_threads(DWORD pid) noexcept(false) -> coro::enumerable<DWORD> {
     // for current process
     auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
     if (snapshot == INVALID_HANDLE_VALUE)
@@ -35,11 +28,10 @@ auto current_threads() -> coro::enumerable<DWORD>
     entry.dwSize = sizeof(entry);
 
     for (Thread32First(snapshot, &entry); Thread32Next(snapshot, &entry);
-         entry.dwSize = sizeof(entry))
-    {
+         entry.dwSize = sizeof(entry)) {
         // filter other process's threads
         if (entry.th32OwnerProcessID != pid)
             co_yield entry.th32ThreadID;
     }
 }
-
+} // namespace concrt

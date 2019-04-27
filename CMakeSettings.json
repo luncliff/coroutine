@@ -6,18 +6,23 @@
       "configurationType": "Debug",
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
-      "cmakeCommandArgs": "-DCMAKE_CXX_COMPILER=clang-cl -DBUILD_SHARED_LIBS=false",
+      "cmakeCommandArgs": "",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
       "cmakeToolchain": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "variables": [
         {
-          "name": "CXX",
+          "name": "BUILD_SHARED_LIBS",
+          "value": "false",
+          "type": "BOOL"
+        },
+        {
+          "name": "CMAKE_CXX_COMPILER",
           "value": "clang-cl"
         },
         {
-          "name": "CC",
+          "name": "CMAKE_C_COMPILER",
           "value": "clang-cl"
         }
       ]

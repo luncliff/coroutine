@@ -18,7 +18,7 @@ class latch_test : public TestClass<latch_test>
 {
     using wait_group = concrt::latch;
 
-    static auto spawn_background_work(wait_group& group) -> return_ignore
+    static auto spawn_background_work(wait_group& group) -> no_return
     {
         co_await ptp_work{}; // move to background thread ...
         group.count_down();

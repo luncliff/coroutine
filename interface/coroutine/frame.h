@@ -22,10 +22,12 @@
 //	since msvc and clang++ uses differnet frame layout,
 //	VC++ won't fit clang-cl's code generation. see the implementation below
 //
-static_assert(defined(_EXPERIMENTAL_RESUMABLE_) == false,
-              "This header replaces <experimental/coroutine> for "
-              "clang-cl and VC++ header. Please change the order of include.")
+#if defined(_EXPERIMENTAL_RESUMABLE_)
+#error                                                                         \
+    "This header replaces <experimental/coroutine> for clang-cl and VC++ header";
+#endif
 #define _EXPERIMENTAL_RESUMABLE_
+#else
 //
 // case: msvc, VC++
 // case: clang, libc++

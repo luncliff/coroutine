@@ -3,7 +3,6 @@
 //  License : CC BY 4.0
 //
 #include <coroutine/return.h>
-#include <coroutine/suspend.h>
 #include <coroutine/yield.hpp>
 
 #include <array>
@@ -113,7 +112,7 @@ class async_generator_test : public TestClass<async_generator_test>
 
     TEST_METHOD(async_generator_ensure_no_leak) // just repeat a lot
     {
-        auto try_sequence = [](int& ref) -> return_ignore {
+        auto try_sequence = [](int& ref) -> no_return {
             /* clang-format off */
             for co_await(int v : return_random_int())
                 ref = v;
@@ -137,7 +136,7 @@ class async_generator_test : public TestClass<async_generator_test>
 
     TEST_METHOD(async_generator_return_without_yield)
     {
-        auto try_sequence = [](int& ref) -> return_ignore {
+        auto try_sequence = [](int& ref) -> no_return {
             // clang-format off
             for co_await(int v : return_nothing())
                 ref = v;
@@ -151,13 +150,13 @@ class async_generator_test : public TestClass<async_generator_test>
 
     TEST_METHOD(async_generator_suspend_then_return)
     {
-        suspend_hook sp{};
+        frame sp{};
 
         auto example = [&sp]() -> sequence<int> {
             co_yield sp; // suspend
             co_return;
         };
-        auto try_sequence = [&](int& ref) -> return_ignore {
+        auto try_sequence = [&](int& ref) -> no_return {
             // clang-format off
             for co_await(int v : example())
                 ref = v;
@@ -182,7 +181,7 @@ class async_generator_test : public TestClass<async_generator_test>
         };
 
         // copy capture
-        auto try_sequence = [example](int& ref) -> return_ignore {
+        auto try_sequence = [example](int& ref) -> no_return {
             // clang-format off
             for co_await(int v : example())
                 ref = v;
@@ -197,7 +196,7 @@ class async_generator_test : public TestClass<async_generator_test>
 
     TEST_METHOD(async_generator_yield_suspend_yield)
     {
-        suspend_hook sp{};
+        frame sp{};
 
         auto example = [&]() -> sequence<int> {
             int v{};
@@ -208,7 +207,7 @@ class async_generator_test : public TestClass<async_generator_test>
         };
 
         // reference capture
-        auto try_sequence = [&example](int& ref) -> return_ignore {
+        auto try_sequence = [&example](int& ref) -> no_return {
             // clang-format off
             for co_await(int v : example())
                 ref = v;
@@ -227,7 +226,7 @@ class async_generator_test : public TestClass<async_generator_test>
     TEST_METHOD(async_generator_destroy_in_suspend)
     {
         int value = 0;
-        suspend_hook sp{};
+        frame sp{};
         {
             auto example = [&]() -> sequence<int> {
                 int v{};
@@ -235,7 +234,7 @@ class async_generator_test : public TestClass<async_generator_test>
                 co_yield sp;
                 co_yield v = 777;
             };
-            auto try_sequence = [&example](int& ref) -> return_ignore {
+            auto try_sequence = [&example](int& ref) -> no_return {
                 // clang-format off
                 for co_await(int v : example())
                     ref = v;

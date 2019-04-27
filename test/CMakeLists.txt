@@ -5,14 +5,6 @@
 # ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.8)
 
-# if package does not exist, use submodule instead
-find_package(Catch2)
-if(NOT Catch2_FOUND)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/external/catch2
-                     ${CMAKE_BINARY_DIR}/catch2
-    )
-endif()
-
 add_executable(coroutine_test
     c2_entry.cpp
     c2_return.cpp

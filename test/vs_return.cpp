@@ -19,12 +19,12 @@ using namespace coro;
 
 class return_type_test : public TestClass<return_type_test>
 {
-    TEST_METHOD(return_ignore_nothrow)
+    TEST_METHOD(no_return_nothrow)
     {
         // user won't care about coroutine life cycle.
         // the routine will be resumed(continued) properly,
         //   and co_return will destroy the frame
-        auto routine = []() -> return_ignore {
+        auto routine = []() -> no_return {
             co_await suspend_never{};
             co_return;
         };
@@ -35,7 +35,7 @@ class return_type_test : public TestClass<return_type_test>
     {
         // when the coroutine frame destuction need to be controlled manually,
         //   `return_frame` can do the work
-        auto routine = []() -> return_frame {
+        auto routine = []() -> frame {
             // no initial suspend
             co_await suspend_never{};
             co_return;

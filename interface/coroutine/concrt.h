@@ -35,13 +35,12 @@
 #ifndef COROUTINE_CONCURRENCY_HELPERS_H
 #define COROUTINE_CONCURRENCY_HELPERS_H
 
-#include <cstddef>
 #include <system_error>
+#include <atomic>
 
 #include <coroutine/return.h>
 
-namespace concrt {
-
+// disable copy/move operation of the type
 struct no_copy_move {
     no_copy_move() noexcept = default;
     ~no_copy_move() noexcept = default;
@@ -50,24 +49,6 @@ struct no_copy_move {
     no_copy_move& operator=(no_copy_move&) = delete;
     no_copy_move& operator=(no_copy_move&&) = delete;
 };
-
-//	An opaque implementation of `std::experimental::latch`.
-//	Useful for fork-join scenario. Its interface might slightly different
-//  with latch in the TS
-class latch final : no_copy_move {
-    std::byte storage[128]{};
-
-  public:
-    _INTERFACE_ explicit latch(uint32_t count) noexcept(false);
-    _INTERFACE_ ~latch() noexcept;
-
-    _INTERFACE_ void count_down_and_wait() noexcept(false);
-    _INTERFACE_ void count_down(uint32_t n = 1) noexcept(false);
-    _INTERFACE_ bool is_ready() const noexcept;
-    _INTERFACE_ void wait() noexcept(false);
-};
-
-} // namespace concrt
 
 #if __has_include(<Windows.h>) // ... activate VC++ based features ...
 // clang-format off
@@ -79,12 +60,20 @@ class latch final : no_copy_move {
 #include <threadpoolapiset.h>
 // clang-format on
 
+#include <coroutine/yield.hpp>
+
 namespace concrt {
 using namespace std;
 using namespace std::experimental;
 
+// enumerate current thread id of the process
+_INTERFACE_
+auto get_threads(DWORD owner = GetCurrentProcessId()) noexcept(false)
+    -> coro::enumerable<DWORD>;
+
 //  Move into the win32 thread pool and continue the routine
 class ptp_work final : public suspend_always {
+
     static void __stdcall resume_on_thread_pool( //
         PTP_CALLBACK_INSTANCE, PVOID, PTP_WORK);
 
@@ -111,12 +100,46 @@ class section final : CRITICAL_SECTION, no_copy_move {
     _INTERFACE_ void unlock() noexcept(false);
 };
 
+//  Alertible win32 event
+class win32_event final : no_copy_move {
+    HANDLE native{};
+
+  public:
+    _INTERFACE_ win32_event() noexcept(false);
+    _INTERFACE_ ~win32_event() noexcept;
+
+    _INTERFACE_ bool is_closed() const noexcept;
+    _INTERFACE_ void close() noexcept;
+    _INTERFACE_ void reset() noexcept;
+    _INTERFACE_ void set() noexcept;
+    [[nodiscard]] _INTERFACE_ bool wait(uint32_t ms) noexcept;
+};
+
+//	An `std::experimental::latch` for fork-join scenario.
+//	Its interface might slightly with that of Concurrency TS
+class latch final : no_copy_move {
+    mutable win32_event ev{};
+    atomic_uint64_t ref{};
+
+  public:
+    _INTERFACE_ explicit latch(uint32_t count) noexcept(false);
+    _INTERFACE_ ~latch() noexcept = default;
+
+    _INTERFACE_ void count_down_and_wait() noexcept(false);
+    _INTERFACE_ void count_down(uint32_t n = 1) noexcept(false);
+    _INTERFACE_ bool is_ready() const noexcept;
+    _INTERFACE_ void wait() noexcept(false);
+};
+
 } // namespace concrt
 
 #elif __has_include(<pthread.h>) // ... activate pthread based features ...
+#include <chrono>
+
 #include <pthread.h>
 
 namespace concrt {
+using namespace std;
 
 //  Standard lockable with pthread reader writer lock
 class section final : no_copy_move {
@@ -129,6 +152,26 @@ class section final : no_copy_move {
     _INTERFACE_ bool try_lock() noexcept;
     _INTERFACE_ void lock() noexcept(false);
     _INTERFACE_ void unlock() noexcept(false);
+};
+
+//	An `std::experimental::latch` for fork-join scenario.
+//	Its interface might slightly with that of Concurrency TS
+class latch final : no_copy_move {
+    atomic_uint64_t ref{};
+    pthread_cond_t cv{};
+    pthread_mutex_t mtx{};
+
+  private:
+    std::errc timed_wait(std::chrono::microseconds timeout) noexcept;
+
+  public:
+    _INTERFACE_ explicit latch(uint32_t count) noexcept(false);
+    _INTERFACE_ ~latch() noexcept;
+
+    _INTERFACE_ void count_down_and_wait() noexcept(false);
+    _INTERFACE_ void count_down(uint32_t n = 1) noexcept(false);
+    _INTERFACE_ bool is_ready() const noexcept;
+    _INTERFACE_ void wait() noexcept(false);
 };
 
 } // namespace concrt

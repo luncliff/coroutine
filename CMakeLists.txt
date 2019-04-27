@@ -20,9 +20,7 @@ project(coroutine LANGUAGES CXX VERSION 1.4.2)
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 include(check-target-platform)
 include(check-compiler)
-if(NOT BUILD_SHARED_LIBS AND WIN32)
-    message(WARNING "Current version is for DLL build. STATIC build is only for clang-cl")
-endif()
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
@@ -33,15 +31,11 @@ if(${CMAKE_TOOLCHAIN_FILE} MATCHES vcpkg.cmake)
     # portfile in vcpkg must give the path
     set(GSL_INCLUDE_DIR	${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include)
 else()
-    # try find_package first
-    find_package(GSL)
-	if(GSL_FOUND)
-		get_target_property(GSL_INCLUDE_DIR     GSL INTERFACE_INCLUDE_DIRECTORIES)
-	else() # last chance. use submodule
-        add_subdirectory(external/guideline)
-		set(GSL_INCLUDE_DIR	${CMAKE_CURRENT_SOURCE_DIR}/external/guideline/include)
-    endif()    
+    # use submodule
+    add_subdirectory(external/guideline)
+	set(GSL_INCLUDE_DIR	${CMAKE_CURRENT_SOURCE_DIR}/external/guideline/include)
 endif()
+
 # ensure the path is defined
 if(NOT DEFINED GSL_INCLUDE_DIR)
     message(FATAL_ERROR "Path - GSL_INCLUDE_DIR is required")
@@ -63,6 +57,14 @@ elseif(IOS OR ANDROID)
 elseif(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     message(STATUS "This is not a root project. Skip tests")
     return()
+endif()
+
+# if package does not exist, use submodule instead
+find_package(Catch2)
+if(NOT Catch2_FOUND)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/external/catch2
+                     ${CMAKE_BINARY_DIR}/catch2
+    )
 endif()
 
 add_subdirectory(test)

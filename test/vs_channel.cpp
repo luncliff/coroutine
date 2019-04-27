@@ -18,14 +18,14 @@ using namespace coro;
 using namespace concrt;
 
 template <typename T, typename M>
-auto write_to(channel<T, M>& ch, T value, bool ok = false) -> return_ignore
+auto write_to(channel<T, M>& ch, T value, bool ok = false) -> no_return
 {
     ok = co_await ch.write(value);
     Assert::IsTrue(ok);
 }
 
 template <typename T, typename M>
-auto read_from(channel<T, M>& ch, T& value, bool ok = false) -> return_ignore
+auto read_from(channel<T, M>& ch, T& value, bool ok = false) -> no_return
 {
     tie(value, ok) = co_await ch.read();
     Assert::IsTrue(ok);
@@ -34,7 +34,7 @@ auto read_from(channel<T, M>& ch, T& value, bool ok = false) -> return_ignore
 template <typename T, typename M, typename CountType>
 auto write_and_count(channel<T, M>& ch, T value, //
                      CountType& success_count, CountType& failure_count)
-    -> return_ignore
+    -> no_return
 {
     bool ok = co_await ch.write(value);
     // ... ??? ...  // channel address is strange ...
@@ -47,7 +47,7 @@ auto write_and_count(channel<T, M>& ch, T value, //
 template <typename T, typename M, typename CountType>
 auto read_and_count(channel<T, M>& ch, T& ref, //
                     CountType& success_count, CountType& failure_count)
-    -> return_ignore
+    -> no_return
 {
     auto [value, ok] = co_await ch.read();
     if (ok == false)
@@ -158,7 +158,7 @@ class channel_select_test : public TestClass<channel_select_test>
                    Assert::Fail(L"select on empty channel must bypass");
                },
                ch1, // if the channel has a writer, peek and invoke callback
-               [](auto v) -> return_ignore {
+               [](auto v) -> no_return {
                    static_assert(is_same_v<decltype(v), uint32_t>);
                    Assert::IsTrue(v == 17u);
 
@@ -225,14 +225,14 @@ class channel_race_test : public TestClass<channel_race_test>
         wait_group group{2 * max_try_count};
 
         auto send_with_callback
-            = [&](channel_type& ch, value_type value) -> return_ignore {
+            = [&](channel_type& ch, value_type value) -> no_return {
             co_await ptp_work{};
 
             auto w = co_await ch.write(value);
             w ? success += 1 : failure += 1;
             group.count_down();
         };
-        auto recv_with_callback = [&](channel_type& ch) -> return_ignore {
+        auto recv_with_callback = [&](channel_type& ch) -> no_return {
             co_await ptp_work{};
 
             auto [value, r] = co_await ch.read();
