@@ -102,8 +102,8 @@ matrix:
       script:
         - mkdir -p build && cd build;
         - cmake ../
-          -DBUILD_SHARED_LIBS=$SHARED
-          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DBUILD_SHARED_LIBS=true
+          -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_INSTALL_PREFIX=../install
           -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
           -DENABLE_BITCODE=false
@@ -123,6 +123,15 @@ matrix:
           - android-27 # 8.1
           - android-28 # 9.0
           - build-tools-28.0.3
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - wget
+            - tar
+            - ninja-build
+            - tree
       before_install:
         # Install CMake 3.14.1 (build.gradle requires the exact version)
         - sudo bash ./scripts/install-cmake-3.14.sh;
