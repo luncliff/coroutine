@@ -13,7 +13,7 @@ list(APPEND CMAKE_MODULE_PATH
 if(ANDROID)
     set(TARGET_PLATFORM_NAME linux)
 elseif(IOS)
-    set(TARGET_PLATFORM_NAME ios)
+    set(TARGET_PLATFORM_NAME darwin)
 endif()
 include(${TARGET_PLATFORM_NAME})
 add_library(coro ALIAS ${PROJECT_NAME})
