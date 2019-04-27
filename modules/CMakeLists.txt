@@ -10,6 +10,11 @@ string(TOLOWER ${CMAKE_SYSTEM_NAME} TARGET_PLATFORM_NAME)
 list(APPEND CMAKE_MODULE_PATH 
             ${CMAKE_CURRENT_SOURCE_DIR}
 )
+if(ANDROID)
+    set(TARGET_PLATFORM_NAME linux)
+elseif(IOS)
+    set(TARGET_PLATFORM_NAME ios)
+endif()
 include(${TARGET_PLATFORM_NAME})
 add_library(coro ALIAS ${PROJECT_NAME})
 
@@ -24,7 +29,7 @@ PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../interface>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
 PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}    
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${GSL_INCLUDE_DIR}  # since the library is header-only, 
                         # end user will manage the path properly
 )
