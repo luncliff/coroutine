@@ -14,10 +14,8 @@
 #endif
 
 using namespace std;
-using namespace gsl;
 
-int64_t socket_create(const addrinfo& hint)
-{
+int64_t socket_create(const addrinfo& hint) {
     int64_t sd = socket(hint.ai_family, hint.ai_socktype, hint.ai_protocol);
     if (sd == -1)
         FAIL(strerror(errno));
@@ -25,17 +23,14 @@ int64_t socket_create(const addrinfo& hint)
 }
 
 auto socket_create(const addrinfo& hint, size_t count)
-    -> coro::enumerable<int64_t>
-{
-    while (count--)
-    {
+    -> coro::enumerable<int64_t> {
+    while (count--) {
         auto sd = socket_create(hint);
         co_yield sd;
     }
 }
 
-void socket_close(int64_t sd)
-{
+void socket_close(int64_t sd) {
 #if defined(_MSC_VER)
     shutdown(sd, SD_BOTH);
     closesocket(sd);
@@ -45,28 +40,24 @@ void socket_close(int64_t sd)
 #endif
 }
 
-void socket_bind(int64_t sd, sockaddr_storage& storage)
-{
-    const auto family = storage.ss_family;
+void socket_bind(int64_t sd, endpoint_t& ep) {
     socklen_t addrlen = sizeof(sockaddr_in);
-
-    REQUIRE((family == AF_INET || family == AF_INET6));
-    if (family == AF_INET6)
+    if (ep.storage.ss_family == AF_INET)
+        addrlen = sizeof(sockaddr_in);
+    if (ep.storage.ss_family == AF_INET6)
         addrlen = sizeof(sockaddr_in6);
 
     // bind socket and address
-    if (::bind(sd, reinterpret_cast<sockaddr*>(&storage), addrlen))
+    if (::bind(sd, &ep.addr, addrlen))
         FAIL(strerror(errno));
 }
 
-void socket_listen(int64_t sd)
-{
-    if (listen(sd, 7) != 0)
+void socket_listen(int64_t sd) {
+    if (::listen(sd, 7) != 0)
         FAIL(strerror(errno));
 }
 
-void socket_set_option_nonblock(int64_t sd)
-{
+void socket_set_option_nonblock(int64_t sd) {
 #if defined(_MSC_VER)
     u_long mode = TRUE;
     REQUIRE(ioctlsocket(sd, FIONBIO, &mode) == NO_ERROR);
@@ -76,8 +67,7 @@ void socket_set_option_nonblock(int64_t sd)
 #endif
 }
 
-void socket_set_option_reuse_address(int64_t sd)
-{
+void socket_set_option_reuse_address(int64_t sd) {
     // reuse address for multiple test execution
     int opt = true;
     opt = setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, (char*)&opt, sizeof(opt));
@@ -85,8 +75,7 @@ void socket_set_option_reuse_address(int64_t sd)
         FAIL(strerror(errno));
 }
 
-void socket_set_option_nodelay(int64_t sd)
-{
+void socket_set_option_nodelay(int64_t sd) {
     // reuse address for multiple test execution
     int opt = true;
     opt = setsockopt(sd, IPPROTO_TCP, TCP_NODELAY, (char*)&opt, sizeof(opt));
@@ -106,15 +95,13 @@ auto net_api_release = gsl::finally([]() noexcept {
     wsa_data.wVersion = 0;
 });
 
-void load_network_api() noexcept(false)
-{
+void load_network_api() noexcept(false) {
     using namespace std;
     if (wsa_data.wVersion) // already initialized
         return;
 
     // init version 2.2
-    if (::WSAStartup(MAKEWORD(2, 2), &wsa_data))
-    {
+    if (::WSAStartup(MAKEWORD(2, 2), &wsa_data)) {
         auto errc = WSAGetLastError();
         auto em = system_category().message(errc);
         fputs(em.c_str(), stderr);
@@ -124,8 +111,7 @@ void load_network_api() noexcept(false)
 
 #elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
 
-void load_network_api() noexcept(false)
-{
+void load_network_api() noexcept(false) {
     // do nothing for posix system. network operation already available
 }
 

@@ -13,17 +13,14 @@
 using namespace std;
 using namespace std::experimental;
 
-TEST_CASE("coroutine_handle", "[primitive][semantics]")
-{
+TEST_CASE("coroutine_handle", "[primitive][semantics]") {
     // helper object to use address
     std::byte blob[64]{};
     coroutine_handle<void> c1{}, c2{};
     // libc++ requires the parameter must be void* type
     void *p1 = blob + 2, *p2 = blob + 3;
 
-    SECTION("move")
-    {
-
+    SECTION("move") {
         c1 = coroutine_handle<void>::from_address(p1);
         c2 = coroutine_handle<void>::from_address(p2);
 
@@ -35,8 +32,7 @@ TEST_CASE("coroutine_handle", "[primitive][semantics]")
         REQUIRE(c2.address() == p1);
     }
 
-    SECTION("swap")
-    {
+    SECTION("swap") {
         c1 = coroutine_handle<void>::from_address(p1);
         c2 = coroutine_handle<void>::from_address(p2);
 
@@ -48,34 +44,3 @@ TEST_CASE("coroutine_handle", "[primitive][semantics]")
         REQUIRE(c2.address() == p1);
     }
 }
-
-enum thread_id_t : uint64_t;
-
-#if defined(_MSC_VER)
-#include <Windows.h>
-#include <sdkddkver.h>
-
-auto get_current_thread_id() noexcept -> thread_id_t
-{
-    return static_cast<thread_id_t>(GetCurrentThreadId());
-}
-void get_current_thread_id(std::atomic<thread_id_t>& tid) noexcept
-{
-    tid.store(get_current_thread_id());
-}
-
-#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
-#include <pthread.h>
-
-void get_current_thread_id(std::atomic<thread_id_t>& tid) noexcept
-{
-    auto id = reinterpret_cast<uint64_t>((void*)pthread_self());
-    tid.store(thread_id_t{id});
-}
-auto get_current_thread_id() noexcept -> thread_id_t
-{
-    auto id = reinterpret_cast<uint64_t>((void*)pthread_self());
-    return thread_id_t{id};
-}
-
-#endif

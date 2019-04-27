@@ -12,15 +12,3 @@ AllowShortFunctionsOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakTemplateDeclarations: true
-
-BreakBeforeBinaryOperators: true
-BreakBeforeBraces: Allman
-BreakBeforeTernaryOperators: true
-
-ConstructorInitializerAllOnOneLineOrOnePerLine: true
-Cpp11BracedListStyle: true
-
-IndentCaseLabels: false
-IndentFunctionDeclarationAfterType: true
-
-NamespaceIndentation: None

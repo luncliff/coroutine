@@ -101,14 +101,57 @@ matrix:
       compiler: clang
       script:
         - mkdir -p build && cd build;
+        # to ensure intended symbols are in the library,
+        # the build generated shared object.
+        # however, for deployment, it needs te be static. (libcoroutine.a)
         - cmake ../
-          -DBUILD_SHARED_LIBS=$SHARED
-          -DCMAKE_BUILD_TYPE=$CONFIG
+          -DBUILD_SHARED_LIBS=true
+          -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_INSTALL_PREFIX=../install
           -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
           -DENABLE_BITCODE=false
-          -DIOS_DEPLOYMENT_TARGET=10.13
+          -DIOS_DEPLOYMENT_TARGET=11.0
+        # by using 11.0 or later, ensure target platform is 64 bit.
         - make install;
         - cd -;
       after_success:
         - tree ./install;
+
+    - name: Android NDK
+      language: android
+      android:
+        components:
+          - tools
+          - platform-tools
+          - android-25 # 7.0
+          - android-27 # 8.1
+          - android-28 # 9.0
+          - build-tools-28.0.3
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - wget
+            - tar
+            - ninja-build
+            - tree
+      before_install:
+        # Install CMake 3.14.1 (build.gradle requires the exact version)
+        - sudo bash ./scripts/install-cmake-3.14.sh;
+        # Install Gradle from https://sdkman.io/
+        - curl -s "https://get.sdkman.io" | bash > /dev/null
+        - source "$HOME/.sdkman/bin/sdkman-init.sh"
+        - sdk version
+        - sdk install gradle
+        - sdk use gradle
+        - gradle --version
+      install:
+        # Accept SDK Licenses + Install NDK
+        - yes | sdkmanager --update > /dev/null 2>&1
+        - sdkmanager ndk-bundle > /dev/null 2>&1
+      script:
+        - gradle clean
+        - gradle assemble -warning-mode all
+      after_success:
+        - tree ./install

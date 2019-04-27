@@ -205,24 +205,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\interface\coroutine\channel.hpp" />
-    <ClInclude Include="..\interface\coroutine\concrt.h" />
-    <ClInclude Include="..\interface\coroutine\frame.h" />
-    <ClInclude Include="..\interface\coroutine\net.h" />
-    <ClInclude Include="..\interface\coroutine\return.h" />
-    <ClInclude Include="..\interface\coroutine\suspend.h" />
-    <ClInclude Include="..\interface\coroutine\yield.hpp" />
-    <ClInclude Include="net\socket_test.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="net\vs_resolver.cpp" />
-    <ClCompile Include="net\vs_socket.cpp" />
-    <ClCompile Include="net\vs_socket_echo_tcp.cpp" />
-    <ClCompile Include="net\vs_socket_echo_udp.cpp" />
     <ClCompile Include="vs_channel.cpp" />
     <ClCompile Include="vs_concrt.cpp" />
+    <ClCompile Include="vs_resolver.cpp" />
     <ClCompile Include="vs_return.cpp" />
-    <ClCompile Include="vs_suspend.cpp" />
+    <ClCompile Include="vs_socket.cpp" />
+    <ClCompile Include="vs_socket_echo_tcp.cpp" />
+    <ClCompile Include="vs_socket_echo_udp.cpp" />
     <ClCompile Include="vs_yield.cpp" />
   </ItemGroup>
   <ItemGroup>

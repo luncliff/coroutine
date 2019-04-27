@@ -11,34 +11,25 @@
 
 using namespace std;
 
-namespace concrt
-{
+namespace concrt {
 
-pthread_section::pthread_section() noexcept(false) : rwlock{}
-{
+section::section() noexcept(false) : rwlock{} {
     if (auto ec = pthread_rwlock_init(&rwlock, nullptr))
         throw system_error{ec, system_category(), "pthread_rwlock_init"};
 }
 
-pthread_section::~pthread_section() noexcept
-{
-    try
-    {
+section::~section() noexcept {
+    try {
         if (auto ec = pthread_rwlock_destroy(&rwlock))
             throw system_error{ec, system_category(), "pthread_rwlock_init"};
-    }
-    catch (const system_error& e)
-    {
+    } catch (const system_error& e) {
         ::perror(e.what());
-    }
-    catch (...)
-    {
-        ::perror("Unknown exception in pthread_section dtor");
+    } catch (...) {
+        ::perror("Unknown exception in section dtor");
     }
 }
 
-bool pthread_section::try_lock() noexcept
-{
+bool section::try_lock() noexcept {
     // EBUSY  // possible error
     // EINVAL
     // EDEADLK
@@ -52,15 +43,13 @@ bool pthread_section::try_lock() noexcept
 //  it returned EINVAL for lock operation
 //  replacing it the rwlock
 //
-void pthread_section::lock() noexcept(false)
-{
+void section::lock() noexcept(false) {
     if (auto ec = pthread_rwlock_wrlock(&rwlock))
         // EINVAL ?
         throw system_error{ec, system_category(), "pthread_rwlock_wrlock"};
 }
 
-void pthread_section::unlock() noexcept(false)
-{
+void section::unlock() noexcept(false) {
     if (auto ec = pthread_rwlock_unlock(&rwlock))
         throw system_error{ec, system_category(), "pthread_rwlock_unlock"};
 }

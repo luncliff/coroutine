@@ -15,17 +15,17 @@ using namespace std;
 using namespace gsl;
 using namespace std::chrono_literals;
 using namespace coro;
-using concrt::latch;
 
-auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz, latch& wg)
-    -> return_ignore;
+using wait_group = concrt::latch;
+
+auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz,
+                     wait_group& wg) -> no_return;
 auto coro_send_dgram(int64_t sd, const sockaddr_in& remote, int64_t& ssz,
-                     latch& wg) -> return_ignore;
+                     wait_group& wg) -> no_return;
 
-auto echo_incoming_datagram(int64_t sd) -> return_ignore;
+auto echo_incoming_datagram(int64_t sd) -> no_return;
 
-TEST_CASE("socket udp echo test", "[network][socket]")
-{
+TEST_CASE("socket udp echo test", "[network][socket]") {
     load_network_api();
 
     constexpr auto test_service_port = 32771;
@@ -46,13 +46,12 @@ TEST_CASE("socket udp echo test", "[network][socket]")
     ep.in4.sin_addr.s_addr = htonl(INADDR_ANY); // in6.sin6_addr <- in6addr_any
     ep.in4.sin_port = htons(test_service_port); // in6.sin6_port <- htons(port)
 
-    socket_bind(ss, ep.storage);
+    socket_bind(ss, ep);
 
     // start service
     echo_incoming_datagram(ss);
 
-    SECTION("multiple clients")
-    {
+    SECTION("multiple clients") {
         constexpr auto max_clients = 4;
 
         array<int64_t, max_clients> clients{};
@@ -61,15 +60,14 @@ TEST_CASE("socket udp echo test", "[network][socket]")
         array<sockaddr_in, max_clients> recv_endpoints{};
 
         gsl::index i = 0u;
-        for (auto sd : socket_create(hint, clients.size()))
-        {
+        for (auto sd : socket_create(hint, clients.size())) {
             clients[i++] = sd;
             socket_set_option_nonblock(sd);
 
             auto local = ep;        // copy family and addr
             local.in4.sin_port = 0; // system will assign port for the socket
-            socket_bind(sd, local.storage); // socket must be bound
-                                            //  before starting I/O operation
+            socket_bind(sd, local); // socket must be bound
+                                    //  before starting I/O operation
         }
 
         auto d2 = gsl::finally([&clients]() {
@@ -77,9 +75,9 @@ TEST_CASE("socket udp echo test", "[network][socket]")
                 socket_close(sd);
         });
 
-        latch wg{max_clients * 2}; // wait group for coroutine sync
-                                   // each client will perform
-                                   // 1 recv and 1 send
+        wait_group wg{max_clients * 2}; // wait group for coroutine sync
+                                        // each client will perform
+                                        // 1 recv and 1 send
         {
             // recv packets
             // later echo response will be delivered to these coroutines
@@ -93,8 +91,7 @@ TEST_CASE("socket udp echo test", "[network][socket]")
             for (i = 0; i < max_clients; ++i)
                 coro_send_dgram(clients[i], ep.in4, send_lengths[i], wg);
 
-            if constexpr (is_winsock == false)
-            {
+            if constexpr (is_winsock == false) {
                 // unlike windows api, we have to resume tasks manually
                 // the library doesn't guarantee they will be fetched at once
                 // so user have to repeat enough to finish all i/o tasks
@@ -108,24 +105,21 @@ TEST_CASE("socket udp echo test", "[network][socket]")
 
         // now, receive coroutines must hold same data
         // sent by each client sockets
-        for (i = 0; i < max_clients; ++i)
-        {
+        for (i = 0; i < max_clients; ++i) {
             REQUIRE(send_lengths[i] == recv_lengths[i]);
             bool equal = memcmp(addressof(ep.in4.sin_addr),
                                 addressof(recv_endpoints[i].sin_addr), //
-                                sizeof(in_addr))
-                         == 0;
+                                sizeof(in_addr)) == 0;
             REQUIRE(equal);
         }
     }
     // test end
 }
 
-auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz, latch& wg)
-    -> return_ignore
-{
+auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz,
+                     wait_group& wg) -> no_return {
     using gsl::byte;
-    auto d = finally([&wg]() { // ensure noti to latch
+    auto d = finally([&wg]() { // ensure noti to wait_group
         wg.count_down();
     });
 
@@ -133,8 +127,7 @@ auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz, latch& wg)
     array<byte, 1253> storage{};
 
     rsz = co_await recv_from(sd, remote, storage, work);
-    if (auto errc = work.error())
-    {
+    if (auto errc = work.error()) {
         CAPTURE(errc);
         FAIL(std::system_category().message(errc));
     }
@@ -142,10 +135,9 @@ auto coro_recv_dgram(int64_t sd, sockaddr_in& remote, int64_t& rsz, latch& wg)
 }
 
 auto coro_send_dgram(int64_t sd, const sockaddr_in& remote, int64_t& ssz,
-                     latch& wg) -> return_ignore
-{
+                     wait_group& wg) -> no_return {
     using gsl::byte;
-    auto d = finally([&wg]() { // ensure noti to latch
+    auto d = finally([&wg]() { // ensure noti to wait_group
         wg.count_down();
     });
 
@@ -153,16 +145,14 @@ auto coro_send_dgram(int64_t sd, const sockaddr_in& remote, int64_t& ssz,
     array<byte, 782> storage{};
 
     ssz = co_await send_to(sd, remote, storage, work);
-    if (auto errc = work.error())
-    {
+    if (auto errc = work.error()) {
         CAPTURE(errc);
         FAIL(std::system_category().message(errc));
     }
     REQUIRE(ssz == storage.size());
 }
 
-auto echo_incoming_datagram(int64_t sd) -> return_ignore
-{
+auto echo_incoming_datagram(int64_t sd) -> no_return {
     using gsl::byte;
     io_work_t work{};
     buffer_view_t buf{};
@@ -170,8 +160,7 @@ auto echo_incoming_datagram(int64_t sd) -> return_ignore
     sockaddr_in remote{};
     array<byte, 3927> storage{};
 
-    while (true)
-    {
+    while (true) {
         rsz = co_await recv_from(sd, remote, buf = storage, work);
         if (work.error())
             goto OnError;

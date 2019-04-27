@@ -11,117 +11,86 @@
 #ifndef COROUTINE_RETURN_TYPES_H
 #define COROUTINE_RETURN_TYPES_H
 
-#include <exception>
-
 #include <coroutine/frame.h>
 
-namespace coro
-{
+namespace coro {
 using namespace std::experimental;
 
-// - Note
-//      General `void` return for coroutine.
-//      It doesn't provide any method to get control or value
-//       from the resumable function
-class return_ignore final
-{
+// General `void` return for coroutine.
+// It doesn't provide any method to get control or value from the resumable
+// function
+class no_return final {
   public:
-    class promise_type final
-    {
+    class promise_type final {
       public:
         // No suspend for init/final suspension point
-        auto initial_suspend() noexcept
-        {
+        auto initial_suspend() noexcept {
             return suspend_never{};
         }
-        auto final_suspend() noexcept
-        {
+        auto final_suspend() noexcept {
             return suspend_never{};
         }
-        void return_void() noexcept
-        {
+        void return_void() noexcept {
             // nothing to do because this is `void` return
         }
-        void unhandled_exception() noexcept(false)
-        {
-            std::terminate(); // customize this part
+        void unhandled_exception() noexcept(false) {
+            // customize this part
         }
-
-        promise_type* get_return_object() noexcept
-        {
+        auto get_return_object() noexcept -> promise_type* {
             return this;
         }
-        static promise_type* get_return_object_on_allocation_failure() noexcept
-        {
+        static auto get_return_object_on_allocation_failure() noexcept
+            -> promise_type* {
             return nullptr;
         }
     };
 
   public:
-    return_ignore(const promise_type*) noexcept
-    {
+    no_return(const promise_type*) noexcept {
         // the type truncates all given info about its frame
     }
 };
 
-// - Note
-//      Holds the resumable function's frame
-//      This type can be used when final suspend is required
-class return_frame final
-{
+class frame final : public coroutine_handle<void>, public suspend_always {
   public:
-    class promise_type;
-
-  private:
-    coroutine_handle<void> frame{};
-
-  public:
-    return_frame() noexcept = default;
-    return_frame(promise_type* ptr) noexcept : return_frame{}
-    {
-        frame = coroutine_handle<promise_type>::from_promise(*ptr);
-    }
-
-  public:
-    auto get() const noexcept
-    {
-        return frame;
-    }
-    explicit operator coroutine_handle<void>() const noexcept
-    {
-        return frame;
-    }
-
-  public:
-    class promise_type final
-    {
-      public:
-        auto initial_suspend() noexcept
-        {
+    struct promise_type final {
+        // No suspend for init/final suspension point
+        auto initial_suspend() noexcept {
             return suspend_never{};
         }
-        auto final_suspend() noexcept
-        {
-            // !!! notice this behavior !!!
+        auto final_suspend() noexcept {
             return suspend_always{};
         }
-        void return_void() noexcept
-        {
+        void return_void() noexcept {
             // nothing to do because this is `void` return
         }
-        void unhandled_exception() noexcept(false)
-        {
-            // user can customize this point with std::current_exception ...
-            // by default, terminate the program.
-            std::terminate();
+        void unhandled_exception() noexcept(false) {
+            // customize this part
         }
-
-        promise_type* get_return_object() noexcept
-        {
+        auto get_return_object() noexcept -> promise_type* {
             return this;
         }
+        static auto get_return_object_on_allocation_failure() noexcept
+            -> promise_type* {
+            return nullptr;
+        }
     };
+
+  public:
+    // override `suspend_always::await_suspend`
+    // provide interface to receive handle after being used as an argument of
+    // `co_await` by reference
+    void await_suspend(coroutine_handle<void> coro) noexcept {
+        coroutine_handle<void>& self = *this;
+        self = coro;
+    }
+
+    frame() noexcept = default;
+    frame(promise_type* p) noexcept {
+        this->await_suspend(coroutine_handle<promise_type>::from_promise(*p));
+    }
 };
+static_assert(sizeof(frame) == sizeof(coroutine_handle<void>));
 
 } // namespace coro
 

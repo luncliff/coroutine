@@ -8,13 +8,11 @@ if(NOT UNIX)
     message(FATAL_ERROR "Expect UNIX platform. Current platform is ${CMAKE_SYSTEM}")
 endif()
 
-target_sources(${PROJECT_NAME}
-PRIVATE
+add_library(${PROJECT_NAME}
+    linux/dllmain.cpp
+    linux/net.cpp
     posix/concrt.cpp
     net/resolver.cpp
-
-    linux/net.cpp
-    linux/suspend.cpp
 )
 
 target_compile_options(${PROJECT_NAME}
@@ -46,5 +44,4 @@ target_link_libraries(${PROJECT_NAME}
 PUBLIC
     pthread rt
     c++ # c++abi c++experimental
-    stdc++
 )
