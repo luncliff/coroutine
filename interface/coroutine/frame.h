@@ -47,6 +47,7 @@ static_assert(defined(_EXPERIMENTAL_RESUMABLE_) == false,
 #pragma warning(disable : 4455 4494 4577 4619 4643 4702 4984 4988)
 #pragma warning(disable : 26490 26481 26476 26429 26409)
 
+#include <cstddef>
 #include <cstdint>
 #include <type_traits>
 

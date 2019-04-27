@@ -5,19 +5,20 @@
 # ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.8)
 
-string(TOLOWER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME)
-
-add_library(${PROJECT_NAME} # -> coroutine.lib
-    ${SYSTEM_NAME}/dllmain.cpp
+# redirect to ${target-platform}.cmake for system-specific configurations
+string(TOLOWER ${CMAKE_SYSTEM_NAME} TARGET_PLATFORM_NAME)
+list(APPEND CMAKE_MODULE_PATH 
+            ${CMAKE_CURRENT_SOURCE_DIR}
 )
+include(${TARGET_PLATFORM_NAME})
 add_library(coro ALIAS ${PROJECT_NAME})
 
+# shared configurations ...
 set_target_properties(${PROJECT_NAME}
 PROPERTIES
     CXX_STANDARD    17
     SOVERSION       ${PROJECT_VERSION}
 )
-
 target_include_directories(${PROJECT_NAME}
 PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../interface>
@@ -28,18 +29,9 @@ PRIVATE
                         # end user will manage the path properly
 )
 
-# to prevent creating sub-library,
-#   incrementally attach code/properties using CMake include
-list(APPEND CMAKE_MODULE_PATH
-            ${CMAKE_CURRENT_SOURCE_DIR}
-)
-include(${SYSTEM_NAME})
-
-# library export
-
+# library export / install
 include(CMakePackageConfigHelpers)
 set(VERSION_FILE        ${CMAKE_BINARY_DIR}/cmake/coroutine-config-version.cmake)
-
 write_basic_package_version_file(${VERSION_FILE}
     VERSION             ${PROJECT_VERSION}
     COMPATIBILITY       ExactVersion # no compatibility for now

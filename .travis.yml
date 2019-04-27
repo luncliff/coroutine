@@ -112,3 +112,33 @@ matrix:
         - cd -;
       after_success:
         - tree ./install;
+
+    - name: Android NDK
+      language: android
+      android:
+        components:
+          - tools
+          - platform-tools
+          - android-25 # 7.0
+          - android-27 # 8.1
+          - android-28 # 9.0
+          - build-tools-28.0.3
+      before_install:
+        # Install CMake 3.14.1 (build.gradle requires the exact version)
+        - sudo bash ./scripts/install-cmake-3.14.sh;
+        # Install Gradle from https://sdkman.io/
+        - curl -s "https://get.sdkman.io" | bash > /dev/null
+        - source "$HOME/.sdkman/bin/sdkman-init.sh"
+        - sdk version
+        - sdk install gradle
+        - sdk use gradle
+        - gradle --version
+      install:
+        # Accept SDK Licenses + Install NDK
+        - yes | sdkmanager --update > /dev/null 2>&1
+        - sdkmanager ndk-bundle > /dev/null 2>&1
+      script:
+        - gradle clean
+        - gradle assemble -warning-mode all
+      after_success:
+        - tree ./install

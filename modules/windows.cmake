@@ -4,15 +4,11 @@
 #
 # ---------------------------------------------------------------------------
 
-target_sources(${PROJECT_NAME}
-PRIVATE
+add_library(${PROJECT_NAME}
     windows/concrt.cpp
     windows/net.cpp
-    # windows/suspend.cpp
-
     net/resolver.cpp
 )
-
 target_compile_definitions(${PROJECT_NAME}
 PUBLIC
     NOMINMAX

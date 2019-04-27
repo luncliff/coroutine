@@ -2,7 +2,8 @@
 .dockerignore
 [Bb]uild*
 install/
-
+gradle/
+gradlew*
 libcxx*
 llvm*
 
