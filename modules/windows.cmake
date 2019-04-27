@@ -8,7 +8,7 @@ target_sources(${PROJECT_NAME}
 PRIVATE
     windows/concrt.cpp
     windows/net.cpp
-    windows/suspend.cpp
+    # windows/suspend.cpp
 
     net/resolver.cpp
 )

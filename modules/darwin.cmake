@@ -14,7 +14,7 @@ PRIVATE
     net/resolver.cpp
 
     darwin/net.cpp
-    darwin/suspend.cpp
+    # darwin/suspend.cpp
 )
 
 target_compile_options(${PROJECT_NAME}

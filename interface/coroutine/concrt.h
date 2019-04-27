@@ -32,30 +32,32 @@
 #endif
 // clang-format on
 
-#ifndef EXPERIMENTAL_CONCURRENCY_TS_ADAPTER_H
-#define EXPERIMENTAL_CONCURRENCY_TS_ADAPTER_H
+#ifndef COROUTINE_CONCURRENCY_HELPERS_H
+#define COROUTINE_CONCURRENCY_HELPERS_H
 
 #include <cstddef>
 #include <system_error>
 
 #include <coroutine/return.h>
 
-namespace concrt
-{
+namespace concrt {
+
+struct no_copy_move {
+    no_copy_move() noexcept = default;
+    ~no_copy_move() noexcept = default;
+    no_copy_move(no_copy_move&) = delete;
+    no_copy_move(no_copy_move&&) = delete;
+    no_copy_move& operator=(no_copy_move&) = delete;
+    no_copy_move& operator=(no_copy_move&&) = delete;
+};
 
 //	An opaque implementation of `std::experimental::latch`.
 //	Useful for fork-join scenario. Its interface might slightly different
 //  with latch in the TS
-class latch
-{
+class latch final : no_copy_move {
     std::byte storage[128]{};
 
   public:
-    latch(latch&) = delete;
-    latch(latch&&) = delete;
-    latch& operator=(latch&) = delete;
-    latch& operator=(latch&&) = delete;
-
     _INTERFACE_ explicit latch(uint32_t count) noexcept(false);
     _INTERFACE_ ~latch() noexcept;
 
@@ -67,7 +69,7 @@ class latch
 
 } // namespace concrt
 
-#if defined(_MSC_VER) // ... VC++ only features ...
+#if __has_include(<Windows.h>) // ... activate VC++ based features ...
 // clang-format off
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -77,14 +79,12 @@ class latch
 #include <threadpoolapiset.h>
 // clang-format on
 
-namespace concrt
-{
+namespace concrt {
 using namespace std;
 using namespace std::experimental;
 
-//	Move into the win32 thread pool and continue the routine
-class ptp_work final : public suspend_always
-{
+//  Move into the win32 thread pool and continue the routine
+class ptp_work final : public suspend_always {
     static void __stdcall resume_on_thread_pool( //
         PTP_CALLBACK_INSTANCE, PVOID, PTP_WORK);
 
@@ -93,24 +93,18 @@ class ptp_work final : public suspend_always
     _INTERFACE_ auto suspend(coroutine_handle<void> coro) noexcept -> uint32_t;
 
     // Lazy code generation in importing code by header usage.
-    void await_suspend(coroutine_handle<void> coro) noexcept(false)
-    {
+    void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         if (const auto ec = suspend(coro))
             throw system_error{static_cast<int>(ec), system_category(),
                                "CreateThreadpoolWork"};
     }
 };
 
-// standard lockable concept with win32 criticial section
-class section final : CRITICAL_SECTION
-{
+//  Standard lockable with win32 criticial section
+class section final : CRITICAL_SECTION, no_copy_move {
   public:
     _INTERFACE_ section() noexcept(false);
     _INTERFACE_ ~section() noexcept;
-    section(section&) = delete;
-    section(section&&) = delete;
-    section& operator=(section&) = delete;
-    section& operator=(section&&) = delete;
 
     _INTERFACE_ bool try_lock() noexcept;
     _INTERFACE_ void lock() noexcept(false);
@@ -119,26 +113,18 @@ class section final : CRITICAL_SECTION
 
 } // namespace concrt
 
-#else // ... pthread based features ...
-
+#elif __has_include(<pthread.h>) // ... activate pthread based features ...
 #include <pthread.h>
 
-namespace concrt
-{
-using namespace std;
-using namespace std::experimental;
+namespace concrt {
 
-class pthread_section final
-{
-    pthread_rwlock_t rwlock{};
+//  Standard lockable with pthread reader writer lock
+class section final : no_copy_move {
+    pthread_rwlock_t rwlock;
 
   public:
-    _INTERFACE_ pthread_section() noexcept(false);
-    _INTERFACE_ ~pthread_section() noexcept;
-    pthread_section(pthread_section&) = delete;
-    pthread_section(pthread_section&&) = delete;
-    pthread_section& operator=(pthread_section&) = delete;
-    pthread_section& operator=(pthread_section&&) = delete;
+    _INTERFACE_ section() noexcept(false);
+    _INTERFACE_ ~section() noexcept;
 
     _INTERFACE_ bool try_lock() noexcept;
     _INTERFACE_ void lock() noexcept(false);
@@ -146,6 +132,6 @@ class pthread_section final
 };
 
 } // namespace concrt
-#endif
+#endif // system API dependent features
 
-#endif // EXPERIMENTAL_CONCURRENCY_TS_ADAPTER_H
+#endif // COROUTINE_CONCURRENCY_HELPERS_H

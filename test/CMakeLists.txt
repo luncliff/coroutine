@@ -14,18 +14,17 @@ if(NOT Catch2_FOUND)
 endif()
 
 add_executable(coroutine_test
-    catch2_entry.cpp
-    catch2_return.cpp
-    catch2_yield.cpp
-    catch2_concrt.cpp
-    catch2_suspend.cpp
-    catch2_channel.cpp
+    c2_entry.cpp
+    c2_return.cpp
+    c2_concrt.cpp
+    c2_channel.cpp
+    c2_yield.cpp
 
-    net/catch2_resolver.cpp
-    net/socket_test.h
-    net/catch2_socket.cpp
-    net/catch2_socket_echo_udp.cpp
-    net/catch2_socket_echo_tcp.cpp
+    socket_test.h
+    # c2_resolver.cpp
+    c2_socket.cpp
+    c2_socket_echo_udp.cpp
+    c2_socket_echo_tcp.cpp
 )
 
 set_target_properties(coroutine_test

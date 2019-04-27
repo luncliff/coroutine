@@ -18,15 +18,12 @@
 #include <coroutine/frame.h>
 #include <iterator>
 
-namespace coro
-{
+namespace coro {
 using namespace std::experimental;
 
-// - Note
-//      Another implementation of <experimental/generator>
+// Another implementation of <experimental/generator>
 template <typename T>
-class enumerable
-{
+class enumerable {
   public:
     class promise_type;
     class iterator;
@@ -40,22 +37,18 @@ class enumerable
 
   public:
     enumerable(promise_type* ptr) noexcept
-        : coro{coroutine_handle<promise_type>::from_promise(*ptr)}
-    {
+        : coro{coroutine_handle<promise_type>::from_promise(*ptr)} {
     }
     enumerable(const enumerable&) = delete;
     enumerable& operator=(const enumerable&) = delete;
-    enumerable(enumerable&& rhs) noexcept : coro{rhs.coro}
-    {
+    enumerable(enumerable&& rhs) noexcept : coro{rhs.coro} {
         rhs.coro = nullptr;
     }
-    enumerable& operator=(enumerable&& rhs)
-    {
+    enumerable& operator=(enumerable&& rhs) {
         std::swap(coro, rhs.coro);
         return *this;
     }
-    ~enumerable() noexcept
-    {
+    ~enumerable() noexcept {
         // enumerable will destroy the frame.
         //  promise/iterator are free from those ownership
         if (coro)
@@ -63,8 +56,7 @@ class enumerable
     }
 
   public:
-    iterator begin() noexcept(false)
-    {
+    iterator begin() noexcept(false) {
         if (coro) // resumeable?
         {
             coro.resume();
@@ -73,8 +65,7 @@ class enumerable
         }
         return iterator{coro};
     }
-    iterator end() noexcept
-    {
+    iterator end() noexcept {
         return iterator{nullptr};
     }
 
@@ -87,43 +78,36 @@ class enumerable
         pointer current = nullptr;
 
       public:
-        auto initial_suspend() const noexcept
-        {
+        auto initial_suspend() const noexcept {
             return suspend_always{};
         }
-        auto final_suspend() const noexcept
-        {
+        auto final_suspend() const noexcept {
             return suspend_always{};
         }
 
         // `co_yield` expression. only for reference
-        auto yield_value(reference ref) noexcept
-        {
+        auto yield_value(reference ref) noexcept {
             current = std::addressof(ref);
             return suspend_always{};
         }
 
         // `co_return` expression
-        void return_void() noexcept
-        {
+        void return_void() noexcept {
             // no more access to value
             current = nullptr;
         }
-        void unhandled_exception() noexcept
-        {
+        void unhandled_exception() noexcept {
             // just terminate?
             std::terminate();
         }
 
-        promise_type* get_return_object() noexcept
-        {
+        promise_type* get_return_object() noexcept {
             // enumerable will create coroutine handle from the address
             return this;
         }
     };
 
-    class iterator final
-    {
+    class iterator final {
       public:
         using iterator_category = std::input_iterator_tag;
         using difference_type = ptrdiff_t;
@@ -136,19 +120,16 @@ class enumerable
 
       public:
         // `enumerable::end()`
-        explicit iterator(std::nullptr_t) noexcept : coro{nullptr}
-        {
+        explicit iterator(std::nullptr_t) noexcept : coro{nullptr} {
         }
         // `enumerable::begin()`
         explicit iterator(coroutine_handle<promise_type> handle) noexcept
-            : coro{handle}
-        {
+            : coro{handle} {
         }
 
       public:
         iterator& operator++(int) = delete; // post increment
-        iterator& operator++() noexcept(false)
-        {
+        iterator& operator++() noexcept(false) {
             coro.resume();
             if (coro.done())    // enumerable will destroy
                 coro = nullptr; // the frame later...
@@ -156,32 +137,26 @@ class enumerable
             return *this;
         }
 
-        pointer operator->() noexcept
-        {
+        pointer operator->() noexcept {
             pointer ptr = coro.promise().current;
             return ptr;
         }
-        reference operator*() noexcept
-        {
+        reference operator*() noexcept {
             return *(this->operator->());
         }
 
-        bool operator==(const iterator& rhs) const noexcept
-        {
+        bool operator==(const iterator& rhs) const noexcept {
             return this->coro == rhs.coro;
         }
-        bool operator!=(const iterator& rhs) const noexcept
-        {
+        bool operator!=(const iterator& rhs) const noexcept {
             return !(*this == rhs);
         }
     };
 };
 
-// - Note
-//      Async Generator for `for co_await` statement
+// Async Generator for `for co_await` statement
 template <typename T>
-class sequence final
-{
+class sequence final {
   public:
     class promise_type; // Resumable Promise Requirement
     class iterator;
@@ -191,12 +166,10 @@ class sequence final
     using pointer = value_type*;
 
   private:
-    static constexpr pointer finished() noexcept
-    {
+    static constexpr pointer finished() noexcept {
         return reinterpret_cast<pointer>(0xDEAD);
     }
-    static constexpr pointer empty() noexcept
-    {
+    static constexpr pointer empty() noexcept {
         return reinterpret_cast<pointer>(0x0000);
     }
 
@@ -206,21 +179,17 @@ class sequence final
   public:
     sequence(sequence&) = delete;
     sequence& operator=(sequence&) = delete;
-    sequence(sequence&& rhs) noexcept : coro{rhs.coro}
-    {
+    sequence(sequence&& rhs) noexcept : coro{rhs.coro} {
         rhs.coro = nullptr;
     }
-    sequence& operator=(sequence&& rhs)
-    {
+    sequence& operator=(sequence&& rhs) {
         std::swap(coro, rhs.coro);
         return *this;
     }
     sequence(promise_type* ptr) noexcept
-        : coro{coroutine_handle<promise_type>::from_promise(*ptr)}
-    {
+        : coro{coroutine_handle<promise_type>::from_promise(*ptr)} {
     }
-    ~sequence() noexcept
-    {
+    ~sequence() noexcept {
         // delete the coroutine frame
         //  coro.done() won't be checked since the usecase might want it
         //  the library only guarantees there is no leak
@@ -229,8 +198,7 @@ class sequence final
     }
 
   public:
-    iterator begin() noexcept(false)
-    {
+    iterator begin() noexcept(false) {
         // The first and only moment for this function.
         // `resumeable_handle` must be guaranteed to be non-null
         // by `promise_type`. So we won't follow the scheme of `generator`
@@ -248,14 +216,12 @@ class sequence final
 
         return iterator{coro};
     }
-    iterator end() noexcept
-    {
+    iterator end() noexcept {
         return iterator{nullptr};
     }
 
   public:
-    class promise_type final
-    {
+    class promise_type final {
         friend class iterator;
         friend class sequence;
 
@@ -264,22 +230,18 @@ class sequence final
         coroutine_handle<void> task{};
 
       public:
-        void unhandled_exception() noexcept
-        {
+        void unhandled_exception() noexcept {
             std::terminate();
         }
-        auto get_return_object() noexcept -> promise_type*
-        {
+        auto get_return_object() noexcept -> promise_type* {
             return this;
         }
 
-        auto initial_suspend() const noexcept
-        {
+        auto initial_suspend() const noexcept {
             // Suspend immediately and let the iterator to resume
             return suspend_always{};
         }
-        auto final_suspend() const noexcept
-        {
+        auto final_suspend() const noexcept {
             // Delete of `iterator` & `promise`
             //
             // Unfortunately, it's differ upon scenario that which one should
@@ -289,16 +251,14 @@ class sequence final
             return suspend_always{};
         }
 
-        promise_type& yield_value(reference ref) noexcept
-        {
+        promise_type& yield_value(reference ref) noexcept {
             current = std::addressof(ref);
             // case yield:
             //   iterator will take the value
             return *this;
         }
         template <typename Awaitable>
-        Awaitable& yield_value(Awaitable&& a) noexcept
-        {
+        Awaitable& yield_value(Awaitable&& a) noexcept {
             current = empty();
             // case empty:
             //    The given awaitable will reactivate this.
@@ -309,8 +269,7 @@ class sequence final
             //
             return a;
         }
-        void return_void() noexcept
-        {
+        void return_void() noexcept {
             current = finished();
             // case finished:
             //    Activate the iterator anyway.
@@ -319,8 +278,7 @@ class sequence final
             this->await_resume();
         }
 
-        bool await_ready() const noexcept
-        {
+        bool await_ready() const noexcept {
             // Never suspend if there is a waiting iterator.
             // It will be resumed in `await_resume` function.
             //
@@ -328,23 +286,19 @@ class sequence final
             //
             return task.address() != nullptr;
         }
-        void await_suspend(coroutine_handle<void> coro) noexcept
-        {
+        void await_suspend(coroutine_handle<void> coro) noexcept {
             // iterator will reactivate this
             task = coro;
         }
-        void await_resume() noexcept
-        {
-            if (auto _coro = task)
-            {
+        void await_resume() noexcept {
+            if (auto _coro = task) {
                 task = nullptr; // Resume if and only if
                 _coro.resume(); // there is a waiting work
             }
         }
     };
 
-    class iterator final
-    {
+    class iterator final {
       public:
         using iterator_category = std::input_iterator_tag;
         using difference_type = ptrdiff_t;
@@ -356,31 +310,26 @@ class sequence final
         promise_type* promise{};
 
       public:
-        explicit iterator(std::nullptr_t) noexcept : promise{nullptr}
-        {
+        explicit iterator(std::nullptr_t) noexcept : promise{nullptr} {
         }
         explicit iterator(coroutine_handle<promise_type> coro) noexcept
-            : promise{std::addressof(coro.promise())}
-        {
+            : promise{std::addressof(coro.promise())} {
         }
 
       public:
         iterator& operator++(int) = delete; // post increment
-        iterator& operator++() noexcept(false)
-        {
+        iterator& operator++() noexcept(false) {
             // reset and advance
             promise->current = empty();
             // iterator resumes promise if it is suspended
-            if (auto coro = promise->task)
-            {
+            if (auto coro = promise->task) {
                 promise->task = nullptr;
                 coro.resume();
             }
             return await_resume();
         }
 
-        bool await_ready() const noexcept
-        {
+        bool await_ready() const noexcept {
             // case finished:
             //    Must advance because there is nothing to resume this
             //    iterator
@@ -388,15 +337,13 @@ class sequence final
             //    Continue the loop
             return promise ? promise->current != empty() : true;
         }
-        void await_suspend(coroutine_handle<void> coro) noexcept
-        {
+        void await_suspend(coroutine_handle<void> coro) noexcept {
             // case empty:
             //   Promise suspended for some reason. Wait for it to yield
             //   Expect promise to resume this iterator appropriately
             promise->task = coro;
         }
-        iterator& await_resume() noexcept
-        {
+        iterator& await_resume() noexcept {
             // case finished:
             //    There is nothing we can do in this iterator.
             //    We have meet the end condition of `for-co_await`
@@ -406,20 +353,16 @@ class sequence final
             return *this;
         }
 
-        pointer operator->() noexcept
-        {
+        pointer operator->() noexcept {
             return promise->current;
         }
-        reference operator*() noexcept
-        {
+        reference operator*() noexcept {
             return *(this->operator->());
         }
-        bool operator==(const iterator& rhs) const noexcept
-        {
+        bool operator==(const iterator& rhs) const noexcept {
             return this->promise == rhs.promise;
         }
-        bool operator!=(const iterator& rhs) const noexcept
-        {
+        bool operator!=(const iterator& rhs) const noexcept {
             return !(*this == rhs);
         }
     };

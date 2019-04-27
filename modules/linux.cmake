@@ -14,7 +14,7 @@ PRIVATE
     net/resolver.cpp
 
     linux/net.cpp
-    linux/suspend.cpp
+    # linux/suspend.cpp
 )
 
 target_compile_options(${PROJECT_NAME}

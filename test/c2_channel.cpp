@@ -4,7 +4,6 @@
 //
 #include <coroutine/channel.hpp>
 #include <coroutine/concrt.h>
-#include <coroutine/suspend.h>
 
 #include <catch2/catch.hpp>
 
@@ -19,8 +18,7 @@ using namespace coro;
 
 // ensure successful write to channel
 template <typename E, typename L>
-auto write_to(channel<E, L>& ch, E value, bool ok = false) -> return_ignore
-{
+auto write_to(channel<E, L>& ch, E value, bool ok = false) -> no_return {
     using namespace std;
 
     ok = co_await ch.write(value);
@@ -37,8 +35,7 @@ auto write_to(channel<E, L>& ch, E value, bool ok = false) -> return_ignore
 
 // ensure successful read from channel
 template <typename E, typename L>
-auto read_from(channel<E, L>& ch, E& value, bool ok = false) -> return_ignore
-{
+auto read_from(channel<E, L>& ch, E& value, bool ok = false) -> no_return {
     using namespace std;
 
     tie(value, ok) = co_await ch.read();
@@ -48,8 +45,7 @@ auto read_from(channel<E, L>& ch, E& value, bool ok = false) -> return_ignore
 template <typename T, typename M, typename CountType>
 auto write_and_count(channel<T, M>& ch, T value, //
                      CountType& success_count, CountType& failure_count)
-    -> return_ignore
-{
+    -> no_return {
     bool ok = co_await ch.write(value);
     // ... ??? ...  // channel address is strange ...
     if (ok)
@@ -61,11 +57,9 @@ auto write_and_count(channel<T, M>& ch, T value, //
 template <typename T, typename M, typename CountType>
 auto read_and_count(channel<T, M>& ch, T& ref, //
                     CountType& success_count, CountType& failure_count)
-    -> return_ignore
-{
+    -> no_return {
     auto [value, ok] = co_await ch.read();
-    if (ok == false)
-    {
+    if (ok == false) {
         failure_count += 1;
         co_return;
     }
@@ -73,8 +67,7 @@ auto read_and_count(channel<T, M>& ch, T& ref, //
     success_count += 1;
 }
 
-TEST_CASE("channel without lock", "[generic][channel]")
-{
+TEST_CASE("channel without lock", "[generic][channel]") {
     using value_type = int;
     using channel_without_lock_t = channel<value_type>;
 
@@ -83,37 +76,30 @@ TEST_CASE("channel without lock", "[generic][channel]")
 
     const auto list = {1, 2, 3};
 
-    SECTION("write before read")
-    {
-        for (auto i : list)
-        {
+    SECTION("write before read") {
+        for (auto i : list) {
             write_to(ch, i);       // Writer coroutine will suspend
             REQUIRE(storage != i); // so no write occurs
         }
 
-        for (auto i : list)
-        {
+        for (auto i : list) {
             read_from(ch, storage); // read to `storage`
             REQUIRE(storage == i);  // stored value is same with sent value
         }
     }
-    SECTION("read before write")
-    {
-        for (auto i : list)
-        {
+    SECTION("read before write") {
+        for (auto i : list) {
             read_from(ch, storage); // Reader coroutine will suspend
             REQUIRE(storage != i);  // so no read occurs
         }
-        for (auto i : list)
-        {
+        for (auto i : list) {
             write_to(ch, i);       // writer will send a value
             REQUIRE(storage == i); // stored value is same with sent value
         }
     }
 }
 
-TEST_CASE("channel with mutex", "[generic][channel]")
-{
+TEST_CASE("channel with mutex", "[generic][channel]") {
     using value_type = int;
     using channel_with_lock_t = channel<value_type, mutex>;
 
@@ -122,37 +108,30 @@ TEST_CASE("channel with mutex", "[generic][channel]")
 
     const auto list = {1, 2, 3};
 
-    SECTION("write before read")
-    {
-        for (auto i : list)
-        {
+    SECTION("write before read") {
+        for (auto i : list) {
             write_to(ch, i);       // Writer coroutine will suspend
             REQUIRE(storage != i); // so no write occurs
         }
 
-        for (auto i : list)
-        {
+        for (auto i : list) {
             read_from(ch, storage); // read to `storage`
             REQUIRE(storage == i);  // stored value is same with sent value
         }
     }
-    SECTION("read before write")
-    {
-        for (auto i : list)
-        {
+    SECTION("read before write") {
+        for (auto i : list) {
             read_from(ch, storage); // Reader coroutine will suspend
             REQUIRE(storage != i);  // so no read occurs
         }
-        for (auto i : list)
-        {
+        for (auto i : list) {
             write_to(ch, i);       // writer will send a value
             REQUIRE(storage == i); // stored value is same with sent value
         }
     }
 }
 
-TEST_CASE("channel close", "[generic][channel]")
-{
+TEST_CASE("channel close", "[generic][channel]") {
     using namespace std;
     using value_type = uint64_t;
     using channel_without_lock_t = channel<value_type>;
@@ -160,9 +139,8 @@ TEST_CASE("channel close", "[generic][channel]")
     auto ch = make_unique<channel_without_lock_t>();
     bool ok = true;
 
-    SECTION("write return false after close")
-    {
-        auto coro_write = [&ok](auto& ch, auto value) -> return_frame {
+    SECTION("write return false after close") {
+        auto coro_write = [&ok](auto& ch, auto value) -> frame {
             ok = co_await ch.write(value);
         };
 
@@ -173,14 +151,13 @@ TEST_CASE("channel close", "[generic][channel]")
         }
         REQUIRE(ch.get() == nullptr);
 
-        auto coro = h.get();
+        coroutine_handle<void> coro = h;
         REQUIRE(coro.done()); // coroutine is in done state
         coro.destroy();       // destroy to prevent leak
     }
 
-    SECTION("read return false after close")
-    {
-        auto coro_read = [&ok](auto& ch, auto& value) -> return_frame {
+    SECTION("read return false after close") {
+        auto coro_read = [&ok](auto& ch, auto& value) -> frame {
             tie(value, ok) = co_await ch.read();
         };
 
@@ -192,7 +169,7 @@ TEST_CASE("channel close", "[generic][channel]")
         }
         REQUIRE(ch.get() == nullptr);
 
-        auto coro = h.get();
+        coroutine_handle<void> coro = h;
         REQUIRE(coro.done()); // coroutine is in done state
         coro.destroy();       // destroy to prevent leak
     }
@@ -200,14 +177,12 @@ TEST_CASE("channel close", "[generic][channel]")
     REQUIRE(ok == false); // and channel is returned false
 }
 
-TEST_CASE("channel select", "[generic][channel]")
-{
+TEST_CASE("channel select", "[generic][channel]") {
     // it's singe thread, so mutex for channels doesn't have to be real lockable
     using u32_chan_t = channel<uint32_t>;
     using i32_chan_t = channel<int32_t>;
 
-    SECTION("match one")
-    {
+    SECTION("match one") {
         u32_chan_t ch1{};
         i32_chan_t ch2{};
 
@@ -218,7 +193,7 @@ TEST_CASE("channel select", "[generic][channel]")
                    FAIL("select on empty channel must bypass");
                },
                ch1,
-               [](auto v) -> return_ignore {
+               [](auto v) -> no_return {
                    static_assert(is_same_v<decltype(v), uint32_t>);
                    REQUIRE(v == 17u);
 
@@ -226,8 +201,7 @@ TEST_CASE("channel select", "[generic][channel]")
                });
     }
 
-    SECTION("no match")
-    {
+    SECTION("no match") {
         u32_chan_t ch1{};
         i32_chan_t ch2{};
 
@@ -243,8 +217,7 @@ TEST_CASE("channel select", "[generic][channel]")
                });
     }
 
-    SECTION("match both")
-    {
+    SECTION("match both") {
         u32_chan_t ch1{};
         i32_chan_t ch2{};
 
@@ -257,11 +230,9 @@ TEST_CASE("channel select", "[generic][channel]")
     }
 };
 
-class background final : public suspend_never
-{
+class background final : public suspend_never {
     std::future<void> fut{};
-    auto request_async_resume(void* ptr) noexcept(false)
-    {
+    auto request_async_resume(void* ptr) noexcept(false) {
         fut = std::async([=]() {
             if (auto coro = coroutine_handle<void>::from_address(ptr))
                 coro.resume();
@@ -269,16 +240,14 @@ class background final : public suspend_never
     }
 
   public:
-    void await_suspend(coroutine_handle<void> coro)
-    {
+    void await_suspend(coroutine_handle<void> coro) {
         this->request_async_resume(coro.address());
     }
 };
 
-TEST_CASE("channel race", "[generic][channel]")
-{
+TEST_CASE("channel race", "[generic][channel]") {
 #if !defined(_WINDOWS)
-    using system_lockable = concrt::pthread_section;
+    using system_lockable = concrt::section;
 #else
     using system_lockable = concrt::section;
 #endif
@@ -286,21 +255,20 @@ TEST_CASE("channel race", "[generic][channel]")
     using value_type = uint64_t;
     using channel_type = channel<value_type, system_lockable>;
 
-    SECTION("no leack under race")
-    {
+    SECTION("no leack under race") {
         static constexpr size_t max_try_count = 6'000;
         uint32_t success{}, failure{};
         wait_group group{2 * max_try_count};
 
-        auto send_with_callback
-            = [&](channel_type& ch, value_type value) -> return_ignore {
+        auto send_with_callback = [&](channel_type& ch,
+                                      value_type value) -> no_return {
             co_await background{};
 
             auto w = co_await ch.write(value);
             w ? success += 1 : failure += 1;
             group.count_down();
         };
-        auto recv_with_callback = [&](channel_type& ch) -> return_ignore {
+        auto recv_with_callback = [&](channel_type& ch) -> no_return {
             co_await background{};
 
             auto [value, r] = co_await ch.read();
@@ -312,8 +280,7 @@ TEST_CASE("channel race", "[generic][channel]")
 
         // Spawn coroutines
         uint64_t repeat = max_try_count;
-        while (repeat--)
-        {
+        while (repeat--) {
             recv_with_callback(ch);
             send_with_callback(ch, repeat);
         }
