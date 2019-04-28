@@ -15,6 +15,7 @@
 // ---------------------------------------------------------------------------
 #pragma once
 
+// <coroutine> header build issue handling
 #if defined(__clang__) && defined(_MSC_VER)
 //
 // case: clang-cl, VC++
@@ -27,21 +28,25 @@
     "This header replaces <experimental/coroutine> for clang-cl and VC++ header";
 #endif
 #define _EXPERIMENTAL_RESUMABLE_
-#else
+
+#else // use default header and use them if possible
 //
 // case: msvc, VC++
 // case: clang, libc++
 //	It is safe to use vendor's header.
 //	by defining macro variable, user can prevent template redefinition
 //
-#if __has_include(<coroutine>) // C++ 20 standard
-#include <coroutine>
-#define COROUTINE_FRAME_PREFIX_HPP
-#elif __has_include(<experimental/coroutine>) // C++ 17 experimetal
-#include <experimental/coroutine>
-#define COROUTINE_FRAME_PREFIX_HPP
-#endif
-#endif
+#if __has_include(<coroutine>) 
+#include <coroutine> // C++ 20 standard
+//#define COROUTINE_FRAME_PREFIX_HPP // todo: check if the header works well
+
+#elif __has_include(<experimental/coroutine>) 
+#include <experimental/coroutine>  // C++ 17 experimetal
+#define COROUTINE_FRAME_PREFIX_HPP // yield to VC++/libc++
+
+#endif // use default header
+#endif // <coroutine> header
+
 
 #ifndef COROUTINE_FRAME_PREFIX_HPP
 #define COROUTINE_FRAME_PREFIX_HPP
@@ -130,10 +135,10 @@ class coroutine_handle;
 
 template <>
 class coroutine_handle<void> {
-  protected:
-    // The purpose of this type is
-    //  to provide more type information
-    //  and prepare for future adaptation. (especially gcc)
+  public:
+    // This type is exposed
+    //  to provide more information for the frame and
+    //  to prepare for future adaptation. (especially for gcc family)
     union prefix_t {
         void* v{};
         msvc_frame_prefix* m;

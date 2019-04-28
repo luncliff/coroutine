@@ -19,7 +19,7 @@ using namespace coro;
 
 class return_type_test : public TestClass<return_type_test>
 {
-    TEST_METHOD(no_return_nothrow)
+    TEST_METHOD(invoke_and_ignore)
     {
         // user won't care about coroutine life cycle.
         // the routine will be resumed(continued) properly,
@@ -31,7 +31,7 @@ class return_type_test : public TestClass<return_type_test>
         routine();
     }
 
-    TEST_METHOD(return_frame_to_coroutine)
+    TEST_METHOD(invoke_and_return_frame)
     {
         // when the coroutine frame destuction need to be controlled manually,
         //   `return_frame` can do the work
@@ -47,7 +47,6 @@ class return_type_test : public TestClass<return_type_test>
         // now the frame is 'final suspend'ed, so it can be deleted.
         auto coro = static_cast<coroutine_handle<void>>(fm);
         Assert::IsTrue(static_cast<bool>(coro));
-
         Assert::IsTrue(coro.done()); // 'final suspend'ed?
         coro.destroy();              // destroy it
     }
