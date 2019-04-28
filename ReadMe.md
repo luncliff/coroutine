@@ -1,30 +1,51 @@
 # coroutine
 
-C++ Coroutine in Action. [Wiki](https://github.com/luncliff/coroutine/wiki)
+C++ Coroutine in Action.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/38aa16f6d7e046898af3835918c0cd5e)](https://app.codacy.com/app/luncliff/coroutine?utm_source=github.com&utm_medium=referral&utm_content=luncliff/coroutine&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://dev.azure.com/luncliff/personal/_apis/build/status/luncliff.coroutine?branchName=master)](https://dev.azure.com/luncliff/personal/_build/latest?definitionId=13?branchName=master)
 [![Build status](https://ci.appveyor.com/api/projects/status/vpjssf4g6cv4a4ys/branch/master?svg=true)](https://ci.appveyor.com/project/luncliff/coroutine/branch/master)
 [![Build Status](https://travis-ci.org/luncliff/coroutine.svg?branch=master)](https://travis-ci.org/luncliff/coroutine)
-[![](https://sonarcloud.io/api/project_badges/measure?project=luncliff_coroutine&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=luncliff_coroutine) [![](https://sonarcloud.io/api/project_badges/measure?project=luncliff_coroutine&metric=ncloc)](https://sonarcloud.io/dashboard?id=luncliff_coroutine)
+[![](https://sonarcloud.io/api/project_badges/measure?project=luncliff_coroutine&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=luncliff_coroutine)
+[![](https://sonarcloud.io/api/project_badges/measure?project=luncliff_coroutine&metric=ncloc)](https://sonarcloud.io/dashboard?id=luncliff_coroutine)
 
-The main goal of this library is ...
+### Purpose of this library
 
-  * Help understanding of the C++ coroutine
-  * Provide meaningful design example with the feature
+* Help understanding of the C++ coroutine
+* Provide meaningful design example with the feature
 
 In that perspective, the library will be maintained as small as possible. Have fun with them. **And try your own coroutines !** 
 
-## Note
+### Signpost
+
+* For coroutine example, visit the [test/](./test/) and then [interface/](./interface/coroutine)
+* For the detail of C++ coroutine, visit the [wiki](https://github.com/luncliff/coroutine/wiki) or read the [`<coroutine/frame.h>`](./interface/coroutine/frame.h)
+
+## Developer Note
+
+### Architecture
+
+**This library is for x64**.
+
+### Tool Support
+
+* [Visual Studio 2017 or later](./coroutine.sln)
+  * `msvc` (vc141, vc142)
+* [CMake](./CMakeLists.txt)
+  * `msvc`
+  * `clang-cl`: Works with VC++ headers. **Requires static linking**
+  * `clang`: Linux
+  * `AppleClang`: Mac
+
+For clang users, I do recommend Clang 6.0 or later versions.
 
 ### [Interfaces](./interface)
 
-To support multiple compilers, this library replaces `<experimental/coroutine>`. This might lead to conflict with existing library like libcxx and VC++.  
-Prefer what you like. If the issue is severe, please create an issue.
-
+To support multiple compilers, this library defines its own header, `<coroutine/frame.h>`. This might lead to conflict with existing library (libc++ and VC++).  
+If there is a collision(build issue), please make an issue in this repo so I can fix it. 
 
 ```c++
-// You can replace this header to <experimental/coroutine>
+// This header includes/overrides <experimental/coroutine>
 #include <coroutine/frame.h>
 ```
 
@@ -37,12 +58,11 @@ Generator and async generator
 Utility types are in the following headers
 
 ```c++
-#include <coroutine/return.h>   // return type for coroutine
-#include <coroutine/suspend.h>  // helper type for suspend / await
-#include <coroutine/concrt.h>   // synchronization utilities
+#include <coroutine/return.h> // return type examples for convenience
+#include <coroutine/concrt.h> // concurrency utilities over system API
 ```
 
-Go language style channel to deliver data between coroutines
+Go language style channel to deliver data between coroutines. Supports awaitable read/write and select operation are possible. But it is slightly differnt from that of Go language.
 
 ```c++
 #include <coroutine/channel.hpp>  // channel<T, Lockable>
@@ -54,27 +74,35 @@ Network Asnyc I/O and some helper functions are placed in one header.
 #include <coroutine/net.h>      // async i/o for sockets
 ```
 
+## How To
+
 ### Build
 
-Please reference [`.travis.yml`](./.travis.yml) and [`appveyor.yml`](./appveyor.yml) to see build steps.
+Please reference the build configurations.  
+Create an issue if you think another configuration is required.
 
-#### Tool Support
-
-  * Visual Studio 2017 or later
-    * `msvc` (vc141)
-  * CMake
-    * `msvc`
-    * `clang-cl`: Windows with VC++ headers. **Requires static linking**
-    * `clang`: Linux
-    * `AppleClang`: Mac
-
-This library only supports x64
-
-Expect Clang 6 or later versions. Notice that the feature, c++ coroutine, was available since Clang 5
+* [Azure Pipelines](https://dev.azure.com/luncliff/personal/_build/latest?definitionId=13?branchName=master)
+  * Visual Studio 2017 (Visual Studio Solution File)
+  * Visual Studio 2017 (CMake)
+  * Ubuntu 16.04 + Clang 6.0
+  * Mac OS + AppleClang
+  * Windows + Clang-cl
+* [`.travis.yml`](./.travis.yml)
+  * Mac OS + AppleClang
+  * Ubuntu 16.04 + Clang 7
+  * iPhone OS : [leetal/ios-cmake](https://github.com/leetal/ios-cmake)
+  * Android NDK (SDK 24 - 27) + Clang 8
+* [`appveyor.yml`](./appveyor.yml)
+  * Visual Studio 2017 (Visual Studio Solution File)
+  * Windows + Clang-cl : [LLVM chocolatey package](https://chocolatey.org/packages/llvm)
+* [Works on my machine :D](https://github.com/nikku/works-on-my-machine)
+  * Visual Studio 2019
+  * Windows Subsystem for Linux (Ubuntu 18.04 + Clang 7.1.0)
+  * Clang-cl (LLVM 7.0.1, 8.0) + Ninja
 
 ### Test
 
-Exploring [test(example) codes](./test) will be helpful.
+Exploring [test(example) codes](./test) will be helpful. The library uses 2 tools for its test.
 
   * Visual Studio Native Testing Tool
   * CMake generated project with [Catch2](https://github.com/catchorg/catch2)
@@ -88,10 +116,10 @@ I recommend you to import(add reference) [windows.vcxproj](./modules/windows.vcx
 
 #### CMake Project
 
-Expect there is a higher CMake project which uses this library.
+Expect there is a higher CMake project which uses this library. For Android NDK, the minimum version of CMake is **3.14**.
 
 ```cmake
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.8) # Android NDK requires 3.14
 
 # ...
 add_subdirectory(coroutine)
