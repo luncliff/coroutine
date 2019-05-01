@@ -47,7 +47,7 @@ auto zero_overlapped(gsl::not_null<io_work_t*> work) noexcept
 }
 
 GSL_SUPPRESS(type .1)
-auto make_wsa_buf(buffer_view_t v) noexcept -> WSABUF {
+auto make_wsa_buf(io_buffer_t v) noexcept -> WSABUF {
     WSABUF buf{}; // expect NRVO
     buf.buf = reinterpret_cast<char*>(v.data());
     buf.len = gsl::narrow_cast<ULONG>(v.size_bytes());
@@ -56,7 +56,7 @@ auto make_wsa_buf(buffer_view_t v) noexcept -> WSABUF {
 
 GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(type .3)
-auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
+auto send_to(uint64_t sd, const sockaddr_in6& remote, io_buffer_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to& {
     static_assert(sizeof(SOCKET) == sizeof(uint64_t));
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
@@ -72,7 +72,7 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
 }
 GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(type .3)
-auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
+auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to& {
     static_assert(sizeof(SOCKET) == sizeof(uint64_t));
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
@@ -110,7 +110,7 @@ int64_t io_send_to::resume() noexcept {
 }
 
 GSL_SUPPRESS(type .1)
-auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
+auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from& {
     static_assert(sizeof(SOCKET) == sizeof(uint64_t));
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
@@ -125,7 +125,7 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
 }
 
 GSL_SUPPRESS(type .1)
-auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
+auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from& {
     static_assert(sizeof(SOCKET) == sizeof(uint64_t));
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
@@ -163,7 +163,7 @@ int64_t io_recv_from::resume() noexcept {
 }
 
 GSL_SUPPRESS(type .1)
-auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+auto send_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_send& {
     static_assert(sizeof(SOCKET) == sizeof(uint64_t));
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));
@@ -196,7 +196,7 @@ int64_t io_send::resume() noexcept {
 }
 
 GSL_SUPPRESS(type .1)
-auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+auto recv_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_recv& {
     static_assert(sizeof(SOCKET) == sizeof(uint64_t));
     static_assert(sizeof(HANDLE) == sizeof(SOCKET));

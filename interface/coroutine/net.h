@@ -80,18 +80,18 @@ union endpoint_t final {
 };
 
 using io_task_t = std::experimental::coroutine_handle<void>;
-using buffer_view_t = gsl::span<gsl::byte>;
+using io_buffer_t = gsl::span<std::byte>;
+static_assert(sizeof(io_buffer_t) <= sizeof(void*) * 2);
 
 struct io_work_t : public io_control_block {
     io_task_t task{};
-    buffer_view_t buffer{};
+    io_buffer_t buffer{};
     endpoint_t* ep{};
 
   public:
     _INTERFACE_ bool ready() const noexcept;
     _INTERFACE_ uint32_t error() const noexcept;
 };
-static_assert(sizeof(buffer_view_t) <= sizeof(void*) * 2);
 static_assert(sizeof(io_work_t) <= 64);
 
 class io_send_to final : public io_work_t {
@@ -114,13 +114,12 @@ static_assert(sizeof(io_send_to) == sizeof(io_work_t));
 
 [[nodiscard]] _INTERFACE_ auto
 send_to(uint64_t sd, const sockaddr_in& remote, //
-        buffer_view_t buffer, io_work_t& work) noexcept(false) -> io_send_to&;
+        io_buffer_t buf, io_work_t& work) noexcept(false) -> io_send_to&;
 
 [[nodiscard]] _INTERFACE_ //
     auto
     send_to(uint64_t sd, const sockaddr_in6& remote, //
-            buffer_view_t buffer, io_work_t& work) noexcept(false)
-        -> io_send_to&;
+            io_buffer_t buf, io_work_t& work) noexcept(false) -> io_send_to&;
 
 class io_recv_from final : public io_work_t {
   public:
@@ -143,13 +142,13 @@ static_assert(sizeof(io_recv_from) == sizeof(io_work_t));
 [[nodiscard]] _INTERFACE_ //
     auto
     recv_from(uint64_t sd, sockaddr_in6& remote, //
-              buffer_view_t buffer, io_work_t& work) noexcept(false)
+              io_buffer_t buf, io_work_t& work) noexcept(false)
         -> io_recv_from&;
 
 [[nodiscard]] _INTERFACE_ //
     auto
     recv_from(uint64_t sd, sockaddr_in& remote, //
-              buffer_view_t buffer, io_work_t& work) noexcept(false)
+              io_buffer_t buf, io_work_t& work) noexcept(false)
         -> io_recv_from&;
 
 class io_send final : public io_work_t {
@@ -172,7 +171,7 @@ static_assert(sizeof(io_send) == sizeof(io_work_t));
 
 [[nodiscard]] _INTERFACE_ //
     auto
-    send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+    send_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
                 io_work_t& work) noexcept(false) -> io_send&;
 
 class io_recv final : public io_work_t {
@@ -195,7 +194,7 @@ static_assert(sizeof(io_recv) == sizeof(io_work_t));
 
 [[nodiscard]] _INTERFACE_ //
     auto
-    recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+    recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
                 io_work_t& work) noexcept(false) -> io_recv&;
 
 //  This function is for non-windows platform. Over windows api, it always

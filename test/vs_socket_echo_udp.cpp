@@ -152,7 +152,7 @@ auto coro_send_dgram(SOCKET sd, const sockaddr_in6& remote, int64_t& ssz,
 
 auto echo_incoming_datagram(SOCKET sd) -> no_return {
     io_work_t work{};
-    buffer_view_t buf{};
+    io_buffer_t buf{};
     int64_t rsz = 0, ssz = 0;
     sockaddr_in6 remote{};
     array<byte, 3927> storage{};

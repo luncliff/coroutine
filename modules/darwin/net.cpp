@@ -14,8 +14,7 @@ static_assert(sizeof(ssize_t) <= sizeof(int64_t));
 using namespace std;
 using namespace std::chrono;
 
-struct kqueue_data_t
-{
+struct kqueue_data_t {
     int fd;
     const size_t capacity;
     unique_ptr<kevent64_s[]> events;
@@ -25,14 +24,12 @@ struct kqueue_data_t
         : fd{-1},
           // use 2 page for polling
           capacity{2 * getpagesize() / sizeof(kevent64_s)},
-          events{make_unique<kevent64_s[]>(capacity)}
-    {
+          events{make_unique<kevent64_s[]>(capacity)} {
         fd = kqueue();
         if (fd < 0)
             throw system_error{errno, system_category(), "kqueue"};
     }
-    ~kqueue_data_t() noexcept
-    {
+    ~kqueue_data_t() noexcept {
         close(fd);
     }
 };
@@ -40,8 +37,7 @@ struct kqueue_data_t
 kqueue_data_t kq{};
 
 auto wait_io_tasks(nanoseconds timeout) noexcept(false)
-    -> coro::enumerable<io_task_t>
-{
+    -> coro::enumerable<io_task_t> {
     timespec ts{};
     const auto sec = duration_cast<seconds>(timeout);
     ts.tv_sec = sec.count();
@@ -54,8 +50,7 @@ auto wait_io_tasks(nanoseconds timeout) noexcept(false)
     if (count == -1)
         throw system_error{errno, system_category(), "kevent64"};
 
-    for (auto i = 0; i < count; ++i)
-    {
+    for (auto i = 0; i < count; ++i) {
         auto& ev = kq.events[i];
         auto& work = *reinterpret_cast<io_work_t*>(ev.udata);
         // need to pass error information from
@@ -64,8 +59,7 @@ auto wait_io_tasks(nanoseconds timeout) noexcept(false)
     }
 }
 
-bool io_work_t::ready() const noexcept
-{
+bool io_work_t::ready() const noexcept {
     const auto sd = this->handle;
     // non blocking operation is expected
     // going to suspend
@@ -77,16 +71,14 @@ bool io_work_t::ready() const noexcept
     return true;
 }
 
-uint32_t io_work_t::error() const noexcept
-{
+uint32_t io_work_t::error() const noexcept {
     return gsl::narrow_cast<uint32_t>(this->internal);
 }
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
-             io_work_t& work) noexcept(false) -> io_send_to&
-{
+auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buffer,
+             io_work_t& work) noexcept(false) -> io_send_to& {
     work.handle = sd;
     work.ep = reinterpret_cast<endpoint_t*>(
         const_cast<sockaddr_in*>(addressof(remote)));
@@ -95,9 +87,8 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
-auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
-             io_work_t& work) noexcept(false) -> io_send_to&
-{
+auto send_to(uint64_t sd, const sockaddr_in6& remote, io_buffer_t buffer,
+             io_work_t& work) noexcept(false) -> io_send_to& {
     work.handle = sd;
     work.ep = reinterpret_cast<endpoint_t*>(
         const_cast<sockaddr_in6*>(addressof(remote)));
@@ -106,8 +97,7 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
-void io_send_to::suspend(io_task_t rh) noexcept(false)
-{
+void io_send_to::suspend(io_task_t rh) noexcept(false) {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
     task = rh;
 
@@ -126,8 +116,7 @@ void io_send_to::suspend(io_task_t rh) noexcept(false)
         throw system_error{errno, system_category(), "kevent64"};
 }
 
-int64_t io_send_to::resume() noexcept
-{
+int64_t io_send_to::resume() noexcept {
     auto sd = this->handle;
     auto addr = addressof(this->ep->addr);
     auto addrlen = static_cast<socklen_t>(this->offset);
@@ -140,9 +129,8 @@ int64_t io_send_to::resume() noexcept
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
-               io_work_t& work) noexcept(false) -> io_recv_from&
-{
+auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buffer,
+               io_work_t& work) noexcept(false) -> io_recv_from& {
     work.handle = sd;
     work.ep = reinterpret_cast<endpoint_t*>(
         const_cast<sockaddr_in*>(addressof(remote)));
@@ -150,9 +138,8 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
     work.buffer = buffer;
     return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
-auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
-               io_work_t& work) noexcept(false) -> io_recv_from&
-{
+auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buffer,
+               io_work_t& work) noexcept(false) -> io_recv_from& {
     work.handle = sd;
     work.ep = reinterpret_cast<endpoint_t*>(
         const_cast<sockaddr_in6*>(addressof(remote)));
@@ -161,8 +148,7 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
-void io_recv_from::suspend(io_task_t rh) noexcept(false)
-{
+void io_recv_from::suspend(io_task_t rh) noexcept(false) {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
 
     task = rh;
@@ -185,8 +171,7 @@ void io_recv_from::suspend(io_task_t rh) noexcept(false)
         throw system_error{errno, system_category(), "kevent64"};
 }
 
-int64_t io_recv_from::resume() noexcept
-{
+int64_t io_recv_from::resume() noexcept {
     auto sd = this->handle;
     auto addr = addressof(this->ep->addr);
     auto addrlen = static_cast<socklen_t>(this->offset);
@@ -199,9 +184,8 @@ int64_t io_recv_from::resume() noexcept
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
-                 io_work_t& work) noexcept(false) -> io_send&
-{
+auto send_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
+                 io_work_t& work) noexcept(false) -> io_send& {
     static_assert(sizeof(socklen_t) == sizeof(uint32_t));
     work.handle = sd;
     work.internal = flag;
@@ -209,8 +193,7 @@ auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
     return *reinterpret_cast<io_send*>(addressof(work));
 }
 
-void io_send::suspend(io_task_t rh) noexcept(false)
-{
+void io_send::suspend(io_task_t rh) noexcept(false) {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
     task = rh;
 
@@ -229,8 +212,7 @@ void io_send::suspend(io_task_t rh) noexcept(false)
         throw system_error{errno, system_category(), "kevent64"};
 }
 
-int64_t io_send::resume() noexcept
-{
+int64_t io_send::resume() noexcept {
     auto sd = this->handle;
     auto flag = this->internal;
     auto& errc = this->internal;
@@ -241,9 +223,8 @@ int64_t io_send::resume() noexcept
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
-                 io_work_t& work) noexcept(false) -> io_recv&
-{
+auto recv_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
+                 io_work_t& work) noexcept(false) -> io_recv& {
     static_assert(sizeof(socklen_t) == sizeof(uint32_t));
     work.handle = sd;
     work.internal = flag;
@@ -251,8 +232,7 @@ auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
     return *reinterpret_cast<io_recv*>(addressof(work));
 }
 
-void io_recv::suspend(io_task_t rh) noexcept(false)
-{
+void io_recv::suspend(io_task_t rh) noexcept(false) {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
 
     task = rh;
@@ -271,8 +251,7 @@ void io_recv::suspend(io_task_t rh) noexcept(false)
         throw system_error{errno, system_category(), "kevent64"};
 }
 
-int64_t io_recv::resume() noexcept
-{
+int64_t io_recv::resume() noexcept {
     auto sd = this->handle;
     auto flag = this->internal;
     auto& errc = this->internal;
@@ -283,8 +262,7 @@ int64_t io_recv::resume() noexcept
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-errc peer_name(uint64_t sd, sockaddr_in6& ep) noexcept
-{
+errc peer_name(uint64_t sd, sockaddr_in6& ep) noexcept {
     socklen_t len = sizeof(sockaddr_in6);
     errc ec{};
 
@@ -294,8 +272,7 @@ errc peer_name(uint64_t sd, sockaddr_in6& ep) noexcept
     return ec;
 }
 
-errc sock_name(uint64_t sd, sockaddr_in6& ep) noexcept
-{
+errc sock_name(uint64_t sd, sockaddr_in6& ep) noexcept {
     socklen_t len = sizeof(sockaddr_in6);
     errc ec{};
 
@@ -307,8 +284,7 @@ errc sock_name(uint64_t sd, sockaddr_in6& ep) noexcept
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-void print_kevent(const kevent64_s& ev)
-{
+void print_kevent(const kevent64_s& ev) {
     printf(" ev.ident \t: %llu\n", ev.ident);
 
     if (ev.filter == EVFILT_READ)
