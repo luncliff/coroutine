@@ -51,13 +51,11 @@ struct no_copy_move {
 };
 
 #if __has_include(<Windows.h>) // ... activate VC++ based features ...
+
 // clang-format off
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
 #include <Windows.h>
-#include <sdkddkver.h>
 #include <threadpoolapiset.h>
+#include <synchapi.h>
 // clang-format on
 
 #include <coroutine/yield.hpp>
@@ -66,21 +64,21 @@ namespace concrt {
 using namespace std;
 using namespace std::experimental;
 
-// enumerate current thread id of the process
+// enumerate current existing thread id of with the process id
 _INTERFACE_
-auto get_threads(DWORD owner = GetCurrentProcessId()) noexcept(false)
-    -> coro::enumerable<DWORD>;
+auto get_threads(DWORD owner_pid) noexcept(false) -> coro::enumerable<DWORD>;
 
 //  Move into the win32 thread pool and continue the routine
 class ptp_work final : public suspend_always {
 
-    static void __stdcall resume_on_thread_pool( //
-        PTP_CALLBACK_INSTANCE, PVOID, PTP_WORK);
+    // PTP_WORK_CALLBACK
+    static void __stdcall resume_on_thread_pool(PTP_CALLBACK_INSTANCE, PVOID,
+                                                PTP_WORK);
 
-  public:
     // The `ctx` must be address of coroutine frame
     _INTERFACE_ auto suspend(coroutine_handle<void> coro) noexcept -> uint32_t;
 
+  public:
     // Lazy code generation in importing code by header usage.
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         if (const auto ec = suspend(coro))
@@ -99,31 +97,45 @@ class section final : CRITICAL_SECTION, no_copy_move {
     _INTERFACE_ void lock() noexcept(false);
     _INTERFACE_ void unlock() noexcept(false);
 };
+static_assert(sizeof(section) == sizeof(CRITICAL_SECTION));
 
-//  Alertible win32 event
-class win32_event final : no_copy_move {
-    HANDLE native{};
+//  Awaitable event with thread pool. Only for one-time usage
+class ptp_event final : no_copy_move {
+    HANDLE wo{};
 
+  private:
+    // WAITORTIMERCALLBACK
+    static void __stdcall wait_on_thread_pool(PVOID, BOOLEAN);
+
+    _INTERFACE_ bool is_ready() const noexcept;
+    _INTERFACE_ void on_suspend(coroutine_handle<void>) noexcept(false);
+    _INTERFACE_ auto on_resume() noexcept -> uint32_t; // error code
   public:
-    _INTERFACE_ win32_event() noexcept(false);
-    _INTERFACE_ ~win32_event() noexcept;
+    _INTERFACE_ explicit ptp_event(HANDLE target) noexcept(false);
+    _INTERFACE_ ~ptp_event() noexcept;
 
-    _INTERFACE_ bool is_closed() const noexcept;
-    _INTERFACE_ void close() noexcept;
-    _INTERFACE_ void reset() noexcept;
-    _INTERFACE_ void set() noexcept;
-    [[nodiscard]] _INTERFACE_ bool wait(uint32_t ms) noexcept;
+    _INTERFACE_ void cancel() noexcept;
+
+    bool await_ready() noexcept {
+        return this->is_ready();
+    }
+    void await_suspend(coroutine_handle<void> coro) noexcept(false) {
+        return this->on_suspend(coro);
+    }
+    auto await_resume() noexcept {
+        return this->on_resume();
+    }
 };
 
 //	An `std::experimental::latch` for fork-join scenario.
 //	Its interface might slightly with that of Concurrency TS
 class latch final : no_copy_move {
-    mutable win32_event ev{};
+    mutable HANDLE ev{};
     atomic_uint64_t ref{};
 
   public:
     _INTERFACE_ explicit latch(uint32_t count) noexcept(false);
-    _INTERFACE_ ~latch() noexcept = default;
+    _INTERFACE_ ~latch() noexcept;
 
     _INTERFACE_ void count_down_and_wait() noexcept(false);
     _INTERFACE_ void count_down(uint32_t n = 1) noexcept(false);

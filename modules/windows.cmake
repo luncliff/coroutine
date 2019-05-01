@@ -10,6 +10,8 @@ add_library(${PROJECT_NAME}
     net/resolver.cpp
 )
 target_compile_definitions(${PROJECT_NAME}
+PRIVATE
+    WIN32_MEAN_AND_LEAN
 PUBLIC
     NOMINMAX
 )

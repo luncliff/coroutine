@@ -54,7 +54,6 @@ class no_return final {
 class frame final : public coroutine_handle<void>, public suspend_always {
   public:
     struct promise_type final {
-        // No suspend for init/final suspension point
         auto initial_suspend() noexcept {
             return suspend_never{};
         }
