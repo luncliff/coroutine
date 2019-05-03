@@ -53,6 +53,9 @@ struct no_copy_move {
 #if __has_include(<Windows.h>) // ... activate VC++ based features ...
 
 // clang-format off
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
 #include <Windows.h>
 #include <threadpoolapiset.h>
 #include <synchapi.h>

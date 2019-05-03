@@ -44,8 +44,11 @@ class ptp_work_test : public TestClass<ptp_work_test> {
         auto ms = rand() & 0b1111; // at most 16 ms
 
         set_after_sleep(e1, ms);
-        // wait for 20 ms
-        auto ec = WaitForSingleObjectEx(e1, 20, true);
+
+        Sleep(3);
+        // issue: CI environment runs slowly, so too short timeout might fail
+        // wait for 200 ms
+        auto ec = WaitForSingleObjectEx(e1, 200, true);
         Assert::IsTrue(ec == WAIT_OBJECT_0);
     }
     TEST_METHOD(ptp_work_wait_multiple_event) {
@@ -53,9 +56,12 @@ class ptp_work_test : public TestClass<ptp_work_test> {
             auto ms = rand() & 0b1111; // at most 16 ms
             set_after_sleep(e, ms);
         }
-        // wait for 30 ms
+
+        Sleep(3);
+        // issue: CI environment runs slowly, so too short timeout might fail
+        // wait for 300 ms
         auto ec = WaitForMultipleObjectsEx(events.max_size(), events.data(),
-                                           true, 30, true);
+                                           true, 300, true);
         Assert::IsTrue(ec == WAIT_OBJECT_0);
     }
 };
