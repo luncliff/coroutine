@@ -9,6 +9,7 @@ add_executable(coroutine_test
     c2_entry.cpp
     c2_return.cpp
     c2_concrt.cpp
+    c2_concrt_event.cpp
     c2_channel.cpp
     c2_yield.cpp
 

@@ -39,6 +39,7 @@
 #include <atomic>
 
 #include <coroutine/return.h>
+#include <coroutine/yield.hpp>
 
 // disable copy/move operation of the type
 struct no_copy_move {
@@ -60,8 +61,6 @@ struct no_copy_move {
 #include <threadpoolapiset.h>
 #include <synchapi.h>
 // clang-format on
-
-#include <coroutine/yield.hpp>
 
 namespace concrt {
 using namespace std;
@@ -155,6 +154,7 @@ class latch final : no_copy_move {
 
 namespace concrt {
 using namespace std;
+using namespace std::experimental;
 
 //  Standard lockable with pthread reader writer lock
 class section final : no_copy_move {
@@ -188,6 +188,35 @@ class latch final : no_copy_move {
     _INTERFACE_ bool is_ready() const noexcept;
     _INTERFACE_ void wait() noexcept(false);
 };
+
+class event : no_copy_move {
+  public:
+    using task = coroutine_handle<void>;
+
+  private:
+    uint64_t id; // internal identifier
+    void* internal;
+
+  private:
+    _INTERFACE_ void on_suspend(task) noexcept(false);
+
+  public:
+    _INTERFACE_ event() noexcept(false);
+    _INTERFACE_ ~event() noexcept;
+
+    _INTERFACE_ void set() noexcept(false);
+
+    constexpr bool await_ready() noexcept {
+        return false;
+    }
+    void await_suspend(coroutine_handle<void> coro) noexcept(false) {
+        return this->on_suspend(coro);
+    }
+    constexpr void await_resume() noexcept {
+    }
+};
+_INTERFACE_
+auto signaled_event_tasks() noexcept(false) -> coro::enumerable<event::task>;
 
 } // namespace concrt
 #endif // system API dependent features
