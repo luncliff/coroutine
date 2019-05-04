@@ -41,12 +41,25 @@ TEST_CASE("wait for one event", "[event]") {
     REQUIRE(flag.test_and_set() == true);
 }
 
+TEST_CASE("signaled event becomes ready", "[event]") {
+    event e1{};
+
+    e1.set(); // when the event is signaled,
+              // `co_await` on it must proceed without suspend
+    REQUIRE(e1.await_ready() == true);
+}
+
 auto wait_three_events(event& e1, event& e2, event& e3, atomic_flag& flag)
     -> no_return {
 
     co_await e1;
+    CAPTURE("done e1");
+
     co_await e2;
+    CAPTURE("done e2");
+
     co_await e3;
+    CAPTURE("done e3");
 
     flag.test_and_set();
 }
@@ -61,12 +74,9 @@ TEST_CASE("wait for multiple events", "[event]") {
     for (auto idx : {2, 1, 0}) {
         events[idx].set();
 
-        auto count = 0;
-        for (auto task : signaled_event_tasks()) {
+        // resume if there is available event-waiting coroutines
+        for (auto task : signaled_event_tasks())
             task.resume();
-            ++count;
-        }
-        REQUIRE(count > 0);
     }
     // set by the coroutine `wait_three_events`
     REQUIRE(flag.test_and_set() == true);

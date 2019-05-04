@@ -17,7 +17,7 @@
 #include <unistd.h>
 
 struct event_poll_t final {
-    int fd;
+    int epfd;
     const size_t capacity;
     std::unique_ptr<epoll_event[]> events;
 

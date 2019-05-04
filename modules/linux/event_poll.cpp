@@ -10,22 +10,22 @@
 using namespace std;
 
 event_poll_t::event_poll_t() noexcept(false)
-    : fd{-1},
+    : epfd{-1},
       // use 2 page for polling
       capacity{2 * getpagesize() / sizeof(epoll_event)},
       events{make_unique<epoll_event[]>(capacity)} {
-    fd = epoll_create1(EPOLL_CLOEXEC);
-    if (fd < 0)
+    epfd = epoll_create1(EPOLL_CLOEXEC);
+    if (epfd < 0)
         throw system_error{errno, system_category(), "epoll_create1"};
 }
 event_poll_t::~event_poll_t() noexcept {
-    close(fd);
+    close(epfd);
 }
 
-void event_poll_t::try_add(uint64_t fd, epoll_event& req) noexcept(false) {
+void event_poll_t::try_add(uint64_t _fd, epoll_event& req) noexcept(false) {
     int op = EPOLL_CTL_ADD, ec = 0;
 TRY_OP:
-    ec = epoll_ctl(fd, op, fd, &req);
+    ec = epoll_ctl(epfd, op, _fd, &req);
     if (ec == 0)
         return;
     if (errno == EEXIST) {
@@ -36,16 +36,16 @@ TRY_OP:
     throw system_error{errno, system_category(), "epoll_ctl"};
 }
 
-void event_poll_t::remove(uint64_t fd) {
+void event_poll_t::remove(uint64_t _fd) {
     epoll_event req{}; // just prevent non-null input
-    const auto ec = epoll_ctl(fd, EPOLL_CTL_DEL, fd, &req);
+    const auto ec = epoll_ctl(epfd, EPOLL_CTL_DEL, _fd, &req);
     if (ec != 0)
         throw system_error{errno, system_category(), "epoll_ctl"};
 }
 
 auto event_poll_t::wait(int timeout) noexcept(false)
     -> coro::enumerable<epoll_event> {
-    auto count = epoll_wait(fd, events.get(), capacity, timeout);
+    auto count = epoll_wait(epfd, events.get(), capacity, timeout);
     if (count == -1)
         throw system_error{errno, system_category(), "epoll_wait"};
 

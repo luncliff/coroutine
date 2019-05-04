@@ -194,11 +194,13 @@ class event : no_copy_move {
     using task = coroutine_handle<void>;
 
   private:
-    uint64_t id; // internal identifier
-    void* internal;
+    uint64_t id;
+    task coro;
 
   private:
     _INTERFACE_ void on_suspend(task) noexcept(false);
+    _INTERFACE_ bool is_ready() noexcept;
+    _INTERFACE_ void on_resume() noexcept;
 
   public:
     _INTERFACE_ event() noexcept(false);
@@ -206,13 +208,14 @@ class event : no_copy_move {
 
     _INTERFACE_ void set() noexcept(false);
 
-    constexpr bool await_ready() noexcept {
-        return false;
+    bool await_ready() noexcept {
+        return this->is_ready();
     }
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         return this->on_suspend(coro);
     }
-    constexpr void await_resume() noexcept {
+    void await_resume() noexcept {
+        return this->on_resume();
     }
 };
 _INTERFACE_

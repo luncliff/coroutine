@@ -9,7 +9,6 @@ add_executable(coroutine_test
     c2_entry.cpp
     c2_return.cpp
     c2_concrt.cpp
-    c2_concrt_event.cpp
     c2_channel.cpp
     c2_yield.cpp
 
@@ -19,6 +18,12 @@ add_executable(coroutine_test
     c2_socket_echo_udp.cpp
     c2_socket_echo_tcp.cpp
 )
+if(UNIX AND NOT APPLE)
+    target_sources(coroutine_test
+    PRIVATE
+        c2_concrt_event.cpp
+    )
+endif()
 
 set_target_properties(coroutine_test
 PROPERTIES
