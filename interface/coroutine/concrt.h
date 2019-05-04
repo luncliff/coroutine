@@ -5,7 +5,7 @@
 //
 //  References
 //      https://en.cppreference.com/w/cpp/experimental/concurrency
-//		https://en.cppreference.com/w/cpp/experimental/latch
+//      https://en.cppreference.com/w/cpp/experimental/latch
 //      https://github.com/alasdairmackintosh/google-concurrency-library
 //      https://docs.microsoft.com/en-us/windows/desktop/ProcThread/using-the-thread-pool-functions
 //
@@ -41,7 +41,8 @@
 #include <coroutine/return.h>
 #include <coroutine/yield.hpp>
 
-// disable copy/move operation of the type
+namespace concrt {
+//  Disable copy/move operation of the child types
 struct no_copy_move {
     no_copy_move() noexcept = default;
     ~no_copy_move() noexcept = default;
@@ -50,6 +51,7 @@ struct no_copy_move {
     no_copy_move& operator=(no_copy_move&) = delete;
     no_copy_move& operator=(no_copy_move&&) = delete;
 };
+} // namespace concrt
 
 #if __has_include(<Windows.h>) // ... activate VC++ based features ...
 
@@ -66,7 +68,7 @@ namespace concrt {
 using namespace std;
 using namespace std::experimental;
 
-// enumerate current existing thread id of with the process id
+//  Enumerate current existing thread id of with the process id
 _INTERFACE_
 auto get_threads(DWORD owner_pid) noexcept(false) -> coro::enumerable<DWORD>;
 
@@ -129,8 +131,8 @@ class ptp_event final : no_copy_move {
     }
 };
 
-//	An `std::experimental::latch` for fork-join scenario.
-//	Its interface might slightly with that of Concurrency TS
+//  An `std::experimental::latch` for fork-join scenario.
+//  Its interface might slightly with that of Concurrency TS
 class latch final : no_copy_move {
     mutable HANDLE ev{};
     atomic_uint64_t ref{};
@@ -169,8 +171,8 @@ class section final : no_copy_move {
     _INTERFACE_ void unlock() noexcept(false);
 };
 
-//	An `std::experimental::latch` for fork-join scenario.
-//	Its interface might slightly with that of Concurrency TS
+//  An `std::experimental::latch` for fork-join scenario.
+//  Its interface might slightly with that of Concurrency TS
 class latch final : no_copy_move {
     atomic_uint64_t ref{};
     pthread_cond_t cv{};
@@ -189,7 +191,7 @@ class latch final : no_copy_move {
     _INTERFACE_ void wait() noexcept(false);
 };
 
-//	Awaitable event type.
+//  Awaitable event type.
 //  If the event object is signaled(`set`), the library will yield suspended
 //  coroutine via `signaled_event_tasks` function.
 //  If it is signaled before `co_await`, it will return `true` for `await_ready`
@@ -224,11 +226,11 @@ class event : no_copy_move {
     }
 };
 
-//  yield all suspended coroutines that are waiting for signaled events.
+//  Enumerate all suspended coroutines that are waiting for signaled events.
 _INTERFACE_
 auto signaled_event_tasks() noexcept(false) -> coro::enumerable<event::task>;
 
 } // namespace concrt
-#endif // system API dependent features
 
+#endif // system API dependent features
 #endif // COROUTINE_CONCURRENCY_HELPERS_H
