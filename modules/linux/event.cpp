@@ -87,7 +87,7 @@ void event::on_suspend(task t) noexcept(false) {
     // just care if there was `write` for the eventfd
     //  when it happens, coroutine handle will be forwarded by epoll
     epoll_event req{};
-    req.events = EPOLLET | EPOLLIN | EPOLLEXCLUSIVE | EPOLLONESHOT;
+    req.events = EPOLLET | EPOLLIN | EPOLLONESHOT;
     req.data.ptr = t.address();
 
     // throws if `epoll_ctl` fails

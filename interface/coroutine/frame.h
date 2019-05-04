@@ -24,29 +24,33 @@
 //	VC++ won't fit clang-cl's code generation. see the implementation below
 //
 #if defined(_EXPERIMENTAL_RESUMABLE_)
-#error                                                                         \
-    "This header replaces <experimental/coroutine> for clang-cl and VC++ header";
+#error "This header replaces <experimental/coroutine> for clang-cl and VC++ ";
 #endif
 #define _EXPERIMENTAL_RESUMABLE_
 
-#else // use default header and use them if possible
+#elif defined(USE_CUSTOM_HEADER) // use custom header(this file)
+//
+// case: clang-cl, VC++
+// case: msvc, VC++
+// case: clang, libc++
+//
+#else                            // use default header
 //
 // case: msvc, VC++
 // case: clang, libc++
 //	It is safe to use vendor's header.
 //	by defining macro variable, user can prevent template redefinition
 //
-#if __has_include(<coroutine>) 
+#if __has_include(<coroutine>)
 #include <coroutine> // C++ 20 standard
 //#define COROUTINE_FRAME_PREFIX_HPP // todo: check if the header works well
 
-#elif __has_include(<experimental/coroutine>) 
+#elif __has_include(<experimental/coroutine>)
 #include <experimental/coroutine>  // C++ 17 experimetal
 #define COROUTINE_FRAME_PREFIX_HPP // yield to VC++/libc++
 
 #endif // use default header
 #endif // <coroutine> header
-
 
 #ifndef COROUTINE_FRAME_PREFIX_HPP
 #define COROUTINE_FRAME_PREFIX_HPP

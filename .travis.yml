@@ -59,6 +59,7 @@ script:
     -DCMAKE_BUILD_TYPE=${CONFIG}
     -DCMAKE_INSTALL_PREFIX=../install
     -DCMAKE_CXX_COMPILER=${CXX}
+    ${EXT_ARGS}
   - ninja install;
   - ./test/coroutine_test;
   - cd -;
@@ -155,3 +156,35 @@ matrix:
         - gradle assemble -warning-mode all
       after_success:
         - tree ./install
+
+    #
+    # test implementation in <coroutine/frame.h>
+    #
+
+    - name: Mac Debug (Custom)
+      os: osx
+      osx_image: xcode10.2
+      env:
+        - CONFIG=Debug    SHARED=true
+        - EXT_ARGS=-DUSE_CUSTOM_HEADER
+
+    - name: Mac Release (Custom)
+      os: osx
+      osx_image: xcode10.2
+      env:
+        - CONFIG=Release  SHARED=true
+        - EXT_ARGS=-DUSE_CUSTOM_HEADER
+
+    - name: Ubuntu(Xenial) Debug (Custom)
+      os: linux
+      dist: xenial
+      env:
+        - CONFIG=Debug    SHARED=true
+        - EXT_ARGS=-DUSE_CUSTOM_HEADER
+
+    - name: Ubuntu(Xenial) Release (Custom)
+      os: linux
+      dist: xenial
+      env:
+        - CONFIG=Release  SHARED=true
+        - EXT_ARGS=-DUSE_CUSTOM_HEADER
