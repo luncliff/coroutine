@@ -166,25 +166,25 @@ matrix:
       osx_image: xcode10.2
       env:
         - CONFIG=Debug    SHARED=true
-        - EXT_ARGS=-DUSE_CUSTOM_HEADER
+        - EXT_ARGS=-DUSE_CUSTOM_HEADER=true
 
     - name: Mac Release (Custom)
       os: osx
       osx_image: xcode10.2
       env:
         - CONFIG=Release  SHARED=true
-        - EXT_ARGS=-DUSE_CUSTOM_HEADER
+        - EXT_ARGS=-DUSE_CUSTOM_HEADER=true
 
     - name: Ubuntu(Xenial) Debug (Custom)
       os: linux
       dist: xenial
       env:
         - CONFIG=Debug    SHARED=true
-        - EXT_ARGS=-DUSE_CUSTOM_HEADER
+        - EXT_ARGS=-DUSE_CUSTOM_HEADER=true
 
     - name: Ubuntu(Xenial) Release (Custom)
       os: linux
       dist: xenial
       env:
         - CONFIG=Release  SHARED=true
-        - EXT_ARGS=-DUSE_CUSTOM_HEADER
+        - EXT_ARGS=-DUSE_CUSTOM_HEADER=true
