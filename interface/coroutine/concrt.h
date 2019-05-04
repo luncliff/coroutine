@@ -197,7 +197,7 @@ class latch final : no_copy_move {
 //  If it is signaled before `co_await`, it will return `true` for `await_ready`
 //  so the coroutine can bypass suspension steps.
 //  The event object can be `co_await`ed multiple times.
-class event : no_copy_move {
+class event final : no_copy_move {
   public:
     using task = coroutine_handle<void>;
 

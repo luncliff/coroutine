@@ -18,7 +18,7 @@ add_executable(coroutine_test
     c2_socket_echo_udp.cpp
     c2_socket_echo_tcp.cpp
 )
-if(UNIX AND NOT APPLE)
+if(UNIX)
     target_sources(coroutine_test
     PRIVATE
         c2_concrt_event.cpp
