@@ -14,10 +14,12 @@ using namespace std;
 
 auto wait_for_one_event(event& e, atomic_flag& flag) -> no_return {
     try {
+
         // resume after the event is signaled ...
         co_await e;
 
     } catch (system_error& e) {
+        // event throws if there was an internal system error
         FAIL(e.what());
     }
     flag.test_and_set();
@@ -41,6 +43,28 @@ TEST_CASE("wait for one event", "[event]") {
     REQUIRE(flag.test_and_set() == true);
 }
 
+auto wait_for_multiple_times(event& e, atomic<uint32_t>& counter) -> no_return {
+    while (counter-- > 0)
+        co_await e;
+}
+
+TEST_CASE("wait for event multiple times", "[event]") {
+    event e1{};
+    atomic<uint32_t> counter{};
+
+    counter = 6;
+    wait_for_multiple_times(e1, counter);
+
+    while (counter > 0) {
+        e1.set();
+
+        // resume if there is available event-waiting coroutines
+        for (auto task : signaled_event_tasks())
+            task.resume();
+    };
+    REQUIRE(counter == 0);
+}
+
 TEST_CASE("signaled event becomes ready", "[event]") {
     event e1{};
 
@@ -49,17 +73,23 @@ TEST_CASE("signaled event becomes ready", "[event]") {
     REQUIRE(e1.await_ready() == true);
 }
 
+TEST_CASE("event allows multiple set", "[event]") {
+    event e1{};
+
+    e1.set();
+    REQUIRE(e1.await_ready() == true);
+
+    e1.set();
+    e1.set();
+    REQUIRE(e1.await_ready() == true);
+}
+
 auto wait_three_events(event& e1, event& e2, event& e3, atomic_flag& flag)
     -> no_return {
 
     co_await e1;
-    CAPTURE("done e1");
-
     co_await e2;
-    CAPTURE("done e2");
-
     co_await e3;
-    CAPTURE("done e3");
 
     flag.test_and_set();
 }

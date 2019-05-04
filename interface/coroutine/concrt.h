@@ -189,17 +189,22 @@ class latch final : no_copy_move {
     _INTERFACE_ void wait() noexcept(false);
 };
 
+//	Awaitable event type.
+//  If the event object is signaled(`set`), the library will yield suspended
+//  coroutine via `signaled_event_tasks` function.
+//  If it is signaled before `co_await`, it will return `true` for `await_ready`
+//  so the coroutine can bypass suspension steps.
+//  The event object can be `co_await`ed multiple times.
 class event : no_copy_move {
   public:
     using task = coroutine_handle<void>;
 
   private:
-    uint64_t id;
-    task coro;
+    uint64_t state;
 
   private:
     _INTERFACE_ void on_suspend(task) noexcept(false);
-    _INTERFACE_ bool is_ready() noexcept;
+    _INTERFACE_ bool is_ready() const noexcept;
     _INTERFACE_ void on_resume() noexcept;
 
   public:
@@ -208,7 +213,7 @@ class event : no_copy_move {
 
     _INTERFACE_ void set() noexcept(false);
 
-    bool await_ready() noexcept {
+    bool await_ready() const noexcept {
         return this->is_ready();
     }
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
@@ -218,6 +223,8 @@ class event : no_copy_move {
         return this->on_resume();
     }
 };
+
+//  yield all suspended coroutines that are waiting for signaled events.
 _INTERFACE_
 auto signaled_event_tasks() noexcept(false) -> coro::enumerable<event::task>;
 
