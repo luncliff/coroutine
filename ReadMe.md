@@ -18,8 +18,9 @@ In that perspective, the library will be maintained as small as possible. Have f
 
 ### Signpost
 
-* For coroutine example, visit the [test/](./test/) and then [interface/](./interface/coroutine)
-* For the detail of C++ coroutine, visit the [wiki](https://github.com/luncliff/coroutine/wiki) or read the [`<coroutine/frame.h>`](./interface/coroutine/frame.h)
+* Start with the [wiki](https://github.com/luncliff/coroutine/wiki).
+  You will visit the [test/](./test/) and [interface/](./interface/coroutine) folder while reading the docs.
+* This repository has some custom implementation for the C++ Coroutine spec in the [`<coroutine/frame.h>`](./interface/coroutine/frame.h)
 
 ## Developer Note
 

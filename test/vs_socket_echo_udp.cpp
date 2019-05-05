@@ -48,7 +48,7 @@ class socket_udp_echo_test : public TestClass<socket_udp_echo_test> {
 
         ss = static_cast<SOCKET>(socket_create(hint));
 
-        auto af = ep.storage.ss_family = hint.ai_family;
+        auto af = ep.storage.ss_family = (ADDRESS_FAMILY)hint.ai_family;
         if (af == AF_INET) {
             ep.in4.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
             ep.in4.sin_port = htons(32771);
@@ -146,7 +146,7 @@ auto coro_send_dgram(SOCKET sd, const sockaddr_in6& remote, int64_t& ssz,
     array<byte, 782> storage{};
 
     ssz = co_await send_to(sd, remote, storage, work);
-    Assert::IsTrue(ssz == storage.size());
+    Assert::IsTrue(static_cast<size_t>(ssz) == storage.size());
     Assert::IsTrue(work.error() == NO_ERROR);
 }
 

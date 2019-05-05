@@ -79,13 +79,12 @@ class ptp_work final : public suspend_always {
     static void __stdcall resume_on_thread_pool(PTP_CALLBACK_INSTANCE, PVOID,
                                                 PTP_WORK);
 
-    // The `ctx` must be address of coroutine frame
-    _INTERFACE_ auto suspend(coroutine_handle<void> coro) noexcept -> uint32_t;
+    _INTERFACE_ auto on_suspend(coroutine_handle<void>) noexcept -> uint32_t;
 
   public:
     // Lazy code generation in importing code by header usage.
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
-        if (const auto ec = suspend(coro))
+        if (const auto ec = on_suspend(coro))
             throw system_error{static_cast<int>(ec), system_category(),
                                "CreateThreadpoolWork"};
     }
