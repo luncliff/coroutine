@@ -34,6 +34,14 @@ PRIVATE
                         # end user will manage the path properly
 )
 
+if(USE_CUSTOM_HEADER)
+    message(STATUS "using custom coroutine header")
+    target_compile_definitions(${PROJECT_NAME}
+    PUBLIC
+        USE_CUSTOM_HEADER
+    )
+endif()
+
 # library export / install
 include(CMakePackageConfigHelpers)
 set(VERSION_FILE        ${CMAKE_BINARY_DIR}/cmake/coroutine-config-version.cmake)

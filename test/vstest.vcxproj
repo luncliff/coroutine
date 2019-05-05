@@ -207,6 +207,7 @@
   <ItemGroup>
     <ClCompile Include="vs_channel.cpp" />
     <ClCompile Include="vs_concrt.cpp" />
+    <ClCompile Include="vs_event.cpp" />
     <ClCompile Include="vs_resolver.cpp" />
     <ClCompile Include="vs_return.cpp" />
     <ClCompile Include="vs_socket.cpp" />

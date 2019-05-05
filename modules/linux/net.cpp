@@ -6,77 +6,23 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/net.h>
 
-#include <fcntl.h>
-#include <sys/epoll.h>
-#include <unistd.h>
+#include "./event_poll.h"
 
 static_assert(sizeof(ssize_t) <= sizeof(int64_t));
 using namespace std;
 using namespace std::chrono;
 
-struct event_data_t {
-    int fd;
-    const size_t capacity;
-    unique_ptr<epoll_event[]> events;
-
-  public:
-    event_data_t() noexcept(false)
-        : fd{-1},
-          // use 2 page for polling
-          capacity{2 * getpagesize() / sizeof(epoll_event)},
-          events{make_unique<epoll_event[]>(capacity)} {
-        fd = epoll_create1(EPOLL_CLOEXEC);
-        if (fd < 0)
-            throw system_error{errno, system_category(), "epoll_create1"};
-    }
-    ~event_data_t() noexcept {
-        close(fd);
-    }
-
-    void try_add(uint64_t sd, epoll_event& req) noexcept(false) {
-        int op = EPOLL_CTL_ADD, ec = 0;
-    TRY_OP:
-        ec = epoll_ctl(fd, op, sd, &req);
-        if (ec == 0)
-            return;
-        if (errno == EEXIST) {
-            op = EPOLL_CTL_MOD; // already exists. try with modification
-            goto TRY_OP;
-        }
-
-        throw system_error{errno, system_category(), "epoll_ctl"};
-    }
-
-    void remove(uint64_t sd) {
-        epoll_event req{}; // just prevent non-null input
-        const auto ec = epoll_ctl(fd, EPOLL_CTL_DEL, sd, &req);
-        if (ec != 0)
-            throw system_error{errno, system_category(), "epoll_ctl"};
-    }
-
-    auto wait(int timeout) noexcept(false) -> coro::enumerable<io_task_t> {
-        auto count = epoll_wait(fd, events.get(), capacity, timeout);
-        if (count == -1)
-            throw system_error{errno, system_category(), "epoll_wait"};
-
-        for (auto i = 0; i < count; ++i) {
-            auto& ev = events[i];
-            auto task = io_task_t::from_address(ev.data.ptr);
-            co_yield task;
-        }
-    }
-};
-
-event_data_t inbound{}, outbound{};
+event_poll_t inbound{}, outbound{};
 
 auto wait_io_tasks(nanoseconds timeout) noexcept(false)
     -> coro::enumerable<io_task_t> {
     const int half_time = duration_cast<milliseconds>(timeout).count() / 2;
+    io_task_t task{};
 
-    for (auto coro : inbound.wait(half_time))
-        co_yield coro;
-    for (auto coro : outbound.wait(half_time))
-        co_yield coro;
+    for (auto event : inbound.wait(half_time))
+        co_yield task = io_task_t::from_address(event.data.ptr);
+    for (auto event : outbound.wait(half_time))
+        co_yield task = io_task_t::from_address(event.data.ptr);
 }
 
 bool io_work_t::ready() const noexcept {

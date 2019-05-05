@@ -10,8 +10,13 @@ endif()
 
 add_library(${PROJECT_NAME}
     linux/dllmain.cpp
-    linux/net.cpp
+
+    linux/event_poll.h
+    linux/event_poll.cpp
+    linux/event.cpp
+    
     posix/concrt.cpp
+    linux/net.cpp
     net/resolver.cpp
 )
 

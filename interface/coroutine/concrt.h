@@ -5,7 +5,7 @@
 //
 //  References
 //      https://en.cppreference.com/w/cpp/experimental/concurrency
-//		https://en.cppreference.com/w/cpp/experimental/latch
+//      https://en.cppreference.com/w/cpp/experimental/latch
 //      https://github.com/alasdairmackintosh/google-concurrency-library
 //      https://docs.microsoft.com/en-us/windows/desktop/ProcThread/using-the-thread-pool-functions
 //
@@ -39,8 +39,10 @@
 #include <atomic>
 
 #include <coroutine/return.h>
+#include <coroutine/yield.hpp>
 
-// disable copy/move operation of the type
+namespace concrt {
+//  Disable copy/move operation of the child types
 struct no_copy_move {
     no_copy_move() noexcept = default;
     ~no_copy_move() noexcept = default;
@@ -49,38 +51,38 @@ struct no_copy_move {
     no_copy_move& operator=(no_copy_move&) = delete;
     no_copy_move& operator=(no_copy_move&&) = delete;
 };
+} // namespace concrt
 
 #if __has_include(<Windows.h>) // ... activate VC++ based features ...
+
 // clang-format off
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif
 #include <Windows.h>
-#include <sdkddkver.h>
 #include <threadpoolapiset.h>
+#include <synchapi.h>
 // clang-format on
-
-#include <coroutine/yield.hpp>
 
 namespace concrt {
 using namespace std;
 using namespace std::experimental;
 
-// enumerate current thread id of the process
+//  Enumerate current existing thread id of with the process id
 _INTERFACE_
-auto get_threads(DWORD owner = GetCurrentProcessId()) noexcept(false)
-    -> coro::enumerable<DWORD>;
+auto get_threads(DWORD owner_pid) noexcept(false) -> coro::enumerable<DWORD>;
 
 //  Move into the win32 thread pool and continue the routine
 class ptp_work final : public suspend_always {
 
-    static void __stdcall resume_on_thread_pool( //
-        PTP_CALLBACK_INSTANCE, PVOID, PTP_WORK);
+    // PTP_WORK_CALLBACK
+    static void __stdcall resume_on_thread_pool(PTP_CALLBACK_INSTANCE, PVOID,
+                                                PTP_WORK);
 
-  public:
     // The `ctx` must be address of coroutine frame
     _INTERFACE_ auto suspend(coroutine_handle<void> coro) noexcept -> uint32_t;
 
+  public:
     // Lazy code generation in importing code by header usage.
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         if (const auto ec = suspend(coro))
@@ -99,31 +101,45 @@ class section final : CRITICAL_SECTION, no_copy_move {
     _INTERFACE_ void lock() noexcept(false);
     _INTERFACE_ void unlock() noexcept(false);
 };
+static_assert(sizeof(section) == sizeof(CRITICAL_SECTION));
 
-//  Alertible win32 event
-class win32_event final : no_copy_move {
-    HANDLE native{};
+//  Awaitable event with thread pool. Only for one-time usage
+class ptp_event final : no_copy_move {
+    HANDLE wo{};
 
+  private:
+    // WAITORTIMERCALLBACK
+    static void __stdcall wait_on_thread_pool(PVOID, BOOLEAN);
+
+    _INTERFACE_ bool is_ready() const noexcept;
+    _INTERFACE_ void on_suspend(coroutine_handle<void>) noexcept(false);
+    _INTERFACE_ auto on_resume() noexcept -> uint32_t; // error code
   public:
-    _INTERFACE_ win32_event() noexcept(false);
-    _INTERFACE_ ~win32_event() noexcept;
+    _INTERFACE_ explicit ptp_event(HANDLE target) noexcept(false);
+    _INTERFACE_ ~ptp_event() noexcept;
 
-    _INTERFACE_ bool is_closed() const noexcept;
-    _INTERFACE_ void close() noexcept;
-    _INTERFACE_ void reset() noexcept;
-    _INTERFACE_ void set() noexcept;
-    [[nodiscard]] _INTERFACE_ bool wait(uint32_t ms) noexcept;
+    _INTERFACE_ void cancel() noexcept;
+
+    bool await_ready() noexcept {
+        return this->is_ready();
+    }
+    void await_suspend(coroutine_handle<void> coro) noexcept(false) {
+        return this->on_suspend(coro);
+    }
+    auto await_resume() noexcept {
+        return this->on_resume();
+    }
 };
 
-//	An `std::experimental::latch` for fork-join scenario.
-//	Its interface might slightly with that of Concurrency TS
+//  An `std::experimental::latch` for fork-join scenario.
+//  Its interface might slightly with that of Concurrency TS
 class latch final : no_copy_move {
-    mutable win32_event ev{};
+    mutable HANDLE ev{};
     atomic_uint64_t ref{};
 
   public:
     _INTERFACE_ explicit latch(uint32_t count) noexcept(false);
-    _INTERFACE_ ~latch() noexcept = default;
+    _INTERFACE_ ~latch() noexcept;
 
     _INTERFACE_ void count_down_and_wait() noexcept(false);
     _INTERFACE_ void count_down(uint32_t n = 1) noexcept(false);
@@ -140,6 +156,7 @@ class latch final : no_copy_move {
 
 namespace concrt {
 using namespace std;
+using namespace std::experimental;
 
 //  Standard lockable with pthread reader writer lock
 class section final : no_copy_move {
@@ -154,8 +171,8 @@ class section final : no_copy_move {
     _INTERFACE_ void unlock() noexcept(false);
 };
 
-//	An `std::experimental::latch` for fork-join scenario.
-//	Its interface might slightly with that of Concurrency TS
+//  An `std::experimental::latch` for fork-join scenario.
+//  Its interface might slightly with that of Concurrency TS
 class latch final : no_copy_move {
     atomic_uint64_t ref{};
     pthread_cond_t cv{};
@@ -174,7 +191,46 @@ class latch final : no_copy_move {
     _INTERFACE_ void wait() noexcept(false);
 };
 
-} // namespace concrt
-#endif // system API dependent features
+//  Awaitable event type.
+//  If the event object is signaled(`set`), the library will yield suspended
+//  coroutine via `signaled_event_tasks` function.
+//  If it is signaled before `co_await`, it will return `true` for `await_ready`
+//  so the coroutine can bypass suspension steps.
+//  The event object can be `co_await`ed multiple times.
+class event final : no_copy_move {
+  public:
+    using task = coroutine_handle<void>;
 
+  private:
+    uint64_t state;
+
+  private:
+    _INTERFACE_ void on_suspend(task) noexcept(false);
+    _INTERFACE_ bool is_ready() const noexcept;
+    _INTERFACE_ void on_resume() noexcept;
+
+  public:
+    _INTERFACE_ event() noexcept(false);
+    _INTERFACE_ ~event() noexcept;
+
+    _INTERFACE_ void set() noexcept(false);
+
+    bool await_ready() const noexcept {
+        return this->is_ready();
+    }
+    void await_suspend(coroutine_handle<void> coro) noexcept(false) {
+        return this->on_suspend(coro);
+    }
+    void await_resume() noexcept {
+        return this->on_resume();
+    }
+};
+
+//  Enumerate all suspended coroutines that are waiting for signaled events.
+_INTERFACE_
+auto signaled_event_tasks() noexcept(false) -> coro::enumerable<event::task>;
+
+} // namespace concrt
+
+#endif // system API dependent features
 #endif // COROUTINE_CONCURRENCY_HELPERS_H
