@@ -104,39 +104,22 @@ class io_work_t : public io_control_block {
 };
 static_assert(sizeof(io_work_t) <= 64);
 
-//
-//  Derived class of `io_work_t` will be used for `co_await`.
-//  We can use template to generate functions for the operator
-//   and perform some type check for given types
-//
-//  ToDo: C++ Concepts
-//
-
-template <typename IoStruct>
-auto await_ready(const IoStruct& io) noexcept {
-    static_assert(std::is_base_of_v<io_work_t, IoStruct>);
-    return io.ready();
-}
-template <typename IoStruct>
-void await_suspend(IoStruct& io, io_task_t t) noexcept(false) {
-    static_assert(std::is_base_of_v<io_work_t, IoStruct>);
-    // this function is not a member of `io_work_t`.
-    // its derived type must declare/define it...
-    return io.suspend(t);
-}
-template <typename IoStruct>
-auto await_resume(IoStruct& io) noexcept {
-    static_assert(std::is_base_of_v<io_work_t, IoStruct>);
-    // this function is not a member of `io_work_t`.
-    // its derived type must declare/define it...
-    return io.resume();
-}
-
 //  Type to perform `sendto` I/O request
 class io_send_to final : public io_work_t {
   public:
     _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
+
+  public:
+    bool await_ready() const noexcept {
+        return this->ready();
+    }
+    void await_suspend(io_task_t t) noexcept(false) {
+        return this->suspend(t);
+    }
+    auto await_resume() noexcept {
+        return this->resume();
+    }
 };
 static_assert(sizeof(io_send_to) == sizeof(io_work_t));
 
@@ -161,6 +144,17 @@ class io_recv_from final : public io_work_t {
   public:
     _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
+
+  public:
+    bool await_ready() const noexcept {
+        return this->ready();
+    }
+    void await_suspend(io_task_t t) noexcept(false) {
+        return this->suspend(t);
+    }
+    auto await_resume() noexcept {
+        return this->resume();
+    }
 };
 static_assert(sizeof(io_recv_from) == sizeof(io_work_t));
 
@@ -185,6 +179,17 @@ class io_send final : public io_work_t {
   public:
     _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
+
+  public:
+    bool await_ready() const noexcept {
+        return this->ready();
+    }
+    void await_suspend(io_task_t t) noexcept(false) {
+        return this->suspend(t);
+    }
+    auto await_resume() noexcept {
+        return this->resume();
+    }
 };
 static_assert(sizeof(io_send) == sizeof(io_work_t));
 
@@ -203,6 +208,17 @@ class io_recv final : public io_work_t {
   public:
     _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
+
+  public:
+    bool await_ready() const noexcept {
+        return this->ready();
+    }
+    void await_suspend(io_task_t t) noexcept(false) {
+        return this->suspend(t);
+    }
+    auto await_resume() noexcept {
+        return this->resume();
+    }
 };
 static_assert(sizeof(io_recv) == sizeof(io_work_t));
 
