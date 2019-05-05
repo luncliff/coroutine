@@ -18,52 +18,71 @@
 #include "stop_watch.hpp"
 
 namespace concrt {
-using namespace std;
-using namespace std::experimental;
-using namespace std::chrono;
 
-win32_event::win32_event() noexcept(false)
-    : native{CreateEventA(nullptr, false, false, nullptr)} {
-    if (native == INVALID_HANDLE_VALUE)
+void __stdcall ptp_event::wait_on_thread_pool(PVOID ctx, BOOLEAN timedout) {
+    // we are using INFINITE
+    UNREFERENCED_PARAMETER(timedout);
+    auto coro = coroutine_handle<void>::from_address(ctx);
+    assert(coro.done() == false);
+    coro.resume();
+}
+ptp_event::ptp_event(HANDLE ev) noexcept(false) : wo{ev} {
+    // wait object is used as a storage for the event handle
+    // until it is going to suspend
+}
+ptp_event::~ptp_event() noexcept {
+    if (wo != INVALID_HANDLE_VALUE)
+        this->cancel();
+}
+void ptp_event::cancel() noexcept {
+    this->on_resume();
+}
+bool ptp_event::is_ready() const noexcept {
+    return false;
+}
+// https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-registerwaitforsingleobject
+// consider: can we use WT_EXECUTEINWAITTHREAD for this type?
+void ptp_event::on_suspend(coroutine_handle<void> coro) noexcept(false) {
+    // since this point, wo becomes a handle for the request
+    auto ev = wo;
+    // this is one-shot event. so use infinite timeout
+    if (RegisterWaitForSingleObject(addressof(wo), ev, wait_on_thread_pool,
+                                    coro.address(), INFINITE,
+                                    WT_EXECUTEONLYONCE) == FALSE) {
+        throw system_error{gsl::narrow_cast<int>(GetLastError()),
+                           system_category(), "RegisterWaitForSingleObject"};
+    }
+}
+// https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-unregisterwait
+uint32_t ptp_event::on_resume() noexcept {
+    DWORD ec = NO_ERROR;
+    if (wo == INVALID_HANDLE_VALUE)
+        return ec;
+
+    if (UnregisterWait(wo) == false)
+        ec = GetLastError();
+
+    // this is expected since we are using INFINITE timeout
+    if (ec == ERROR_IO_PENDING)
+        ec = NO_ERROR;
+
+    wo = INVALID_HANDLE_VALUE;
+    return ec;
+}
+
+latch::latch(uint32_t delta) noexcept(false)
+    : ev{CreateEventEx(nullptr, nullptr, //
+                       CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS)},
+      ref{delta} {
+    if (ev == INVALID_HANDLE_VALUE)
         throw system_error{gsl::narrow_cast<int>(GetLastError()),
                            system_category(), "CreateEventA"};
+    ResetEvent(ev);
 }
-win32_event::~win32_event() noexcept {
-    this->close();
+latch::~latch() noexcept {
+    if (ev != INVALID_HANDLE_VALUE)
+        CloseHandle(ev);
 }
-bool win32_event::is_closed() const noexcept {
-    return native == INVALID_HANDLE_VALUE;
-}
-void win32_event::close() noexcept {
-    CloseHandle(native);
-    native = INVALID_HANDLE_VALUE;
-}
-void win32_event::reset() noexcept {
-    ResetEvent(native);
-}
-void win32_event::set() noexcept {
-    SetEvent(native);
-}
-bool win32_event::wait(uint32_t ms) noexcept {
-    static_assert(WAIT_OBJECT_0 == 0);
-
-    // This makes APC available. expecially for Overlapped I/O
-    if (WaitForSingleObjectEx(native, ms, TRUE))
-        // WAIT_FAILED	: use GetLastError in the case
-        // WAIT_TIMEOUT	: this is expected. user can try again
-        // WAIT_IO_COMPLETION : return because of APC
-        // WAIT_ABANDONED
-        return false;
-
-    // WAIT_OBJECT_0 : return by signal
-    this->close();
-    return true;
-}
-
-latch::latch(uint32_t delta) noexcept(false) : ev{}, ref{delta} {
-    ev.reset();
-}
-
 void latch::count_down_and_wait() noexcept(false) {
     this->count_down();
     this->wait();
@@ -75,20 +94,44 @@ void latch::count_down(uint32_t n) noexcept(false) {
 
     ref.fetch_sub(n, memory_order_release);
     if (ref.load(memory_order_acquire) == 0)
-        ev.set();
+        SetEvent(ev);
 }
 GSL_SUPPRESS(f .23)
 GSL_SUPPRESS(con .4)
 bool latch::is_ready() const noexcept {
-    if (ref.load(memory_order_acquire) == 0)
-        // if it is not closed, test it
-        return ev.is_closed() ? true : ev.wait(0);
+    if (ref.load(memory_order_acquire) > 0)
+        return false;
+
+    if (ev == INVALID_HANDLE_VALUE)
+        return true;
+
+    // if it is not closed, test it
+    auto ec = WaitForSingleObjectEx(ev, 0, TRUE);
+    if (ec == WAIT_OBJECT_0) {
+        // WAIT_OBJECT_0 : return by signal
+        CloseHandle(ev);
+        ev = INVALID_HANDLE_VALUE;
+        return true;
+    }
     return false;
 }
 void latch::wait() noexcept(false) {
+    constexpr auto timeout = INFINITE;
+    static_assert(WAIT_OBJECT_0 == 0);
+
     // standard interface doesn't define timed wait.
-    while (ev.wait(INFINITE) == false)
-        ;
+    // This makes APC available. expecially for Overlapped I/O
+    if (WaitForSingleObjectEx(ev, timeout, TRUE))
+        // WAIT_FAILED	: use GetLastError in the case
+        // WAIT_TIMEOUT	: this is expected. user can try again
+        // WAIT_IO_COMPLETION : return because of APC
+        // WAIT_ABANDONED
+        return;
+
+    // WAIT_OBJECT_0 : return by signal
+    CloseHandle(ev);
+    ev = INVALID_HANDLE_VALUE;
+    return;
 }
 
 void ptp_work::resume_on_thread_pool(PTP_CALLBACK_INSTANCE, //

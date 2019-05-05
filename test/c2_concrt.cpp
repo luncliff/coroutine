@@ -2,17 +2,16 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <coroutine/concrt.h>
-
 #include <catch2/catch.hpp>
+
+#include <coroutine/concrt.h>
+using namespace coro;
 
 #include <array>
 #include <future>
 #include <queue>
-
 using namespace std;
-using namespace literals;
-using namespace std::experimental;
+using namespace std::literals;
 
 TEST_CASE("latch", "[concurrency][thread]") {
     using wait_group = concrt::latch; // the type's name in Go Language
@@ -58,8 +57,6 @@ TEST_CASE("latch", "[concurrency][thread]") {
         }
     }
 }
-
-using namespace coro;
 
 TEST_CASE("frame holder is coroutine_handle", "[return]") {
     frame fh{};

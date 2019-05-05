@@ -3,7 +3,7 @@ $env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Te
 
 # Acquire coverage file and generate temporary coverage file
 $coverage_file = Get-ChildItem -Recurse *.coverage;
-Write-Host $coverage_file
+Write-Output $coverage_file
 $temp_coverage_xml_filepath  = "./TestResults/coverage-report.xml"
 CodeCoverage.exe analyze /output:$temp_coverage_xml_filepath $coverage_file
 
@@ -15,6 +15,7 @@ $final_coverage_xml_filepath = "./TestResults/luncliff-coroutine-visual-studio.c
 $xml_lines = Get-Content $temp_coverage_xml_filepath
 foreach($text in $xml_lines){
     if($text -match 15732480){
+        Write-Output "removed $text"
         continue;
     }
     else {

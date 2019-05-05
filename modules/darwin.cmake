@@ -10,7 +10,11 @@ endif()
 
 add_library(${PROJECT_NAME}
     darwin/dllmain.cpp
+    darwin/kernel_queue.cpp
+    darwin/kernel_queue.h
+    darwin/event.cpp
     darwin/net.cpp
+
     posix/concrt.cpp
     net/resolver.cpp
 )
