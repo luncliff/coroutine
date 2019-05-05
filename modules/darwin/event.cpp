@@ -31,9 +31,15 @@ struct unix_event_t final : no_copy_move {
 
   public:
     unix_event_t() noexcept(false) : sd{}, msg{}, local{} {
-        // use short path
-        constexpr auto example = "/tmp/coro_ev_XXXXXX";
-        strncpy(local.sun_path, example, strnlen(example, 20));
+        constexpr const char pattern[] = "/tmp/coro_ev_XXXXXX"; // 19 char + 1
+        static_assert(sizeof(pattern) == 20);
+        static_assert(sizeof(pattern) < sizeof(sockaddr_un::sun_path));
+
+        const auto len = strnlen(pattern, sizeof(pattern));
+        assert(len == 19);
+
+        strncpy(local.sun_path, pattern, len);
+        assert(local.sun_path[len] == 0); // null terminated ?
 
         // ensure path exists using 'mkstemp'
         sd = mkstemp(local.sun_path);
@@ -72,7 +78,7 @@ struct unix_event_t final : no_copy_move {
     bool is_signaled() noexcept {
         return msg != 0;
     }
-    void consume() noexcept(false) {
+    void reset() noexcept(false) {
         // socket buffer is limited. we must consume properly
         auto sz = recvfrom(sd, &msg, sizeof(msg), 0, nullptr, nullptr);
         if (sz == -1)
@@ -125,7 +131,19 @@ void event::on_suspend(task t) noexcept(false) {
 }
 void event::on_resume() noexcept {
     auto* impl = reinterpret_cast<unix_event_t*>(state);
-    impl->consume();
+    try {
+        // !!! throws `system_error` !!!
+        // this is intended
+        //  since the function must ensure it consumes message for the socket
+        impl->reset();
+
+    } catch (const system_error& e) {
+        // be explicit instead of c++ exception handler behavior
+        fputs(e.what(), stderr);
+
+        // normally we don't have a way to handle uds error ...
+        terminate();
+    }
 }
 
 auto signaled_event_tasks() noexcept(false) -> coro::enumerable<event::task> {
