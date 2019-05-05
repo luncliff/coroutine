@@ -43,7 +43,7 @@ uint32_t io_work_t::error() const noexcept {
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
+auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to& {
     work.handle = sd;
     work.ep = reinterpret_cast<endpoint_t*>(
@@ -53,7 +53,7 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
-auto send_to(uint64_t sd, const sockaddr_in6& remote, buffer_view_t buffer,
+auto send_to(uint64_t sd, const sockaddr_in6& remote, io_buffer_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to& {
     work.handle = sd;
     work.ep = reinterpret_cast<endpoint_t*>(
@@ -89,7 +89,7 @@ int64_t io_send_to::resume() noexcept {
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
+auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from& {
     work.handle = sd;
     work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
@@ -98,7 +98,7 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, buffer_view_t buffer,
     return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
-auto recv_from(uint64_t sd, sockaddr_in6& remote, buffer_view_t buffer,
+auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from& {
     work.handle = sd;
     work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
@@ -133,7 +133,7 @@ int64_t io_recv_from::resume() noexcept {
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-auto send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+auto send_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_send& {
     static_assert(sizeof(socklen_t) == sizeof(uint32_t));
     work.handle = sd;
@@ -166,7 +166,7 @@ int64_t io_send::resume() noexcept {
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
-auto recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
+auto recv_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_recv& {
     static_assert(sizeof(socklen_t) == sizeof(uint32_t));
     work.handle = sd;

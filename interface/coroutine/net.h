@@ -36,7 +36,7 @@
 #include <chrono>
 #include <gsl/gsl>
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) // use winsock
 #include <WS2tcpip.h>
 #include <WinSock2.h>
 #include <ws2def.h>
@@ -46,7 +46,8 @@ using io_control_block = OVERLAPPED;
 
 static constexpr bool is_winsock = true;
 static constexpr bool is_netinet = false;
-#else
+
+#else // use netinet
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -69,9 +70,10 @@ struct io_control_block {
 
 static constexpr bool is_winsock = false;
 static constexpr bool is_netinet = true;
-#endif
 
-// helper type for socket address. it will be used for simplicity
+#endif // winsock || netinet
+
+//  Helper type for socket address. it will be used for simplicity
 union endpoint_t final {
     sockaddr_storage storage{};
     sockaddr addr;
@@ -79,32 +81,41 @@ union endpoint_t final {
     sockaddr_in6 in6;
 };
 
+//  1 task item == 1 resumable function
 using io_task_t = std::experimental::coroutine_handle<void>;
-using buffer_view_t = gsl::span<gsl::byte>;
 
-struct io_work_t : public io_control_block {
+//  This is simply a view to storage. Be aware that it doesn't have ownership
+using io_buffer_t = gsl::span<std::byte>;
+static_assert(sizeof(io_buffer_t) <= sizeof(void*) * 2);
+
+//  In short, this is a struct to describe "1 I/O request" to system API
+//  All members in `io_work_t` cooperate in harmony.
+//  So don't modify directly !
+class io_work_t : public io_control_block {
+    // todo: find a way to follow C++ Core Guideline rules
+  public:
     io_task_t task{};
-    buffer_view_t buffer{};
+    io_buffer_t buffer{};
     endpoint_t* ep{};
 
   public:
     _INTERFACE_ bool ready() const noexcept;
     _INTERFACE_ uint32_t error() const noexcept;
 };
-static_assert(sizeof(buffer_view_t) <= sizeof(void*) * 2);
 static_assert(sizeof(io_work_t) <= 64);
 
+//  Type to perform `sendto` I/O request
 class io_send_to final : public io_work_t {
   public:
-    _INTERFACE_ void suspend(io_task_t rh) noexcept(false);
+    _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 
   public:
-    auto await_ready() const noexcept {
+    bool await_ready() const noexcept {
         return this->ready();
     }
-    void await_suspend(io_task_t rh) noexcept(false) {
-        return this->suspend(rh);
+    void await_suspend(io_task_t t) noexcept(false) {
+        return this->suspend(t);
     }
     auto await_resume() noexcept {
         return this->resume();
@@ -112,27 +123,34 @@ class io_send_to final : public io_work_t {
 };
 static_assert(sizeof(io_send_to) == sizeof(io_work_t));
 
-[[nodiscard]] _INTERFACE_ auto
-send_to(uint64_t sd, const sockaddr_in& remote, //
-        buffer_view_t buffer, io_work_t& work) noexcept(false) -> io_send_to&;
+// clang-format off
 
-[[nodiscard]] _INTERFACE_ //
-    auto
-    send_to(uint64_t sd, const sockaddr_in6& remote, //
-            buffer_view_t buffer, io_work_t& work) noexcept(false)
-        -> io_send_to&;
+//  Constructs `io_send_to` type with given parameters
+[[nodiscard]] _INTERFACE_
+auto send_to(uint64_t sd, const sockaddr_in& remote,           //
+             io_buffer_t buf, io_work_t& work) noexcept(false) //
+    -> io_send_to&;
 
+//  Constructs `io_send_to` type with given parameters
+[[nodiscard]] _INTERFACE_
+auto send_to(uint64_t sd, const sockaddr_in6& remote,          //
+             io_buffer_t buf, io_work_t& work) noexcept(false) //
+    -> io_send_to&;
+
+// clang-format on
+
+//  Type to perform `recvfrom` I/O request
 class io_recv_from final : public io_work_t {
   public:
-    _INTERFACE_ void suspend(io_task_t rh) noexcept(false);
+    _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 
   public:
-    auto await_ready() const noexcept {
+    bool await_ready() const noexcept {
         return this->ready();
     }
-    void await_suspend(io_task_t rh) noexcept(false) {
-        return this->suspend(rh);
+    void await_suspend(io_task_t t) noexcept(false) {
+        return this->suspend(t);
     }
     auto await_resume() noexcept {
         return this->resume();
@@ -140,29 +158,34 @@ class io_recv_from final : public io_work_t {
 };
 static_assert(sizeof(io_recv_from) == sizeof(io_work_t));
 
-[[nodiscard]] _INTERFACE_ //
-    auto
-    recv_from(uint64_t sd, sockaddr_in6& remote, //
-              buffer_view_t buffer, io_work_t& work) noexcept(false)
-        -> io_recv_from&;
+// clang-format off
 
-[[nodiscard]] _INTERFACE_ //
-    auto
-    recv_from(uint64_t sd, sockaddr_in& remote, //
-              buffer_view_t buffer, io_work_t& work) noexcept(false)
-        -> io_recv_from&;
+//  Constructs `io_recv_from` type with given parameters
+[[nodiscard]] _INTERFACE_
+auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buf, //
+               io_work_t& work) noexcept(false)                    //
+    -> io_recv_from&;
 
+//  Constructs `io_recv_from` type with given parameters
+[[nodiscard]] _INTERFACE_
+auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buf, //
+               io_work_t& work) noexcept(false)                   //
+    -> io_recv_from&;
+
+// clang-format on
+
+//  Type to perform `send` I/O request
 class io_send final : public io_work_t {
   public:
-    _INTERFACE_ void suspend(io_task_t rh) noexcept(false);
+    _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 
   public:
-    auto await_ready() const noexcept {
+    bool await_ready() const noexcept {
         return this->ready();
     }
-    void await_suspend(io_task_t rh) noexcept(false) {
-        return this->suspend(rh);
+    void await_suspend(io_task_t t) noexcept(false) {
+        return this->suspend(t);
     }
     auto await_resume() noexcept {
         return this->resume();
@@ -170,22 +193,28 @@ class io_send final : public io_work_t {
 };
 static_assert(sizeof(io_send) == sizeof(io_work_t));
 
-[[nodiscard]] _INTERFACE_ //
-    auto
-    send_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
-                io_work_t& work) noexcept(false) -> io_send&;
+// clang-format off
 
+//  Constructs `io_send` type with given parameters
+[[nodiscard]] _INTERFACE_
+auto send_stream(uint64_t sd, io_buffer_t buf, uint32_t flag, //
+                 io_work_t& work) noexcept(false)             //
+    -> io_send&;
+
+// clang-format on
+
+//  Type to perform `recv` I/O request
 class io_recv final : public io_work_t {
   public:
-    _INTERFACE_ void suspend(io_task_t rh) noexcept(false);
+    _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 
   public:
-    auto await_ready() const noexcept {
+    bool await_ready() const noexcept {
         return this->ready();
     }
-    void await_suspend(io_task_t rh) noexcept(false) {
-        return this->suspend(rh);
+    void await_suspend(io_task_t t) noexcept(false) {
+        return this->suspend(t);
     }
     auto await_resume() noexcept {
         return this->resume();
@@ -193,14 +222,19 @@ class io_recv final : public io_work_t {
 };
 static_assert(sizeof(io_recv) == sizeof(io_work_t));
 
-[[nodiscard]] _INTERFACE_ //
-    auto
-    recv_stream(uint64_t sd, buffer_view_t buffer, uint32_t flag,
-                io_work_t& work) noexcept(false) -> io_recv&;
+// clang-format off
+
+//  Constructs `io_recv` type with given parameters
+[[nodiscard]] _INTERFACE_
+auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag, //
+                 io_work_t& work) noexcept(false)             //
+    -> io_recv&;
+
+// clang-format on
 
 //  This function is for non-windows platform. Over windows api, it always
-//  yields nothing. User must continue looping without break so that there is no
-//  leak of event.
+//  yields nothing. User must continue loop *without break*
+//  so that there is leak of event.
 //
 //  Also, the library doesn't guarantee all coroutines(i/o tasks) will be
 //  fetched at once. Therefore it is strongly recommended for user to have
@@ -209,28 +243,35 @@ _INTERFACE_
 auto wait_io_tasks(std::chrono::nanoseconds timeout) noexcept(false)
     -> coro::enumerable<io_task_t>;
 
-_INTERFACE_
-auto host_name() noexcept -> gsl::czstring<NI_MAXHOST>;
+//
+//  Name resolution utilities
+//
 
-_INTERFACE_
-std::errc peer_name(uint64_t sd, endpoint_t& ep) noexcept;
+using czstring_host = gsl::czstring<NI_MAXHOST>;
+using czstring_serv = gsl::czstring<NI_MAXSERV>;
 
-_INTERFACE_
-std::errc sock_name(uint64_t sd, endpoint_t& ep) noexcept;
+using zstring_host = gsl::zstring<NI_MAXHOST>;
+using zstring_serv = gsl::zstring<NI_MAXSERV>;
 
+//  Invoke `gethostname` with pre-allocated buffer and return its start
+_INTERFACE_
+auto host_name() noexcept -> czstring_host;
+
+//  Combination of `getaddrinfo` functions
+//  If there is an error, the enumerable yields nothing.
 _INTERFACE_
 auto resolve(const addrinfo& hint, //
-             gsl::czstring<NI_MAXHOST> name,
-             gsl::czstring<NI_MAXSERV> serv) noexcept
+             czstring_host name, czstring_serv serv) noexcept
     -> coro::enumerable<endpoint_t>;
 
-[[nodiscard]] _INTERFACE_ //
-    int
-    get_name(const endpoint_t& ep, gsl::zstring<NI_MAXHOST> name) noexcept;
+// clang-format off
 
-[[nodiscard]] _INTERFACE_ //
-    int
-    get_name(const endpoint_t& ep, gsl::zstring<NI_MAXHOST> name,
-             gsl::zstring<NI_MAXSERV> serv) noexcept;
+//  Thin wrapper of `getnameinfo`
+//  parameter `serv` can be `nullptr`.
+[[nodiscard]] _INTERFACE_
+int get_name(const endpoint_t& ep, //
+             zstring_host name, zstring_serv serv) noexcept;
+
+// clang-format on
 
 #endif // COROUTINE_NET_IO_H

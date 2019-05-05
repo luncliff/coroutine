@@ -51,6 +51,10 @@ class no_return final {
     }
 };
 
+// Receiver type for coroutine's frame address
+// This type has 2 use-case.
+//  - the return type of coroutine function
+//  - the operand of `co_await`. In the case, the coroutine will suspend
 class frame final : public coroutine_handle<void>, public suspend_always {
   public:
     struct promise_type final {

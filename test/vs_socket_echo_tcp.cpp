@@ -21,16 +21,13 @@ using namespace coro;
 
 using wait_group = concrt::latch;
 
-auto coro_recv_stream(SOCKET sd, int64_t& rsz, wait_group& wg)
-    -> no_return;
-auto coro_send_stream(SOCKET sd, int64_t& ssz, wait_group& wg)
-    -> no_return;
+auto coro_recv_stream(SOCKET sd, int64_t& rsz, wait_group& wg) -> no_return;
+auto coro_send_stream(SOCKET sd, int64_t& ssz, wait_group& wg) -> no_return;
 auto echo_incoming_stream(SOCKET sd) -> no_return;
 
 //  - Note
 //      TCP Echo Server/Client
-class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test>
-{
+class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test> {
     addrinfo hint{};            // address hint
     SOCKET ln = INVALID_SOCKET; // listener socket
     endpoint_t ep{};            // service endpoint
@@ -40,8 +37,7 @@ class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test>
     void stop_listen();
     void accept_dials();
 
-    TEST_METHOD_INITIALIZE(setup)
-    {
+    TEST_METHOD_INITIALIZE(setup) {
         // create listener socket
         hint.ai_family = AF_INET6;
         hint.ai_socktype = SOCK_STREAM;
@@ -51,13 +47,10 @@ class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test>
         ln = static_cast<SOCKET>(socket_create(hint));
 
         auto af = ep.storage.ss_family = hint.ai_family;
-        if (af == AF_INET)
-        {
+        if (af == AF_INET) {
             ep.in4.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
             ep.in4.sin_port = htons(32345);
-        }
-        else if (af == AF_INET6)
-        {
+        } else if (af == AF_INET6) {
             ep.in6.sin6_addr = in6addr_loopback;
             ep.in6.sin6_port = htons(32345);
         }
@@ -67,13 +60,11 @@ class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test>
         start_listen();
     }
 
-    TEST_METHOD_CLEANUP(teardown)
-    {
+    TEST_METHOD_CLEANUP(teardown) {
         stop_listen();
     }
 
-    TEST_METHOD(socket_tcp_echo)
-    {
+    TEST_METHOD(socket_tcp_echo) {
         constexpr auto max_clients = 4;
 
         // create some client sockets and data
@@ -87,8 +78,7 @@ class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test>
 
         // connect and option settings
         ep.in6.sin6_addr = in6addr_loopback;
-        for (auto sd : clients)
-        {
+        for (auto sd : clients) {
             connect(sd, addressof(ep.addr), sizeof(sockaddr_in6));
             auto ec = WSAGetLastError();
             Assert::IsTrue(ec == NO_ERROR);
@@ -129,12 +119,10 @@ class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test>
     }
 };
 
-void socket_tcp_echo_test::accept_dials()
-{
+void socket_tcp_echo_test::accept_dials() {
     SOCKET cs = INVALID_SOCKET;
     int ec = NO_ERROR;
-    while (true)
-    {
+    while (true) {
         // notice that `ln` is non-blocking socket.
         cs = accept(ln, nullptr, nullptr);
         ec = WSAGetLastError();
@@ -151,8 +139,7 @@ void socket_tcp_echo_test::accept_dials()
     }
 }
 
-void socket_tcp_echo_test::start_listen()
-{
+void socket_tcp_echo_test::start_listen() {
     auto ec = WSAGetLastError();
 
     ec = listen(ln, 7);
@@ -163,15 +150,12 @@ void socket_tcp_echo_test::start_listen()
     Assert::IsTrue(ioctlsocket(ln, FIONBIO, &mode) == NO_ERROR);
 }
 
-void socket_tcp_echo_test::stop_listen()
-{
+void socket_tcp_echo_test::stop_listen() {
     shutdown(ln, SD_BOTH);
     closesocket(ln);
 }
 
-auto coro_recv_stream(SOCKET sd, int64_t& rsz, wait_group& wg)
-    -> no_return
-{
+auto coro_recv_stream(SOCKET sd, int64_t& rsz, wait_group& wg) -> no_return {
     // ensure noti to wait_group
     auto d = gsl::finally([&wg]() { wg.count_down(); });
 
@@ -183,9 +167,7 @@ auto coro_recv_stream(SOCKET sd, int64_t& rsz, wait_group& wg)
     Assert::IsTrue(work.error() == NO_ERROR);
 }
 
-auto coro_send_stream(SOCKET sd, int64_t& ssz, wait_group& wg)
-    -> no_return
-{
+auto coro_send_stream(SOCKET sd, int64_t& ssz, wait_group& wg) -> no_return {
     // ensure noti to wait_group
     auto d = gsl::finally([&wg]() { wg.count_down(); });
 
@@ -197,12 +179,11 @@ auto coro_send_stream(SOCKET sd, int64_t& ssz, wait_group& wg)
     Assert::IsTrue(work.error() == NO_ERROR);
 }
 
-auto echo_incoming_stream(SOCKET sd) -> no_return
-{
+auto echo_incoming_stream(SOCKET sd) -> no_return {
     auto d = gsl::finally([=]() { socket_close(sd); });
 
     io_work_t work{};
-    buffer_view_t buf{};
+    io_buffer_t buf{};
     int64_t rsz = 0, ssz = 0;
     array<byte, 3900> storage{};
 

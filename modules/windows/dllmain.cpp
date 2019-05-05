@@ -8,19 +8,25 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/concrt.h>
 
-#include <gsl/gsl_util>
+#include <gsl/gsl>
 
 #include <TlHelp32.h>
 
 using namespace std;
+using namespace gsl;
+
+system_error make_sys_error(not_null<czstring<>> label) noexcept(false) {
+    const auto ec = gsl::narrow_cast<int>(GetLastError());
+    return system_error{ec, system_category(), label};
+}
+
 namespace concrt {
 
 auto get_threads(DWORD pid) noexcept(false) -> coro::enumerable<DWORD> {
     // for current process
     auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
     if (snapshot == INVALID_HANDLE_VALUE)
-        throw system_error{gsl::narrow_cast<int>(GetLastError()),
-                           system_category(), "CreateToolhelp32Snapshot"};
+        throw make_sys_error("CreateToolhelp32Snapshot");
 
     auto h = gsl::finally([=]() noexcept { CloseHandle(snapshot); });
 

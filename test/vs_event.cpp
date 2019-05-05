@@ -32,7 +32,8 @@ class ptp_work_test : public TestClass<ptp_work_test> {
             e = CreateEventEx(nullptr, nullptr, //
                               CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
             Assert::IsTrue(e != NULL);
-            ResetEvent(e);
+            if (e) // if statement because of C6387
+                ResetEvent(e);
         }
     }
     TEST_METHOD_CLEANUP(close_events) {
@@ -90,7 +91,8 @@ class ptp_event_test : public TestClass<ptp_event_test> {
         ev = CreateEventEx(nullptr, nullptr, //
                            CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
         Assert::IsTrue(ev != NULL);
-        ResetEvent(ev);
+        if (ev) // if statement because of C6387
+            ResetEvent(ev);
     }
     TEST_METHOD_CLEANUP(close_event) {
         CloseHandle(ev);

@@ -7,18 +7,25 @@
 
 #include <gsl/gsl>
 
-#include <atomic>
-#include <chrono>
 #include <system_error>
 
 #include <Windows.h>
 //#include <concrt.h>   // Windows Concurrency Runtime's event is not alertible.
 #include <synchapi.h>
 
-#include "stop_watch.hpp"
+using namespace std;
+using namespace gsl;
+
+extern system_error make_sys_error(not_null<czstring<>> label) noexcept(false);
 
 namespace concrt {
 
+static_assert(is_move_assignable_v<ptp_event> == false);
+static_assert(is_move_constructible_v<ptp_event> == false);
+static_assert(is_copy_assignable_v<ptp_event> == false);
+static_assert(is_copy_constructible_v<ptp_event> == false);
+
+GSL_SUPPRESS(con .4)
 void __stdcall ptp_event::wait_on_thread_pool(PVOID ctx, BOOLEAN timedout) {
     // we are using INFINITE
     UNREFERENCED_PARAMETER(timedout);
@@ -48,10 +55,8 @@ void ptp_event::on_suspend(coroutine_handle<void> coro) noexcept(false) {
     // this is one-shot event. so use infinite timeout
     if (RegisterWaitForSingleObject(addressof(wo), ev, wait_on_thread_pool,
                                     coro.address(), INFINITE,
-                                    WT_EXECUTEONLYONCE) == FALSE) {
-        throw system_error{gsl::narrow_cast<int>(GetLastError()),
-                           system_category(), "RegisterWaitForSingleObject"};
-    }
+                                    WT_EXECUTEONLYONCE) == FALSE)
+        throw make_sys_error("RegisterWaitForSingleObject");
 }
 // https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-unregisterwait
 uint32_t ptp_event::on_resume() noexcept {
@@ -70,13 +75,17 @@ uint32_t ptp_event::on_resume() noexcept {
     return ec;
 }
 
+static_assert(is_move_assignable_v<latch> == false);
+static_assert(is_move_constructible_v<latch> == false);
+static_assert(is_copy_assignable_v<latch> == false);
+static_assert(is_copy_constructible_v<latch> == false);
+
 latch::latch(uint32_t delta) noexcept(false)
     : ev{CreateEventEx(nullptr, nullptr, //
                        CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS)},
       ref{delta} {
     if (ev == INVALID_HANDLE_VALUE)
-        throw system_error{gsl::narrow_cast<int>(GetLastError()),
-                           system_category(), "CreateEventA"};
+        throw make_sys_error("CreateEventA");
     ResetEvent(ev);
 }
 latch::~latch() noexcept {
@@ -134,6 +143,7 @@ void latch::wait() noexcept(false) {
     return;
 }
 
+GSL_SUPPRESS(con .4)
 void ptp_work::resume_on_thread_pool(PTP_CALLBACK_INSTANCE, //
                                      PVOID ctx, PTP_WORK work) {
     if (auto coro = coroutine_handle<void>::from_address(ctx))
@@ -142,7 +152,7 @@ void ptp_work::resume_on_thread_pool(PTP_CALLBACK_INSTANCE, //
 
     ::CloseThreadpoolWork(work); // one-time work item
 }
-auto ptp_work::suspend(coroutine_handle<void> coro) noexcept -> uint32_t {
+auto ptp_work::on_suspend(coroutine_handle<void> coro) noexcept -> uint32_t {
     // just make sure no data loss in `static_cast`
     static_assert(sizeof(uint32_t) == sizeof(DWORD));
 
@@ -154,6 +164,11 @@ auto ptp_work::suspend(coroutine_handle<void> coro) noexcept -> uint32_t {
     SubmitThreadpoolWork(work);
     return S_OK;
 }
+
+static_assert(is_move_assignable_v<section> == false);
+static_assert(is_move_constructible_v<section> == false);
+static_assert(is_copy_assignable_v<section> == false);
+static_assert(is_copy_constructible_v<section> == false);
 
 section::section() noexcept(false) {
     InitializeCriticalSectionAndSpinCount(this, 0600);
@@ -170,4 +185,5 @@ void section::lock() noexcept(false) {
 void section::unlock() noexcept(false) {
     LeaveCriticalSection(this);
 }
+
 } // namespace concrt

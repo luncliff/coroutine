@@ -168,7 +168,7 @@ auto echo_incoming_stream(int64_t sd) -> no_return {
     auto d = finally([=]() { socket_close(sd); });
 
     io_work_t work{};
-    buffer_view_t buf{};
+    io_buffer_t buf{};
     int64_t rsz = 0, ssz = 0;
     array<byte, 3900> storage{};
 

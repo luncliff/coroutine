@@ -5,6 +5,7 @@
 # ---------------------------------------------------------------------------
 
 add_library(${PROJECT_NAME}
+    windows/dllmain.cpp
     windows/concrt.cpp
     windows/net.cpp
     net/resolver.cpp

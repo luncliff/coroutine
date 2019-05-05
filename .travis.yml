@@ -53,6 +53,7 @@ install:
     fi
 script:
   - mkdir -p build && cd build;
+  # perform build / install
   - cmake ../
     -G "Ninja"
     -DBUILD_SHARED_LIBS=${SHARED}
@@ -61,8 +62,14 @@ script:
     -DCMAKE_CXX_COMPILER=${CXX}
     ${EXT_ARGS}
   - ninja install;
-  - ./test/coroutine_test;
-  - cd -;
+  # perform tests
+  - ./test/coroutine_test [primitive];
+  - ./test/coroutine_test [return];
+  - ./test/coroutine_test [thread];
+  - ./test/coroutine_test [channel];
+  - ./test/coroutine_test [generic];
+  - ./test/coroutine_test [network];
+  - ./test/coroutine_test [event];
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install
@@ -114,9 +121,6 @@ matrix:
           -DIOS_DEPLOYMENT_TARGET=11.0
         # by using 11.0 or later, ensure target platform is 64 bit.
         - make install;
-        - cd -;
-      after_success:
-        - tree ./install;
 
     - name: Android NDK
       language: android
@@ -154,8 +158,6 @@ matrix:
       script:
         - gradle clean
         - gradle assemble -warning-mode all
-      after_success:
-        - tree ./install
 
     #
     # test implementation in <coroutine/frame.h>
