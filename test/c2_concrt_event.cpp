@@ -12,6 +12,15 @@ using namespace concrt;
 #include <atomic>
 using namespace std;
 
+TEST_CASE("no event wait yields no task", "[event]") {
+    auto count = 0;
+    for (auto task : signaled_event_tasks()) {
+        task.resume();
+        ++count;
+    }
+    REQUIRE(count == 0);
+}
+
 auto wait_for_one_event(event& e, atomic_flag& flag) -> no_return {
     try {
 
@@ -30,16 +39,14 @@ TEST_CASE("wait for one event", "[event]") {
     atomic_flag flag = ATOMIC_FLAG_INIT;
 
     wait_for_one_event(e1, flag);
-
     e1.set();
-    // auto count = 0;
+    auto count = 0;
 
     for (auto task : signaled_event_tasks()) {
         task.resume();
-        // ++count;
+        ++count;
     }
-
-    // REQUIRE(count > 0);
+    REQUIRE(count > 0);
     // already set by the coroutine `wait_for_one_event`
     REQUIRE(flag.test_and_set() == true);
 }
@@ -73,7 +80,6 @@ TEST_CASE("wait for event multiple times", "[event]") {
 
 TEST_CASE("signaled event becomes ready", "[event]") {
     event e1{};
-
     e1.set(); // when the event is signaled,
               // `co_await` on it must proceed without suspend
     REQUIRE(e1.await_ready() == true);
@@ -109,7 +115,6 @@ TEST_CASE("wait for multiple events", "[event]") {
     // signal in descending order. notice the order in the test function ...
     for (auto idx : {2, 1, 0}) {
         events[idx].set();
-
         // resume if there is available event-waiting coroutines
         for (auto task : signaled_event_tasks())
             task.resume();
