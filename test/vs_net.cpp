@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <coroutine/net.h>
+#include "./net_test.h"
 
 #include <CppUnitTest.h>
 
@@ -15,7 +15,7 @@ void print_error_message(int ec = WSAGetLastError()) {
 }
 
 // The library doesn't init/release Windows Socket API
-//  Its user must do the work. In this case, the user is test code 
+//  Its user must do the work. In this case, the user is test code
 WSADATA wsa_data{};
 
 TEST_MODULE_INITIALIZE(winsock_init) {
@@ -77,6 +77,22 @@ void socket_listen(int64_t sd) {
         print_error_message();
         Assert::Fail();
     }
+}
+
+int64_t socket_connect(int64_t sd, const endpoint_t& remote) {
+    socklen_t addrlen = 0;
+    if (remote.addr.sa_family == AF_INET)
+        addrlen = sizeof(remote.in4);
+    if (remote.addr.sa_family == AF_INET6)
+        addrlen = sizeof(remote.in6);
+
+    return ::connect(sd, addressof(remote.addr), addrlen);
+}
+
+int64_t socket_accept(const int64_t ln, endpoint_t& ep) {
+    // receiver can check the address family
+    socklen_t addrlen = sizeof(ep.in6);
+    return ::accept(ln, addressof(ep.addr), addressof(addrlen));
 }
 
 void socket_set_option_nonblock(int64_t sd) {
