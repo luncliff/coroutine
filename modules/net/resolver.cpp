@@ -31,6 +31,7 @@ int get_name(const endpoint_t& ep, //
         addrlen = sizeof(ep.in4);
     else if (ep.storage.ss_family == AF_INET6)
         addrlen = sizeof(ep.in6);
+
     // available flags...
     //      NI_NAMEREQD
     //      NI_DGRAM
@@ -38,8 +39,8 @@ int get_name(const endpoint_t& ep, //
     //      NI_NUMERICHOST
     //      NI_NUMERICSERV
     // non-zero if failed
-    return ::getnameinfo(&ep.addr, addrlen, name, NI_MAXHOST, serv, NI_MAXSERV,
-                         NI_NUMERICHOST | NI_NUMERICSERV);
+    return ::getnameinfo(addressof(ep.addr), addrlen, name, NI_MAXHOST, serv,
+                         slen, NI_NUMERICHOST | NI_NUMERICSERV);
 }
 
 GSL_SUPPRESS(es .76)
@@ -59,11 +60,10 @@ auto resolve(const addrinfo& hint, //
     auto d1 = gsl::finally([list]() noexcept { ::freeaddrinfo(list); });
 
     endpoint_t* ptr = nullptr;
-    for (addrinfo* iter = list; nullptr != iter; iter = iter->ai_next) {
-        if (iter->ai_family != AF_INET6)
-            continue;
+    for (addrinfo* it = list; it != nullptr; it = it->ai_next) {
+        ptr = reinterpret_cast<endpoint_t*>(it->ai_addr);
 
-        ptr = reinterpret_cast<endpoint_t*>(iter->ai_addr);
-        co_yield* ptr; // yield and proceed
+        endpoint_t& ep = *ptr;
+        co_yield ep;
     }
 }

@@ -1,18 +1,12 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
 #include <coroutine/concrt.h>
-#include <coroutine/return.h>
 
 #include "./socket_test.h"
 
-// clang-format off
-#include <sdkddkver.h>
 #include <CppUnitTest.h>
-// clang-format on
 
 using namespace std;
 using namespace std::chrono_literals;
@@ -27,7 +21,7 @@ auto echo_incoming_stream(SOCKET sd) -> no_return;
 
 //  - Note
 //      TCP Echo Server/Client
-class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test> {
+class net_echo_tcp_test : public TestClass<net_echo_tcp_test> {
     addrinfo hint{};            // address hint
     SOCKET ln = INVALID_SOCKET; // listener socket
     endpoint_t ep{};            // service endpoint
@@ -119,7 +113,7 @@ class socket_tcp_echo_test : public TestClass<socket_tcp_echo_test> {
     }
 };
 
-void socket_tcp_echo_test::accept_dials() {
+void net_echo_tcp_test::accept_dials() {
     SOCKET cs = INVALID_SOCKET;
     int ec = NO_ERROR;
     while (true) {
@@ -139,7 +133,7 @@ void socket_tcp_echo_test::accept_dials() {
     }
 }
 
-void socket_tcp_echo_test::start_listen() {
+void net_echo_tcp_test::start_listen() {
     auto ec = WSAGetLastError();
 
     ec = listen(ln, 7);
@@ -150,7 +144,7 @@ void socket_tcp_echo_test::start_listen() {
     Assert::IsTrue(ioctlsocket(ln, FIONBIO, &mode) == NO_ERROR);
 }
 
-void socket_tcp_echo_test::stop_listen() {
+void net_echo_tcp_test::stop_listen() {
     shutdown(ln, SD_BOTH);
     closesocket(ln);
 }

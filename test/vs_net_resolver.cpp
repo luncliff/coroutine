@@ -2,60 +2,85 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "./socket_test.h"
+#include <coroutine/net.h>
 
 #include <CppUnitTest.h>
-#include <sdkddkver.h>
 
+using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-TEST_MODULE_INITIALIZE(winsock_init) {
-    load_network_api();
-}
+extern void print_error_message(int ec = WSAGetLastError());
 
-class resolver_name_info_test : public TestClass<resolver_name_info_test> {
+class net_gethostname_test : public TestClass<net_gethostname_test> {
 
-    TEST_METHOD(get_name_current_host) {
+    TEST_METHOD(net_current_host_name) {
         const auto name = host_name();
         Assert::IsNotNull(name); // non-null
 
         Logger::WriteMessage(name);
     }
+};
 
-    TEST_METHOD(get_name_ipv6_address) {
-        auto buffer = std::make_unique<char[]>(NI_MAXHOST);
-        auto name = buffer.get();
+class net_getnameinfo_test : public TestClass<net_getnameinfo_test> {
 
-        endpoint_t ep{};
-        ep.in6.sin6_family = AF_INET6;
-        ep.in6.sin6_addr = in6addr_any;
-        ep.in6.sin6_port = htons(7654);
+    unique_ptr<char[]> name_buffer, serv_buffer;
+    zstring_host name, serv;
+    endpoint_t ep{};
 
-        // non-zero for error. it is redirected from getnameinfo
-        auto ec = get_name(ep, name, nullptr);
-        Assert::IsTrue(ec == NO_ERROR);
+    TEST_METHOD_INITIALIZE(allocate_string_buffers) {
+        name_buffer = make_unique<char[]>(NI_MAXHOST);
+        serv_buffer = make_unique<char[]>(NI_MAXSERV);
+        name = name_buffer.get();
+        serv = serv_buffer.get();
     }
 
-    TEST_METHOD(get_name_ipv4_address) {
-        auto buffer = std::make_unique<char[]>(NI_MAXHOST);
-        auto name = buffer.get();
+    TEST_METHOD(net_get_name_ipv6_address) {
 
-        endpoint_t ep{};
-        ep.in4.sin_family = AF_INET;
-        ep.in4.sin_addr.s_addr = INADDR_ANY;
-        ep.in4.sin_port = htons(7654);
+        sockaddr_in6& ip = ep.in6;
+        ip.sin6_family = AF_INET6;
+        ip.sin6_addr = in6addr_any;
+        ip.sin6_port = htons(7654);
 
-        // non-zero for error. it is redirected from getnameinfo
-        auto ec = get_name(ep, name, nullptr);
-        Assert::IsTrue(ec == NO_ERROR);
+        // non-zero for error.
+        // the value is redirected from `getnameinfo`
+        if (auto ec = get_name(ep, name, nullptr)) {
+            print_error_message();
+            Assert::Fail();
+        }
+        // retry with service name buffer
+        if (auto ec = get_name(ep, name, serv)) {
+            print_error_message();
+            Assert::Fail();
+        }
+    }
+
+    TEST_METHOD(net_get_name_ipv4_address) {
+
+        sockaddr_in& ip = ep.in4;
+        ip.sin_family = AF_INET;
+        ip.sin_addr.s_addr = INADDR_ANY;
+        ip.sin_port = htons(7654);
+
+        // non-zero for error.
+        // the value is redirected from `getnameinfo`
+        if (auto ec = get_name(ep, name, nullptr)) {
+            print_error_message();
+            Assert::Fail();
+        }
+        // retry with service name buffer
+        if (auto ec = get_name(ep, name, serv)) {
+            print_error_message();
+            Assert::Fail();
+        }
     }
 };
 
-class resolver_addr_info_test : public TestClass<resolver_addr_info_test> {
+class net_getaddrinfo_test : public TestClass<net_getaddrinfo_test> {
+
     addrinfo hint{};
     size_t count = 0u;
 
-    TEST_METHOD(get_addr_tcpv6_for_connect) {
+    TEST_METHOD(net_resolve_tcpv6_for_connect) {
         hint.ai_family = AF_INET6;
         hint.ai_socktype = SOCK_STREAM;
         hint.ai_flags = AI_ALL | AI_V4MAPPED | AI_NUMERICHOST;
@@ -70,11 +95,11 @@ class resolver_addr_info_test : public TestClass<resolver_addr_info_test> {
         Assert::IsTrue(count > 0);
     }
 
-    TEST_METHOD(get_addr_tcpv6_for_listen_text) {
+    TEST_METHOD(net_resolve_tcpv6_for_listen_text) {
         hint.ai_family = AF_INET6;
         hint.ai_socktype = SOCK_STREAM;
-
         hint.ai_flags = AI_PASSIVE | AI_V4MAPPED;
+
         for (auto ep : resolve(hint, nullptr, "https")) {
             Assert::IsTrue(ep.in6.sin6_family == AF_INET6);
             Assert::IsTrue(ep.in6.sin6_port == htons(443));
@@ -83,11 +108,11 @@ class resolver_addr_info_test : public TestClass<resolver_addr_info_test> {
         Assert::IsTrue(count > 0);
     }
 
-    TEST_METHOD(get_addr_tcpv6_for_listen_numeric) {
+    TEST_METHOD(net_resolve_tcpv6_for_listen_numeric) {
         hint.ai_family = AF_INET6;
         hint.ai_socktype = SOCK_STREAM;
-        hint.ai_flags = AI_PASSIVE | AI_V4MAPPED //
-                        | AI_NUMERICSERV | AI_NUMERICHOST;
+        hint.ai_flags =
+            AI_PASSIVE | AI_V4MAPPED | AI_NUMERICSERV | AI_NUMERICHOST;
 
         for (auto ep : resolve(hint, "fe80::", "57132")) {
             Assert::IsTrue(ep.in6.sin6_family == AF_INET6);
@@ -100,11 +125,10 @@ class resolver_addr_info_test : public TestClass<resolver_addr_info_test> {
         Assert::IsTrue(count > 0);
     }
 
-    TEST_METHOD(get_addr_udpv6_for_bind) {
+    TEST_METHOD(net_resolve_udpv6_for_bind) {
         hint.ai_family = AF_INET6;
         hint.ai_socktype = SOCK_DGRAM;
-        hint.ai_flags = AI_ALL | AI_V4MAPPED //
-                        | AI_NUMERICHOST | AI_NUMERICSERV;
+        hint.ai_flags = AI_ALL | AI_V4MAPPED | AI_NUMERICHOST | AI_NUMERICSERV;
 
         for (auto ep : resolve(hint, "::", "9283")) {
             Assert::IsTrue(ep.in6.sin6_family == AF_INET6);
@@ -116,11 +140,10 @@ class resolver_addr_info_test : public TestClass<resolver_addr_info_test> {
         Assert::IsTrue(count > 0);
     }
 
-    TEST_METHOD(get_addr_ipv6_for_bind) {
+    TEST_METHOD(net_resolve_ipv6_for_bind) {
         hint.ai_family = AF_INET6;
         hint.ai_socktype = SOCK_RAW;
-        hint.ai_flags = AI_ALL | AI_V4MAPPED //
-                        | AI_NUMERICHOST | AI_NUMERICSERV;
+        hint.ai_flags = AI_ALL | AI_V4MAPPED | AI_NUMERICHOST | AI_NUMERICSERV;
 
         for (auto ep : resolve(hint, "::0.0.0.0", "9287")) {
             Assert::IsTrue(ep.in6.sin6_family == AF_INET6);
@@ -133,7 +156,7 @@ class resolver_addr_info_test : public TestClass<resolver_addr_info_test> {
         Assert::IsTrue(count > 0);
     }
 
-    TEST_METHOD(get_addr_ipv6_for_multicast) {
+    TEST_METHOD(net_resolve_ipv6_for_multicast) {
         hint.ai_family = AF_INET6;
         hint.ai_socktype = SOCK_RAW;
         hint.ai_flags = AI_ALL | AI_NUMERICHOST | AI_NUMERICSERV;

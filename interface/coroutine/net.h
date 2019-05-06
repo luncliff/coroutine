@@ -106,7 +106,7 @@ static_assert(sizeof(io_work_t) <= 64);
 
 //  Type to perform `sendto` I/O request
 class io_send_to final : public io_work_t {
-  public:
+  private:
     _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 
@@ -141,7 +141,7 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote,          //
 
 //  Type to perform `recvfrom` I/O request
 class io_recv_from final : public io_work_t {
-  public:
+  private:
     _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 
@@ -176,7 +176,7 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buf, //
 
 //  Type to perform `send` I/O request
 class io_send final : public io_work_t {
-  public:
+  private:
     _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 
@@ -205,7 +205,7 @@ auto send_stream(uint64_t sd, io_buffer_t buf, uint32_t flag, //
 
 //  Type to perform `recv` I/O request
 class io_recv final : public io_work_t {
-  public:
+  private:
     _INTERFACE_ void suspend(io_task_t t) noexcept(false);
     _INTERFACE_ int64_t resume() noexcept;
 

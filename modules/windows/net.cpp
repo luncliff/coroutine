@@ -10,7 +10,7 @@ using namespace std;
 using namespace gsl;
 
 // throws `system_error` if `WSAGetLastError` returns error code
-void throw_if_net_error(not_null<czstring<>> label) noexcept(false) {
+void throw_if_async_error(not_null<czstring<>> label) noexcept(false) {
     const auto ec = WSAGetLastError();
     if (ec == NO_ERROR || ec == ERROR_IO_PENDING)
         return; // ok. expected for async i/o
@@ -113,7 +113,7 @@ void io_send_to::suspend(io_task_t t) noexcept(false) {
 
     ::WSASendTo(sd, bufs, 1, nullptr, flag, addr, addrlen,
                 zero_overlapped(this), onWorkDone);
-    throw_if_net_error("WSASendTo");
+    throw_if_async_error("WSASendTo");
 }
 
 int64_t io_send_to::resume() noexcept {
@@ -156,7 +156,7 @@ void io_recv_from::suspend(io_task_t t) noexcept(false) {
 
     ::WSARecvFrom(sd, bufs, 1, nullptr, &flag, addr, &addrlen,
                   zero_overlapped(this), onWorkDone);
-    throw_if_net_error("WSARecvFrom");
+    throw_if_async_error("WSARecvFrom");
 }
 
 int64_t io_recv_from::resume() noexcept {
@@ -183,7 +183,7 @@ void io_send::suspend(io_task_t t) noexcept(false) {
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
 
     ::WSASend(sd, bufs, 1, nullptr, flag, zero_overlapped(this), onWorkDone);
-    throw_if_net_error("WSASend");
+    throw_if_async_error("WSASend");
 }
 
 int64_t io_send::resume() noexcept {
@@ -210,7 +210,7 @@ void io_recv::suspend(io_task_t t) noexcept(false) {
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
 
     ::WSARecv(sd, bufs, 1, nullptr, &flag, zero_overlapped(this), onWorkDone);
-    throw_if_net_error("WSARecv");
+    throw_if_async_error("WSARecv");
 }
 
 int64_t io_recv::resume() noexcept {

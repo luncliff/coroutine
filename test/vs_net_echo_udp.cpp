@@ -1,18 +1,12 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
 #include <coroutine/concrt.h>
-#include <coroutine/return.h>
 
 #include "./socket_test.h"
 
-// clang-format off
-#include <sdkddkver.h>
 #include <CppUnitTest.h>
-// clang-format on
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -29,7 +23,7 @@ auto echo_incoming_datagram(SOCKET sd) -> no_return;
 
 //  - Note
 //      UDP Echo Server/Client
-class socket_udp_echo_test : public TestClass<socket_udp_echo_test> {
+class net_echo_udp_test : public TestClass<net_echo_udp_test> {
     addrinfo hint{};            // address hint
     SOCKET ss = INVALID_SOCKET; // service socket
     endpoint_t ep{};            // service endpoint
@@ -116,11 +110,11 @@ class socket_udp_echo_test : public TestClass<socket_udp_echo_test> {
     }
 };
 
-void socket_udp_echo_test::start_service() {
+void net_echo_udp_test::start_service() {
     echo_incoming_datagram(ss);
 }
 
-void socket_udp_echo_test::stop_service() {
+void net_echo_udp_test::stop_service() {
     socket_close(ss);
 }
 

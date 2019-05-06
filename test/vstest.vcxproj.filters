@@ -4,11 +4,12 @@
     <ClCompile Include="vs_return.cpp" />
     <ClCompile Include="vs_yield.cpp" />
     <ClCompile Include="vs_channel.cpp" />
-    <ClCompile Include="vs_resolver.cpp" />
-    <ClCompile Include="vs_socket.cpp" />
-    <ClCompile Include="vs_socket_echo_tcp.cpp" />
-    <ClCompile Include="vs_socket_echo_udp.cpp" />
-    <ClCompile Include="vs_concrt.cpp" />
-    <ClCompile Include="vs_event.cpp" />
+    <ClCompile Include="vs_net_echo_tcp.cpp" />
+    <ClCompile Include="vs_net_echo_udp.cpp" />
+    <ClCompile Include="vs_net_resolver.cpp" />
+    <ClCompile Include="vs_concrt_ptp_event.cpp" />
+    <ClCompile Include="vs_concrt_latch.cpp" />
+    <ClCompile Include="vs_concrt_ptp_work.cpp" />
+    <ClCompile Include="vs_net.cpp" />
   </ItemGroup>
 </Project>

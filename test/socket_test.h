@@ -23,6 +23,10 @@ void socket_bind(int64_t sd, endpoint_t& ep);
 //  start listen with the socket
 void socket_listen(int64_t sd);
 
+//  change the socket's option
+void socket_set_option(int64_t sd, int64_t level, int64_t option,
+                       int64_t value);
+
 //  make socket to operate in non-blocking mode
 void socket_set_option_nonblock(int64_t sd);
 
