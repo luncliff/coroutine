@@ -125,17 +125,20 @@ bool latch::is_ready() const noexcept {
     return false;
 }
 void latch::wait() noexcept(false) {
-    constexpr auto timeout = INFINITE;
     static_assert(WAIT_OBJECT_0 == 0);
 
+StartWait:
     // standard interface doesn't define timed wait.
     // This makes APC available. expecially for Overlapped I/O
-    if (WaitForSingleObjectEx(ev, timeout, TRUE))
+    if (auto ec = WaitForSingleObjectEx(ev, INFINITE, TRUE))
         // WAIT_FAILED	: use GetLastError in the case
         // WAIT_TIMEOUT	: this is expected. user can try again
         // WAIT_IO_COMPLETION : return because of APC
         // WAIT_ABANDONED
-        return;
+        if (ec == WAIT_IO_COMPLETION)
+            goto StartWait;
+        else
+            return;
 
     // WAIT_OBJECT_0 : return by signal
     CloseHandle(ev);

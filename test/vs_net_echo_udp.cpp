@@ -2,9 +2,8 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <coroutine/concrt.h>
-
 #include "./net_test.h"
+#include <coroutine/concrt.h>
 
 #include <CppUnitTest.h>
 
@@ -57,9 +56,10 @@ class net_echo_udp_test : public TestClass<net_echo_udp_test> {
 
     TEST_METHOD_CLEANUP(teardown) {
         stop_service();
+        SleepEx(1000, true);
     }
 
-    TEST_METHOD(socket_udp_echo) {
+    TEST_METHOD(net_echo_datagrams) {
         constexpr auto max_clients = 4;
 
         // create some client sockets and data

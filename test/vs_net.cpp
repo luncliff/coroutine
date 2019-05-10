@@ -120,3 +120,15 @@ void socket_set_option_reuse_address(int64_t sd) {
 void socket_set_option_nodelay(int64_t sd) {
     return socket_set_option(sd, IPPROTO_TCP, TCP_NODELAY, true);
 }
+
+class net_wait_test : public TestClass<net_wait_test> {
+
+    TEST_METHOD(net_wait_io_task_yield_nothing) {
+        auto count = 0u;
+        for (auto t : wait_io_tasks(10ms)) {
+            Assert::IsNotNull(t.address());
+            count += 1;
+        }
+        Assert::IsTrue(count == 0);
+    }
+};

@@ -14,6 +14,8 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace coro;
 using namespace concrt;
 
+using on_accept_handler = auto (*)(SOCKET) -> no_return;
+
 extern void print_error_message(int ec = WSAGetLastError());
 
 //  Recv a message and return without closing socket
@@ -24,11 +26,9 @@ auto test_recv_stream(SOCKET sd, int64_t& rsz, latch& wg) -> no_return;
 //  `latch` is used to detect the coroutine is returned
 auto test_send_stream(SOCKET sd, int64_t& ssz, latch& wg) -> no_return;
 
-using on_accept_handler = no_return (*)(SOCKET);
-
 //  Accept socket connects and invoke designated function
 void accept_until_error(SOCKET ln, endpoint_t& remote,
-                        on_accept_handler service);
+                        gsl::not_null<on_accept_handler> service);
 
 //  Receive some blob from the socket and echo back the blob
 //   return if the socket reaches EOF
@@ -70,9 +70,11 @@ class net_echo_tcp_test : public TestClass<net_echo_tcp_test> {
         for (auto sd : conns)
             socket_close(sd);
         socket_close(ln);
+
+        SleepEx(1000, true);
     }
 
-    TEST_METHOD(serve_multiple_connections) {
+    TEST_METHOD(net_echo_multiple_connections) {
         // Start listening. Also, now we know the server address
         socket_listen(ln);
         endpoint_t& server = local;
@@ -117,7 +119,7 @@ class net_echo_tcp_test : public TestClass<net_echo_tcp_test> {
 };
 
 void accept_until_error(SOCKET ln, endpoint_t& remote,
-                        on_accept_handler service) {
+                        gsl::not_null<on_accept_handler> service) {
 
     Assert::IsTrue(service != nullptr);
     while (true) {
