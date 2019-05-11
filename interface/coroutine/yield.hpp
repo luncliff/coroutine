@@ -109,7 +109,7 @@ class enumerable {
 
     class iterator final {
       public:
-        using iterator_category = std::input_iterator_tag;
+        using iterator_category = std::forward_iterator_tag;
         using difference_type = ptrdiff_t;
         using value_type = T;
         using reference = T&;
@@ -300,7 +300,8 @@ class sequence final {
 
     class iterator final {
       public:
-        using iterator_category = std::input_iterator_tag;
+        using iterator_category = std::forward_iterator_tag;
+
         using difference_type = ptrdiff_t;
         using value_type = T;
         using reference = T const&;

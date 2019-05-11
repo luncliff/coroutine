@@ -12,6 +12,7 @@
 #define COROUTINE_RETURN_TYPES_H
 
 #include <coroutine/frame.h>
+#include <exception>
 
 namespace coro {
 using namespace std::experimental;
@@ -35,6 +36,7 @@ class no_return final {
         }
         void unhandled_exception() noexcept(false) {
             // customize this part
+            std::terminate();
         }
         auto get_return_object() noexcept -> promise_type* {
             return this;
@@ -69,6 +71,7 @@ class frame final : public coroutine_handle<void>, public suspend_always {
         }
         void unhandled_exception() noexcept(false) {
             // customize this part
+            std::terminate();
         }
         auto get_return_object() noexcept -> promise_type* {
             return this;
