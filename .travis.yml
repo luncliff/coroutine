@@ -13,7 +13,7 @@ notifications:
     - luncliff@gmail.com
 
 language: cpp
-compiler: clang # expect 5.0+, recommend 6.0
+compiler: clang
 
 addons:
   homebrew:
@@ -37,7 +37,6 @@ addons:
       - unzip
       - ninja-build
       - tree
-      - cmake
 
 install:
   - echo ${TRAVIS_OS_NAME};
@@ -60,7 +59,7 @@ script:
     -DCMAKE_BUILD_TYPE=${CONFIG}
     -DCMAKE_INSTALL_PREFIX=../install
     -DCMAKE_CXX_COMPILER=${CXX}
-    ${EXT_ARGS}
+    ${EXTRA_CMAKE_ARGS}
   - ninja install;
   # perform tests
   - ./test/coroutine_test [primitive];
@@ -150,11 +149,12 @@ matrix:
         - sdk version
         - sdk install gradle
         - sdk use gradle
-        - gradle --version
       install:
         # Accept SDK Licenses + Install NDK
         - yes | sdkmanager --update > /dev/null 2>&1
         - sdkmanager ndk-bundle > /dev/null 2>&1
+      before_script:
+        - gradle --version
       script:
         - gradle clean
         - gradle assemble -warning-mode all
@@ -168,25 +168,29 @@ matrix:
       osx_image: xcode10.2
       env:
         - CONFIG=Debug    SHARED=true
-        - EXT_ARGS=-DUSE_CUSTOM_HEADER=true
+      before_script:
+        - export EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"
 
     - name: Mac Release (Custom)
       os: osx
       osx_image: xcode10.2
       env:
         - CONFIG=Release  SHARED=true
-        - EXT_ARGS=-DUSE_CUSTOM_HEADER=true
+      before_script:
+        - export EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"
 
     - name: Ubuntu(Xenial) Debug (Custom)
       os: linux
       dist: xenial
       env:
         - CONFIG=Debug    SHARED=true
-        - EXT_ARGS=-DUSE_CUSTOM_HEADER=true
+      before_script:
+        - export EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"
 
     - name: Ubuntu(Xenial) Release (Custom)
       os: linux
       dist: xenial
       env:
         - CONFIG=Release  SHARED=true
-        - EXT_ARGS=-DUSE_CUSTOM_HEADER=true
+      before_script:
+        - export EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"

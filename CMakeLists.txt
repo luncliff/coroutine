@@ -42,6 +42,7 @@ if(NOT DEFINED GSL_INCLUDE_DIR)
 else()
     message(STATUS "GSL (C++ Core Guideline Support Library)")
     message(STATUS "  Path      \t: ${GSL_INCLUDE_DIR}")
+    message(STATUS)
 endif()
 
 # Project modules

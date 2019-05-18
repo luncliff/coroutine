@@ -11,6 +11,8 @@ list(APPEND CMAKE_MODULE_PATH
             ${CMAKE_CURRENT_SOURCE_DIR}
 )
 if(ANDROID)
+    # redirect to linux configuration. ensure to make shared object for JNI
+    set(BUILD_SHARED_LIBS ON)
     set(TARGET_PLATFORM_NAME linux)
 elseif(IOS)
     set(TARGET_PLATFORM_NAME darwin)
@@ -35,7 +37,9 @@ PRIVATE
 )
 
 if(USE_CUSTOM_HEADER)
-    message(STATUS "using custom coroutine header")
+    message(STATUS "Customizaton")
+    message(STATUS "  <coroutine/frame.h> is suppressing <experimental/coroutine>")
+    message(STATUS)
     target_compile_definitions(${PROJECT_NAME}
     PUBLIC
         USE_CUSTOM_HEADER
