@@ -3,6 +3,7 @@
 //  License : CC BY 4.0
 //
 #pragma once
+#include "test.h"
 #include <coroutine/net.h>
 
 void load_network_api() noexcept(false);

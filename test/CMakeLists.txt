@@ -6,22 +6,33 @@
 cmake_minimum_required(VERSION 3.8)
 
 add_executable(coroutine_test
-    c2_entry.cpp
-    c2_return.cpp
-    c2_concrt.cpp
-    c2_channel.cpp
-    c2_yield.cpp
+    # files to support test code simplification
+    test_shared.h
+    test_runner.cpp test_catch2.cpp 
 
-    socket_test.h
-    # c2_resolver.cpp
-    c2_socket.cpp
-    c2_socket_echo_udp.cpp
-    c2_socket_echo_tcp.cpp
+    # actual test codes
+    test_coroutine_handle.cpp
+    test_coro_return.cpp
+    test_concrt_latch.cpp
+
+    # c2_channel.cpp
+    # c2_yield.cpp
+
+    # socket_test.h
+    # # c2_resolver.cpp
+    # c2_socket.cpp
+    # c2_socket_echo_udp.cpp
+    # c2_socket_echo_tcp.cpp
 )
-if(UNIX)
+if(WIN32)
+    # target_sources(coroutine_test
+    # PRIVATE
+    #     test_concrt_windows.cpp
+    # )
+elseif(UNIX)
     target_sources(coroutine_test
     PRIVATE
-        c2_concrt_event.cpp
+        test_concrt_unix.cpp
     )
 endif()
 
