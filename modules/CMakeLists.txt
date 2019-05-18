@@ -1,8 +1,6 @@
-# ---------------------------------------------------------------------------
 #
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
-# ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.8)
 
 # redirect to ${target-platform}.cmake for system-specific configurations

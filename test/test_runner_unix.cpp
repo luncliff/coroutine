@@ -10,9 +10,9 @@ extern void run_test_with_catch2(test_adapter* test);
 
 #if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
 
-#elif defined(_MSC_VER) // Windows
+#elif defined(_WINDOWS) || defined(_MSC_VER) // Windows
 static_assert(false, "this test file can't be used for windows")
-#endif                  // Platform specific running
+#endif                                       // Platform specific running
 
 #include "test_concrt_unix.cpp"
 

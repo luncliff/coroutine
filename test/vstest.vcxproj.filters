@@ -1,15 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="vs_return.cpp" />
-    <ClCompile Include="vs_yield.cpp" />
-    <ClCompile Include="vs_channel.cpp" />
-    <ClCompile Include="vs_net_echo_tcp.cpp" />
-    <ClCompile Include="vs_net_echo_udp.cpp" />
-    <ClCompile Include="vs_net_resolver.cpp" />
-    <ClCompile Include="vs_concrt_ptp_event.cpp" />
-    <ClCompile Include="vs_concrt_latch.cpp" />
-    <ClCompile Include="vs_concrt_ptp_work.cpp" />
-    <ClCompile Include="vs_net.cpp" />
+    <ClCompile Include="test_concrt_latch.cpp" />
+    <ClCompile Include="test_coro_channel.cpp" />
+    <ClCompile Include="test_coro_return.cpp" />
+    <ClCompile Include="test_coro_yield_enumerable.cpp" />
+    <ClCompile Include="test_coro_yield_sequence.cpp" />
+    <ClCompile Include="test_coroutine_handle.cpp" />
+    <ClCompile Include="test_net_resolver.cpp" />
+    <ClCompile Include="test_network.cpp" />
+    <ClCompile Include="test_vs_native.cpp" />
+    <ClCompile Include="test_vs_registration.cpp" />
+    <ClCompile Include="test_concrt_windows.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="test_network.h" />
+    <ClInclude Include="test_shared.h" />
   </ItemGroup>
 </Project>

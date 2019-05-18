@@ -61,9 +61,9 @@ auto zero_overlapped(gsl::not_null<io_work_t*> work) noexcept
     return ptr;
 }
 
-// for clang, this is not constexpr function.
 GSL_SUPPRESS(type .1)
-/* constexpr */ auto make_wsa_buf(io_buffer_t v) noexcept -> WSABUF {
+GSL_SUPPRESS(f .4) // for clang, this is not constexpr function.
+auto make_wsa_buf(io_buffer_t v) noexcept -> WSABUF {
     WSABUF buf{}; // expect NRVO
     buf.buf = reinterpret_cast<char*>(v.data());
     buf.len = gsl::narrow_cast<ULONG>(v.size_bytes());

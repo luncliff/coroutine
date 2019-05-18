@@ -1,4 +1,3 @@
-# ---------------------------------------------------------------------------
 #
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #   Note
@@ -11,7 +10,6 @@
 #       - Clang + MacOS     (Unix Makefiles)
 #       - Clang + Linux     (Unix Makefiles. WSL, Ubuntu 1604 and later)
 #
-# ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.8) # c++ 17
 
 project(coroutine LANGUAGES CXX VERSION 1.4.2)

@@ -54,3 +54,21 @@ void section::unlock() noexcept(false) {
         throw system_error{ec, system_category(), "pthread_rwlock_unlock"};
 }
 } // namespace concrt
+
+// check the compiler supports coroutine instructions
+#if defined(__clang__)
+// in-use functions
+static_assert(__has_builtin(__builtin_coro_done));
+static_assert(__has_builtin(__builtin_coro_resume));
+static_assert(__has_builtin(__builtin_coro_destroy));
+// known functions
+static_assert(__has_builtin(__builtin_coro_promise));
+static_assert(__has_builtin(__builtin_coro_size));
+static_assert(__has_builtin(__builtin_coro_frame));
+static_assert(__has_builtin(__builtin_coro_free));
+static_assert(__has_builtin(__builtin_coro_id));
+static_assert(__has_builtin(__builtin_coro_begin));
+static_assert(__has_builtin(__builtin_coro_end));
+static_assert(__has_builtin(__builtin_coro_suspend));
+static_assert(__has_builtin(__builtin_coro_param));
+#endif

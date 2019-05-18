@@ -5,6 +5,7 @@
 #pragma once
 #include <coroutine/frame.h>
 
+#include <coroutine/channel.hpp>
 #include <coroutine/concrt.h>
 #include <coroutine/return.h>
 #include <coroutine/yield.hpp>
@@ -16,14 +17,15 @@
 #include <future>
 
 using namespace std;
+using namespace std::experimental;
 
 extern void expect_true(bool cond);
 extern void fail_with_message(string&& msg);
 
 class test_adapter {
   public:
-    test_adapter() noexcept = default;
-    virtual ~test_adapter() noexcept = default;
+    test_adapter() noexcept{};
+    virtual ~test_adapter() noexcept(false) {}
 
     test_adapter(const test_adapter&) = delete;
     test_adapter(test_adapter&&) = delete;

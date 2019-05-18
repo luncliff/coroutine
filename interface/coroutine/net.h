@@ -47,10 +47,12 @@ using io_control_block = OVERLAPPED;
 static constexpr bool is_winsock = true;
 static constexpr bool is_netinet = false;
 
-#else // use netinet
+#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
+// use netinet
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 #include <sys/socket.h>
 #include <unistd.h>
 

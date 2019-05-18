@@ -4,14 +4,11 @@
 //
 #include "test_shared.h"
 
-using namespace std::experimental;
 using namespace coro;
 
 class coro_no_return_test : public test_adapter {
-    // if user doesn't care about coroutine's life cycle,
-    //  use `no_return`.
-    // at least the routine will be resumed(continued) properly,
-    //   `co_return` will destroy the frame
+    // if it doesn't need to care about a coroutine's life cycle, use
+    //  `no_return`. `co_return` with this type will destroy the frame
     static auto invoke_and_forget_frame() -> no_return {
         co_await suspend_never{};
         co_return;
@@ -36,25 +33,44 @@ class coro_frame_empty_test : public test_adapter {
     };
 };
 
-class coro_frame_first_suspend_test : public test_adapter {
+class coro_frame_return_test : public test_adapter {
     // when the coroutine frame destuction need to be controlled manually,
     //  just return `frame`. The type `frame` implements `return_void`,
     //  `suspend_never`(initial), `suspend_always`(final)
-    static auto invoke_and_get_frame_after_first_suspend() -> frame {
+    static auto invoke_and_return() -> frame {
         co_await suspend_never{};
         co_return; // only void return
     };
 
   public:
     void on_test() override {
-        auto frame = invoke_and_get_frame_after_first_suspend();
+        auto frame = invoke_and_return();
 
         // allow access to `coroutine_handle<void>`
         //  after first suspend(which can be `co_return`)
         coroutine_handle<void>& coro = frame;
         expect_true(static_cast<bool>(coro)); // not null
         expect_true(coro.done());             // expect final suspended
-        coro.destroy();                       // destroy it
+        coro.destroy();
+    };
+};
+
+class coro_frame_first_suspend_test : public test_adapter {
+    static auto invoke_and_suspend() -> frame {
+        co_await suspend_always{};
+        co_return;
+    };
+
+  public:
+    void on_test() override {
+        auto frame = invoke_and_suspend();
+
+        // allow access to `coroutine_handle<void>`
+        //  after first suspend(which can be `co_return`)
+        coroutine_handle<void>& coro = frame;
+        expect_true(static_cast<bool>(coro)); // not null
+        expect_true(coro.done() == false);    // it is susepended !
+        coro.destroy();
     };
 };
 

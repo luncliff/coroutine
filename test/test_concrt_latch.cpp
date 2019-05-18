@@ -4,7 +4,6 @@
 //
 #include "test_shared.h"
 
-using namespace std::experimental;
 using namespace std::literals;
 using namespace coro;
 
@@ -57,7 +56,7 @@ class concrt_latch_throws_when_negative_from_positive_test
         latch_t group{1};
         try {
             group.count_down(4);
-        } catch (const underflow_error& ex) {
+        } catch (const underflow_error&) {
             return;
         }
         fail_with_message("expect exception");
@@ -71,7 +70,7 @@ class concrt_latch_throws_when_negative_from_zero_test : public test_adapter {
         latch_t group{0};
         try {
             group.count_down(2);
-        } catch (const underflow_error& ex) {
+        } catch (const underflow_error&) {
             return;
         }
         fail_with_message("expect exception");

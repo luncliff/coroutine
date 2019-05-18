@@ -62,6 +62,8 @@ auto resolve(const addrinfo& hint, //
     endpoint_t* ptr = nullptr;
     for (addrinfo* it = list; it != nullptr; it = it->ai_next) {
         ptr = reinterpret_cast<endpoint_t*>(it->ai_addr);
+        if (ptr == nullptr)
+            continue;
 
         endpoint_t& ep = *ptr;
         co_yield ep;

@@ -4,7 +4,6 @@
 //
 #include "test_shared.h"
 
-using namespace std::experimental;
 using namespace coro;
 
 class coroutine_handle_move_test : public test_adapter {

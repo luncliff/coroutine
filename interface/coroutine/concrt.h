@@ -73,7 +73,7 @@ _INTERFACE_
 auto get_threads(DWORD owner_pid) noexcept(false) -> coro::enumerable<DWORD>;
 
 //  Move into the win32 thread pool and continue the routine
-class ptp_work final : public suspend_always {
+class ptp_work final {
 
     // PTP_WORK_CALLBACK
     static void __stdcall resume_on_thread_pool(PTP_CALLBACK_INSTANCE, PVOID,
@@ -82,6 +82,13 @@ class ptp_work final : public suspend_always {
     _INTERFACE_ auto on_suspend(coroutine_handle<void>) noexcept -> uint32_t;
 
   public:
+    constexpr bool await_ready() const noexcept {
+        return false;
+    }
+    constexpr void await_resume() noexcept {
+        // nothing to do for this implementation
+    }
+
     // Lazy code generation in importing code by header usage.
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         if (const auto ec = on_suspend(coro))
@@ -103,6 +110,9 @@ class section final : CRITICAL_SECTION, no_copy_move {
 static_assert(sizeof(section) == sizeof(CRITICAL_SECTION));
 
 //  Awaitable event with thread pool. Only for one-time usage
+//  This type is not for rvalue reference. This design is unavoidable 
+//   since `ptp_event` uses INFINITE wait. Therefore, its user must make 
+//   sure one of `SetEvent` or `cancel` will happen in the future
 class ptp_event final : no_copy_move {
     HANDLE wo{};
 
