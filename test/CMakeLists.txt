@@ -18,8 +18,9 @@ add_executable(coroutine_test
 
     test_network.h
     test_network.cpp
+    test_net_resolver.cpp
+    test_net_echo_tcp.cpp
     # c2_socket_echo_udp.cpp
-    # c2_socket_echo_tcp.cpp
 )
 if(WIN32)
     target_sources(coroutine_test

@@ -47,12 +47,13 @@ GSL_SUPPRESS(es .76)
 GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(gsl.util)
 auto resolve(const addrinfo& hint, //
-             czstring_host name, czstring_serv serv) noexcept
+             czstring_host name, czstring_serv serv) noexcept(false)
     -> coro::enumerable<endpoint_t> {
 
     addrinfo* list = nullptr;
-    if (::getaddrinfo(name, serv, addressof(hint), &list))
-        co_return;
+    if (const auto ec = ::getaddrinfo(name, serv, addressof(hint), &list))
+        // instead of `runtime_error`, use `system_error`
+        throw system_error{ec, system_category(), gai_strerror(ec)};
 
     // RAII clean up for the assigned addrinfo
     // This holder guarantees clean up

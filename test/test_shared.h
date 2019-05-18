@@ -20,6 +20,7 @@ using namespace std;
 using namespace std::experimental;
 
 extern void expect_true(bool cond);
+extern void print_message(string&& msg);
 extern void fail_with_message(string&& msg);
 
 class test_adapter {

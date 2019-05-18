@@ -12,6 +12,8 @@
 #include "test_coro_yield_enumerable.cpp"
 #include "test_coro_yield_sequence.cpp"
 #include "test_coroutine_handle.cpp"
+#include "test_net_echo_tcp.cpp"
+#include "test_net_echo_udp.cpp"
 #include "test_net_resolver.cpp"
 
 #include <CppUnitTest.h>
@@ -240,8 +242,14 @@ class net_getaddrinfo_ip6_bind : public TestClass<net_getaddrinfo_ip6_bind>,
                                  public net_getaddrinfo_ip6_bind_test {
     METHOD_INVOKE_TEMPLATE
 };
-class net_getaddrinfo_for_multicast
-    : public TestClass<net_getaddrinfo_for_multicast>,
-      public net_getaddrinfo_for_multicast_test {
+class net_getaddrinfo_ip6_multicast
+    : public TestClass<net_getaddrinfo_ip6_multicast>,
+      public net_getaddrinfo_ip6_multicast_test {
+    METHOD_INVOKE_TEMPLATE
+};
+class net_echo_udp : public TestClass<net_echo_udp>, public net_echo_udp_test {
+    METHOD_INVOKE_TEMPLATE
+};
+class net_echo_tcp : public TestClass<net_echo_tcp>, public net_echo_tcp_test {
     METHOD_INVOKE_TEMPLATE
 };

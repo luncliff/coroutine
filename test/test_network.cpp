@@ -15,12 +15,6 @@
 
 using namespace std;
 
-#if defined(_MSC_VER) || defined(_WINDOWS_)
-void fail_network_error(int ec = WSAGetLastError());
-#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
-void fail_network_error(int ec = errno);
-#endif
-
 void fail_network_error(int ec) {
     fail_with_message(system_category().message(ec));
 }
@@ -32,33 +26,18 @@ int64_t socket_create(const addrinfo& hint) {
     return sd;
 }
 
-auto socket_create(const addrinfo& hint, size_t count)
-    -> coro::enumerable<int64_t> {
-    while (count--) {
-        auto sd = socket_create(hint);
-        co_yield sd;
-    }
-}
-
-void socket_close(int64_t sd) {
-#if defined(_MSC_VER) || defined(_WINDOWS_)
-    shutdown(sd, SD_BOTH);
-    closesocket(sd);
-#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
-    shutdown(sd, SHUT_RDWR);
-    close(sd);
-#endif
-}
-
-void socket_bind(int64_t sd, endpoint_t& ep) {
-    socklen_t addrlen = sizeof(sockaddr_in);
+socklen_t get_length(const endpoint_t& ep) noexcept {
+    socklen_t len{};
     if (ep.storage.ss_family == AF_INET)
-        addrlen = sizeof(sockaddr_in);
+        len = sizeof(sockaddr_in);
     if (ep.storage.ss_family == AF_INET6)
-        addrlen = sizeof(sockaddr_in6);
+        len = sizeof(sockaddr_in6);
+    return len;
+}
 
+void socket_bind(int64_t sd, const endpoint_t& ep) {
     // bind socket and address
-    if (::bind(sd, &ep.addr, addrlen))
+    if (::bind(sd, &ep.addr, get_length(ep)))
         fail_network_error();
 }
 
@@ -67,14 +46,12 @@ void socket_listen(int64_t sd) {
         fail_network_error();
 }
 
-void socket_set_option_nonblock(int64_t sd) {
-#if defined(_MSC_VER)
-    u_long mode = TRUE;
-    expect_true(ioctlsocket(sd, FIONBIO, &mode) == NO_ERROR);
-#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
-    // make non-block/async
-    REQUIRE(fcntl(sd, F_SETFL, O_NONBLOCK) != -1);
-#endif
+int64_t socket_connect(int64_t sd, const endpoint_t& remote) {
+    return ::connect(sd, &remote.addr, get_length(remote));
+}
+
+int64_t socket_accept(int64_t ln) {
+    return ::accept(ln, nullptr, nullptr);
 }
 
 void socket_set_option(int64_t sd, int64_t level, int64_t option,
@@ -115,10 +92,42 @@ void release_network_api() noexcept {
     wsa_data.wVersion = 0;
 }
 
+int recent_net_error() noexcept {
+    return WSAGetLastError();
+}
+
+bool is_in_progress(int ec) noexcept {
+    return ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS;
+}
+void socket_close(int64_t sd) {
+    shutdown(sd, SD_BOTH);
+    closesocket(sd);
+}
+void socket_set_option_nonblock(int64_t sd) {
+    u_long mode = TRUE;
+    expect_true(ioctlsocket(sd, FIONBIO, &mode) == NO_ERROR);
+}
+
 #elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
 void init_network_api() noexcept(false) {
     // do nothing for posix system. network operation already available
 }
 void release_network_api() noexcept {
+}
+
+int recent_net_error() noexcept {
+    return errno;
+}
+
+bool is_in_progress(int ec) noexcept {
+    return ec == EINPROGRESS;
+}
+void socket_close(int64_t sd) {
+    shutdown(sd, SHUT_RDWR);
+    close(sd);
+}
+void socket_set_option_nonblock(int64_t sd) {
+    // make non-block/async
+    expect_true(fcntl(sd, F_SETFL, O_NONBLOCK) != -1);
 }
 #endif

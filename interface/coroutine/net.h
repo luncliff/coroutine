@@ -263,7 +263,7 @@ auto host_name() noexcept -> czstring_host;
 //  If there is an error, the enumerable yields nothing.
 _INTERFACE_
 auto resolve(const addrinfo& hint, //
-             czstring_host name, czstring_serv serv) noexcept
+             czstring_host name, czstring_serv serv) noexcept(false)
     -> coro::enumerable<endpoint_t>;
 
 // clang-format off

@@ -11,6 +11,8 @@
 #include "test_coro_yield_enumerable.cpp"
 #include "test_coro_yield_sequence.cpp"
 #include "test_coroutine_handle.cpp"
+#include "test_net_echo_tcp.cpp"
+#include "test_net_echo_udp.cpp"
 #include "test_net_resolver.cpp"
 
 #define CATCH_CONFIG_FAST_COMPILE
@@ -208,7 +210,15 @@ TEST_CASE_METHOD(net_getaddrinfo_ip6_bind_test, //
                  "getaddrinfo ip6 bind", "[network]") {
     run_network_test_with_catch2(this);
 }
-TEST_CASE_METHOD(net_getaddrinfo_for_multicast_test, //
+TEST_CASE_METHOD(net_getaddrinfo_ip6_multicast_test, //
                  "getaddrinfo ip6 multicast", "[network]") {
+    run_network_test_with_catch2(this);
+}
+TEST_CASE_METHOD(net_echo_tcp_test, //
+                 "socket async tcp echo", "[network]") {
+    run_network_test_with_catch2(this);
+}
+TEST_CASE_METHOD(net_echo_udp_test, //
+                 "socket async udp echo", "[network]") {
     run_network_test_with_catch2(this);
 }

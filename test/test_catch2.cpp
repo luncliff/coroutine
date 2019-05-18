@@ -14,7 +14,9 @@
 void expect_true(bool cond) {
     REQUIRE(cond);
 }
-
+void print_message(std::string&& msg) {
+    puts(msg.c_str());
+}
 void fail_with_message(std::string&& msg) {
     FAIL(msg);
 }

@@ -217,6 +217,8 @@
     <ClCompile Include="test_coro_yield_enumerable.cpp" />
     <ClCompile Include="test_coro_yield_sequence.cpp" />
     <ClCompile Include="test_network.cpp" />
+    <ClCompile Include="test_net_echo_tcp.cpp" />
+    <ClCompile Include="test_net_echo_udp.cpp" />
     <ClCompile Include="test_net_resolver.cpp" />
     <ClCompile Include="test_concrt_windows.cpp" />
     <ClCompile Include="test_vs_native.cpp" />
