@@ -89,8 +89,10 @@ latch::latch(uint32_t delta) noexcept(false)
     ResetEvent(ev);
 }
 latch::~latch() noexcept {
-    if (ev != INVALID_HANDLE_VALUE)
+    if (ev != INVALID_HANDLE_VALUE) {
         CloseHandle(ev);
+        ev = INVALID_HANDLE_VALUE;
+    }
 }
 void latch::count_down_and_wait() noexcept(false) {
     this->count_down();
@@ -118,8 +120,7 @@ bool latch::is_ready() const noexcept {
     auto ec = WaitForSingleObjectEx(ev, 0, TRUE);
     if (ec == WAIT_OBJECT_0) {
         // WAIT_OBJECT_0 : return by signal
-        CloseHandle(ev);
-        ev = INVALID_HANDLE_VALUE;
+        this->~latch();
         return true;
     }
     return false;
@@ -130,23 +131,22 @@ void latch::wait() noexcept(false) {
     static_assert(WAIT_OBJECT_0 == 0);
 
 StartWait:
+    if (this->is_ready())
+        return;
+
     // standard interface doesn't define timed wait.
     // This makes APC available. expecially for Overlapped I/O
-    if (const auto ec = WaitForSingleObjectEx(ev, INFINITE, TRUE)) {
-
-        // WAIT_FAILED	: use GetLastError in the case
-        // WAIT_TIMEOUT	: this is expected. user can try again
+    if (const auto ec = WaitForSingleObjectEx(ev, 1536, TRUE)) {
         // WAIT_IO_COMPLETION : return because of APC
-        // WAIT_ABANDONED
         if (ec == WAIT_IO_COMPLETION)
             goto StartWait;
-
+        // WAIT_FAILED	: use GetLastError in the case
+        // WAIT_TIMEOUT	: this is expected. user can try again
+        // WAIT_ABANDONED
         throw make_sys_error("WaitForSingleObjectEx");
     }
-
     // WAIT_OBJECT_0 : return by signal
-    CloseHandle(ev);
-    ev = INVALID_HANDLE_VALUE;
+    this->~latch();
     return;
 }
 

@@ -149,7 +149,7 @@ class net_echo_tcp_test : public test_adapter {
                 return fail_network_error();
             // non-blocking connect
             socket_set_option_nonblock(sd);
-            if (socket_connect(sd, local))
+            if (socket_connect(sd, local) < 0)
                 // allow non-block error
                 if (is_in_progress(recent_net_error()) == false)
                     return fail_network_error();
@@ -170,7 +170,7 @@ class net_echo_tcp_test : public test_adapter {
         }
         if constexpr (is_netinet) {
             while (group.is_ready() == false)
-                for (auto task : wait_io_tasks(2ms)) {
+                for (auto task : wait_io_tasks(4ms)) {
                     task.resume();
                 }
         }

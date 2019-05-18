@@ -110,8 +110,8 @@ class section final : CRITICAL_SECTION, no_copy_move {
 static_assert(sizeof(section) == sizeof(CRITICAL_SECTION));
 
 //  Awaitable event with thread pool. Only for one-time usage
-//  This type is not for rvalue reference. This design is unavoidable 
-//   since `ptp_event` uses INFINITE wait. Therefore, its user must make 
+//  This type is not for rvalue reference. This design is unavoidable
+//   since `ptp_event` uses INFINITE wait. Therefore, its user must make
 //   sure one of `SetEvent` or `cancel` will happen in the future
 class ptp_event final : no_copy_move {
     HANDLE wo{};
@@ -188,7 +188,7 @@ class latch final : no_copy_move {
     pthread_mutex_t mtx{};
 
   private:
-    std::errc timed_wait(std::chrono::microseconds timeout) noexcept;
+    int timed_wait(std::chrono::microseconds timeout) noexcept;
 
   public:
     _INTERFACE_ explicit latch(uint32_t count) noexcept(false);

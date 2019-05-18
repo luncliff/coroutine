@@ -11,12 +11,15 @@
 #endif // Platform specific configuration
 #include <catch2/catch.hpp>
 
+#include "test_shared.h"
+
 void expect_true(bool cond) {
-    REQUIRE(cond);
+    if (cond == false)
+        FAIL();
 }
-void print_message(std::string&& msg) {
+void print_message(string&& msg) {
     puts(msg.c_str());
 }
-void fail_with_message(std::string&& msg) {
+void fail_with_message(string&& msg) {
     FAIL(msg);
 }

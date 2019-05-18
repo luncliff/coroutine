@@ -15,7 +15,6 @@
 #include "test_net_echo_udp.cpp"
 #include "test_net_resolver.cpp"
 
-#define CATCH_CONFIG_FAST_COMPILE
 #if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
 #elif defined(_WINDOWS_) || defined(_MSC_VER) // Windows
 #define CATCH_CONFIG_WINDOWS_CRTDBG
@@ -24,9 +23,9 @@
 
 // simple template method pattern
 void run_test_with_catch2(test_adapter* test) {
+    auto on_return = gsl::finally([test]() { test->on_teardown(); });
     test->on_setup();
     REQUIRE_NOTHROW(test->on_test());
-    test->on_teardown();
 }
 
 TEST_CASE_METHOD(coroutine_handle_move_test, //
@@ -166,12 +165,13 @@ TEST_CASE_METHOD(coro_channel_no_leak_under_race_test, //
 }
 
 void run_network_test_with_catch2(test_adapter* test) {
+    auto on_return = gsl::finally([test]() {
+        test->on_teardown();
+        release_network_api();
+    });
     init_network_api();
-    auto defer = gsl::finally([]() { release_network_api(); });
-
     test->on_setup();
-    REQUIRE_NOTHROW(test->on_test());
-    test->on_teardown();
+    test->on_test();
 }
 
 TEST_CASE_METHOD(net_gethostname_test, //

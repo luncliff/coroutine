@@ -2,10 +2,10 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
-
 #include <CppUnitTest.h>
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+#include "test_shared.h"
 
 void expect_true(bool cond) {
     Assert::IsTrue(cond);
