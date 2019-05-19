@@ -16,11 +16,11 @@ add_executable(coroutine_test
     test_coro_yield_sequence.cpp
     test_coro_channel.cpp
 
-    test_network.h
-    test_network.cpp
-    test_net_resolver.cpp
-    test_net_echo_tcp.cpp
-    # c2_socket_echo_udp.cpp
+    # test_network.h
+    # test_network.cpp
+    # test_net_resolver.cpp
+    # test_net_echo_tcp.cpp
+    # test_net_echo_udp.cpp
 )
 if(WIN32)
     target_sources(coroutine_test

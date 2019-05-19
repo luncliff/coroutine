@@ -41,9 +41,9 @@ addons:
 install:
   - echo ${TRAVIS_OS_NAME};
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
-    sudo bash ./scripts/install-compilers.sh;
+    sudo bash ./scripts/install-compilers.sh > /dev/null;
     sudo bash ./scripts/install-cmake-3.14.sh;
-    sudo bash ./scripts/install-libc++8.sh;
+    sudo bash ./scripts/install-libc++8.sh > /dev/null;
     sudo rm -rf prebuilt libcxx* llvm*;
     sudo rm -rf cmake-3.14*;
     fi
@@ -67,7 +67,7 @@ script:
   - ./test/coroutine_test [yield];
   - ./test/coroutine_test [channel];
   - ./test/coroutine_test [concurrency];
-  - ./test/coroutine_test [network];
+  # - ./test/coroutine_test [network];
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install

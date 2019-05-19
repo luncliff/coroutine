@@ -10,6 +10,13 @@ using namespace concrt;
 template <typename E, typename L>
 auto write_to(channel<E, L>& ch, E value, bool ok = false) -> no_return {
     ok = co_await ch.write(value);
+    if (ok == false)
+        // !!!!!
+        // seems like clang optimizer is removing `value`.
+        // so using it in some pass makes
+        // the symbol and its memory location alive
+        // !!!!!
+        value += 1;
     expect_true(ok);
 }
 

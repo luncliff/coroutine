@@ -104,22 +104,22 @@ TEST_CASE_METHOD(coro_sequence_frame_status_test, //
                  "async generator status", "[yield]") {
     run_test_with_catch2(this);
 }
-TEST_CASE_METHOD(coro_sequence_yield_once_test, //
-                 "async generator yield once", "[yield]") {
-    run_test_with_catch2(this);
-}
-TEST_CASE_METHOD(coro_sequence_suspend_using_await_test, //
-                 "async generator suspend using co_await", "[yield]") {
-    run_test_with_catch2(this);
-}
-TEST_CASE_METHOD(coro_sequence_suspend_using_yield_test, //
-                 "async generator suspend using co_yield", "[yield]") {
-    run_test_with_catch2(this);
-}
-TEST_CASE_METHOD(coro_sequence_destroy_when_suspended_test, //
-                 "async generator destroy when suspended", "[yield]") {
-    run_test_with_catch2(this);
-}
+// TEST_CASE_METHOD(coro_sequence_yield_once_test, //
+//                  "async generator yield once", "[yield]") {
+//     run_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(coro_sequence_suspend_using_await_test, //
+//                  "async generator suspend using co_await", "[yield]") {
+//     run_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(coro_sequence_suspend_using_yield_test, //
+//                  "async generator suspend using co_yield", "[yield]") {
+//     run_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(coro_sequence_destroy_when_suspended_test, //
+//                  "async generator destroy when suspended", "[yield]") {
+//     run_test_with_catch2(this);
+// }
 TEST_CASE_METHOD(coro_channel_write_before_read_test, //
                  "channel write before read", "[channel]") {
     run_test_with_catch2(this);
@@ -164,61 +164,61 @@ TEST_CASE_METHOD(coro_channel_no_leak_under_race_test, //
     run_test_with_catch2(this);
 }
 
-void run_network_test_with_catch2(test_adapter* test) {
-    auto on_return = gsl::finally([test]() {
-        test->on_teardown();
-        release_network_api();
-    });
-    init_network_api();
-    test->on_setup();
-    test->on_test();
-}
+// void run_network_test_with_catch2(test_adapter* test) {
+//     auto on_return = gsl::finally([test]() {
+//         test->on_teardown();
+//         release_network_api();
+//     });
+//     init_network_api();
+//     test->on_setup();
+//     test->on_test();
+// }
 
-TEST_CASE_METHOD(net_gethostname_test, //
-                 "current host name", "[network]") {
-    run_network_test_with_catch2(this);
-}
-TEST_CASE_METHOD(net_getnameinfo_v4_test, //
-                 "getnameinfo ipv4", "[network]") {
-    run_network_test_with_catch2(this);
-}
-TEST_CASE_METHOD(net_getnameinfo_v6_test, //
-                 "getnameinfo ipv6", "[network]") {
-    run_network_test_with_catch2(this);
-}
-TEST_CASE_METHOD(net_getaddrinfo_tcp6_connect_test, //
-                 "getaddrinfo tcp6 connect", "[network]") {
-    run_network_test_with_catch2(this);
-}
-TEST_CASE_METHOD(net_getaddrinfo_tcp6_listen_text_test, //
-                 "getaddrinfo tcp6 listen text", "[network]") {
-    run_network_test_with_catch2(this);
-}
-TEST_CASE_METHOD(net_getaddrinfo_tcp6_listen_numeric_test, //
-                 "getaddrinfo tcp6 listen numeric", "[network]") {
-    run_network_test_with_catch2(this);
-}
-TEST_CASE_METHOD(net_getaddrinfo_udp6_bind_unspecified_test, //
-                 "getaddrinfo udp6 bind unspecified", "[network]") {
-    run_network_test_with_catch2(this);
-}
-TEST_CASE_METHOD(net_getaddrinfo_udp6_bind_v4mapped_test, //
-                 "getaddrinfo udp6 bind v4mapped", "[network]") {
-    run_network_test_with_catch2(this);
-}
-TEST_CASE_METHOD(net_getaddrinfo_ip6_bind_test, //
-                 "getaddrinfo ip6 bind", "[network]") {
-    run_network_test_with_catch2(this);
-}
-TEST_CASE_METHOD(net_getaddrinfo_ip6_multicast_test, //
-                 "getaddrinfo ip6 multicast", "[network]") {
-    run_network_test_with_catch2(this);
-}
-TEST_CASE_METHOD(net_echo_tcp_test, //
-                 "socket async tcp echo", "[network]") {
-    run_network_test_with_catch2(this);
-}
-TEST_CASE_METHOD(net_echo_udp_test, //
-                 "socket async udp echo", "[network]") {
-    run_network_test_with_catch2(this);
-}
+// TEST_CASE_METHOD(net_gethostname_test, //
+//                  "current host name", "[network]") {
+//     run_network_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(net_getnameinfo_v4_test, //
+//                  "getnameinfo ipv4", "[network]") {
+//     run_network_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(net_getnameinfo_v6_test, //
+//                  "getnameinfo ipv6", "[network]") {
+//     run_network_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(net_getaddrinfo_tcp6_connect_test, //
+//                  "getaddrinfo tcp6 connect", "[network]") {
+//     run_network_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(net_getaddrinfo_tcp6_listen_text_test, //
+//                  "getaddrinfo tcp6 listen text", "[network]") {
+//     run_network_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(net_getaddrinfo_tcp6_listen_numeric_test, //
+//                  "getaddrinfo tcp6 listen numeric", "[network]") {
+//     run_network_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(net_getaddrinfo_udp6_bind_unspecified_test, //
+//                  "getaddrinfo udp6 bind unspecified", "[network]") {
+//     run_network_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(net_getaddrinfo_udp6_bind_v4mapped_test, //
+//                  "getaddrinfo udp6 bind v4mapped", "[network]") {
+//     run_network_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(net_getaddrinfo_ip6_bind_test, //
+//                  "getaddrinfo ip6 bind", "[network]") {
+//     run_network_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(net_getaddrinfo_ip6_multicast_test, //
+//                  "getaddrinfo ip6 multicast", "[network]") {
+//     run_network_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(net_echo_tcp_test, //
+//                  "socket async tcp echo", "[network]") {
+//     run_network_test_with_catch2(this);
+// }
+// TEST_CASE_METHOD(net_echo_udp_test, //
+//                  "socket async udp echo", "[network]") {
+//     run_network_test_with_catch2(this);
+// }

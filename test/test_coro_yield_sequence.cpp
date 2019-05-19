@@ -64,12 +64,13 @@ class coro_sequence_frame_status_test : public test_adapter {
         // however, when the sequence coroutine is resumed,
         // its caller will continue on ...
         expect_true(fs.address() != nullptr);
-        fs.resume(); // sequence coroutine will be resumed
-                     //  and it will resume `use_async_gen`.
-        expect_true(
-            fs.done()); //  since `use_async_gen` will return after that,
-        expect_true(
-            fc.done()); //  both coroutine will reach *final suspended* state
+        // sequence coroutine will be resumed
+        //  and it will resume `use_async_gen`.
+        fs.resume();
+        //  since `use_async_gen` will return after that,
+        //  both coroutine will reach *final suspended* state
+        expect_true(fs.done());
+        expect_true(fc.done());
         expect_true(storage == 2);
     }
 };
@@ -129,7 +130,9 @@ class coro_sequence_suspend_using_await_test : public test_adapter {
         expect_true(fc.done() == false); // we didn't finished iteration
         expect_true(fs.done() == false); // co_await manual_resume
         expect_true(storage == 1);       // co_yield value = 1
-        fs.resume();               // continue after co_await manual_resume;
+
+        // continue after co_await manual_resume;
+        fs.resume();
         expect_true(storage == 2); // co_yield value = 2;
         expect_true(fc.done());    // both are finished
         expect_true(fs.done());
@@ -164,7 +167,9 @@ class coro_sequence_suspend_using_yield_test : public test_adapter {
         expect_true(fc.done() == false); // we didn't finished iteration
         expect_true(fs.done() == false); // co_await manual_resume
         expect_true(storage == 1);       // co_yield value = 1
-        fs.resume();               // continue after co_await manual_resume;
+
+        // continue after co_await manual_resume;
+        fs.resume();
         expect_true(storage == 2); // co_yield value = 2;
         expect_true(fc.done());    // both are finished
         expect_true(fs.done());
@@ -187,9 +192,9 @@ class coro_sequence_destroy_when_suspended_test : public test_adapter {
                 *ptr = 0xDEAD; // set the value in destruction phase
             });
             // clang-format off
-        for co_await(auto v : sequence_yield_suspend_yield_1(fh))
-            *ptr = v;
-        // clang-format on
+            for co_await(auto v : sequence_yield_suspend_yield_1(fh))
+                *ptr = v;
+            // clang-format on
         };
 
         int storage = -1;
