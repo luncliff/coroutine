@@ -100,10 +100,10 @@ TEST_CASE_METHOD(coro_sequence_no_yield_test, //
                  "async generator no yield", "[yield]") {
     run_test_with_catch2(this);
 }
-TEST_CASE_METHOD(coro_sequence_frame_status_test, //
-                 "async generator status", "[yield]") {
-    run_test_with_catch2(this);
-}
+// TEST_CASE_METHOD(coro_sequence_frame_status_test, //
+//                  "async generator status", "[yield]") {
+//     run_test_with_catch2(this);
+// }
 // TEST_CASE_METHOD(coro_sequence_yield_once_test, //
 //                  "async generator yield once", "[yield]") {
 //     run_test_with_catch2(this);
