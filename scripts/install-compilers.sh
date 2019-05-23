@@ -16,7 +16,7 @@ apt install -y -qq \
   build-essential software-properties-common
 
 apt-add-repository -y ppa:ubuntu-toolchain-r/test
-wget -O ./llvm.key https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add ./llvm.key
+wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main"
 
 apt update -qq
