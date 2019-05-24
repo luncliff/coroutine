@@ -97,29 +97,29 @@ TEST_CASE_METHOD(coro_enumerable_max_element_test, //
     run_test_with_catch2(this);
 }
 TEST_CASE_METHOD(coro_sequence_no_yield_test, //
-                 "async generator no yield", "[yield]") {
+                 "async generator no yield", "[yield][async]") {
     run_test_with_catch2(this);
 }
-// TEST_CASE_METHOD(coro_sequence_frame_status_test, //
-//                  "async generator status", "[yield]") {
-//     run_test_with_catch2(this);
-// }
-// TEST_CASE_METHOD(coro_sequence_yield_once_test, //
-//                  "async generator yield once", "[yield]") {
-//     run_test_with_catch2(this);
-// }
-// TEST_CASE_METHOD(coro_sequence_suspend_using_await_test, //
-//                  "async generator suspend using co_await", "[yield]") {
-//     run_test_with_catch2(this);
-// }
-// TEST_CASE_METHOD(coro_sequence_suspend_using_yield_test, //
-//                  "async generator suspend using co_yield", "[yield]") {
-//     run_test_with_catch2(this);
-// }
-// TEST_CASE_METHOD(coro_sequence_destroy_when_suspended_test, //
-//                  "async generator destroy when suspended", "[yield]") {
-//     run_test_with_catch2(this);
-// }
+TEST_CASE_METHOD(coro_sequence_frame_status_test, //
+                 "async generator status", "[yield][async]") {
+    run_test_with_catch2(this);
+}
+TEST_CASE_METHOD(coro_sequence_yield_once_test, //
+                 "async generator yield once", "[yield][async]") {
+    run_test_with_catch2(this);
+}
+TEST_CASE_METHOD(coro_sequence_suspend_using_await_test, //
+                 "async generator suspend using co_await", "[yield][async]") {
+    run_test_with_catch2(this);
+}
+TEST_CASE_METHOD(coro_sequence_suspend_using_yield_test, //
+                 "async generator suspend using co_yield", "[yield][async]") {
+    run_test_with_catch2(this);
+}
+TEST_CASE_METHOD(coro_sequence_destroy_when_suspended_test, //
+                 "async generator destroy when suspended", "[yield][async]") {
+    run_test_with_catch2(this);
+}
 TEST_CASE_METHOD(coro_channel_write_before_read_test, //
                  "channel write before read", "[channel]") {
     run_test_with_catch2(this);

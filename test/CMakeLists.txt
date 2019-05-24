@@ -60,10 +60,10 @@ if(WIN32)
 elseif(UNIX)
     # code coverage option lead to compiler crash
     # list(APPEND CMAKE_CXX_FLAGS "--coverage")
-    target_link_libraries(coroutine_test
-    PRIVATE
-        stdc++ # solve possible gnu-dependency
-    )
+    # target_link_libraries(coroutine_test
+    # PRIVATE
+    #     stdc++ # solve possible gnu-dependency
+    # )
     target_compile_options(coroutine_test
     PRIVATE
         -g -Wall -Wextra -Wno-unknown-pragmas 

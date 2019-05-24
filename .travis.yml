@@ -25,22 +25,23 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-xenial-6.0
-      # - llvm-toolchain-xenial-7 # already installed
+      # - llvm-toolchain-xenial-6.0 # for clang-6.0 and llvm-6.0
+      - llvm-toolchain-xenial-7
     packages:
       - g++-7
       - g++-8
-      - clang-6.0
-      - llvm-6.0-tools
       - libc++-dev
       - libc++abi-dev
       - unzip
+      - curl
       - ninja-build
       - tree
 
 install:
   - echo ${TRAVIS_OS_NAME};
+  # reinstall to ensure latest version
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
+    sudo apt remove -y -q clang-7
     sudo bash ./scripts/install-compilers.sh > /dev/null;
     sudo bash ./scripts/install-cmake-3.14.sh;
     sudo bash ./scripts/install-libc++8.sh > /dev/null;
@@ -64,6 +65,7 @@ script:
   # perform tests
   - ./test/coroutine_test [primitive];
   - ./test/coroutine_test [return];
+  - ./test/coroutine_test [async];
   - ./test/coroutine_test [yield];
   - ./test/coroutine_test [channel];
   - ./test/coroutine_test [concurrency];
@@ -167,29 +169,25 @@ matrix:
       osx_image: xcode10.2
       env:
         - CONFIG=Debug    SHARED=true
-      before_script:
-        - export EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"
+        - EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"
 
     - name: Mac Release (Custom)
       os: osx
       osx_image: xcode10.2
       env:
         - CONFIG=Release  SHARED=true
-      before_script:
-        - export EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"
+        - EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"
 
     - name: Ubuntu(Xenial) Debug (Custom)
       os: linux
       dist: xenial
       env:
         - CONFIG=Debug    SHARED=true
-      before_script:
-        - export EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"
+        - EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"
 
     - name: Ubuntu(Xenial) Release (Custom)
       os: linux
       dist: xenial
       env:
         - CONFIG=Release  SHARED=true
-      before_script:
-        - export EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"
+        - EXTRA_CMAKE_ARGS="-DUSE_CUSTOM_HEADER=true"
