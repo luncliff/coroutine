@@ -41,7 +41,7 @@ install:
   - echo ${TRAVIS_OS_NAME};
   # reinstall to ensure latest version
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
-    sudo apt remove -y -q clang-7
+    sudo rm -rf /usr/local/clang-7.0.0;
     sudo bash ./scripts/install-compilers.sh > /dev/null;
     sudo bash ./scripts/install-cmake-3.14.sh;
     sudo bash ./scripts/install-libc++8.sh > /dev/null;
