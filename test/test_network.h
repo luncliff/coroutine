@@ -44,6 +44,3 @@ int recent_net_error() noexcept;
 
 //  test if the error code is because of non-blocking
 bool is_in_progress(int ec) noexcept;
-
-//  fail the test with network error message
-void fail_network_error(int ec = recent_net_error());

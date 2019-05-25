@@ -9,8 +9,6 @@
     <ClCompile Include="test_coroutine_handle.cpp" />
     <ClCompile Include="test_net_resolver.cpp" />
     <ClCompile Include="test_network.cpp" />
-    <ClCompile Include="test_vs_native.cpp" />
-    <ClCompile Include="test_vs_registration.cpp" />
     <ClCompile Include="test_concrt_windows.cpp" />
     <ClCompile Include="test_net_echo_tcp.cpp" />
     <ClCompile Include="test_net_echo_udp.cpp" />

@@ -66,5 +66,6 @@ if(NOT Catch2_FOUND)
     )
 endif()
 
+enable_testing()
 add_subdirectory(test)
-add_dependencies(coroutine_test coroutine)
+# add_dependencies(coroutine_test coroutine)

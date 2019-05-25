@@ -2,27 +2,17 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-
-#if __has_include(<CppUnitTest.h>)
-#include <CppUnitTest.h>
-#else
-#define CATCH_CONFIG_FAST_COMPILE
-#include <catch2/catch.hpp>
-#endif
-
 #include "test_network.h"
 #include "test_shared.h"
 
 using namespace std;
 
-void fail_network_error(int ec) {
-    fail_with_message(system_category().message(ec));
-}
-
 int64_t socket_create(const addrinfo& hint) {
-    int64_t sd = socket(hint.ai_family, hint.ai_socktype, hint.ai_protocol);
-    if (sd == -1)
-        fail_network_error();
+    int64_t sd = ::socket(hint.ai_family, hint.ai_socktype, hint.ai_protocol);
+    if (sd == -1) {
+        auto ec = recent_net_error();
+        FAIL_WITH_CODE(ec);
+    }
     return sd;
 }
 
@@ -37,13 +27,17 @@ socklen_t get_length(const endpoint_t& ep) noexcept {
 
 void socket_bind(int64_t sd, const endpoint_t& ep) {
     // bind socket and address
-    if (::bind(sd, &ep.addr, get_length(ep)))
-        fail_network_error();
+    if (::bind(sd, &ep.addr, get_length(ep))) {
+        auto ec = recent_net_error();
+        FAIL_WITH_CODE(ec);
+    }
 }
 
 void socket_listen(int64_t sd) {
-    if (::listen(sd, 7) != 0)
-        fail_network_error();
+    if (::listen(sd, 7) != 0) {
+        auto ec = recent_net_error();
+        FAIL_WITH_CODE(ec);
+    }
 }
 
 int64_t socket_connect(int64_t sd, const endpoint_t& remote) {
@@ -56,10 +50,11 @@ int64_t socket_accept(int64_t ln) {
 
 void socket_set_option(int64_t sd, int64_t level, int64_t option,
                        int64_t value) {
-
     auto ec = ::setsockopt(sd, level, option, (char*)&value, sizeof(value));
-    if (ec != 0)
-        fail_network_error();
+    if (ec != 0) {
+        ec = recent_net_error();
+        FAIL_WITH_CODE(ec);
+    }
 }
 
 void socket_set_option_reuse_address(int64_t sd) {
@@ -105,7 +100,7 @@ void socket_close(int64_t sd) {
 }
 void socket_set_option_nonblock(int64_t sd) {
     u_long mode = TRUE;
-    expect_true(ioctlsocket(sd, FIONBIO, &mode) == NO_ERROR);
+    REQUIRE(ioctlsocket(sd, FIONBIO, &mode) == NO_ERROR);
 }
 
 #elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
@@ -128,6 +123,6 @@ void socket_close(int64_t sd) {
 }
 void socket_set_option_nonblock(int64_t sd) {
     // make non-block/async
-    expect_true(fcntl(sd, F_SETFL, O_NONBLOCK) != -1);
+    REQUIRE(fcntl(sd, F_SETFL, O_NONBLOCK) != -1);
 }
 #endif

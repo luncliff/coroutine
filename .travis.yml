@@ -63,13 +63,13 @@ script:
     ${EXTRA_CMAKE_ARGS}
   - ninja install;
   # perform tests
-  - ./test/coroutine_test [primitive];
+  - ./test/coroutine_test [coroutine_handle];
   - ./test/coroutine_test [return];
   - ./test/coroutine_test [async];
   - ./test/coroutine_test [yield];
   - ./test/coroutine_test [channel];
   - ./test/coroutine_test [concurrency];
-  # - ./test/coroutine_test [network];
+  - ./test/coroutine_test [network];
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install

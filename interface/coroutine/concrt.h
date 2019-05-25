@@ -158,10 +158,12 @@ class latch final : no_copy_move {
 
 } // namespace concrt
 
-#elif __has_include(<pthread.h>) // ... activate pthread based features ...
-#include <chrono>
+#elif __has_include(<pthread.h>)
+// defined(__unix__) || defined(__linux__) ||defined(__APPLE__)
 
+#include <chrono>
 #include <pthread.h>
+#include <future>
 
 namespace concrt {
 using namespace std;
@@ -203,9 +205,9 @@ class latch final : no_copy_move {
 //  Awaitable event type.
 //  If the event object is signaled(`set`), the library will yield suspended
 //  coroutine via `signaled_event_tasks` function.
-//  If it is signaled before `co_await`, it will return `true` for `await_ready`
-//  so the coroutine can bypass suspension steps.
-//  The event object can be `co_await`ed multiple times.
+//  If it is signaled before `co_await`, it will return `true` for
+//  `await_ready` so the coroutine can bypass suspension steps. The event
+//  object can be `co_await`ed multiple times.
 class event final : no_copy_move {
   public:
     using task = coroutine_handle<void>;

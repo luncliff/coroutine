@@ -57,7 +57,7 @@ class no_return final {
 // This type has 2 use-case.
 //  - the return type of coroutine function
 //  - the operand of `co_await`. In the case, the coroutine will suspend
-class frame final : public coroutine_handle<void>, public suspend_always {
+class frame final : public coroutine_handle<void> {
   public:
     struct promise_type final {
         auto initial_suspend() noexcept {
@@ -89,6 +89,11 @@ class frame final : public coroutine_handle<void>, public suspend_always {
     void await_suspend(coroutine_handle<void> coro) noexcept {
         coroutine_handle<void>& self = *this;
         self = coro;
+    }
+    constexpr bool await_ready() noexcept {
+        return false;
+    }
+    constexpr void await_resume() noexcept {
     }
 
     frame() noexcept = default;
