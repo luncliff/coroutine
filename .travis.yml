@@ -46,6 +46,7 @@ install:
     sudo bash ./scripts/install-libc++8.sh > /dev/null;
     sudo rm -rf prebuilt libcxx* llvm*;
     sudo rm -rf cmake-3.14*;
+    export CC=/usr/bin/clang CXX=/usr/bin/clang;
     fi
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
     brew info llvm;

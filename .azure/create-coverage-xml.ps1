@@ -11,7 +11,7 @@ Tree ./TestResults /F
 
 # Filter lines with invalid line number 
 #   and Create a new coverage xml
-$final_coverage_xml_filepath = "./TestResults/luncliff-coroutine-visual-studio.coveragexml"
+$final_coverage_xml_filepath = "./TestResults/luncliff-coroutine.coveragexml"
 $xml_lines = Get-Content $temp_coverage_xml_filepath
 foreach($text in $xml_lines){
     if($text -match 15732480){

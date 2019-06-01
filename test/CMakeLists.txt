@@ -92,7 +92,7 @@ generate_exe_test( coro_frame_suspend )
 
 if(WIN32)
 
-generate_exe_test( win32_get_threads )
+generate_exe_test( concrt_win32_get_threads )
 
 generate_exe_test( event_win_cancel )
 generate_exe_test( event_win_signal )
