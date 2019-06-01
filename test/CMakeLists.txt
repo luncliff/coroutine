@@ -54,3 +54,35 @@ generate_exe_test( sequence_suspend_await )
 generate_exe_test( sequence_suspend_yield )
 generate_exe_test( sequence_yield_never )
 generate_exe_test( sequence_yield_once )
+
+generate_exe_test( handle_swap )
+generate_exe_test( handle_move )
+
+generate_exe_test( latch_wait_after_ready )
+generate_exe_test( latch_wait_multiple_times )
+
+generate_exe_test( coro_no_return )
+generate_exe_test( coro_frame_awaitable )
+generate_exe_test( coro_frame_empty )
+generate_exe_test( coro_frame_return )
+generate_exe_test( coro_frame_suspend )
+
+if(WIN32)
+
+generate_exe_test( win32_get_threads )
+
+generate_exe_test( event_win_cancel )
+generate_exe_test( event_win_signal )
+generate_exe_test( event_win_wait_one )
+generate_exe_test( event_win_wait_array )
+
+elseif(UNIX)
+
+generate_exe_test( event_unix_no_wait )
+generate_exe_test( event_unix_signal_multiple_times )
+generate_exe_test( event_unix_ready_after_signaled )
+generate_exe_test( event_unix_wait_multiple_times )
+generate_exe_test( event_unix_wait_one )
+generate_exe_test( event_unix_wait_three )
+
+endif()

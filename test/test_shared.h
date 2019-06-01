@@ -25,10 +25,14 @@ using namespace std::literals;
 #define REQUIRE(cond)                                                          \
     if ((cond) == false) {                                                     \
         printf("%s %d\n", __FILE__, __LINE__);                                 \
-        return __LINE__;                                                       \
+        exit(__LINE__);                                                        \
+    }
+#define FAIL_WITH_MESSAGE(msg)                                                 \
+    {                                                                          \
+        printf("%s %d\n", msg.c_str(), __LINE__);                              \
+        exit(__LINE__);                                                        \
     }
 
-// #define FAIL_WITH_MESSAGE(msg) FAIL(msg)
 // #define PRINT_MESSAGE(msg) CAPTURE(msg)
 // #define FAIL_WITH_CODE(ec) FAIL(system_category().message(ec));
 
