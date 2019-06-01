@@ -14,7 +14,8 @@ auto net_getaddrinfo_tcp6_listen_numeric_test() {
     addrinfo hint{};
     hint.ai_family = AF_INET6;
     hint.ai_socktype = SOCK_STREAM;
-    hint.ai_flags = AI_PASSIVE | AI_V4MAPPED | AI_NUMERICSERV | AI_NUMERICHOST;
+    hint.ai_protocol = IPPROTO_TCP;
+    hint.ai_flags = AI_PASSIVE | AI_V4MAPPED | AI_NUMERICHOST | AI_NUMERICSERV;
 
     size_t count = 0u;
     for (auto ep : resolve(hint, "fe80::", "57132")) {

@@ -14,7 +14,7 @@ auto test_recv_dgram(int64_t sd, int64_t& rsz, latch& wg) -> no_return {
     // count down the latch so `latch::wait` can return
     auto on_return = gsl::finally([&wg]() { wg.count_down(); });
 
-    sockaddr_in6 remote{};
+    sockaddr_in remote{};
     io_work_t work{};               // struct to perform I/O request
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
@@ -27,7 +27,7 @@ auto test_recv_dgram(int64_t sd, int64_t& rsz, latch& wg) -> no_return {
     REQUIRE(rsz > 0);
 }
 
-auto test_send_dgram(int64_t sd, const sockaddr_in6& remote, int64_t& ssz,
+auto test_send_dgram(int64_t sd, const sockaddr_in& remote, int64_t& ssz,
                      latch& wg) -> no_return {
     // count down the latch so `latch::wait` can return
     auto on_return = gsl::finally([&wg]() { wg.count_down(); });
@@ -46,7 +46,7 @@ auto test_send_dgram(int64_t sd, const sockaddr_in6& remote, int64_t& ssz,
 
 auto udp_echo_service(int64_t sd) -> no_return {
     int64_t rsz = 0, ssz = 0;
-    sockaddr_in6 remote{};
+    sockaddr_in remote{};
     io_work_t work{};               // struct to perform I/O request
     io_buffer_t buf{};              // memory view to the `storage`
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
@@ -87,15 +87,17 @@ auto net_echo_udp_test() {
         this_thread::sleep_for(1s);
     });
 
-    // create service int64_t
-    hint.ai_family = AF_INET6;
+    // note
+    //  we are using IPv4 here 
+    //  since CI(docker) env doesn't support IPv6
+    hint.ai_family = AF_INET;
     hint.ai_socktype = SOCK_DGRAM;
     hint.ai_protocol = IPPROTO_UDP;
     ss = socket_create(hint);
 
-    local.in6.sin6_family = hint.ai_family;
-    local.in6.sin6_addr = in6addr_any;
-    local.in6.sin6_port = htons(32771);
+    local.in4.sin_family = hint.ai_family;
+    local.in4.sin_addr.s_addr = INADDR_ANY;
+    local.in4.sin_port = htons(32771);
     socket_bind(ss, local);
     socket_set_option_nonblock(ss);
     udp_echo_service(ss);
@@ -104,7 +106,7 @@ auto net_echo_udp_test() {
         sd = socket_create(hint);
 
         endpoint_t ep = local;
-        ep.in6.sin6_port = 0; // let system define the port
+        ep.in4.sin_port = 0; // let system define the port
         socket_bind(sd, ep);
         socket_set_option_nonblock(sd);
     }
@@ -113,11 +115,11 @@ auto net_echo_udp_test() {
     // Those coroutines will perform send/recv operation on the socket
     latch wg{2 * max_clients};
 
-    // local is holding service socket's port info
-    local.in6.sin6_addr = in6addr_loopback;
+    // local should hold service socket's port info
+    local.in4.sin_port = htons(32771);
     for (auto i = 0U; i < max_clients; ++i) {
         test_recv_dgram(conns[i], rsz[i], wg);
-        test_send_dgram(conns[i], local.in6, ssz[i], wg);
+        test_send_dgram(conns[i], local.in4, ssz[i], wg);
     }
     if constexpr (is_netinet) {
         while (wg.is_ready() == false)

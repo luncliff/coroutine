@@ -20,7 +20,7 @@ auto host_name() noexcept -> czstring_host {
 
 GSL_SUPPRESS(type .1)
 int get_name(const endpoint_t& ep, //
-             zstring_host name, zstring_serv serv) noexcept {
+             zstring_host name, zstring_serv serv, int flags) noexcept {
 
     socklen_t slen = NI_MAXSERV;
     if (serv == nullptr)
@@ -40,7 +40,7 @@ int get_name(const endpoint_t& ep, //
     //      NI_NUMERICSERV
     // non-zero if failed
     return ::getnameinfo(addressof(ep.addr), addrlen, name, NI_MAXHOST, serv,
-                         slen, NI_NUMERICHOST | NI_NUMERICSERV);
+                         slen, flags);
 }
 
 GSL_SUPPRESS(es .76)

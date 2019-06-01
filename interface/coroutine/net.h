@@ -272,7 +272,8 @@ auto resolve(const addrinfo& hint, //
 //  parameter `serv` can be `nullptr`.
 [[nodiscard]] _INTERFACE_
 int get_name(const endpoint_t& ep, //
-             zstring_host name, zstring_serv serv) noexcept;
+             zstring_host name, zstring_serv serv, 
+             int flags = NI_NUMERICHOST | NI_NUMERICSERV) noexcept;
 
 // clang-format on
 

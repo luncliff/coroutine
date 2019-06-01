@@ -121,15 +121,17 @@ auto net_echo_tcp_test() {
         this_thread::sleep_for(1s);
     });
 
-    // Create listener
-    hint.ai_family = AF_INET6;
+    // note
+    //  we are using IPv4 here 
+    //  since CI(docker) env doesn't support IPv6
+    hint.ai_family = AF_INET;
     hint.ai_socktype = SOCK_STREAM;
     hint.ai_protocol = IPPROTO_TCP;
     ln = socket_create(hint);
 
-    local.addr.sa_family = hint.ai_family;
-    local.in6.sin6_addr = in6addr_any;
-    local.in6.sin6_port = htons(3345);
+    local.in4.sin_family = hint.ai_family;
+    local.in4.sin_addr.s_addr = INADDR_ANY;
+    local.in4.sin_port = htons(3345);
     socket_bind(ln, local);
 
     socket_set_option(ln, SOL_SOCKET, SO_REUSEADDR, true);

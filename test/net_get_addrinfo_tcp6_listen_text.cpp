@@ -14,6 +14,7 @@ auto net_getaddrinfo_tcp6_listen_text_test() {
     addrinfo hint{};
     hint.ai_family = AF_INET6;
     hint.ai_socktype = SOCK_STREAM;
+    hint.ai_protocol = IPPROTO_TCP;
     hint.ai_flags = AI_PASSIVE | AI_V4MAPPED;
 
     size_t count = 0u;
