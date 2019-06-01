@@ -93,7 +93,7 @@ jobs:
         **\*vstest*.dll    
       codeCoverageEnabled: true
 
-- job: Visual_C++_with_clang-cl
+- job: Windows_Clang
   pool:
     name: Hosted VS2017
     demands:
