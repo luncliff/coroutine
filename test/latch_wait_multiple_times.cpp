@@ -18,8 +18,15 @@ auto concrt_latch_wait_multiple_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class concrt_latch_wait_multiple
+    : public TestClass<concrt_latch_wait_multiple> {
+    TEST_METHOD(test_concrt_latch_wait_multiple) {
+        concrt_latch_wait_multiple_test();
+    }
+};
+#else
+int main(int, char* []) {
     return concrt_latch_wait_multiple_test();
 }
 #endif

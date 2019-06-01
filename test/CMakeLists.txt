@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.8)
 function(generate_exe_test NAME)
     set(TEST_NAME test_${NAME})
     # create a test exe with the given name ...
-    add_executable(${TEST_NAME} ${NAME}.cpp )
+    add_executable(${TEST_NAME} ${NAME}.cpp ${ARGV1})
     add_test(${NAME} ${TEST_NAME})
 
     # ... example cmake configuration of the library user ...
@@ -28,6 +28,11 @@ function(generate_exe_test NAME)
         target_compile_definitions(${TEST_NAME}
         PRIVATE
             _CRT_SECURE_NO_WARNINGS
+        )
+        target_compile_options(${TEST_NAME}
+        PRIVATE
+            /Od # temporary disable optimization. 
+                # will be removed after test code changes
         )
     elseif(UNIX)
         # code coverage option lead to compiler crash
@@ -86,3 +91,19 @@ generate_exe_test( event_unix_wait_one )
 generate_exe_test( event_unix_wait_three )
 
 endif()
+
+generate_exe_test( net_get_addrinfo_ip6_bind            test_network.cpp )
+generate_exe_test( net_get_addrinfo_ip6_multicast       test_network.cpp )
+generate_exe_test( net_get_addrinfo_tcp6_connect        test_network.cpp )
+generate_exe_test( net_get_addrinfo_tcp6_listen_numeric test_network.cpp )
+generate_exe_test( net_get_addrinfo_tcp6_listen_text    test_network.cpp )
+generate_exe_test( net_get_addrinfo_udp6_unspecified    test_network.cpp )
+generate_exe_test( net_get_addrinfo_udp6_v4mapped       test_network.cpp )
+
+generate_exe_test( net_get_nameinfo_v4  test_network.cpp )
+generate_exe_test( net_get_nameinfo_v6  test_network.cpp )
+
+generate_exe_test( net_get_hostname     test_network.cpp )
+
+generate_exe_test( net_echo_tcp         test_network.cpp )
+generate_exe_test( net_echo_udp         test_network.cpp )

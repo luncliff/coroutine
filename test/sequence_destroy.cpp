@@ -44,8 +44,15 @@ auto coro_sequence_destroy_when_suspended_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class coro_sequence_destroy_when_suspended
+    : public TestClass<coro_sequence_destroy_when_suspended> {
+    TEST_METHOD(test_coro_sequence_destroy_when_suspended) {
+        coro_sequence_destroy_when_suspended_test();
+    }
+};
+#else
+int main(int, char* []) {
     return coro_sequence_destroy_when_suspended_test();
 }
 #endif

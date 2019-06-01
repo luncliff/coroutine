@@ -23,8 +23,14 @@ auto get_threads_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class win32_get_threads : public TestClass<win32_get_threads> {
+    TEST_METHOD(test_get_threads) {
+        get_threads_test();
+    }
+};
+#else
+int main(int, char* []) {
     return get_threads_test();
 }
 #endif

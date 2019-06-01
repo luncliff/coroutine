@@ -27,8 +27,14 @@ auto coro_sequence_yield_once_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class coro_sequence_yield_once : public TestClass<coro_sequence_yield_once> {
+    TEST_METHOD(test_coro_sequence_yield_once) {
+        coro_sequence_yield_once_test();
+    }
+};
+#else
+int main(int, char* []) {
     return coro_sequence_yield_once_test();
 }
 #endif

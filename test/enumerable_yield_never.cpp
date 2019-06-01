@@ -21,8 +21,14 @@ auto coro_enumerable_no_yield_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class coro_enumerable_no_yield : public TestClass<coro_enumerable_no_yield> {
+    TEST_METHOD(test_coro_enumerable_no_yield) {
+        coro_enumerable_no_yield_test();
+    }
+};
+#else
+int main(int, char* []) {
     return coro_enumerable_no_yield_test();
 }
 #endif

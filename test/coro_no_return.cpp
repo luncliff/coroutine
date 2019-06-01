@@ -21,8 +21,14 @@ auto coro_no_return_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class coro_no_return : public TestClass<coro_no_return> {
+    TEST_METHOD(test_coro_no_return) {
+        coro_no_return_test();
+    }
+};
+#else
+int main(int, char* []) {
     return coro_no_return_test();
 }
 #endif

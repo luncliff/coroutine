@@ -32,8 +32,14 @@ auto coro_sequence_yield_never_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class coro_sequence_yield_never : public TestClass<coro_sequence_yield_never> {
+    TEST_METHOD(test_coro_sequence_yield_never) {
+        coro_sequence_yield_never_test();
+    }
+};
+#else
+int main(int, char* []) {
     return coro_sequence_yield_never_test();
 }
 #endif

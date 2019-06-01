@@ -61,8 +61,14 @@ auto ptp_event_wait_array_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class ptp_event_wait_array : public TestClass<ptp_event_wait_array> {
+    TEST_METHOD(test_ptp_event_wait_array) {
+        ptp_event_wait_array_test();
+    }
+};
+#else
+int main(int, char* []) {
     return ptp_event_wait_array_test();
 }
 #endif

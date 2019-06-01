@@ -59,8 +59,14 @@ auto ptp_event_wait_one_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class ptp_event_wait_one : public TestClass<ptp_event_wait_one> {
+    TEST_METHOD(test_ptp_event_wait_one) {
+        ptp_event_wait_one_test();
+    }
+};
+#else
+int main(int, char* []) {
     return ptp_event_wait_one_test();
 }
 #endif

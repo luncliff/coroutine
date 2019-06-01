@@ -210,17 +210,57 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="test_concrt_latch.cpp" />
-    <ClCompile Include="test_coroutine_handle.cpp" />
-    <ClCompile Include="test_coro_channel.cpp" />
-    <ClCompile Include="test_coro_return.cpp" />
-    <ClCompile Include="test_coro_yield_enumerable.cpp" />
-    <ClCompile Include="test_coro_yield_sequence.cpp" />
+    <ClCompile Include="channel_race_no_leak.cpp" />
+    <ClCompile Include="channel_read_fail_after_close.cpp" />
+    <ClCompile Include="channel_read_write_mutex.cpp" />
+    <ClCompile Include="channel_read_write_nolock.cpp" />
+    <ClCompile Include="channel_select_bypass_empty.cpp" />
+    <ClCompile Include="channel_select_peek_all_cases.cpp" />
+    <ClCompile Include="channel_select_type_match.cpp" />
+    <ClCompile Include="channel_write_fail_after_close.cpp" />
+    <ClCompile Include="channel_write_read_mutex.cpp" />
+    <ClCompile Include="channel_write_read_nolock.cpp" />
+    <ClCompile Include="coro_frame_awaitable.cpp" />
+    <ClCompile Include="coro_frame_empty.cpp" />
+    <ClCompile Include="coro_frame_return.cpp" />
+    <ClCompile Include="coro_frame_suspend.cpp" />
+    <ClCompile Include="coro_no_return.cpp" />
+    <ClCompile Include="enumerable_accumulate.cpp" />
+    <ClCompile Include="enumerable_iterator.cpp" />
+    <ClCompile Include="enumerable_max_element.cpp" />
+    <ClCompile Include="enumerable_move.cpp" />
+    <ClCompile Include="enumerable_yield_never.cpp" />
+    <ClCompile Include="enumerable_yield_once.cpp" />
+    <ClCompile Include="event_win_cancel.cpp" />
+    <ClCompile Include="event_win_signal.cpp" />
+    <ClCompile Include="event_win_wait_array.cpp" />
+    <ClCompile Include="event_win_wait_one.cpp" />
+    <ClCompile Include="handle_move.cpp" />
+    <ClCompile Include="handle_swap.cpp" />
+    <ClCompile Include="latch_throws_negative_from_positive.cpp" />
+    <ClCompile Include="latch_throws_negative_from_zero.cpp" />
+    <ClCompile Include="latch_wait_after_ready.cpp" />
+    <ClCompile Include="latch_wait_multiple_times.cpp" />
+    <ClCompile Include="net_echo_tcp.cpp" />
+    <ClCompile Include="net_echo_udp.cpp" />
+    <ClCompile Include="net_get_addrinfo_ip6_bind.cpp" />
+    <ClCompile Include="net_get_addrinfo_ip6_multicast.cpp" />
+    <ClCompile Include="net_get_addrinfo_tcp6_connect.cpp" />
+    <ClCompile Include="net_get_addrinfo_tcp6_listen_numeric.cpp" />
+    <ClCompile Include="net_get_addrinfo_tcp6_listen_text.cpp" />
+    <ClCompile Include="net_get_addrinfo_udp6_unspecified.cpp" />
+    <ClCompile Include="net_get_addrinfo_udp6_v4mapped.cpp" />
+    <ClCompile Include="net_get_hostname.cpp" />
+    <ClCompile Include="net_get_nameinfo_v4.cpp" />
+    <ClCompile Include="net_get_nameinfo_v6.cpp" />
+    <ClCompile Include="sequence_destroy.cpp" />
+    <ClCompile Include="sequence_frame_status.cpp" />
+    <ClCompile Include="sequence_suspend_await.cpp" />
+    <ClCompile Include="sequence_suspend_yield.cpp" />
+    <ClCompile Include="sequence_yield_never.cpp" />
+    <ClCompile Include="sequence_yield_once.cpp" />
     <ClCompile Include="test_network.cpp" />
-    <ClCompile Include="test_net_echo_tcp.cpp" />
-    <ClCompile Include="test_net_echo_udp.cpp" />
-    <ClCompile Include="test_net_resolver.cpp" />
-    <ClCompile Include="test_concrt_windows.cpp" />
+    <ClCompile Include="win32_get_threads.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="test_network.h" />

@@ -152,7 +152,6 @@ auto net_echo_tcp_test() {
             // allow non-block error
             if (is_in_progress(ec) == false) {
                 FAIL_WITH_CODE(ec);
-                return;
             }
         }
         // set some options ...
@@ -186,18 +185,18 @@ auto net_echo_tcp_test() {
         // sent size == received size
         REQUIRE(ssz[i] == rsz[i]);
     }
+
+    return EXIT_SUCCESS;
 }
 
-#if __has_include(<catch2/catch.hpp>)
-TEST_CASE("socket async tcp echo", "[network]") {
-    net_echo_tcp_test();
-}
-
-#elif __has_include(<CppUnitTest.h>)
+#if __has_include(<CppUnitTest.h>)
 class net_echo_tcp : public TestClass<net_echo_tcp> {
     TEST_METHOD(test_net_echo_tcp) {
         net_echo_tcp_test();
     }
 };
-
+#else
+int main(int, char* []) {
+    return net_echo_tcp_test();
+}
 #endif

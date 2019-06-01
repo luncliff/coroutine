@@ -58,8 +58,14 @@ auto ptp_event_cancel_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class ptp_event_cancel : public TestClass<ptp_event_cancel> {
+    TEST_METHOD(test_ptp_event_cancel) {
+        ptp_event_cancel_test();
+    }
+};
+#else
+int main(int, char* []) {
     return ptp_event_cancel_test();
 }
 #endif

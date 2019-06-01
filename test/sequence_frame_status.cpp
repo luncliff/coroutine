@@ -49,8 +49,15 @@ auto coro_sequence_frame_status_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class coro_sequence_frame_status
+    : public TestClass<coro_sequence_frame_status> {
+    TEST_METHOD(test_coro_sequence_frame_status) {
+        coro_sequence_frame_status_test();
+    }
+};
+#else
+int main(int, char* []) {
     return coro_sequence_frame_status_test();
 }
 #endif

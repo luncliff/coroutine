@@ -23,8 +23,14 @@ auto coro_frame_first_suspend_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class coro_frame_first_suspend : public TestClass<coro_frame_first_suspend> {
+    TEST_METHOD(test_coro_frame_first_suspend) {
+        coro_frame_first_suspend_test();
+    }
+};
+#else
+int main(int, char* []) {
     return coro_frame_first_suspend_test();
 }
 #endif

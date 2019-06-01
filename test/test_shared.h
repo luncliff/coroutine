@@ -27,14 +27,14 @@ using namespace std::literals;
         printf("%s %d\n", __FILE__, __LINE__);                                 \
         exit(__LINE__);                                                        \
     }
+#define PRINT_MESSAGE(msg)                                                     \
+    printf("%s %s %d\n", msg.c_str(), __FILE__, __LINE__);
 #define FAIL_WITH_MESSAGE(msg)                                                 \
     {                                                                          \
-        printf("%s %d\n", msg.c_str(), __LINE__);                              \
+        PRINT_MESSAGE(msg);                                                    \
         exit(__LINE__);                                                        \
     }
-
-// #define PRINT_MESSAGE(msg) CAPTURE(msg)
-// #define FAIL_WITH_CODE(ec) FAIL(system_category().message(ec));
+#define FAIL_WITH_CODE(ec) FAIL_WITH_MESSAGE(system_category().message(ec));
 
 #elif __has_include(<CppUnitTest.h>) // for msvc, use visual studio test
 #include <CppUnitTest.h>

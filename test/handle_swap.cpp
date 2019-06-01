@@ -24,8 +24,14 @@ auto coroutine_handle_swap_test() {
     return EXIT_SUCCESS;
 }
 
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+#if __has_include(<CppUnitTest.h>)
+class coroutine_handle_swap : public TestClass<coroutine_handle_swap> {
+    TEST_METHOD(test_coroutine_handle_swap) {
+        coroutine_handle_swap_test();
+    }
+};
+#else
+int main(int, char* []) {
     return coroutine_handle_swap_test();
 }
 #endif
