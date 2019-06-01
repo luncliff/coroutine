@@ -2,10 +2,6 @@
 	path = external/guideline
 	url = https://github.com/Microsoft/GSL
 	branch = v2.0.0
-[submodule "external/catch2"]
-	path = external/catch2
-	url = https://github.com/catchorg/Catch2
-	branch = v2.5.0
 [submodule "external/ios-cmake"]
 	path = external/ios-cmake
 	url = https://github.com/leetal/ios-cmake

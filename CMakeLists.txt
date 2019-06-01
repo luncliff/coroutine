@@ -58,14 +58,6 @@ elseif(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     return()
 endif()
 
-# if package does not exist, use submodule instead
-find_package(Catch2)
-if(NOT Catch2_FOUND)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/external/catch2
-                     ${CMAKE_BINARY_DIR}/catch2
-    )
-endif()
-
-enable_testing()
+# we will use ctest. so enable it
+enable_testing() 
 add_subdirectory(test)
-# add_dependencies(coroutine_test coroutine)

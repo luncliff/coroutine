@@ -20,16 +20,15 @@ using namespace std;
 using namespace std::experimental;
 using namespace std::literals;
 
-#if __has_include(<catch2/catch.hpp>) // for clang, use catch2
-#define CATCH_CONFIG_FAST_COMPILE
-#if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
-#elif defined(_WINDOWS_) || defined(_MSC_VER) // Windows
-#define CATCH_CONFIG_WINDOWS_CRTDBG
-#endif
-#include <catch2/catch.hpp>
-#define FAIL_WITH_MESSAGE(msg) FAIL(msg)
-#define PRINT_MESSAGE(msg) CAPTURE(msg)
-#define FAIL_WITH_CODE(ec) FAIL(system_category().message(ec));
+#if defined(__clang__) // for clang, use cmake test
+
+#define REQUIRE(cond)                                                          \
+    if ((cond) == false)                                                       \
+        return EXIT_FAILURE + __COUNTER__;
+
+// #define FAIL_WITH_MESSAGE(msg) FAIL(msg)
+// #define PRINT_MESSAGE(msg) CAPTURE(msg)
+// #define FAIL_WITH_CODE(ec) FAIL(system_category().message(ec));
 
 #elif __has_include(<CppUnitTest.h>) // for msvc, use visual studio test
 #include <CppUnitTest.h>

@@ -8,12 +8,15 @@
 //      follow semantics of msvc intrinsics in `coroutine_handle<>`
 //  Reference
 //      https://wg21.link/p0057
-//      <experimental/resumable> from Microsoft Corperation
+//      <experimental/resumable> from Microsoft Corperation (since 2017 Feb.)
 //      <experimental/coroutine> from LLVM libcxx 6.0.0+
 //      http://clang.llvm.org/docs/LanguageExtensions.html#c-coroutines-support-builtins
 //
 // ---------------------------------------------------------------------------
 #pragma once
+
+#include <cstddef>
+#include <cstdint>
 
 // <coroutine> header build issue handling
 #if defined(__clang__) && defined(_MSC_VER)
@@ -43,40 +46,27 @@
 //
 #if __has_include(<coroutine>)
 #include <coroutine> // C++ 20 standard
-//#define COROUTINE_FRAME_PREFIX_HPP // todo: check if the header works well
 
 #elif __has_include(<experimental/coroutine>)
-#include <experimental/coroutine>  // C++ 17 experimetal
-#define COROUTINE_FRAME_PREFIX_HPP // yield to VC++/libc++
+#include <experimental/coroutine> // C++ 17 experimetal
+#define COROUTINE_CUSTOM_FRAME_H  // won't use custom implementation
+#endif
 
-#endif // use default header
 #endif // <coroutine> header
 
-#ifndef COROUTINE_FRAME_PREFIX_HPP
-#define COROUTINE_FRAME_PREFIX_HPP
-#pragma warning(push, 4)
-#pragma warning(disable : 4455 4494 4577 4619 4643 4702 4984 4988)
-#pragma warning(disable : 26490 26481 26476 26429 26409)
-
-#include <cstddef>
-#include <cstdint>
-#include <type_traits>
-
-// clang-format off
 #if defined(__clang__)
-static constexpr auto is_msvc = false;
 static constexpr auto is_clang = true;
-static constexpr auto is_gcc = false;
+static constexpr auto is_msvc = !is_clang;
+static constexpr auto is_gcc = !is_clang;
 
 #elif defined(_MSC_VER)
 static constexpr auto is_msvc = true;
-static constexpr auto is_clang = false;
-static constexpr auto is_gcc = false;
+static constexpr auto is_clang = !is_msvc;
+static constexpr auto is_gcc = !is_msvc;
 
 #else // __GNUC__ is missing
-#error "compier doesn't support coroutine"
+#error "compier doesn't support coroutine. if so, please contact the author :)"
 #endif
-// clang-format on
 
 template <typename T>
 constexpr auto aligned_size_v = ((sizeof(T) + 16 - 1) & ~(16 - 1));
@@ -108,6 +98,14 @@ struct clang_frame_prefix final {
     procedure_t fdestroy;
 };
 static_assert(aligned_size_v<clang_frame_prefix> == 16);
+
+#ifndef COROUTINE_CUSTOM_FRAME_H
+#define COROUTINE_CUSTOM_FRAME_H
+#pragma warning(push, 4)
+#pragma warning(disable : 4455 4494 4577 4619 4643 4702 4984 4988)
+#pragma warning(disable : 26490 26481 26476 26429 26409)
+
+#include <type_traits>
 
 // - Note
 //      Alternative of `_coro_done` of msvc for this library.
@@ -402,4 +400,4 @@ struct _Resumable_helper_traits {
 #endif // __clang__ || _MSC_VER
 
 #pragma warning(pop)
-#endif // COROUTINE_FRAME_PREFIX_HPP
+#endif // COROUTINE_CUSTOM_FRAME_H
