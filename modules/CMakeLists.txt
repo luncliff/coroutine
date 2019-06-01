@@ -3,11 +3,12 @@
 #
 cmake_minimum_required(VERSION 3.8)
 
-# redirect to ${target-platform}.cmake for system-specific configurations
-string(TOLOWER ${CMAKE_SYSTEM_NAME} TARGET_PLATFORM_NAME)
 list(APPEND CMAKE_MODULE_PATH 
             ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+# redirect to ${target-platform}.cmake for system-specific configurations
+string(TOLOWER ${CMAKE_SYSTEM_NAME} TARGET_PLATFORM_NAME)
 if(ANDROID)
     # redirect to linux configuration. ensure to make shared object for JNI
     set(BUILD_SHARED_LIBS ON)
@@ -16,7 +17,7 @@ elseif(IOS)
     set(TARGET_PLATFORM_NAME darwin)
 endif()
 include(${TARGET_PLATFORM_NAME})
-add_library(coro ALIAS ${PROJECT_NAME})
+add_library(coro::coroutine ALIAS ${PROJECT_NAME})
 
 # shared configurations ...
 set_target_properties(${PROJECT_NAME}
@@ -45,6 +46,9 @@ if(USE_CUSTOM_HEADER)
 endif()
 
 # library export / install
+
+export( PACKAGE coroutine )
+
 include(CMakePackageConfigHelpers)
 set(VERSION_FILE        ${CMAKE_BINARY_DIR}/cmake/coroutine-config-version.cmake)
 write_basic_package_version_file(${VERSION_FILE}
@@ -64,6 +68,11 @@ install(TARGETS         ${PROJECT_NAME}
     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
 )
-install(EXPORT          coroutine-config
-        DESTINATION     ${CMAKE_INSTALL_PREFIX}/share/coroutine
+install(EXPORT      coroutine-config
+        NAMESPACE   coro::
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/coroutine
+)
+export( EXPORT      coroutine-config
+        FILE        ${CMAKE_BINARY_DIR}/coroutine-config.cmake
+        NAMESPACE   coro::
 )
