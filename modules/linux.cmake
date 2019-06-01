@@ -57,6 +57,6 @@ if(ANDROID)
 else()
     target_link_libraries(${PROJECT_NAME}
     PUBLIC
-        rt
+        pthread rt
     )
 endif()

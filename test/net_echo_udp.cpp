@@ -88,7 +88,7 @@ auto net_echo_udp_test() {
     });
 
     // note
-    //  we are using IPv4 here 
+    //  we are using IPv4 here
     //  since CI(docker) env doesn't support IPv6
     hint.ai_family = AF_INET;
     hint.ai_socktype = SOCK_DGRAM;
@@ -96,7 +96,7 @@ auto net_echo_udp_test() {
     ss = socket_create(hint);
 
     local.in4.sin_family = hint.ai_family;
-    local.in4.sin_addr.s_addr = INADDR_ANY;
+    local.in4.sin_addr.s_addr = htonl(INADDR_ANY);
     local.in4.sin_port = htons(32771);
     socket_bind(ss, local);
     socket_set_option_nonblock(ss);
@@ -116,7 +116,7 @@ auto net_echo_udp_test() {
     latch wg{2 * max_clients};
 
     // local should hold service socket's port info
-    local.in4.sin_port = htons(32771);
+    local.in4.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     for (auto i = 0U; i < max_clients; ++i) {
         test_recv_dgram(conns[i], rsz[i], wg);
         test_send_dgram(conns[i], local.in4, ssz[i], wg);

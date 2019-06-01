@@ -140,8 +140,11 @@ StartWait:
         // WAIT_IO_COMPLETION : return because of APC
         if (ec == WAIT_IO_COMPLETION)
             goto StartWait;
+        // WAIT_TIMEOUT	: this is expected. try again
+        if (ec == WAIT_TIMEOUT)
+            goto StartWait;
+
         // WAIT_FAILED	: use GetLastError in the case
-        // WAIT_TIMEOUT	: this is expected. user can try again
         // WAIT_ABANDONED
         throw make_sys_error("WaitForSingleObjectEx");
     }

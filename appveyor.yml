@@ -41,20 +41,16 @@ for:
       only:
         - image: Visual Studio 2017
           compiler: msvc
-    install:
-      - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER
     build:
       parallel: true
       project: coroutine.sln
       verbosity: quiet
-    after_build:
-      # Rename the variable for build output
-      - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
-      - ps: tree /F ./$env:PLATFORM
     before_test:
-      - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/coroutine_vstest.dll"
-    test_script:
-      - ps: vstest.console.exe $TestDLL
+      - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER
+    test:
+      assemblies:
+        only:
+          - '$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/*vstest*.dll'
 
   # clang-cl: use CMake + Ninja + Clang
   # The build step expects cmdlet environment...

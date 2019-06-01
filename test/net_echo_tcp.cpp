@@ -130,7 +130,7 @@ auto net_echo_tcp_test() {
     ln = socket_create(hint);
 
     local.in4.sin_family = hint.ai_family;
-    local.in4.sin_addr.s_addr = INADDR_ANY;
+    local.in4.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     local.in4.sin_port = htons(3345);
     socket_bind(ln, local);
 
