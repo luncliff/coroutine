@@ -38,10 +38,14 @@ function(generate_exe_test NAME)
     PUBLIC
         coroutine ${ARGV1}
     )
+    target_compile_definitions(${TEST_NAME}
+    PRIVATE
+        CMAKE_TEST
+    )
     if(WIN32)
         target_compile_definitions(${TEST_NAME}
         PRIVATE
-            _CRT_SECURE_NO_WARNINGS CMAKE_TEST
+            _CRT_SECURE_NO_WARNINGS
         )
         target_compile_options(${TEST_NAME}
         PRIVATE
