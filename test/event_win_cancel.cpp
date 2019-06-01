@@ -7,30 +7,8 @@
 using namespace coro;
 using namespace concrt;
 
-// we can't use rvalue reference. this design is necessary because
-// `ptp_event` uses INFINITE wait internally.
-// so, with the reference, user must sure one of `SetEvent` or `cancel` will
-// happen in the future
-auto wait_an_event(ptp_event& token, atomic_flag& flag) -> no_return {
-    // wait for set or cancel
-    // `co_await` will forward `GetLastError` if canceled.
-    if (DWORD ec = co_await token) {
-        FAIL_WITH_MESSAGE(system_category().message(ec));
-        co_return;
-    }
-    flag.test_and_set();
-}
-
-auto set_after_sleep(HANDLE ev, uint32_t ms) -> no_return {
-    co_await ptp_work{}; // move to background thread ...
-
-    SleepEx(ms, true);
-    // if failed, print error message
-    if (SetEvent(ev) == 0) {
-        auto ec = GetLastError();
-        FAIL_WITH_MESSAGE(system_category().message(ec));
-    }
-}
+auto wait_an_event(ptp_event& token, atomic_flag& flag) -> no_return;
+auto set_after_sleep(HANDLE ev, uint32_t ms) -> no_return;
 
 auto ptp_event_cancel_test() {
     array<HANDLE, 10> events{};
@@ -67,5 +45,30 @@ class ptp_event_cancel : public TestClass<ptp_event_cancel> {
 #else
 int main(int, char* []) {
     return ptp_event_cancel_test();
+}
+
+// we can't use rvalue reference. this design is necessary because
+// `ptp_event` uses INFINITE wait internally.
+// so, with the reference, user must sure one of `SetEvent` or `cancel` will
+// happen in the future
+auto wait_an_event(ptp_event& token, atomic_flag& flag) -> no_return {
+    // wait for set or cancel
+    // `co_await` will forward `GetLastError` if canceled.
+    if (DWORD ec = co_await token) {
+        FAIL_WITH_MESSAGE(system_category().message(ec));
+        co_return;
+    }
+    flag.test_and_set();
+}
+
+auto set_after_sleep(HANDLE ev, uint32_t ms) -> no_return {
+    co_await ptp_work{}; // move to background thread ...
+
+    SleepEx(ms, true);
+    // if failed, print error message
+    if (SetEvent(ev) == 0) {
+        auto ec = GetLastError();
+        FAIL_WITH_MESSAGE(system_category().message(ec));
+    }
 }
 #endif

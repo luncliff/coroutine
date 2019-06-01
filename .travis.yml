@@ -59,10 +59,9 @@ before_script:
     -DCMAKE_BUILD_TYPE=${CONFIG}
     -DUSE_CUSTOM_HEADER=${CUSTOM}
     -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
-
 script:
   - cmake --build . --target install
-  - ctest
+  - ctest --output-on-failure
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install
@@ -103,6 +102,38 @@ matrix:
       env:
         - CONFIG=Release  SHARED=true
         - CUSTOM=false
+
+    #
+    # to use the implementation of <coroutine/frame.h>, ON the CUSTOM flag
+    #
+
+    - name: Mac Debug (Custom)
+      os: osx
+      osx_image: xcode10.2
+      env:
+        - CONFIG=Debug    SHARED=true
+        - CUSTOM=true
+
+    - name: Mac Release (Custom)
+      os: osx
+      osx_image: xcode10.2
+      env:
+        - CONFIG=Release  SHARED=true
+        - CUSTOM=true
+
+    - name: Ubuntu(Xenial) Debug (Custom)
+      os: linux
+      dist: xenial
+      env:
+        - CONFIG=Debug    SHARED=true
+        - CUSTOM=true
+
+    - name: Ubuntu(Xenial) Release (Custom)
+      os: linux
+      dist: xenial
+      env:
+        - CONFIG=Release  SHARED=true
+        - CUSTOM=true
 
     #
     # cross-build for mobile
@@ -165,35 +196,3 @@ matrix:
       script:
         - gradle clean
         - gradle assemble -warning-mode all
-
-    #
-    # to use the implementation of <coroutine/frame.h>, ON the CUSTOM flag
-    #
-
-    - name: Mac Debug (Custom)
-      os: osx
-      osx_image: xcode10.2
-      env:
-        - CONFIG=Debug    SHARED=true
-        - CUSTOM=true
-
-    - name: Mac Release (Custom)
-      os: osx
-      osx_image: xcode10.2
-      env:
-        - CONFIG=Release  SHARED=true
-        - CUSTOM=true
-
-    - name: Ubuntu(Xenial) Debug (Custom)
-      os: linux
-      dist: xenial
-      env:
-        - CONFIG=Debug    SHARED=true
-        - CUSTOM=true
-
-    - name: Ubuntu(Xenial) Release (Custom)
-      os: linux
-      dist: xenial
-      env:
-        - CONFIG=Release  SHARED=true
-        - CUSTOM=true

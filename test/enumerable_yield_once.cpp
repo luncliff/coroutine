@@ -11,7 +11,6 @@ auto yield_once(int value = 0) -> enumerable<int> {
     co_return;
 };
 auto coro_enumerable_yield_once_test() {
-
     auto count = 0u;
     for (auto v : yield_once()) {
         REQUIRE(v == 0);

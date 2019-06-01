@@ -6,10 +6,7 @@
 
 using namespace coro;
 
-auto yield_once(int value = 0) -> enumerable<int> {
-    co_yield value;
-    co_return;
-};
+auto yield_once(int value = 0) -> enumerable<int>;
 
 auto coro_enumerable_iterator_test() {
     auto count = 0u;
@@ -34,4 +31,10 @@ class coro_enumerable_iterator : public TestClass<coro_enumerable_iterator> {
 int main(int, char* []) {
     return coro_enumerable_iterator_test();
 }
+
+auto yield_once(int value) -> enumerable<int> {
+    co_yield value;
+    co_return;
+};
+
 #endif
