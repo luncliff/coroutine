@@ -34,6 +34,8 @@ function(generate_exe_test NAME)
         # list(APPEND CMAKE_CXX_FLAGS "--coverage")
         target_compile_options(${TEST_NAME}
         PRIVATE
+            -O0 # temporary disable optimization. 
+                # will be removed after test code changes
             -g -Wall -Wextra -Wno-unknown-pragmas 
         )
     endif()

@@ -23,8 +23,10 @@ using namespace std::literals;
 #if defined(__clang__) // for clang, use cmake test
 
 #define REQUIRE(cond)                                                          \
-    if ((cond) == false)                                                       \
-        return EXIT_FAILURE + __COUNTER__;
+    if ((cond) == false) {                                                     \
+        printf("%s %d\n", __FILE__, __LINE__);                                 \
+        return __LINE__;                                                       \
+    }
 
 // #define FAIL_WITH_MESSAGE(msg) FAIL(msg)
 // #define PRINT_MESSAGE(msg) CAPTURE(msg)
