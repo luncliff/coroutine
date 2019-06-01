@@ -47,10 +47,12 @@ using io_control_block = OVERLAPPED;
 static constexpr bool is_winsock = true;
 static constexpr bool is_netinet = false;
 
-#else // use netinet
+#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
+// use netinet
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -261,7 +263,7 @@ auto host_name() noexcept -> czstring_host;
 //  If there is an error, the enumerable yields nothing.
 _INTERFACE_
 auto resolve(const addrinfo& hint, //
-             czstring_host name, czstring_serv serv) noexcept
+             czstring_host name, czstring_serv serv) noexcept(false)
     -> coro::enumerable<endpoint_t>;
 
 // clang-format off
@@ -270,7 +272,8 @@ auto resolve(const addrinfo& hint, //
 //  parameter `serv` can be `nullptr`.
 [[nodiscard]] _INTERFACE_
 int get_name(const endpoint_t& ep, //
-             zstring_host name, zstring_serv serv) noexcept;
+             zstring_host name, zstring_serv serv, 
+             int flags = NI_NUMERICHOST | NI_NUMERICSERV) noexcept;
 
 // clang-format on
 

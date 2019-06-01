@@ -58,8 +58,13 @@ struct unix_event_t final : no_copy_move {
         // local.sun_path is already set.
         local.sun_family = AF_UNIX;
 
-        if (::bind(sd, (sockaddr*)&local, SUN_LEN(&local)))
-            throw system_error{errno, system_category(), "bind"};
+        if (::bind(sd, (sockaddr*)&local, SUN_LEN(&local))) {
+            // this throw will make the object not-constructed
+            auto se = system_error{errno, system_category(), "bind"};
+            // so we have to make sure of the destruction
+            this->~unix_event_t();
+            throw se;
+        }
     }
     ~unix_event_t() noexcept {
         close(sd);

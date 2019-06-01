@@ -120,6 +120,10 @@ assemble.doLast
         from 'build/intermediates/cmake/release/obj'
         into 'install/libs/Release'
     }
+    copy {
+        from 'interface'
+        into 'install/include'
+    }
 }
 
 dependencies {

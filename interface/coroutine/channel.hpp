@@ -36,7 +36,7 @@ struct bypass_lock final {
 namespace internal {
 
 // A non-null address that leads access violation
-static void* poison() noexcept(false) {
+static inline void* poison() noexcept(false) {
     return reinterpret_cast<void*>(0xFADE'038C'BCFA'9E64);
 }
 

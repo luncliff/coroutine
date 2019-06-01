@@ -20,7 +20,7 @@ auto host_name() noexcept -> czstring_host {
 
 GSL_SUPPRESS(type .1)
 int get_name(const endpoint_t& ep, //
-             zstring_host name, zstring_serv serv) noexcept {
+             zstring_host name, zstring_serv serv, int flags) noexcept {
 
     socklen_t slen = NI_MAXSERV;
     if (serv == nullptr)
@@ -40,19 +40,20 @@ int get_name(const endpoint_t& ep, //
     //      NI_NUMERICSERV
     // non-zero if failed
     return ::getnameinfo(addressof(ep.addr), addrlen, name, NI_MAXHOST, serv,
-                         slen, NI_NUMERICHOST | NI_NUMERICSERV);
+                         slen, flags);
 }
 
 GSL_SUPPRESS(es .76)
 GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(gsl.util)
 auto resolve(const addrinfo& hint, //
-             czstring_host name, czstring_serv serv) noexcept
+             czstring_host name, czstring_serv serv) noexcept(false)
     -> coro::enumerable<endpoint_t> {
 
     addrinfo* list = nullptr;
-    if (::getaddrinfo(name, serv, addressof(hint), &list))
-        co_return;
+    if (const auto ec = ::getaddrinfo(name, serv, addressof(hint), &list))
+        // instead of `runtime_error`, use `system_error`
+        throw system_error{ec, system_category(), gai_strerror(ec)};
 
     // RAII clean up for the assigned addrinfo
     // This holder guarantees clean up
@@ -62,6 +63,8 @@ auto resolve(const addrinfo& hint, //
     endpoint_t* ptr = nullptr;
     for (addrinfo* it = list; it != nullptr; it = it->ai_next) {
         ptr = reinterpret_cast<endpoint_t*>(it->ai_addr);
+        if (ptr == nullptr)
+            continue;
 
         endpoint_t& ep = *ptr;
         co_yield ep;

@@ -1,4 +1,3 @@
-# ---------------------------------------------------------------------------
 #
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #   Note
@@ -11,7 +10,6 @@
 #       - Clang + MacOS     (Unix Makefiles)
 #       - Clang + Linux     (Unix Makefiles. WSL, Ubuntu 1604 and later)
 #
-# ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.8) # c++ 17
 
 project(coroutine LANGUAGES CXX VERSION 1.4.2)
@@ -42,6 +40,7 @@ if(NOT DEFINED GSL_INCLUDE_DIR)
 else()
     message(STATUS "GSL (C++ Core Guideline Support Library)")
     message(STATUS "  Path      \t: ${GSL_INCLUDE_DIR}")
+    message(STATUS)
 endif()
 
 # Project modules
@@ -59,13 +58,6 @@ elseif(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     return()
 endif()
 
-# if package does not exist, use submodule instead
-find_package(Catch2)
-if(NOT Catch2_FOUND)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/external/catch2
-                     ${CMAKE_BINARY_DIR}/catch2
-    )
-endif()
-
+# we will use ctest. so enable it
+enable_testing() 
 add_subdirectory(test)
-add_dependencies(coroutine_test coroutine)

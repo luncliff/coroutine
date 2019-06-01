@@ -22,9 +22,8 @@ add_library(${PROJECT_NAME}
 
 target_compile_options(${PROJECT_NAME}
 PUBLIC
-    -std=c++2a
-    -stdlib=libc++
-    -fcoroutines-ts -fPIC
+    -std=c++2a -stdlib=libc++ -fcoroutines-ts 
+    -fPIC
 PRIVATE
     -Wall -Wno-unknown-pragmas -Wno-unused-private-field
     -fvisibility=hidden -fno-rtti
@@ -47,6 +46,17 @@ endif()
 
 target_link_libraries(${PROJECT_NAME}
 PUBLIC
-    pthread rt
+    ${CMAKE_DL_LIBS}
     c++ # c++abi c++experimental
 )
+if(ANDROID)
+    target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        ${ANDROID_STL}
+    )
+else()
+    target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        pthread rt
+    )
+endif()

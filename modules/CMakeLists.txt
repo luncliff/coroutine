@@ -1,8 +1,6 @@
-# ---------------------------------------------------------------------------
 #
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
-# ---------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.8)
 
 # redirect to ${target-platform}.cmake for system-specific configurations
@@ -11,6 +9,8 @@ list(APPEND CMAKE_MODULE_PATH
             ${CMAKE_CURRENT_SOURCE_DIR}
 )
 if(ANDROID)
+    # redirect to linux configuration. ensure to make shared object for JNI
+    set(BUILD_SHARED_LIBS ON)
     set(TARGET_PLATFORM_NAME linux)
 elseif(IOS)
     set(TARGET_PLATFORM_NAME darwin)
@@ -35,7 +35,9 @@ PRIVATE
 )
 
 if(USE_CUSTOM_HEADER)
-    message(STATUS "using custom coroutine header")
+    message(STATUS "Customizaton")
+    message(STATUS "  <coroutine/frame.h> is suppressing <experimental/coroutine>")
+    message(STATUS)
     target_compile_definitions(${PROJECT_NAME}
     PUBLIC
         USE_CUSTOM_HEADER
@@ -56,19 +58,12 @@ install(DIRECTORY       ${PROJECT_SOURCE_DIR}/interface/coroutine
 install(FILES           ${VERSION_FILE}
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/share/coroutine
 )
-if(WIN32)
-    install(TARGETS         ${PROJECT_NAME}
-            EXPORT          coroutine-config    # --> config for find_package
-            RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-            LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-            ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-    )
-else()
-    install(TARGETS         ${PROJECT_NAME}
-            EXPORT          coroutine-config
-            DESTINATION     ${CMAKE_INSTALL_PREFIX}/lib
-    )
-endif()
+install(TARGETS         ${PROJECT_NAME}
+        EXPORT          coroutine-config    # --> config for find_package
+    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+)
 install(EXPORT          coroutine-config
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/share/coroutine
 )

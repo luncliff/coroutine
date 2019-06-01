@@ -1,10 +1,9 @@
-﻿// ---------------------------------------------------------------------------
-//
+﻿//
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
 #include <coroutine/concrt.h>
+#include <cstdio>
 
 #define LIB_PROLOGUE __attribute__((constructor))
 #define LIB_EPILOGUE __attribute__((destructor))
@@ -21,11 +20,11 @@ section::section() noexcept(false) : rwlock{} {
 section::~section() noexcept {
     try {
         if (auto ec = pthread_rwlock_destroy(&rwlock))
-            throw system_error{ec, system_category(), "pthread_rwlock_init"};
+            throw system_error{ec, system_category(), "pthread_rwlock_destroy"};
     } catch (const system_error& e) {
-        ::perror(e.what());
+        perror(e.what());
     } catch (...) {
-        ::perror("Unknown exception in section dtor");
+        perror("Unknown exception in section dtor");
     }
 }
 

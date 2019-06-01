@@ -64,28 +64,23 @@ for:
           compiler: clang
     install:
       - ps: Write-Host $env:APPVEYOR_BUILD_FOLDER
-      - ps: choco install ninja # Download Ninja with chocolaty package manager
-      - ps: choco info    llvm # LLVM is already installed. So just show the version info
-      - ps: cmake --version
-      - ps: ninja --version
-      - ps: clang --version # version: 6.0+
-      - ps: clang-cl --version # cl.exe for clang
+      - ps: choco install --no-progress ninja   # Download Ninja with chocolaty package manager
+      - ps: choco info    llvm    # LLVM is already installed. So just show the version info
       # Rename the variable for build output
       - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32" }
     before_build:
+      - ps: clang-cl --version # <-- cl.exe for clang
       - ps: Write-Host $env:PLATFORM $env:CONFIGURATION
     build_script:
       - ps: New-Item -Name build -ItemType Directory
       - ps: Push-Location -Path build
       - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-      # ps: $env:CXX = "clang-cl"
-      - cmd: set CXX=clang-cl
-      # for cmake, this can be ok. -DCMAKE_CXX_COMPILER=clang-cl
+      - cmd: set CXX=clang-cl # ps: $env:CXX = "clang-cl"
+      # for cmake, "-DCMAKE_CXX_COMPILER=clang-cl" can be ok
       - cmd: cmake ../ -G Ninja -DBUILD_SHARED_LIBS=false -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=../install/%platform%/%configuration%
-      - cmd: ninja install
-    after_build:
-      # copy dll for test executable
-      # - ps: Copy-Item ./modules/coroutine.dll ./test
-      - ps: Pop-Location
+      - cmd: cmake --build . --parallel
+      - cmd: cmake --build . --target install
+    # after_build:
+    #   - ps: Pop-Location
     test_script:
-      - ps: ./build/test/coroutine_test.exe
+      - ps: ctest --output-on-failure

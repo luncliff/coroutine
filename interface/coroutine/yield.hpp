@@ -323,9 +323,9 @@ class sequence final {
             // reset and advance
             promise->current = empty();
             // iterator resumes promise if it is suspended
-            if (auto coro = promise->task) {
+            if (auto t = promise->task) {
                 promise->task = nullptr;
-                coro.resume();
+                t.resume();
             }
             return await_resume();
         }
