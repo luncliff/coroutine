@@ -31,6 +31,10 @@ auto coro_sequence_frame_status_test() {
     status_t status = -1;
     // since there was no yield, it will remain unchanged
     auto fc = use_sequence_suspend_and_return(status, fs);
+    auto on_return = gsl::finally([&fc]() {
+        if (fc)
+            fc.destroy();
+    });
     REQUIRE(status == -1);
 
     // however, when the sequence coroutine is resumed,
@@ -50,7 +54,7 @@ auto coro_sequence_frame_status_test() {
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
+int main(int, char*[]) {
     return coro_sequence_frame_status_test();
 }
 

@@ -47,11 +47,6 @@ function(generate_exe_test NAME)
         PRIVATE
             _CRT_SECURE_NO_WARNINGS
         )
-        target_compile_options(${TEST_NAME}
-        PRIVATE
-            /Od # temporary disable optimization. 
-                # will be removed after test code changes
-        )
     elseif(UNIX)
         # code coverage option lead to compiler crash
         # list(APPEND CMAKE_CXX_FLAGS "--coverage")
