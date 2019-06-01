@@ -1,0 +1,217 @@
+
+trigger:
+  branches:
+    include:
+      - master
+      - dev/*
+      - test/*
+    exclude:
+      - docs
+
+jobs:
+- job: VisualStudio_2017_Analyze
+  pool:
+    name: Hosted VS2017
+    demands:
+      - vstest
+      - java
+    timeoutInMinutes: 20
+
+  steps:
+  - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
+    displayName: 'Prepare analysis on SonarCloud'
+    inputs:
+      SonarCloud: 'luncliff-sonarcloud'
+      organization: 'luncliff-github'
+      projectKey: 'luncliff_coroutine'
+      projectName: 'luncliff-coroutine'
+      projectVersion: 1.4.3
+      extraProperties: |
+        sonar.login=$(sonarcloud-login-key)
+        sonar.sourceEncoding=UTF-8
+        sonar.cpp.std=c++17
+        sonar.cfamily.threads=2
+        sonar.cfamily.build-wrapper-output=bw-output
+        sonar.cfamily.vscoveragexml.reportsPath=**/*coroutine*.coveragexml
+
+  - task: PowerShell@2
+    displayName: 'Download Sonar Build Wrapper'
+    inputs:
+      targetType: filePath
+      filePath: './.azure/sonar-wrapper-download.ps1'
+
+  - task: PowerShell@2
+    displayName: 'Build with Sonar Build Wrapper'
+    inputs:
+      targetType: filePath
+      filePath: './.azure/sonar-wrapper-build.ps1'
+
+  - task: VSTest@2
+    displayName: 'Visual Studio Test'
+    inputs:
+      testAssemblyVer2: |
+        **\*vstest*.dll    
+      codeCoverageEnabled: true
+
+  - task: PowerShell@2
+    displayName: 'Create XML from coverage'
+    inputs:
+      targetType: filePath
+      filePath: './.azure/create-coverage-xml.ps1'
+
+  - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+    displayName: 'Run Code Analysis'
+    continueOnError: true
+
+  - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
+    displayName: 'Publish Quality Gate Result'
+    continueOnError: true
+
+- job: VisualStudio_2017_Release
+  pool:
+    name: Hosted VS2017
+    demands:
+      - msbuild
+      - vstest
+    timeoutInMinutes: 10
+
+  steps:
+  - task: MSBuild@1
+    displayName: 'Release Build'
+    inputs:
+      solution: coroutine.sln
+      msbuildArchitecture: x64
+      platform: x64
+      configuration: Release
+      maximumCpuCount: true
+      createLogFile: true
+
+  - task: VSTest@2
+    displayName: 'Visual Studio Test'
+    inputs:
+      testAssemblyVer2: |
+        **\*vstest*.dll    
+      codeCoverageEnabled: true
+
+- job: Visual_C++_with_clang-cl
+  pool:
+    name: Hosted VS2017
+    demands:
+    - Cmd
+    - cmake
+    timeoutInMinutes: 10
+
+  steps:
+  - task: gep13.chocolatey-azuredevops.chocolatey-azuredevops.ChocolateyCommand@0
+    displayName: 'Chocolatey LLVM'
+    inputs:
+      command: install
+      installPackageId: llvm
+
+  - task: gep13.chocolatey-azuredevops.chocolatey-azuredevops.ChocolateyCommand@0
+    displayName: 'Chocolatey Ninja'
+    inputs:
+      command: install
+      installPackageId: ninja
+
+  - powershell: 'New-Item -Name build -ItemType Directory'
+    displayName: 'Create build folder'
+
+  - task: BatchScript@1
+    displayName: 'CMake build with clang-cl'
+    inputs:
+      filename: '.azure/clang-cl-cmake.bat'
+      workingFolder: build
+
+  - task: CMake@1
+    displayName: CMake
+    inputs:
+      cmakeArgs: '--version'
+
+- job: Mac_OS_AppleClang
+  pool:
+    name: Hosted macOS
+    demands: cmake
+    timeoutInMinutes: 10
+
+  steps:
+  - script: |
+      brew install cmake tree;
+      brew info llvm;
+    displayName: 'Install Brew packages'
+
+  - script: 'mkdir -p build;'
+    displayName: 'Create build folder'
+
+  - task: CMake@1
+    displayName: 'CMake Project Generation'
+    inputs:
+      cmakeArgs: '../ -DCMAKE_INSTALL_PREFIX=../install'
+
+  - task: CMake@1
+    displayName: 'CMake Build and Install'
+    inputs:
+      cmakeArgs: '--build .  --target install'
+
+  - script: 'ctest --output-on-failure'
+    workingDirectory: build
+    displayName: 'Run CTest'
+
+- job: Ubuntu_1604_Clang_6
+  pool:
+    name: Hosted Ubuntu 1604
+    demands: cmake
+    timeoutInMinutes: 10
+
+  steps:
+  - script: |
+      sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+      sudo apt update -qq
+    displayName: 'apt update'
+
+  - bash: |
+      sudo bash scripts/install-compilers.sh
+      sudo bash scripts/install-libc++8.sh
+    displayName: 'Run install scripts'
+
+  - script: 'mkdir -p build;'
+    displayName: 'Create build folder'
+
+  - task: CMake@1
+    displayName: 'CMake Project Generation'
+    inputs:
+      cmakeArgs: '../ -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_CXX_COMPILER=clang-6.0 -DCMAKE_C_COMPILER=clang-6.0 -DUSE_CUSTOM_HEADER=ON'
+
+  - task: CMake@1
+    displayName: 'CMake Build and Install'
+    inputs:
+      cmakeArgs: '--build .  --target install'
+
+  - script: 'ctest --output-on-failure'
+    workingDirectory: build
+    displayName: 'Run CTest'
+
+- job: Windows_MSVC_15
+  pool:
+    name: Hosted VS2017
+    demands:
+      - cmake
+      - msbuild
+    timeoutInMinutes: 10
+
+  steps:
+  - powershell: 'New-Item -Name build -ItemType Directory'
+    displayName: 'Create build folder'
+
+  - task: CMake@1
+    displayName: 'CMake Visual Studio 15 2017 Win64'
+    inputs:
+      cmakeArgs: '../ -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=true'
+
+  - task: MSBuild@1
+    displayName: 'Build **/*.sln'
+    inputs:
+      msbuildArchitecture: x64
+      platform: x64
+      configuration: Debug
+      maximumCpuCount: true
