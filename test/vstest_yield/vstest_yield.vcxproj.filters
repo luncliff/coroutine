@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\enumerable_accumulate.cpp" />
+    <ClCompile Include="..\enumerable_iterator.cpp" />
+    <ClCompile Include="..\enumerable_max_element.cpp" />
+    <ClCompile Include="..\enumerable_move.cpp" />
+    <ClCompile Include="..\enumerable_yield_never.cpp" />
+    <ClCompile Include="..\enumerable_yield_once.cpp" />
+    <ClCompile Include="..\sequence_destroy.cpp" />
+    <ClCompile Include="..\sequence_frame_status.cpp" />
+    <ClCompile Include="..\sequence_suspend_await.cpp" />
+    <ClCompile Include="..\sequence_suspend_yield.cpp" />
+    <ClCompile Include="..\sequence_yield_never.cpp" />
+    <ClCompile Include="..\sequence_yield_once.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\test_shared.h" />
+  </ItemGroup>
+</Project>

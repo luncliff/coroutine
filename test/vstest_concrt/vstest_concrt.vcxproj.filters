@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\test_shared.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\event_win_cancel.cpp" />
+    <ClCompile Include="..\event_win_signal.cpp" />
+    <ClCompile Include="..\event_win_wait_array.cpp" />
+    <ClCompile Include="..\event_win_wait_one.cpp" />
+    <ClCompile Include="..\latch_throws_negative_from_positive.cpp" />
+    <ClCompile Include="..\latch_throws_negative_from_zero.cpp" />
+    <ClCompile Include="..\latch_wait_after_ready.cpp" />
+    <ClCompile Include="..\latch_wait_multiple_times.cpp" />
+    <ClCompile Include="..\concrt_win32_get_threads.cpp" />
+  </ItemGroup>
+</Project>

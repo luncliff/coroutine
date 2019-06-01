@@ -17,4 +17,5 @@ clang-cl --version
 
 set CXX=clang-cl
 cmake ../ -G Ninja -DCMAKE_INSTALL_PREFIX=../install -DBUILD_SHARED_LIBS=false
-ninja install
+REM same with 'ninja install' command
+cmake --build . --parallel

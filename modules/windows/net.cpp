@@ -12,7 +12,10 @@ using namespace gsl;
 // throws `system_error` if `WSAGetLastError` returns error code
 void throw_if_async_error(not_null<czstring<>> label) noexcept(false) {
     const auto ec = WSAGetLastError();
-    if (ec == NO_ERROR || ec == ERROR_IO_PENDING)
+    if (ec == NO_ERROR)
+        return;
+    if (ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS ||
+        ec == ERROR_IO_PENDING)
         return; // ok. expected for async i/o
 
     throw system_error{ec, system_category(), label};

@@ -43,8 +43,3 @@ else()
         -O3
     )
 endif()
-
-target_link_libraries(${PROJECT_NAME}
-PUBLIC
-    pthread
-)

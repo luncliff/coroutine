@@ -92,7 +92,10 @@ int recent_net_error() noexcept {
 }
 
 bool is_in_progress(int ec) noexcept {
-    return ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS;
+    if (ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS ||
+        ec == ERROR_IO_PENDING)
+        return true;
+    return false;
 }
 void socket_close(int64_t sd) {
     shutdown(sd, SD_BOTH);

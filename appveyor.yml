@@ -41,20 +41,21 @@ for:
       only:
         - image: Visual Studio 2017
           compiler: msvc
-    install:
-      - ps: Write-Host $env:PLATFORM $env:CONFIGURATION $env:APPVEYOR_BUILD_FOLDER
     build:
       parallel: true
       project: coroutine.sln
       verbosity: quiet
-    after_build:
-      # Rename the variable for build output
-      - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32"; }
-      - ps: tree /F ./$env:PLATFORM
     before_test:
-      - ps: $TestDLL= "$env:APPVEYOR_BUILD_FOLDER/$env:PLATFORM/$env:CONFIGURATION/coroutine_vstest.dll"
+      - ps: Write-Host $env:APPVEYOR_BUILD_FOLDER $env:PLATFORM $env:CONFIGURATION 
+      - ps: $outdir=Join-Path -Path (pwd)   -ChildPath $env:PLATFORM
+      - ps: $outdir=Join-Path -Path $outdir -ChildPath $env:CONFIGURATION
+      - ps: Write-Host $outdir
     test_script:
-      - ps: vstest.console.exe $TestDLL
+      - ps: vstest.console "$outdir\coroutine_vstest_channel.dll"
+      - ps: vstest.console "$outdir\coroutine_vstest_concrt.dll"
+      - ps: vstest.console "$outdir\coroutine_vstest_network.dll"
+      - ps: vstest.console "$outdir\coroutine_vstest_return.dll"
+      - ps: vstest.console "$outdir\coroutine_vstest_yield.dll"
 
   # clang-cl: use CMake + Ninja + Clang
   # The build step expects cmdlet environment...
@@ -63,24 +64,23 @@ for:
         - image: Visual Studio 2017
           compiler: clang
     install:
-      - ps: Write-Host $env:APPVEYOR_BUILD_FOLDER
+      - ps: Write-Host $env:APPVEYOR_BUILD_FOLDER $env:PLATFORM $env:CONFIGURATION 
       - ps: choco install --no-progress ninja   # Download Ninja with chocolaty package manager
       - ps: choco info    llvm    # LLVM is already installed. So just show the version info
-      # Rename the variable for build output
-      - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32" }
     before_build:
       - ps: clang-cl --version # <-- cl.exe for clang
-      - ps: Write-Host $env:PLATFORM $env:CONFIGURATION
-    build_script:
       - ps: New-Item -Name build -ItemType Directory
+    build_script:
       - ps: Push-Location -Path build
       - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
       - cmd: set CXX=clang-cl # ps: $env:CXX = "clang-cl"
       # for cmake, "-DCMAKE_CXX_COMPILER=clang-cl" can be ok
-      - cmd: cmake ../ -G Ninja -DBUILD_SHARED_LIBS=false -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=../install/%platform%/%configuration%
+      - cmd: cmake ../ -G Ninja -DUSE_CUSTOM_HEADER=true -DBUILD_SHARED_LIBS=false -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=../install/%platform%/%configuration%
       - cmd: cmake --build . --parallel
       - cmd: cmake --build . --target install
-    # after_build:
-    #   - ps: Pop-Location
+    after_build:
+      - ps: Pop-Location
+    before_test:
+      - ps: Push-Location -Path build
     test_script:
       - ps: ctest --output-on-failure
