@@ -64,15 +64,11 @@ for:
           compiler: clang
     install:
       - ps: Write-Host $env:APPVEYOR_BUILD_FOLDER
-      - ps: choco install ninja   # Download Ninja with chocolaty package manager
+      - ps: choco install --no-progress ninja   # Download Ninja with chocolaty package manager
       - ps: choco info    llvm    # LLVM is already installed. So just show the version info
       # Rename the variable for build output
       - ps: if( $env:PLATFORM -eq "x86" ){ $env:PLATFORM="Win32" }
     before_build:
-      # print version informations
-      - ps: cmake --version
-      - ps: ninja --version
-      - ps: clang --version
       - ps: clang-cl --version # <-- cl.exe for clang
       - ps: Write-Host $env:PLATFORM $env:CONFIGURATION
     build_script:
@@ -84,10 +80,7 @@ for:
       - cmd: cmake ../ -G Ninja -DBUILD_SHARED_LIBS=false -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=../install/%platform%/%configuration%
       - cmd: cmake --build .
       - cmd: cmake --build . --target install
-    after_build:
-      # copy dll for test executable
-      # - ps: Copy-Item ./modules/coroutine.dll ./test
-      - ps: Pop-Location
+    # after_build:
+    #   - ps: Pop-Location
     test_script:
-      - ps: ctest --print-labels
       - ps: ctest --output-on-failure

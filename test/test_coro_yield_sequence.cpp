@@ -30,12 +30,12 @@ auto coro_sequence_no_yield_test() {
     REQUIRE(storage == -1);
 }
 
-auto sequence_suspend_and_return(frame& fh) -> coro::sequence<status_t> {
+auto sequence_suspend_and_return(frame& fh) -> sequence<status_t> {
     co_yield fh; // save current coroutine to the `frame`
                  // the `frame` type inherits `suspend_always`
     co_return;   // return without yield
 }
-auto use_sequence_suspend_and_return(status_t& ref, frame& fs) -> no_return {
+auto use_sequence_suspend_and_return(status_t& ref, frame& fs) -> frame {
     // clang-format off
     for co_await(auto v : sequence_suspend_and_return(fs))
         ref = v;
@@ -53,21 +53,45 @@ auto coro_sequence_frame_status_test() {
 
     status_t status = -1;
     // since there was no yield, it will remain unchanged
-    use_sequence_suspend_and_return(status, fs);
+    auto fc = use_sequence_suspend_and_return(status, fs);
     REQUIRE(status == -1);
 
     // however, when the sequence coroutine is resumed,
     // its caller will continue on ...
     REQUIRE(fs.address() != nullptr);
+
+    // clang_frame_prefix* ptr = (clang_frame_prefix*)fc.address();
+    // printf("%p %p \n", ptr->factivate, ptr->fdestroy);
+    // for (auto i = 0u; i < 20; ++i) {
+    //     auto* u = (uint64_t*)ptr;
+    //     printf("%p\t%16lx \n", u + i, *(u + i));
+    // }
+
+    // ptr = (clang_frame_prefix*)fs.address();
+    // printf("%p %p \n", ptr->factivate, ptr->fdestroy);
+    // for (auto i = 0u; i < 20; ++i) {
+    //     auto* u = (uint64_t*)ptr;
+    //     printf("%p\t%16lx \n", u + i, *(u + i));
+    // }
+
     // sequence coroutine will be resumed
     //  and it will resume `use_sequence_suspend_and_return`.
     fs.resume();
-    //  since `use_sequence_suspend_and_return` will return after that,
+    //  since `use_sequence_suspend_and_return` will co_return after that,
     //  both coroutine will reach *final suspended* state
+    REQUIRE(fc.done());
     REQUIRE(fs.done());
     REQUIRE(status == 2);
+
+    // try {
+    //     fc.destroy();
+    // } catch (...) {
+    //     puts("?>?");
+    // }
+    // printf("%p %p \n", ptr->factivate, ptr->fdestroy);
 }
 
+// use like a generator
 auto sequence_yield_once(status_t value = 0) -> sequence<status_t> {
     co_yield value;
     co_return;
@@ -85,8 +109,7 @@ auto coro_sequence_yield_once_test() {
     REQUIRE(storage == 0xBEE); // storage will receive value
 };
 
-auto sequence_yield_suspend_yield_1(frame& manual_resume)
-    -> sequence<status_t> {
+auto sequence_suspend_with_await(frame& manual_resume) -> sequence<status_t> {
     status_t value = 0;
     co_yield value = 1;
     co_await manual_resume; // use `co_await` instead of `co_yield`
@@ -94,7 +117,7 @@ auto sequence_yield_suspend_yield_1(frame& manual_resume)
 }
 auto use_sequence_yield_suspend_yield_1(status_t& ref, frame& fh) -> frame {
     // clang-format off
-    for co_await(auto v : sequence_yield_suspend_yield_1(fh))
+    for co_await(auto v : sequence_suspend_with_await(fh))
         ref = v;
     // clang-format on
 };
@@ -104,7 +127,7 @@ auto coro_sequence_suspend_using_await_test() {
     frame fs{};
 
     status_t storage = -1;
-    use_sequence_yield_suspend_yield_1(storage, fs);
+    auto fc = use_sequence_yield_suspend_yield_1(storage, fs);
     REQUIRE(fs.done() == false); // we didn't finished iteration
     REQUIRE(storage == 1);       // co_yield value = 1
 
@@ -112,18 +135,19 @@ auto coro_sequence_suspend_using_await_test() {
     fs.resume();
     REQUIRE(storage == 2); // co_yield value = 2;
     REQUIRE(fs.done());
+    REQUIRE(fc.done());
+    // fc.destroy();
 }
 
-auto sequence_yield_suspend_yield_2(frame& manual_resume)
-    -> sequence<status_t> {
+auto sequence_suspend_with_yield(frame& manual_resume) -> sequence<status_t> {
     status_t value = 0;
     co_yield value = 1;
     co_yield manual_resume; // use `co_yield` instead of `co_await`
     co_yield value = 2;
 };
-auto use_sequence_yield_suspend_yield_2(status_t& ref, frame& fh) -> no_return {
+auto use_sequence_yield_suspend_yield_2(status_t& ref, frame& fh) -> frame {
     // clang-format off
-    for co_await(auto v : sequence_yield_suspend_yield_2(fh))
+    for co_await(auto v : sequence_suspend_with_yield(fh))
         ref = v;
     // clang-format on
 };
@@ -133,7 +157,7 @@ auto coro_sequence_suspend_using_yield_test() {
     frame fs{};
 
     status_t storage = -1;
-    use_sequence_yield_suspend_yield_2(storage, fs);
+    auto fc = use_sequence_yield_suspend_yield_2(storage, fs);
     REQUIRE(fs.done() == false); // we didn't finished iteration
     REQUIRE(storage == 1);       // co_yield value = 1
 
@@ -141,6 +165,8 @@ auto coro_sequence_suspend_using_yield_test() {
     fs.resume();
     REQUIRE(storage == 2); // co_yield value = 2;
     REQUIRE(fs.done());
+    REQUIRE(fc.done());
+    fc.destroy();
 }
 
 auto use_sequence_yield_suspend_yield_final(status_t* ptr, frame& fh) -> frame {
@@ -148,7 +174,7 @@ auto use_sequence_yield_suspend_yield_final(status_t* ptr, frame& fh) -> frame {
         *ptr = 0xDEAD; // set the value in destruction phase
     });
     // clang-format off
-    for co_await(auto v : sequence_yield_suspend_yield_1(fh))
+    for co_await(auto v : sequence_suspend_with_yield(fh))
         *ptr = v;
     // clang-format on
 };
@@ -169,47 +195,10 @@ auto coro_sequence_destroy_when_suspended_test() {
     // however, it is still safe to destroy caller frame and
     //  it won't be a resource leak
     //  since the step also destroys frame of sequence
-    REQUIRE(storage == 0xDEAD); // see gsl::finally
+    REQUIRE(storage == 0xDEAD); // notice the gsl::finally
 }
 
-#if __has_include(<catch2/catch.hpp>)
-TEST_CASE("async generator no yield", "[yield][async]") {
-    coro_sequence_no_yield_test();
-}
-TEST_CASE("async generator status", "[yield][async]") {
-    //
-    // Related Issue
-    //  - https://github.com/luncliff/coroutine/issues/31
-    //
-    // Note
-    //  This test is duplication of the previous one.
-    //  With catch2 v2.7.1 and v2.7.2, when there are 5,6 test cases in the
-    //  file, `coro_sequence_frame_status_test` leads to the known issue.
-    //
-    //  Strangly, it works as expected when there are 2,3,4 test cases and 7 or
-    //  more seemed ok.
-    //
-    // Note
-    //  I don't think this is an issue of catch2.
-    //  There must be an logical error. Under survey for this unbelievable
-    //  symptom ...
-    //
-    coro_sequence_frame_status_test();
-}
-TEST_CASE("async generator yield once", "[yield][async]") {
-    coro_sequence_yield_once_test();
-}
-TEST_CASE("async generator suspend using co_await", "[yield][async]") {
-    coro_sequence_suspend_using_await_test();
-}
-TEST_CASE("async generator suspend using co_yield", "[yield][async]") {
-    coro_sequence_suspend_using_yield_test();
-}
-TEST_CASE("async generator destroy when suspended", "[yield][async]") {
-    coro_sequence_destroy_when_suspended_test();
-}
-
-#elif __has_include(<CppUnitTest.h>)
+#if __has_include(<CppUnitTest.h>)
 
 class coro_sequence_no_yield : public TestClass<coro_sequence_no_yield> {
     TEST_METHOD(test_coro_sequence_no_yield) {

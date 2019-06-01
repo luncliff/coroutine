@@ -41,6 +41,13 @@ function(generate_exe_test NAME)
     endif()
 endfunction()
 
+generate_exe_test( enumerable_accumulate )
+generate_exe_test( enumerable_iterator )
+generate_exe_test( enumerable_max_element )
+generate_exe_test( enumerable_move )
+generate_exe_test( enumerable_yield_never )
+generate_exe_test( enumerable_yield_once )
+
 generate_exe_test( sequence_destroy )
 generate_exe_test( sequence_frame_status )
 generate_exe_test( sequence_suspend_await )
