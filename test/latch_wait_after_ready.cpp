@@ -29,15 +29,16 @@ auto concrt_latch_wait_after_ready_test() {
     return EXIT_SUCCESS;
 };
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return concrt_latch_wait_after_ready_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class concrt_latch_wait_after_ready
     : public TestClass<concrt_latch_wait_after_ready> {
     TEST_METHOD(test_concrt_latch_wait_after_ready) {
         concrt_latch_wait_after_ready_test();
     }
 };
-#else
-int main(int, char* []) {
-    return concrt_latch_wait_after_ready_test();
-}
 #endif

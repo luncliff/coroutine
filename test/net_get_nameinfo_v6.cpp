@@ -36,14 +36,15 @@ auto net_getnameinfo_v6_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return net_getnameinfo_v6_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class net_getnameinfo_v6 : public TestClass<net_getnameinfo_v6> {
     TEST_METHOD(test_net_getnameinfo_v6) {
         net_getnameinfo_v6_test();
     }
 };
-#else
-int main(int, char* []) {
-    return net_getnameinfo_v6_test();
-}
 #endif

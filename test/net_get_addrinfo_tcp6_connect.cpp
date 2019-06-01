@@ -29,15 +29,16 @@ auto net_getaddrinfo_tcp6_connect_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return net_getaddrinfo_tcp6_connect_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class net_getaddrinfo_tcp6_connect
     : public TestClass<net_getaddrinfo_tcp6_connect> {
     TEST_METHOD(test_net_getaddrinfo_tcp6_connect) {
         net_getaddrinfo_tcp6_connect_test();
     }
 };
-#else
-int main(int, char* []) {
-    return net_getaddrinfo_tcp6_connect_test();
-}
 #endif

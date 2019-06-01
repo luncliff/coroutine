@@ -28,15 +28,16 @@ auto net_getaddrinfo_udp6_bind_v4mapped_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return net_getaddrinfo_udp6_bind_v4mapped_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class net_getaddrinfo_udp6_bind_v4mapped
     : public TestClass<net_getaddrinfo_udp6_bind_v4mapped> {
     TEST_METHOD(test_net_getaddrinfo_udp6_bind_v4mapped) {
         net_getaddrinfo_udp6_bind_v4mapped_test();
     }
 };
-#else
-int main(int, char* []) {
-    return net_getaddrinfo_udp6_bind_v4mapped_test();
-}
 #endif

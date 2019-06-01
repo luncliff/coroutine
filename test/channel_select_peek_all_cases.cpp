@@ -37,15 +37,16 @@ auto coro_channel_select_peek_every_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coro_channel_select_peek_every_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class coro_channel_select_peek_every
     : public TestClass<coro_channel_select_peek_every> {
     TEST_METHOD(test_coro_channel_select_peek_every) {
         coro_channel_select_peek_every_test();
     }
 };
-#else
-int main(int, char* []) {
-    return coro_channel_select_peek_every_test();
-}
 #endif

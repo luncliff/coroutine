@@ -75,15 +75,15 @@ auto coro_channel_no_leak_under_race_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coro_channel_no_leak_under_race_test();
+}
+#elif __has_include(<CppUnitTest.h>)
 class coro_channel_no_leak_under_race
     : public TestClass<coro_channel_no_leak_under_race> {
     TEST_METHOD(test_coro_channel_no_leak_under_race) {
         coro_channel_no_leak_under_race_test();
     }
 };
-#else
-int main(int, char* []) {
-    return coro_channel_no_leak_under_race_test();
-}
 #endif

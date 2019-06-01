@@ -30,15 +30,16 @@ auto net_getaddrinfo_tcp6_listen_numeric_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return net_getaddrinfo_tcp6_listen_numeric_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class net_getaddrinfo_tcp6_listen_numeric
     : public TestClass<net_getaddrinfo_tcp6_listen_numeric> {
     TEST_METHOD(test_net_getaddrinfo_tcp6_listen_numeric) {
         net_getaddrinfo_tcp6_listen_numeric_test();
     }
 };
-#else
-int main(int, char* []) {
-    return net_getaddrinfo_tcp6_listen_numeric_test();
-}
 #endif

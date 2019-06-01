@@ -36,13 +36,7 @@ auto ptp_event_cancel_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
-class ptp_event_cancel : public TestClass<ptp_event_cancel> {
-    TEST_METHOD(test_ptp_event_cancel) {
-        ptp_event_cancel_test();
-    }
-};
-#else
+#if defined(CMAKE_TEST)
 int main(int, char* []) {
     return ptp_event_cancel_test();
 }
@@ -71,4 +65,12 @@ auto set_after_sleep(HANDLE ev, uint32_t ms) -> no_return {
         FAIL_WITH_MESSAGE(system_category().message(ec));
     }
 }
+
+#elif __has_include(<CppUnitTest.h>)
+class ptp_event_cancel : public TestClass<ptp_event_cancel> {
+    TEST_METHOD(test_ptp_event_cancel) {
+        ptp_event_cancel_test();
+    }
+};
+
 #endif

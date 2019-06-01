@@ -26,14 +26,15 @@ auto coro_frame_return_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coro_frame_return_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class coro_frame_return : public TestClass<coro_frame_return> {
     TEST_METHOD(test_coro_frame_return) {
         coro_frame_return_test();
     }
 };
-#else
-int main(int, char* []) {
-    return coro_frame_return_test();
-}
 #endif

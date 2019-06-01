@@ -27,14 +27,7 @@ auto coro_enumerable_after_move_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
-class coro_enumerable_after_move
-    : public TestClass<coro_enumerable_after_move> {
-    TEST_METHOD(test_coro_enumerable_after_move) {
-        coro_enumerable_after_move_test();
-    }
-};
-#else
+#if defined(CMAKE_TEST)
 int main(int, char* []) {
     return coro_enumerable_after_move_test();
 }
@@ -44,4 +37,11 @@ auto yield_once(int value) -> enumerable<int> {
     co_return;
 };
 
+#elif __has_include(<CppUnitTest.h>)
+class coro_enumerable_after_move
+    : public TestClass<coro_enumerable_after_move> {
+    TEST_METHOD(test_coro_enumerable_after_move) {
+        coro_enumerable_after_move_test();
+    }
+};
 #endif

@@ -14,14 +14,15 @@ auto coro_frame_empty_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coro_frame_empty_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class coro_frame_empty : public TestClass<coro_frame_empty> {
     TEST_METHOD(test_coro_frame_empty) {
         coro_frame_empty_test();
     }
 };
-#else
-int main(int, char* []) {
-    return coro_frame_empty_test();
-}
 #endif

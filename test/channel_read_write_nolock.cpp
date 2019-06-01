@@ -47,15 +47,16 @@ auto coro_channel_read_before_write_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coro_channel_read_before_write_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class coro_channel_read_before_write
     : public TestClass<coro_channel_read_before_write> {
     TEST_METHOD(test_coro_channel_read_before_write) {
         coro_channel_read_before_write_test();
     }
 };
-#else
-int main(int, char*[]) {
-    return coro_channel_read_before_write_test();
-}
 #endif

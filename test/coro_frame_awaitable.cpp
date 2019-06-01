@@ -35,15 +35,17 @@ auto coro_frame_awaitable_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coro_frame_awaitable_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class coro_frame_awaitable
     : public TestClass<coro_frame_awaitable> {
     TEST_METHOD(test_coro_frame_awaitable) {
         coro_frame_awaitable_test();
     }
 };
-#else
-int main(int, char*[]) {
-    return coro_frame_awaitable_test();
-}
 #endif

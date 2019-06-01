@@ -78,7 +78,7 @@ for:
       - cmd: set CXX=clang-cl # ps: $env:CXX = "clang-cl"
       # for cmake, "-DCMAKE_CXX_COMPILER=clang-cl" can be ok
       - cmd: cmake ../ -G Ninja -DBUILD_SHARED_LIBS=false -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=../install/%platform%/%configuration%
-      - cmd: cmake --build .
+      - cmd: cmake --build . --parallel
       - cmd: cmake --build . --target install
     # after_build:
     #   - ps: Pop-Location

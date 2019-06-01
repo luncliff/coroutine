@@ -29,15 +29,16 @@ auto net_getaddrinfo_udp6_bind_unspecified_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return net_getaddrinfo_udp6_bind_unspecified_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class net_getaddrinfo_udp6_bind_unspecified
     : public TestClass<net_getaddrinfo_udp6_bind_unspecified> {
     TEST_METHOD(test_net_getaddrinfo_udp6_bind_unspecified) {
         net_getaddrinfo_udp6_bind_unspecified_test();
     }
 };
-#else
-int main(int, char* []) {
-    return net_getaddrinfo_udp6_bind_unspecified_test();
-}
 #endif

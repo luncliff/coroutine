@@ -42,15 +42,16 @@ auto coro_sequence_suspend_using_await_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coro_sequence_suspend_using_await_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class coro_sequence_suspend_using_await
     : public TestClass<coro_sequence_suspend_using_await> {
     TEST_METHOD(test_coro_sequence_suspend_using_await) {
         coro_sequence_suspend_using_await_test();
     }
 };
-#else
-int main(int, char* []) {
-    return coro_sequence_suspend_using_await_test();
-}
 #endif

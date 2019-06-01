@@ -29,15 +29,16 @@ auto net_getaddrinfo_ip6_multicast_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return net_getaddrinfo_ip6_multicast_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class net_getaddrinfo_ip6_multicast
     : public TestClass<net_getaddrinfo_ip6_multicast> {
     TEST_METHOD(test_net_getaddrinfo_ip6_multicast) {
         net_getaddrinfo_ip6_multicast_test();
     }
 };
-#else
-int main(int, char* []) {
-    return net_getaddrinfo_ip6_multicast_test();
-}
 #endif

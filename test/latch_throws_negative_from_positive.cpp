@@ -19,15 +19,16 @@ auto concrt_latch_throws_when_negative_from_positive_test() {
     return EXIT_FAILURE;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coroutine_haconcrt_latch_throws_when_negative_from_positive_testndle_swap_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class concrt_latch_throws_when_negative_from_positive
     : public TestClass<concrt_latch_throws_when_negative_from_positive> {
     TEST_METHOD(test_concrt_latch_throws_when_negative_from_positive) {
         concrt_latch_throws_when_negative_from_positive_test();
     }
 };
-#else
-int main(int, char*[]) {
-    return coroutine_haconcrt_latch_throws_when_negative_from_positive_testndle_swap_test();
-}
 #endif

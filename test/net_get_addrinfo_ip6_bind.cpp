@@ -29,14 +29,15 @@ auto net_getaddrinfo_ip6_bind_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return net_getaddrinfo_ip6_bind_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class net_getaddrinfo_ip6_bind : public TestClass<net_getaddrinfo_ip6_bind> {
     TEST_METHOD(test_net_getaddrinfo_ip6_bind) {
         net_getaddrinfo_ip6_bind_test();
     }
 };
-#else
-int main(int, char* []) {
-    return net_getaddrinfo_ip6_bind_test();
-}
 #endif

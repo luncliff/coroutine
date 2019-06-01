@@ -16,14 +16,15 @@ auto net_gethostname_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return net_gethostname_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class net_gethostname : public TestClass<net_gethostname> {
     TEST_METHOD(test_net_gethostname) {
         net_gethostname_test();
     }
 };
-#else
-int main(int, char* []) {
-    return net_gethostname_test();
-}
 #endif

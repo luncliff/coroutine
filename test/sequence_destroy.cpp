@@ -7,12 +7,8 @@
 using namespace coro;
 using status_t = int64_t;
 
-auto sequence_suspend_with_yield(frame& manual_resume) -> sequence<status_t> {
-    status_t value = 0;
-    co_yield value = 1;
-    co_yield manual_resume; // use `co_yield` instead of `co_await`
-    co_yield value = 2;
-};
+auto sequence_suspend_with_yield(frame& manual_resume) -> sequence<status_t>;
+
 auto use_sequence_yield_suspend_yield_final(status_t* ptr, frame& fh) -> frame {
     auto on_return = gsl::finally([=]() {
         *ptr = 0xDEAD; // set the value in destruction phase
@@ -44,15 +40,23 @@ auto coro_sequence_destroy_when_suspended_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coro_sequence_destroy_when_suspended_test();
+}
+auto sequence_suspend_with_yield(frame& manual_resume) -> sequence<status_t> {
+    status_t value = 0;
+    co_yield value = 1;
+    co_yield manual_resume; // use `co_yield` instead of `co_await`
+    co_yield value = 2;
+};
+
+#elif __has_include(<CppUnitTest.h>)
 class coro_sequence_destroy_when_suspended
     : public TestClass<coro_sequence_destroy_when_suspended> {
     TEST_METHOD(test_coro_sequence_destroy_when_suspended) {
         coro_sequence_destroy_when_suspended_test();
     }
 };
-#else
-int main(int, char* []) {
-    return coro_sequence_destroy_when_suspended_test();
-}
+
 #endif

@@ -47,15 +47,16 @@ auto coro_channel_mutexed_write_before_read_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coro_channel_mutexed_write_before_read_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class coro_channel_mutexed_write_before_read
     : public TestClass<coro_channel_mutexed_write_before_read> {
     TEST_METHOD(test_coro_channel_mutexed_write_before_read) {
         coro_channel_mutexed_write_before_read_test();
     }
 };
-#else
-int main(int, char*[]) {
-    return coro_channel_mutexed_write_before_read_test();
-}
 #endif

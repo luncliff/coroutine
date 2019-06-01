@@ -46,15 +46,16 @@ auto coro_channel_select_type_matching_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coro_channel_select_type_matching_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class coro_channel_select_type_matching
     : public TestClass<coro_channel_select_type_matching> {
     TEST_METHOD(test_coro_channel_select_type_matching) {
         coro_channel_select_type_matching_test();
     }
 };
-#else
-int main(int, char* []) {
-    return coro_channel_select_type_matching_test();
-}
 #endif

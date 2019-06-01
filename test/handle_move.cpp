@@ -25,14 +25,16 @@ auto coroutine_handle_move_test() {
     return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return coroutine_handle_move_test();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 class coroutine_handle_move : public TestClass<coroutine_handle_move> {
     TEST_METHOD(test_coroutine_handle_move) {
         coroutine_handle_move_test();
     }
 };
-#else
-int main(int, char* []) {
-    return coroutine_handle_move_test();
-}
+
 #endif

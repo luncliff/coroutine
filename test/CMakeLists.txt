@@ -3,11 +3,25 @@
 #
 cmake_minimum_required(VERSION 3.8)
 
+add_library(helper_network STATIC
+    test_network.h
+    test_network.cpp
+)
+target_include_directories(helper_network
+PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${GSL_INCLUDE_DIR}
+)
+target_link_libraries(helper_network
+PUBLIC
+    coroutine
+)
+
 # generate_exe_test( ... )
 function(generate_exe_test NAME)
     set(TEST_NAME test_${NAME})
     # create a test exe with the given name ...
-    add_executable(${TEST_NAME} ${NAME}.cpp ${ARGV1})
+    add_executable(${TEST_NAME} ${NAME}.cpp)
     add_test(${NAME} ${TEST_NAME})
 
     # ... example cmake configuration of the library user ...
@@ -22,12 +36,12 @@ function(generate_exe_test NAME)
     )
     target_link_libraries(${TEST_NAME}
     PUBLIC
-        coroutine
+        coroutine ${ARGV1}
     )
     if(WIN32)
         target_compile_definitions(${TEST_NAME}
         PRIVATE
-            _CRT_SECURE_NO_WARNINGS
+            _CRT_SECURE_NO_WARNINGS CMAKE_TEST
         )
         target_compile_options(${TEST_NAME}
         PRIVATE
@@ -92,18 +106,18 @@ generate_exe_test( event_unix_wait_three )
 
 endif()
 
-generate_exe_test( net_get_addrinfo_ip6_bind            test_network.cpp )
-generate_exe_test( net_get_addrinfo_ip6_multicast       test_network.cpp )
-generate_exe_test( net_get_addrinfo_tcp6_connect        test_network.cpp )
-generate_exe_test( net_get_addrinfo_tcp6_listen_numeric test_network.cpp )
-generate_exe_test( net_get_addrinfo_tcp6_listen_text    test_network.cpp )
-generate_exe_test( net_get_addrinfo_udp6_unspecified    test_network.cpp )
-generate_exe_test( net_get_addrinfo_udp6_v4mapped       test_network.cpp )
+generate_exe_test( net_get_addrinfo_ip6_bind            helper_network )
+generate_exe_test( net_get_addrinfo_ip6_multicast       helper_network )
+generate_exe_test( net_get_addrinfo_tcp6_connect        helper_network )
+generate_exe_test( net_get_addrinfo_tcp6_listen_numeric helper_network )
+generate_exe_test( net_get_addrinfo_tcp6_listen_text    helper_network )
+generate_exe_test( net_get_addrinfo_udp6_unspecified    helper_network )
+generate_exe_test( net_get_addrinfo_udp6_v4mapped       helper_network )
 
-generate_exe_test( net_get_nameinfo_v4  test_network.cpp )
-generate_exe_test( net_get_nameinfo_v6  test_network.cpp )
+generate_exe_test( net_get_nameinfo_v4  helper_network )
+generate_exe_test( net_get_nameinfo_v6  helper_network )
 
-generate_exe_test( net_get_hostname     test_network.cpp )
+generate_exe_test( net_get_hostname     helper_network )
 
-generate_exe_test( net_echo_tcp         test_network.cpp )
-generate_exe_test( net_echo_udp         test_network.cpp )
+generate_exe_test( net_echo_tcp         helper_network )
+generate_exe_test( net_echo_udp         helper_network )
