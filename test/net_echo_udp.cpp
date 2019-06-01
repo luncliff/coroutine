@@ -19,8 +19,12 @@ auto test_recv_dgram(int64_t sd, int64_t& rsz, latch& wg) -> no_return {
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     rsz = co_await recv_from(sd, remote, storage, work);
+    // like `errno` or `WSAGetLastError`,  multiple read is ok
+    if (auto ec = work.error()) {
+        FAIL_WITH_CODE(ec);
+        co_return;
+    }
     REQUIRE(rsz > 0);
-    REQUIRE(work.error() == 0);
 }
 
 auto test_send_dgram(int64_t sd, const sockaddr_in6& remote, int64_t& ssz,
@@ -32,8 +36,12 @@ auto test_send_dgram(int64_t sd, const sockaddr_in6& remote, int64_t& ssz,
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     ssz = co_await send_to(sd, remote, storage, work);
+    // like `errno` or `WSAGetLastError`,  multiple read is ok
+    if (auto ec = work.error()) {
+        FAIL_WITH_CODE(ec);
+        co_return;
+    }
     REQUIRE(static_cast<size_t>(ssz) == storage.size());
-    REQUIRE(work.error() == 0);
 }
 
 auto udp_echo_service(int64_t sd) -> no_return {

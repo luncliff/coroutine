@@ -72,13 +72,11 @@ auto test_recv_stream(int64_t sd, int64_t& rsz, latch& wg) -> no_return {
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     rsz = co_await recv_stream(sd, storage, 0, work);
+    // like `errno` or `WSAGetLastError`,  multiple read is ok
     if (auto ec = work.error()) {
         FAIL_WITH_CODE(ec);
         co_return;
     }
-
-    // like `errno` or `WSAGetLastError`,  multiple read is ok
-    REQUIRE(work.error() == 0);
     REQUIRE(rsz > 0);
 }
 
@@ -92,13 +90,11 @@ auto test_send_stream(int64_t sd, int64_t& ssz, latch& wg) -> no_return {
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     ssz = co_await send_stream(sd, storage, 0, work);
+    // like `errno` or `WSAGetLastError`,  multiple read is ok
     if (auto ec = work.error()) {
         FAIL_WITH_CODE(ec);
         co_return;
     }
-
-    // like `errno` or `WSAGetLastError`,  multiple read is ok
-    REQUIRE(work.error() == 0);
     REQUIRE(ssz > 0);
 }
 
@@ -132,8 +128,8 @@ auto net_echo_tcp_test() {
     ln = socket_create(hint);
 
     local.addr.sa_family = hint.ai_family;
-    local.in6.sin6_addr = in6addr_loopback;
-    local.in6.sin6_port = htons(32345);
+    local.in6.sin6_addr = in6addr_any;
+    local.in6.sin6_port = htons(3345);
     socket_bind(ln, local);
 
     socket_set_option(ln, SOL_SOCKET, SO_REUSEADDR, true);
