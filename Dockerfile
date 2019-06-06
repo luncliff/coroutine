@@ -1,3 +1,8 @@
+#
+#   The purpose of this Dockerfile is to build GCC for C++ 20 Coroutine
+#   https://cloud.docker.com/repository/docker/luncliff/gcc
+#
+
 # basic setup with latest ubuntu
 FROM ubuntu as build
 LABEL maintainer="luncliff@gmail.com"
@@ -23,6 +28,7 @@ RUN /gcc/configure --enable-languages=c,c++ \
     --program-suffix=-10 \
     --disable-multilib  \
     --with-newlib
+RUN make --quiet -j4 > build.log && make install
 
-RUN make --quiet -j4 install > build.log
+# check the result. notice the version !
 RUN which gcc-10 && gcc-10 --version

@@ -16,6 +16,7 @@ if(ANDROID)
 elseif(IOS)
     set(TARGET_PLATFORM_NAME darwin)
 endif()
+# each {target_platform}.cmake will create a cmake target
 include(${TARGET_PLATFORM_NAME})
 add_library(coro::coroutine ALIAS ${PROJECT_NAME})
 

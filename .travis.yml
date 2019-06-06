@@ -26,11 +26,11 @@ services:
 
 matrix:
   include:
-    - name: GCC Coroutine branch
-      before_script:
-        - docker version
+    - name: GCC branch for C++ Coroutine
+      before_install:
         - docker info
-      script:
-        # acquire image from Docker Hub
+      install:
         - docker pull luncliff/gcc
-        - docker run --rm luncliff/gcc which gcc
+      script:
+        - docker run --rm luncliff/gcc gcc-10 --version
+        - docker build --file ./build.docker . -t luncliff/coroutine

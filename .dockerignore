@@ -1,13 +1,10 @@
-[Dd]ocker*
+Dockerfile
+build.docker
 .dockerignore
 [Bb]uild*
-install/
-gradle/
-gradlew*
-libcxx*
-llvm*
 
 .vscode
+.vs
 
 # Created by https://www.gitignore.io/api/c++,sonar,bazel,ninja,cmake,macos,gradle,windows,android,sonarqube,visualstudio,androidstudio,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=c++,sonar,bazel,ninja,cmake,macos,gradle,windows,android,sonarqube,visualstudio,androidstudio,visualstudiocode

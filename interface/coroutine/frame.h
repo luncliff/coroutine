@@ -68,6 +68,10 @@ static constexpr auto is_gcc = !is_msvc;
 static constexpr auto is_gcc = true;
 static constexpr auto is_msvc = !is_gcc;
 static constexpr auto is_clang = !is_gcc;
+
+// gcc-10 failes when __cdecl is used. make it blank
+#define __cdecl
+
 #else
 #error "unexpected compiler. please contact the author"
 #endif
