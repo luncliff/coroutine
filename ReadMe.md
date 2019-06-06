@@ -16,13 +16,11 @@ C++ Coroutine in Action.
 
 In that perspective, the library will be maintained as small as possible. Have fun with them. **And try your own coroutines !** 
 
-### Signpost
+## Developer Note
 
 * Start with the [wiki](https://github.com/luncliff/coroutine/wiki).
   You will visit the [test/](./test/) and [interface/](./interface/coroutine) folder while reading the docs.
 * This repository has some custom implementation for the C++ Coroutine spec in the [`<coroutine/frame.h>`](./interface/coroutine/frame.h)
-
-## Developer Note
 
 ### Architecture
 
@@ -50,7 +48,7 @@ If there is a collision(build issue), please make an issue in this repo so I can
 #include <coroutine/frame.h>
 ```
 
-Generator and async generator
+Generator and async generator. Notice that the async generator is experimental. If you are curious with the concept, reference [the kirkshoop's repo](https://github.com/kirkshoop/await).
 
 ```c++
 #include <coroutine/yield.hpp>  // enumerable<T> & sequence<T>
@@ -59,20 +57,23 @@ Generator and async generator
 Utility types are in the following headers
 
 ```c++
-#include <coroutine/return.h> // return type examples for convenience
-#include <coroutine/concrt.h> // concurrency utilities over system API
+#include <coroutine/return.h> // return type for resumable functions
+#include <coroutine/concrt.h> // concurrency utilities
 ```
 
-Go language style channel to deliver data between coroutines. Supports awaitable read/write and select operation are possible. But it is slightly differnt from that of Go language.
+Go language style channel to deliver data between coroutines. It Supports awaitable read/write and select operation are possible.
+
+But it is slightly differnt from that of the Go language because we don't have a built-in scheduler in C++. Furthermore Goroutine is quite different from the C++ coroutine.
+It may not a necessary feature since there are so much of the channel implementation, but I'm sure **breakpointing** this one will **train** you.
 
 ```c++
-#include <coroutine/channel.hpp>  // channel<T, Lockable>
+#include <coroutine/channel.hpp>  // channel<T> with Lockable
 ```
 
-Network Asnyc I/O and some helper functions are placed in one header.
+Awaitable socket operations using system API are also available. I used `epoll`, `kqueue` and Overlapped I/O of the Windows.
 
 ```c++
-#include <coroutine/net.h>      // async i/o for sockets
+#include <coroutine/net.h>  // Awaitable I/O operations and some helpers
 ```
 
 ## How To
@@ -87,7 +88,7 @@ Create an issue if you think another configuration is required.
   * Visual Studio 2017 (CMake)
   * Ubuntu 16.04 + Clang 6.0
   * Mac OS + AppleClang
-  * Windows + Clang-cl
+  * Windows + Clang-cl (LLVM 8)
 * [`.travis.yml`](./.travis.yml)
   * Mac OS + AppleClang
   * Ubuntu 16.04 + Clang 7
