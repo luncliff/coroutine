@@ -64,8 +64,12 @@ static constexpr auto is_msvc = true;
 static constexpr auto is_clang = !is_msvc;
 static constexpr auto is_gcc = !is_msvc;
 
-#else // __GNUC__ is missing
-#error "compier doesn't support coroutine. if so, please contact the author :)"
+#elif defined(__GNUC__)
+static constexpr auto is_gcc = true;
+static constexpr auto is_msvc = !is_gcc;
+static constexpr auto is_clang = !is_gcc;
+#else
+#error "unexpected compiler. please contact the author"
 #endif
 
 template <typename T>

@@ -13,8 +13,9 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
 elseif(MSVC)
     check_cxx_compiler_flag(/std:c++latest  cxx_latest      )
     check_cxx_compiler_flag(/await          cxx_coroutine   )
-elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)    # GCC
-    message(FATAL_ERROR "Current version doesn't support GCC")
+elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+    check_cxx_compiler_flag(-std=gnu++2a    cxx_latest      )
+    check_cxx_compiler_flag(-fcoroutines    cxx_coroutine   )
 endif()
 
 # test compiler flag for C++ Coroutine
