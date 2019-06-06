@@ -12,188 +12,25 @@ notifications:
   email:
     - luncliff@gmail.com
 
-language: cpp
-compiler: clang
-
+os: linux
+dist: xenial
 addons:
-  homebrew:
-    packages:
-      - ninja
-      - tree
-      - cmake
-
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      # - llvm-toolchain-xenial-6.0 # for clang-6.0 and llvm-6.0
-      - llvm-toolchain-xenial-7
     packages:
-      - g++-7
-      - g++-8
-      - libc++-dev
-      - libc++abi-dev
-      - unzip
       - curl
-      - ninja-build
-      - tree
 
-install:
-  - echo ${TRAVIS_OS_NAME};
-  # reinstall to ensure latest version
-  - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
-    sudo bash ./scripts/install-compilers.sh > /dev/null;
-    sudo bash ./scripts/install-cmake-3.14.sh;
-    sudo bash ./scripts/install-libc++8.sh > /dev/null;
-    sudo rm -rf prebuilt libcxx* llvm*;
-    sudo rm -rf cmake-3.14*;
-    export CC=/usr/bin/clang CXX=/usr/bin/clang;
-    fi
-  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
-    brew info llvm;
-    fi
-before_script: 
-  # prepare build
-  - mkdir -p build && cd build;
-  - cmake ../
-    -G "Ninja"
-    -DBUILD_SHARED_LIBS=${SHARED}
-    -DCMAKE_BUILD_TYPE=${CONFIG}
-    -DUSE_CUSTOM_HEADER=${CUSTOM}
-    -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
-script:
-  - cmake --build . --target install
-  - ctest --output-on-failure
-after_success:
-  - cd ${TRAVIS_BUILD_DIR}
-  - tree ./install
+services:
+  - docker
 
 matrix:
-  allow_failures:
-    - os: windows
-
   include:
-    #
-    # to work with libc++, OFF the CUSTOM flag
-    #
-
-    - name: Mac Debug
-      os: osx
-      osx_image: xcode10.2
-      env:
-        - CONFIG=Debug    SHARED=true
-        - CUSTOM=false
-
-    - name: Mac Release
-      os: osx
-      osx_image: xcode10.2
-      env:
-        - CONFIG=Release  SHARED=true
-        - CUSTOM=false
-
-    - name: Ubuntu(Xenial) Debug
-      os: linux
-      dist: xenial
-      env:
-        - CONFIG=Debug    SHARED=true
-        - CUSTOM=false
-
-    - name: Ubuntu(Xenial) Release 
-      os: linux
-      dist: xenial
-      env:
-        - CONFIG=Release  SHARED=true
-        - CUSTOM=false
-
-    #
-    # to use the implementation of <coroutine/frame.h>, ON the CUSTOM flag
-    #
-
-    - name: Mac Debug (Custom)
-      os: osx
-      osx_image: xcode10.2
-      env:
-        - CONFIG=Debug    SHARED=true
-        - CUSTOM=true
-
-    - name: Mac Release (Custom)
-      os: osx
-      osx_image: xcode10.2
-      env:
-        - CONFIG=Release  SHARED=true
-        - CUSTOM=true
-
-    - name: Ubuntu(Xenial) Debug (Custom)
-      os: linux
-      dist: xenial
-      env:
-        - CONFIG=Debug    SHARED=true
-        - CUSTOM=true
-
-    - name: Ubuntu(Xenial) Release (Custom)
-      os: linux
-      dist: xenial
-      env:
-        - CONFIG=Release  SHARED=true
-        - CUSTOM=true
-
-    #
-    # cross-build for mobile
-    #
-
-    - name: iPhone OS
-      os: osx
-      osx_image: xcode10.1
-      compiler: clang
+    - name: GCC Coroutine branch
       before_script:
-        - mkdir -p build && cd build;
-        # to ensure intended symbols are in the library,
-        # the build generated shared object.
-        # however, for deployment, it needs te be static. (libcoroutine.a)
-        - cmake ../
-          -DBUILD_SHARED_LIBS=true
-          -DCMAKE_BUILD_TYPE=Debug
-          -DCMAKE_INSTALL_PREFIX=../install
-          -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
-          -DENABLE_BITCODE=false
-          -DIOS_DEPLOYMENT_TARGET=11.0
+        - docker version
+        - docker info
       script:
-        # by using 11.0 or later, ensure target platform is 64 bit.
-        - make install;
-
-    - name: Android NDK
-      language: android
-      android:
-        components:
-          - tools
-          - platform-tools
-          - android-25 # 7.0
-          - android-27 # 8.1
-          - android-28 # 9.0
-          - build-tools-28.0.3
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - wget
-            - tar
-            - ninja-build
-            - tree
-      before_install:
-        # Install CMake 3.14.1 (build.gradle requires the exact version)
-        - sudo bash ./scripts/install-cmake-3.14.sh;
-        # Install Gradle from https://sdkman.io/
-        - curl -s "https://get.sdkman.io" | bash > /dev/null
-        - source "$HOME/.sdkman/bin/sdkman-init.sh"
-        - sdk version
-        - sdk install gradle
-        - sdk use gradle
-      install:
-        # Accept SDK Licenses + Install NDK
-        - yes | sdkmanager --update > /dev/null 2>&1
-        - sdkmanager ndk-bundle > /dev/null 2>&1
-      before_script:
-        - gradle --version
-      script:
-        - gradle clean
-        - gradle assemble -warning-mode all
+        # acquire image from Docker Hub
+        - docker pull luncliff/gcc
+        - docker run --rm luncliff/gcc which gcc

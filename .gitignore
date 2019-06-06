@@ -1,5 +1,3 @@
-[Dd]ocker*
-.dockerignore
 [Bb]uild*
 install/
 gradle/
