@@ -63,7 +63,7 @@ Utility types are in the following headers
 
 Go language style channel to deliver data between coroutines. It Supports awaitable read/write and select operation are possible.
 
-But it is slightly differnt from that of the Go language because we don't have a built-in scheduler in C++. Furthermore Goroutine is quite different from the C++ coroutine.
+But it is slightly different from that of the Go language because we don't have a built-in scheduler in C++. Furthermore Goroutine is quite different from the C++ coroutine.
 It may not a necessary feature since there are so much of the channel implementation, but I'm sure **breakpointing** this one will **train** you.
 
 ```c++
@@ -106,9 +106,9 @@ Create an issue if you think another configuration is required.
 
 Exploring [test(example) codes](./test) will be helpful. The library uses 2 tools for its test.
 
-  * Visual Studio Native Testing Tool
-  * CMake generated project with [Catch2](https://github.com/catchorg/catch2)
-
+* Visual Studio Native Testing Tool
+* CMake generated project with CTest
+  
 ### Import
 
 #### Visual Studio Project
