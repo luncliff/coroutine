@@ -70,7 +70,7 @@ It may not a necessary feature since there are so much of the channel implementa
 #include <coroutine/channel.hpp>  // channel<T> with Lockable
 ```
 
-Awaitable socket operations using system API are also available. I used `epoll`, `kqueue` and Overlapped I/O of the Windows.
+Awaitable socket operations using system API are also available. I used [`epoll`](http://man7.org/linux/man-pages/man7/epoll.7.html), [`kqueue`](https://man.openbsd.org/kqueue.2) and [Overlapped I/O](https://docs.microsoft.com/en-us/windows/desktop/FileIO/synchronous-and-asynchronous-i-o) of the Windows.
 
 ```c++
 #include <coroutine/net.h>  // Awaitable I/O operations and some helpers
@@ -133,14 +133,14 @@ PUBLIC
 )
 ```
 
-#### Package Manager
+#### [Vcpkg](https://github.com/Microsoft/vcpkg)
 
-Following package managers and build options are available.
-
-* [vcpkg](https://github.com/Microsoft/vcpkg/tree/master/ports/coroutine)
-  * x64-windows
-  * x64-linux
-  * x64-osx
+Requires [`ms-gsl`](https://github.com/microsoft/vcpkg/blob/master/ports/coroutine/CONTROL#L3) package. If you are curious about the build configuration, reference the [`portfile.cmake`](https://github.com/Microsoft/vcpkg/tree/master/ports/coroutine).
+  
+Supporting triplets are ...
+* x64-windows
+* x64-linux
+* x64-osx
 
 ## License
 
