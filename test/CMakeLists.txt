@@ -96,6 +96,8 @@ generate_exe_test( event_win_wait_array )
 
 elseif(UNIX)
 
+generate_exe_test( concrt_pthread_life )
+
 generate_exe_test( event_unix_no_wait )
 generate_exe_test( event_unix_signal_multiple_times )
 generate_exe_test( event_unix_ready_after_signaled )
