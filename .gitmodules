@@ -6,3 +6,6 @@
 	path = external/ios-cmake
 	url = https://github.com/leetal/ios-cmake
 	branch = 3.0.2
+[submodule "docs"]
+	path = docs
+	url = https://github.com/luncliff/coroutine.wiki

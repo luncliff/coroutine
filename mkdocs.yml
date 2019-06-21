@@ -1,0 +1,19 @@
+site_name: luncliff/coroutine
+
+nav:
+  - home: Home.md
+  - frame.h:
+    - frame.h-coroutine_handle.md
+    - frame.h-coroutine_traits.md
+  - return.h:
+    - return.h-frame.md
+  - channel.hpp:
+    - channel.hpp-concept.md
+    - channel.hpp-read_write.md
+    - channel.hpp-select.md
+
+theme:
+  name: material
+
+markdown_extensions:
+  - codehilite
