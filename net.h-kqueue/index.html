@@ -1,0 +1,816 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+    
+    
+      
+        <title>Net.h kqueue - luncliff/coroutine</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.0284f74d.css">
+      
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#kqueue" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="luncliff/coroutine" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              luncliff/coroutine
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Net.h kqueue
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href=".." title="luncliff/coroutine" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    luncliff/coroutine
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Home/" title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Articles
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Articles
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Awaitable-event-using-coroutine,-epoll,-and-eventfd/" title="Awaitable Event" class="md-nav__link">
+      Awaitable Event
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      frame.h
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        frame.h
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../frame.h-coroutine_handle/" title="coroutine_handle" class="md-nav__link">
+      coroutine_handle
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../frame.h-coroutine_traits/" title="coroutine_traits" class="md-nav__link">
+      coroutine_traits
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../frame.h-suspend_types/" title="suspend_types" class="md-nav__link">
+      suspend_types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../frame.h-compiler_specific/" title="compiler" class="md-nav__link">
+      compiler
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      return.h
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        return.h
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../return.h-frame/" title="frame" class="md-nav__link">
+      frame
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../return.h-no_return/" title="no_return" class="md-nav__link">
+      no_return
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      channel.hpp
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        channel.hpp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel.hpp-concept/" title="Concept" class="md-nav__link">
+      Concept
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel.hpp-read_write/" title="Read and Write" class="md-nav__link">
+      Read and Write
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel.hpp-select/" title="Select on multiple channel" class="md-nav__link">
+      Select on multiple channel
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      yield.hpp
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        yield.hpp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../yield.hpp-enumerable/" title="Generator" class="md-nav__link">
+      Generator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../yield.hpp-sequence/" title="Async Generator" class="md-nav__link">
+      Async Generator
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      concrt.h
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        concrt.h
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../concrt.h-section/" title="section" class="md-nav__link">
+      section
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../concrt.h-latch/" title="latch" class="md-nav__link">
+      latch
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kqueue" title="KQueue" class="md-nav__link">
+    KQueue
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#expect-ensures" title="Expect &amp; Ensures" class="md-nav__link">
+    Expect &amp; Ensures
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#socket" title="Socket" class="md-nav__link">
+    Socket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-flow-and-data" title="Control Flow and Data" class="md-nav__link">
+    Control Flow and Data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concurrent-io-control" title="Concurrent I/O control" class="md-nav__link">
+    Concurrent I/O control
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request" title="Request" class="md-nav__link">
+    Request
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progress-check" title="Progress Check" class="md-nav__link">
+    Progress Check
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suspend" title="Suspend" class="md-nav__link">
+    Suspend
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polling-and-resume" title="Polling and Resume" class="md-nav__link">
+    Polling and Resume
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations" title="Limitations" class="md-nav__link">
+    Limitations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Net.h kqueue</h1>
+                
+                <blockquote>
+<p>This document is under progress ...</p>
+</blockquote>
+<h2 id="kqueue">KQueue</h2>
+<p>For Mac OS(Darwin) platform, it uses <code>kqueue</code>.</p>
+<h3 id="expect-ensures">Expect &amp; Ensures</h3>
+<h4 id="socket">Socket</h4>
+<p>All expectations for socket object are same with <a href="">epoll based implementation</a>.</p>
+<h4 id="control-flow-and-data">Control Flow and Data</h4>
+<p>The table shows all system calls that are used for each interface functions.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Interface</th>
+<th align="left">Internal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>send_to</code></td>
+<td align="left"><code>kevent64</code>, <code>sendto</code></td>
+</tr>
+<tr>
+<td align="left"><code>recv_from</code></td>
+<td align="left"><code>kevent64</code>, <code>recvfrom</code></td>
+</tr>
+<tr>
+<td align="left"><code>send_stream</code></td>
+<td align="left"><code>kevent64</code>, <code>send</code></td>
+</tr>
+<tr>
+<td align="left"><code>recv_stream</code></td>
+<td align="left"><code>kevent64</code>, <code>recv</code></td>
+</tr>
+<tr>
+<td align="left"><code>wait_io_tasks</code></td>
+<td align="left"><code>kqueue</code>, <code>kevent64</code>, <code>close</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="concurrent-io-control">Concurrent I/O control</h3>
+<ol>
+<li>I/O Request</li>
+<li>I/O Progress Check</li>
+<li>I/O Suspend</li>
+<li>I/O Polling and Resume</li>
+</ol>
+<h4 id="request">Request</h4>
+<p>It performs argument copy(packing)</p>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">send_stream</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">buffer_view_t</span> <span class="n">buffer</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span>
+                 <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_send</span><span class="o">&amp;</span>
+<span class="p">{</span>
+    <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">socklen_t</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">));</span>
+
+    <span class="n">work</span><span class="p">.</span><span class="n">sd</span> <span class="o">=</span> <span class="n">sd</span><span class="p">;</span>
+    <span class="n">work</span><span class="p">.</span><span class="n">addrlen</span> <span class="o">=</span> <span class="n">flag</span><span class="p">;</span>
+    <span class="n">work</span><span class="p">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">;</span>
+    <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_send</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">addressof</span><span class="p">(</span><span class="n">work</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4 id="progress-check">Progress Check</h4>
+<p>The implementation equals to the case of <code>epoll</code>. If the socket is not <code>O_NONBLOCK</code> flagged, it won't use kqueue API.</p>
+<div class="codehilite"><pre><span></span><span class="kt">bool</span> <span class="n">io_work_t</span><span class="o">::</span><span class="n">ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="c1">// non blocking operation is expected</span>
+    <span class="c1">// going to suspend</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fcntl</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">F_GETFL</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">O_NONBLOCK</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+    <span class="c1">// not configured. return true</span>
+    <span class="c1">// and bypass to the blocking I/O</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">uint32_t</span> <span class="n">io_work_t</span><span class="o">::</span><span class="n">error</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">errc</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4 id="suspend">Suspend</h4>
+<p>Every requests will be one shot requests.<br />
+Unlike <code>epoll</code> based implementation, it uses <code>io_work</code> for user data.</p>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="n">io_send</span><span class="o">::</span><span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_task_t</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">));</span>
+    <span class="n">task</span> <span class="o">=</span> <span class="n">rh</span><span class="p">;</span>
+
+    <span class="c1">// one-shot, write registration (edge-trigger)</span>
+    <span class="n">kevent64_s</span> <span class="n">req</span><span class="p">{};</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">ident</span> <span class="o">=</span> <span class="n">sd</span><span class="p">;</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">filter</span> <span class="o">=</span> <span class="n">EVFILT_WRITE</span><span class="p">;</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">EV_ADD</span> <span class="o">|</span> <span class="n">EV_ENABLE</span> <span class="o">|</span> <span class="n">EV_ONESHOT</span><span class="p">;</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">fflags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">udata</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">io_work_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+    <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">kevent64</span><span class="p">(</span><span class="n">kq</span><span class="p">.</span><span class="n">fd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">req</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">// change</span>
+                       <span class="k">nullptr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ec</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;kevent64&quot;</span><span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4 id="polling-and-resume">Polling and Resume</h4>
+<p><code>wait_io_tasks</code> yields iterates <code>kevent64</code> list. Each of their user data(<code>io_work</code>) holds <code>coroutine_handle</code>, so the functuon yields them one by one. Current version doesn't use additional information in <code>kevent64</code>, but the structure will be maintained to deliver it on demand.</p>
+<div class="codehilite"><pre><span></span><span class="k">struct</span> <span class="n">kqueue_data_t</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">fd</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">capacity</span><span class="p">;</span>
+    <span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">kevent64_s</span><span class="p">[]</span><span class="o">&gt;</span> <span class="n">events</span><span class="p">;</span>
+    <span class="c1">// ...</span>
+<span class="p">};</span>
+
+<span class="n">kqueue_data_t</span> <span class="n">kq</span><span class="p">{};</span>
+
+<span class="k">auto</span> <span class="nf">wait_io_tasks</span><span class="p">(</span><span class="n">nanoseconds</span> <span class="n">timeout</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="n">enumerable</span><span class="o">&lt;</span><span class="n">coroutine_task_t</span><span class="o">&gt;</span>
+<span class="p">{</span>
+    <span class="n">timespec</span> <span class="n">ts</span><span class="p">{};</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">sec</span> <span class="o">=</span> <span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">seconds</span><span class="o">&gt;</span><span class="p">(</span><span class="n">timeout</span><span class="p">);</span>
+    <span class="n">ts</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="n">sec</span><span class="p">.</span><span class="n">count</span><span class="p">();</span>
+    <span class="n">ts</span><span class="p">.</span><span class="n">tv_nsec</span> <span class="o">=</span> <span class="p">(</span><span class="n">timeout</span> <span class="o">-</span> <span class="n">sec</span><span class="p">).</span><span class="n">count</span><span class="p">();</span>
+
+    <span class="c1">// wait for events ...</span>
+    <span class="k">auto</span> <span class="n">count</span> <span class="o">=</span> <span class="n">kevent64</span><span class="p">(</span><span class="n">kq</span><span class="p">.</span><span class="n">fd</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>            <span class="c1">//</span>
+                          <span class="n">kq</span><span class="p">.</span><span class="n">events</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">kq</span><span class="p">.</span><span class="n">capacity</span><span class="p">,</span> <span class="c1">//</span>
+                          <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ts</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;kevent64&quot;</span><span class="p">};</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">ev</span> <span class="o">=</span> <span class="n">kq</span><span class="p">.</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">work</span> <span class="o">=</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_work_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">ev</span><span class="p">.</span><span class="n">udata</span><span class="p">);</span>
+        <span class="c1">// need to pass error information from</span>
+        <span class="c1">// kevent to io_work</span>
+        <span class="n">co_yield</span> <span class="n">work</span><span class="p">.</span><span class="n">task</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>resume operations perform actual i/o request and acquire its result.</p>
+<div class="codehilite"><pre><span></span><span class="kt">int64_t</span> <span class="n">io_send</span><span class="o">::</span><span class="n">resume</span><span class="p">()</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">addrlen</span><span class="p">;</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">send</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">buffer</span><span class="p">.</span><span class="n">size_bytes</span><span class="p">(),</span> <span class="n">flag</span><span class="p">);</span>
+    <span class="n">errc</span> <span class="o">=</span> <span class="n">sz</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="nl">errno</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// -&gt; io_work::error</span>
+    <span class="k">return</span> <span class="n">sz</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3 id="limitations">Limitations</h3>
+<p>Current version doesn't provide interface for I/O cancel.</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.245445c6.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>

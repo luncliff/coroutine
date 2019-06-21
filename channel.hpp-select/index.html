@@ -1,0 +1,868 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+    
+    
+      
+        <title>Select on multiple channel - luncliff/coroutine</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.0284f74d.css">
+      
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#see-also" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="luncliff/coroutine" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              luncliff/coroutine
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Select on multiple channel
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href=".." title="luncliff/coroutine" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    luncliff/coroutine
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Home/" title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Articles
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Articles
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Awaitable-event-using-coroutine,-epoll,-and-eventfd/" title="Awaitable Event" class="md-nav__link">
+      Awaitable Event
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      frame.h
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        frame.h
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../frame.h-coroutine_handle/" title="coroutine_handle" class="md-nav__link">
+      coroutine_handle
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../frame.h-coroutine_traits/" title="coroutine_traits" class="md-nav__link">
+      coroutine_traits
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../frame.h-suspend_types/" title="suspend_types" class="md-nav__link">
+      suspend_types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../frame.h-compiler_specific/" title="compiler" class="md-nav__link">
+      compiler
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      return.h
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        return.h
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../return.h-frame/" title="frame" class="md-nav__link">
+      frame
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../return.h-no_return/" title="no_return" class="md-nav__link">
+      no_return
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+    
+    <label class="md-nav__link" for="nav-5">
+      channel.hpp
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        channel.hpp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel.hpp-concept/" title="Concept" class="md-nav__link">
+      Concept
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel.hpp-read_write/" title="Read and Write" class="md-nav__link">
+      Read and Write
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Select on multiple channel
+      </label>
+    
+    <a href="./" title="Select on multiple channel" class="md-nav__link md-nav__link--active">
+      Select on multiple channel
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" title="See Also" class="md-nav__link">
+    See Also
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#channel-non-blocking-select" title="Channel Non-blocking Select" class="md-nav__link">
+    Channel Non-blocking Select
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#short-example" title="Short Example" class="md-nav__link">
+    Short Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-a-pair-from-arguments" title="Selecting a pair from arguments" class="md-nav__link">
+    Selecting a pair from arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-peek-operation" title="Channel Peek Operation" class="md-nav__link">
+    Channel Peek Operation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      yield.hpp
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        yield.hpp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../yield.hpp-enumerable/" title="Generator" class="md-nav__link">
+      Generator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../yield.hpp-sequence/" title="Async Generator" class="md-nav__link">
+      Async Generator
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      concrt.h
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        concrt.h
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../concrt.h-section/" title="section" class="md-nav__link">
+      section
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../concrt.h-latch/" title="latch" class="md-nav__link">
+      latch
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" title="See Also" class="md-nav__link">
+    See Also
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#channel-non-blocking-select" title="Channel Non-blocking Select" class="md-nav__link">
+    Channel Non-blocking Select
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#short-example" title="Short Example" class="md-nav__link">
+    Short Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-a-pair-from-arguments" title="Selecting a pair from arguments" class="md-nav__link">
+    Selecting a pair from arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-peek-operation" title="Channel Peek Operation" class="md-nav__link">
+    Channel Peek Operation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Select on multiple channel</h1>
+                
+                <p>Current version uses helper types to use channel in a designed manner.</p>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">coro</span> 
+<span class="p">{</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">channel</span><span class="p">;</span> 
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">peeker</span><span class="p">;</span>
+
+<span class="p">}</span> <span class="c1">// namespace coro</span>
+</pre></div>
+
+
+<h3 id="see-also">See Also</h3>
+<ul>
+<li><a href="/luncliff/coroutine/wiki/channel.hpp-concept">Channel Concept</a></li>
+<li><a href="/luncliff/coroutine/wiki/channel.hpp-read_write">Channel Read/Write</a></li>
+</ul>
+<h3 id="example">Example</h3>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.2/test/vs_channel.cpp">test/vs_channel.cpp</a></li>
+</ul>
+<h2 id="channel-non-blocking-select">Channel Non-blocking Select</h2>
+<h3 id="short-example">Short Example</h3>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
+
+<span class="k">using</span> <span class="n">u32_chan_t</span> <span class="o">=</span> <span class="n">channel</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">i32_chan_t</span> <span class="o">=</span> <span class="n">channel</span><span class="o">&lt;</span><span class="kt">int32_t</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="n">TEST_METHOD</span><span class="p">(</span><span class="n">channel_select_match_one</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">u32_chan_t</span> <span class="n">ch1</span><span class="p">{};</span>
+    <span class="n">i32_chan_t</span> <span class="n">ch2</span><span class="p">{};</span>
+
+    <span class="n">write_to</span><span class="p">(</span><span class="n">ch1</span><span class="p">,</span> <span class="mi">17u</span><span class="p">);</span>
+
+    <span class="n">select</span><span class="p">(</span> <span class="n">ch2</span><span class="p">,</span> <span class="c1">// empty channel. bypass</span>
+            <span class="p">[](</span><span class="k">auto</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">static_assert</span><span class="p">(</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="kt">int32_t</span><span class="o">&gt;</span><span class="p">);</span>
+                <span class="n">Assert</span><span class="o">::</span><span class="n">Fail</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;select on empty channel must bypass&quot;</span><span class="p">);</span>
+            <span class="p">},</span>
+
+            <span class="n">ch1</span><span class="p">,</span> <span class="c1">// if the channel has a writer, peek and invoke callback</span>
+            <span class="p">[](</span><span class="k">auto</span> <span class="n">v</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+                <span class="k">static_assert</span><span class="p">(</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">);</span>
+                <span class="n">Assert</span><span class="o">::</span><span class="n">IsTrue</span><span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="mi">17u</span><span class="p">);</span>
+                <span class="n">co_await</span> <span class="n">suspend_never</span><span class="p">{};</span>
+            <span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3 id="selecting-a-pair-from-arguments">Selecting a pair from arguments</h3>
+<p>To support expression like above, <code>select</code> received a number of pairs of channel and functions. The functions can be a coroutine. However, their return object will be truncated.</p>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">coro</span>
+<span class="p">{</span>
+<span class="c1">//  Invoke `select` for each pairs (channel + function)</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="p">,</span> <span class="k">typename</span> <span class="n">ChanType</span><span class="p">,</span> <span class="k">typename</span> <span class="n">FuncType</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">select</span><span class="p">(</span><span class="n">ChanType</span><span class="o">&amp;</span> <span class="n">ch</span><span class="p">,</span> <span class="n">FuncType</span><span class="o">&amp;&amp;</span> <span class="n">fn</span><span class="p">,</span> <span class="n">Args</span><span class="o">&amp;&amp;</span><span class="p">...</span> <span class="n">args</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// evaluate</span>
+    <span class="n">select</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="n">forward</span><span class="o">&lt;</span><span class="n">FuncType</span><span class="o">&amp;&amp;&gt;</span><span class="p">(</span><span class="n">fn</span><span class="p">));</span>
+    <span class="c1">// try next pair</span>
+    <span class="k">return</span> <span class="nf">select</span><span class="p">(</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Args</span><span class="o">&amp;&amp;&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">)...);</span>
+<span class="p">}</span>
+<span class="p">}</span> <span class="c1">// namespace coro</span>
+</pre></div>
+
+
+<p>For each pair, <code>select</code> test the channel and consume writer coroutines.</p>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">coro</span>
+<span class="p">{</span>
+<span class="c1">//  If the channel is readable, acquire the value and the function.</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Fn</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">select</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">,</span> <span class="n">Fn</span><span class="o">&amp;&amp;</span> <span class="n">fn</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">reader</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">peeker</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span><span class="p">));</span>
+    <span class="n">peeker</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span> <span class="n">p</span><span class="p">{</span><span class="n">ch</span><span class="p">};</span>     <span class="c1">// peeker will move element</span>
+    <span class="n">T</span> <span class="n">storage</span><span class="p">{};</span>            <span class="c1">//    into the call stack</span>
+
+    <span class="n">p</span><span class="p">.</span><span class="n">peek</span><span class="p">();</span>               <span class="c1">// the channel has waiting writer?</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">acquire</span><span class="p">(</span><span class="n">storage</span><span class="p">))</span> <span class="c1">// acquire + resume writer</span>
+        <span class="n">fn</span><span class="p">(</span><span class="n">storage</span><span class="p">);</span>        <span class="c1">// invoke the function</span>
+<span class="p">}</span>
+<span class="p">}</span> <span class="c1">// namespace coro</span>
+</pre></div>
+
+
+<h3 id="channel-peek-operation">Channel Peek Operation</h3>
+<p><code>peeker&lt;T, M&gt;</code> is quite simple. </p>
+<table>
+<thead>
+<tr>
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>peek</code></td>
+<td align="left">test the channel if there is a waiting writer coroutine. if so, fetch it.</td>
+</tr>
+<tr>
+<td align="left"><code>acquire</code></td>
+<td align="left">return <code>false</code> if there was no writer. Move the value from writer coroutine to local storage. writer coroutine will be resumed.</td>
+</tr>
+</tbody>
+</table>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">coro</span><span class="p">{</span>
+
+<span class="c1">// Extension of channel reader for subroutines</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">peeker</span> <span class="k">final</span> <span class="o">:</span> <span class="k">protected</span> <span class="n">reader</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">using</span> <span class="n">value_type</span> <span class="o">=</span> <span class="n">T</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">channel_type</span> <span class="o">=</span> <span class="n">channel</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span><span class="p">;</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="kt">void</span> <span class="n">peek</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// since there is no suspension, use scoped locking</span>
+        <span class="n">unique_lock</span> <span class="n">lck</span><span class="p">{</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">mtx</span><span class="p">};</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">writer_list</span><span class="o">::</span><span class="n">is_empty</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">writer</span><span class="o">*</span> <span class="n">w</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">writer_list</span><span class="o">::</span><span class="n">pop</span><span class="p">();</span>
+            <span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">,</span> <span class="n">w</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">);</span>
+            <span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">,</span> <span class="n">w</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kt">bool</span> <span class="n">acquire</span><span class="p">(</span><span class="n">value_type</span><span class="o">&amp;</span> <span class="n">storage</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// if there was a writer, take its value</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+        <span class="n">storage</span> <span class="o">=</span> <span class="n">move</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">);</span>
+        <span class="c1">// resume writer coroutine</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">))</span>
+            <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="p">}</span> <span class="c1">// namespace coro</span>
+</pre></div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../channel.hpp-read_write/" title="Read and Write" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Read and Write
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../yield.hpp-enumerable/" title="Generator" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Generator
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.245445c6.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>
