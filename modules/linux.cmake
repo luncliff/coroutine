@@ -47,7 +47,7 @@ endif()
 target_link_libraries(${PROJECT_NAME}
 PUBLIC
     ${CMAKE_DL_LIBS}
-    c++ # c++abi c++experimental
+    # c++ c++abi c++experimental
 )
 if(ANDROID)
     target_link_libraries(${PROJECT_NAME}

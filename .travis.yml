@@ -179,6 +179,7 @@ matrix:
             - tar
             - ninja-build
             - tree
+            - rsync
       before_install:
         # Install CMake 3.14.1 (build.gradle requires the exact version)
         - sudo bash ./scripts/install-cmake-3.14.sh;

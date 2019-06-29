@@ -7,6 +7,8 @@ gradlew*
 libcxx*
 llvm*
 
+cmake-*
+
 .vscode
 
 # Created by https://www.gitignore.io/api/c++,sonar,bazel,ninja,cmake,macos,gradle,windows,android,sonarqube,visualstudio,androidstudio,visualstudiocode
