@@ -1,30 +1,56 @@
 site_name: luncliff/coroutine
+site_description: 'C++ 20 Coroutine in Action.'
 
-nav:
-  - Home: Home.md
-  - Articles:
-    - Awaitable Event: Awaitable-event-using-coroutine,-epoll,-and-eventfd.md
-  - frame.h:
-    - coroutine_handle: frame.h-coroutine_handle.md
-    - coroutine_traits: frame.h-coroutine_traits.md
-    - suspend_types: frame.h-suspend_types.md
-    - compiler: frame.h-compiler_specific.md
-  - return.h:
-    - frame: return.h-frame.md
-    - no_return: return.h-no_return.md
-  - channel.hpp:
-    - Concept: channel.hpp-concept.md
-    - Read and Write: channel.hpp-read_write.md
-    - Select on multiple channel: channel.hpp-select.md
-  - yield.hpp:
-    - Generator: yield.hpp-enumerable.md
-    - Async Generator: yield.hpp-sequence.md
-  - concrt.h:
-    - section: concrt.h-section.md
-    - latch: concrt.h-latch.md
+repo_url: http://github.com/luncliff/coroutine
+site_url: https://luncliff.github.io/coroutine/Home
 
 theme:
   name: material
 
 markdown_extensions:
   - codehilite
+
+nav:
+  - Home: Home.md
+  - Articles:
+    - PPT - C++ Korea 5th Seminar: ppt/Exploring-the-Cpp-Coroutine.md
+    - Awaitable event using the coroutine, epoll and eventfd: articles/awaitable-event.md
+    - Example - await_transform: articles/example-of-await_transform.md
+    - Function that selects its thread: articles/thread-selecting-function.md
+
+  - How To:
+    - Import:
+      - Visual Studio: import-using-visualstudio.md
+      - CMake: import-using-cmake.md
+    - Build & Test:
+      - Visual Studio: build-using-visualstudio.md
+      - CMake: build-using-cmake.md
+  - Features:
+    - frame.h:
+      - Overview: frame-overview.md
+      - Compiler Specific Issues: frame-compiler_specific.md
+      - coroutine_handle: frame-coroutine_handle.md
+      - coroutine_traits: frame-coroutine_traits.md
+      - suspend_types: frame-suspend_types.md
+    - return.h:
+      - frame: return-frame.md
+      - no_return: return-no_return.md
+    - channel.hpp:
+      - Overview: channel-overview.md
+      - Read/Write: channel-read_write.md
+      - Select on multiple channel: channel-select.md
+    - yield.hpp:
+      - Overview: yield-overview.md
+      - Generator: yield-enumerable.md
+      - Async Generator: yield-sequence.md
+    - concrt.h:
+      - Overview: concrt-overview.md
+      - section: concrt-section.md
+      - latch: concrt-latch.md
+      - ptp_work: concrt-ptp_work.md
+    - net.h:
+      - Overview: net-overview.md
+      - Windows Socket 2: net-implementation-winsock2.md
+      - Kqueue: net-implementation-kqueue.md
+      - Epoll: net-implementation-epoll.md
+

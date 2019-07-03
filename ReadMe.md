@@ -1,6 +1,6 @@
 # coroutine
 
-C++ Coroutine in Action.
+C++ 20 Coroutine in Action.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/38aa16f6d7e046898af3835918c0cd5e)](https://app.codacy.com/app/luncliff/coroutine?utm_source=github.com&utm_medium=referral&utm_content=luncliff/coroutine&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://dev.azure.com/luncliff/personal/_apis/build/status/luncliff.coroutine?branchName=master)](https://dev.azure.com/luncliff/personal/_build/latest?definitionId=13?branchName=master)
@@ -18,13 +18,13 @@ In that perspective, the library will be maintained as small as possible. Have f
 
 ## Developer Note
 
-* Start with the [wiki](https://github.com/luncliff/coroutine/wiki).
+* Start with the [GitHub Pages](https://luncliff.github.io/coroutine/Home)!
   You will visit the [test/](./test/) and [interface/](./interface/coroutine) folder while reading the docs.
-* This repository has some custom implementation for the C++ Coroutine spec in the [`<coroutine/frame.h>`](./interface/coroutine/frame.h)
+* This repository has some custom(and partial) implementation for the C++ Coroutine spec in the [`<coroutine/frame.h>`](./interface/coroutine/frame.h)
 
 ### Architecture
 
-**This library is for x64**.
+**This library is only for x64**.
 
 ### Tool Support
 
@@ -36,7 +36,9 @@ In that perspective, the library will be maintained as small as possible. Have f
   * `clang`: Linux
   * `AppleClang`: Mac
 
-For clang users, I do recommend Clang 6.0 or later versions.
+
+For Visual Studio users, please use **15.7.3 or later** versions.  
+For clang users, I recommend **Clang 6.0** or later versions.
 
 ### [Interfaces](./interface)
 
