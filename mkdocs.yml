@@ -12,6 +12,7 @@ markdown_extensions:
 
 nav:
   - Home: Home.md
+
   - Articles:
     - PPT - C++ Korea 5th Seminar: ppt/Exploring-the-Cpp-Coroutine.md
     - Awaitable event using the coroutine, epoll and eventfd: articles/awaitable-event.md
@@ -25,14 +26,16 @@ nav:
     - Build & Test:
       - Visual Studio: build-using-visualstudio.md
       - CMake: build-using-cmake.md
+
   - Features:
     - frame.h:
       - Overview: frame-overview.md
       - Compiler Specific Issues: frame-compiler_specific.md
       - coroutine_handle: frame-coroutine_handle.md
       - coroutine_traits: frame-coroutine_traits.md
-      - suspend_types: frame-suspend_types.md
+      - Suspend Types: frame-suspend_types.md
     - return.h:
+      - Overview: return-overview.md
       - frame: return-frame.md
       - no_return: return-no_return.md
     - channel.hpp:
