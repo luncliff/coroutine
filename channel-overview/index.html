@@ -81,7 +81,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#see-also" tabindex="1" class="md-skip">
+      <a href="#overview-coroutine-based-channel" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -613,6 +613,8 @@
     
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
+      
+    
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
         Overview
@@ -625,6 +627,8 @@
       
 <nav class="md-nav md-nav--secondary">
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
@@ -645,8 +649,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#channel-with-a-lockable" title="Channel with a lockable" class="md-nav__link">
-    Channel with a lockable
+  <a href="#channel-with-a-lockable" title="Channel with a Lockable" class="md-nav__link">
+    Channel with a Lockable
   </a>
   
     <nav class="md-nav">
@@ -948,6 +952,8 @@
 <nav class="md-nav md-nav--secondary">
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
@@ -967,8 +973,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#channel-with-a-lockable" title="Channel with a lockable" class="md-nav__link">
-    Channel with a lockable
+  <a href="#channel-with-a-lockable" title="Channel with a Lockable" class="md-nav__link">
+    Channel with a Lockable
   </a>
   
     <nav class="md-nav">
@@ -1026,43 +1032,60 @@
                   <a href="http://github.com/luncliff/coroutine/edit/master/docs/channel-overview.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>Overview</h1>
-                
-                <p>Coroutine based channel. This is a simplified form of <a href="https://gobyexample.com/channels">channel in The Go Language</a></p>
+                <h1 id="overview-coroutine-based-channel">Overview: Coroutine based channel</h1>
+<p>This is a simplified form of <a href="https://gobyexample.com/channels">channel in The Go Language</a>. Just like this library, several C++ coroutine libraries already has their own implementation of the concept.</p>
+<p>So it might be redundant to have another implementation in this repositoty, but this is one of the very first type I've wrote after the feature becomes available. 
+Debugging its examples will help you to enhance understanding of the coroutine and which trick can be possible.</p>
 <h3 id="see-also">See Also</h3>
 <ul>
-<li><a href="https://golang.org/ref/spec#Channel_types">Go Channel types</a></li>
+<li><a href="https://golang.org/ref/spec#Channel_types">Go Channel types</a><ul>
+<li><a href="https://tour.golang.org/concurrency/2">A Tour of Go: Channels</a></li>
+</ul>
+</li>
 <li><a href="https://www.youtube.com/watch?v=N3CkQu39j5I">CppCon 2016: John Bandela "Channels - An alternative to callbacks and futures"</a> </li>
 </ul>
+<p>If you're first with the concept, I strongly recommend you to see the talk above 
+even though I've implemented it in a different way. </p>
 <h3 id="example">Example</h3>
 <ul>
-<li><a href="https://github.com/luncliff/coroutine/blob/1.4.2/test/vs_channel.cpp">test/vs_channel.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_read_write_nolock.cpp">test/channel_read_write_nolock.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_write_read_nolock.cpp">test/channel_write_read_nolock.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_write_fail_after_close.cpp">test/channel_write_fail_after_close.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_read_fail_after_close.cpp">test/channel_read_fail_after_close.cpp</a></li>
 </ul>
-<h2 id="channel-with-a-lockable">Channel with a lockable</h2>
-<p>The type doesn't suppor copy/move. User should provide appropriate lockable type for its own context.</p>
+<h2 id="channel-with-a-lockable">Channel with a <a href="https://en.cppreference.com/w/cpp/named_req/Lockable"><code>Lockable</code></a></h2>
+<p>When <code>channel&lt;T&gt;</code> is used, which means that <code>bypass_lock</code> is used, channel doesn't care about the race condition (NOT MT-safe).
+Therefore, user have to provide an appropriate Lockable type and instance if it must be MT-safe</p>
+<p>As a result, <strong>the type doesn't support copy/move</strong> since typically those operations are unavailable for Lockable objects.</p>
 <div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">coro</span> 
 <span class="p">{</span>
-<span class="c1">// Coroutine based channel. User have to provide appropriate lockable</span>
+<span class="c1">//</span>
+<span class="c1">// The channel is a stream of values.</span>
+<span class="c1">// `channel&lt;T&gt;` isn&#39;t MT-safe (using `bypass_lock`).</span>
+<span class="c1">// </span>
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span> <span class="o">=</span> <span class="n">bypass_lock</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">channel</span><span class="p">;</span> <span class="c1">// by default, channel doesn&#39;t care about the race condition</span>
-               <span class="c1">// allow `channel&lt;T&gt;` declaration</span>
+<span class="k">class</span> <span class="nc">channel</span><span class="p">;</span>
+
+<span class="c1">// There are some helper types which implements the operations</span>
+
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">reader</span><span class="p">;</span>
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">writer</span><span class="p">;</span>
+
 <span class="p">}</span> <span class="c1">// namespace coro</span>
 </pre></div>
 
 
-<p>Channel guarantees coverage of all reader/writer coroutines in its list. When a <a href="/luncliff/coroutine/wiki/channel.hpp-read_write"><code>writer</code></a> found its <a href="/luncliff/coroutine/wiki/channel.hpp-read_write"><code>reader</code></a>, or vice versa, it resumes the other's routine and then proceeds its flow. </p>
+<p>Channel guarantees coverage of all reader/writer coroutines in its list. When a <a href="../channel-read_write/"><code>writer</code></a> found its <a href="../channel-read_write/"><code>reader</code></a>, or vice versa, it resumes the other's routine and then proceeds its flow. </p>
 <p>When <code>reader</code> can't be matched with a <code>writer</code>, it attaches itself in <code>channel</code> just before <code>suspend</code>. In the same way, <code>writer</code> attaches itself if it couldn't find <code>reader</code>. </p>
 <h3 id="template-parameters">Template Parameters</h3>
 <ul>
-<li><code>T</code>: an element type to deliver between reader/writer coroutines</li>
-<li><code>M</code>: <a href="https://en.cppreference.com/w/cpp/named_req/BasicLockable">a basic lockable type</a></li>
+<li><code>T</code>: An element type to deliver between reader/writer coroutines</li>
+<li><code>M</code>: <strong>Must</strong> be <a href="https://en.cppreference.com/w/cpp/named_req/BasicLockable">a <code>BasicLockable</code> type</a></li>
 </ul>
 <h3 id="default-operations">Default Operations</h3>
-<p>The type can't be copied/moved.</p>
+<p>As mentioned above, the type can't be copied/moved.</p>
 <div class="codehilite"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel</span> <span class="k">final</span>
 <span class="p">{</span>
@@ -1078,7 +1101,9 @@
 </pre></div>
 
 
-<p><strong>Notice that its destructor throws exception</strong>. In the destructor, the channel resumes its coroutines. the destructor throws if and only if one of the resumed coroutines throw an exception.</p>
+<p><strong>Notice that its destructor throws exception</strong>. 
+In the destructor, the channel resumes its pending coroutines. 
+The destructor throws if (and only if) one of the resumed coroutines throws an exception.</p>
 <h3 id="member-variables">Member Variables</h3>
 <p>Since stackless coroutines are heap-allocated, it uses linked list to those coroutines without additional allocation.</p>
 <table>
