@@ -248,8 +248,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-feaetures" title="Library Feaetures" class="md-nav__link">
-    Library Feaetures
+  <a href="#library-features" title="Library Features" class="md-nav__link">
+    Library Features
   </a>
   
     <nav class="md-nav">
@@ -263,8 +263,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#function-return-type" title="Function Return Type" class="md-nav__link">
-    Function Return Type
+  <a href="#return-type-for-the-coroutine" title="Return Type for the Coroutine" class="md-nav__link">
+    Return Type for the Coroutine
   </a>
   
 </li>
@@ -597,8 +597,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../frame-suspend_types/" title="suspend_types" class="md-nav__link">
-      suspend_types
+    <a href="../frame-suspend_types/" title="Suspend Types" class="md-nav__link">
+      Suspend Types
     </a>
   </li>
 
@@ -626,6 +626,18 @@
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../return-overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
         
           
           
@@ -951,8 +963,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-feaetures" title="Library Feaetures" class="md-nav__link">
-    Library Feaetures
+  <a href="#library-features" title="Library Features" class="md-nav__link">
+    Library Features
   </a>
   
     <nav class="md-nav">
@@ -966,8 +978,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#function-return-type" title="Function Return Type" class="md-nav__link">
-    Function Return Type
+  <a href="#return-type-for-the-coroutine" title="Return Type for the Coroutine" class="md-nav__link">
+    Return Type for the Coroutine
   </a>
   
 </li>
@@ -1027,8 +1039,7 @@
                   <h1>Home</h1>
                 
                 <ul>
-<li>Version: <a href="https://github.com/luncliff/coroutine/tree/1.4.3">1.4.3</a></li>
-<li><a href="https://github.com/luncliff/coroutine/releases/tag/1.4.3">Release Note</a></li>
+<li><a href="https://github.com/luncliff/coroutine/releases/tag/1.4.3">Latest Release</a>: <a href="https://github.com/luncliff/coroutine/tree/1.4.3">1.4.3</a></li>
 </ul>
 <p>Welcome to the luncliff/coroutine wiki!<br />
 <strong><a href="https://luncliff.github.io/coroutine/Home">Please explore the pages with this link(GitHub Pages)</a></strong></p>
@@ -1041,7 +1052,7 @@ Let me hear you and write more helpful contents. :D</p>
 </ul>
 </li>
 <li>Notes<ul>
-<li><a href="https://github.com/luncliff/coroutine/wiki/Awaitable-event-using-coroutine,-epoll,-and-eventfd">Awaitable event using coroutine, <code>epoll</code>, and <code>eventfd</code></a></li>
+<li><a href="../articles/awaitable-event/">Awaitable event using coroutine, <code>epoll</code>, and <code>eventfd</code></a></li>
 <li><a href="../articles/thread-selecting-function/">Thread selecting functions</a></li>
 </ul>
 </li>
@@ -1050,7 +1061,7 @@ Let me hear you and write more helpful contents. :D</p>
 </ul>
 </li>
 </ul>
-<h2 id="library-feaetures">Library Feaetures</h2>
+<h2 id="library-features">Library Features</h2>
 <p>I've used the C++ coroutine <a href="https://github.com/luncliff/luncliff.github.io/blob/master/posts/Exploring-MSVC-Coroutine.md">since 2017.02</a>.<br />
 Currently working to follow the C++ 20 and writing examples in my style.</p>
 <h3 id="coroutine-handle">Coroutine Handle</h3>
@@ -1061,22 +1072,22 @@ Currently working to follow the C++ 20 and writing examples in my style.</p>
 
 
 <ul>
-<li><a href="/luncliff/coroutine/wiki/frame.h-coroutine_handle"><code>coroutine_handle&lt;P&gt;</code></a><ul>
-<li><a href="/luncliff/coroutine/wiki/frame.h-compiler_specific">Frame prefix</a></li>
+<li><a href="../frame-coroutine_handle/"><code>coroutine_handle&lt;P&gt;</code></a><ul>
+<li><a href="../frame-compiler_specific/">Frame prefix</a></li>
 </ul>
 </li>
-<li><a href="/luncliff/coroutine/wiki/frame.h-coroutine_traits"><code>coroutine_traits&lt;R, P...&gt;</code></a></li>
-<li><a href="/luncliff/coroutine/wiki/frame.h-suspend_types"><code>suspend_never</code> and <code>suspend_always</code></a></li>
+<li><a href="../frame-coroutine_traits/"><code>coroutine_traits&lt;R, P...&gt;</code></a></li>
+<li><a href="../frame-suspend_types/"><code>suspend_never</code> and <code>suspend_always</code></a></li>
 </ul>
-<h3 id="function-return-type">Function Return Type</h3>
+<h3 id="return-type-for-the-coroutine">Return Type for the Coroutine</h3>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
 </pre></div>
 
 
 <ul>
-<li><a href="/luncliff/coroutine/wiki/return.h-no_return"><code>no_return</code></a></li>
-<li><a href="/luncliff/coroutine/wiki/return.h-frame"><code>frame</code></a></li>
+<li><a href="../return-no_return/"><code>no_return</code></a></li>
+<li><a href="../return-frame/"><code>frame</code></a></li>
 </ul>
 <h3 id="yield">Yield</h3>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/yield.hpp&gt;</span><span class="cp"></span>
@@ -1085,23 +1096,23 @@ Currently working to follow the C++ 20 and writing examples in my style.</p>
 
 
 <ul>
-<li><a href="/luncliff/coroutine/wiki/yield.hpp-enumerable"><code>enumerable&lt;T&gt;</code></a></li>
-<li><a href="/luncliff/coroutine/wiki/yield.hpp-sequence"><code>sequence&lt;T&gt;</code></a></li>
+<li><a href="../yield-enumerable/"><code>enumerable&lt;T&gt;</code></a></li>
+<li><a href="../yield-sequence/"><code>sequence&lt;T&gt;</code></a></li>
 </ul>
 <h3 id="network-io">Network I/O</h3>
 <p>The socket async I/O related features are adopting <a href="https://github.com/microsoft/gsl">Guideline Support Library</a>.<br />
-The type/functions don't have namespace for now. (They are global)</p>
+The type/functions don't have namespace for now. (They are global !)</p>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/net.h&gt;</span><span class="cp"></span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">gsl</span><span class="p">;</span>
 </pre></div>
 
 
 <ul>
-<li><a href="/luncliff/coroutine/wiki/net.h-overview">Overview</a></li>
+<li><a href="../net-overview/">Overview</a></li>
 <li>Working with the system's API<ul>
-<li><a href="/luncliff/coroutine/wiki/net.h-winsock2">Winsock 2</a></li>
-<li><a href="/luncliff/coroutine/wiki/net.h-epoll">Epoll</a></li>
-<li><a href="/luncliff/coroutine/wiki/net.h-kqueue">KQueue</a></li>
+<li><a href="../net-implementation-winsock2/">Winsock 2</a></li>
+<li><a href="../net-implementation-epoll/">Epoll</a></li>
+<li><a href="../net-implementation-kqueue/">KQueue</a></li>
 </ul>
 </li>
 </ul>
@@ -1112,9 +1123,9 @@ The type/functions don't have namespace for now. (They are global)</p>
 
 
 <ul>
-<li><a href="/luncliff/coroutine/wiki/channel.hpp-concept">Concept</a></li>
-<li><a href="/luncliff/coroutine/wiki/channel.hpp-read_write">Read &amp; Write</a></li>
-<li><a href="/luncliff/coroutine/wiki/channel.hpp-select">Select</a></li>
+<li><a href="../channel-overview/">Concept</a></li>
+<li><a href="../channel-read_write/">Read &amp; Write</a></li>
+<li><a href="../channel-select/">Select</a></li>
 </ul>
 <h3 id="concurrency-utilities">Concurrency Utilities</h3>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/concrt.h&gt;</span><span class="cp"></span>
@@ -1124,15 +1135,16 @@ The type/functions don't have namespace for now. (They are global)</p>
 
 <ul>
 <li>Windows<ul>
-<li><a href="/luncliff/coroutine/wiki/concrt.h-latch"><code>latch</code></a></li>
-<li><a href="/luncliff/coroutine/wiki/concrt.h-section"><code>section</code></a></li>
-<li><a href="/luncliff/coroutine/wiki/concrt.h-ptp_work"><code>ptp_work</code></a></li>
-<li><code>ptp_event</code>: in progress</li>
+<li><a href="../concrt-latch/"><code>latch</code></a></li>
+<li><a href="../concrt-section/"><code>section</code></a></li>
+<li><a href="../concrt-ptp_work/"><code>ptp_work</code></a></li>
+<li><code>ptp_event</code></li>
 </ul>
 </li>
 <li>POSIX<ul>
-<li><a href="/luncliff/coroutine/wiki/concrt.h-section"><code>section</code></a></li>
-<li><code>event</code>: in progress</li>
+<li><a href="../concrt-section/"><code>section</code></a></li>
+<li>Event Polling</li>
+<li>pthread</li>
 </ul>
 </li>
 </ul>
