@@ -125,7 +125,7 @@
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(SolutionDir)external\guideline\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\interface;$(ProjectDir);$(ProjectDir)..\external\guideline\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
       <StructMemberAlignment>8Bytes</StructMemberAlignment>
@@ -160,7 +160,7 @@
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(SolutionDir)external\guideline\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\interface;$(ProjectDir);$(ProjectDir)..\external\guideline\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
       <StructMemberAlignment>8Bytes</StructMemberAlignment>
@@ -197,7 +197,7 @@
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(SolutionDir)external\guideline\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\interface;$(ProjectDir);$(ProjectDir)..\external\guideline\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
       <StructMemberAlignment>8Bytes</StructMemberAlignment>
@@ -235,7 +235,7 @@
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(SolutionDir)interface;$(ProjectDir);$(SolutionDir)external\guideline\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\interface;$(ProjectDir);$(ProjectDir)..\external\guideline\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ErrorReporting>Send</ErrorReporting>
       <EnablePREfast>true</EnablePREfast>
       <StructMemberAlignment>8Bytes</StructMemberAlignment>
