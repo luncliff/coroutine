@@ -81,7 +81,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#see-also" tabindex="1" class="md-skip">
+      <a href="#suspend_never" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -523,16 +523,56 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#see-also" title="See Also" class="md-nav__link">
-    See Also
+  <a href="#suspend_never" title="suspend_never" class="md-nav__link">
+    suspend_never
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-example" title="Definition Example" class="md-nav__link">
+    Definition Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-usages" title="Known Usages" class="md-nav__link">
+    Known Usages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#suspend-types" title="Suspend Types" class="md-nav__link">
-    Suspend Types
+  <a href="#suspend_always" title="suspend_always" class="md-nav__link">
+    suspend_always
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-example_1" title="Definition Example" class="md-nav__link">
+    Definition Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-usages_1" title="Known Usages" class="md-nav__link">
+    Known Usages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -912,16 +952,56 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#see-also" title="See Also" class="md-nav__link">
-    See Also
+  <a href="#suspend_never" title="suspend_never" class="md-nav__link">
+    suspend_never
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-example" title="Definition Example" class="md-nav__link">
+    Definition Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-usages" title="Known Usages" class="md-nav__link">
+    Known Usages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#suspend-types" title="Suspend Types" class="md-nav__link">
-    Suspend Types
+  <a href="#suspend_always" title="suspend_always" class="md-nav__link">
+    suspend_always
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-example_1" title="Definition Example" class="md-nav__link">
+    Definition Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-usages_1" title="Known Usages" class="md-nav__link">
+    Known Usages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -946,34 +1026,66 @@
                 
                   <h1>Suspend Types</h1>
                 
-                <blockquote>
-<p>This document is under progress...</p>
-</blockquote>
-<p><code>&lt;coroutine/frame.h&gt;</code> containes definition of suspend helper types that can be used for <code>initial_suspend</code> and <code>final_suspend</code>.</p>
-<h3 id="see-also">See Also</h3>
-<ul>
-<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4736.pdf">n4736</a></li>
-</ul>
-<h3 id="suspend-types">Suspend Types</h3>
+                <p>Coroutine Promise Requirement requires some awaitable type for the <code>initial_suspend</code> and <code>final_suspend</code> member functions for <code>promise_type</code>.</p>
+<h2 id="suspend_never"><code>suspend_never</code></h2>
+<p>Awaitable type that <strong>never</strong> suspend.
+The control flows through <code>ready - resume</code>.</p>
+<h3 id="definition-example">Definition Example</h3>
 <div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span>
 <span class="p">{</span>
-    <span class="k">class</span> <span class="nc">suspend_never</span>
-    <span class="p">{</span>
-    <span class="k">public</span><span class="o">:</span>
-        <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
-        <span class="k">constexpr</span> <span class="kt">void</span> <span class="nf">await_resume</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
-    <span class="p">};</span>
-
-    <span class="k">class</span> <span class="nc">suspend_always</span>
-    <span class="p">{</span>
-    <span class="k">public</span><span class="o">:</span>
-        <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
-        <span class="k">constexpr</span> <span class="kt">void</span> <span class="nf">await_resume</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
-    <span class="p">};</span>
-<span class="p">}</span>
+<span class="k">class</span> <span class="nc">suspend_never</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">constexpr</span> <span class="kt">void</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="c1">// Since the class won&#39;t suspend, this function won&#39;t be invoked</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+<span class="p">}</span> <span class="c1">// namespace std::experimental</span>
 </pre></div>
+
+
+<h3 id="known-usages">Known Usages</h3>
+<p>In this library,</p>
+<ul>
+<li>Type <a href="../yield-enumerable/"><code>enumerable&lt;T&gt;</code></a></li>
+<li>Type <a href="https://github.com/luncliff/coroutine/blob/master/interface/coroutine/return.h#L23"><code>no_return</code></a></li>
+</ul>
+<blockquote>
+<p>TBA: external references</p>
+</blockquote>
+<h2 id="suspend_always"><code>suspend_always</code></h2>
+<p>Awaitable type that <strong>always</strong> suspend.
+The control flows through <code>ready - suspend - resume</code>.</p>
+<h3 id="definition-example_1">Definition Example</h3>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span>
+<span class="p">{</span>
+<span class="k">class</span> <span class="nc">suspend_always</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">constexpr</span> <span class="kt">void</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="c1">// The routine will suspend but the class ignores the given handle</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+<span class="p">}</span> <span class="c1">// namespace std::experimental</span>
+</pre></div>
+
+
+<h3 id="known-usages_1">Known Usages</h3>
+<p>In this library,</p>
+<ul>
+<li>Type <a href="https://github.com/luncliff/coroutine/blob/master/interface/coroutine/return.h#L60"><code>frame</code></a></li>
+</ul>
+<blockquote>
+<p>TBA: external references</p>
+</blockquote>
                 
                   
                 

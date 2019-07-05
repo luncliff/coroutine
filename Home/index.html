@@ -81,7 +81,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#developers-notes" tabindex="1" class="md-skip">
+      <a href="#developer-note" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -241,15 +241,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#developers-notes" title="Developer's Notes" class="md-nav__link">
-    Developer's Notes
+  <a href="#developer-note" title="Developer Note" class="md-nav__link">
+    Developer Note
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#first-with-the-c-20-coroutine" title="First with the C++ 20 Coroutine?" class="md-nav__link">
-    First with the C++ 20 Coroutine?
+  <a href="#first-with-the-c-20-coroutine" title="First with the C++ 20 coroutine?" class="md-nav__link">
+    First with the C++ 20 coroutine?
   </a>
   
 </li>
@@ -270,8 +270,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#return-type-for-the-coroutine" title="Return Type for the Coroutine" class="md-nav__link">
-    Return Type for the Coroutine
+  <a href="#return-types-for-the-coroutine-functions" title="Return Types For The Coroutine Functions" class="md-nav__link">
+    Return Types For The Coroutine Functions
   </a>
   
 </li>
@@ -963,15 +963,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#developers-notes" title="Developer's Notes" class="md-nav__link">
-    Developer's Notes
+  <a href="#developer-note" title="Developer Note" class="md-nav__link">
+    Developer Note
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#first-with-the-c-20-coroutine" title="First with the C++ 20 Coroutine?" class="md-nav__link">
-    First with the C++ 20 Coroutine?
+  <a href="#first-with-the-c-20-coroutine" title="First with the C++ 20 coroutine?" class="md-nav__link">
+    First with the C++ 20 coroutine?
   </a>
   
 </li>
@@ -992,8 +992,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#return-type-for-the-coroutine" title="Return Type for the Coroutine" class="md-nav__link">
-    Return Type for the Coroutine
+  <a href="#return-types-for-the-coroutine-functions" title="Return Types For The Coroutine Functions" class="md-nav__link">
+    Return Types For The Coroutine Functions
   </a>
   
 </li>
@@ -1056,69 +1056,48 @@
 <li><a href="https://github.com/luncliff/coroutine/releases/tag/1.4.3">Latest Release</a> is <a href="https://github.com/luncliff/coroutine/tree/1.4.3">1.4.3</a></li>
 </ul>
 <p>Welcome to the luncliff/coroutine wiki!<br />
-<strong><a href="https://luncliff.github.io/coroutine/Home">Please explore the pages with this link(GitHub Pages)</a></strong></p>
+<a href="https://luncliff.github.io/coroutine/Home"><strong>Please explore the pages with this link(GitHub Pages)</strong></a></p>
 <p>If you have opinion for these docs, please create an issue and claim your idea. 
 Let me hear you and write more helpful contents. :D</p>
-<h2 id="developers-notes">Developer's Notes</h2>
+<p>This example project started with <a href="https://github.com/luncliff/luncliff.github.io/blob/master/posts/Exploring-MSVC-Coroutine.md">the post in 2017.02</a>.  </p>
+<h2 id="developer-note">Developer Note</h2>
 <ul>
 <li>Presentations<ul>
-<li>C++ Korea 5th Seminar: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Exploring The C++ Coroutine</a> <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">(한국어)</a> - <a href="../ppt/Exploring-the-Cpp-Coroutine/">the PDF is here!</a></li>
+<li>C++ Korea 5th Seminar: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Exploring The C++ Coroutine(Eng)</a> <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">(한국어)</a> - <a href="../ppt/Exploring-the-Cpp-Coroutine/">the PDF is here!</a></li>
 </ul>
 </li>
-<li>Notes<ul>
+<li>Articles<ul>
 <li><a href="../articles/awaitable-event/">Awaitable event using coroutine, <code>epoll</code>, and <code>eventfd</code></a></li>
-<li><a href="../articles/thread-selecting-function/">Thread selecting functions</a></li>
-</ul>
-</li>
-<li>Examples<ul>
-<li><a href="../articles/example-of-await_transform/"><code>promise_type::await_transform</code></a></li>
 </ul>
 </li>
 </ul>
-<h2 id="first-with-the-c-20-coroutine">First with the C++ 20 Coroutine?</h2>
-<p>If you want <strong>how the feature works</strong>, see the 'Exploring The C++ Coroutine' above.</p>
+<h2 id="first-with-the-c-20-coroutine">First with the C++ 20 coroutine?</h2>
 <p>If you're finding any bunch of good <strong>references</strong>, visit the <a href="https://gist.github.com/MattPD/9b55db49537a90545a90447392ad3aeb">MattPD's collection</a>!</p>
-<p>If you want to <strong>run it now</strong>, there is a little <a href="https://wandbox.org/permlink/6FGKZjuzjNYoSmI1">WandBox example</a>... but it's poor for now.
-I will write a new one and update the link ASAP.</p>
+<p>If you want to <strong>run it now</strong>, there is a little <a href="https://wandbox.org/permlink/6FGKZjuzjNYoSmI1">WandBox example</a>...<br />
+but it's poor for now. I will write a new one and update the link ASAP.</p>
 <h2 id="library-features">Library Features</h2>
-<p>I've used the C++ coroutine <a href="https://github.com/luncliff/luncliff.github.io/blob/master/posts/Exploring-MSVC-Coroutine.md">since 2017.02</a>.<br />
-Currently working to follow the C++ 20 and writing examples in my style.</p>
-<h3 id="coroutine-handle">Coroutine Handle</h3>
+<h3 id="coroutine-handle"><a href="../frame-overview/">Coroutine Handle</a></h3>
 <p>Works related to <code>&lt;coroutine&gt;</code> header are placed in 1 file.</p>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/frame.h&gt;</span><span class="cp"></span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
 </pre></div>
 
 
-<ul>
-<li><a href="../frame-coroutine_handle/"><code>coroutine_handle&lt;P&gt;</code></a><ul>
-<li><a href="../frame-compiler_specific/">Frame prefix</a></li>
-</ul>
-</li>
-<li><a href="../frame-coroutine_traits/"><code>coroutine_traits&lt;R, P...&gt;</code></a></li>
-<li><a href="../frame-suspend_types/"><code>suspend_never</code> and <code>suspend_always</code></a></li>
-</ul>
-<h3 id="return-type-for-the-coroutine">Return Type for the Coroutine</h3>
+<h3 id="return-types-for-the-coroutine-functions"><a href="../return-overview/">Return Types For The Coroutine Functions</a></h3>
+<p>Pre-defined return types with this library's namespace, <code>coro</code>.</p>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
 </pre></div>
 
 
-<ul>
-<li><a href="../return-no_return/"><code>no_return</code></a></li>
-<li><a href="../return-frame/"><code>frame</code></a></li>
-</ul>
-<h3 id="yield">Yield</h3>
+<h3 id="yield"><a href="../yield-overview/">Yield</a></h3>
+<p>All types for <code>co_yield</code> operator are placed here.</p>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/yield.hpp&gt;</span><span class="cp"></span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
 </pre></div>
 
 
-<ul>
-<li><a href="../yield-enumerable/"><code>enumerable&lt;T&gt;</code></a></li>
-<li><a href="../yield-sequence/"><code>sequence&lt;T&gt;</code></a></li>
-</ul>
-<h3 id="network-io">Network I/O</h3>
+<h3 id="network-io"><a href="../net-overview/">Network I/O</a></h3>
 <p>The socket async I/O related features are adopting <a href="https://github.com/microsoft/gsl">Guideline Support Library</a>.<br />
 The type/functions don't have namespace for now. (They are global !)</p>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/net.h&gt;</span><span class="cp"></span>
@@ -1135,7 +1114,8 @@ The type/functions don't have namespace for now. (They are global !)</p>
 </ul>
 </li>
 </ul>
-<h3 id="channel">Channel</h3>
+<h3 id="channel"><a href="../channel-overview/">Channel</a></h3>
+<p>Have you ever used the Go language? or heard about the CSP(Communicating Sequential Processes)?</p>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/channel.hpp&gt;</span><span class="cp"></span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
 </pre></div>
@@ -1146,7 +1126,7 @@ The type/functions don't have namespace for now. (They are global !)</p>
 <li><a href="../channel-read_write/">Read &amp; Write</a></li>
 <li><a href="../channel-select/">Select</a></li>
 </ul>
-<h3 id="concurrency-utilities">Concurrency Utilities</h3>
+<h3 id="concurrency-utilities"><a href="../concrt-overview/">Concurrency Utilities</a></h3>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/concrt.h&gt;</span><span class="cp"></span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">concrt</span><span class="p">;</span>
 </pre></div>
@@ -1157,12 +1137,12 @@ The type/functions don't have namespace for now. (They are global !)</p>
 <li><a href="../concrt-latch/"><code>latch</code></a></li>
 <li><a href="../concrt-section/"><code>section</code></a></li>
 <li><a href="../concrt-ptp_work/"><code>ptp_work</code></a></li>
-<li><code>ptp_event</code></li>
+<li><a href="../concrt-event/"><code>ptp_event</code></a></li>
 </ul>
 </li>
-<li>POSIX<ul>
+<li>Linux + Darwin<ul>
 <li><a href="../concrt-section/"><code>section</code></a></li>
-<li>Event Polling</li>
+<li><a href="../concrt-event/">Event</a></li>
 <li>pthread</li>
 </ul>
 </li>

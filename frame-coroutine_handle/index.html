@@ -506,32 +506,26 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#coroutine-handle" title="Coroutine Handle" class="md-nav__link">
-    Coroutine Handle
+  <a href="#library-issues" title="Library Issues" class="md-nav__link">
+    Library Issues
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coroutine-handle-standard" title="Coroutine Handle (Standard)" class="md-nav__link">
+    Coroutine Handle (Standard)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coroutine-handle-custom" title="Coroutine Handle (Custom)" class="md-nav__link">
+    Coroutine Handle (Custom)
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#remarks" title="Remarks" class="md-nav__link">
-    Remarks
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#working-with-existing-definitions" title="Working with existing definitions" class="md-nav__link">
-    Working with existing definitions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#template-parameters" title="Template Parameters" class="md-nav__link">
@@ -993,32 +987,26 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#coroutine-handle" title="Coroutine Handle" class="md-nav__link">
-    Coroutine Handle
+  <a href="#library-issues" title="Library Issues" class="md-nav__link">
+    Library Issues
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coroutine-handle-standard" title="Coroutine Handle (Standard)" class="md-nav__link">
+    Coroutine Handle (Standard)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coroutine-handle-custom" title="Coroutine Handle (Custom)" class="md-nav__link">
+    Coroutine Handle (Custom)
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#remarks" title="Remarks" class="md-nav__link">
-    Remarks
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#working-with-existing-definitions" title="Working with existing definitions" class="md-nav__link">
-    Working with existing definitions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#template-parameters" title="Template Parameters" class="md-nav__link">
@@ -1094,43 +1082,27 @@
                 
                   <h1>coroutine_handle</h1>
                 
-                <blockquote>
-<p>This document is under progress...</p>
-</blockquote>
-<h3 id="see-also">See Also</h3>
+                <h3 id="see-also">See Also</h3>
 <ul>
 <li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4736.pdf">n4736</a></li>
 <li><code>&lt;experimental/coroutine&gt;</code> in VC++</li>
 <li><code>&lt;experimental/coroutine&gt;</code> in libc++ 7 or later</li>
 </ul>
-<h2 id="coroutine-handle">Coroutine Handle</h2>
+<h3 id="library-issues">Library Issues</h3>
+<ul>
+<li>https://github.com/luncliff/coroutine/issues/23</li>
+</ul>
+<h2 id="coroutine-handle-standard">Coroutine Handle (Standard)</h2>
+<blockquote>
+<p>ToDo: Summarize the standard docs</p>
+</blockquote>
+<h2 id="coroutine-handle-custom">Coroutine Handle (Custom)</h2>
 <p>Defines the templace class <code>coroutine_handle&lt;T&gt;</code> in <code>std::experimental</code> namespace.</p>
 <div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span>
 <span class="p">{</span>
     <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">PromiseType</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
     <span class="k">class</span> <span class="nc">coroutine_handle</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
-
-
-<h3 id="remarks">Remarks</h3>
-<h4 id="working-with-existing-definitions">Working with existing definitions</h4>
-<p>The header file <code>&lt;coroutine/frame.h&gt;</code> is an adapter to support coroutine frame's difference between compilers. 
-(For now, MSVC and Clang). The file imports <code>&lt;experimental/coroutine&gt;</code>.</p>
-<div class="codehilite"><pre><span></span><span class="c1">// &lt;coroutine&gt; header build issue handling</span>
-<span class="cp">#if defined(__clang__) &amp;&amp; defined(_MSC_VER)</span>
-<span class="c1">// case: clang-cl, VC++</span>
-<span class="c1">//    Use this library&#39;s implementation ...</span>
-<span class="cp">#else</span>
-<span class="c1">// case: msvc, VC++</span>
-<span class="c1">// case: clang, libc++</span>
-<span class="cp">#  if __has_include(&lt;coroutine&gt;) </span>
-<span class="cp">#    include &lt;coroutine&gt; </span><span class="c1">// C++ 20 standard</span>
-<span class="cp">#  elif __has_include(&lt;experimental/coroutine&gt;) </span>
-<span class="cp">#    include &lt;experimental/coroutine&gt;  </span><span class="c1">// C++ 17 experimetal</span>
-<span class="cp">#  endif</span>
-<span class="cp">#endif</span>
-<span class="c1">// ...</span>
 </pre></div>
 
 
@@ -1162,7 +1134,7 @@
 
 
 <h3 id="with-void">With Void</h3>
-<p>Mostly the type will be used with <code>void</code> as its promise type. In the case, its member functions are like the following table.</p>
+<p>Mostly the type will be used with <code>void</code> as its promise type(<code>coroutine_handle&lt;void&gt;</code>). In the case, its member functions are like the following table.</p>
 <table>
 <thead>
 <tr>

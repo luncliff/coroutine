@@ -81,6 +81,10 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
+      <a href="#references" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
@@ -454,9 +458,50 @@
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Overview
+      </label>
+    
     <a href="./" title="Overview" class="md-nav__link md-nav__link--active">
       Overview
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" title="References" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background" title="Background" class="md-nav__link">
+    Background
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contents" title="Contents" class="md-nav__link">
+    Contents
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -862,6 +907,49 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" title="References" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background" title="Background" class="md-nav__link">
+    Background
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contents" title="Contents" class="md-nav__link">
+    Contents
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -872,7 +960,74 @@
                 
                   <h1>Overview</h1>
                 
-                
+                <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/frame.h&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
+</pre></div>
+
+
+<h2 id="references">References</h2>
+<ul>
+<li>http://open-std.org/JTC1/SC22/WG21/docs/papers/2017/p0664r0.html</li>
+</ul>
+<blockquote>
+<p>ToDo</p>
+<ul>
+<li>organize list in <a href="https://github.com/luncliff/coroutine/issues/22">this issue</a></li>
+<li>add list for the latest ones
+</li>
+</ul>
+</blockquote>
+<h2 id="background">Background</h2>
+<p>C++ Coroutine is <strong>so compiler specific</strong> that we can't compile VC++'s <code>&lt;experimental/coroutine&gt;</code> with Clang compiler, and vice versa.
+Because this is an example project, I believe I have a duty to show people how to configure projects under those envionments.</p>
+<p>The start was <a href="https://llvm.org/devmtg/2014-04/PDFs/Talks/clang-cl.pdf">clang-cl</a> on Windows, 
+and I solved some problems related to the difference between 2 compilers.
+For that, there was no way but to add a wrapper header file. 
+<a href="https://github.com/luncliff/coroutine/blob/master/interface/coroutine/frame.h"><code>&lt;coroutine/frame.h&gt;</code></a> file is an adapter to handle coroutine frame's difference between compilers.
+(For now, they are <a href="https://github.com/luncliff/coroutine/issues/1">MSVC and Clang</a>).</p>
+<p><strong>Notice that the file imports <code>&lt;experimental/coroutine&gt;</code></strong>.
+Just like below, <code>&lt;coroutine/frame.h&gt;</code> activates custom implementation only for specific environments. </p>
+<div class="codehilite"><pre><span></span><span class="c1">// &lt;coroutine&gt; header build issue handling</span>
+<span class="cp">#if defined(__clang__) &amp;&amp; defined(_MSC_VER)</span>
+<span class="c1">// case: clang-cl, VC++</span>
+<span class="c1">//    Use this library&#39;s implementation ...</span>
+<span class="cp">#else</span>
+<span class="c1">// case: msvc, VC++</span>
+<span class="c1">// case: clang, libc++</span>
+<span class="cp">#  if __has_include(&lt;coroutine&gt;) </span><span class="c1">// C++ 20</span>
+<span class="cp">#    include &lt;coroutine&gt; </span>
+<span class="cp">#  elif __has_include(&lt;experimental/coroutine&gt;) </span><span class="c1">// C++ 17</span>
+<span class="cp">#    include &lt;experimental/coroutine&gt;  </span>
+<span class="cp">#  endif</span>
+<span class="cp">#endif</span>
+<span class="c1">// ...</span>
+</pre></div>
+
+
+<p>So in general you don't have to care. Think of <code>&lt;coroutine/frame.h&gt;</code> as <code>&lt;coroutine&gt;</code> in the future.</p>
+<div class="codehilite"><pre><span></span><span class="cp">#if __has_include(&lt;coroutine&gt;)</span>
+<span class="cp">#   include &lt;coroutine&gt;</span>
+<span class="cp">#else </span>
+<span class="cp">#   include &lt;coroutine/frame.h&gt;</span>
+<span class="cp">#endif</span>
+</pre></div>
+
+
+<p>If you're really curious, read the file and please review my approach. :)</p>
+<h2 id="contents">Contents</h2>
+<p>I'm going to cover both the standard and my implementation in this section.<br />
+You can think these items are the supplement of <a href="https://en.cppreference.com/w/cpp">https://en.cppreference.com/w/cpp</a>.</p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/frame.h&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
+</pre></div>
+
+
+<ul>
+<li><a href="../frame-coroutine_handle/"><code>coroutine_handle&lt;P&gt;</code></a></li>
+<li><a href="../frame-coroutine_traits/"><code>coroutine_traits&lt;R, P...&gt;</code></a></li>
+<li><a href="../frame-suspend_types/"><code>suspend_never</code> and <code>suspend_always</code></a></li>
+<li><a href="../frame-compiler_specific/">Note: Compiler Specific Issues</a></li>
+</ul>
                 
                   
                 
