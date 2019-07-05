@@ -267,30 +267,6 @@
   </li>
 
         
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../articles/example-of-await_transform/" title="Example - await_transform" class="md-nav__link">
-      Example - await_transform
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../articles/thread-selecting-function/" title="Function that selects its thread" class="md-nav__link">
-      Function that selects its thread
-    </a>
-  </li>
-
-        
       </ul>
     </nav>
   </li>
@@ -373,11 +349,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
     
     <label class="md-nav__link" for="nav-3-2">
-      Build & Test
+      Build
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-3-2">
-        Build & Test
+        Build
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -408,6 +384,18 @@
         
       </ul>
     </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../howto-start-yours/" title="Start Your Project!" class="md-nav__link">
+      Start Your Project!
+    </a>
   </li>
 
         
@@ -865,6 +853,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../concrt-event/" title="event" class="md-nav__link">
+      event
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1069,13 +1069,16 @@
 
 <h3 id="see-also">See Also</h3>
 <ul>
-<li><a href="/luncliff/coroutine/wiki/channel.hpp-concept">Channel Concept</a></li>
+<li><a href="../channel-overview/">Channel Concept</a></li>
 <li><a href="https://golang.org/ref/spec#Channel_types">Go Channel types</a></li>
 <li><a href="https://www.youtube.com/watch?v=N3CkQu39j5I">CppCon 2016: John Bandela "Channels - An alternative to callbacks and futures"</a> </li>
 </ul>
 <h3 id="example">Example</h3>
 <ul>
-<li><a href="https://github.com/luncliff/coroutine/blob/1.4.2/test/vs_channel.cpp">test/vs_channel.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_read_write_mutex.cpp">test/channel_read_write_mutex.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_write_read_mutex.cpp">test/channel_write_read_mutex.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_write_fail_after_close.cpp">test/channel_write_fail_after_close.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_read_fail_after_close.cpp">test/channel_read_fail_after_close.cpp</a></li>
 </ul>
 <h2 id="awaitable-channel-read">Awaitable Channel Read</h2>
 <h3 id="short-example">Short Example</h3>
@@ -1145,7 +1148,7 @@
 </tr>
 </tbody>
 </table>
-<p><img alt="Fig: Reader-Writer Resume" src="/luncliff/coroutine/wiki/images/Channel.Reader.png" />  </p>
+<p><img alt="Fig: Reader-Writer Resume" src="../images/channel_reader.png" />  </p>
 <h2 id="awaitable-channel-write">Awaitable Channel Write</h2>
 <h3 id="short-example_1">Short Example</h3>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
@@ -1214,7 +1217,7 @@
 </tr>
 </tbody>
 </table>
-<p><img alt="Fig: Writer-Reader Resume" src="/luncliff/coroutine/wiki/images/Channel.Writer.png" />  </p>
+<p><img alt="Fig: Writer-Reader Resume" src="../images/channel_writer.png" />  </p>
                 
                   
                 

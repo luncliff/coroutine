@@ -267,30 +267,6 @@
   </li>
 
         
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../articles/example-of-await_transform/" title="Example - await_transform" class="md-nav__link">
-      Example - await_transform
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../articles/thread-selecting-function/" title="Function that selects its thread" class="md-nav__link">
-      Function that selects its thread
-    </a>
-  </li>
-
-        
       </ul>
     </nav>
   </li>
@@ -373,11 +349,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
     
     <label class="md-nav__link" for="nav-3-2">
-      Build & Test
+      Build
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-3-2">
-        Build & Test
+        Build
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -408,6 +384,18 @@
         
       </ul>
     </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../howto-start-yours/" title="Start Your Project!" class="md-nav__link">
+      Start Your Project!
+    </a>
   </li>
 
         
@@ -856,6 +844,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../concrt-event/" title="event" class="md-nav__link">
+      event
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1052,6 +1052,7 @@ even though I've implemented it in a different way. </p>
 <li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_write_read_nolock.cpp">test/channel_write_read_nolock.cpp</a></li>
 <li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_write_fail_after_close.cpp">test/channel_write_fail_after_close.cpp</a></li>
 <li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_read_fail_after_close.cpp">test/channel_read_fail_after_close.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_race_no_leak.cpp">test/channel_race_no_leak.cpp</a></li>
 </ul>
 <h2 id="channel-with-a-lockable">Channel with a <a href="https://en.cppreference.com/w/cpp/named_req/Lockable"><code>Lockable</code></a></h2>
 <p>When <code>channel&lt;T&gt;</code> is used, which means that <code>bypass_lock</code> is used, channel doesn't care about the race condition (NOT MT-safe).
