@@ -16,16 +16,18 @@ nav:
   - Articles:
     - PPT - C++ Korea 5th Seminar: ppt/Exploring-the-Cpp-Coroutine.md
     - Awaitable event using the coroutine, epoll and eventfd: articles/awaitable-event.md
-    - Example - await_transform: articles/example-of-await_transform.md
-    - Function that selects its thread: articles/thread-selecting-function.md
+    # - Example - await_transform: articles/example-of-await_transform.md
+    # - Function that selects its thread: articles/thread-selecting-function.md
+    # - Why this library doesn't support Task?: articles/why-no-coroutine-task-return.md
 
   - How To:
     - Import:
       - Visual Studio: import-using-visualstudio.md
       - CMake: import-using-cmake.md
-    - Build & Test:
+    - Build:
       - Visual Studio: build-using-visualstudio.md
       - CMake: build-using-cmake.md
+    - Start Your Project!: howto-start-yours.md
 
   - Features:
     - frame.h:
@@ -51,6 +53,7 @@ nav:
       - section: concrt-section.md
       - latch: concrt-latch.md
       - ptp_work: concrt-ptp_work.md
+      - event: concrt-event.md
     - net.h:
       - Overview: net-overview.md
       - Windows Socket 2: net-implementation-winsock2.md
