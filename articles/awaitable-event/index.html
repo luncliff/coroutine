@@ -40,7 +40,7 @@
     
     
       
-        <title>Awaitable event using the coroutine, epoll and eventfd - luncliff/coroutine</title>
+        <title>POSIX event - luncliff/coroutine</title>
       
     
     
@@ -107,7 +107,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Awaitable event using the coroutine, epoll and eventfd
+                POSIX event
               
             </span>
           
@@ -228,12 +228,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       Articles
@@ -261,158 +259,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Awaitable event using the coroutine, epoll and eventfd
-      </label>
-    
-    <a href="./" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="./" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
       Awaitable event using the coroutine, epoll and eventfd
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#summary" title="Summary" class="md-nav__link">
-    Summary
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#motivation" title="Motivation" class="md-nav__link">
-    Motivation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#requirement" title="Requirement" class="md-nav__link">
-    Requirement
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#design" title="Design" class="md-nav__link">
-    Design
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#concerns" title="Concerns" class="md-nav__link">
-    Concerns
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#implementation" title="Implementation" class="md-nav__link">
-    Implementation
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#wrapping-epoll" title="Wrapping epoll" class="md-nav__link">
-    Wrapping epoll
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#polling-epoll" title="Polling epoll" class="md-nav__link">
-    Polling epoll
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#event-interface" title="Event interface" class="md-nav__link">
-    Event interface
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#events-state-managment" title="Event's state managment" class="md-nav__link">
-    Event's state managment
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#events-await-operations" title="Event's await operations" class="md-nav__link">
-    Event's await operations
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#summary-for-the-implementation" title="Summary for the implementation" class="md-nav__link">
-    Summary for the implementation
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#conclusion" title="Conclusion" class="md-nav__link">
-    Conclusion
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -557,10 +408,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
       Features
@@ -693,8 +546,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../return-frame/" title="frame" class="md-nav__link">
-      frame
+    <a href="../../return-no_return/" title="no_return" class="md-nav__link">
+      no_return
     </a>
   </li>
 
@@ -705,8 +558,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../return-no_return/" title="no_return" class="md-nav__link">
-      no_return
+    <a href="../../return-frame/" title="frame" class="md-nav__link">
+      frame
     </a>
   </li>
 
@@ -726,70 +579,10 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
     
     <label class="md-nav__link" for="nav-4-3">
-      channel.hpp
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-3">
-        channel.hpp
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../channel-overview/" title="Overview" class="md-nav__link">
-      Overview
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../channel-read_write/" title="Read/Write" class="md-nav__link">
-      Read/Write
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../channel-select/" title="Select on multiple channel" class="md-nav__link">
-      Select on multiple channel
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
-    
-    <label class="md-nav__link" for="nav-4-4">
       yield.hpp
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-4">
+      <label class="md-nav__title" for="nav-4-3">
         yield.hpp
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -843,7 +636,69 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      channel.hpp
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        channel.hpp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../channel-overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../channel-read_write/" title="Read/Write" class="md-nav__link">
+      Read/Write
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../channel-select/" title="Select on multiple channel" class="md-nav__link">
+      Select on multiple channel
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5" checked>
     
     <label class="md-nav__link" for="nav-4-5">
       concrt.h
@@ -897,8 +752,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../concrt-ptp_work/" title="ptp_work" class="md-nav__link">
-      ptp_work
+    <a href="../../concrt-ptp_work/" title="Windows Thread Pool" class="md-nav__link">
+      Windows Thread Pool
     </a>
   </li>
 
@@ -909,9 +764,168 @@
 
 
   <li class="md-nav__item">
-    <a href="../../concrt-event/" title="event" class="md-nav__link">
-      event
+    <a href="../../concrt-ptp_event/" title="Windows Event" class="md-nav__link">
+      Windows Event
     </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        POSIX event
+      </label>
+    
+    <a href="./" title="POSIX event" class="md-nav__link md-nav__link--active">
+      POSIX event
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" title="Summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note" title="Note" class="md-nav__link">
+    Note
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#motivation" title="Motivation" class="md-nav__link">
+    Motivation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirement" title="Requirement" class="md-nav__link">
+    Requirement
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design" title="Design" class="md-nav__link">
+    Design
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concerns" title="Concerns" class="md-nav__link">
+    Concerns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation" title="Implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wrapping-epoll" title="Wrapping epoll" class="md-nav__link">
+    Wrapping epoll
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polling-epoll" title="Polling epoll" class="md-nav__link">
+    Polling epoll
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-interface" title="Event interface" class="md-nav__link">
+    Event interface
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#events-state-managment" title="Event's state managment" class="md-nav__link">
+    Event's state managment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#events-await-operations" title="Event's await operations" class="md-nav__link">
+    Event's await operations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-for-the-implementation" title="Summary for the implementation" class="md-nav__link">
+    Summary for the implementation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion" title="Conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -1152,7 +1166,7 @@
                   <a href="http://github.com/luncliff/coroutine/edit/master/docs/articles/awaitable-event.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="awaitable-event-using-the-coroutine-epoll-and-eventfd">Awaitable Event using the Coroutine, <code>epoll</code>, and <code>eventfd</code></h1>
+                <h1 id="awaitable-event-using-the-coroutine-epoll-and-eventfd">Awaitable event using the coroutine, <code>epoll</code>, and <code>eventfd</code></h1>
 <p>The note explains the detail of <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/interface/coroutine/concrt.h#L194"><code>event</code> in <code>coroutine/concrt.h</code></a></p>
 <h3 id="summary">Summary</h3>
 <p>Look &amp; feel of the <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/interface/coroutine/concrt.h#L194">interface</a> via <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/test/c2_concrt_event.cpp">test code</a>.</p>
@@ -1768,7 +1782,7 @@ It might be unsatisfying that those coroutines are not resumed automatically, bu
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="PPT - C++ Korea 5th Seminar" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../../concrt-ptp_event/" title="Windows Event" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1777,19 +1791,19 @@ It might be unsatisfying that those coroutines are not resumed automatically, bu
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                PPT - C++ Korea 5th Seminar
+                Windows Event
               </span>
             </div>
           </a>
         
         
-          <a href="../../import-using-visualstudio/" title="Visual Studio" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../../net-overview/" title="Overview" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Visual Studio
+                Overview
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

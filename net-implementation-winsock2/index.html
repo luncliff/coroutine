@@ -546,8 +546,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../return-frame/" title="frame" class="md-nav__link">
-      frame
+    <a href="../return-no_return/" title="no_return" class="md-nav__link">
+      no_return
     </a>
   </li>
 
@@ -558,8 +558,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../return-no_return/" title="no_return" class="md-nav__link">
-      no_return
+    <a href="../return-frame/" title="frame" class="md-nav__link">
+      frame
     </a>
   </li>
 
@@ -579,70 +579,10 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
     
     <label class="md-nav__link" for="nav-4-3">
-      channel.hpp
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-3">
-        channel.hpp
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-overview/" title="Overview" class="md-nav__link">
-      Overview
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-read_write/" title="Read/Write" class="md-nav__link">
-      Read/Write
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-select/" title="Select on multiple channel" class="md-nav__link">
-      Select on multiple channel
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
-    
-    <label class="md-nav__link" for="nav-4-4">
       yield.hpp
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-4">
+      <label class="md-nav__title" for="nav-4-3">
         yield.hpp
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -680,6 +620,66 @@
   <li class="md-nav__item">
     <a href="../yield-sequence/" title="Async Generator" class="md-nav__link">
       Async Generator
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      channel.hpp
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        channel.hpp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-read_write/" title="Read/Write" class="md-nav__link">
+      Read/Write
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-select/" title="Select on multiple channel" class="md-nav__link">
+      Select on multiple channel
     </a>
   </li>
 
@@ -750,8 +750,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../concrt-ptp_work/" title="ptp_work" class="md-nav__link">
-      ptp_work
+    <a href="../concrt-ptp_work/" title="Windows Thread Pool" class="md-nav__link">
+      Windows Thread Pool
     </a>
   </li>
 
@@ -762,8 +762,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../concrt-event/" title="event" class="md-nav__link">
-      event
+    <a href="../concrt-ptp_event/" title="Windows Event" class="md-nav__link">
+      Windows Event
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../articles/awaitable-event/" title="POSIX event" class="md-nav__link">
+      POSIX event
     </a>
   </li>
 
@@ -1116,9 +1128,11 @@
 <ul>
 <li>CppCon 2017 : Gor Nishanov "Naked coroutines live(with networking)"</li>
 <li>CppCon 2016 : Kenny Kerr &amp; James McNellis "Putting Coroutines to Work with the Windows Runtime"</li>
-<li><a href="https://github.com/luncliff/coroutine/blob/1.4.2/modules/windows/net.cpp">Implementation Code</a></li>
 </ul>
 <h2 id="winsock-overlapped-io">Winsock Overlapped I/O</h2>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/modules/windows/net.cpp">modules/windows/net.cpp</a></li>
+</ul>
 <h3 id="remarks">Remarks</h3>
 <p>The library <strong>never</strong> invoke <code>WSAStartup</code> and <code>WSACleanup</code>. User must do it.</p>
 <h4 id="socket">Socket</h4>
@@ -1180,7 +1194,7 @@
 <div class="codehilite"><pre><span></span><span class="k">struct</span> <span class="nl">io_work_t</span> <span class="p">:</span> <span class="k">public</span> <span class="n">OVERLAPPED</span>
 <span class="p">{</span>
     <span class="n">coroutine_task_t</span> <span class="n">task</span><span class="p">{};</span>
-    <span class="n">buffer_view_t</span> <span class="n">buffer</span><span class="p">{};</span>
+    <span class="n">io_buffer_t</span> <span class="n">buffer</span><span class="p">{};</span>
     <span class="k">union</span> <span class="p">{</span>
         <span class="n">sockaddr</span><span class="o">*</span> <span class="n">addr</span><span class="p">{};</span>
         <span class="n">sockaddr_in6</span><span class="o">*</span> <span class="n">from6</span><span class="p">;</span>
@@ -1213,7 +1227,7 @@
 </ol>
 <h4 id="request">Request</h4>
 <p>The interface function converts given arguments to invoke Winsock API.</p>
-<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">send_to</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">buffer_view_t</span> <span class="n">buffer</span><span class="p">,</span>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">send_to</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buffer</span><span class="p">,</span>
              <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_send_to</span><span class="o">&amp;</span>
 <span class="p">{</span>
     <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">SOCKET</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">));</span>

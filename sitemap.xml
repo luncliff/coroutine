@@ -71,27 +71,12 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://luncliff.github.io/coroutine/Home/return-frame/</loc>
-     <lastmod>2019-07-07</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
      <loc>https://luncliff.github.io/coroutine/Home/return-no_return/</loc>
      <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://luncliff.github.io/coroutine/Home/channel-overview/</loc>
-     <lastmod>2019-07-07</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/channel-read_write/</loc>
-     <lastmod>2019-07-07</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/channel-select/</loc>
+     <loc>https://luncliff.github.io/coroutine/Home/return-frame/</loc>
      <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -107,6 +92,21 @@
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/yield-sequence/</loc>
+     <lastmod>2019-07-07</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://luncliff.github.io/coroutine/Home/channel-overview/</loc>
+     <lastmod>2019-07-07</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://luncliff.github.io/coroutine/Home/channel-read_write/</loc>
+     <lastmod>2019-07-07</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://luncliff.github.io/coroutine/Home/channel-select/</loc>
      <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -131,7 +131,12 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://luncliff.github.io/coroutine/Home/concrt-event/</loc>
+     <loc>https://luncliff.github.io/coroutine/Home/concrt-ptp_event/</loc>
+     <lastmod>2019-07-07</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://luncliff.github.io/coroutine/Home/articles/awaitable-event/</loc>
      <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>

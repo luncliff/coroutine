@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutine in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/frame-coroutine_traits/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/concrt-ptp_event/">
       
       
       
@@ -40,7 +40,7 @@
     
     
       
-        <title>coroutine_traits - luncliff/coroutine</title>
+        <title>Windows Event - luncliff/coroutine</title>
       
     
     
@@ -81,7 +81,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#coroutine-traits-standard" tabindex="1" class="md-skip">
+      <a href="#win32-event-object-coroutine" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -107,7 +107,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                coroutine_traits
+                Windows Event
               
             </span>
           
@@ -429,12 +429,10 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
     
     <label class="md-nav__link" for="nav-4-1">
       frame.h
@@ -486,52 +484,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        coroutine_traits
-      </label>
-    
-    <a href="./" title="coroutine_traits" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../frame-coroutine_traits/" title="coroutine_traits" class="md-nav__link">
       coroutine_traits
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#coroutine-traits-standard" title="Coroutine Traits (Standard)" class="md-nav__link">
-    Coroutine Traits (Standard)
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#coroutine-traits-custom" title="Coroutine Traits (Custom)" class="md-nav__link">
-    Coroutine Traits (Custom)
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -736,10 +693,12 @@
           
           
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5" checked>
     
     <label class="md-nav__link" for="nav-4-5">
       concrt.h
@@ -803,11 +762,90 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../concrt-ptp_event/" title="Windows Event" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Windows Event
+      </label>
+    
+    <a href="./" title="Windows Event" class="md-nav__link md-nav__link--active">
       Windows Event
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" title="See Also" class="md-nav__link">
+    See Also
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ptp_event" title="ptp_event" class="md-nav__link">
+    ptp_event
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition" title="Definition" class="md-nav__link">
+    Definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-operations" title="Default Operations" class="md-nav__link">
+    Default Operations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" title="Functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -919,21 +957,57 @@
 <nav class="md-nav md-nav--secondary">
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#coroutine-traits-standard" title="Coroutine Traits (Standard)" class="md-nav__link">
-    Coroutine Traits (Standard)
+  <a href="#see-also" title="See Also" class="md-nav__link">
+    See Also
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#coroutine-traits-custom" title="Coroutine Traits (Custom)" class="md-nav__link">
-    Coroutine Traits (Custom)
+  <a href="#ptp_event" title="ptp_event" class="md-nav__link">
+    ptp_event
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition" title="Definition" class="md-nav__link">
+    Definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-operations" title="Default Operations" class="md-nav__link">
+    Default Operations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" title="Functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -953,28 +1027,22 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/frame-coroutine_traits.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/concrt-ptp_event.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>coroutine_traits</h1>
-                
-                <p>This document covers <code>coroutine_traits&lt;R, P...&gt;</code>.</p>
-<h2 id="coroutine-traits-standard">Coroutine Traits (Standard)</h2>
+                <h1 id="win32-event-object-coroutine">Win32 Event Object + Coroutine</h1>
+<h3 id="see-also">See Also</h3>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows/win32/sync/using-event-objects">MSDN: Using Event Objects</a></li>
+</ul>
+<h2 id="ptp_event"><code>ptp_event</code></h2>
 <blockquote>
 <p>TBA</p>
 </blockquote>
-<h2 id="coroutine-traits-custom">Coroutine Traits (Custom)</h2>
-<p>Unlike libc++ or VC++, current version doesn't allow SFINAE.</p>
-<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span>
-<span class="p">{</span>
-    <span class="c1">// traits to enforce member `promise_type`</span>
-    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">ReturnType</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
-    <span class="k">struct</span> <span class="n">coroutine_traits</span>
-    <span class="p">{</span>
-        <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">ReturnType</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
-    <span class="p">};</span>
-<span class="p">}</span>
-</pre></div>
+<h3 id="example">Example</h3>
+<h3 id="definition">Definition</h3>
+<h3 id="default-operations">Default Operations</h3>
+<h3 id="functions">Functions</h3>
                 
                   
                 
@@ -995,7 +1063,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../frame-coroutine_handle/" title="coroutine_handle" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../concrt-ptp_work/" title="Windows Thread Pool" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1004,19 +1072,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                coroutine_handle
+                Windows Thread Pool
               </span>
             </div>
           </a>
         
         
-          <a href="../frame-suspend_types/" title="Suspend Types" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../articles/awaitable-event/" title="POSIX event" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Suspend Types
+                POSIX event
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

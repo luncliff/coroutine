@@ -546,8 +546,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../return-frame/" title="frame" class="md-nav__link">
-      frame
+    <a href="../return-no_return/" title="no_return" class="md-nav__link">
+      no_return
     </a>
   </li>
 
@@ -558,8 +558,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../return-no_return/" title="no_return" class="md-nav__link">
-      no_return
+    <a href="../return-frame/" title="frame" class="md-nav__link">
+      frame
     </a>
   </li>
 
@@ -579,70 +579,10 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
     
     <label class="md-nav__link" for="nav-4-3">
-      channel.hpp
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-3">
-        channel.hpp
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-overview/" title="Overview" class="md-nav__link">
-      Overview
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-read_write/" title="Read/Write" class="md-nav__link">
-      Read/Write
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-select/" title="Select on multiple channel" class="md-nav__link">
-      Select on multiple channel
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
-    
-    <label class="md-nav__link" for="nav-4-4">
       yield.hpp
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-4">
+      <label class="md-nav__title" for="nav-4-3">
         yield.hpp
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -680,6 +620,66 @@
   <li class="md-nav__item">
     <a href="../yield-sequence/" title="Async Generator" class="md-nav__link">
       Async Generator
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      channel.hpp
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        channel.hpp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-read_write/" title="Read/Write" class="md-nav__link">
+      Read/Write
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-select/" title="Select on multiple channel" class="md-nav__link">
+      Select on multiple channel
     </a>
   </li>
 
@@ -761,6 +761,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#shared" title="Shared" class="md-nav__link">
+    Shared
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#windows" title="Windows" class="md-nav__link">
     Windows
   </a>
@@ -820,8 +827,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../concrt-ptp_work/" title="ptp_work" class="md-nav__link">
-      ptp_work
+    <a href="../concrt-ptp_work/" title="Windows Thread Pool" class="md-nav__link">
+      Windows Thread Pool
     </a>
   </li>
 
@@ -832,8 +839,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../concrt-event/" title="event" class="md-nav__link">
-      event
+    <a href="../concrt-ptp_event/" title="Windows Event" class="md-nav__link">
+      Windows Event
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../articles/awaitable-event/" title="POSIX event" class="md-nav__link">
+      POSIX event
     </a>
   </li>
 
@@ -961,6 +980,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#shared" title="Shared" class="md-nav__link">
+    Shared
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#windows" title="Windows" class="md-nav__link">
     Windows
   </a>
@@ -1006,26 +1032,45 @@
 
 
 <h2 id="references">References</h2>
+<ul>
+<li><a href="https://en.cppreference.com/w/cpp/experimental/concurrency">C++ Reference: Extensions for concurrency</a></li>
+</ul>
 <h2 id="background">Background</h2>
+<p>When I requested for the explanation about the coroutine concept, 
+I mostly start with notifing that <a href="https://onedrive.live.com/view.aspx?resid=94CF05740BEDC7FC!139364&amp;ithint=file%2cpptx&amp;authkey=!AJ3XJWccgpIPZWY">the coroutine is <strong>irrelevent</strong> with the thread (see page 6)</a>.</p>
+<p>What I explain is, in short:</p>
+<ul>
+<li>The coroutine is about <strong>the routine's design</strong></li>
+<li>The thread is about <strong>the processor abstraction</strong>(CPU in general)</li>
+</ul>
+<p>Therefore, all program with the coroutine <strong>must</strong> be able to run on (only) 1 thread.
+Just notice that using a thread is an issue of the implementation, and using a C++ 20 coroutine is an issue of the design. </p>
+<p>Indeed you can use both together and they can work in harmony.
+What I want you to know here is that they have a different domain.</p>
 <h2 id="contents">Contents</h2>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/concrt.h&gt;</span><span class="cp"></span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">concrt</span><span class="p">;</span>
 </pre></div>
 
 
+<p>There are 2 family. For Windows and for non-Windows.</p>
+<h3 id="shared">Shared</h3>
+<ul>
+<li><a href="../concrt-section/"><code>section</code></a></li>
+<li><a href="../concrt-latch/"><code>latch</code></a></li>
+</ul>
 <h3 id="windows">Windows</h3>
 <ul>
-<li><a href="../concrt-latch/"><code>latch</code></a></li>
-<li><a href="../concrt-section/"><code>section</code></a></li>
 <li><a href="../concrt-ptp_work/"><code>ptp_work</code></a></li>
-<li><a href="../concrt-event/"><code>ptp_event</code></a></li>
+<li><a href="../concrt-ptp_event/"><code>ptp_event</code></a></li>
 </ul>
 <h3 id="linux-darwin-posix-system-api">Linux + Darwin (POSIX + System API)</h3>
 <ul>
-<li><a href="../concrt-section/"><code>section</code></a></li>
-<li><a href="../concrt-event/">Event</a></li>
-<li>pthread</li>
+<li><a href="../articles/awaitable-event/"><code>event</code> and <code>signaled_event_tasks</code></a></li>
 </ul>
+<blockquote>
+<p>TBA: implementation note for the Darwin</p>
+</blockquote>
                 
                   
                 
@@ -1046,7 +1091,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../yield-sequence/" title="Async Generator" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../channel-select/" title="Select on multiple channel" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1055,7 +1100,7 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Async Generator
+                Select on multiple channel
               </span>
             </div>
           </a>

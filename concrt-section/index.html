@@ -546,8 +546,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../return-frame/" title="frame" class="md-nav__link">
-      frame
+    <a href="../return-no_return/" title="no_return" class="md-nav__link">
+      no_return
     </a>
   </li>
 
@@ -558,8 +558,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../return-no_return/" title="no_return" class="md-nav__link">
-      no_return
+    <a href="../return-frame/" title="frame" class="md-nav__link">
+      frame
     </a>
   </li>
 
@@ -579,70 +579,10 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
     
     <label class="md-nav__link" for="nav-4-3">
-      channel.hpp
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-3">
-        channel.hpp
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-overview/" title="Overview" class="md-nav__link">
-      Overview
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-read_write/" title="Read/Write" class="md-nav__link">
-      Read/Write
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-select/" title="Select on multiple channel" class="md-nav__link">
-      Select on multiple channel
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
-    
-    <label class="md-nav__link" for="nav-4-4">
       yield.hpp
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-4">
+      <label class="md-nav__title" for="nav-4-3">
         yield.hpp
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -680,6 +620,66 @@
   <li class="md-nav__item">
     <a href="../yield-sequence/" title="Async Generator" class="md-nav__link">
       Async Generator
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      channel.hpp
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        channel.hpp
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-read_write/" title="Read/Write" class="md-nav__link">
+      Read/Write
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-select/" title="Select on multiple channel" class="md-nav__link">
+      Select on multiple channel
     </a>
   </li>
 
@@ -758,16 +758,30 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#critical-section" title="Critical Section" class="md-nav__link">
-    Critical Section
+  <a href="#section-critical-section" title="section: Critical Section" class="md-nav__link">
+    section: Critical Section
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#definition" title="Definition" class="md-nav__link">
-    Definition
+  <a href="#definition-windows" title="Definition (Windows)" class="md-nav__link">
+    Definition (Windows)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-posix" title="Definition (POSIX)" class="md-nav__link">
+    Definition (POSIX)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
   </a>
   
 </li>
@@ -806,8 +820,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../concrt-ptp_work/" title="ptp_work" class="md-nav__link">
-      ptp_work
+    <a href="../concrt-ptp_work/" title="Windows Thread Pool" class="md-nav__link">
+      Windows Thread Pool
     </a>
   </li>
 
@@ -818,8 +832,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../concrt-event/" title="event" class="md-nav__link">
-      event
+    <a href="../concrt-ptp_event/" title="Windows Event" class="md-nav__link">
+      Windows Event
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../articles/awaitable-event/" title="POSIX event" class="md-nav__link">
+      POSIX event
     </a>
   </li>
 
@@ -932,16 +958,30 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#critical-section" title="Critical Section" class="md-nav__link">
-    Critical Section
+  <a href="#section-critical-section" title="section: Critical Section" class="md-nav__link">
+    section: Critical Section
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#definition" title="Definition" class="md-nav__link">
-    Definition
+  <a href="#definition-windows" title="Definition (Windows)" class="md-nav__link">
+    Definition (Windows)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-posix" title="Definition (POSIX)" class="md-nav__link">
+    Definition (POSIX)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
   </a>
   
 </li>
@@ -972,21 +1012,17 @@
                 
                   <h1>section</h1>
                 
-                <blockquote>
-<p>This document is under progress...</p>
-</blockquote>
-<p>A basic lockable type with System API</p>
-<h3 id="see-also">See Also</h3>
+                <h3 id="see-also">See Also</h3>
 <ul>
-<li>https://en.cppreference.com/w/cpp/named_req/BasicLockable</li>
+<li><a href="https://en.cppreference.com/w/cpp/named_req/BasicLockable">Concept: <code>BasicLockable</code></a></li>
 </ul>
-<h2 id="critical-section">Critical Section</h2>
-<h3 id="definition">Definition</h3>
-<p>With Win32 API. It uses <code>CRITICAL_SECTION</code> instead of <code>SRWLock</code>.</p>
+<h2 id="section-critical-section"><code>section</code>: Critical Section</h2>
+<p>A basic lockable type with System API. The type is not copyable and movable.<br />
+The purpose of this type is to provide a thin wrapper <strong>to use a lockable type in this library's test codes</strong>.</p>
 <div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">concrt</span>
 <span class="p">{</span>
-<span class="c1">//  Standard lockable with win32 criticial section</span>
-<span class="k">class</span> <span class="nc">section</span> <span class="k">final</span> <span class="o">:</span> <span class="n">CRITICAL_SECTION</span><span class="p">,</span> <span class="n">no_copy_move</span> <span class="p">{</span>
+<span class="k">class</span> <span class="nc">section</span> <span class="k">final</span> <span class="o">:</span> <span class="n">no_copy_move</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="n">_INTERFACE_</span> <span class="n">section</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
     <span class="n">_INTERFACE_</span> <span class="o">~</span><span class="n">section</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
@@ -999,23 +1035,50 @@
 </pre></div>
 
 
-<p>With POSIX API, it uses <code>pthread_rwlock_t</code>.</p>
+<h3 id="definition-windows">Definition (Windows)</h3>
+<p>With Win32 API, It uses <code>CRITICAL_SECTION</code> instead of <code>SRWLock</code>.
+Even though <code>SRWLock</code> doesn't require deallocation and possibly good for performance reason, 
+<code>CRITICAL_SECTION</code> is used since the type is for test code.</p>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">concrt</span>
+<span class="p">{</span>
+<span class="c1">//  Standard lockable with win32 criticial section</span>
+<span class="k">class</span> <span class="nc">section</span> <span class="k">final</span> <span class="o">:</span> <span class="n">CRITICAL_SECTION</span><span class="p">,</span> <span class="n">no_copy_move</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">};</span>
+<span class="p">}</span> <span class="c1">// namepace concrt</span>
+</pre></div>
+
+
+<h3 id="definition-posix">Definition (POSIX)</h3>
+<p>With POSIX API, it uses <code>pthread_rwlock_t</code>. The type's existance is only for platform compatibility of test codes.</p>
+<p>The type was written with <code>pthread_mutex_t</code> to replace <code>std::mutex</code> in test code.
+The reason was that some test codes required different setting like <code>PTHREAD_PRIO_NONE</code>.</p>
 <div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">concrt</span>
 <span class="p">{</span>
 <span class="c1">//  Standard lockable with pthread reader writer lock</span>
 <span class="k">class</span> <span class="nc">section</span> <span class="k">final</span> <span class="o">:</span> <span class="n">no_copy_move</span> <span class="p">{</span>
     <span class="n">pthread_rwlock_t</span> <span class="n">rwlock</span><span class="p">;</span>
-
-  <span class="k">public</span><span class="o">:</span>
-    <span class="n">_INTERFACE_</span> <span class="n">section</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-    <span class="n">_INTERFACE_</span> <span class="o">~</span><span class="n">section</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
-
-    <span class="n">_INTERFACE_</span> <span class="kt">bool</span> <span class="nf">try_lock</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="nf">lock</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="nf">unlock</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="c1">// ...</span>
 <span class="p">};</span>
 <span class="p">}</span> <span class="c1">// namepace concrt</span>
 </pre></div>
+
+
+<h3 id="example">Example</h3>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/concrt.h&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">concrt</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">perform_with_lock</span><span class="p">(</span><span class="n">section</span><span class="o">&amp;</span> <span class="n">m</span><span class="p">){</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span> <span class="n">lck</span><span class="p">{</span><span class="n">m</span><span class="p">};</span>
+    <span class="c1">// do some work...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>In this library:</p>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/channel_race_no_leak.cpp#L10">test/channel_race_no_leak.cpp</a></li>
+</ul>
                 
                   
                 
