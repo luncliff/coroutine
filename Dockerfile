@@ -21,12 +21,15 @@ RUN svn checkout --quiet svn://gcc.gnu.org/svn/gcc/branches/c++-coroutines /gcc
 WORKDIR /gcc
 RUN ./contrib/download_prerequisites
 
-# move to build directory
+# move to build directory + configure
+# see also
+#   - https://github.com/namhyung/uftrace/wiki/uftrace-for-gcc-compiler?fbclid=IwAR1J0mcTRkRbAhg9LC9xUAH1_cE7dLSSGDEXlDeuMVVBtBJsTaPtokHi29k
 WORKDIR /gcc-build
 RUN /gcc/configure --enable-languages=c,c++ \
     --prefix=/usr/local \
     --program-suffix=-10 \
     --disable-multilib  \
+    --disable-bootstrap \
     --with-newlib
 RUN make --quiet -j4 > build.log && make install
 
