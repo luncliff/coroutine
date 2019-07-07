@@ -590,15 +590,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" title="Example" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#no-return" title="No Return" class="md-nav__link">
-    No Return
+  <a href="#no_return" title="no_return" class="md-nav__link">
+    no_return
   </a>
   
     <nav class="md-nav">
@@ -607,6 +600,20 @@
           <li class="md-nav__item">
   <a href="#remarks" title="Remarks" class="md-nav__link">
     Remarks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition" title="Definition" class="md-nav__link">
+    Definition
   </a>
   
 </li>
@@ -939,15 +946,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" title="Example" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#no-return" title="No Return" class="md-nav__link">
-    No Return
+  <a href="#no_return" title="no_return" class="md-nav__link">
+    no_return
   </a>
   
     <nav class="md-nav">
@@ -956,6 +956,20 @@
           <li class="md-nav__item">
   <a href="#remarks" title="Remarks" class="md-nav__link">
     Remarks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition" title="Definition" class="md-nav__link">
+    Definition
   </a>
   
 </li>
@@ -986,41 +1000,44 @@
                 
                   <h1>no_return</h1>
                 
-                <p><code>void</code> return type for the coroutine function</p>
-<h3 id="see-also">See Also</h3>
+                <h3 id="see-also">See Also</h3>
 <ul>
-<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4736.pdf">Coroutine Promise Requirements</a></li>
+<li><a href="https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type">C++ Coroutines: Understanding the promise type</a></li>
+<li><a href="https://onedrive.live.com/view.aspx?resid=94CF05740BEDC7FC!139364&amp;ithint=file%2cpptx&amp;authkey=!AJ3XJWccgpIPZWY">Exploring The C++ Coroutine</a></li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4736.pdf">Coroutine Promise Requirements (N4736)</a></li>
 </ul>
+<h2 id="no_return"><code>no_return</code></h2>
+<p>This is a <code>void</code> return type for the general coroutine functions.
+Since a coroutine might suspend without return, it is not recommended to rely heavily on <code>co_return</code> from its caller/resumer.
+If the return can be ignored, class <code>no_return</code> can do the work.</p>
+<h3 id="remarks">Remarks</h3>
+<p>Since the <code>promise_type</code> does not final suspend, a frame of the coroutine that return <code>no_return</code> type <strong>will be destroyed immediately</strong>.</p>
 <h3 id="example">Example</h3>
-<ul>
-<li><a href="/luncliff/coroutine/blob/1.4.2/test/c2_return.cpp">test/c2_return.cpp</a></li>
-</ul>
-<h2 id="no-return">No Return</h2>
-<p>Since coroutine can suspend, it is not recommended that to <code>return</code> value from coroutine to its caller/resumer.
-If the return can be ignored, just like <code>void</code> return, <code>no_return</code> can do the work.</p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
-<span class="c1">// if user doesn&#39;t care about coroutine&#39;s life cycle,</span>
-<span class="c1">//  use `no_return`.</span>
-<span class="c1">// at least the routine will be resumed(continued) properly,</span>
-<span class="c1">//   `co_return` will destroy the frame</span>
-<span class="k">auto</span> <span class="nf">invoke_and_forget_frame</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+<p>If you doesn't care about coroutine's life cycle, use <code>no_return</code>.
+At least the routine will be resumed(continued) properly, <code>co_return</code> will destroy the frame</p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="nf">fire_and_forget</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
     <span class="n">co_await</span> <span class="n">suspend_never</span><span class="p">{};</span>
     <span class="n">co_return</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="n">TEST_CASE</span><span class="p">(</span><span class="s">&quot;no_return&quot;</span><span class="p">,</span> <span class="s">&quot;[return]&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">REQUIRE_NOTHROW</span><span class="p">(</span><span class="n">invoke_and_forget_frame</span><span class="p">());</span>
+<span class="k">auto</span> <span class="nf">example_caller</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">void</span> <span class="p">{</span> 
+    <span class="n">fire_and_forget</span><span class="p">();</span>  <span class="c1">// spawn a new coroutine frame.</span>
+                        <span class="c1">// the routine will be finished somehow </span>
+                        <span class="c1">//  and destroy the frame.</span>
+
+    <span class="c1">// do some other works ...</span>
 <span class="p">}</span>
 </pre></div>
 
 
-<h3 id="remarks">Remarks</h3>
-<p>Since <code>promise_type</code> does not final suspend, a frame of the coroutine that return <code>no_return</code> type will destroyed immediately.</p>
+<h3 id="definition">Definition</h3>
+<p>It's definition is in the <a href="https://github.com/luncliff/coroutine/blob/master/interface/coroutine/return.h#L23"><code>&lt;coroutine/return.h&gt;</code></a></p>
 <div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">coro</span>
 <span class="p">{</span>
-<span class="c1">// General `void` return for coroutine.</span>
-<span class="c1">// It doesn&#39;t provide any method to get control or value from the resumable</span>
-<span class="c1">// function</span>
+<span class="c1">// General `void` return for the coroutine functions</span>
 <span class="k">class</span> <span class="nc">no_return</span> <span class="k">final</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="k">class</span> <span class="nc">promise_type</span> <span class="k">final</span> <span class="p">{</span>
@@ -1037,11 +1054,33 @@ If the return can be ignored, just like <code>void</code> return, <code>no_retur
         <span class="p">}</span>
         <span class="kt">void</span> <span class="n">unhandled_exception</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
             <span class="c1">// customize this part</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">terminate</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">auto</span> <span class="n">get_return_object</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">-&gt;</span> <span class="n">promise_type</span><span class="o">*</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">static</span> <span class="k">auto</span> <span class="n">get_return_object_on_allocation_failure</span><span class="p">()</span> <span class="k">noexcept</span>
+            <span class="o">-&gt;</span> <span class="n">promise_type</span><span class="o">*</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
         <span class="p">}</span>
     <span class="p">};</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">no_return</span><span class="p">(</span><span class="k">const</span> <span class="n">promise_type</span><span class="o">*</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="c1">// the type truncates all given info about its frame</span>
+    <span class="p">}</span>
 <span class="p">};</span>
 <span class="p">}</span> <span class="c1">// namespace coro</span>
 </pre></div>
+
+
+<p>Possible customization points are ...</p>
+<ul>
+<li><code>unhandled_exception</code>:<br />
+<a href="https://www.youtube.com/watch?v=MiKxfdkMJW8">We can throw the exception again and handle it</a>, but mostly it depends on the scenario. This version assumes it's a somthing irrecoverable.</li>
+<li><code>get_return_object_on_allocation_failure</code>:<br />
+  with <code>operator new</code> and <code>operator delete</code>, you can customise memory management for the coroutine frames.</li>
+</ul>
                 
                   
                 

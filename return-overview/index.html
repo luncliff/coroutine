@@ -966,14 +966,16 @@
 
 
 <h2 id="references">References</h2>
-<blockquote>
-<p>TBA</p>
-</blockquote>
+<ul>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/n4820.pdf">N4820</a> Working Draft</li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4736.pdf">N4736</a> Working Draft</li>
+</ul>
 <h2 id="background">Background</h2>
-<blockquote>
-<p>TBA</p>
-</blockquote>
+<p>One of the entry barriers for the coroutine function is to write a return type.
+The return type's <code>promise_type</code> must fulfills the <strong>Coroutine Promise Requirement</strong> (Actually it's  <code>coroutine_traits&lt;R&gt;::promise_type</code>, but just let me skip the detail for now). To save your time, start with <a href="https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type">the article of Lewiss Baker</a>.
+I also wrote about it <a href="https://luncliff.github.io/posts/Exploring-MSVC-Coroutine.html#promise--compilers-requirement">with N4402</a>, and <a href="https://onedrive.live.com/view.aspx?resid=94CF05740BEDC7FC!139364&amp;ithint=file%2cpptx&amp;authkey=!AJ3XJWccgpIPZWY">with my talk in C++ Korea (see the page 60)</a>. In my opinion, N4402 was short enough and explains well about the role of those requirements.</p>
 <h2 id="contents">Contents</h2>
+<p>Currently, this library provides 2 types.</p>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
 </pre></div>
@@ -983,6 +985,13 @@
 <li><a href="../return-no_return/"><code>no_return</code></a></li>
 <li><a href="../return-frame/"><code>frame</code></a></li>
 </ul>
+<p>You may noticed that there is no <code>task&lt;T&gt;</code>. I don't have a plan to support the type for 2 reasons.</p>
+<ul>
+<li>To encourage use of <a href="https://github.com/lewissbaker/cppcoro">https://github.com/lewissbaker/cppcoro</a> which already implemented it</li>
+<li>To encourage use of the suspension(<code>co_await</code> and <code>co_yield</code>) insead of the return(<code>co_return</code>)</li>
+</ul>
+<p>In my perspective, the coroutine is a routine with multiple entry points and multiple suspend points.
+Therefore we should be familiar with the suspension and have concern about its usage rather than just using return(the last suspension).</p>
                 
                   
                 

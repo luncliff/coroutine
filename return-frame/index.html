@@ -578,23 +578,30 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" title="Example" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#frame-return" title="Frame Return" class="md-nav__link">
-    Frame Return
+  <a href="#frame-as-a-returntype" title="frame as a ReturnType" class="md-nav__link">
+    frame as a ReturnType
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#remarks" title="Remarks" class="md-nav__link">
     Remarks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-promise" title="Definition (Promise)" class="md-nav__link">
+    Definition (Promise)
   </a>
   
 </li>
@@ -605,9 +612,36 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#frame-awaitable" title="Frame Awaitable" class="md-nav__link">
-    Frame Awaitable
+  <a href="#frame-as-an-awaitable" title="frame as an Awaitable" class="md-nav__link">
+    frame as an Awaitable
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remark" title="Remark" class="md-nav__link">
+    Remark
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_1" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-awaitable" title="Definition (Awaitable)" class="md-nav__link">
+    Definition (Awaitable)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -946,23 +980,30 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" title="Example" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#frame-return" title="Frame Return" class="md-nav__link">
-    Frame Return
+  <a href="#frame-as-a-returntype" title="frame as a ReturnType" class="md-nav__link">
+    frame as a ReturnType
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#remarks" title="Remarks" class="md-nav__link">
     Remarks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-promise" title="Definition (Promise)" class="md-nav__link">
+    Definition (Promise)
   </a>
   
 </li>
@@ -973,9 +1014,36 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#frame-awaitable" title="Frame Awaitable" class="md-nav__link">
-    Frame Awaitable
+  <a href="#frame-as-an-awaitable" title="frame as an Awaitable" class="md-nav__link">
+    frame as an Awaitable
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remark" title="Remark" class="md-nav__link">
+    Remark
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_1" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-awaitable" title="Definition (Awaitable)" class="md-nav__link">
+    Definition (Awaitable)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1000,76 +1068,83 @@
                 
                   <h1>frame</h1>
                 
-                <p>Coroutine function returns its frame for <strong>first suspend</strong> or <strong>first return</strong>.</p>
-<h3 id="see-also">See Also</h3>
+                <h3 id="see-also">See Also</h3>
 <ul>
-<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4736.pdf">Coroutine Promise Requirements</a></li>
+<li><a href="https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type">C++ Coroutines: Understanding the promise type</a></li>
+<li><a href="https://onedrive.live.com/view.aspx?resid=94CF05740BEDC7FC!139364&amp;ithint=file%2cpptx&amp;authkey=!AJ3XJWccgpIPZWY">Exploring The C++ Coroutine</a></li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4736.pdf">Coroutine Promise Requirements (N4736)</a></li>
 </ul>
+<h2 id="frame-as-a-returntype"><code>frame</code> as a <code>ReturnType</code></h2>
+<p>When user wants to (or have to) manage the destruction of coroutine frame, <code>frame</code> opens a way to acquire the <code>coroutine_handle&lt;void&gt;</code>.</p>
+<p>Basically, this type is a shallow extension of <code>coroutine_handle&lt;void&gt;</code>.</p>
 <h3 id="example">Example</h3>
-<ul>
-<li><a href="/luncliff/coroutine/blob/1.4.2/test/c2_return.cpp">test/c2_return.cpp</a></li>
-</ul>
-<h2 id="frame-return">Frame Return</h2>
-<p>When user can (and have to) manage the destruction of coroutine frame, <code>frame</code> allows to acquire the <code>coroutine_handle&lt;void&gt;</code>.</p>
-<div class="codehilite"><pre><span></span><span class="c1">// when the coroutine frame destuction need to be controlled manually,</span>
-<span class="c1">//  just return `coroutine_handle&lt;void&gt;`.</span>
-<span class="c1">// `&lt;coroutine/return.h&gt;` supports template specialization of</span>
-<span class="c1">// `coroutine_traits` for the case. The type implements...</span>
-<span class="c1">//      return_void</span>
-<span class="c1">//      initial_suspend  -&gt; suspend_never</span>
-<span class="c1">//      final_suspend    -&gt; suspend_always</span>
-<span class="k">auto</span> <span class="nf">invoke_and_get_frame_after_first_suspend</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">frame</span> <span class="p">{</span>
-    <span class="n">co_await</span> <span class="n">suspend_never</span><span class="p">{};</span>
-    <span class="n">co_return</span><span class="p">;</span> <span class="c1">// only void return</span>
-<span class="p">};</span>
+<p>The type can be empty.
+In the case, using <code>done()</code> member function will access to <code>nullptr</code>.</p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
 
-<span class="n">TEST_CASE</span><span class="p">(</span><span class="s">&quot;get coroutine_handle after first suspend &quot;</span><span class="p">,</span> <span class="s">&quot;[return]&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">auto</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">invoke_and_get_frame_after_first_suspend</span><span class="p">();</span>
+<span class="k">auto</span> <span class="nf">coro_frame_empty_test</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="n">frame</span> <span class="n">fh</span><span class="p">{};</span>
+
+    <span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">fh</span><span class="p">);</span>
+    <span class="n">REQUIRE</span><span class="p">(</span><span class="n">coro</span><span class="p">.</span><span class="n">address</span><span class="p">()</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>When the coroutine frame's destuction need to be controlled manually, just suspend(<code>co_await</code>) or return(<code>co_return</code>, the final suspend) in the function.</p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="nf">invoke_and_suspend</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">frame</span> <span class="p">{</span>
+    <span class="n">co_await</span> <span class="n">suspend_always</span><span class="p">{};</span>
+    <span class="n">co_return</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">auto</span> <span class="nf">coro_frame_first_suspend_test</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">invoke_and_suspend</span><span class="p">();</span>
 
     <span class="c1">// allow access to `coroutine_handle&lt;void&gt;`</span>
     <span class="c1">//  after first suspend(which can be `co_return`)</span>
     <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;&amp;</span> <span class="n">coro</span> <span class="o">=</span> <span class="n">frame</span><span class="p">;</span>
     <span class="n">REQUIRE</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="n">coro</span><span class="p">));</span> <span class="c1">// not null</span>
-    <span class="n">REQUIRE</span><span class="p">(</span><span class="n">coro</span><span class="p">.</span><span class="n">done</span><span class="p">());</span>             <span class="c1">// expect final suspended</span>
-    <span class="n">REQUIRE_NOTHROW</span><span class="p">(</span><span class="n">coro</span><span class="p">.</span><span class="n">destroy</span><span class="p">());</span>  <span class="c1">// destroy it</span>
+    <span class="n">REQUIRE</span><span class="p">(</span><span class="n">coro</span><span class="p">.</span><span class="n">done</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>    <span class="c1">// it is susepended, but not return.</span>
+
+    <span class="n">frame</span><span class="p">.</span><span class="n">destroy</span><span class="p">();</span>
 <span class="p">}</span>
 </pre></div>
 
 
 <h3 id="remarks">Remarks</h3>
-<p>The frame will remain final suspended after <code>co_return</code>.</p>
-<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">frame</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">,</span> <span class="k">public</span> <span class="n">suspend_always</span> <span class="p">{</span>
+<p>The coroutine's frame will remain 'final suspended' after <code>co_return</code>.
+See the <code>final_suspend</code> in the definiton below.</p>
+<p>Like <a href="../return-no_return/"><code>no_return</code></a>, the type doesn't allows <code>co_return;</code>.</p>
+<h3 id="definition-promise">Definition (Promise)</h3>
+<p>The type's size is equal to that of <code>coroutine_handle&lt;void&gt;</code>.</p>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">coro</span>
+<span class="p">{</span>
+<span class="c1">// provide interface to receive handle</span>
+<span class="k">class</span> <span class="nc">frame</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">,</span> 
+                    <span class="k">public</span> <span class="n">suspend_always</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="k">struct</span> <span class="n">promise_type</span> <span class="k">final</span> <span class="p">{</span>
         <span class="k">auto</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
             <span class="k">return</span> <span class="n">suspend_never</span><span class="p">{};</span>
         <span class="p">}</span>
         <span class="k">auto</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="n">suspend_always</span><span class="p">{};</span>
+            <span class="k">return</span> <span class="n">suspend_always</span><span class="p">{};</span> <span class="c1">// !!!!!</span>
         <span class="p">}</span>
-        <span class="kt">void</span> <span class="n">return_void</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-            <span class="c1">// nothing to do because this is `void` return</span>
-        <span class="p">}</span>
-        <span class="kt">void</span> <span class="n">unhandled_exception</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">void</span> <span class="n">return_void</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+        <span class="kt">void</span> <span class="nf">unhandled_exception</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
             <span class="c1">// customize this part</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">terminate</span><span class="p">();</span>
         <span class="p">}</span>
-        <span class="k">auto</span> <span class="n">get_return_object</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">-&gt;</span> <span class="n">promise_type</span><span class="o">*</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="k">static</span> <span class="k">auto</span> <span class="n">get_return_object_on_allocation_failure</span><span class="p">()</span> <span class="k">noexcept</span>
-            <span class="o">-&gt;</span> <span class="n">promise_type</span><span class="o">*</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
-        <span class="p">}</span>
+        <span class="k">auto</span> <span class="nf">get_return_object</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">-&gt;</span> <span class="n">promise_type</span><span class="o">*</span><span class="p">;</span>
+        <span class="k">static</span> <span class="k">auto</span> <span class="nf">get_return_object_on_allocation_failure</span><span class="p">()</span> <span class="k">noexcept</span>
+            <span class="o">-&gt;</span> <span class="n">promise_type</span><span class="o">*</span><span class="p">;</span>
     <span class="p">};</span>
 
   <span class="k">public</span><span class="o">:</span>
-    <span class="c1">// override `suspend_always::await_suspend`</span>
-    <span class="c1">// provide interface to receive handle after being used as an argument of</span>
-    <span class="c1">// `co_await` by reference</span>
-    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;&amp;</span> <span class="n">self</span> <span class="o">=</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
-        <span class="n">self</span> <span class="o">=</span> <span class="n">coro</span><span class="p">;</span>
-    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 
     <span class="n">frame</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
     <span class="n">frame</span><span class="p">(</span><span class="n">promise_type</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
@@ -1077,41 +1152,80 @@
     <span class="p">}</span>
 <span class="p">};</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">));</span>
-
 <span class="p">}</span> <span class="c1">// namespace coro</span>
 </pre></div>
 
 
-<h2 id="frame-awaitable">Frame Awaitable</h2>
-<p>The type can be also used as an awaitable to receive <code>coroutine_handle&lt;void&gt;</code>. You may think this support harms the Single Responsibility Principle, writing another type for this will make the code tedious.</p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
+<h2 id="frame-as-an-awaitable"><code>frame</code> as an <code>Awaitable</code></h2>
+<p>The type can be also used as an awaitable to receive <code>coroutine_handle&lt;void&gt;</code>. 
+You may think this harms the SRP(Single Responsibility Principle), 
+but writing another type for the purpose will make the code tedious.</p>
+<h3 id="remark">Remark</h3>
+<p>The following example shows <code>frame</code> <strong>doesn't guarantee</strong> it's target(coroutine's frame) is alive.
+See the following example.</p>
+<p>In the <code>co_await</code> expression, it must be used <strong>by reference</strong>.</p>
+<h3 id="example_1">Example</h3>
+<p>Please, be cautious.</p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;gsl/gsl&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
 
 <span class="k">auto</span> <span class="nf">save_current_handle_to_frame</span><span class="p">(</span><span class="n">frame</span><span class="o">&amp;</span> <span class="n">fh</span><span class="p">,</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">status</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
     <span class="k">auto</span> <span class="n">defer</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">finally</span><span class="p">([</span><span class="o">&amp;</span><span class="p">]()</span> <span class="p">{</span>
         <span class="n">status</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">// change state on destruction phase</span>
     <span class="p">});</span>
     <span class="n">status</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-
-    <span class="n">co_await</span> <span class="n">fh</span><span class="p">;</span> <span class="c1">// frame holder is also an awaitable.</span>
+    <span class="n">co_await</span> <span class="n">fh</span><span class="p">;</span> <span class="c1">// frame type as an awaitable.</span>
     <span class="n">status</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-
     <span class="n">co_await</span> <span class="n">fh</span><span class="p">;</span>
     <span class="n">co_return</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="n">TEST_CASE</span><span class="p">(</span><span class="s">&quot;save coroutine_handle to frame object&quot;</span><span class="p">,</span> <span class="s">&quot;[return]&quot;</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">auto</span> <span class="nf">coro_frame_awaitable_test</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">void</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">status</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="n">frame</span> <span class="n">coro</span><span class="p">{};</span>
 
     <span class="n">save_current_handle_to_frame</span><span class="p">(</span><span class="n">coro</span><span class="p">,</span> <span class="n">status</span><span class="p">);</span>
     <span class="n">REQUIRE</span><span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
 
-    <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span> <span class="c1">// `frame` inherits `coroutine_handle&lt;void&gt;`</span>
+    <span class="c1">// `frame` inherits `coroutine_handle&lt;void&gt;`</span>
+    <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
     <span class="n">REQUIRE</span><span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
 
-    <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>        <span class="c1">// coroutine reached end.</span>
-    <span class="n">REQUIRE</span><span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// so `defer` in the routine will change status</span>
+    <span class="c1">// coroutine reached end.</span>
+    <span class="c1">// so `defer` in the routine will change status</span>
+    <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+    <span class="n">REQUIRE</span><span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="mi">3</span><span class="p">);</span>
+
+    <span class="c1">// however, `no_return` destroyed the coroutine&#39;s frame.</span>
+    <span class="c1">// so `destroy` through `coro` will be undefined behavior...</span>
 <span class="p">}</span>
+</pre></div>
+
+
+<h3 id="definition-awaitable">Definition (Awaitable)</h3>
+<p>It inherits <code>await_ready</code> and <code>await_resume</code> from the <code>suspend_always</code> type.
+However, it overrides <code>await_suspend</code> to save given handle.</p>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">coro</span>
+<span class="p">{</span>
+<span class="c1">// provide interface to receive handle</span>
+<span class="k">class</span> <span class="nc">frame</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">,</span> 
+                    <span class="k">public</span> <span class="n">suspend_always</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">struct</span> <span class="n">promise_type</span> <span class="k">final</span><span class="p">;</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="c1">// override `suspend_always::await_suspend`</span>
+    <span class="c1">// assumed to be used as an argument of `co_await` by reference</span>
+    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;&amp;</span> <span class="n">self</span> <span class="o">=</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+        <span class="n">self</span> <span class="o">=</span> <span class="n">coro</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">frame</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="n">frame</span><span class="p">(</span><span class="n">promise_type</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">));</span>
+<span class="p">}</span> <span class="c1">// namespace coro</span>
 </pre></div>
                 
                   

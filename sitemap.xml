@@ -2,157 +2,157 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/Home/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/ppt/Exploring-the-Cpp-Coroutine/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/articles/awaitable-event/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/import-using-visualstudio/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/import-using-cmake/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/build-using-visualstudio/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/build-using-cmake/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/howto-start-yours/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/frame-overview/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/frame-compiler_specific/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/frame-coroutine_handle/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/frame-coroutine_traits/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/frame-suspend_types/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/return-overview/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/return-frame/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/return-no_return/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/channel-overview/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/channel-read_write/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/channel-select/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/yield-overview/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/yield-enumerable/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/yield-sequence/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/concrt-overview/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/concrt-section/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/concrt-latch/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/concrt-ptp_work/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/concrt-event/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/net-overview/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/net-implementation-winsock2/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/net-implementation-kqueue/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://luncliff.github.io/coroutine/Home/net-implementation-epoll/</loc>
-     <lastmod>2019-07-05</lastmod>
+     <lastmod>2019-07-07</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
