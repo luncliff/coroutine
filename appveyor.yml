@@ -7,6 +7,10 @@
 #
 version: 1.4.{build}
 
+branches:
+  except:
+    - docs
+
 clone_script:  
   - ps: git clone -q --recursive --branch $env:APPVEYOR_REPO_BRANCH https://github.com/$env:APPVEYOR_REPO_NAME.git $env:APPVEYOR_BUILD_FOLDER
 
@@ -65,7 +69,8 @@ for:
           compiler: clang
     install:
       - ps: Write-Host $env:APPVEYOR_BUILD_FOLDER $env:PLATFORM $env:CONFIGURATION 
-      - ps: choco install --no-progress ninja   # Download Ninja with chocolaty package manager
+      - ps: choco install --yes --no-progress ninja   # Download Ninja with chocolaty package manager
+      - ps: choco install --force --yes --no-progress cmake
       - ps: choco info    llvm    # LLVM is already installed. So just show the version info
     before_build:
       - ps: clang-cl --version # <-- cl.exe for clang

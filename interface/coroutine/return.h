@@ -8,10 +8,19 @@
 //
 // ---------------------------------------------------------------------------
 #pragma once
-#ifndef COROUTINE_RETURN_TYPES_H
-#define COROUTINE_RETURN_TYPES_H
+#ifndef LUNCLIFF_COROUTINE_RETURN_TYPES_H
+#define LUNCLIFF_COROUTINE_RETURN_TYPES_H
 
+// Try the best if this header file is isolated
+#if __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
+#elif __has_include(<experimental/coroutine>) // C++ 20
+#include <experimental/coroutine>
+#elif __has_include(<coroutine>) // C++ 17
+#include <coroutine>
+#else // nothing we can do... :(
+#error "expect header <experimental/coroutine> or <coroutine/frame.h>"
+#endif
 #include <exception>
 
 namespace coro {
@@ -105,4 +114,4 @@ static_assert(sizeof(frame) == sizeof(coroutine_handle<void>));
 
 } // namespace coro
 
-#endif // COROUTINE_RETURN_TYPES_H
+#endif // LUNCLIFF_COROUTINE_RETURN_TYPES_H

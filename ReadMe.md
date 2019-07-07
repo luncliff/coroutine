@@ -1,6 +1,6 @@
 # coroutine
 
-C++ Coroutine in Action.
+C++ 20 Coroutine in Action.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/38aa16f6d7e046898af3835918c0cd5e)](https://app.codacy.com/app/luncliff/coroutine?utm_source=github.com&utm_medium=referral&utm_content=luncliff/coroutine&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://dev.azure.com/luncliff/personal/_apis/build/status/luncliff.coroutine?branchName=master)](https://dev.azure.com/luncliff/personal/_build/latest?definitionId=13?branchName=master)
@@ -16,17 +16,15 @@ C++ Coroutine in Action.
 
 In that perspective, the library will be maintained as small as possible. Have fun with them. **And try your own coroutines !** 
 
-### Signpost
-
-* Start with the [wiki](https://github.com/luncliff/coroutine/wiki).
-  You will visit the [test/](./test/) and [interface/](./interface/coroutine) folder while reading the docs.
-* This repository has some custom implementation for the C++ Coroutine spec in the [`<coroutine/frame.h>`](./interface/coroutine/frame.h)
-
 ## Developer Note
+
+* Start with the [GitHub Pages](https://luncliff.github.io/coroutine/Home)!
+  You will visit the [test/](./test/) and [interface/](./interface/coroutine) folder while reading the docs.
+* This repository has some custom(and partial) implementation for the C++ Coroutine spec in the [`<coroutine/frame.h>`](./interface/coroutine/frame.h)
 
 ### Architecture
 
-**This library is for x64**.
+**This library is only for x64**.
 
 ### Tool Support
 
@@ -38,7 +36,9 @@ In that perspective, the library will be maintained as small as possible. Have f
   * `clang`: Linux
   * `AppleClang`: Mac
 
-For clang users, I do recommend Clang 6.0 or later versions.
+
+For Visual Studio users, please use **15.7.3 or later** versions.  
+For clang users, I recommend **Clang 6.0** or later versions.
 
 ### [Interfaces](./interface)
 
@@ -50,7 +50,7 @@ If there is a collision(build issue), please make an issue in this repo so I can
 #include <coroutine/frame.h>
 ```
 
-Generator and async generator
+Generator and async generator. Notice that the async generator is experimental. If you are curious with the concept, reference [the kirkshoop's repo](https://github.com/kirkshoop/await).
 
 ```c++
 #include <coroutine/yield.hpp>  // enumerable<T> & sequence<T>
@@ -59,20 +59,23 @@ Generator and async generator
 Utility types are in the following headers
 
 ```c++
-#include <coroutine/return.h> // return type examples for convenience
-#include <coroutine/concrt.h> // concurrency utilities over system API
+#include <coroutine/return.h> // return type for resumable functions
+#include <coroutine/concrt.h> // concurrency utilities
 ```
 
-Go language style channel to deliver data between coroutines. Supports awaitable read/write and select operation are possible. But it is slightly differnt from that of Go language.
+Go language style channel to deliver data between coroutines. It Supports awaitable read/write and select operation are possible.
+
+But it is slightly different from that of the Go language because we don't have a built-in scheduler in C++. Furthermore Goroutine is quite different from the C++ coroutine.
+It may not a necessary feature since there are so much of the channel implementation, but I'm sure **breakpointing** this one will **train** you.
 
 ```c++
-#include <coroutine/channel.hpp>  // channel<T, Lockable>
+#include <coroutine/channel.hpp>  // channel<T> with Lockable
 ```
 
-Network Asnyc I/O and some helper functions are placed in one header.
+Awaitable socket operations using system API are also available. I used [`epoll`](http://man7.org/linux/man-pages/man7/epoll.7.html), [`kqueue`](https://man.openbsd.org/kqueue.2) and [Overlapped I/O](https://docs.microsoft.com/en-us/windows/desktop/FileIO/synchronous-and-asynchronous-i-o) of the Windows.
 
 ```c++
-#include <coroutine/net.h>      // async i/o for sockets
+#include <coroutine/net.h>  // Awaitable I/O operations and some helpers
 ```
 
 ## How To
@@ -87,7 +90,7 @@ Create an issue if you think another configuration is required.
   * Visual Studio 2017 (CMake)
   * Ubuntu 16.04 + Clang 6.0
   * Mac OS + AppleClang
-  * Windows + Clang-cl
+  * Windows + Clang-cl (LLVM 8)
 * [`.travis.yml`](./.travis.yml)
   * Mac OS + AppleClang
   * Ubuntu 16.04 + Clang 7
@@ -105,9 +108,9 @@ Create an issue if you think another configuration is required.
 
 Exploring [test(example) codes](./test) will be helpful. The library uses 2 tools for its test.
 
-  * Visual Studio Native Testing Tool
-  * CMake generated project with [Catch2](https://github.com/catchorg/catch2)
-
+* Visual Studio Native Testing Tool
+* CMake generated project with CTest
+  
 ### Import
 
 #### Visual Studio Project
@@ -132,14 +135,14 @@ PUBLIC
 )
 ```
 
-#### Package Manager
+#### [Vcpkg](https://github.com/Microsoft/vcpkg)
 
-Following package managers and build options are available.
-
-* [vcpkg](https://github.com/Microsoft/vcpkg/tree/master/ports/coroutine)
-  * x64-windows
-  * x64-linux
-  * x64-osx
+Requires [`ms-gsl`](https://github.com/microsoft/vcpkg/blob/master/ports/coroutine/CONTROL#L3) package. If you are curious about the build configuration, reference the [`portfile.cmake`](https://github.com/Microsoft/vcpkg/tree/master/ports/coroutine).
+  
+Supporting triplets are ...
+* x64-windows
+* x64-linux
+* x64-osx
 
 ## License
 

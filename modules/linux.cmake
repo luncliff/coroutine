@@ -54,19 +54,14 @@ else()
     )
 endif()
 
-target_link_libraries(${PROJECT_NAME}
-PUBLIC
-    ${CMAKE_DL_LIBS}
-    c++ # c++abi c++experimental
-)
 if(ANDROID)
     target_link_libraries(${PROJECT_NAME}
     PUBLIC
-        ${ANDROID_STL}
+        ${CMAKE_DL_LIBS} ${ANDROID_STL}
     )
 else()
     target_link_libraries(${PROJECT_NAME}
     PUBLIC
-        pthread rt
+        ${CMAKE_DL_LIBS} pthread rt c++ # c++abi c++experimental
     )
 endif()

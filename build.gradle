@@ -9,7 +9,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.0'
+        classpath 'com.android.tools.build:gradle:3.4.1'
     }
 }
 
@@ -44,8 +44,8 @@ android {
         targetSdkVersion 27
 
         // Follow native code's verson
-        versionCode 142
-        versionName "1.4.2"
+        versionCode 143
+        versionName "1.4.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         // External Native build: CMake
@@ -62,7 +62,7 @@ android {
         cmake {
             // it's ok to use 3.8 or later, 
             // but specify the version since this gradle requires it
-            version "3.14.2" 
+            version "3.14.5"
             path "CMakeLists.txt"
         }
     }

@@ -12,7 +12,7 @@
 #
 cmake_minimum_required(VERSION 3.8) # c++ 17
 
-project(coroutine LANGUAGES CXX VERSION 1.4.2)
+project(coroutine LANGUAGES CXX VERSION 1.4.3)
 
 # import cmake code snippets. see `cmake/`
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
