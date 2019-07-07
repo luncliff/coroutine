@@ -1036,13 +1036,104 @@
 <li><a href="https://docs.microsoft.com/en-us/windows/win32/sync/using-event-objects">MSDN: Using Event Objects</a></li>
 </ul>
 <h2 id="ptp_event"><code>ptp_event</code></h2>
-<blockquote>
-<p>TBA</p>
-</blockquote>
+<p>Awaitable event with the Windows Thread Pool API.
+Allows mutliple usage with 1 instance. But only 1 <code>co_await</code> is possible each time.</p>
 <h3 id="example">Example</h3>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/event_win_signal.cpp">Wait until signal</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/event_win_cancel.cpp">Cancel</a></li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/concrt.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">concrt</span><span class="p">;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="nf">wait_an_event</span><span class="p">(</span><span class="n">ptp_event</span><span class="o">&amp;</span> <span class="n">wo</span><span class="p">,</span> <span class="n">atomic_flag</span><span class="o">&amp;</span> <span class="n">flag</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="c1">// wait for set or cancel</span>
+    <span class="c1">// `co_await` will forward `GetLastError` if canceled.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">DWORD</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">co_await</span> <span class="n">wo</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">FAIL_WITH_MESSAGE</span><span class="p">(</span><span class="n">system_category</span><span class="p">().</span><span class="n">message</span><span class="p">(</span><span class="n">ec</span><span class="p">));</span>
+        <span class="n">co_return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">flag</span><span class="p">.</span><span class="n">test_and_set</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">auto</span> <span class="nf">ptp_event_set_test</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Notice that the Event Object is managed separately.</span>
+    <span class="n">HANDLE</span> <span class="n">ev</span> <span class="o">=</span> <span class="n">CreateEventEx</span><span class="p">(</span><span class="k">nullptr</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="c1">//</span>
+                              <span class="n">CREATE_EVENT_MANUAL_RESET</span><span class="p">,</span> <span class="c1">//</span>
+                              <span class="n">EVENT_ALL_ACCESS</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">on_return</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">finally</span><span class="p">([</span><span class="n">ev</span><span class="p">]()</span> <span class="p">{</span>
+        <span class="n">CloseHandle</span><span class="p">(</span><span class="n">ev</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="n">ptp_event</span> <span class="n">waitable</span><span class="p">{</span><span class="n">ev</span><span class="p">};</span>
+    <span class="n">atomic_flag</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">ATOMIC_FLAG_INIT</span><span class="p">;</span>
+
+    <span class="n">wait_an_event</span><span class="p">(</span><span class="n">waitable</span><span class="p">,</span> <span class="n">flag</span><span class="p">);</span>
+    <span class="n">SetEvent</span><span class="p">(</span><span class="n">ev</span><span class="p">);</span>
+
+    <span class="n">SleepEx</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span> <span class="c1">// give time to the waiting threas set the `flag`</span>
+    <span class="n">REQUIRE</span><span class="p">(</span><span class="n">flag</span><span class="p">.</span><span class="n">test_and_set</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+
+
 <h3 id="definition">Definition</h3>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/modules/windows/concrt.cpp">modules/windows/concrt.cpp</a></li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ptp_event</span> <span class="k">final</span> <span class="o">:</span> <span class="n">no_copy_move</span> <span class="p">{</span>
+    <span class="n">HANDLE</span> <span class="n">wo</span><span class="p">{};</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="c1">// WAITORTIMERCALLBACK</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="kr">__stdcall</span> <span class="n">wait_on_thread_pool</span><span class="p">(</span><span class="n">PVOID</span><span class="p">,</span> <span class="n">BOOLEAN</span><span class="p">);</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">explicit</span> <span class="n">ptp_event</span><span class="p">(</span><span class="n">HANDLE</span> <span class="n">target</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="o">~</span><span class="n">ptp_event</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+
+    <span class="kt">void</span> <span class="nf">cancel</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+
+    <span class="kt">bool</span> <span class="nf">await_ready</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="kt">uint32_t</span> <span class="nf">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<p>Since it uses <code>INFINITE</code> wait, user must make sure one of <code>SetEvent</code> or <code>cancel</code> will happen on the object.</p>
 <h3 id="default-operations">Default Operations</h3>
+<p>The type is not copyable and movable.</p>
 <h3 id="functions">Functions</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>cancel</code></td>
+<td align="left">Cancel the waiting <code>ptp_event</code>. The waiting coroutine will be resumed automatically by the Win32 thread.</td>
+</tr>
+<tr>
+<td align="left"><code>await_ready</code></td>
+<td align="left">Always returns <code>false</code> (<code>suspend_always</code>)</td>
+</tr>
+<tr>
+<td align="left"><code>await_suspend</code></td>
+<td align="left">Attach a background thread work to wait the <code>SetEvent</code></td>
+</tr>
+<tr>
+<td align="left"><code>await_resume</code></td>
+<td align="left">Unregister the wait operation so it can be used again.</td>
+</tr>
+</tbody>
+</table>
                 
                   
                 
