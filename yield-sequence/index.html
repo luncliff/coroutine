@@ -710,15 +710,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" title="Example" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sequence" title="Sequence" class="md-nav__link">
-    Sequence
+  <a href="#sequencelttgt" title="sequence&lt;T&gt;" class="md-nav__link">
+    sequence&lt;T&gt;
   </a>
   
     <nav class="md-nav">
@@ -745,30 +738,37 @@
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#type-promise_type" title="Type: promise_type" class="md-nav__link">
+    Type: promise_type
+  </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#sub-types" title="Sub Types" class="md-nav__link">
-    Sub Types
+        
+          <li class="md-nav__item">
+  <a href="#type-iterator" title="Type: iterator" class="md-nav__link">
+    Type: iterator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" title="Examples" class="md-nav__link">
+    Examples
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#promise" title="Promise" class="md-nav__link">
-    Promise
+  <a href="#see-also_1" title="See Also" class="md-nav__link">
+    See Also
   </a>
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#iterator" title="Iterator" class="md-nav__link">
-    Iterator
-  </a>
+      </ul>
+    </nav>
   
 </li>
         
@@ -980,15 +980,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" title="Example" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sequence" title="Sequence" class="md-nav__link">
-    Sequence
+  <a href="#sequencelttgt" title="sequence&lt;T&gt;" class="md-nav__link">
+    sequence&lt;T&gt;
   </a>
   
     <nav class="md-nav">
@@ -1015,30 +1008,37 @@
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#type-promise_type" title="Type: promise_type" class="md-nav__link">
+    Type: promise_type
+  </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#sub-types" title="Sub Types" class="md-nav__link">
-    Sub Types
+        
+          <li class="md-nav__item">
+  <a href="#type-iterator" title="Type: iterator" class="md-nav__link">
+    Type: iterator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" title="Examples" class="md-nav__link">
+    Examples
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#promise" title="Promise" class="md-nav__link">
-    Promise
+  <a href="#see-also_1" title="See Also" class="md-nav__link">
+    See Also
   </a>
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#iterator" title="Iterator" class="md-nav__link">
-    Iterator
-  </a>
+      </ul>
+    </nav>
   
 </li>
         
@@ -1068,23 +1068,19 @@
                 
                   <h1>Async Generator</h1>
                 
-                <blockquote>
-<p>This document is under progress...</p>
-</blockquote>
-<p>Generator + Async Iterator</p>
+                <p>Generator + Async Iterator</p>
 <h3 id="see-also">See Also</h3>
 <ul>
-<li><code>&lt;experimental/generator&gt;</code>: implementation in VC++ or libc++</li>
-<li>https://github.com/kirkshoop/await</li>
-<li>http://cpp.mimuw.edu.pl/files/await-yield-c++-coroutines.pdf</li>
+<li><code>&lt;experimental/generator&gt;</code>: implementation in VC++</li>
+<li><a href="https://github.com/kirkshoop/await">GitHub - kirkshoop/await</a></li>
+<li><a href="http://cpp.mimuw.edu.pl/files/await-yield-c++-coroutines.pdf">2016 await/yield: C++ coroutines - Zbigniew Skowron</a></li>
+<li><a href="https://arbmind.github.io/2018-cogen-en/">Meeting C++ 2018: Coroutine TS A new way of thinking - Andreas Reischuck</a></li>
 </ul>
-<h3 id="example">Example</h3>
-<ul>
-<li><a href="/luncliff/coroutine/blob/1.4.2/test/c2_yield.cpp">test/c2_yield.cpp</a></li>
-</ul>
-<h2 id="sequence">Sequence</h2>
-<p><code>sequence</code> is an abstraction for the async generator. 
+<h2 id="sequencelttgt"><code>sequence&lt;T&gt;</code></h2>
+<p><code>sequence</code> is an abstraction for the async generator.
 It is not named <code>async_generator</code> to imply that it's just one implementation of the concept.</p>
+<p><strong>This type should be used carefully</strong>. It is not recommended in general, and <a href="https://travis-ci.org/luncliff/coroutine/builds/542078377">there might be a bug(failure) on release mode with clang compiler</a>.
+Contrary to that, MSVC works well <a href="https://ci.appveyor.com/project/luncliff/coroutine/builds/25079687">with the optimization flag</a>.</p>
 <div class="codehilite"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">sequence</span> <span class="k">final</span>
 <span class="p">{</span>
@@ -1099,7 +1095,8 @@ It is not named <code>async_generator</code> to imply that it's just one impleme
 </pre></div>
 
 
-<p><code>sequence</code> contains 2 sub types. The <code>promise_type</code> is for resumeable promise requirements. And the other(<code>iterator</code>) is for iteration of elements.</p>
+<p><code>sequence</code> contains 2 sub types. The <code>promise_type</code> is for resumeable promise requirements.
+And the other(<code>iterator</code>) is for iteration of elements.</p>
 <h3 id="template-parameters">Template Parameters</h3>
 <p><code>T</code>: the type of element in the sequence.</p>
 <h3 id="default-operations">Default Operations</h3>
@@ -1185,8 +1182,7 @@ For now, the only guarantee for the type is that there is no leak at destruction
 </pre></div>
 
 
-<h2 id="sub-types">Sub Types</h2>
-<h3 id="promise">Promise</h3>
+<h3 id="type-promise_type">Type: <code>promise_type</code></h3>
 <p>The type for resumable promise requirement. It manages yielded element and resumes the consumer coroutine(if it suspended).</p>
 <table>
 <thead>
@@ -1270,8 +1266,8 @@ The <code>promise_type</code> allows to distinguish between the new element and 
 </pre></div>
 
 
-<h3 id="iterator">Iterator</h3>
-<p>Notice the iterator uses <code>std::input_iterator_tag</code> for its <code>iterator_category</code>. So once the iterater advances, it can't go back. Also, post increment is deleted to prevent ambiguous usage.</p>
+<h3 id="type-iterator">Type: <code>iterator</code></h3>
+<p>Notice the iterator uses <code>std::forward_iterator_tag</code> for its <code>iterator_category</code>. So once the iterater advances, it can't go back. Also, post increment is deleted to prevent ambiguous usage.</p>
 <table>
 <thead>
 <tr>
@@ -1290,7 +1286,8 @@ The <code>promise_type</code> allows to distinguish between the new element and 
 </tr>
 </tbody>
 </table>
-<p>Like normal iterator types, it supports <code>*</code>, <code>-&gt;</code>, <code>==</code>, <code>!=</code>. <strong>However, the iterator itself is an awaitable</strong>.</p>
+<p>Like normal iterator types, it supports <code>*</code>, <code>-&gt;</code>, <code>==</code>, <code>!=</code>.
+<strong>However, the iterator itself is an awaitable</strong>.</p>
 <table>
 <thead>
 <tr>
@@ -1334,6 +1331,30 @@ The <code>promise_type</code> allows to distinguish between the new element and 
     <span class="p">};</span>
 <span class="p">};</span>
 </pre></div>
+
+
+<h3 id="examples">Examples</h3>
+<p>You can see the usage with test codes.</p>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/sequence_yield_once.cpp">Use of <code>co_yield</code> with awaitable</a><ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/sequence_yield_never.cpp">What if the function yields 0-time?</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/sequence_destroy.cpp">Destruction</a><ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/sequence_frame_status.cpp">Frame's status</a></li>
+</ul>
+</li>
+<li>Iteration<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/sequence_suspend_await.cpp">Suspend with <code>co_await</code></a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/sequence_suspend_yield.cpp">Suspend with <code>co_yield</code></a></li>
+</ul>
+</li>
+</ul>
+<h4 id="see-also_1">See Also</h4>
+<p>In this library:</p>
+<ul>
+<li>Type <a href="../return-frame/"><code>frame</code></a></li>
+</ul>
                 
                   
                 

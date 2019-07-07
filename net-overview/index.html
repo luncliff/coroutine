@@ -1268,7 +1268,7 @@ Since winsock implementation resumes I/O coroutines automatically. However, user
 
 <h3 id="sending-to-a-specific-endpoint">Sending to a specific endpoint</h3>
 <p>The following code shows how <code>send_to</code> can be used.</p>
-<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">coro_send_dgram</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">ssz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">return_ignore</span>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">coro_send_dgram</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">ssz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span>
 <span class="p">{</span>
     <span class="k">using</span> <span class="n">gsl</span><span class="o">::</span><span class="n">byte</span><span class="p">;</span>
 
@@ -1288,7 +1288,7 @@ Since winsock implementation resumes I/O coroutines automatically. However, user
 
 <h3 id="receiving-a-packet">Receiving a packet</h3>
 <p>The following code shows how <code>recv_from</code> can be used.</p>
-<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">coro_recv_dgram</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">rsz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">return_ignore</span>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">coro_recv_dgram</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">rsz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span>
 <span class="p">{</span>
     <span class="k">using</span> <span class="n">gsl</span><span class="o">::</span><span class="n">byte</span><span class="p">;</span>
 
@@ -1308,7 +1308,7 @@ Since winsock implementation resumes I/O coroutines automatically. However, user
 
 <h3 id="sending-to-the-connected-peer">Sending to the connected peer</h3>
 <p>The following code shows how <code>send_stream</code> can be used.</p>
-<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">coro_send_stream</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">ssz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">return_ignore</span>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">coro_send_stream</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">ssz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span>
 <span class="p">{</span>
     <span class="k">using</span> <span class="n">gsl</span><span class="o">::</span><span class="n">byte</span><span class="p">;</span>
 
@@ -1328,7 +1328,7 @@ Since winsock implementation resumes I/O coroutines automatically. However, user
 
 <h3 id="receiving-from-the-connected-peer">Receiving from the connected peer</h3>
 <p>The following code shows how <code>recv_stream</code> can be used.</p>
-<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">coro_recv_stream</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">rsz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">return_ignore</span>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">coro_recv_stream</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">rsz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span>
 <span class="p">{</span>
     <span class="k">using</span> <span class="n">gsl</span><span class="o">::</span><span class="n">byte</span><span class="p">;</span>
 

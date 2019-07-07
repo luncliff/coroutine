@@ -698,15 +698,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" title="Example" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enumerable" title="Enumerable" class="md-nav__link">
-    Enumerable
+  <a href="#enumerablelttgt" title="enumerable&lt;T&gt;" class="md-nav__link">
+    enumerable&lt;T&gt;
   </a>
   
     <nav class="md-nav">
@@ -733,29 +726,36 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sub-types" title="Sub Types" class="md-nav__link">
-    Sub Types
+          <li class="md-nav__item">
+  <a href="#type-promise_type" title="Type: promise_type" class="md-nav__link">
+    Type: promise_type
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#promise" title="Promise" class="md-nav__link">
-    Promise
+  <a href="#remark" title="Remark" class="md-nav__link">
+    Remark
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-iterator" title="Type: iterator" class="md-nav__link">
+    Type: iterator
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#iterator" title="Iterator" class="md-nav__link">
-    Iterator
+  <a href="#examples" title="Examples" class="md-nav__link">
+    Examples
   </a>
   
 </li>
@@ -980,15 +980,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" title="Example" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enumerable" title="Enumerable" class="md-nav__link">
-    Enumerable
+  <a href="#enumerablelttgt" title="enumerable&lt;T&gt;" class="md-nav__link">
+    enumerable&lt;T&gt;
   </a>
   
     <nav class="md-nav">
@@ -1015,29 +1008,36 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sub-types" title="Sub Types" class="md-nav__link">
-    Sub Types
+          <li class="md-nav__item">
+  <a href="#type-promise_type" title="Type: promise_type" class="md-nav__link">
+    Type: promise_type
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#promise" title="Promise" class="md-nav__link">
-    Promise
+  <a href="#remark" title="Remark" class="md-nav__link">
+    Remark
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-iterator" title="Type: iterator" class="md-nav__link">
+    Type: iterator
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#iterator" title="Iterator" class="md-nav__link">
-    Iterator
+  <a href="#examples" title="Examples" class="md-nav__link">
+    Examples
   </a>
   
 </li>
@@ -1068,22 +1068,20 @@
                 
                   <h1>Generator</h1>
                 
-                <blockquote>
-<p>This document is under progress...</p>
-</blockquote>
-<p>Generator with coroutine</p>
+                <p>Generator with the coroutine</p>
 <h3 id="see-also">See Also</h3>
 <ul>
-<li><code>&lt;experimental/generator&gt;</code>: implementation in VC++ or libc++</li>
-<li>https://github.com/kirkshoop/await</li>
-<li>http://cpp.mimuw.edu.pl/files/await-yield-c++-coroutines.pdf</li>
+<li><code>&lt;experimental/generator&gt;</code>: implementation in VC++</li>
+<li><a href="https://github.com/kirkshoop/await">GitHub - kirkshoop/await</a></li>
+<li><a href="http://cpp.mimuw.edu.pl/files/await-yield-c++-coroutines.pdf">2016 await/yield: C++ coroutines - Zbigniew Skowron</a></li>
+<li><a href="https://arbmind.github.io/2018-cogen-en/">Meeting C++ 2018: Coroutine TS A new way of thinking - Andreas Reischuck</a></li>
 </ul>
-<h3 id="example">Example</h3>
-<ul>
-<li><a href="/luncliff/coroutine/blob/1.4.2/test/c2_yield.cpp">test/c2_yield.cpp</a></li>
-</ul>
-<h2 id="enumerable">Enumerable</h2>
-<p>This is a similar implementation of <code>generator</code>. Since the name is a kind of reserved one, it is renamed to <code>enumerable</code></p>
+<h2 id="enumerablelttgt"><code>enumerable&lt;T&gt;</code></h2>
+<p>This is an implementation of the 'Coroutine-based Generator' concept. 
+However, because of some known implementations, the name can be considered as a reserved one.
+In this library, the impl is is named as <code>enumerable</code>.</p>
+<p>Even though there are existing implementations like the <code>generator</code> of VC++, 
+I had to write my own one <strong>to test</strong> <code>coroutine_handle&lt;void&gt;</code> because the type is compiler-dependent. If you're clang/libc++ user, you can use mine or <a href="https://github.com/lewissbaker/cppcoro#generatort"><code>generator</code> of the cppcoro</a>.</p>
 <div class="codehilite"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">enumerable</span> <span class="k">final</span>
 <span class="p">{</span>
@@ -1100,7 +1098,7 @@
 
 <p><code>enumerable</code> contains 2 sub types. The <code>promise_type</code> is for resumeable promise requirements. And the other(<code>iterator</code>) is for iteration of elements.</p>
 <h3 id="template-parameters">Template Parameters</h3>
-<p><code>T</code>: the type of element in the enumerable.</p>
+<p><code>T</code>: The type of element in the enumerable.</p>
 <h3 id="default-operations">Default Operations</h3>
 <p>Copy is disabled. A user code of its constructor must be generated by compiler, not the programmer.
 For now, the only guarantee for the type is that there is no leak at destruction.</p>
@@ -1117,45 +1115,10 @@ For now, the only guarantee for the type is that there is no leak at destruction
 </pre></div>
 
 
-<p>Coroutine frame for the generator is managed automatically. </p>
-<div class="codehilite"><pre><span></span><span class="n">TEST_CASE</span><span class="p">(</span><span class="s">&quot;generator&quot;</span><span class="p">,</span> <span class="s">&quot;[generic]&quot;</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
-
-    <span class="n">SECTION</span><span class="p">(</span><span class="s">&quot;max_element&quot;</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="p">,</span> <span class="mi">10</span><span class="o">&gt;</span> <span class="n">container</span><span class="p">{};</span>
-        <span class="kt">uint16_t</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
-        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">e</span> <span class="p">:</span> <span class="n">container</span><span class="p">)</span>
-            <span class="n">e</span> <span class="o">=</span> <span class="n">id</span><span class="o">--</span><span class="p">;</span> <span class="c1">// [15, 14, 13 ...</span>
-                      <span class="c1">// so the first element will hold the largest number</span>
-
-        <span class="c1">// since generator is not a container,</span>
-        <span class="c1">//  using max_element (or min_element) function on it</span>
-        <span class="c1">//  will return invalid iterator</span>
-        <span class="k">auto</span> <span class="n">try_enumerable</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">]()</span> <span class="o">-&gt;</span> <span class="n">enumerable</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span> <span class="p">{</span>
-            <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">e</span> <span class="p">:</span> <span class="n">container</span><span class="p">)</span>
-                <span class="n">co_yield</span> <span class="n">e</span><span class="p">;</span>
-
-            <span class="n">co_return</span><span class="p">;</span>
-        <span class="p">};</span>
-
-        <span class="k">auto</span> <span class="n">g</span> <span class="o">=</span> <span class="n">try_enumerable</span><span class="p">();</span>
-        <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">max_element</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">g</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
-
-        <span class="c1">// after iteration is finished (co_return),</span>
-        <span class="c1">// the iterator will hold nullptr.</span>
-        <span class="n">REQUIRE</span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="k">operator</span><span class="o">-&gt;</span><span class="p">()</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">);</span>
-
-        <span class="c1">// so referencing it will lead to access violation</span>
-        <span class="c1">// REQUIRE(*it == 15);</span>
-    <span class="p">}</span>
-    <span class="c1">// ...</span>
-<span class="p">}</span>
-</pre></div>
-
-
+<p>Coroutine frame for the generator follows RAII.
+So it will destroy its handle in destructor.</p>
 <h3 id="functions">Functions</h3>
+<p>The type supports ranged-<code>for</code> statment.</p>
 <table>
 <thead>
 <tr>
@@ -1187,8 +1150,7 @@ For now, the only guarantee for the type is that there is no leak at destruction
 </pre></div>
 
 
-<h2 id="sub-types">Sub Types</h2>
-<h3 id="promise">Promise</h3>
+<h3 id="type-promise_type">Type: <code>promise_type</code></h3>
 <p>The type for resumable promise requirement. It manages yielded element and resumes the consumer coroutine(if it suspended).</p>
 <table>
 <thead>
@@ -1216,6 +1178,8 @@ For now, the only guarantee for the type is that there is no leak at destruction
 </tr>
 </tbody>
 </table>
+<h4 id="remark">Remark</h4>
+<p>It only takes lvalue reference(<code>T&amp;</code>) for the operand of <code>co_yield</code>.</p>
 <div class="codehilite"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">enumerable</span> <span class="k">final</span>
 <span class="p">{</span>
@@ -1237,8 +1201,10 @@ For now, the only guarantee for the type is that there is no leak at destruction
 </pre></div>
 
 
-<h3 id="iterator">Iterator</h3>
-<p>Notice the iterator uses <code>std::input_iterator_tag</code> for its <code>iterator_category</code>. So once the iterater advances, it can't go back. Also, post increment is deleted to prevent ambiguous usage.</p>
+<h3 id="type-iterator">Type: <code>iterator</code></h3>
+<p>Notice the iterator uses <code>std::forward_iterator_tag</code> for its <code>iterator_category</code>.
+So once the iterater advances, it <strong>can't</strong> go back.
+Also, post increment is deleted to prevent misusage.</p>
 <table>
 <thead>
 <tr>
@@ -1275,6 +1241,22 @@ For now, the only guarantee for the type is that there is no leak at destruction
     <span class="p">};</span>
 <span class="p">};</span>
 </pre></div>
+
+
+<h3 id="examples">Examples</h3>
+<p>You can see the usage with test codes.</p>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/enumerable_yield_once.cpp">Use of <code>co_yield</code></a><ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/enumerable_yield_never.cpp">What if the function yields 0-time?</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/enumerable_move.cpp">Move Semantics</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/enumerable_iterator.cpp">Iteration</a><ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/enumerable_accumulate.cpp"><code>std::accumulate</code></a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/enumerable_max_element.cpp"><code>std::max_element</code></a></li>
+</ul>
+</li>
+</ul>
                 
                   
                 
