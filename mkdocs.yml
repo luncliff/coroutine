@@ -38,22 +38,23 @@ nav:
       - Suspend Types: frame-suspend_types.md
     - return.h:
       - Overview: return-overview.md
-      - frame: return-frame.md
       - no_return: return-no_return.md
-    - channel.hpp:
-      - Overview: channel-overview.md
-      - Read/Write: channel-read_write.md
-      - Select on multiple channel: channel-select.md
+      - frame: return-frame.md
     - yield.hpp:
       - Overview: yield-overview.md
       - Generator: yield-enumerable.md
       - Async Generator: yield-sequence.md
+    - channel.hpp:
+      - Overview: channel-overview.md
+      - Read/Write: channel-read_write.md
+      - Select on multiple channel: channel-select.md
     - concrt.h:
       - Overview: concrt-overview.md
       - section: concrt-section.md
       - latch: concrt-latch.md
-      - ptp_work: concrt-ptp_work.md
-      - event: concrt-event.md
+      - Windows Thread Pool: concrt-ptp_work.md
+      - Windows Event: concrt-ptp_event.md
+      - POSIX event: articles/awaitable-event.md
     - net.h:
       - Overview: net-overview.md
       - Windows Socket 2: net-implementation-winsock2.md
