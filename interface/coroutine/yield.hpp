@@ -12,10 +12,19 @@
 //      it's just one of the concept's implementations
 //
 // ---------------------------------------------------------------------------
-#ifndef COROUTINE_YIELD_HPP
-#define COROUTINE_YIELD_HPP
+#ifndef LUNCLIFF_COROUTINE_YIELD_HPP
+#define LUNCLIFF_COROUTINE_YIELD_HPP
 
+// Try the best if this header file is isolated
+#if __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
+#elif __has_include(<experimental/coroutine>) // C++ 20
+#include <experimental/coroutine>
+#elif __has_include(<coroutine>) // C++ 17
+#include <coroutine>
+#else // nothing we can do... :(
+#error "expect header <experimental/coroutine> or <coroutine/frame.h>"
+#endif
 #include <iterator>
 
 namespace coro {
@@ -370,4 +379,4 @@ class sequence final {
 };
 } // namespace coro
 
-#endif //  COROUTINE_YIELD_HPP
+#endif // LUNCLIFF_COROUTINE_YIELD_HPP

@@ -14,10 +14,11 @@
 // Try the best if this header file is isolated
 #if __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
-#elif __has_include(<experimental/coroutine>)
+#elif __has_include(<experimental/coroutine>) // C++ 20
 #include <experimental/coroutine>
-#else
-// nothing we can do... :(
+#elif __has_include(<coroutine>) // C++ 17
+#include <coroutine>
+#else // nothing we can do... :(
 #error "expect header <experimental/coroutine> or <coroutine/frame.h>"
 #endif
 #include <exception>

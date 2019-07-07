@@ -8,8 +8,8 @@
 //
 // ---------------------------------------------------------------------------
 #pragma once
-#ifndef COROUTINE_CHANNEL_HPP
-#define COROUTINE_CHANNEL_HPP
+#ifndef LUNCLIFF_COROUTINE_CHANNEL_HPP
+#define LUNCLIFF_COROUTINE_CHANNEL_HPP
 
 #include <mutex>
 #include <tuple>
@@ -400,4 +400,4 @@ void select(ChanType& ch, FuncType&& fn, Args&&... args) noexcept(false) {
 
 } // namespace coro
 
-#endif // COROUTINE_CHANNEL_HPP
+#endif // LUNCLIFF_COROUTINE_CHANNEL_HPP
