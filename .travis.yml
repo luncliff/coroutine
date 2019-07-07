@@ -8,6 +8,10 @@ git:
   submodules: true
   depth: 5
 
+branches:
+  except:
+    - docs
+
 notifications:
   email:
     - luncliff@gmail.com
