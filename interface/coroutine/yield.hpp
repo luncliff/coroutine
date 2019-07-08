@@ -15,14 +15,13 @@
 #ifndef LUNCLIFF_COROUTINE_YIELD_HPP
 #define LUNCLIFF_COROUTINE_YIELD_HPP
 
-// Try the best if this header file is isolated
 #if __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
-#elif __has_include(<experimental/coroutine>) // C++ 20
+#elif __has_include(<experimental/coroutine>) // C++ 17
 #include <experimental/coroutine>
-#elif __has_include(<coroutine>) // C++ 17
+#elif __has_include(<coroutine>) // C++ 20
 #include <coroutine>
-#else // nothing we can do... :(
+#else
 #error "expect header <experimental/coroutine> or <coroutine/frame.h>"
 #endif
 #include <iterator>

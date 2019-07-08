@@ -14,5 +14,7 @@
     <ClCompile Include="..\channel_write_fail_after_close.cpp" />
     <ClCompile Include="..\channel_write_read_mutex.cpp" />
     <ClCompile Include="..\channel_write_read_nolock.cpp" />
+    <ClCompile Include="..\channel_ownership_consumer.cpp" />
+    <ClCompile Include="..\channel_ownership_producer.cpp" />
   </ItemGroup>
 </Project>

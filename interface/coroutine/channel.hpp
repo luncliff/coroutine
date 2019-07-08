@@ -11,9 +11,6 @@
 #ifndef LUNCLIFF_COROUTINE_CHANNEL_HPP
 #define LUNCLIFF_COROUTINE_CHANNEL_HPP
 
-#include <mutex>
-#include <tuple>
-
 #if __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
 #elif __has_include(<experimental/coroutine>) // C++ 17
@@ -23,6 +20,8 @@
 #else
 #error "expect header <experimental/coroutine> or <coroutine/frame.h>"
 #endif
+#include <mutex>
+#include <tuple>
 
 namespace coro {
 using namespace std;

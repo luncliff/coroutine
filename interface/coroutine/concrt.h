@@ -114,7 +114,7 @@ static_assert(sizeof(section) == sizeof(CRITICAL_SECTION));
 //   since `ptp_event` uses INFINITE wait. Therefore, its user must make
 //   sure one of `SetEvent` or `cancel` will happen in the future
 class ptp_event final : no_copy_move {
-    HANDLE wo{};
+    HANDLE wo{}; // wait object
 
   private:
     // WAITORTIMERCALLBACK
