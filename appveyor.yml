@@ -4,6 +4,7 @@
 #   Reference
 #     - https://www.appveyor.com/docs/appveyor-yml/
 #     - https://github.com/appveyor/ci/issues/899#issuecomment-230360978
+#     - https://www.appveyor.com/docs/lang/cpp/
 #
 version: 1.4.{build}
 
@@ -64,15 +65,17 @@ for:
         - image: Visual Studio 2017
           compiler: clang-cl
     install:
+      # - ps: choco install --yes --no-progress --force cmake
       - ps: choco install --yes --no-progress ninja
-      - ps: choco install --yes --no-progress --force cmake
-      - ps: choco info    llvm    # LLVM is already installed. So just show the version info
+      - ps: choco info llvm # LLVM is already installed
     before_build:
-      - ps: clang-cl --version # <-- cl.exe for clang
+      - ps: cmake     --version
+      - ps: clang-cl  --version
       - ps: New-Item -Name build -ItemType Directory
       - ps: Push-Location -Path build
     build_script:
       # emulate: Visual Studio Native Tools Command Prompt
+      # https://www.appveyor.com/docs/lang/cpp/#visual-studio
       - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
       # ps: $env:CXX="clang-cl"
       - cmd: set CXX=clang-cl
