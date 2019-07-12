@@ -5,7 +5,7 @@
 #
 cmake_policy(VERSION 3.8)
 
-# Compiler flag for C++ Coroutine
+# Compiler flag for C++ coroutines
 include(CheckCXXCompilerFlag)
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     check_cxx_compiler_flag(-std=c++2a      cxx_latest      )
@@ -17,4 +17,4 @@ elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)    # GCC
     message(FATAL_ERROR "Current version doesn't support GCC")
 endif()
 
-# test compiler flag for C++ Coroutine
+# test compiler flag for C++ coroutines

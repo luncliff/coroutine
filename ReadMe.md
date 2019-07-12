@@ -1,6 +1,6 @@
 # coroutine
 
-C++ 20 Coroutine in Action.
+C++ 20 Coroutines in Action.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/38aa16f6d7e046898af3835918c0cd5e)](https://app.codacy.com/app/luncliff/coroutine?utm_source=github.com&utm_medium=referral&utm_content=luncliff/coroutine&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://dev.azure.com/luncliff/personal/_apis/build/status/luncliff.coroutine?branchName=master)](https://dev.azure.com/luncliff/personal/_build/latest?definitionId=13?branchName=master)
@@ -11,7 +11,7 @@ C++ 20 Coroutine in Action.
 
 ### Purpose of this library
 
-* Help understanding of the C++ coroutine
+* Help understanding of the C++ Coroutines
 * Provide meaningful design example with the feature
 
 In that perspective, the library will be maintained as small as possible. Have fun with them. **And try your own coroutines !** 
@@ -20,7 +20,7 @@ In that perspective, the library will be maintained as small as possible. Have f
 
 * Start with the [GitHub Pages](https://luncliff.github.io/coroutine/Home)!
   You will visit the [test/](./test/) and [interface/](./interface/coroutine) folder while reading the docs.
-* This repository has some custom(and partial) implementation for the C++ Coroutine spec in the [`<coroutine/frame.h>`](./interface/coroutine/frame.h)
+* This repository has some custom(and partial) implementation for the C++ Coroutines spec in the [`<coroutine/frame.h>`](./interface/coroutine/frame.h)
 
 ### Architecture
 
@@ -63,9 +63,10 @@ Utility types are in the following headers
 #include <coroutine/concrt.h> // concurrency utilities
 ```
 
-Go language style channel to deliver data between coroutines. It Supports awaitable read/write and select operation are possible.
+Go language style channel to deliver data between coroutines. 
+It Supports awaitable read/write and select operation are possible.
 
-But it is slightly different from that of the Go language because we don't have a built-in scheduler in C++. Furthermore Goroutine is quite different from the C++ coroutine.
+But it is slightly different from that of the Go language because we don't have a built-in scheduler in C++. Furthermore Goroutine is quite different from the C++ Coroutines.
 It may not a necessary feature since there are so much of the channel implementation, but I'm sure **breakpointing** this one will **train** you.
 
 ```c++
