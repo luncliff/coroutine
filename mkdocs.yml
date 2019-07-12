@@ -16,6 +16,7 @@ nav:
   - Articles:
     - PPT - C++ Korea 5th Seminar: ppt/Exploring-the-Cpp-Coroutine.md
     - Awaitable event using the coroutine, epoll and eventfd: articles/awaitable-event.md
+    - Designing the coroutine channel: articles/designing-the-channel.md
     # - Example - await_transform: articles/example-of-await_transform.md
     # - Function that selects its thread: articles/thread-selecting-function.md
     # - Why this library doesn't support Task?: articles/why-no-coroutine-task-return.md
