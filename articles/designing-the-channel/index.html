@@ -1794,7 +1794,18 @@ It will be covered later because they are purely about the implementation.</p>
 <p>If you are really curious, visit <a href="../../channel-read_write/">this page</a>.</p>
 <h3 id="conclusion">Conclusion</h3>
 <p>The type doesn't weighted for the performance.
-What I focused was to enforce intuitive code and to guide users' consideration to their behavior (and undelying semantics).</p>
+What I focused was to enforce intuitive code and to guide users' consideration to their behavior (and undelying semantics).
+It's not replacement nor alternative of the other delivery methods. </p>
+<p>To summarize each methods,</p>
+<ul>
+<li><code>return</code> : 1 time, directional, subroutine to subroutine</li>
+<li><code>future&lt;T&gt;</code> : 1 time, directional, subroutine to subroutine, synchronization(shared state)</li>
+<li><code>task&lt;T&gt;</code>: 1 time, directional, coroutine to coroutine</li>
+<li><code>generator&lt;T&gt;</code>: multi-time, directional, coroutine to coroutine</li>
+<li><code>asnyc_generator&lt;T&gt;</code>: multi-time, directional, coroutine to coroutine, awaitable iterator</li>
+<li><code>channel&lt;T&gt;</code>: multi-time (with suspend), non-directional, optional synchronization</li>
+</ul>
+<p>For <code>channel&lt;T&gt;</code> itself...</p>
 <h4 id="non-directional-delivery_1">Non-directional delivery</h4>
 <p>You can see the example with <a href="https://godbolt.org/z/GXvfHK">the Compiler Explorer(MSVC)</a> or with <a href="https://wandbox.org/permlink/6mRwvKtUAUzAKcdX">the WandBox(clang-8)</a></p>
 <h4 id="coverage-leak">Coverage Leak</h4>
