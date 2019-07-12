@@ -248,8 +248,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#first-with-the-c-20-coroutine" title="First with the C++ 20 coroutine?" class="md-nav__link">
-    First with the C++ 20 coroutine?
+  <a href="#first-with-the-c-20-coroutines" title="First with the C++ 20 Coroutines?" class="md-nav__link">
+    First with the C++ 20 Coroutines?
   </a>
   
 </li>
@@ -371,6 +371,18 @@
   <li class="md-nav__item">
     <a href="../articles/designing-the-channel/" title="Designing the coroutine channel" class="md-nav__link">
       Designing the coroutine channel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../articles/combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
+      Combining C++ coroutines and `pthread_create`
     </a>
   </li>
 
@@ -994,8 +1006,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#first-with-the-c-20-coroutine" title="First with the C++ 20 coroutine?" class="md-nav__link">
-    First with the C++ 20 coroutine?
+  <a href="#first-with-the-c-20-coroutines" title="First with the C++ 20 Coroutines?" class="md-nav__link">
+    First with the C++ 20 Coroutines?
   </a>
   
 </li>
@@ -1092,10 +1104,12 @@ Let me hear you and write more helpful contents. :D</p>
 </li>
 <li>Articles<ul>
 <li><a href="../articles/awaitable-event/">Awaitable event using coroutine, <code>epoll</code>, and <code>eventfd</code></a></li>
+<li><a href="../articles/designing-the-channel/">Designing the coroutine channel</a></li>
+<li><a href="../articles/combining-coroutines-and-pthread_create/">Combining C++ coroutines and <code>pthread_create</code></a></li>
 </ul>
 </li>
 </ul>
-<h2 id="first-with-the-c-20-coroutine">First with the C++ 20 coroutine?</h2>
+<h2 id="first-with-the-c-20-coroutines">First with the C++ 20 Coroutines?</h2>
 <p>If you're finding any bunch of good <strong>references</strong>, visit the <a href="https://gist.github.com/MattPD/9b55db49537a90545a90447392ad3aeb">MattPD's collection</a>!</p>
 <p>If you want to <strong>run it now</strong>, there is a little <a href="https://wandbox.org/permlink/6FGKZjuzjNYoSmI1">WandBox example</a>...<br />
 but it's poor for now. I will write a new one and update the link ASAP.</p>
@@ -1134,7 +1148,7 @@ but it's poor for now. I will write a new one and update the link ASAP.</p>
 <li><a href="../channel-select/">Select</a></li>
 </ul>
 <h3 id="concurrency-utilities"><a href="../concrt-overview/">Concurrency Utilities</a></h3>
-<p>Even though the C++ coroutine doesn't require thread features, 
+<p>Even though the C++ coroutines doesn't require thread features, 
 working with existing multi-threaded code is an important issue.
 I had to write some utilities for the purpose.</p>
 <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/concrt.h&gt;</span><span class="cp"></span>
