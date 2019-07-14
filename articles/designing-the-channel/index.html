@@ -1370,19 +1370,12 @@
 <h3 id="summary">Summary</h3>
 <p><a href="https://github.com/jbandela">John Bandela</a> already talked about <a href="https://www.youtube.com/watch?v=N3CkQu39j5I">the coroutine based channel in CppCon 2016</a>.
 However, I designed <a href="../../channel-overview/">more limited one</a> on my own.</p>
-<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">producer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">msg</span> <span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">bye</span><span class="p">})</span> <span class="p">{</span>
-        <span class="k">auto</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
-        <span class="c1">// ok == true: we sent a value</span>
-        <span class="c1">// ...</span>
-        <span class="n">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span> <span class="c1">// we can read in the writer coroutine</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/channel.hpp&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
 
-<span class="k">auto</span> <span class="nf">consumer_owner</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
-    <span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ch</span><span class="p">{};</span>
-    <span class="n">producer</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span> <span class="c1">// start a producer routine</span>
+<span class="k">constexpr</span> <span class="kt">int</span> <span class="n">bye</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
+<span class="k">auto</span> <span class="nf">consumer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
     <span class="c1">// the type doesn&#39;t support for-co_await for now</span>
     <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="p">[</span><span class="n">msg</span><span class="p">,</span> <span class="n">ok</span><span class="p">]</span> <span class="o">=</span> <span class="n">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span> <span class="n">ok</span><span class="p">;</span>
          <span class="n">tie</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ok</span><span class="p">)</span> <span class="o">=</span> <span class="n">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">())</span> <span class="p">{</span>
@@ -1393,25 +1386,37 @@ However, I designed <a href="../../channel-overview/">more limited one</a> on my
         <span class="n">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>  <span class="c1">// we can write in the reader coroutine</span>
     <span class="p">}</span>
 <span class="p">}</span>
+<span class="k">auto</span> <span class="nf">producer_owner</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ch</span><span class="p">{};</span>
+    <span class="n">consumer</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span> <span class="c1">// start a consumer routine</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">msg</span> <span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">bye</span><span class="p">})</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+        <span class="c1">// ok == true: we sent a value</span>
+
+        <span class="n">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>  <span class="c1">// we can read in the writer coroutine</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 
 
-<p>You can visit more test codes for the type:</p>
+<p>Notice that we are reading <strong>before</strong> writing values to the channel.
+You can visit more example(test) codes for the type:</p>
 <ul>
 <li><a href="https://github.com/luncliff/coroutine/blob/master/test/channel_read_write_nolock.cpp">test/channel_read_write_nolock.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/channel_read_fail_after_close.cpp">test/channel_read_fail_after_close.cpp</a></li>
 <li><a href="https://github.com/luncliff/coroutine/blob/master/test/channel_write_read_nolock.cpp">test/channel_write_read_nolock.cpp</a></li>
 <li><a href="https://github.com/luncliff/coroutine/blob/master/test/channel_write_fail_after_close.cpp">test/channel_write_fail_after_close.cpp</a></li>
-<li><a href="https://github.com/luncliff/coroutine/blob/master/test/channel_read_fail_after_close.cpp">test/channel_read_fail_after_close.cpp</a></li>
-<li><a href="https://github.com/luncliff/coroutine/blob/master/test/channel_race_no_leak.cpp">test/channel_race_no_leak.cpp</a></li>
 <li><a href="https://github.com/luncliff/coroutine/blob/master/test/channel_ownership_consumer.cpp">test/channel_ownership_consumer.cpp</a></li>
 <li><a href="https://github.com/luncliff/coroutine/blob/master/test/channel_ownership_producer.cpp">test/channel_ownership_producer.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/channel_race_no_leak.cpp">test/channel_race_no_leak.cpp</a></li>
 </ul>
 <h2 id="note">Note</h2>
 <h3 id="motivationbackground">Motivation(Background)</h3>
 <p>There are multiple ways to deliver value(normally an object) from a routine to another routine.<br />
 <code>channel&lt;T&gt;</code> is designed to play a role as one of them.</p>
 <h4 id="before-the-coroutine">Before the coroutine</h4>
-<p>Before the C++ Coroutine becames available, there were 2 ways.</p>
+<p>Before the C++ Coroutines becames available, there were 2 ways.</p>
 <ul>
 <li><code>return</code> : from callee subroutine to caller subroutine</li>
 <li><code>future&lt;T&gt;</code> since C++11 : <code>return</code> with synchronization(shared state)</li>
@@ -1459,9 +1464,11 @@ In my perspective, using <code>co_await</code> on its iterator is indeed a good 
 <p>Also, if we need to write multi-threaded code, there are still needs of the synchronization.
 It depends on the pattern and can managed well, but it's still hard to the beginners.</p>
 <p>For nondirectional delivery, there is a good example in the Go language. It's <code>channel</code>. 
-The channel can suspend both producer and consumer goroutines by affecting their scheduling.
-Notice the difference between the C++ coroutine and Go goroutine.
-C++ coroutine doesn't have built-in scheduling for it. <code>coroutine_handle&lt;T&gt;</code> itself is a pointer, and the programmer manages them manually.</p>
+The channel can suspend both producer and consumer goroutines by affecting their scheduling.</p>
+<p>However, there is a difference between the coroutine in the C++ and Goroutine in the Go language.
+Goroutine is scheduled by the Go runtime, but coroutine are not.
+It doesn't have a built-in scheduling. 
+Basically, <code>coroutine_handle&lt;T&gt;</code> itself is a pointer and programmers have to manage them manually.</p>
 <h3 id="requirement">Requirement</h3>
 <p>So the requirement for our new type is like the following.</p>
 <ul>
@@ -1651,21 +1658,18 @@ Notice that they have a reserved space to receive <code>coroutine_handle&lt;void
 </pre></div>
 
 
-<p>By the design we will placing objects in the frame. Such an implementation can make the frame's size larger than expected.
-So operating with the channel with multiple lines will grow the frame more than required.</p>
-<div class="codehilite"><pre><span></span><span class="c1">// Bad code</span>
-<span class="k">auto</span> <span class="nf">too_much_read</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
-    <span class="n">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
-    <span class="n">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
-    <span class="n">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
-    <span class="n">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span> <span class="c1">// uses 24 bytes per each operation !!!</span>
-    <span class="c1">// ...</span>
+<p>Because of the design we will place the objects in the frame. </p>
+<p>Consider:</p>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">temporary_reader_object</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="c1">// co_await ch.read();</span>
+    <span class="n">reader</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+    <span class="n">co_await</span> <span class="n">reader</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 
 
-<p>But unless it's used with <code>for</code> statement, there will be at most 2 read/writes.
-So it won't be that serious memory.</p>
+<p>When it's used with <code>for</code> statement, there will be at most 2 read/writes.
+So it won't be that complicated.</p>
 <div class="codehilite"><pre><span></span><span class="c1">// at most 2 operation in 1 for loop</span>
 
 <span class="k">auto</span> <span class="nf">consumer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
