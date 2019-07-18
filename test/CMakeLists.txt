@@ -117,6 +117,9 @@ generate_exe_test( event_unix_wait_multiple_times )
 generate_exe_test( event_unix_wait_one )
 generate_exe_test( event_unix_wait_three )
 
+generate_exe_test( pthread_joiner_multiple_spawn )
+generate_exe_test( pthread_joiner_no_spawn )
+
 endif()
 
 generate_exe_test( net_get_addrinfo_ip6_bind            socket )

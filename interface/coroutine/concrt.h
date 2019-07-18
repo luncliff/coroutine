@@ -241,6 +241,101 @@ class event final : no_copy_move {
 _INTERFACE_
 auto signaled_event_tasks() noexcept(false) -> coro::enumerable<event::task>;
 
+//  Special return type that wraps `pthread_create` and `pthread_join`
+class pthread_joiner_t final : no_copy_move {
+  public:
+    class promise_type;
+
+    class pthread_spawner_t final : no_copy_move {
+        friend class promise_type;
+
+        _INTERFACE_ static void* resume_on_pthread(void* ptr) noexcept(false);
+
+        // throws `system_error`
+        _INTERFACE_ void on_suspend(coroutine_handle<void> rh) noexcept(false);
+
+      public:
+        constexpr bool await_ready() const noexcept {
+            return false;
+        }
+        constexpr void await_resume() noexcept {
+        }
+        void await_suspend(coroutine_handle<void> rh) noexcept(false) {
+            return on_suspend(rh);
+        }
+
+      private:
+        pthread_spawner_t(pthread_t* _tid, const pthread_attr_t* _attr)
+            : tid{_tid}, attr{_attr} {
+        }
+
+      public:
+        ~pthread_spawner_t() noexcept = default;
+
+      private:
+        pthread_t* const tid;
+        const pthread_attr_t* const attr;
+    };
+
+    class promise_type final {
+      public:
+        auto initial_suspend() noexcept {
+            return suspend_never{};
+        }
+        auto final_suspend() noexcept {
+            return suspend_always{};
+        }
+        void unhandled_exception() noexcept(false) {
+            throw; // the activator is responsible for the error handling
+        }
+        void return_void() noexcept {
+            // we already returns coroutine's frame.
+            // so `co_return` can't have its operand
+        }
+        auto get_return_object() noexcept -> promise_type* {
+            return this;
+        }
+
+        // throws `logic_error`
+        auto await_transform(const pthread_attr_t* attr) noexcept(false) {
+            if (tid)
+                // already created.
+                throw logic_error{"co_await must be used once"};
+
+            // provide the address at this point
+            return pthread_spawner_t{addressof(this->tid), attr};
+        }
+        inline auto await_transform(pthread_attr_t* attr) noexcept(false) {
+            return await_transform(static_cast<const pthread_attr_t*>(attr));
+        }
+
+        // general co_await
+        template <typename Awaitable>
+        decltype(auto) await_transform(Awaitable&& a) noexcept {
+            return std::forward<Awaitable&&>(a);
+        }
+
+      public:
+        pthread_t tid{};
+    };
+
+  public:
+    operator pthread_t() const noexcept {
+        // we can access to the `tid` through the pointer
+        return promise->tid;
+    }
+
+  public:
+    // we will receive the pointer from `get_return_object`
+    // throws `invalid_argument` for `nullptr`
+    _INTERFACE_ pthread_joiner_t(promise_type* p) noexcept(false);
+    // throws `system_error`
+    _INTERFACE_ ~pthread_joiner_t() noexcept(false);
+
+  private:
+    promise_type* promise;
+};
+
 } // namespace concrt
 
 #endif // system API dependent features
