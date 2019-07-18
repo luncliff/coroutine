@@ -1323,8 +1323,9 @@
                 <h1 id="combining-c-coroutines-and-pthread_create">Combining C++ Coroutines and <code>pthread_create</code></h1>
 <p>Some system functions use callback and an argument in <code>void*</code> type.<br />
 In this article, I'm going to cover how such functions can be wrapped with <code>co_await</code></p>
-<p>The motivation of the work is my experience to try something like <a href="https://www.youtube.com/watch?v=v0SjumbIips">CppCon 2016 : Kenny Kerr &amp; James McNellis "Putting Coroutines to Work with the Windows Runtime"</a> with the POSIX threads.
-If you are a beginner, please do read <a href="https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type">the article about <code>promise_type</code> by Lewiss Baker</a>. The article will enhance your understanding greatly.</p>
+<p>The base of examples here is my experience to try something like <a href="https://www.youtube.com/watch?v=v0SjumbIips">CppCon 2016 : Kenny Kerr &amp; James McNellis "Putting Coroutines to Work with the Windows Runtime"</a> with the POSIX threads.
+If you are a beginner, please do read <a href="https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type">the article about <code>promise_type</code> by Lewiss Baker</a>.
+The article will enhance your understanding greatly.</p>
 <h2 id="creating-a-new-thread">Creating a new thread</h2>
 <h3 id="design">Design</h3>
 <p>What I'm going to try is creating a new thread in a simple manner.
@@ -1443,9 +1444,9 @@ So we can trigger it in 1 line.</p>
 
 
 <h3 id="concerns">Concerns</h3>
-<p>You mignt curious about <code>throw</code> in the second example of <code>pthread_spawner_t::await_suspend</code>.
+<p>You might curious about <code>throw</code> in the second <code>pthread_spawner_t::await_suspend</code>.<br />
 In general, the function is the last point for the error handling.
-For out case, suppose that <code>pthread_create</code> failed. The callback <code>resume_on_pthread</code> won't be invoked.</p>
+For our case, suppose that <code>pthread_create</code> failed. The callback <code>resume_on_pthread</code> won't be invoked.</p>
 <p>That means the coroutine's frame can't be <code>resume</code>d and coverage after <code>co_await</code> is going to be lost.
 So we have to make caller handle the situation <strong>before</strong> the coroutine becomes suspended state. One of the way is to throw an exception in <code>await_suspend</code>.</p>
 <h2 id="dealing-with-the-threads-join">Dealing with the thread's join</h2>
@@ -1687,7 +1688,7 @@ In this case, the awaitable type is <code>pthread_spawner_t</code>.</p>
 </pre></div>
 
 
-<p>By doing so we can achieve out design goal.
+<p>By doing so we can achieve our design goal.
 Because typical return types for the coroutines are not aware of how to <code>co_await</code> on <code>pthread_attr_t</code>.</p>
 <h4 id="exposing-pthread_t">Exposing <code>pthread_t</code></h4>
 <p>Now the last part is to store the new pthread's id in the <code>pthread_joiner_t</code>.
