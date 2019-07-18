@@ -1322,9 +1322,9 @@
                 
                 <h1 id="combining-c-coroutines-and-pthread_create">Combining C++ Coroutines and <code>pthread_create</code></h1>
 <p>Some system functions use callback and an argument in <code>void*</code> type.<br />
-In this article, I'm going to cover how such functions can be wrapped with <code>co_await</code>, and  points are.</p>
-<p><a href="https://www.youtube.com/watch?v=v0SjumbIips">CppCon 2016 : Kenny Kerr &amp; James McNellis "Putting Coroutines to Work with the Windows Runtime"</a> will be helpful. 
-If you are a beginner, please do read <a href="https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type">the article about <code>promise_type</code> by Lewiss Baker</a>.</p>
+In this article, I'm going to cover how such functions can be wrapped with <code>co_await</code></p>
+<p>The motivation of the work is my experience to try something like <a href="https://www.youtube.com/watch?v=v0SjumbIips">CppCon 2016 : Kenny Kerr &amp; James McNellis "Putting Coroutines to Work with the Windows Runtime"</a> with the POSIX threads.
+If you are a beginner, please do read <a href="https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type">the article about <code>promise_type</code> by Lewiss Baker</a>. The article will enhance your understanding greatly.</p>
 <h2 id="creating-a-new-thread">Creating a new thread</h2>
 <h3 id="design">Design</h3>
 <p>What I'm going to try is creating a new thread in a simple manner.
@@ -1859,7 +1859,7 @@ Let's rewrite the <code>pthread_spawner_t</code>.</p>
 <p>In this article we covered 2 things by wrapping <code>pthread_create</code> for the coroutines step by step.</p>
 <ul>
 <li>How the awaitable can wrap the system function which uses a callback and it has a <code>void*</code> parameter</li>
-<li>How to define <code>await_transform</code> and which limitiation it makes</li>
+<li>How to define <code>await_transform</code> and which limitation it makes</li>
 </ul>
 <p>However, we only wrapped 2 pthread life cycle functions.
 So if the coroutine invokes <code>pthread_exit</code> instead of <code>co_return</code>, 
