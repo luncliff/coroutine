@@ -1330,7 +1330,7 @@ If you are a beginner, please do read <a href="https://lewissbaker.github.io/201
 <p>What I'm going to try is creating a new thread in a simple manner.
 Traditionally we had to separate the step before/after <code>pthread_create</code>. 
 To do so, we must write an additional function which is executed on the new thread.
-<a href="man7.org/linux/man-pages/man3/pthread_create.3.html#EXAMPLE">Like the <code>thread_start</code> in the <code>pthread_create</code> manual</a>.</p>
+<a href="http://man7.org/linux/man-pages/man3/pthread_create.3.html#EXAMPLE">Like the <code>thread_start</code> in the <code>pthread_create</code> manual</a>.</p>
 <p>But <code>co_await</code> can glue two routines into one.
 Let's see how it looks like.</p>
 <div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="nf">per_thread_task</span><span class="p">();</span>
