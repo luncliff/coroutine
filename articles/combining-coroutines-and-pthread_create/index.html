@@ -490,6 +490,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#allowing-another-awaitable-types" title="Allowing another awaitable types" class="md-nav__link">
+    Allowing another awaitable types
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1296,6 +1303,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#allowing-another-awaitable-types" title="Allowing another awaitable types" class="md-nav__link">
+    Allowing another awaitable types
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1875,6 +1889,32 @@ the assumption of the <code>pthread_joiner_t</code> will be broken.</p>
 <h3 id="after-note">After Note</h3>
 <p><a href="https://quuxplusone.github.io/blog/">Arthur O'Dwyer</a> let me know how to improve the final(WandBox) example using <code>private</code> constructor. I will cover that in later post.<br />
 Appreciate for his help and opinions! :D</p>
+<h3 id="allowing-another-awaitable-types">Allowing another awaitable types</h3>
+<p>You may need to define more generic <code>await_transform</code> like <a href="https://github.com/luncliff/coroutine/blob/dev/pthread/interface/coroutine/concrt.h#L280">this</a>.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">pthread_joiner_t</span> <span class="k">final</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">class</span> <span class="nc">promise_type</span> <span class="k">final</span> <span class="p">{</span>
+
+        <span class="c1">// the original</span>
+        <span class="k">auto</span> <span class="n">await_transform</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_attr_t</span><span class="o">*</span> <span class="n">attr</span><span class="p">){</span>
+            <span class="c1">// provide the address at this point</span>
+            <span class="k">return</span> <span class="n">pthread_spawner_t</span><span class="p">{</span><span class="n">addressof</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">),</span> <span class="n">attr</span><span class="p">};</span>
+        <span class="p">}</span>
+
+        <span class="c1">// redirect to const pointer</span>
+        <span class="kr">inline</span> <span class="k">auto</span> <span class="n">await_transform</span><span class="p">(</span><span class="n">pthread_attr_t</span><span class="o">*</span> <span class="n">attr</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">await_transform</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">pthread_attr_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">attr</span><span class="p">));</span>
+        <span class="p">}</span>
+
+        <span class="c1">// allow general co_await usage</span>
+        <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Awaitable</span><span class="o">&gt;</span>
+        <span class="k">decltype</span><span class="p">(</span><span class="k">auto</span><span class="p">)</span> <span class="n">await_transform</span><span class="p">(</span><span class="n">Awaitable</span><span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Awaitable</span><span class="o">&amp;&amp;&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    <span class="c1">// ...</span>
+<span class="p">};</span>
+</pre></div>
                 
                   
                 
