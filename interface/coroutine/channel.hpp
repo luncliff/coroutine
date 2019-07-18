@@ -8,13 +8,20 @@
 //
 // ---------------------------------------------------------------------------
 #pragma once
-#ifndef COROUTINE_CHANNEL_HPP
-#define COROUTINE_CHANNEL_HPP
+#ifndef LUNCLIFF_COROUTINE_CHANNEL_HPP
+#define LUNCLIFF_COROUTINE_CHANNEL_HPP
 
+#if __has_include(<coroutine/frame.h>)
+#include <coroutine/frame.h>
+#elif __has_include(<experimental/coroutine>) // C++ 17
+#include <experimental/coroutine>
+#elif __has_include(<coroutine>) // C++ 20
+#include <coroutine>
+#else
+#error "expect header <experimental/coroutine> or <coroutine/frame.h>"
+#endif
 #include <mutex>
 #include <tuple>
-
-#include <coroutine/frame.h>
 
 namespace coro {
 using namespace std;
@@ -115,27 +122,19 @@ class reader {
     explicit reader(channel_type& ch) noexcept(false)
         : ptr{}, frame{nullptr}, chan{addressof(ch)} {
     }
-    reader(const reader&) noexcept(false) = delete;
-    reader& operator=(const reader&) noexcept(false) = delete;
+    reader(const reader&) noexcept = delete;
+    reader& operator=(const reader&) noexcept = delete;
+    reader(reader&&) noexcept = delete;
+    reader& operator=(reader&&) noexcept = delete;
 
   public:
-    reader(reader&& rhs) noexcept(false) {
-        swap(this->ptr, rhs.ptr);
-        swap(this->frame, rhs.frame);
-        swap(this->chan, rhs.chan);
-    }
-    reader& operator=(reader&& rhs) noexcept(false) {
-        swap(this->ptr, rhs.ptr);
-        swap(this->frame, rhs.frame);
-        swap(this->chan, rhs.chan);
-        return *this;
-    }
     ~reader() noexcept = default;
 
   public:
     bool await_ready() const noexcept(false) {
         chan->mtx.lock();
         if (chan->writer_list::is_empty())
+            // await_suspend will unlock in the case
             return false;
 
         writer* w = chan->writer_list::pop();
@@ -164,8 +163,7 @@ class reader {
 
         // Store first. we have to do this because the resume operation
         // can destroy the writer coroutine
-        auto& value = get<0>(t);
-        value = move(*ptr);
+        get<0>(t) = move(*ptr);
         if (auto coro = coroutine_handle<void>::from_address(frame))
             coro.resume();
 
@@ -206,27 +204,19 @@ class writer final {
     explicit writer(channel_type& ch, pointer pv) noexcept(false)
         : ptr{pv}, frame{nullptr}, chan{addressof(ch)} {
     }
-    writer(const writer&) noexcept(false) = delete;
-    writer& operator=(const writer&) noexcept(false) = delete;
+    writer(const writer&) noexcept = delete;
+    writer& operator=(const writer&) noexcept = delete;
+    writer(writer&&) noexcept = delete;
+    writer& operator=(writer&&) noexcept = delete;
 
   public:
-    writer(writer&& rhs) noexcept(false) {
-        swap(this->ptr, rhs.ptr);
-        swap(this->frame, rhs.frame);
-        swap(this->chan, rhs.chan);
-    }
-    writer& operator=(writer&& rhs) noexcept(false) {
-        swap(this->ptr, rhs.ptr);
-        swap(this->frame, rhs.frame);
-        swap(this->chan, rhs.chan);
-        return *this;
-    }
     ~writer() noexcept = default;
 
   public:
     bool await_ready() const noexcept(false) {
         chan->mtx.lock();
         if (chan->reader_list::is_empty())
+            // await_suspend will unlock in the case
             return false;
 
         reader* r = chan->reader_list::pop();
@@ -286,12 +276,15 @@ class channel final : internal::list<reader<T, M>>,
   private:
     mutex_type mtx{};
 
-  public:
+  private:
     channel(const channel&) noexcept(false) = delete;
     channel(channel&&) noexcept(false) = delete;
     channel& operator=(const channel&) noexcept(false) = delete;
     channel& operator=(channel&&) noexcept(false) = delete;
+
+  public:
     channel() noexcept(false) : reader_list{}, writer_list{}, mtx{} {
+        // initialized 2 linked list and given mutex
     }
     ~channel() noexcept(false) // channel can't provide exception guarantee...
     {
@@ -347,13 +340,15 @@ class peeker final : protected reader<T, M> {
     using reader = typename channel_type::reader;
     using writer = typename channel_type::writer;
 
+  private:
+    peeker(const peeker&) noexcept(false) = delete;
+    peeker(peeker&&) noexcept(false) = delete;
+    peeker& operator=(const peeker&) noexcept(false) = delete;
+    peeker& operator=(peeker&&) noexcept(false) = delete;
+
   public:
     explicit peeker(channel_type& ch) noexcept(false) : reader{ch} {
     }
-    peeker(const peeker&) noexcept(false) = delete;
-    peeker(peeker&& rhs) noexcept(false) = delete;
-    peeker& operator=(const peeker&) noexcept(false) = delete;
-    peeker& operator=(peeker&& rhs) noexcept(false) = delete;
     ~peeker() noexcept = default;
 
   public:
@@ -400,4 +395,4 @@ void select(ChanType& ch, FuncType&& fn, Args&&... args) noexcept(false) {
 
 } // namespace coro
 
-#endif // COROUTINE_CHANNEL_HPP
+#endif // LUNCLIFF_COROUTINE_CHANNEL_HPP

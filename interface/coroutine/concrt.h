@@ -32,8 +32,8 @@
 #endif
 // clang-format on
 
-#ifndef COROUTINE_CONCURRENCY_HELPERS_H
-#define COROUTINE_CONCURRENCY_HELPERS_H
+#ifndef LUNCLIFF_COROUTINE_CONCURRENCY_HELPERS_H
+#define LUNCLIFF_COROUTINE_CONCURRENCY_HELPERS_H
 
 #include <system_error>
 #include <atomic>
@@ -114,7 +114,7 @@ static_assert(sizeof(section) == sizeof(CRITICAL_SECTION));
 //   since `ptp_event` uses INFINITE wait. Therefore, its user must make
 //   sure one of `SetEvent` or `cancel` will happen in the future
 class ptp_event final : no_copy_move {
-    HANDLE wo{};
+    HANDLE wo{}; // wait object
 
   private:
     // WAITORTIMERCALLBACK
@@ -244,4 +244,4 @@ auto signaled_event_tasks() noexcept(false) -> coro::enumerable<event::task>;
 } // namespace concrt
 
 #endif // system API dependent features
-#endif // COROUTINE_CONCURRENCY_HELPERS_H
+#endif // LUNCLIFF_COROUTINE_CONCURRENCY_HELPERS_H

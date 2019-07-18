@@ -8,6 +8,10 @@ git:
   submodules: true
   depth: 5
 
+branches:
+  except:
+    - docs
+
 notifications:
   email:
     - luncliff@gmail.com
@@ -17,6 +21,7 @@ compiler: clang
 
 addons:
   homebrew:
+    update: true
     packages:
       - ninja
       - tree
@@ -61,6 +66,7 @@ before_script:
     -DUSE_CUSTOM_HEADER=${CUSTOM}
     -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
 script:
+  - cmake --build .
   - cmake --build . --target install
   - ctest --output-on-failure
 after_success:
@@ -105,7 +111,8 @@ matrix:
         - CUSTOM=false
 
     #
-    # to use the implementation of <coroutine/frame.h>, ON the CUSTOM flag
+    # to use the implementation in <coroutine/frame.h>, 
+    # ON the CUSTOM flag
     #
 
     - name: Mac Debug (Custom)
@@ -179,8 +186,9 @@ matrix:
             - tar
             - ninja-build
             - tree
+            - rsync
       before_install:
-        # Install CMake 3.14.1 (build.gradle requires the exact version)
+        # Install CMake 3.14 (build.gradle knows the exact version)
         - sudo bash ./scripts/install-cmake-3.14.sh;
         # Install Gradle from https://sdkman.io/
         - curl -s "https://get.sdkman.io" | bash > /dev/null

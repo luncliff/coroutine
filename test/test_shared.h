@@ -49,4 +49,13 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
     Logger::WriteMessage(system_category().message(ec).c_str());               \
     Assert::Fail();
 
+#else
+#define REQUIRE(cond) assert(cond);
+#define PRINT_MESSAGE(msg)                                                     \
+    printf("%s %s %d\n", msg.c_str(), __FILE__, __LINE__);
+#define FAIL_WITH_MESSAGE(msg)                                                 \
+    {                                                                          \
+        PRINT_MESSAGE(msg);                                                    \
+        exit(__LINE__);                                                        \
+    }
 #endif

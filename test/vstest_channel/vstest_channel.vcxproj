@@ -19,6 +19,8 @@
     <ClInclude Include="..\test_shared.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\channel_ownership_consumer.cpp" />
+    <ClCompile Include="..\channel_ownership_producer.cpp" />
     <ClCompile Include="..\channel_race_no_leak.cpp" />
     <ClCompile Include="..\channel_read_fail_after_close.cpp" />
     <ClCompile Include="..\channel_read_write_mutex.cpp" />

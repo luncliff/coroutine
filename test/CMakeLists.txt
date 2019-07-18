@@ -3,16 +3,16 @@
 #
 cmake_minimum_required(VERSION 3.8)
 
-add_library(helper_network STATIC
+add_library(socket STATIC
     test_network.h
     test_network.cpp
 )
-target_include_directories(helper_network
+target_include_directories(socket
 PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${GSL_INCLUDE_DIR}
 )
-target_link_libraries(helper_network
+target_link_libraries(socket
 PUBLIC
     coroutine
 )
@@ -85,10 +85,22 @@ generate_exe_test( coro_frame_empty )
 generate_exe_test( coro_frame_return )
 generate_exe_test( coro_frame_suspend )
 
+generate_exe_test( channel_read_fail_after_close )
+generate_exe_test( channel_read_write_mutex )
+generate_exe_test( channel_read_write_nolock )
+generate_exe_test( channel_write_fail_after_close )
+generate_exe_test( channel_write_read_mutex )
+generate_exe_test( channel_write_read_nolock )
+generate_exe_test( channel_select_bypass_empty )
+generate_exe_test( channel_select_type_match )
+generate_exe_test( channel_select_peek_all_cases )
+generate_exe_test( channel_race_no_leak )
+generate_exe_test( channel_ownership_consumer )
+generate_exe_test( channel_ownership_producer )
+
 if(WIN32)
 
 generate_exe_test( concrt_win32_get_threads )
-
 generate_exe_test( event_win_cancel )
 generate_exe_test( event_win_signal )
 generate_exe_test( event_win_wait_one )
@@ -107,18 +119,18 @@ generate_exe_test( event_unix_wait_three )
 
 endif()
 
-generate_exe_test( net_get_addrinfo_ip6_bind            helper_network )
-generate_exe_test( net_get_addrinfo_ip6_multicast       helper_network )
-generate_exe_test( net_get_addrinfo_tcp6_connect        helper_network )
-generate_exe_test( net_get_addrinfo_tcp6_listen_numeric helper_network )
-generate_exe_test( net_get_addrinfo_tcp6_listen_text    helper_network )
-generate_exe_test( net_get_addrinfo_udp6_unspecified    helper_network )
-generate_exe_test( net_get_addrinfo_udp6_v4mapped       helper_network )
+generate_exe_test( net_get_addrinfo_ip6_bind            socket )
+generate_exe_test( net_get_addrinfo_ip6_multicast       socket )
+generate_exe_test( net_get_addrinfo_tcp6_connect        socket )
+generate_exe_test( net_get_addrinfo_tcp6_listen_numeric socket )
+generate_exe_test( net_get_addrinfo_tcp6_listen_text    socket )
+generate_exe_test( net_get_addrinfo_udp6_unspecified    socket )
+generate_exe_test( net_get_addrinfo_udp6_v4mapped       socket )
 
-generate_exe_test( net_get_nameinfo_v4  helper_network )
-generate_exe_test( net_get_nameinfo_v6  helper_network )
+generate_exe_test( net_get_nameinfo_v4  socket )
+generate_exe_test( net_get_nameinfo_v6  socket )
 
-generate_exe_test( net_get_hostname     helper_network )
+generate_exe_test( net_get_hostname     socket )
 
-generate_exe_test( net_echo_tcp         helper_network )
-generate_exe_test( net_echo_udp         helper_network )
+# generate_exe_test( net_echo_tcp         socket )
+# generate_exe_test( net_echo_udp         socket )

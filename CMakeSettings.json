@@ -10,7 +10,7 @@
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
       "cmakeToolchain": "",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "inheritEnvironments": [ "clang_cl_x64" ],
       "variables": [
         {
           "name": "BUILD_SHARED_LIBS",
@@ -19,11 +19,18 @@
         },
         {
           "name": "CMAKE_CXX_COMPILER",
-          "value": "clang-cl"
+          "value": "clang-cl",
+          "type": "STRING"
         },
         {
           "name": "CMAKE_C_COMPILER",
-          "value": "clang-cl"
+          "value": "clang-cl",
+          "type": "STRING"
+        },
+        {
+          "name": "GSL_CXX_STANDARD",
+          "value": "17",
+          "type": "STRING"
         }
       ]
     }
