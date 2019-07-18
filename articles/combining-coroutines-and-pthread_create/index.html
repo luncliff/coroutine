@@ -1352,7 +1352,7 @@ Let's see how it looks like.</p>
 What I want to show here is that the look &amp; feel of the wrapping pattern.</p>
 <h3 id="implementation">Implementation</h3>
 <h4 id="start_routine-to-resume-the-coroutine"><code>start_routine</code> to resume the coroutine</h4>
-<p>Definately the most important functions are the life cycle functions.</p>
+<p>Obviously the most important functions are the life cycle functions.</p>
 <ul>
 <li><a href="http://man7.org/linux/man-pages/man3/pthread_create.3.html"><code>pthread_create</code></a></li>
 <li><a href="http://man7.org/linux/man-pages/man3/pthread_join.3.html"><code>pthread_join</code></a></li>
@@ -1717,7 +1717,8 @@ This is what I wrote above.</p>
 </pre></div>
 
 
-<p>However, we call <code>pthread_create</code> in <code>pthread_spawner_t</code>. So we can say there must be some sharing point to get the valid <code>pthread_t</code> from <code>pthread_jointer_t</code>.</p>
+<p>However, we call <code>pthread_create</code> in <code>pthread_spawner_t</code>. 
+So we can say there must be some sharing point to get the valid <code>pthread_t</code> from <code>pthread_joiner_t</code>.</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">pthread_joiner_t</span> <span class="k">final</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="k">class</span> <span class="nc">pthread_spawner_t</span> <span class="k">final</span> <span class="p">{</span>
