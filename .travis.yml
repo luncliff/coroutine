@@ -22,29 +22,45 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - llvm-toolchain-xenial-7
+      - llvm-toolchain-xenial-8
     packages:
+      - g++-7
+      - g++-8
+      - libc++-7-dev
+      - libc++abi-7-dev
+      - unzip
       - curl
+      - ninja-build
+      - tree
+      - jq
 
 services:
   - docker
 
 matrix:
   include:
-    - name: GCC branch for C++ Coroutine
+    - name: GCC-10 Info (Coroutine Branch)
       before_install:
         - docker info
       install:
         - docker pull luncliff/gcc
+        - docker inspect luncliff/gcc | jq
       script:
         - docker run --rm luncliff/gcc gcc-10 --version
-        - docker build --file ./build.docker . -t luncliff/coroutine
 
-    - name: Try with GCC-10 (Coroutine Branch)
+    - name: Build/Test with Docker Container
       install:
-        - sudo bash ./scripts/install-cmake-3.14.sh
+        - docker pull luncliff/gcc
+        - docker run -it -d
+          --name gcc_10_builder
+          -w /code -v $(pwd):/code
+          luncliff/gcc
       before_script:
-        - export CC=$(pwd)/tools/gcc-10 CXX=$(pwd)/tools/gcc-10    
+        - export RUN="docker exec gcc_10_builder"
+        - $RUN apt install -y -qq cmake rsync wget tar unzip
+        - $RUN cmake --version
       script:
-        - cmake .
-        - cmake --build .
-        - ctest --output-on-failure
+        - $RUN cmake . -DCMAKE_CXX_COMPILER=gcc-10
+        - $RUN cmake --build .
+        - $RUN ctest --output-on-failure
