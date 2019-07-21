@@ -52,15 +52,12 @@ matrix:
     - name: Build/Test with Docker Container
       install:
         - docker pull luncliff/gcc
-        - docker run -it -d
-          --name gcc_10_builder
-          -w /code -v $(pwd):/code
-          luncliff/gcc
+        - docker run -it -d --name gcc_10_builder -w /code/build -v $(pwd):/code luncliff/gcc
       before_script:
         - export RUN="docker exec gcc_10_builder"
         - $RUN apt install -y -qq cmake rsync wget tar unzip
         - $RUN cmake --version
       script:
-        - $RUN cmake . -DCMAKE_CXX_COMPILER=gcc-10
+        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10
         - $RUN cmake --build .
         - $RUN ctest --output-on-failure

@@ -17,6 +17,7 @@ function(generate_exe_test NAME)
     )
     target_include_directories(${TEST_NAME}
     PRIVATE
+        ${PROJECT_SOURCE_DIR}/interface
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${GSL_INCLUDE_DIR}
     )
@@ -71,7 +72,8 @@ elseif(UNIX)
 
 generate_exe_test(  gcc_support_version )
 generate_exe_test(  gcc_handle_empty )
-generate_exe_test(  gcc_return_type )
+generate_exe_test(  gcc_return_void )
+generate_exe_test(  gcc_return_value )
 generate_exe_test(  gcc_concepts_awaitable )
 generate_exe_test(  gcc_concepts_promise )
 
