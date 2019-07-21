@@ -38,3 +38,13 @@ matrix:
       script:
         - docker run --rm luncliff/gcc gcc-10 --version
         - docker build --file ./build.docker . -t luncliff/coroutine
+
+    - name: Try with GCC-10 (Coroutine Branch)
+      install:
+        - sudo bash ./scripts/install-cmake-3.14.sh
+      before_script:
+        - export CC=$(pwd)/tools/gcc-10 CXX=$(pwd)/tools/gcc-10    
+      script:
+        - cmake .
+        - cmake --build .
+        - ctest --output-on-failure

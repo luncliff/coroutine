@@ -43,20 +43,20 @@ else()
     message(STATUS)
 endif()
 
-# Project modules
-add_subdirectory(modules)
+# # Project modules
+# add_subdirectory(modules)
 
-# Test projects
-if(TEST_DISABLED)
-    message(STATUS "Test is disabled.")
-    return()
-elseif(IOS OR ANDROID)
-    message(STATUS "Mobile cross build doesn't support tests")
-    return()
-elseif(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
-    message(STATUS "This is not a root project. Skip tests")
-    return()
-endif()
+# # Test projects
+# if(TEST_DISABLED)
+#     message(STATUS "Test is disabled.")
+#     return()
+# elseif(IOS OR ANDROID)
+#     message(STATUS "Mobile cross build doesn't support tests")
+#     return()
+# elseif(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+#     message(STATUS "This is not a root project. Skip tests")
+#     return()
+# endif()
 
 # we will use ctest. so enable it
 enable_testing() 
