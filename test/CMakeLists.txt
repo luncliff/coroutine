@@ -3,6 +3,16 @@
 #
 cmake_minimum_required(VERSION 3.8)
 
+unset(CMAKE_C_FLAGS)
+unset(CMAKE_C_FLAGS_DEBUG)
+unset(CMAKE_C_FLAGS_RELEASE)
+unset(CMAKE_C_FLAGS_RELWITHDEBINFO)
+
+unset(CMAKE_CXX_FLAGS)
+unset(CMAKE_CXX_FLAGS_DEBUG)
+unset(CMAKE_CXX_FLAGS_RELEASE)
+unset(CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+
 # generate_exe_test( ... )
 function(generate_exe_test NAME)
     set(TEST_NAME test_${NAME})
@@ -69,12 +79,12 @@ if(WIN32)
 elseif(UNIX)
 
 # https://github.com/iains/gcc-cxx-coroutines/tree/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines
-
+# docker run -it -d --name gcc_10_builder -w /code/build -v $(pwd):/code luncliff/gcc
 generate_exe_test(  gcc_support_version )
-generate_exe_test(  gcc_handle_empty )
-generate_exe_test(  gcc_return_void )
-generate_exe_test(  gcc_return_value )
 generate_exe_test(  gcc_concepts_awaitable )
 generate_exe_test(  gcc_concepts_promise )
+generate_exe_test(  gcc_empty_handle )
+generate_exe_test(  gcc_save_current_frame )
+generate_exe_test(  gcc_assign_reference )
 
 endif()

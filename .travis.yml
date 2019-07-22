@@ -39,17 +39,21 @@ services:
   - docker
 
 matrix:
+  allow_failures:
+    - os: linux
   include:
-    - name: GCC-10 Info (Coroutine Branch)
+    - name: Docker Image / Version Info
       before_install:
         - docker info
       install:
         - docker pull luncliff/gcc
-        - docker inspect luncliff/gcc | jq
       script:
+        - docker inspect luncliff/gcc | jq
         - docker run --rm luncliff/gcc gcc-10 --version
 
-    - name: Build/Test with Docker Container
+    - name: CMake + Debug
+      env:
+        - CONFIG=Debug
       install:
         - docker pull luncliff/gcc
         - docker run -it -d --name gcc_10_builder -w /code/build -v $(pwd):/code luncliff/gcc
@@ -58,6 +62,21 @@ matrix:
         - $RUN apt install -y -qq cmake rsync wget tar unzip
         - $RUN cmake --version
       script:
-        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10
-        - $RUN cmake --build .
+        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10 -DCMAKE_BUILD_TYPE=${CONFIG}
+        - $RUN make -k
+        - $RUN ctest --output-on-failure
+
+    - name: CMake + Release
+      env:
+        - CONFIG=Release
+      install:
+        - docker pull luncliff/gcc
+        - docker run -it -d --name gcc_10_builder -w /code/build -v $(pwd):/code luncliff/gcc
+      before_script:
+        - export RUN="docker exec gcc_10_builder"
+        - $RUN apt install -y -qq cmake rsync wget tar unzip
+        - $RUN cmake --version
+      script:
+        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10 -DCMAKE_BUILD_TYPE=${CONFIG}
+        - $RUN make -k
         - $RUN ctest --output-on-failure
