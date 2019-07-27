@@ -1,6 +1,13 @@
 //
-//  https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//  License : CC BY 4.0
 //
+//  Note
+//    This is a test code for GCC C++ Coroutines
+//    Assign to the reference in the coroutine function
+//    The assignment occurs when it is resumed.
+//
+
 #include <cstdio>
 #include <string>
 
@@ -53,14 +60,16 @@ class preserve_frame final : public coroutine_handle<void> {
 using namespace std;
 using namespace std::experimental;
 
-auto assign_and_return(string& result) -> preserve_frame {
+auto assign_and_return(string& result) noexcept -> preserve_frame {
     co_await suspend_always{};
+    // revision 273645:
+    //  __FUNCTION__ is the empty string
     result = __FUNCTION__;
     co_return;
 }
 
-int main(int, char* []) {
-    string result{};
+int main(int, char* argv[]) {
+    string result = argv[0]; // start with non-empty string
 
     auto frame = assign_and_return(result);
     while (frame.done() == false)

@@ -3,8 +3,8 @@
 //  License : CC BY 4.0
 //
 //  Note
-//    Save current coroutine's frame using co_await operator
 //    This is a test code for GCC C++ Coroutines
+//    Save current coroutine's frame using co_await operator
 //
 
 // https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
