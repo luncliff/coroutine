@@ -1,9 +1,7 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
 #pragma once
 #ifndef DARWIN_KERNEL_QUEUE_API_WRAPPER_H
 #define DARWIN_KERNEL_QUEUE_API_WRAPPER_H
@@ -15,6 +13,8 @@
 #include <fcntl.h>
 #include <sys/event.h>
 #include <unistd.h>
+
+namespace coro {
 
 struct kernel_queue_t final {
     int kqfd;
@@ -29,5 +29,7 @@ struct kernel_queue_t final {
     auto wait(const timespec& ts) noexcept(false)
         -> coro::enumerable<kevent64_s>;
 };
+
+} // namespace coro
 
 #endif // DARWIN_KERNEL_QUEUE_API_WRAPPER_H

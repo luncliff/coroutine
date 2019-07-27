@@ -1,4 +1,3 @@
-#include <coroutine/concrt.h>
 
 #include <cstddef>
 #include <cstdint>
@@ -19,16 +18,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID) {
     if (fdwReason == DLL_PROCESS_ATTACH)
         return TRUE;
     return TRUE;
-}
-
-uint32_t version() noexcept {
-    return 0;
-}
-
-#else
-
-_INTERFACE_ uint32_t version() noexcept {
-    return 0;
 }
 
 #endif

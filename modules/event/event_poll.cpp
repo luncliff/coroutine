@@ -1,13 +1,15 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
-#include "./event_poll.h"
+#include "event_poll.h"
 
 #include <system_error>
+
+#include <sys/eventfd.h>
+
 using namespace std;
+namespace coro {
 
 event_poll_t::event_poll_t() noexcept(false)
     : epfd{-1},
@@ -53,3 +55,5 @@ auto event_poll_t::wait(int timeout) noexcept(false)
         co_yield events[i];
     }
 }
+
+} // namespace coro

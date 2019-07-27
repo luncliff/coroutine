@@ -1,33 +1,38 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
-#include <coroutine/concrt.h>
-#include <coroutine/net.h>
+#include <coroutine/event.h>
 
 #include <cstdlib>
 #include <cstring>
 #include <system_error>
 
+#include <sys/socket.h>
 #include <sys/un.h>
 
-#include "./kernel_queue.h"
+#include "kernel_queue.h"
 
-namespace concrt {
 using namespace std;
 
-// see also: `linux/event.cpp`
+namespace coro {
+
+// see also: `event_linux.cpp`
 kernel_queue_t selist{};
 
 // mock eventfd using pimpl idiom.
 // instead of `eventfd` in linux, we are going to use 'unix domain socket'
 // possible alternative is `fifo`, but it also requires path management.
-struct unix_event_t final : no_copy_move {
+struct unix_event_t final {
     int64_t sd;
     int64_t msg;
     sockaddr_un local;
+
+  private:
+    unix_event_t(const unix_event_t&) = delete;
+    unix_event_t(unix_event_t&&) = delete;
+    unix_event_t& operator=(const unix_event_t&) = delete;
+    unix_event_t& operator=(unix_event_t&&) = delete;
 
   public:
     unix_event_t() noexcept(false) : sd{}, msg{}, local{} {
@@ -35,23 +40,23 @@ struct unix_event_t final : no_copy_move {
         static_assert(sizeof(pattern) == 20);
         static_assert(sizeof(pattern) < sizeof(sockaddr_un::sun_path));
 
-        const auto len = strnlen(pattern, sizeof(pattern));
+        const auto len = ::strnlen(pattern, sizeof(pattern));
         assert(len == 19);
 
-        strncpy(local.sun_path, pattern, len);
+        ::strncpy(local.sun_path, pattern, len);
         assert(local.sun_path[len] == 0); // null terminated ?
 
         // ensure path exists using 'mkstemp'
-        sd = mkstemp(local.sun_path);
+        sd = ::mkstemp(local.sun_path);
         if (sd == -1)
             throw system_error{errno, system_category(), "mkstemp"};
-        if (close(sd))
+        if (::close(sd))
             throw system_error{errno, system_category(), "close"};
-        if (remove(local.sun_path))
+        if (::remove(local.sun_path))
             throw system_error{errno, system_category(), "remove"};
 
         // prepare unix domain socket
-        sd = socket(AF_UNIX, SOCK_DGRAM, 0);
+        sd = ::socket(AF_UNIX, SOCK_DGRAM, 0);
         if (sd == -1)
             throw system_error{errno, system_category(), "socket"};
 
@@ -62,19 +67,23 @@ struct unix_event_t final : no_copy_move {
             // this throw will make the object not-constructed
             auto se = system_error{errno, system_category(), "bind"};
             // so we have to make sure of the destruction
-            this->~unix_event_t();
+            this->close();
             throw se;
         }
     }
     ~unix_event_t() noexcept {
-        close(sd);
-        unlink(local.sun_path); // don't forget this!
+        this->close();
+    }
+
+    void close() noexcept {
+        ::close(sd);
+        ::unlink(local.sun_path); // don't forget this!
     }
 
     void signal() noexcept(false) {
         socklen_t len = SUN_LEN(&local);
         // send 8 byte (size of state) to buffer
-        auto sz = sendto(sd, &msg, sizeof(msg), 0, (sockaddr*)&local, len);
+        auto sz = ::sendto(sd, &msg, sizeof(msg), 0, (sockaddr*)&local, len);
         if (sz == -1)
             throw system_error{errno, system_category(), "sendto"};
 
@@ -85,7 +94,7 @@ struct unix_event_t final : no_copy_move {
     }
     void reset() noexcept(false) {
         // socket buffer is limited. we must consume properly
-        auto sz = recvfrom(sd, &msg, sizeof(msg), 0, nullptr, nullptr);
+        auto sz = ::recvfrom(sd, &msg, sizeof(msg), 0, nullptr, nullptr);
         if (sz == -1)
             throw system_error{errno, system_category(), "recvfrom"};
 
@@ -168,4 +177,4 @@ auto signaled_event_tasks() noexcept(false) -> coro::enumerable<event::task> {
     co_return;
 }
 
-} // namespace concrt
+} // namespace coro

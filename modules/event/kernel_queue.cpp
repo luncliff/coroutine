@@ -1,13 +1,12 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
-#include "./kernel_queue.h"
+#include "kernel_queue.h"
 
 #include <system_error>
 using namespace std;
+namespace coro {
 
 kernel_queue_t::kernel_queue_t() noexcept(false)
     : kqfd{-1},
@@ -40,7 +39,9 @@ auto kernel_queue_t::wait(const timespec& ts) noexcept(false)
         co_yield events[i];
     }
 }
+} // namespace coro
 
+/*
 void print_kevent(const kevent64_s& ev) {
     printf(" ev.ident \t: %llu\n", ev.ident);
 
@@ -93,3 +94,4 @@ void print_kevent(const kevent64_s& ev) {
     printf(" ev.data\t: %lld\n", ev.data);
     printf(" ev.udata\t: %llx, %llu\n", ev.udata, ev.udata);
 }
+*/

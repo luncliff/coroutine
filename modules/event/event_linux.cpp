@@ -1,16 +1,12 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
-#include <coroutine/concrt.h>
+#include <coroutine/event.h>
 
-#include <sys/eventfd.h>
+#include "event_poll.h"
 
-#include "./event_poll.h"
-
-namespace concrt {
+namespace coro {
 
 // signaled event list. it's badly named to prevent possible collision
 event_poll_t selist{};
@@ -114,4 +110,4 @@ auto signaled_event_tasks() noexcept(false) -> coro::enumerable<event::task> {
     co_return;
 }
 
-} // namespace concrt
+} // namespace coro

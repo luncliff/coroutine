@@ -24,18 +24,14 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 include(check-compiler)
 include(report-project-info)
 
-if(${CMAKE_TOOLCHAIN_FILE} MATCHES vcpkg.cmake)
-    # portfile in vcpkg must give the path
-    set(GSL_INCLUDE_DIR	${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include)
-else()
-    # use submodule
-    add_subdirectory(external/guideline)
-	set(GSL_INCLUDE_DIR	${CMAKE_CURRENT_SOURCE_DIR}/external/guideline/include)
-endif()
+include(external-gsl)
 
 set(INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
 add_subdirectory(modules/portable)
-add_subdirectory(modules/concrt)
+
+if(NOT WIN32)
+    add_subdirectory(modules/event)
+endif()
 
 # Export/Install for find_package()
 #   - https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html
@@ -47,7 +43,7 @@ add_subdirectory(modules/concrt)
 # 'coroutine-targets' is a better name, but we will merge their contents 
 # into the file 'coroutine-config.cmake' without using 'configure_file()' which requires config template
 install(EXPORT      coroutine-config
-        NAMESPACE   coro::
+        # NAMESPACE   coro::
         DESTINATION ${CMAKE_INSTALL_PREFIX}/share/coroutine
 )
 

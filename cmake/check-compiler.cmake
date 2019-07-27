@@ -3,8 +3,6 @@
 #   Note
 #       Check if the compiler supports coroutine
 #
-cmake_policy(VERSION 3.8)
-
 include(CheckCXXCompilerFlag)
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     check_cxx_compiler_flag(-std=c++2a      cxx_latest      )
@@ -19,4 +17,7 @@ elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     check_cxx_compiler_flag(-fcoroutines    cxx_coroutine   )
     check_cxx_compiler_flag(-fconcepts      cxx_concepts   )
 
+    if(NOT cxx_coroutine)
+        message(FATAL_ERROR "failed: cxx_coroutine")
+    endif()
 endif()
