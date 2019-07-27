@@ -10,6 +10,10 @@ jobs:
   pool:
     vmImage: 'vs2017-win2016'
   steps:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: git submodule update --init --recursive;
     - task: ChocolateyCommand@0
       inputs:
         command: 'install'
@@ -33,6 +37,10 @@ jobs:
       inputs:
         targetType: 'inline'
         script: systeminfo;
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: git submodule update --init --recursive;
     - task: msbuild@1
       inputs:
         solution: ${{ parameters.solution }}

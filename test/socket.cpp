@@ -2,10 +2,26 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_network.h"
-#include "test_shared.h"
+#include "socket.h"
+
+#include <coroutine/net.h>
 
 using namespace std;
+
+#define REQUIRE(cond)                                                          \
+    if ((cond) == false) {                                                     \
+        printf("%s %d\n", __FILE__, __LINE__);                                 \
+        exit(__LINE__);                                                        \
+    }
+#define PRINT_MESSAGE(msg)                                                     \
+    printf("%s %s %d\n", msg.c_str(), __FILE__, __LINE__);
+#define FAIL_WITH_MESSAGE(msg)                                                 \
+    {                                                                          \
+        PRINT_MESSAGE(msg);                                                    \
+        exit(__LINE__);                                                        \
+    }
+#define FAIL_WITH_CODE(ec) FAIL_WITH_MESSAGE(system_category().message(ec));
+
 
 int64_t socket_create(const addrinfo& hint) {
     int64_t sd = ::socket(hint.ai_family, hint.ai_socktype, hint.ai_protocol);

@@ -1,5 +1,4 @@
-﻿// ---------------------------------------------------------------------------
-//
+﻿//
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
@@ -9,31 +8,28 @@
 //      https://github.com/alasdairmackintosh/google-concurrency-library
 //      https://docs.microsoft.com/en-us/windows/desktop/ProcThread/using-the-thread-pool-functions
 //
-// ---------------------------------------------------------------------------
 #pragma once
 // clang-format off
-#ifdef USE_STATIC_LINK_MACRO // ignore macro declaration in static build
+#if defined(FORCE_STATIC_LINK)
 #   define _INTERFACE_
 #   define _HIDDEN_
-#else 
-#   if defined(_MSC_VER) // MSVC
-#       define _HIDDEN_
-#       ifdef _WINDLL
-#           define _INTERFACE_ __declspec(dllexport)
-#       else
-#           define _INTERFACE_ __declspec(dllimport)
-#       endif
-#   elif defined(__GNUC__) || defined(__clang__)
-#       define _INTERFACE_ __attribute__((visibility("default")))
-#       define _HIDDEN_ __attribute__((visibility("hidden")))
+#elif defined(_MSC_VER) // MSVC or clang-cl
+#   define _HIDDEN_
+#   ifdef _WINDLL
+#       define _INTERFACE_ __declspec(dllexport)
 #   else
-#       error "unexpected compiler"
-#   endif // compiler check
+#       define _INTERFACE_ __declspec(dllimport)
+#   endif
+#elif defined(__GNUC__) || defined(__clang__)
+#   define _INTERFACE_ __attribute__((visibility("default")))
+#   define _HIDDEN_ __attribute__((visibility("hidden")))
+#else
+#   error "unexpected linking configuration"
 #endif
 // clang-format on
 
-#ifndef LUNCLIFF_COROUTINE_CONCURRENCY_HELPERS_H
-#define LUNCLIFF_COROUTINE_CONCURRENCY_HELPERS_H
+#ifndef COROUTINE_CONCURRENCY_HELPERS_H
+#define COROUTINE_CONCURRENCY_HELPERS_H
 
 #include <system_error>
 #include <atomic>
@@ -339,4 +335,4 @@ class pthread_joiner_t final : no_copy_move {
 } // namespace concrt
 
 #endif // system API dependent features
-#endif // LUNCLIFF_COROUTINE_CONCURRENCY_HELPERS_H
+#endif // COROUTINE_CONCURRENCY_HELPERS_H

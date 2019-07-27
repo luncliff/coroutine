@@ -32,7 +32,6 @@ static_assert(false, "This header replaces <experimental/coroutine>"
 
 #elif defined(USE_PORTABLE_COROUTINE_HANDLE) // use this one
 //
-// case: gcc
 // case: clang-cl, VC++
 // case: msvc, VC++
 // case: clang, libc++

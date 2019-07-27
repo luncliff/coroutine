@@ -1,9 +1,17 @@
 
 add_library(portable INTERFACE)
+add_library(coro::portable ALIAS portable)
+
+if(USE_PORTABLE_HEADER)
+    set_target_properties(portable
+    PROPERTIES
+        INTERFACE_COMPILE_DEFINITIONS "USE_PORTABLE_COROUTINE_HANDLE"# ;_EXPERIMENTAL_RESUMABLE_
+    )
+endif()
 
 target_include_directories(portable
 INTERFACE
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${INTERFACE_DIR}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
 )
 
@@ -18,6 +26,12 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
             -fms-compatibility
         )
 
+        # in this case, we always use portable header
+        set_target_properties(portable
+        PROPERTIES
+            INTERFACE_COMPILE_DEFINITIONS "USE_PORTABLE_COROUTINE_HANDLE;_RESUMABLE_FUNCTIONS_SUPPORTED"
+        )    
+        
     elseif(UNIX)
         target_compile_options(portable
         INTERFACE
@@ -35,17 +49,18 @@ elseif(MSVC)
 elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     target_compile_options(portable
     INTERFACE
-        -fcoroutine -fconcepts
+        -fcoroutines -fconcepts
         -std=gnu++2a
     )
 
 endif()
 
-install(FILES   ${PROJECT_SOURCE_DIR}/include/frame.h
+install(FILES   ${INTERFACE_DIR}/coroutine/frame.h
+                ${INTERFACE_DIR}/coroutine/return.h
         # Use DESTINATION instead to make sure of the path.
         # Must be same with INSTALL_INTERFACE above
         # TYPE    INCLUDE
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
 )
 install(TARGETS         portable
         EXPORT          coroutine-config

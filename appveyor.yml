@@ -8,10 +8,6 @@ branches:
   except:
     - docs
     - skip/*
-  only:
-    - master
-    - dev/*
-    - test/*
 
 clone_script:
   - ps: git clone -q --recursive --branch $env:APPVEYOR_REPO_BRANCH https://github.com/$env:APPVEYOR_REPO_NAME.git $env:APPVEYOR_BUILD_FOLDER
@@ -162,7 +158,7 @@ for:
   install:
     # http://apt.llvm.org/
     # This library will use clang up to 'qualification branch'
-    - sh: sudo apt install -y -qq --fix-missing wget unzip rsync
+    - sh: sudo apt install -y -qq --fix-missing wget unzip rsync > /tmp/apt-install.log
     - sh: sudo bash ./scripts/setup-compilers-bionic.sh
     - sh: sudo bash ./scripts/install-cmake-3.14.sh
     - sh: sudo bash ./scripts/install-libc++8.sh

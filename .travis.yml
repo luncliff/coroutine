@@ -13,10 +13,6 @@ branches:
   except:
     - docs
     - skip/*
-  only:
-    - master
-    - dev/*
-    - test/*
 
 notifications:
   email:
@@ -135,8 +131,10 @@ after_success:
 
 matrix:
   allow_failures:
-    - services:
+    - services:             # GCC Coroutines (Under develop)
         - docker
+    - language: android     # Android NDK
+    - osx_image: xcode10.1  # iPhone OS
 
   include:
     - os: windows
@@ -219,7 +217,17 @@ matrix:
       env:
         - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
 
+    #
+    # ... allow_failures builds ...
+    #
+
     - name: gcc-cxx-coroutines debug
+      os: linux
+      dist: xenial
+      apt:
+        update: true
+        sources:
+          - ubuntu-toolchain-r-test
       services:
         - docker
       env:
@@ -237,6 +245,12 @@ matrix:
         - $RUN ctest --output-on-failure
 
     - name: gcc-cxx-coroutines release
+      os: linux
+      dist: xenial
+      apt:
+        update: true
+        sources:
+          - ubuntu-toolchain-r-test
       services:
         - docker
       env:
@@ -252,3 +266,61 @@ matrix:
         - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10 -DCMAKE_BUILD_TYPE=${CONFIG}
         - $RUN make -k
         - $RUN ctest --output-on-failure
+
+    - name: iPhone OS
+      os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      before_script:
+        # to ensure intended symbols are in the library,
+        # the build generated shared object.
+        # however, for deployment, it needs te be static. (libcoroutine.a)
+        - cmake .
+          -DBUILD_SHARED_LIBS=true
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_INSTALL_PREFIX=./install
+          -DCMAKE_TOOLCHAIN_FILE=./external/ios-cmake/ios.toolchain.cmake
+          -DENABLE_BITCODE=false
+          -DIOS_DEPLOYMENT_TARGET=11.0
+      script:
+        # by using 11.0 or later, ensure target platform is 64 bit.
+        - make install;
+
+    - name: Android NDK
+      language: android
+      android:
+        components:
+          - tools
+          - platform-tools
+          - android-25 # 7.0
+          - android-27 # 8.1
+          - android-28 # 9.0
+          - build-tools-28.0.3
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - wget
+            - tar
+            - ninja-build
+            - tree
+            - rsync
+      before_install:
+        # Install CMake 3.14 (build.gradle knows the exact version)
+        - sudo bash ./scripts/install-cmake-3.14.sh;
+        # Install Gradle from https://sdkman.io/
+        - curl -s "https://get.sdkman.io" | bash > /dev/null
+        - source "$HOME/.sdkman/bin/sdkman-init.sh"
+        - sdk version
+        - sdk install gradle
+        - sdk use gradle
+      install:
+        # Accept SDK Licenses + Install NDK
+        - yes | sdkmanager --update > /dev/null 2>&1
+        - sdkmanager ndk-bundle > /dev/null 2>&1
+      before_script:
+        - gradle --version
+      script:
+        - gradle clean
+        - gradle assemble -warning-mode all

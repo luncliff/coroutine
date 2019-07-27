@@ -1,4 +1,4 @@
-#include "concrt.h"
+#include <coroutine/concrt.h>
 
 #include <cstddef>
 #include <cstdint>
@@ -21,8 +21,14 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID) {
     return TRUE;
 }
 
-#endif
+uint32_t version() noexcept {
+    return 0;
+}
+
+#else
 
 _INTERFACE_ uint32_t version() noexcept {
     return 0;
 }
+
+#endif

@@ -24,6 +24,16 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 include(check-compiler)
 include(report-project-info)
 
+if(${CMAKE_TOOLCHAIN_FILE} MATCHES vcpkg.cmake)
+    # portfile in vcpkg must give the path
+    set(GSL_INCLUDE_DIR	${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include)
+else()
+    # use submodule
+    add_subdirectory(external/guideline)
+	set(GSL_INCLUDE_DIR	${CMAKE_CURRENT_SOURCE_DIR}/external/guideline/include)
+endif()
+
+set(INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
 add_subdirectory(modules/portable)
 add_subdirectory(modules/concrt)
 
@@ -34,8 +44,8 @@ add_subdirectory(modules/concrt)
 #   - https://gitlab.kitware.com/cmake/community/wikis/doc/tutorials/Exporting-and-Importing-Targets#exporting-from-an-installation-tree
 
 # export declared cmake targets
-# 'monad-targets' is a better name, but we will merge their contents 
-# into the file 'monad-config.cmake' without using 'configure_file()' which requires config template
+# 'coroutine-targets' is a better name, but we will merge their contents 
+# into the file 'coroutine-config.cmake' without using 'configure_file()' which requires config template
 install(EXPORT      coroutine-config
         NAMESPACE   coro::
         DESTINATION ${CMAKE_INSTALL_PREFIX}/share/coroutine

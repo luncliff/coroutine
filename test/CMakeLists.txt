@@ -4,8 +4,8 @@
 cmake_minimum_required(VERSION 3.8)
 
 add_library(socket STATIC
-    test_network.h
-    test_network.cpp
+    socket.h
+    socket.cpp
 )
 target_include_directories(socket
 PRIVATE
@@ -14,8 +14,10 @@ PRIVATE
 )
 target_link_libraries(socket
 PUBLIC
-    coroutine
+    coro::portable coro::concrt
 )
+
+return()
 
 # generate_exe_test( ... )
 function(generate_exe_test NAME)

@@ -11,6 +11,7 @@ jobs:
     vmImage: 'ubuntu-16.04'
   steps:
     - script: uname -a
+    - script: git submodule update --init --recursive
     - task: Bash@3
       inputs:
         targetType: 'inline'
@@ -23,5 +24,5 @@ jobs:
         script: sudo bash ./scripts/install-libc++8.sh
     - task: CMake@1
       inputs:
-        cmakeArgs: . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_CXX_COMPILER=clang -DUSE_CUSTOM_HEADER=true
+        cmakeArgs: . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_CXX_COMPILER=clang -DUSE_PORTABLE_HEADER=true
         workingDirectory: '.'
