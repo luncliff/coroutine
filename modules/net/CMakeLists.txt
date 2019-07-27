@@ -2,9 +2,9 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(coroutine_net
-    libmain.cpp
+    resolver.cpp
 )
-add_library(coro::event ALIAS coroutine_net)
+add_library(coro::net ALIAS coroutine_net)
 
 set_target_properties(coroutine_net
 PROPERTIES
@@ -12,14 +12,13 @@ PROPERTIES
 )
 
 target_include_directories(coroutine_net
-PRIVATE
-    ${GSL_INCLUDE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
+PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
 target_link_libraries(coroutine_net
 PUBLIC
-    coro::portable
+    coro::event
 PRIVATE
     ${CMAKE_DL_LIBS}
 )
@@ -82,27 +81,19 @@ endif()
 if(WIN32)
     target_sources(coroutine_net
     PRIVATE
-        ptp_net.cpp
-    )
-    target_compile_definitions(coroutine_net
-    PUBLIC
-        WIN32_LEAN_AND_MEAN NOMINMAX
+        io_windows.cpp
     )
 
 elseif(APPLE)
     target_sources(coroutine_net
     PRIVATE
-        kernel_queue.h
-        kernel_queue.cpp
-        event_darwin.cpp
+        io_darwin.cpp
     )
 
 elseif(UNIX) # actually we can't sure it's a linux here ...
     target_sources(coroutine_net
     PRIVATE
-        event_poll.h
-        event_poll.cpp
-        event_linux.cpp
+        io_linux.cpp
     )
 
 endif()

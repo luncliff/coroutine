@@ -3,20 +3,6 @@
 #
 cmake_minimum_required(VERSION 3.8)
 
-add_library(socket STATIC
-    socket.h
-    socket.cpp
-)
-target_include_directories(socket
-PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${GSL_INCLUDE_DIR}
-)
-target_link_libraries(socket
-PUBLIC
-    coro::portable
-)
-
 # generate_exe_test( ... )
 function(generate_exe_test NAME)
     set(TEST_NAME test_${NAME})
@@ -37,7 +23,7 @@ function(generate_exe_test NAME)
     )
     target_link_libraries(${TEST_NAME}
     PUBLIC
-        coro::portable coro::event
+        coro::portable coro::event ${ARGV1}
     )
     target_compile_definitions(${TEST_NAME}
     PRIVATE
@@ -146,18 +132,28 @@ endif()
 
 endif()
 
-# generate_exe_test( net_get_addrinfo_ip6_bind            socket )
-# generate_exe_test( net_get_addrinfo_ip6_multicast       socket )
-# generate_exe_test( net_get_addrinfo_tcp6_connect        socket )
-# generate_exe_test( net_get_addrinfo_tcp6_listen_numeric socket )
-# generate_exe_test( net_get_addrinfo_tcp6_listen_text    socket )
-# generate_exe_test( net_get_addrinfo_udp6_unspecified    socket )
-# generate_exe_test( net_get_addrinfo_udp6_v4mapped       socket )
+add_library(socket STATIC
+    socket.h
+    socket.cpp
+)
+target_include_directories(socket
+PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+target_link_libraries(socket
+PUBLIC
+    coro::net
+)
 
-# generate_exe_test( net_get_nameinfo_v4  socket )
-# generate_exe_test( net_get_nameinfo_v6  socket )
-
+generate_exe_test( net_get_addrinfo_ip6_bind            socket )
+generate_exe_test( net_get_addrinfo_ip6_multicast       socket )
+generate_exe_test( net_get_addrinfo_tcp6_connect        socket )
+generate_exe_test( net_get_addrinfo_tcp6_listen_numeric socket )
+generate_exe_test( net_get_addrinfo_tcp6_listen_text    socket )
+generate_exe_test( net_get_addrinfo_udp6_unspecified    socket )
+generate_exe_test( net_get_addrinfo_udp6_v4mapped       socket )
+generate_exe_test( net_get_nameinfo_v4  socket )
+generate_exe_test( net_get_nameinfo_v6  socket )
 # generate_exe_test( net_get_hostname     socket )
-
 # generate_exe_test( net_echo_tcp         socket )
 # generate_exe_test( net_echo_udp         socket )

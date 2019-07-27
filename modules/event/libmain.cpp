@@ -1,7 +1,4 @@
 
-#include <cstddef>
-#include <cstdint>
-
 #ifdef _WIN32
 #define PROLOGUE
 #define EPILOGUE
@@ -15,8 +12,6 @@
 
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms682583(v=vs.85).aspx
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID) {
-    if (fdwReason == DLL_PROCESS_ATTACH)
-        return TRUE;
     return TRUE;
 }
 

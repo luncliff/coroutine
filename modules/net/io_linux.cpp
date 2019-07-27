@@ -1,9 +1,7 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
 #include <coroutine/net.h>
 
 #include "./event_poll.h"
@@ -11,10 +9,11 @@
 static_assert(sizeof(ssize_t) <= sizeof(int64_t));
 using namespace std;
 using namespace std::chrono;
+using namespace coro;
 
 event_poll_t inbound{}, outbound{};
 
-auto wait_io_tasks(nanoseconds timeout) noexcept(false)
+auto wait_net_tasks(nanoseconds timeout) noexcept(false)
     -> coro::enumerable<io_task_t> {
     const int half_time = duration_cast<milliseconds>(timeout).count() / 2;
     io_task_t task{};

@@ -1,13 +1,12 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
 #include <coroutine/net.h>
 
 using namespace std;
 using namespace gsl;
+using namespace coro;
 
 // throws `system_error` if `WSAGetLastError` returns error code
 void throw_if_async_error(not_null<czstring<>> label) noexcept(false) {
@@ -23,7 +22,7 @@ void throw_if_async_error(not_null<czstring<>> label) noexcept(false) {
 
 GSL_SUPPRESS(es .76)
 GSL_SUPPRESS(gsl.util)
-auto wait_io_tasks(chrono::nanoseconds) noexcept(false)
+auto wait_net_tasks(chrono::nanoseconds) noexcept(false)
     -> coro::enumerable<io_task_t> {
     // windows implementation rely on callback.
     // So this function will yield nothing

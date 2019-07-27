@@ -1,22 +1,12 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
 #include <coroutine/net.h>
 #include <gsl/gsl>
 
 using namespace std;
 using namespace coro;
-
-array<char, NI_MAXHOST> hnbuf{};
-
-auto host_name() noexcept -> czstring_host {
-    const auto namelen = gsl::narrow_cast<socklen_t>(hnbuf.size());
-    ::gethostname(hnbuf.data(), namelen);
-    return hnbuf.data();
-}
 
 GSL_SUPPRESS(type .1)
 int get_name(const endpoint_t& ep, //

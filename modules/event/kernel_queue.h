@@ -5,10 +5,10 @@
 #pragma once
 #ifndef DARWIN_KERNEL_QUEUE_API_WRAPPER_H
 #define DARWIN_KERNEL_QUEUE_API_WRAPPER_H
-
-#include <coroutine/yield.hpp>
-
 #include <memory>
+
+#include <coroutine/event.h>
+#include <coroutine/yield.hpp>
 
 #include <fcntl.h>
 #include <sys/event.h>
@@ -16,7 +16,7 @@
 
 namespace coro {
 
-struct kernel_queue_t final {
+struct _INTERFACE_ kernel_queue_t final {
     int kqfd;
     const size_t capacity;
     std::unique_ptr<kevent64_s[]> events;

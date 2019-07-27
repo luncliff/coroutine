@@ -30,7 +30,8 @@ set(INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
 add_subdirectory(modules/portable)
 
 if(NOT WIN32)
-    add_subdirectory(modules/event)
+    add_subdirectory(modules/event) # coroutine_event
+    add_subdirectory(modules/net)   # coroutine_net
 endif()
 
 # Export/Install for find_package()

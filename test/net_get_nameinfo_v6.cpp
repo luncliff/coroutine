@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_network.h"
+#include "socket.h"
 #include "test_shared.h"
 
 using namespace coro;
@@ -25,13 +25,11 @@ auto net_getnameinfo_v6_test() {
     // non-zero for error.
     // the value is redirected from `getnameinfo`
     if (auto ec = get_name(ep, name, nullptr)) {
-        FAIL_WITH_CODE(ec);
-        return EXIT_FAILURE;
+        return __LINE__;
     }
     // retry with service name buffer
     if (auto ec = get_name(ep, name, serv)) {
-        FAIL_WITH_CODE(ec);
-        return EXIT_FAILURE;
+        return __LINE__;
     }
     return EXIT_SUCCESS;
 }

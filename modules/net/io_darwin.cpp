@@ -6,15 +6,16 @@
 // ---------------------------------------------------------------------------
 #include <coroutine/net.h>
 
-#include "./kernel_queue.h"
+#include "kernel_queue.h"
 
 static_assert(sizeof(ssize_t) <= sizeof(int64_t));
 using namespace std;
 using namespace std::chrono;
+using namespace coro;
 
 kernel_queue_t kq{};
 
-auto wait_io_tasks(nanoseconds timeout) noexcept(false)
+auto wait_net_tasks(nanoseconds timeout) noexcept(false)
     -> coro::enumerable<io_task_t> {
     timespec ts{};
     const auto sec = duration_cast<seconds>(timeout);

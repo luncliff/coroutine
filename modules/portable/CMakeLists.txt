@@ -12,12 +12,13 @@ endif()
 target_include_directories(coroutine_portable
 INTERFACE
     $<BUILD_INTERFACE:${INTERFACE_DIR}>
+    $<BUILD_INTERFACE:${GSL_INCLUDE_DIR}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
 )
 
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     if(WIN32)
-        # cmake removes duplicated -Xclang directive.
+        # 'target_compile_options' removes duplicated -Xclang directive.
         # avoide the removal using cmake flag variable
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
         target_compile_options(coroutine_portable
@@ -25,7 +26,6 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
             /std:c++latest
             -fms-compatibility
         )
-
         # in this case, we always use portable header
         set_target_properties(coroutine_portable
         PROPERTIES

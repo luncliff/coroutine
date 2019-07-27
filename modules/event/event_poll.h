@@ -5,9 +5,9 @@
 #pragma once
 #ifndef LINUX_EVENT_POLL_API_WRAPPER_H
 #define LINUX_EVENT_POLL_API_WRAPPER_H
-
 #include <memory>
 
+#include <coroutine/event.h>
 #include <coroutine/yield.hpp>
 
 #include <fcntl.h>
@@ -16,7 +16,7 @@
 
 namespace coro {
 
-struct event_poll_t final {
+struct _INTERFACE_ event_poll_t final {
     int epfd;
     const size_t capacity;
     std::unique_ptr<epoll_event[]> events;
