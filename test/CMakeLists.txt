@@ -31,13 +31,14 @@ function(generate_exe_test NAME)
     )
     target_include_directories(${TEST_NAME}
     PRIVATE
+        ${PROJECT_SOURCE_DIR}/interface
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${GSL_INCLUDE_DIR}
     )
-    target_link_libraries(${TEST_NAME}
-    PUBLIC
-        coroutine ${ARGV1}
-    )
+    # target_link_libraries(${TEST_NAME}
+    # PUBLIC
+    #     coroutine ${ARGV1}
+    # )
     target_compile_definitions(${TEST_NAME}
     PRIVATE
         CMAKE_TEST
@@ -48,14 +49,31 @@ function(generate_exe_test NAME)
             _CRT_SECURE_NO_WARNINGS
         )
     elseif(UNIX)
-        # code coverage option lead to compiler crash
-        # list(APPEND CMAKE_CXX_FLAGS "--coverage")
-        target_compile_options(${TEST_NAME}
-        PRIVATE
-            -O0 # temporary disable optimization. 
-                # will be removed after test code changes
-            -g -Wall -Wextra -Wno-unknown-pragmas 
-        )
+        if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+            target_compile_options(${TEST_NAME}
+            PUBLIC
+                -std=c++2a -stdlib=libc++ -fcoroutines-ts 
+                -fPIC
+            PRIVATE
+                -Wall -Wno-unknown-pragmas -Wno-unused-private-field
+                -fno-rtti -fvisibility=hidden -ferror-limit=5
+            )
+        elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+            target_compile_options(${TEST_NAME}
+            PUBLIC
+                -std=gnu++2a -fcoroutines
+                -fPIC
+                -fno-exceptions
+                -fconcepts
+            PRIVATE
+                -Wall -Wno-unknown-pragmas
+                -fno-rtti -fvisibility=hidden
+            )
+            target_link_libraries(${TEST_NAME}
+            PUBLIC
+                stdc++
+            )
+        endif()
     endif()
 endfunction()
 

@@ -20,15 +20,25 @@ add_library(${PROJECT_NAME}
     net/resolver.cpp
 )
 
-target_compile_options(${PROJECT_NAME}
-PUBLIC
-    -std=c++2a -stdlib=libc++ -fcoroutines-ts 
-    -fPIC
-PRIVATE
-    -Wall -Wno-unknown-pragmas -Wno-unused-private-field
-    -fvisibility=hidden -fno-rtti
-    -ferror-limit=5
-)
+if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+    target_compile_options(${PROJECT_NAME}
+    PUBLIC
+        -std=c++2a -stdlib=libc++ -fcoroutines-ts 
+        -fPIC
+    PRIVATE
+        -Wall -Wno-unknown-pragmas -Wno-unused-private-field
+        -fno-rtti -fvisibility=hidden -ferror-limit=5
+    )
+elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+    target_compile_options(${PROJECT_NAME}
+    PUBLIC
+        -std=gnu++2a -fcoroutines # -fno-exceptions 
+        -fPIC
+    PRIVATE
+        -Wall -Wno-unknown-pragmas
+        -fno-rtti -fvisibility=hidden
+    )
+endif()
 
 if(${CMAKE_BUILD_TYPE} MATCHES Debug)
     # code coverage option lead to compiler crash
