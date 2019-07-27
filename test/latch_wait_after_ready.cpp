@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 using latch_t = concrt::latch;
@@ -21,7 +21,7 @@ auto concrt_latch_wait_after_ready_test() {
         f = async(launch::async, count_down_on_latch, addressof(wg));
 
     wg.wait();
-    REQUIRE(wg.is_ready());
+    _require_(wg.is_ready());
 
     for (auto& f : contexts)
         f.wait();

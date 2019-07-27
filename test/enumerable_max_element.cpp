@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -27,10 +27,10 @@ auto coro_enumerable_max_element_test() {
 
     // after iteration is finished (`co_return`),
     // the iterator will hold nullptr.
-    REQUIRE(it.operator->() == nullptr);
+    _require_(it.operator->() == nullptr);
 
     // so referencing it will lead to access violation
-    // REQUIRE(*it == 15);
+    // _require_(*it == 15);
     return EXIT_SUCCESS;
 }
 

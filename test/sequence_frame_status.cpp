@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 using status_t = int64_t;
@@ -35,20 +35,20 @@ auto coro_sequence_frame_status_test() {
         if (fc)
             fc.destroy();
     });
-    REQUIRE(status == -1);
+    _require_(status == -1);
 
     // however, when the sequence coroutine is resumed,
     // its caller will continue on ...
-    REQUIRE(fs.address() != nullptr);
+    _require_(fs.address() != nullptr);
 
     // sequence coroutine will be resumed
     //  and it will resume `use_sequence_suspend_and_return`.
     fs.resume();
     //  since `use_sequence_suspend_and_return` will co_return after that,
     //  both coroutine will reach *final suspended* state
-    REQUIRE(fc.done());
-    REQUIRE(fs.done());
-    REQUIRE(status == 2);
+    _require_(fc.done());
+    _require_(fs.done());
+    _require_(status == 2);
 
     return EXIT_SUCCESS;
 }

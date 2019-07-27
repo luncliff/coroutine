@@ -36,15 +36,7 @@ PRIVATE
                         # end user will manage the path properly
 )
 
-if(USE_PORTABLE_HEADER)
-    message(STATUS "Customizaton")
-    message(STATUS "  <coroutine/frame.h> is suppressing <experimental/coroutine>")
-    message(STATUS)
-    target_compile_definitions(${PROJECT_NAME}
-    PUBLIC
-        USE_PORTABLE_HEADER
-    )
-endif()
+
 
 # library export / install
 

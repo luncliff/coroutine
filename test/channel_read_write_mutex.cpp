@@ -2,53 +2,56 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include <coroutine/channel.hpp>
+#include <coroutine/return.h>
 
+#include "test.h"
 using namespace coro;
-using namespace concrt;
 
-using value_type = int;
-using channel_with_lock_t = channel<value_type, mutex>;
+using channel_with_lock_t = channel<int, mutex>;
 
 template <typename E, typename L>
-auto write_to(channel<E, L>& ch, E value, bool ok = false) -> no_return {
+auto write_to(channel<E, L>& ch, E value, bool ok = false) -> forget_frame {
     ok = co_await ch.write(value);
     if (ok == false)
         // !!!!!
-        // seems like clang optimizer is removing `value`.
+        // seems like forget_frameimizer is removing `value`.
         // so using it in some pass makes
         // the symbol and its memory location alive
         // !!!!!
         value += 1;
-    REQUIRE(ok);
+    _require_(ok, __FILE__, __LINE__);
 }
 
 template <typename E, typename L>
-auto read_from(channel<E, L>& ch, E& value, bool ok = false) -> no_return {
-
+auto read_from(channel<E, L>& ch, E& value, bool ok = false) -> forget_frame {
     tie(value, ok) = co_await ch.read();
-    REQUIRE(ok);
+    _require_(ok, __FILE__, __LINE__);
 }
 
 auto coro_channel_mutexed_read_before_write_test() {
     const auto list = {1, 2, 3};
     channel_with_lock_t ch{};
-    value_type storage = 0;
+    int storage = 0;
 
     for (auto i : list) {
-        read_from(ch, storage); // Reader coroutine will suspend
-        REQUIRE(storage != i);  // so no read occurs
+        // Reader coroutine will suspend
+        read_from(ch, storage);
+        // so no effect for the read
+        _require_(storage != i, __FILE__, __LINE__);
     }
     for (auto i : list) {
-        write_to(ch, i);       // writer will send a value
-        REQUIRE(storage == i); // stored value is same with sent value
+        // writer will send a value
+        write_to(ch, i);
+        // stored value is same with sent value
+        _require_(storage == i, __FILE__, __LINE__);
     }
 
     return EXIT_SUCCESS;
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
+int main(int, char*[]) {
     return coro_channel_mutexed_read_before_write_test();
 }
 
@@ -59,4 +62,5 @@ class coro_channel_mutexed_read_before_write
         coro_channel_mutexed_read_before_write_test();
     }
 };
+
 #endif

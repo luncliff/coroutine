@@ -3,7 +3,7 @@
 //  License : CC BY 4.0
 //
 #include "socket.h"
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -19,13 +19,13 @@ auto net_getaddrinfo_ip6_multicast_test() {
     size_t count = 0u;
     // https://www.iana.org/assignments/ipv6-multicast-addresses/ipv6-multicast-addresses.xhtml
     for (auto ep : resolve(hint, "FF0E::1", nullptr)) {
-        REQUIRE(ep.in6.sin6_family == AF_INET6);
+        _require_(ep.in6.sin6_family == AF_INET6);
 
         bool global = IN6_IS_ADDR_MC_GLOBAL(&ep.in6.sin6_addr);
-        REQUIRE(global);
+        _require_(global);
         ++count;
     }
-    REQUIRE(count > 0);
+    _require_(count > 0);
     return EXIT_SUCCESS;
 }
 

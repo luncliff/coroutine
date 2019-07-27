@@ -3,7 +3,7 @@
 //  License : CC BY 4.0
 //
 #include "socket.h"
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -19,11 +19,11 @@ auto net_getaddrinfo_tcp6_listen_text_test() {
 
     size_t count = 0u;
     for (auto ep : resolve(hint, nullptr, "https")) {
-        REQUIRE(ep.in6.sin6_family == AF_INET6);
-        REQUIRE(ep.in6.sin6_port == htons(443));
+        _require_(ep.in6.sin6_family == AF_INET6);
+        _require_(ep.in6.sin6_port == htons(443));
         ++count;
     }
-    REQUIRE(count > 0);
+    _require_(count > 0);
     return EXIT_SUCCESS;
 }
 

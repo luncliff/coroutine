@@ -23,19 +23,40 @@
 #endif
 // clang-format on
 
-#ifndef CONCURRENCY_HELPER_LATCH_H
-#define CONCURRENCY_HELPER_LATCH_H
+#ifndef CONCURRENCY_HELPER_H
+#define CONCURRENCY_HELPER_H
 
 #include <atomic>
 #include <chrono>
 
-#if __has_include(<Windows.h>) // ... activate VC++ based features ...
-namespace coro {
+using std::atomic_uint64_t;
+using std::chrono::microseconds;
+
+#if __has_include(<Windows.h>)
+#include <Windows.h>
+#include <synchapi.h>
+
+//  Standard lockable with win32 criticial section
+class section final : CRITICAL_SECTION {
+    section(const section&) = delete;
+    section(section&&) = delete;
+    section& operator=(const section&) = delete;
+    section& operator=(section&&) = delete;
+
+  public:
+    _INTERFACE_ section() noexcept(false);
+    _INTERFACE_ ~section() noexcept;
+
+    _INTERFACE_ bool try_lock() noexcept;
+    _INTERFACE_ void lock() noexcept(false);
+    _INTERFACE_ void unlock() noexcept(false);
+};
+static_assert(sizeof(section) == sizeof(CRITICAL_SECTION));
 
 //  An `std::experimental::latch` for fork-join scenario.
 //  Its interface might slightly with that of Concurrency TS
 class latch final {
-    mutable uint64_t ev{};
+    mutable HANDLE ev{};
     atomic_uint64_t ref{};
 
   public:
@@ -48,14 +69,21 @@ class latch final {
     _INTERFACE_ void wait() noexcept(false);
 };
 
-} // namespace coro
 #elif __has_include(<pthread.h>)
-
 #include <pthread.h>
 
-namespace coro {
-using namespace std;
-using namespace std::experimental;
+//  Standard lockable with pthread reader writer lock
+class section final {
+    pthread_rwlock_t rwlock;
+
+  public:
+    _INTERFACE_ section() noexcept(false);
+    _INTERFACE_ ~section() noexcept;
+
+    _INTERFACE_ bool try_lock() noexcept;
+    _INTERFACE_ void lock() noexcept(false);
+    _INTERFACE_ void unlock() noexcept(false);
+};
 
 //  An `std::experimental::latch` for fork-join scenario.
 //  Its interface might slightly with that of Concurrency TS
@@ -77,6 +105,5 @@ class latch final {
     _INTERFACE_ void wait() noexcept(false);
 };
 
-} // namespace coro
 #endif
-#endif // CONCURRENCY_HELPER_LATCH_H
+#endif // CONCURRENCY_HELPER_H

@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -17,7 +17,7 @@ auto coro_enumerable_no_yield_test() {
         v = count; // code to suppress C4189
         count += 1;
     }
-    REQUIRE(count == 0);
+    _require_(count == 0);
     return EXIT_SUCCESS;
 }
 

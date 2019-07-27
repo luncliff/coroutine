@@ -27,18 +27,15 @@ include(report-project-info)
 include(external-gsl)
 
 set(INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
+
+# exporting modules
 add_subdirectory(modules/portable)
+add_subdirectory(modules/event)     # coroutine_event
+add_subdirectory(modules/net)       # coroutine_net
+add_subdirectory(modules/thread)    # coroutine_thread
 
-if(NOT WIN32)
-    add_subdirectory(modules/event) # coroutine_event
-    add_subdirectory(modules/net)   # coroutine_net
-endif()
-
-# Export/Install for find_package()
-#   - https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html
-#   - https://cmake.org/cmake/help/latest/command/export.html
-#   - https://cmake.org/cmake/help/latest/command/install.html
-#   - https://gitlab.kitware.com/cmake/community/wikis/doc/tutorials/Exporting-and-Importing-Targets#exporting-from-an-installation-tree
+# internal modules
+add_subdirectory(modules/concrt)
 
 # export declared cmake targets
 # 'coroutine-targets' is a better name, but we will merge their contents 

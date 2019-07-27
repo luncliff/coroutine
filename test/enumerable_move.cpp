@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -13,17 +13,17 @@ auto coro_enumerable_after_move_test() {
     auto g = yield_once();
     auto m = move(g);
     // g lost its handle. so it is not iterable anymore
-    REQUIRE(g.begin() == g.end());
+    _require_(g.begin() == g.end());
     for (auto v : g) {
         v = count; // code to suppress C4189
         FAIL_WITH_MESSAGE("null generator won't go into loop"s);
     }
 
     for (auto v : m) {
-        REQUIRE(v == 0);
+        _require_(v == 0);
         count += 1;
     }
-    REQUIRE(count > 0);
+    _require_(count > 0);
     return EXIT_SUCCESS;
 }
 

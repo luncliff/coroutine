@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -14,10 +14,10 @@ auto coro_enumerable_iterator_test() {
     auto b = g.begin();
     auto e = g.end();
     for (auto it = b; it != e; ++it) {
-        REQUIRE(*it == 0);
+        _require_(*it == 0);
         count += 1;
     }
-    REQUIRE(count > 0);
+    _require_(count > 0);
     return EXIT_SUCCESS;
 }
 

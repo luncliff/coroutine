@@ -7,7 +7,10 @@ cmake_minimum_required(VERSION 3.8)
 function(generate_exe_test NAME)
     set(TEST_NAME test_${NAME})
     # create a test exe with the given name ...
-    add_executable(${TEST_NAME} ${NAME}.cpp)
+    add_executable(${TEST_NAME}
+        ${NAME}.cpp
+        test.h test.cpp # test adapters
+    )
     add_test(${NAME} ${TEST_NAME})
 
     # ... example cmake configuration of the library user ...
@@ -23,7 +26,8 @@ function(generate_exe_test NAME)
     )
     target_link_libraries(${TEST_NAME}
     PUBLIC
-        coro::portable coro::event ${ARGV1}
+        coro::portable coro::event coro::thread
+        concrt ${ARGV1}
     )
     target_compile_definitions(${TEST_NAME}
     PRIVATE
@@ -83,24 +87,24 @@ endfunction()
 # generate_exe_test( latch_wait_after_ready )
 # generate_exe_test( latch_wait_multiple_times )
 
-# generate_exe_test( coro_no_return )
+# generate_exe_test( coro_forget_frame )
 # generate_exe_test( coro_frame_awaitable )
 # generate_exe_test( coro_frame_empty )
 # generate_exe_test( coro_frame_return )
 # generate_exe_test( coro_frame_suspend )
 
-# generate_exe_test( channel_read_fail_after_close )
-# generate_exe_test( channel_read_write_mutex )
-# generate_exe_test( channel_read_write_nolock )
-# generate_exe_test( channel_write_fail_after_close )
-# generate_exe_test( channel_write_read_mutex )
-# generate_exe_test( channel_write_read_nolock )
-# generate_exe_test( channel_select_bypass_empty )
-# generate_exe_test( channel_select_type_match )
-# generate_exe_test( channel_select_peek_all_cases )
-# generate_exe_test( channel_race_no_leak )
-# generate_exe_test( channel_ownership_consumer )
-# generate_exe_test( channel_ownership_producer )
+generate_exe_test( channel_read_fail_after_close )
+generate_exe_test( channel_read_write_mutex )
+generate_exe_test( channel_read_write_nolock )
+generate_exe_test( channel_write_fail_after_close )
+generate_exe_test( channel_write_read_mutex )
+generate_exe_test( channel_write_read_nolock )
+generate_exe_test( channel_select_bypass_empty )
+generate_exe_test( channel_select_type_match )
+generate_exe_test( channel_select_peek_all_cases )
+generate_exe_test( channel_race_no_leak )
+generate_exe_test( channel_ownership_consumer )
+generate_exe_test( channel_ownership_producer )
 
 if(WIN32)
 

@@ -3,7 +3,7 @@
 //  License : CC BY 4.0
 //
 #include "socket.h"
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -19,15 +19,15 @@ auto net_getaddrinfo_tcp6_listen_numeric_test() {
 
     size_t count = 0u;
     for (auto ep : resolve(hint, "fe80::", "57132")) {
-        REQUIRE(ep.in6.sin6_family == AF_INET6);
-        REQUIRE(ep.in6.sin6_port == htons(57132));
+        _require_(ep.in6.sin6_family == AF_INET6);
+        _require_(ep.in6.sin6_port == htons(57132));
 
         // error message from macro is too long. make it short
         bool linklocal = IN6_IS_ADDR_LINKLOCAL(&ep.in6.sin6_addr);
-        REQUIRE(linklocal);
+        _require_(linklocal);
         ++count;
     }
-    REQUIRE(count > 0);
+    _require_(count > 0);
     return EXIT_SUCCESS;
 }
 

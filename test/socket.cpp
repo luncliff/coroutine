@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define REQUIRE(cond)                                                          \
+#define _require_(cond)                                                          \
     if ((cond) == false) {                                                     \
         printf("%s %d\n", __FILE__, __LINE__);                                 \
         exit(__LINE__);                                                        \
@@ -119,7 +119,7 @@ void socket_close(int64_t sd) {
 }
 void socket_set_option_nonblock(int64_t sd) {
     u_long mode = TRUE;
-    REQUIRE(ioctlsocket(sd, FIONBIO, &mode) == NO_ERROR);
+    _require_(ioctlsocket(sd, FIONBIO, &mode) == NO_ERROR);
 }
 
 #elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
@@ -142,6 +142,6 @@ void socket_close(int64_t sd) {
 }
 void socket_set_option_nonblock(int64_t sd) {
     // make non-block/async
-    REQUIRE(fcntl(sd, F_SETFL, O_NONBLOCK) != -1);
+    _require_(fcntl(sd, F_SETFL, O_NONBLOCK) != -1);
 }
 #endif

@@ -3,7 +3,7 @@
 //  License : CC BY 4.0
 //
 #include "socket.h"
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -18,13 +18,13 @@ auto net_getaddrinfo_udp6_bind_v4mapped_test() {
 
     size_t count = 0u;
     for (auto ep : resolve(hint, "::ffff:192.168.0.1", "9287")) {
-        REQUIRE(ep.in6.sin6_port == htons(9287));
+        _require_(ep.in6.sin6_port == htons(9287));
 
         bool v4mapped = IN6_IS_ADDR_V4MAPPED(&ep.in6.sin6_addr);
-        REQUIRE(v4mapped);
+        _require_(v4mapped);
         ++count;
     }
-    REQUIRE(count > 0);
+    _require_(count > 0);
     return EXIT_SUCCESS;
 }
 

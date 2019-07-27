@@ -3,7 +3,7 @@
 //  License : CC BY 4.0
 //
 #include "socket.h"
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -18,14 +18,14 @@ auto net_getaddrinfo_udp6_bind_unspecified_test() {
 
     size_t count = 0u;
     for (auto ep : resolve(hint, "::", "9283")) {
-        REQUIRE(ep.in6.sin6_family == AF_INET6);
-        REQUIRE(ep.in6.sin6_port == htons(9283));
+        _require_(ep.in6.sin6_family == AF_INET6);
+        _require_(ep.in6.sin6_port == htons(9283));
 
         bool unspec = IN6_IS_ADDR_UNSPECIFIED(&ep.in6.sin6_addr);
-        REQUIRE(unspec);
+        _require_(unspec);
         ++count;
     }
-    REQUIRE(count > 0);
+    _require_(count > 0);
     return EXIT_SUCCESS;
 }
 

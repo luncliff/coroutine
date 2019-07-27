@@ -10,8 +10,9 @@
 #include <system_error>
 
 #include <Windows.h>
-//#include <concrt.h>   // Windows Concurrency Runtime's event is not alertible.
 #include <synchapi.h>
+// Windows Concurrency Runtime's event is not alertible.
+//#include <concrt.h>
 
 using namespace std;
 using namespace gsl;
@@ -40,11 +41,15 @@ ptp_event::~ptp_event() noexcept {
     if (wo != INVALID_HANDLE_VALUE)
         this->cancel();
 }
-void ptp_event::cancel() noexcept {
-    this->on_resume();
-}
-bool ptp_event::is_ready() const noexcept {
-    return false;
+auto ptp_event::cancel() noexcept -> uint32_t {
+    if (UnregisterWait(wo))
+        wo = INVALID_HANDLE_VALUE;
+
+    const auto ec = GetLastError();
+    if (ec == ERROR_IO_PENDING)
+        // this is expected since we are using INFINITE timeout
+        return NO_ERROR;
+    return ec;
 }
 
 // https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-registerwaitforsingleobject
@@ -57,26 +62,16 @@ void ptp_event::on_suspend(coroutine_handle<void> coro) noexcept(false) {
                                     wait_on_thread_pool, coro.address(),
                                     INFINITE, WT_EXECUTEONLYONCE) == FALSE) {
         const auto ec = gsl::narrow_cast<int>(GetLastError());
-        return system_error{ec, system_category(),
-                            "RegisterWaitForSingleObject"};
+        throw system_error{ec, system_category(),
+                           "RegisterWaitForSingleObject"};
     }
 }
 
 // https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-unregisterwait
 uint32_t ptp_event::on_resume() noexcept {
-    DWORD ec = NO_ERROR;
-    if (wo == INVALID_HANDLE_VALUE)
-        return ec;
-
-    if (UnregisterWait(wo) == false)
-        ec = GetLastError();
-    wo = INVALID_HANDLE_VALUE;
-
-    // this is expected since we are using INFINITE timeout
-    if (ec == ERROR_IO_PENDING)
-        ec = NO_ERROR;
-
-    return ec;
+    if (wo == INVALID_HANDLE_VALUE) // already canceled
+        return NO_ERROR;
+    return this->cancel();
 }
 
 } // namespace coro

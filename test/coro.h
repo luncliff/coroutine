@@ -134,6 +134,6 @@ struct suspend_never {
 } // namespace std
 
 #else
-#error "coro.h requires support for coroutines TS 4775, add -fcoroutines"
+#error "coro.h _require_s support for coroutines TS 4775, add -fcoroutines"
 #endif
 #endif // __CORO_H_N4775

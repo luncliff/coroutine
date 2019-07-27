@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -16,8 +16,8 @@ auto coro_frame_first_suspend_test() {
     // allow access to `coroutine_handle<void>`
     //  after first suspend(which can be `co_return`)
     coroutine_handle<void>& coro = frame;
-    REQUIRE(static_cast<bool>(coro)); // not null
-    REQUIRE(coro.done() == false);    // it is susepended !
+    _require_(static_cast<bool>(coro)); // not null
+    _require_(coro.done() == false);    // it is susepended !
     coro.destroy();
 
     return EXIT_SUCCESS;

@@ -1,23 +1,22 @@
 #
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
-add_library(coroutine_event
-    ${INTERFACE_DIR}/coroutine/event.h
-    libmain.cpp
+add_library(coroutine_thread
+    ${INTERFACE_DIR}/coroutine/thread.h
 )
-add_library(coro::event ALIAS coroutine_event)
+add_library(coro::thread ALIAS coroutine_thread)
 
-set_target_properties(coroutine_event
+set_target_properties(coroutine_thread
 PROPERTIES
     CXX_STANDARD    17
 )
 
-target_include_directories(coroutine_event
+target_include_directories(coroutine_thread
 PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
-target_link_libraries(coroutine_event
+target_link_libraries(coroutine_thread
 PUBLIC
     coro::portable
 PRIVATE
@@ -25,7 +24,7 @@ PRIVATE
 )
 
 if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(coroutine_event
+    target_compile_definitions(coroutine_thread
     PUBLIC
         FORCE_STATIC_LINK
     )
@@ -33,7 +32,7 @@ endif()
 
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     if(WIN32)
-        target_compile_options(coroutine_event
+        target_compile_options(coroutine_thread
         PRIVATE
             -Wno-unused-private-field
             -Wno-unused-function
@@ -42,7 +41,7 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
             -Wno-missing-prototypes
         )
     elseif(UNIX)
-        target_compile_options(coroutine_event
+        target_compile_options(coroutine_thread
         PUBLIC
             -fPIC
         PRIVATE
@@ -54,7 +53,7 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     endif()
 
 elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
-    target_compile_options(coroutine_event
+    target_compile_options(coroutine_thread
     PUBLIC
         -fPIC
     PRIVATE
@@ -64,12 +63,12 @@ elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     )
 
 elseif(MSVC)
-    target_compile_options(coroutine_event
+    target_compile_options(coroutine_thread
     PRIVATE
         /W4
     )
     if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-        target_compile_options(coroutine_event
+        target_compile_options(coroutine_thread
         PRIVATE
             /Od
         )
@@ -78,36 +77,27 @@ elseif(MSVC)
 endif()
 
 if(ANDROID)
-    target_link_libraries(coroutine_event
+    target_link_libraries(coroutine_thread
     PUBLIC
         ${ANDROID_STL}
     )
 elseif(WIN32)
-    target_sources(coroutine_event
+    target_sources(coroutine_thread
     PRIVATE
-        ptp_event.cpp
+        ptp_work.cpp
     )
-    target_compile_definitions(coroutine_event
+    target_compile_definitions(coroutine_thread
     PUBLIC
         WIN32_LEAN_AND_MEAN NOMINMAX
     )
-elseif(APPLE)
-    target_sources(coroutine_event
-    PRIVATE
-        kernel_queue.h
-        kernel_queue.cpp
-        event_darwin.cpp
-    )
 elseif(UNIX) # actually we can't sure it's a linux here ...
-    target_sources(coroutine_event
+    target_sources(coroutine_thread
     PRIVATE
-        event_poll.h
-        event_poll.cpp
-        event_linux.cpp
+        pthread_joiner.cpp
     )
-    target_link_libraries(coroutine_event
+    target_link_libraries(coroutine_thread
     PUBLIC
-        rt c++
+        pthread
     )
 endif()
 
@@ -115,22 +105,22 @@ if(NOT MSVC)
     if(${CMAKE_BUILD_TYPE} MATCHES Debug)
         # code coverage option can lead to compiler crash
         # list(APPEND CMAKE_CXX_FLAGS "--coverage")
-        target_compile_options(coroutine_event
+        target_compile_options(coroutine_thread
         PRIVATE
             -g -O0
         )
     else()
-        target_compile_options(coroutine_event
+        target_compile_options(coroutine_thread
         PRIVATE
             -O3
         )
     endif()
 endif()
 
-install(FILES       ${INTERFACE_DIR}/coroutine/event.h
+install(FILES       ${INTERFACE_DIR}/coroutine/thread.h
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
 )
-install(TARGETS         coroutine_event
+install(TARGETS         coroutine_thread
         EXPORT          coroutine-config
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib

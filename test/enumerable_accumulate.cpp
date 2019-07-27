@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -13,7 +13,7 @@ auto yield_until_zero(int n) -> enumerable<int> {
 auto coro_enumerable_accumulate_test() {
     auto g = yield_until_zero(10);
     auto total = accumulate(g.begin(), g.end(), 0u);
-    REQUIRE(total == 45); // 0 - 10
+    _require_(total == 45); // 0 - 10
 
     return EXIT_SUCCESS;
 }

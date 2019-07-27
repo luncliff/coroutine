@@ -1,54 +1,54 @@
 //
+//
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include <coroutine/channel.hpp>
+#include <coroutine/return.h>
 
+#include "test.h"
 using namespace coro;
-using namespace concrt;
 
-using value_type = int;
-using channel_with_lock_t = channel<value_type, mutex>;
+using channel_with_lock_t = channel<int, mutex>;
 
 template <typename E, typename L>
-auto write_to(channel<E, L>& ch, E value, bool ok = false) -> no_return {
+auto write_to(channel<E, L>& ch, E value, bool ok = false) -> forget_frame {
     ok = co_await ch.write(value);
     if (ok == false)
         // !!!!!
-        // seems like clang optimizer is removing `value`.
+        // seems like forget_frameimizer is removing `value`.
         // so using it in some pass makes
         // the symbol and its memory location alive
         // !!!!!
         value += 1;
-    REQUIRE(ok);
+    _require_(ok);
 }
 
 template <typename E, typename L>
-auto read_from(channel<E, L>& ch, E& value, bool ok = false) -> no_return {
-
+auto read_from(channel<E, L>& ch, E& value, bool ok = false) -> forget_frame {
     tie(value, ok) = co_await ch.read();
-    REQUIRE(ok);
+    _require_(ok);
 }
 
 auto coro_channel_mutexed_write_before_read_test() {
     const auto list = {1, 2, 3};
     channel_with_lock_t ch{};
-    value_type storage = 0;
+    int storage = 0;
 
     for (auto i : list) {
-        write_to(ch, i);       // Writer coroutine will suspend
-        REQUIRE(storage != i); // so no write occurs
+        write_to(ch, i);         // Writer coroutine will suspend
+        _require_(storage != i); // so no write occurs
     }
     for (auto i : list) {
-        read_from(ch, storage); // read to `storage`
-        REQUIRE(storage == i);  // stored value is same with sent value
+        read_from(ch, storage);  // read to `storage`
+        _require_(storage == i); // stored value is same with sent value
     }
 
     return EXIT_SUCCESS;
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
+int main(int, char*[]) {
     return coro_channel_mutexed_write_before_read_test();
 }
 

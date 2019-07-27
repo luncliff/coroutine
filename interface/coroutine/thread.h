@@ -25,28 +25,27 @@
 #ifndef CONCURRENCY_HELPER_THREAD_H
 #define CONCURRENCY_HELPER_THREAD_H
 
-#if __has_include(<Windows.h>) // ... activate VC++ based features ...
+#include <system_error>
 
-// clang-format off
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
+#if __has_include(<coroutine/frame.h>)
+#include <coroutine/frame.h>
+#elif __has_include(<experimental/coroutine>) // C++ 17
+#include <experimental/coroutine>
+#elif __has_include(<coroutine>) // C++ 20
+#include <coroutine>
+#else
+#error "expect header <experimental/coroutine> or <coroutine/frame.h>"
 #endif
+
+#if __has_include(<Windows.h>)
 #include <Windows.h>
-#include <threadpoolapiset.h>
-#include <synchapi.h>
-// clang-format on
 
 namespace coro {
 using namespace std;
 using namespace std::experimental;
 
-//  Enumerate current existing thread id of with the process id
-_INTERFACE_
-auto get_threads(DWORD owner_pid) noexcept(false) -> coro::enumerable<DWORD>;
-
 //  Move into the win32 thread pool and continue the routine
 class ptp_work final {
-
     // PTP_WORK_CALLBACK
     static void __stdcall resume_on_thread_pool(PTP_CALLBACK_INSTANCE, PVOID,
                                                 PTP_WORK);
@@ -60,7 +59,6 @@ class ptp_work final {
     constexpr void await_resume() noexcept {
         // nothing to do for this implementation
     }
-
     // Lazy code generation in importing code by header usage.
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         if (const auto ec = on_suspend(coro))
@@ -72,7 +70,6 @@ class ptp_work final {
 } // namespace coro
 
 #elif __has_include(<pthread.h>)
-
 #include <pthread.h>
 
 namespace coro {

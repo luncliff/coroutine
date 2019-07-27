@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -13,10 +13,10 @@ auto yield_once(int value = 0) -> enumerable<int> {
 auto coro_enumerable_yield_once_test() {
     auto count = 0u;
     for (auto v : yield_once()) {
-        REQUIRE(v == 0);
+        _require_(v == 0);
         count += 1;
     }
-    REQUIRE(count > 0);
+    _require_(count > 0);
     return EXIT_SUCCESS;
 }
 

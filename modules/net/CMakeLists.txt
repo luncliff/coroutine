@@ -2,6 +2,7 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(coroutine_net
+    ${INTERFACE_DIR}/coroutine/net.h
     resolver.cpp
 )
 add_library(coro::net ALIAS coroutine_net)
@@ -24,7 +25,6 @@ PRIVATE
 )
 
 if(NOT BUILD_SHARED_LIBS)
-    message(WARNING "forcing static build")
     target_compile_definitions(coroutine_net
     PUBLIC
         FORCE_STATIC_LINK
@@ -41,13 +41,6 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
         -ferror-limit=5
         # -fno-exceptions
     )
-    if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-        target_compile_options(coroutine_net
-        PRIVATE
-            -O0 -g
-        )
-    endif()
-
 elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     target_compile_options(coroutine_net
     PUBLIC
@@ -57,25 +50,11 @@ elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
         -fno-rtti -fvisibility=hidden
         # -fno-exceptions
     )
-    if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-        target_compile_options(coroutine_net
-        PRIVATE
-            -O0 -g
-        )
-    endif()
-
 elseif(MSVC)
     target_compile_options(coroutine_net
     PRIVATE
         /W4
     )
-    if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-        target_compile_options(coroutine_net
-        PRIVATE
-            /Od
-        )
-    endif()
-
 endif()
 
 if(WIN32)
@@ -83,19 +62,31 @@ if(WIN32)
     PRIVATE
         io_windows.cpp
     )
-
 elseif(APPLE)
     target_sources(coroutine_net
     PRIVATE
         io_darwin.cpp
     )
-
 elseif(UNIX) # actually we can't sure it's a linux here ...
     target_sources(coroutine_net
     PRIVATE
         io_linux.cpp
     )
-
+endif()
+if(NOT MSVC)
+    if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+        # code coverage option can lead to compiler crash
+        # list(APPEND CMAKE_CXX_FLAGS "--coverage")
+        target_compile_options(coroutine_event
+        PRIVATE
+            -g -O0
+        )
+    else()
+        target_compile_options(coroutine_event
+        PRIVATE
+            -O3
+        )
+    endif()
 endif()
 
 install(FILES   ${INTERFACE_DIR}/coroutine/net.h

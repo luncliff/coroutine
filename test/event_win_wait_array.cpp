@@ -2,20 +2,20 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
-
-using namespace coro;
+#include "test.h" ng namespace coro;
 using namespace concrt;
 
-auto wait_an_event(ptp_event& token, atomic_flag& flag) -> no_return;
+#include <coroutine/channel.hpp>event& token, atomic_flag& flag) -> no_return;
 auto set_after_sleep(HANDLE ev, uint32_t ms) -> no_return;
 
+auto ptp_event_wait_array_test() {
+    array < HAforget_frforget_frames{};
 auto ptp_event_wait_array_test() {
     array<HANDLE, 10> events{};
     for (auto& e : events) {
         e = CreateEventEx(nullptr, nullptr, //
                           CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
-        REQUIRE(e != NULL);
+        _require_(e != NULL);
         if (e) // if statement because of C6387
             ResetEvent(e);
     }
@@ -34,7 +34,7 @@ auto ptp_event_wait_array_test() {
     auto ec = WaitForMultipleObjectsEx( //
         gsl::narrow_cast<DWORD>(events.max_size()), events.data(), true, 300,
         true);
-    REQUIRE(ec == WAIT_OBJECT_0);
+    _require_(ec == WAIT_OBJECT_0);
 
     return EXIT_SUCCESS;
 }
@@ -48,7 +48,7 @@ int main(int, char* []) {
 // `ptp_event` uses INFINITE wait internally.
 // so, with the reference, user must sure one of `SetEvent` or `cancel` will
 // happen in the future
-auto wait_an_event(ptp_event& token, atomic_flag& flag) -> no_return {
+auto wait_an_event(ptp_event& token, atomic_flag& flag) -> forget_frame {
     // wait for set or cancel
     // `co_await` will forward `GetLastError` if canceled.
     if (DWORD ec = co_await token) {
@@ -58,7 +58,7 @@ auto wait_an_event(ptp_event& token, atomic_flag& flag) -> no_return {
     flag.test_and_set();
 }
 
-auto set_after_sleep(HANDLE ev, uint32_t ms) -> no_return {
+auto set_after_sleep(HANDLE ev, uint32_t ms) -> forget_frame {
     co_await ptp_work{}; // move to background thread ...
 
     SleepEx(ms, true);

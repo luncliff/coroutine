@@ -3,7 +3,7 @@
 //  License : CC BY 4.0
 //
 #include "socket.h"
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 
@@ -18,14 +18,14 @@ auto net_getaddrinfo_tcp6_connect_test() {
 
     size_t count = 0u;
     for (auto ep : resolve(hint, "::1", "7")) {
-        REQUIRE(ep.in6.sin6_family == AF_INET6);
-        REQUIRE(ep.in6.sin6_port == htons(7));
+        _require_(ep.in6.sin6_family == AF_INET6);
+        _require_(ep.in6.sin6_port == htons(7));
 
         auto loopback = IN6_IS_ADDR_LOOPBACK(&ep.in6.sin6_addr);
-        REQUIRE(loopback);
+        _require_(loopback);
         ++count;
     }
-    REQUIRE(count > 0);
+    _require_(count > 0);
     return EXIT_SUCCESS;
 }
 

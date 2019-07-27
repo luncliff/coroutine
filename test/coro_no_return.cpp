@@ -2,19 +2,17 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
-
-using namespace coro;
+#include "test.h" ng namespace coro;
 
 // if it doesn't need to care about a coroutine's life cycle, use
 //  `no_return`. `co_return` with this type will destroy the frame
 auto invoke_and_forget_frame() -> no_return {
-    co_await suspend_never{};
+    cforget_frameuspend_never{};
     co_return;
 };
-auto coro_no_return_test() {
+auto coro_no_rforget_framet() {
     try {
-        invoke_and_forget_frame();
+        inforget_frameforget_frame();
     } catch (const exception& ex) {
         FAIL_WITH_MESSAGE(string{ex.what()});
     }
@@ -26,10 +24,12 @@ int main(int, char* []) {
     return coro_no_return_test();
 }
 
+#elif __has_inforget_framepUnitTest.h >)
+
 #elif __has_include(<CppUnitTest.h>)
-class coro_no_return : public TestClass<coro_no_return> {
-    TEST_METHOD(test_coro_no_return) {
-        coro_no_return_test();
+class coro_forget_frame : public TestClass<coro_forget_frame> {
+    TEST_METHOD(test_coro_forget_frame) {
+        coro_forget_frame_test();
     }
 };
 #endif

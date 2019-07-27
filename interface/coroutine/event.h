@@ -39,40 +39,38 @@
 #endif
 
 #if __has_include(<Windows.h>) // ... activate VC++ based features ...
-
-// clang-format off
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
 #include <Windows.h>
-// clang-format on
 
 namespace coro {
 using namespace std;
 using namespace std::experimental;
 
-//  Awaitable event with thread pool. Only for one-time usage
-//  This type is not for rvalue reference. This design is unavoidable
-//   since `ptp_event` uses INFINITE wait. Therefore, its user must make
-//   sure one of `SetEvent` or `cancel` will happen in the future
-class ptp_event final : no_copy_move {
+//  Awaitable event type over Win32 thread pool.
+//  The `ptp_event` uses INFINITE wait.
+//  Therefore, its user must sure one of `SetEvent` or `cancel`
+//  after its `co_await`
+class ptp_event final {
     HANDLE wo{}; // wait object
 
   private:
-    // WAITORTIMERCALLBACK
-    static void __stdcall wait_on_thread_pool(PVOID, BOOLEAN);
+    ptp_event(const ptp_event&) = delete;
+    ptp_event(ptp_event&&) = delete;
+    ptp_event& operator=(const ptp_event&) = delete;
+    ptp_event& operator=(ptp_event&&) = delete;
 
-    _INTERFACE_ bool is_ready() const noexcept;
+    // WAITORTIMERCALLBACK
+    static void __stdcall wait_on_thread_pool(HANDLE, BOOLEAN);
+
     _INTERFACE_ void on_suspend(coroutine_handle<void>) noexcept(false);
     _INTERFACE_ auto on_resume() noexcept -> uint32_t; // error code
   public:
     _INTERFACE_ explicit ptp_event(HANDLE target) noexcept(false);
     _INTERFACE_ ~ptp_event() noexcept;
 
-    _INTERFACE_ void cancel() noexcept;
+    _INTERFACE_ auto cancel() noexcept -> uint32_t;
 
-    bool await_ready() noexcept {
-        return this->is_ready();
+    constexpr bool await_ready() const noexcept {
+        return false;
     }
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         return this->on_suspend(coro);
@@ -92,12 +90,13 @@ namespace coro {
 using namespace std;
 using namespace std::experimental;
 
-//  Awaitable event type.
-//  If the event object is signaled(`set`), the library will yield suspended
-//  coroutine via `signaled_event_tasks` function.
-//  If it is signaled before `co_await`, it will return `true` for
-//  `await_ready` so the coroutine can bypass suspension steps. The event
-//  object can be `co_await`ed multiple times.
+//  Awaitable event type over eventfd and unix socket
+//  If the event object is signaled(`set`),
+//  the library will yield suspended coroutine through `signaled_event_tasks`
+//  function.
+//  If it is signaled before `co_await`,
+//  its `await_ready` will return `true` so the coroutine can bypass suspension.
+//  It can be `co_await`ed multiple times.
 class event final {
   public:
     using task = coroutine_handle<void>;

@@ -2,14 +2,14 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h" ng namespace coro; ng namespace coro;
 
 using namespace coro;
 
 auto coro_frame_empty_test() {
     frame fh{};
     auto coro = static_cast<coroutine_handle<void>>(fh);
-    REQUIRE(coro.address() == nullptr);
+    _require_(coro.address() == nullptr);
 
     return EXIT_SUCCESS;
 }

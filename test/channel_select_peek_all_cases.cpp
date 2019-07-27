@@ -2,16 +2,17 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include <coroutine/channel.hpp>
+#include <coroutine/return.h>
 
+#include "test.h"
 using namespace coro;
-using namespace concrt;
 
 using u32_chan_t = channel<uint32_t>;
 using i32_chan_t = channel<int32_t>;
 
 template <typename E, typename L>
-auto write_to(channel<E, L>& ch, E value, bool ok = false) -> no_return {
+auto write_to(channel<E, L>& ch, E value, bool ok = false) -> forget_frame {
     ok = co_await ch.write(value);
     if (ok == false)
         // !!!!!
@@ -20,7 +21,7 @@ auto write_to(channel<E, L>& ch, E value, bool ok = false) -> no_return {
         // the symbol and its memory location alive
         // !!!!!
         value += 1;
-    REQUIRE(ok);
+    _require_(ok);
 }
 
 auto coro_channel_select_peek_every_test() {
@@ -30,15 +31,15 @@ auto coro_channel_select_peek_every_test() {
     write_to(ch1, 17u);
     write_to(ch2, 15);
 
-    select(ch2, [](auto v) { REQUIRE(v == 15); }, //
-           ch1, [](auto v) { REQUIRE(v == 17u); } //
+    select(ch2, [](auto v) { _require_(v == 15); }, //
+           ch1, [](auto v) { _require_(v == 17u); } //
     );
 
     return EXIT_SUCCESS;
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
+int main(int, char*[]) {
     return coro_channel_select_peek_every_test();
 }
 

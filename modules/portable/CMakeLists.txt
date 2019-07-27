@@ -2,7 +2,17 @@
 add_library(coroutine_portable INTERFACE)
 add_library(coro::portable ALIAS coroutine_portable)
 
+if(MSVC)
+    set_target_properties(coroutine_portable
+    PROPERTIES
+        INTERFACE_LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
+    )
+endif()
+
 if(USE_PORTABLE_HEADER)
+    message(STATUS "Customizaton")
+    message(STATUS "  <coroutine/frame.h> is suppressing <experimental/coroutine>")
+    message(STATUS)
     set_target_properties(coroutine_portable
     PROPERTIES
         INTERFACE_COMPILE_DEFINITIONS "USE_PORTABLE_COROUTINE_HANDLE"# ;_EXPERIMENTAL_RESUMABLE_
@@ -57,6 +67,7 @@ endif()
 
 install(FILES   ${INTERFACE_DIR}/coroutine/frame.h
                 ${INTERFACE_DIR}/coroutine/return.h
+                ${INTERFACE_DIR}/coroutine/channel.hpp
         # Use DESTINATION instead to make sure of the path.
         # Must be same with INSTALL_INTERFACE above
         # TYPE    INCLUDE

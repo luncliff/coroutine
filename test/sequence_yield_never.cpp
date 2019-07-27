@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 using status_t = int64_t;
@@ -27,7 +27,7 @@ auto coro_sequence_yield_never_test() {
     status_t storage = -1;
     // since there was no yield, it will remain unchanged
     f1 = use_sequence_yield_never(storage);
-    REQUIRE(storage == -1);
+    _require_(storage == -1);
 
     return EXIT_SUCCESS;
 }

@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 using status_t = int64_t;
@@ -30,14 +30,14 @@ auto coro_sequence_suspend_using_await_test() {
             fc.destroy();
     });
 
-    REQUIRE(fs.done() == false); // we didn't finished iteration
-    REQUIRE(storage == 1);       // co_yield value = 1
+    _require_(fs.done() == false); // we didn't finished iteration
+    _require_(storage == 1);       // co_yield value = 1
 
     // continue after co_await manual_resume;
     fs.resume();
-    REQUIRE(storage == 2); // co_yield value = 2;
-    REQUIRE(fs.done() == true);
-    REQUIRE(fc.done() == true);
+    _require_(storage == 2); // co_yield value = 2;
+    _require_(fs.done() == true);
+    _require_(fc.done() == true);
 
     return EXIT_SUCCESS;
 }

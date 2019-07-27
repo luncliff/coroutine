@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 using status_t = int64_t;
@@ -12,7 +12,7 @@ auto sequence_yield_once(status_t value = 0) -> sequence<status_t> {
     co_yield value;
     co_return;
 }
-auto use_sequence_yield_once(status_t& ref) -> no_return {
+auto use_sequence_yield_once(status_t& ref) -> forget_frame {
     // clang-format off
     for co_await(auto v : sequence_yield_once(0xBEE))
         ref = v;
@@ -22,7 +22,7 @@ auto use_sequence_yield_once(status_t& ref) -> no_return {
 auto coro_sequence_yield_once_test() {
     status_t storage = -1;
     use_sequence_yield_once(storage);
-    REQUIRE(storage == 0xBEE); // storage will receive value
+    _require_(storage == 0xBEE); // storage will receive value
 
     return EXIT_SUCCESS;
 }

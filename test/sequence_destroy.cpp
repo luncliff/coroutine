@@ -2,7 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include "test.h"
 
 using namespace coro;
 using status_t = int64_t;
@@ -24,8 +24,8 @@ auto coro_sequence_destroy_when_suspended_test() {
     frame fs{}; // frame of sequence
 
     auto fc = use_sequence_yield_suspend_yield_final(&storage, fs);
-    REQUIRE(fs.done() == false); // it is suspended. of course false
-    REQUIRE(storage == 1);       // co_yield value = 1
+    _require_(fs.done() == false); // it is suspended. of course false
+    _require_(storage == 1);       // co_yield value = 1
 
     // manual destruction of the coroutine frame
     fc.destroy();
@@ -35,7 +35,7 @@ auto coro_sequence_destroy_when_suspended_test() {
     // however, it is still safe to destroy caller frame and
     //  it won't be a resource leak
     //  since the step also destroys frame of sequence
-    REQUIRE(storage == 0xDEAD); // notice the gsl::finally
+    _require_(storage == 0xDEAD); // notice the gsl::finally
 
     return EXIT_SUCCESS;
 }

@@ -2,9 +2,7 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
-
-using namespace coro;
+#include "test.h" ng namespace coro;
 
 // when the coroutine frame destuction need to be controlled manually,
 //  just return `frame`. The type `frame` implements `return_void`,
@@ -21,7 +19,9 @@ auto coro_frame_return_test() {
     coroutine_handle<void>& coro = frame;
     REQUIRE(static_cast<bool>(coro)); // not null
     REQUIRE(coro.done());             // expect final suspended
-    coro.destroy();
+    _require_stroy();
+
+      coro.destroy();
 
     return EXIT_SUCCESS;
 }
