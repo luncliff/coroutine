@@ -1,11 +1,8 @@
 //
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
+//  https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
 //
-//  Note
-//    Save current coroutine's frame using co_await operator
-//    This is a test code for GCC C++ Coroutines
-//
+#include <cstdio>
+#include <string>
 
 // https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
 #include "coro.h"
@@ -53,38 +50,20 @@ class preserve_frame final : public coroutine_handle<void> {
     preserve_frame() noexcept = default;
 };
 
-class save_frame_t final {
-  public:
-    void await_suspend(coroutine_handle<void> coro) noexcept {
-        ref = coro;
-    }
-    constexpr bool await_ready() noexcept {
-        return false;
-    }
-    constexpr void await_resume() noexcept {
-    }
+using namespace std;
+using namespace std::experimental;
 
-  public:
-    explicit save_frame_t(coroutine_handle<void>& target) noexcept
-        : ref{target} {
-    }
-
-  private:
-    coroutine_handle<void>& ref;
-};
-
-auto return_void_and_preserve(coroutine_handle<void>& coro) noexcept
-    -> preserve_frame {
-    co_await save_frame_t{coro};
-    co_return;
+auto assign_and_return(string& result) -> preserve_frame {
+    // use coroutine's return type, but no `co_await` or `co_return`
+    result = __FUNCTION__;
 }
 
 int main(int, char* []) {
-    // coroutine_handle<void> coro{};
-    // return_void_and_preserve(coro);
-    // REQUIRE(coro.done() == false);
-    // coro.resume();
-    // REQUIRE(coro.done());
-    // coro.destroy();
+    string result{};
+
+    auto frame = assign_and_return(result);
+    if (frame.address() != nullptr)
+        return 1;
+
     return 0;
 }

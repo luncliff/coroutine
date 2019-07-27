@@ -86,5 +86,6 @@ generate_exe_test(  gcc_concepts_promise )
 generate_exe_test(  gcc_empty_handle )
 generate_exe_test(  gcc_save_current_frame )
 generate_exe_test(  gcc_assign_reference )
+generate_exe_test(  gcc_return_misusage_1 )
 
 endif()

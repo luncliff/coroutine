@@ -9,27 +9,14 @@
 #ifndef COROUTINE_PROMISE_AND_RETURN_TYPES_H
 #define COROUTINE_PROMISE_AND_RETURN_TYPES_H
 
+#if __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
+#else
+#include <experimental/coroutine>
+#endif
 
 namespace coro {
 using namespace std::experimental;
-
-#if defined(__cpp_concepts) // clang-format off
-
-template<typename T, typename R = void>
-concept bool awaitable = requires(T a, coroutine_handle<void> h) {
-    { a.await_ready() } -> bool;
-    { a.await_suspend(h) } -> void;
-    { a.await_resume() } -> R;
-};
-
-template<typename P>
-concept bool promise_requirement_basic = requires(P p) {
-    { p.initial_suspend() } -> awaitable;
-    { p.final_suspend() } -> awaitable;
-    { p.unhandled_exception() } -> void;
-};
-#endif //clang-format on 
 
 class promise_return_destroy {
   public:
@@ -48,19 +35,6 @@ class promise_return_preserve {
   public:
     auto initial_suspend() noexcept {
         return suspend_never{};
-    }
-    auto final_suspend() noexcept {
-        return suspend_always{};
-    }
-    void unhandled_exception() noexcept(false) {
-        // customize this part
-    }
-};
-
-class promise_always_suspend {
-  public:
-    auto initial_suspend() noexcept {
-        return suspend_always{};
     }
     auto final_suspend() noexcept {
         return suspend_always{};
@@ -125,7 +99,7 @@ class preserve_frame : public coroutine_handle<void> {
     preserve_frame() noexcept = default;
 };
 
-class save_frame_to final {
+class save_frame_t final {
   public:
     // provide interface to receive handle
     // when it's used as an operand of `co_await`
@@ -139,7 +113,7 @@ class save_frame_to final {
     }
 
   public:
-    explicit save_frame_to(coroutine_handle<void>& target) : ref{target} {
+    explicit save_frame_t(coroutine_handle<void>& target) : ref{target} {
     }
 
   private:

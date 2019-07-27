@@ -15,41 +15,43 @@
 #include <cstddef>
 #include <cstdint>
 
-// <coroutine> header build issue handling
 #if defined(__clang__) && defined(_MSC_VER)
 //
 // case: clang-cl, VC++
 //	In this case, override <experimental/resumable>.
-//	since msvc and clang++ uses differnet frame layout,
-//	VC++ won't fit clang-cl's code generation. see the implementation below
+//	Since msvc and clang++ uses differnet frame layout,
+//  VC++ won't fit clang-cl's code generation.
+//  see the implementation below
 //
 #if defined(_EXPERIMENTAL_RESUMABLE_)
-#error "This header replaces <experimental/coroutine> for clang-cl and VC++ ";
+static_assert(false, "This header replaces <experimental/coroutine>"
+                     " for clang-cl/VC++. Please remove previous includes.");
 #endif
+// supporess later includes
 #define _EXPERIMENTAL_RESUMABLE_
 
-#elif defined(USE_PORTABLE_HEADER) ||                                          \
-    defined(USE_CUSTOM_HEADER) // use custom header(this file)
+#elif defined(USE_PORTABLE_COROUTINE_HANDLE) // use this one
 //
+// case: gcc
 // case: clang-cl, VC++
 // case: msvc, VC++
 // case: clang, libc++
 //
-#else                          // use default header
+#else                                        // use default header
 //
 // case: msvc, VC++
 // case: clang, libc++
 //	It is safe to use vendor's header.
 //	by defining macro variable, user can prevent template redefinition
 //
-#if __has_include(<coroutine>)
-#include <coroutine> // C++ 20 standard
-
-#elif __has_include(<experimental/coroutine>)
-// #include <experimental/coroutine>  // C++ 17 experimetal
-// #define COROUTINE_PORTABLE_FRAME_H // disable the custom implementation
+#if __has_include(<coroutine>)               // C++ 20 standard
+#include <coroutine>
+#elif __has_include(<experimental/coroutine>) // C++ 17 experimetal
+#include <experimental/coroutine>
+// We don't need to use this portable one.
+// Disable the implementation below and use the default
+#define COROUTINE_PORTABLE_FRAME_H
 #endif
-
 #endif // <coroutine> header
 
 #if defined(__clang__)
@@ -112,8 +114,8 @@ static_assert(aligned_size_v<clang_frame_prefix> == 16);
 // - Layout
 //      Unknown
 struct gcc_frame_prefix final {
-    void* unknown1;
-    void* unknown2;
+    void* _unknown1;
+    void* _unknown2;
 };
 static_assert(aligned_size_v<gcc_frame_prefix> == 16);
 
