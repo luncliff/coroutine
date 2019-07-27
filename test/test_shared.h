@@ -3,12 +3,6 @@
 //  License : CC BY 4.0
 //
 #pragma once
-#include <coroutine/frame.h>
-
-#include <coroutine/channel.hpp>
-#include <coroutine/concrt.h>
-#include <coroutine/return.h>
-#include <coroutine/yield.hpp>
 
 #include <gsl/gsl>
 
