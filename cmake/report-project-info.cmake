@@ -1,7 +1,7 @@
 # 
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
-message(STATUS "========== ${PROJECT_NAME} : ${PROJECT_VERSION} ==========")
+message(STATUS "---------- ${PROJECT_NAME} : ${PROJECT_VERSION} --------------------")
 
 message(STATUS "System      \t: ${CMAKE_SYSTEM}")
 message(STATUS "Build Type  \t: ${CMAKE_BUILD_TYPE}")

@@ -1,0 +1,173 @@
+#
+#   Author
+#     - luncliff@gmail.com
+#
+version: 1.5.{build}
+
+branches:
+  except:
+    - docs
+    - skip/*
+  only:
+    - master
+    - dev/*
+    - test/*
+
+clone_script:
+  - ps: git clone -q --recursive --branch $env:APPVEYOR_REPO_BRANCH https://github.com/$env:APPVEYOR_REPO_NAME.git $env:APPVEYOR_BUILD_FOLDER
+  - ps: Set-Location $env:APPVEYOR_BUILD_FOLDER
+
+notifications:
+  - provider: Email
+    to:
+      - luncliff@gmail.com
+
+image:
+  - Visual Studio 2017
+  - Visual Studio 2019
+  - Ubuntu1804
+
+platform:
+  - x64
+
+configuration:
+  - Debug
+  - Release
+
+# cache: c:\tools\vcpkg\installed
+
+environment:
+  install_path: c:\install
+  matrix:
+    - compiler: msvc      # VS Solution
+      cmake_gen: None
+    - compiler: msvc      # CMake + MSVC
+      cmake_gen: VS
+    - compiler: clang-cl  # CMake + Clang on Windows
+    - compiler: clang     # CMake + Clang on Ubuntu 18.04
+
+matrix:
+  allow_failures:
+    - compiler: clang-cl
+    - image: Ubuntu1804
+
+  exclude:
+    # Ubuntu won't use 'msvc' and 'clang-cl'
+    - image: Ubuntu1804
+      compiler: msvc
+    - image: Ubuntu1804
+      compiler: clang-cl
+
+    # Windows image won't use 'clang'
+    - image: Visual Studio 2017
+      compiler: clang
+    - image: Visual Studio 2019
+      compiler: clang
+
+install:
+  - ps: Write-Host $env:APPVEYOR_BUILD_WORKER_IMAGE
+build_script:
+  - ps: MSBuild.exe /version
+  - ps: vstest.console.exe /?
+
+test_script:
+  - ps: Write-Output $(ctest --output-on-failure)
+
+for: 
+- matrix:
+    only:
+      - compiler: msvc
+        cmake_gen: None
+  build:
+    project: coroutine.sln
+    parallel: true
+    verbosity: minimal
+  test_script:
+    - ps: Write-Host "no tests available"
+
+- matrix:
+    only:
+      - image: Visual Studio 2017
+        compiler: msvc
+        cmake_gen: VS
+  install:
+    - ps: MSBuild.exe /version
+    - ps: Write-Host $env:APPVEYOR_BUILD_WORKER_IMAGE $env:CMAKE_GEN
+  build_script:
+    - ps: cmake . -G "Visual Studio 15 2017 Win64" -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH"
+    - ps: cmake --build .
+    - ps: cmake --build . --target install
+
+- matrix:
+    only:
+      - image: Visual Studio 2019
+        compiler: msvc
+        cmake_gen: VS
+  install:
+    - ps: MSBuild.exe /version
+    - ps: Write-Host $env:APPVEYOR_BUILD_WORKER_IMAGE
+  build_script:
+    - ps: cmake . -G "Visual Studio 16 2019" -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH"
+    - ps: cmake --build .
+    - ps: cmake --build . --target install
+
+- matrix:
+    only:
+      - image: Visual Studio 2017
+        compiler: clang-cl
+  install:
+    - ps: choco info llvm
+    - ps: choco install --yes --no-progress         ninja
+    # for latest CMake, uncomment the line ...
+    # - ps: choco install --yes --force --no-progress cmake
+    - ps: cmake --version
+    #
+    # Emulate 'Visual Studio Native Tools Command Prompt'
+    #
+    # See Also
+    # - https://www.appveyor.com/docs/lang/cpp/#visual-studio
+    # - scripts/check-vcvars64-clang-cmake.bat
+    #
+    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+    # Since this is a yaml file, we can't use the command directly. Use simplified form.
+    # [System.Environment]::SetEnvironmentVariable('CXX', "C:\Program Files\LLVM\bin\clang-cl", [System.EnvironmentVariableTarget]::User)
+    - ps:  $env:CXX="clang-cl"
+    # for cmake, "-DCMAKE_CXX_COMPILER=clang-cl" can be ok
+    - cmd: set CXX=clang-cl
+  build_script:
+    - cmd: cmake . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=%install_path%
+    - cmd: cmake --build .
+    - cmd: cmake --build . --target install
+
+- matrix:
+    only:
+      - image: Visual Studio 2019
+        compiler: clang-cl
+  install:
+    - ps: choco info llvm
+    - ps: choco install --yes --no-progress         ninja
+    # Emulate 'Visual Studio Native Tools Command Prompt'
+    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+    - ps:  $env:CXX="clang-cl"
+    - cmd: set CXX=clang-cl
+  build_script:
+    - cmd: cmake . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=%install_path%
+    - cmd: cmake --build .
+    - cmd: cmake --build . --target install
+
+- matrix:
+    only:
+      - image: Ubuntu1804
+        compiler: clang
+  install:
+    # http://apt.llvm.org/
+    # This library will use clang up to 'qualification branch'
+    - sh: sudo apt install -y -qq --fix-missing wget unzip rsync
+    - sh: sudo bash ./scripts/setup-compilers-bionic.sh
+    - sh: sudo bash ./scripts/install-cmake-3.14.sh
+    - sh: sudo bash ./scripts/install-libc++8.sh
+    - sh: export CC=clang-8 CXX=clang-8
+  build_script:
+    - sh: cmake . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=${CONFIGURATION} -DCMAKE_INSTALL_PREFIX=../install
+    - sh: cmake --build .
+    - sh: cmake --build . --target install

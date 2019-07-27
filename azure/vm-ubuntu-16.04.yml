@@ -1,0 +1,27 @@
+#
+# Author: github.com/luncliff (luncliff@gmail.com)
+#
+# References
+#   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops#passing-parameters
+#
+
+jobs:
+- job: ${{ parameters.name }}
+  pool:
+    vmImage: 'ubuntu-16.04'
+  steps:
+    - script: uname -a
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          sudo bash ./scripts/setup-compilers-xenial.sh;
+          sudo apt install -y -qq --fix-missing rsync wget unzip;
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: sudo bash ./scripts/install-libc++8.sh
+    - task: CMake@1
+      inputs:
+        cmakeArgs: . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_CXX_COMPILER=clang -DUSE_CUSTOM_HEADER=true
+        workingDirectory: '.'

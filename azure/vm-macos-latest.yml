@@ -1,0 +1,28 @@
+#
+# Author: github.com/luncliff (luncliff@gmail.com)
+#
+# References
+#   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops#passing-parameters
+#
+
+jobs:
+- job: ${{ parameters.name }}
+  pool:
+    vmImage: 'macOS-latest'
+  steps:
+    - script: uname -a
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          brew install ninja;
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          brew info llvm;
+          brew info cmake;
+    - task: CMake@1
+      inputs:
+        cmakeArgs: . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_CXX_COMPILER=clang -DUSE_CUSTOM_HEADER=true
+        workingDirectory: '.'

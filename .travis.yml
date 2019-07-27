@@ -6,62 +6,222 @@ sudo: false
 
 git:
   submodules: true
+  quiet: true
   depth: 5
 
 branches:
   except:
     - docs
+    - skip/*
+  only:
+    - master
+    - dev/*
+    - test/*
 
 notifications:
   email:
     - luncliff@gmail.com
 
-os: linux
-dist: xenial
 addons:
-<<<<<<< HEAD
+  # chocolatey: # travis doesn't support this. It's for reference of the config below
+  #   packages:
+  #     - llvm # already installed
+  #     - ninja
+  #     - cmake
+
   homebrew:
     update: true
     packages:
+      # - llvm # already installed
       - ninja
-      - tree
       - cmake
+      - tree
 
-=======
->>>>>>> dev/gcc
   apt:
+    update: true
     sources:
       - ubuntu-toolchain-r-test
+      - llvm-toolchain-xenial-6.0
       - llvm-toolchain-xenial-7
       - llvm-toolchain-xenial-8
     packages:
-      - g++-7
       - g++-8
-      - libc++-7-dev
-      - libc++abi-7-dev
-      - unzip
-      - curl
+      - g++-9
+      - clang-6.0
+      - clang-7
+      - clang-8
+      - libc++abi-8-dev
+      - cmake
       - ninja-build
       - tree
-      - jq
+      - wget
+      - tar
+      - rsync
 
-services:
-  - docker
+language: cpp
+
+install:
+  # for this env, we don't have to use setup-compilers script
+  # since we already installed them
+  - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
+    sudo rm -rf /usr/local/clang-7.0.0;
+    sudo rm -rf /usr/local/cmake-3.12.4;
+    sudo bash ./scripts/install-cmake-3.14.sh;
+    export CC=gcc-9 CXX=g++-9;
+    sudo bash ./scripts/install-libc++8.sh;
+    fi
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
+    brew info llvm;
+    fi
+  - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
+    systeminfo;
+    choco info  llvm;
+    choco info  visualstudio2017-workload-vctools;
+    choco install --yes --no-progress         ninja;
+    choco install --yes --force --no-progress cmake;
+    fi
+
+before_script:
+  - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
+    export CC=${TRAVIS_COMPILER};
+    export CXX=${TRAVIS_COMPILER};
+    fi
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
+    export CXX=${TRAVIS_COMPILER};
+    fi
+  - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
+    export CXX=clang-cl;
+    fi
+
+script:
+  - cmake . -G "Ninja"
+    -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
+    -DBUILD_SHARED_LIBS=${SHARED}
+    -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    -DUSE_PORTABLE_HEADER=${PORTABLE}
+  - cmake --build .
+  - cmake --build . --target install
+  - ctest --output-on-failure
+
+after_success:
+  - cd ${TRAVIS_BUILD_DIR}
+  - tree ${TRAVIS_BUILD_DIR}/install
+
+# os:
+#   - windows
+#   - linux
+#   - osx
+
+# dist:
+#   - xenial
+
+# osx_image: 
+#   - xcode9.4
+#   - xcode10.2
+#   - xcode11
+
+# compiler:
+#   - gcc
+#   - clang
+#   - clang-6.0
+#   - clang-7
+#   - clang-8
+
+# env:
+#   - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+#   - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+#   - BUILD_TYPE=Release  SHARED=True  PORTABLE=True
+#   - BUILD_TYPE=Release  SHARED=False PORTABLE=True
 
 matrix:
   allow_failures:
-    - os: linux
-  include:
-    - name: Docker Image / Version Info
-      before_install:
-        - docker info
-      install:
-        - docker pull luncliff/gcc
-      script:
-        - docker inspect luncliff/gcc | jq
-        - docker run --rm luncliff/gcc gcc-10 --version
+    - services:
+        - docker
 
-    - name: CMake + Debug
+  include:
+    - os: windows
+      compiler: clang
+      env:
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+      script:
+        #
+        # Because of the Travis CI env issue, we can't use `call` command.
+        # Normally with the Visual Studio 2017, vcvarsall.bat can be used like the following
+        #   call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64;
+        #
+        # However, this env is a bit different.
+        # This path is from chocolatey 'visualstudio2017-workload-vctools'
+        #
+        # see the batch file
+        #
+        - ./scripts/build-vs2017-cmake-clang.bat;
+        - ctest --output-on-failure
+    - os: windows
+      compiler: clang
+      env:
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+      script:
+        - ./scripts/build-vs2017-cmake-clang.bat;
+        - ctest --output-on-failure
+
+    - os: osx
+      osx_image: xcode10.2
+      compiler: clang
+      env:
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+    - os: osx
+      osx_image: xcode10.2
+      compiler: clang
+      env:
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+
+    - os: osx
+      osx_image: xcode11
+      compiler: clang
+      env:
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+    - os: osx
+      osx_image: xcode11
+      compiler: clang
+      env:
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+
+    - os: linux
+      dist: xenial
+      compiler: clang-6.0
+      env:
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+    - os: linux
+      dist: xenial
+      compiler: clang-6.0
+      env:
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+
+    - os: linux
+      dist: xenial
+      compiler: clang-7
+      env:
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+    - os: linux
+      dist: xenial
+      compiler: clang-7
+      env:
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+
+    - os: linux
+      dist: xenial
+      compiler: clang-8
+      env:
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+    - os: linux
+      dist: xenial
+      compiler: clang-8
+      env:
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+
+    - name: gcc-cxx-coroutines debug
+      services:
+        - docker
       env:
         - CONFIG=Debug
       install:
@@ -76,7 +236,9 @@ matrix:
         - $RUN make -k
         - $RUN ctest --output-on-failure
 
-    - name: CMake + Release
+    - name: gcc-cxx-coroutines release
+      services:
+        - docker
       env:
         - CONFIG=Release
       install:
