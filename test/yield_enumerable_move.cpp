@@ -2,8 +2,9 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test.h"
+#include <coroutine/yield.hpp>
 
+#include "test.h"
 using namespace coro;
 
 auto yield_once(int value = 0) -> enumerable<int>;
@@ -16,7 +17,7 @@ auto coro_enumerable_after_move_test() {
     _require_(g.begin() == g.end());
     for (auto v : g) {
         v = count; // code to suppress C4189
-        FAIL_WITH_MESSAGE("null generator won't go into loop"s);
+        _fail_now_("null generator won't go into loop", __FILE__, __LINE__);
     }
 
     for (auto v : m) {
@@ -28,7 +29,7 @@ auto coro_enumerable_after_move_test() {
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
+int main(int, char*[]) {
     return coro_enumerable_after_move_test();
 }
 

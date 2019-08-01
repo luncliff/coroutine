@@ -2,8 +2,9 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test.h"
+#include <coroutine/yield.hpp>
 
+#include "test.h"
 using namespace coro;
 
 auto yield_never() -> enumerable<int> {
@@ -22,7 +23,7 @@ auto coro_enumerable_no_yield_test() {
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
+int main(int, char*[]) {
     return coro_enumerable_no_yield_test();
 }
 

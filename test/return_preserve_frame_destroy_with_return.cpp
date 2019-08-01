@@ -2,30 +2,34 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test.h"
+#include <coroutine/return.h>
 
+#include "test.h"
 using namespace coro;
 
-auto invoke_and_suspend() -> frame {
+auto invoke_and_suspend_immediately() -> preserve_frame {
     co_await suspend_always{};
     co_return;
 };
-auto coro_frame_first_suspend_test() {
-    auto frame = invoke_and_suspend();
 
-    // allow access to `coroutine_handle<void>`
-    //  after first suspend(which can be `co_return`)
+auto coro_preserve_frame_destroy_with_return() {
+    auto frame = invoke_and_suspend_immediately();
+
+    // coroutine_handle<void> is final_suspended after `co_return`.
     coroutine_handle<void>& coro = frame;
+
     _require_(static_cast<bool>(coro)); // not null
     _require_(coro.done() == false);    // it is susepended !
+
+    // we don't care. destroy it
     coro.destroy();
 
     return EXIT_SUCCESS;
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
-    return coro_frame_first_suspend_test();
+int main(int, char*[]) {
+    return coro_preserve_frame_destroy_with_return();
 }
 
 #elif __has_include(<CppUnitTest.h>)

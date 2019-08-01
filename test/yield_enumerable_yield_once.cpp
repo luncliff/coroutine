@@ -2,8 +2,9 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test.h"
+#include <coroutine/yield.hpp>
 
+#include "test.h"
 using namespace coro;
 
 auto yield_once(int value = 0) -> enumerable<int> {
@@ -21,7 +22,7 @@ auto coro_enumerable_yield_once_test() {
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
+int main(int, char*[]) {
     return coro_enumerable_yield_once_test();
 }
 

@@ -67,31 +67,36 @@ function(generate_exe_test NAME)
     endif()
 endfunction()
 
-# generate_exe_test( enumerable_accumulate )
-# generate_exe_test( enumerable_iterator )
-# generate_exe_test( enumerable_max_element )
-# generate_exe_test( enumerable_move )
-# generate_exe_test( enumerable_yield_never )
-# generate_exe_test( enumerable_yield_once )
-
-# generate_exe_test( sequence_destroy )
-# generate_exe_test( sequence_frame_status )
-# generate_exe_test( sequence_suspend_await )
-# generate_exe_test( sequence_suspend_yield )
-# generate_exe_test( sequence_yield_never )
-# generate_exe_test( sequence_yield_once )
+#
+#   <coroutine/frame.h>
+#
 
 # generate_exe_test( handle_swap )
 # generate_exe_test( handle_move )
 
-# generate_exe_test( latch_wait_after_ready )
-# generate_exe_test( latch_wait_multiple_times )
+#
+#   <coroutine/return.h>
+#
 
-# generate_exe_test( coro_forget_frame )
-# generate_exe_test( coro_frame_awaitable )
-# generate_exe_test( coro_frame_empty )
-# generate_exe_test( coro_frame_return )
-# generate_exe_test( coro_frame_suspend )
+generate_exe_test( return_forget_frame_with_await )
+generate_exe_test( return_forget_frame_subroutine )
+generate_exe_test( return_preserve_frame_empty )
+generate_exe_test( return_preserve_frame_destroy_with_handle )
+generate_exe_test( return_preserve_frame_destroy_with_return )
+
+generate_exe_test( yield_enumerable_accumulate )
+generate_exe_test( yield_enumerable_iterator )
+generate_exe_test( yield_enumerable_max_element )
+generate_exe_test( yield_enumerable_move )
+generate_exe_test( yield_enumerable_yield_never )
+generate_exe_test( yield_enumerable_yield_once )
+
+# generate_exe_test( yield_sequence_destroy )
+# generate_exe_test( yield_sequence_frame_status )
+# generate_exe_test( yield_sequence_suspend_await )
+# generate_exe_test( yield_sequence_suspend_yield )
+# generate_exe_test( yield_sequence_yield_never )
+# generate_exe_test( yield_sequence_yield_once )
 
 generate_exe_test( channel_read_fail_after_close )
 generate_exe_test( channel_read_write_mutex )
@@ -113,6 +118,9 @@ if(WIN32)
 # generate_exe_test( event_win_signal )
 # generate_exe_test( event_win_wait_one )
 # generate_exe_test( event_win_wait_array )
+
+# generate_exe_test( latch_wait_after_ready )
+# generate_exe_test( latch_wait_multiple_times )
 
 elseif(UNIX)
 
