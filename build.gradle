@@ -44,8 +44,8 @@ android {
         targetSdkVersion 27
 
         // Follow native code's verson
-        versionCode 143
-        versionName "1.4.3"
+        versionCode 150
+        versionName "1.5.0"
 
         // External Native build: CMake
         externalNativeBuild {

@@ -320,6 +320,8 @@ matrix:
         - yes | sdkmanager --update > /dev/null 2>&1
         - sdkmanager ndk-bundle > /dev/null 2>&1
       before_script:
+        - export PATH=/usr/bin:$PATH
+        - cmake --version
         - gradle --version
       script:
         - gradle clean
