@@ -6,6 +6,7 @@
 #include <coroutine/return.h>
 
 #include "test.h"
+using namespace std;
 using namespace coro;
 
 using channel_without_lock_t = channel<int>;

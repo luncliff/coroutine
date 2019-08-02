@@ -40,9 +40,9 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
         set_target_properties(coroutine_portable
         PROPERTIES
             INTERFACE_COMPILE_DEFINITIONS "USE_PORTABLE_COROUTINE_HANDLE;_RESUMABLE_FUNCTIONS_SUPPORTED"
-        )    
+        )
         
-    elseif(UNIX)
+    elseif(UNIX OR APPLE)
         target_compile_options(coroutine_portable
         INTERFACE
             -std=c++2a -stdlib=libc++

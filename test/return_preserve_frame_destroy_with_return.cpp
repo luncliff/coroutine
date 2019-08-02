@@ -5,6 +5,7 @@
 #include <coroutine/return.h>
 
 #include "test.h"
+using namespace std;
 using namespace coro;
 
 auto invoke_and_suspend_immediately() -> preserve_frame {

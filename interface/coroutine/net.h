@@ -241,9 +241,21 @@ using czstring_serv = gsl::czstring<NI_MAXSERV>;
 //  Combination of `getaddrinfo` functions
 //  If there is an error, the enumerable yields nothing.
 _INTERFACE_
-auto resolve(const addrinfo& hint, //
-             czstring_host name, czstring_serv serv) noexcept(false)
-    -> coro::enumerable<endpoint_t>;
+int resolve(coro::enumerable<endpoint_t>& g,
+            const addrinfo& hint, //
+            czstring_host name, czstring_serv serv) noexcept;
+
+inline auto resolve(const addrinfo& hint, //
+                    czstring_host name, czstring_serv serv) noexcept(false)
+    -> coro::enumerable<endpoint_t> {
+    using namespace std;
+
+    coro::enumerable<endpoint_t> g{};
+    if (auto ec = resolve(g, hint, name, serv)) {
+        throw system_error{ec, system_category(), gai_strerror(ec)};
+    }
+    return g;
+}
 
 // clang-format off
 

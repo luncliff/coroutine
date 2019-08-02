@@ -6,6 +6,7 @@
 #include <gsl/gsl>
 
 #include "test.h"
+using namespace std;
 using namespace coro;
 
 auto save_current_handle_to_frame(coroutine_handle<void>& frame, //

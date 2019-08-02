@@ -80,7 +80,7 @@ using procedure_t = void (*)(void*);
 #endif
 
 template <typename T>
-constexpr auto aligned_size_v = ((sizeof(T) + 16 - 1) & ~(16 - 1));
+constexpr auto aligned_size_v = ((sizeof(T) + 16u - 1u) & ~(16u - 1u));
 
 // - Note
 //      MSVC coroutine frame's prefix

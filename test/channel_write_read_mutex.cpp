@@ -1,5 +1,4 @@
 //
-//
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
@@ -7,6 +6,7 @@
 #include <coroutine/return.h>
 
 #include "test.h"
+using namespace std;
 using namespace coro;
 
 using channel_with_lock_t = channel<int, mutex>;

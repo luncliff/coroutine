@@ -5,6 +5,7 @@
 #include <coroutine/return.h>
 
 #include "test.h"
+using namespace std;
 using namespace coro;
 
 auto coro_frame_empty_test() {

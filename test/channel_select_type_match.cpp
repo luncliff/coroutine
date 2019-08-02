@@ -6,6 +6,7 @@
 #include <coroutine/return.h>
 
 #include "test.h"
+using namespace std;
 using namespace coro;
 
 using u32_chan_t = channel<uint32_t>;

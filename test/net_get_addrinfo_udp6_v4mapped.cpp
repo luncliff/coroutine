@@ -2,9 +2,11 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include <coroutine/net.h>
 #include "socket.h"
-#include "test.h"
 
+#include "test.h"
+using namespace std;
 using namespace coro;
 
 auto net_getaddrinfo_udp6_bind_v4mapped_test() {

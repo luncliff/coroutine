@@ -4,6 +4,9 @@
 //
 #include "test.h"
 
+using namespace std;
+using namespace std::literals;
+
 #if defined(CMAKE_TEST) // for ctest
 
 void _require_(bool expr) {
@@ -15,7 +18,7 @@ void _require_(bool expr, gsl::czstring<> file, size_t line) {
     if (expr)
         return;
     ::printf("%s %zu\n", file, line);
-    ::exit(line);
+    ::exit(static_cast<int>(line));
 }
 void _println_(gsl::czstring<> message) {
     ::printf("%s\n", message);

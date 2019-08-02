@@ -5,6 +5,7 @@
 #include <coroutine/return.h>
 
 #include "test.h"
+using namespace std;
 using namespace coro;
 
 // if you doesn't need to care about a coroutine's life cycle,

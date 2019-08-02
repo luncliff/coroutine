@@ -5,6 +5,7 @@
 #include <coroutine/yield.hpp>
 
 #include "test.h"
+using namespace std;
 using namespace coro;
 
 auto yield_until_zero(int n) -> enumerable<int> {

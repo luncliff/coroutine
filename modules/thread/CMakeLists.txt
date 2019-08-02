@@ -34,6 +34,7 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     if(WIN32)
         target_compile_options(coroutine_thread
         PRIVATE
+            -Wall
             -Wno-unused-private-field
             -Wno-unused-function
             -Wno-c++98-compat
@@ -41,6 +42,11 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
             -Wno-missing-prototypes
         )
     elseif(UNIX)
+        message(STATUS "coroutine_thread for UNIX")
+        target_link_libraries(coroutine_thread
+        PUBLIC
+            c++
+        )
         target_compile_options(coroutine_thread
         PUBLIC
             -fPIC
@@ -51,8 +57,11 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
             # -fno-exceptions
         )
     endif()
-
 elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+    target_link_libraries(coroutine_thread
+    PUBLIC
+        stdc++
+    )
     target_compile_options(coroutine_thread
     PUBLIC
         -fPIC
@@ -61,7 +70,6 @@ elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
         -fno-rtti -fvisibility=hidden
         # -fno-exceptions
     )
-
 elseif(MSVC)
     target_compile_options(coroutine_thread
     PRIVATE
@@ -73,7 +81,6 @@ elseif(MSVC)
             /Od
         )
     endif()
-
 endif()
 
 if(ANDROID)

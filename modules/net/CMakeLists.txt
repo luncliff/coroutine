@@ -10,6 +10,7 @@ add_library(coro::net ALIAS coroutine_net)
 set_target_properties(coroutine_net
 PROPERTIES
     CXX_STANDARD    17
+    WINDOWS_EXPORT_ALL_SYMBOLS  true
 )
 
 target_include_directories(coroutine_net
@@ -32,15 +33,25 @@ if(NOT BUILD_SHARED_LIBS)
 endif()
 
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
-    target_compile_options(coroutine_net
-    PUBLIC
-        -fPIC
-    PRIVATE
-        -Wall -Wno-unknown-pragmas -Wno-unused-private-field
-        -fno-rtti -fvisibility=hidden
-        -ferror-limit=5
-        # -fno-exceptions
-    )
+    if(WIN32)
+        target_compile_options(coroutine_net
+        PRIVATE
+            -Wall
+            -Wno-unused-private-field
+            -Wno-unused-function
+            -Wno-c++98-compat
+            -Wno-reserved-id-macro
+            -Wno-missing-prototypes
+            -ferror-limit=5
+        )
+    elseif(UNIX)
+        target_compile_options(coroutine_net
+        PUBLIC
+            -fPIC
+        PRIVATE
+            -fno-rtti -fvisibility=hidden
+        )
+    endif()
 elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     target_compile_options(coroutine_net
     PUBLIC

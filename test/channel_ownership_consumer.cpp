@@ -7,6 +7,7 @@
 
 #include "test.h"
 
+using namespace std;
 using namespace coro;
 
 constexpr int bye = 0;

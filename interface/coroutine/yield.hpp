@@ -41,9 +41,10 @@ class enumerable {
     using pointer = value_type*;
 
   private:
-    coroutine_handle<promise_type> coro;
+    coroutine_handle<promise_type> coro{};
 
   public:
+    enumerable() noexcept = default;
     enumerable(promise_type* ptr) noexcept
         : coro{coroutine_handle<promise_type>::from_promise(*ptr)} {
     }

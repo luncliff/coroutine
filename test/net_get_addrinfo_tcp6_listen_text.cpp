@@ -2,9 +2,11 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include <coroutine/net.h>
 #include "socket.h"
-#include "test.h"
 
+#include "test.h"
+using namespace std;
 using namespace coro;
 
 auto net_getaddrinfo_tcp6_listen_text_test() {

@@ -5,6 +5,7 @@
 #include <coroutine/yield.hpp>
 
 #include "test.h"
+using namespace std;
 using namespace coro;
 
 auto yield_never() -> enumerable<int> {

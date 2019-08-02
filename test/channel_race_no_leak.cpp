@@ -9,6 +9,7 @@
 #include <concurrency_helper.h>
 
 #include "test.h"
+using namespace std;
 using namespace coro;
 
 using channel_section_t = channel<uint64_t, section>;
