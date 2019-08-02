@@ -20,7 +20,7 @@ function(generate_exe_test NAME)
     )
     target_include_directories(${TEST_NAME}
     PRIVATE
-        ${INTERFACE_DIR}
+        ${BUILD_INTERFACE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${GSL_INCLUDE_DIR}
     )
@@ -66,6 +66,20 @@ function(generate_exe_test NAME)
         # endif()
     endif()
 endfunction()
+
+if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+
+generate_exe_test( clang_builtin_intrinsics )
+
+elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+
+generate_exe_test( gcc_support_version )
+generate_exe_test( gcc_concepts_promise )
+generate_exe_test( gcc_concepts_awaitable )
+
+endif()
+
+
 
 #
 #   <coroutine/frame.h>
@@ -136,11 +150,6 @@ generate_exe_test( event_unix_wait_three )
 # generate_exe_test( pthread_joiner_multiple_spawn )
 # generate_exe_test( pthread_joiner_no_spawn )
 
-if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
-generate_exe_test( gcc_support_version )
-generate_exe_test( gcc_concepts_promise )
-generate_exe_test( gcc_concepts_awaitable )
-endif()
 
 endif()
 

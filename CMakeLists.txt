@@ -12,6 +12,9 @@
 #   Working
 #       - GCC   + Linux     (Ninja, Unix Makefiles)
 #
+#   Variables
+#       - TEST_DISABLED : Explicitly disables building tests
+#
 cmake_minimum_required(VERSION 3.8)
 
 project(coroutine 
@@ -19,33 +22,44 @@ project(coroutine
         VERSION 1.5.0
 )
 
-# import cmake code snippets. see `cmake/`
+#
+# import cmake code snippets. see 'cmake/'
+#
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 include(check-compiler)
 include(report-project-info)
 
+#
+# import external libraries. see 'external/'
+#
 include(external-gsl)
 
-set(INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
-
-# exporting modules
+#
+# build/interface targets for CMake. see 'modules/'
+#
+set(BUILD_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
 add_subdirectory(modules/portable)
 add_subdirectory(modules/event)     # coroutine_event
 add_subdirectory(modules/net)       # coroutine_net
 add_subdirectory(modules/thread)    # coroutine_thread
 
-# internal modules
-add_subdirectory(modules/concrt)
+add_subdirectory(modules/concrt)    # concurrency helper for test codes
 
+#
 # export declared cmake targets
-# 'coroutine-targets' is a better name, but we will merge their contents 
-# into the file 'coroutine-config.cmake' without using 'configure_file()' which requires config template
+#
+# 'coroutine-targets' is indeed better name, but without using 'configure_file()'
+# the exporting step will be more complicated for non-CMake users.
+# just merge all contents into the file 'coroutine-config.cmake'
+#
 install(EXPORT      coroutine-config
         # NAMESPACE   coro::
         DESTINATION ${CMAKE_INSTALL_PREFIX}/share/coroutine
 )
 
+#
 # generate/install config & version info
+#
 include(CMakePackageConfigHelpers)
 set(VERSION_FILE_PATH   ${CMAKE_BINARY_DIR}/cmake/coroutine-config-version.cmake)
 write_basic_package_version_file(${VERSION_FILE_PATH}
@@ -56,7 +70,9 @@ install(FILES           ${VERSION_FILE_PATH}
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/share/coroutine
 )
 
-# Test projects
+#
+# for testing, CTest will be used
+#
 if(TEST_DISABLED)
     message(STATUS "Test is disabled.")
     return()
@@ -68,5 +84,5 @@ elseif(NO_TESTS)
     return()
 endif()
 
-enable_testing() # ctest
+enable_testing()
 add_subdirectory(test)

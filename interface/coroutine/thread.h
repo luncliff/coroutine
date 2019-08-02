@@ -71,17 +71,43 @@ class ptp_work final {
 
 #elif __has_include(<pthread.h>)
 #include <pthread.h>
+#include <future>
 
 namespace coro {
 using namespace std;
 using namespace std::experimental;
 
+// work like `ptp_work` of win32 based interface, but rely on standard
+class ptp_work final {
+    coroutine_handle<void> rh;
+
+  private:
+    void on_suspend(coroutine_handle<void> handle) noexcept(false) {
+        rh = handle;
+        async(launch::async, [handle]() mutable { handle.resume(); });
+    }
+    void on_resume() noexcept {
+        rh = nullptr; // forget it
+    }
+
+  public:
+    constexpr bool await_ready() const noexcept {
+        return false;
+    }
+    void await_suspend(coroutine_handle<void> handle) noexcept(false) {
+        return this->on_suspend(handle);
+    }
+    void await_resume() noexcept {
+        return this->on_resume();
+    }
+};
+
 //  Special return type that wraps `pthread_create` and `pthread_join`
-class pthread_joiner_t final : no_copy_move {
+class pthread_joiner_t final {
   public:
     class promise_type;
 
-    class pthread_spawner_t final : no_copy_move {
+    class pthread_spawner_t final {
         friend class promise_type;
 
         _INTERFACE_ static void* resume_on_pthread(void* ptr) noexcept(false);

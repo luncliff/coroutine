@@ -47,7 +47,7 @@ uint64_t make_signaled(int64_t efd) noexcept(false) {
 }
 
 event::event() noexcept(false) : state{} {
-    const auto fd = eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
+    const auto fd = ::eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
     if (fd == -1)
         throw system_error{errno, system_category(), "eventfd"};
 

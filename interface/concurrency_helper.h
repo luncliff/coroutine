@@ -28,9 +28,7 @@
 
 #include <atomic>
 #include <chrono>
-
-using std::atomic_uint64_t;
-using std::chrono::microseconds;
+#include <future>
 
 #if __has_include(<Windows.h>)
 #include <Windows.h>
@@ -57,7 +55,7 @@ static_assert(sizeof(section) == sizeof(CRITICAL_SECTION));
 //  Its interface might slightly with that of Concurrency TS
 class latch final {
     mutable HANDLE ev{};
-    atomic_uint64_t ref{};
+    std::atomic_uint64_t ref{};
 
   public:
     _INTERFACE_ explicit latch(uint32_t count) noexcept(false);
@@ -88,12 +86,12 @@ class section final {
 //  An `std::experimental::latch` for fork-join scenario.
 //  Its interface might slightly with that of Concurrency TS
 class latch final {
-    atomic_uint64_t ref{};
+    std::atomic_uint64_t ref{};
     pthread_cond_t cv{};
     pthread_mutex_t mtx{};
 
   private:
-    int timed_wait(chrono::microseconds timeout) noexcept;
+    int timed_wait(std::chrono::nanoseconds timeout) noexcept;
 
   public:
     _INTERFACE_ explicit latch(uint32_t count) noexcept(false);

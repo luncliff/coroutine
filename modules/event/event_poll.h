@@ -12,6 +12,7 @@
 
 #include <fcntl.h>
 #include <sys/epoll.h>
+#include <sys/eventfd.h>
 #include <unistd.h>
 
 namespace coro {

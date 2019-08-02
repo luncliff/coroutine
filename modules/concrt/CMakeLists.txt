@@ -2,15 +2,15 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(concrt
-    ${INTERFACE_DIR}/concurrency_helper.h
+    ${BUILD_INTERFACE_DIR}/concurrency_helper.h
 )
-set_target_properties(concrt
-PROPERTIES
-    CXX_STANDARD    17
-)
+# set_target_properties(concrt
+# PROPERTIES
+#     CXX_STANDARD    17
+# )
 target_include_directories(concrt
 PUBLIC
-    ${INTERFACE_DIR}
+    ${BUILD_INTERFACE_DIR}
     ${GSL_INCLUDE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
@@ -25,16 +25,29 @@ endif()
 if(MSVC)
     target_compile_options(concrt
     PRIVATE
-        /W4
+        /std:c++latest /W4 
     )
     target_compile_definitions(concrt
     PUBLIC
         WIN32_LEAN_AND_MEAN NOMINMAX
     )
-else(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+elseif(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     target_compile_options(concrt
     PUBLIC
-        -fPIC -Wall
+        -std=c++2a -stdlib=libc++
+        -Wall -Wno-unknown-pragmas
+        -fPIC -fcoroutines-ts -fno-rtti
+    )
+elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+    target_compile_options(concrt
+    PUBLIC
+        -std=gnu++2a
+        -Wall
+        -fPIC -fcoroutines -fno-rtti # -fno-exceptions 
+    )
+    target_link_libraries(concrt
+    PUBLIC
+        stdc++
     )
 endif()
 
@@ -43,16 +56,10 @@ if(WIN32)
     PRIVATE
         sync_windows.cpp
     )
-elseif(APPLE)
+elseif(UNIX)
     target_sources(concrt
     PRIVATE
-        sync_darwin.cpp
         latch_pthread.cpp
-    )
-elseif(UNIX) # actually we can't sure it's a linux here ...
-    target_sources(concrt
-    PRIVATE
-        sync_linux.cpp
-        latch_pthread.cpp
+        section_pthread.cpp
     )
 endif()

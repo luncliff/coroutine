@@ -13,25 +13,6 @@ using namespace coro;
 
 using channel_section_t = channel<uint64_t, section>;
 
-#if defined(__unix__) || defined(__linux__) || defined(__APPLE__)
-// work like `ptp_work` of win32 based interface, but rely on standard
-class ptp_work final {
-    coroutine_handle<void> rh;
-
-  public:
-    constexpr bool await_ready() const noexcept {
-        return false;
-    }
-    void await_suspend(coroutine_handle<void> handle) noexcept(false) {
-        rh = handle;
-        async(launch::async, [handle]() { handle.resume(); });
-    }
-    void await_resume() noexcept {
-        rh = nullptr; // forget it
-    }
-};
-#endif
-
 auto coro_channel_no_leak_under_race_test() {
     static constexpr size_t max_try_count = 6;
 
@@ -80,7 +61,7 @@ auto coro_channel_no_leak_under_race_test() {
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char*[]) {
+int main(int, char* []) {
     return coro_channel_no_leak_under_race_test();
 }
 #elif __has_include(<CppUnitTest.h>)

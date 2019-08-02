@@ -1,19 +1,66 @@
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
+//  Reference
+//      https://msdn.microsoft.com/en-us/library/windows/desktop/ms682583(v=vs.85).aspx
 //
 #include <concurrency_helper.h>
 #include <coroutine/frame.h>
-
-#include <gsl/gsl>
-
 #include <system_error>
+
+#include <TlHelp32.h>
+#include <gsl/gsl>
 
 // Windows Concurrency Runtime's event is not alertible.
 //#include <concrt.h>
 
 using namespace std;
 using namespace gsl;
+
+system_error make_sys_error(not_null<czstring<>> label) noexcept(false) {
+    const auto ec = gsl::narrow_cast<int>(GetLastError());
+    return system_error{ec, system_category(), label};
+}
+
+auto get_threads(DWORD pid) noexcept(false) -> coro::enumerable<DWORD> {
+    // for current process
+    auto snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+    if (snapshot == INVALID_HANDLE_VALUE)
+        throw make_sys_error("CreateToolhelp32Snapshot");
+
+    auto h = gsl::finally([=]() noexcept { CloseHandle(snapshot); });
+
+    auto entry = THREADENTRY32{};
+    entry.dwSize = sizeof(entry);
+
+    for (Thread32First(snapshot, &entry); Thread32Next(snapshot, &entry);
+         entry.dwSize = sizeof(entry)) {
+        // filter other process's threads
+        if (entry.th32OwnerProcessID != pid)
+            co_yield entry.th32ThreadID;
+    }
+}
+
+static_assert(is_move_assignable_v<section> == false);
+static_assert(is_move_constructible_v<section> == false);
+static_assert(is_copy_assignable_v<section> == false);
+static_assert(is_copy_constructible_v<section> == false);
+
+section::section() noexcept(false) {
+    InitializeCriticalSectionAndSpinCount(this, 0600);
+}
+section::~section() noexcept {
+    DeleteCriticalSection(this);
+}
+bool section::try_lock() noexcept {
+    return TryEnterCriticalSection(this);
+}
+void section::lock() noexcept(false) {
+    EnterCriticalSection(this);
+}
+void section::unlock() noexcept(false) {
+    LeaveCriticalSection(this);
+}
 
 static_assert(is_move_assignable_v<latch> == false);
 static_assert(is_move_constructible_v<latch> == false);
@@ -94,25 +141,4 @@ StartWait:
     // WAIT_OBJECT_0 : return by signal
     this->~latch();
     return;
-}
-
-static_assert(is_move_assignable_v<section> == false);
-static_assert(is_move_constructible_v<section> == false);
-static_assert(is_copy_assignable_v<section> == false);
-static_assert(is_copy_constructible_v<section> == false);
-
-section::section() noexcept(false) {
-    InitializeCriticalSectionAndSpinCount(this, 0600);
-}
-section::~section() noexcept {
-    DeleteCriticalSection(this);
-}
-bool section::try_lock() noexcept {
-    return TryEnterCriticalSection(this);
-}
-void section::lock() noexcept(false) {
-    EnterCriticalSection(this);
-}
-void section::unlock() noexcept(false) {
-    LeaveCriticalSection(this);
 }

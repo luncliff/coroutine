@@ -21,7 +21,7 @@ endif()
 
 target_include_directories(coroutine_portable
 INTERFACE
-    $<BUILD_INTERFACE:${INTERFACE_DIR}>
+    $<BUILD_INTERFACE:${BUILD_INTERFACE_DIR}>
     $<BUILD_INTERFACE:${GSL_INCLUDE_DIR}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
 )
@@ -45,8 +45,8 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     elseif(UNIX)
         target_compile_options(coroutine_portable
         INTERFACE
-            -std=c++2a -fcoroutines-ts
-            -stdlib=libc++
+            -std=c++2a -stdlib=libc++
+            -fcoroutines-ts
         )
     endif()
 
@@ -59,15 +59,15 @@ elseif(MSVC)
 elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     target_compile_options(coroutine_portable
     INTERFACE
-        -fcoroutines -fconcepts
         -std=gnu++2a
+        -fcoroutines -fconcepts
     )
 
 endif()
 
-install(FILES   ${INTERFACE_DIR}/coroutine/frame.h
-                ${INTERFACE_DIR}/coroutine/return.h
-                ${INTERFACE_DIR}/coroutine/channel.hpp
+install(FILES   ${BUILD_INTERFACE_DIR}/coroutine/frame.h
+                ${BUILD_INTERFACE_DIR}/coroutine/return.h
+                ${BUILD_INTERFACE_DIR}/coroutine/channel.hpp
         # Use DESTINATION instead to make sure of the path.
         # Must be same with INSTALL_INTERFACE above
         # TYPE    INCLUDE

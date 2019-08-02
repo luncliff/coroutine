@@ -1,17 +1,12 @@
-﻿// ---------------------------------------------------------------------------
-//
+﻿//
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
-#include <coroutine/concrt.h>
-
 #include <cstdio>
 #include <ctime>
+#include <system_error>
 
-#include <pthread.h>
-
-namespace concrt {
+#include <concurrency_helper.h>
 
 using namespace std;
 using namespace std::chrono;
@@ -81,10 +76,10 @@ void latch::count_down(uint32_t n) noexcept(false) {
 bool latch::is_ready() const noexcept {
     return this->ref.load(memory_order_acquire) == 0;
 }
-int latch::timed_wait(microseconds timeout) noexcept {
+int latch::timed_wait(nanoseconds timeout) noexcept {
     // `pthread_cond_timedwait` uses absolute time(== time point).
     // so we have to calculate the timepoint first
-    auto end_time = 0us;
+    auto end_time = 0ns;
     auto until = timespec{};
     const auto invoke_time = system_clock::now().time_since_epoch();
     int reason = 0;
@@ -130,4 +125,3 @@ void latch::wait() noexcept(false) {
         // ... update timeout if it need to be changed ...
     }
 }
-} // namespace concrt
