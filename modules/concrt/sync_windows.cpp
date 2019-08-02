@@ -4,8 +4,9 @@
 //  Reference
 //      https://msdn.microsoft.com/en-us/library/windows/desktop/ms682583(v=vs.85).aspx
 //
-#include <concurrency_helper.h>
 #include <coroutine/yield.hpp>
+
+#include <concurrency_helper.h>
 #include <system_error>
 
 #include <TlHelp32.h>

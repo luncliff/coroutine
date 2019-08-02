@@ -4,10 +4,10 @@
 #       CMake support for non-VisualStudio projects
 #
 #   Support
-#       - MSVC  + Windows   (Visual Studio)
+#       - MSVC  + Windows   (Visual Studio 2017 or later)
 #       - Clang + Windows   (Ninja)
-#       - Clang + MacOS     (Unix Makefiles)
-#       - Clang + Linux     (Unix Makefiles. WSL, Ubuntu 1604 and later)
+#       - Clang + MacOS     (Unix Makefiles, Ninja)
+#       - Clang + Linux     (Unix Makefiles, Ninja) : WSL, Ubuntu 16.04 and later
 #
 #   Working
 #       - GCC   + Linux     (Ninja, Unix Makefiles)

@@ -30,11 +30,11 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     if(WIN32)
         # 'target_compile_options' removes duplicated -Xclang directive.
         # avoide the removal using cmake flag variable
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts" PARENT_SCOPE)
         target_compile_options(coroutine_portable
         INTERFACE
             /std:c++latest
-            -fms-compatibility
+            -fms-compatibility -Xclang -fcoroutines-ts
         )
         # in this case, we always use portable header
         set_target_properties(coroutine_portable
@@ -60,7 +60,7 @@ elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     target_compile_options(coroutine_portable
     INTERFACE
         -std=gnu++2a
-        -fcoroutines -fconcepts
+        -fcoroutines -fconcepts # -fno-exceptions
     )
 
 endif()

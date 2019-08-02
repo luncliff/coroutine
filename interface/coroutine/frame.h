@@ -305,7 +305,7 @@ class coroutine_handle : public coroutine_handle<void> {
             return coroutine_handle::from_address(prefix);
         } else if constexpr (is_gcc) {
             void* prefix = __builtin_coro_promise(
-                (char*)&prom, __alignof(promise_type), true);
+                reinterpret_cast<char*>(&prom), __alignof(promise_type), true);
             return coroutine_handle::from_address(prefix);
         }
         return coroutine_handle{};

@@ -26,6 +26,6 @@ if exist %vcvarsall_path% (
     call %vcvarsall_path% x86_amd64
 )
 
-cmake . -G "Visual Studio 15 2017 Win64" -DCMAKE_INSTALL_PREFIX="./install" -DBUILD_SHARED_LIBS=%SHARED% -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DCMAKE_CXX_COMPILER="clang-cl"
+cmake . -G "Visual Studio 15 2017 Win64" -DCMAKE_INSTALL_PREFIX="./install" -DBUILD_SHARED_LIBS="%SHARED%" -DCMAKE_BUILD_TYPE="%BUILD_TYPE%" -DCMAKE_CXX_COMPILER="clang-cl"
 cmake --build .
 cmake --build . --target install
