@@ -20,5 +20,4 @@ jobs:
         targetType: 'inline'
         script: |
           bazel build coroutine_portable;
-          bazel build coroutine_concrt;
-          bazel build coroutine_test_suite;
+
