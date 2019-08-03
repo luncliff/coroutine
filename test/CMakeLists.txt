@@ -3,6 +3,20 @@
 #
 cmake_minimum_required(VERSION 3.8)
 
+if(WIN32 AND BUILD_SHARED_LIBS AND ${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+    # Since we can't sure which shell is used, 
+    #  use Command Prompt unless a new issue occurs
+    add_custom_target(copy_dll_concurrency_helper
+        COMMENT "Test executables from clang-cl need dll. Using Command Prompt ..."
+        COMMAND copy "modules\\event\\coroutine_event.dll"    "test\\coroutine_event.dll"
+        COMMAND copy "modules\\net\\coroutine_net.dll"        "test\\coroutine_net.dll"
+        COMMAND copy "modules\\thread\\coroutine_thread.dll"  "test\\coroutine_thread.dll"
+        COMMAND copy "modules\\concrt\\concrt.dll"            "test\\concrt.dll"
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        DEPENDS coro::event coro::net coro::thread concrt
+    )
+endif()
+
 # generate_exe_test( ... )
 function(generate_exe_test NAME)
     set(TEST_NAME test_${NAME})
@@ -38,6 +52,9 @@ function(generate_exe_test NAME)
         PRIVATE
             _CRT_SECURE_NO_WARNINGS
         )
+        if(BUILD_SHARED_LIBS AND ${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+            add_dependencies(${TEST_NAME} copy_dll_concurrency_helper)
+        endif()
     elseif(UNIX)
         # if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
         #     target_compile_options(${TEST_NAME}

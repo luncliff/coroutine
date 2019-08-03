@@ -226,8 +226,14 @@ auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag, //
 //  fetched at once. Therefore it is strongly recommended for user to have
 //  another method to detect that watching I/O coroutines are returned.
 _INTERFACE_
-auto wait_net_tasks(std::chrono::nanoseconds timeout) noexcept(false)
-    -> coro::enumerable<io_task_t>;
+void wait_net_tasks(coro::enumerable<io_task_t>& tasks,
+                    std::chrono::nanoseconds timeout) noexcept(false);
+
+inline auto wait_net_tasks(std::chrono::nanoseconds timeout) noexcept(false) {
+    coro::enumerable<io_task_t> tasks{};
+    wait_net_tasks(tasks, timeout);
+    return tasks;
+}
 
 //
 //  Name resolution utilities
@@ -249,10 +255,10 @@ inline auto resolve(const addrinfo& hint, //
                     czstring_host name, czstring_serv serv) noexcept(false)
     -> coro::enumerable<endpoint_t> {
     using namespace std;
-
     coro::enumerable<endpoint_t> g{};
     if (auto ec = resolve(g, hint, name, serv)) {
-        throw system_error{ec, system_category(), gai_strerror(ec)};
+        throw system_error{ec, system_category(), //
+                           ::gai_strerror(ec)};
     }
     return g;
 }

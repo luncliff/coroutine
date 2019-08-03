@@ -15,7 +15,7 @@ using namespace coro;
 
 kernel_queue_t kq{};
 
-auto wait_net_tasks(nanoseconds timeout) noexcept(false)
+auto enumerate_net_tasks(nanoseconds timeout) noexcept(false)
     -> coro::enumerable<io_task_t> {
     timespec ts{};
     const auto sec = duration_cast<seconds>(timeout);
@@ -28,6 +28,10 @@ auto wait_net_tasks(nanoseconds timeout) noexcept(false)
         // kevent to io_work
         co_yield work.task;
     }
+}
+void wait_net_tasks(coro::enumerable<io_task_t>& tasks,
+                    std::chrono::nanoseconds timeout) noexcept(false) {
+    g = enumerate_net_tasks(timeout);
 }
 
 bool io_work_t::ready() const noexcept {

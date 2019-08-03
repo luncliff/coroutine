@@ -20,13 +20,11 @@ void throw_if_async_error(not_null<czstring<>> label) noexcept(false) {
     throw system_error{ec, system_category(), label};
 }
 
-GSL_SUPPRESS(es .76)
-GSL_SUPPRESS(gsl.util)
-auto wait_net_tasks(chrono::nanoseconds) noexcept(false)
-    -> coro::enumerable<io_task_t> {
+void wait_net_tasks(coro::enumerable<io_task_t>& tasks,
+                    std::chrono::nanoseconds timeout) noexcept(false) {
     // windows implementation rely on callback.
-    // So this function will yield nothing
-    co_return;
+    // So there is noting to yield ...
+    tasks = coro::enumerable<io_task_t>{};
 }
 
 GSL_SUPPRESS(type .1)

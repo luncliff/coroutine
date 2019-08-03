@@ -33,15 +33,25 @@ if(NOT BUILD_SHARED_LIBS)
 endif()
 
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+    if(BUILD_SHARED_LIBS)
+        target_compile_definitions(coroutine_net
+        PRIVATE
+            _WINDLL
+        )
+    endif()
+
+    target_compile_options(coroutine_net
+    PRIVATE
+        -Wall
+        -Wno-unused-private-field
+        -Wno-unused-function
+        -Wno-c++98-compat
+        -Wno-reserved-id-macro
+        -Wno-missing-prototypes
+    )
     if(WIN32)
         target_compile_options(coroutine_net
         PRIVATE
-            -Wall
-            -Wno-unused-private-field
-            -Wno-unused-function
-            -Wno-c++98-compat
-            -Wno-reserved-id-macro
-            -Wno-missing-prototypes
             -ferror-limit=5
         )
     elseif(UNIX)

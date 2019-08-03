@@ -13,7 +13,7 @@ using namespace coro;
 
 event_poll_t inbound{}, outbound{};
 
-auto wait_net_tasks(nanoseconds timeout) noexcept(false)
+auto enumerate_net_tasks(nanoseconds timeout) noexcept(false)
     -> coro::enumerable<io_task_t> {
     const int half_time = duration_cast<milliseconds>(timeout).count() / 2;
     io_task_t task{};
@@ -22,6 +22,10 @@ auto wait_net_tasks(nanoseconds timeout) noexcept(false)
         co_yield task = io_task_t::from_address(event.data.ptr);
     for (auto event : outbound.wait(half_time))
         co_yield task = io_task_t::from_address(event.data.ptr);
+}
+void wait_net_tasks(coro::enumerable<io_task_t>& tasks,
+                    std::chrono::nanoseconds timeout) noexcept(false) {
+    g = enumerate_net_tasks(timeout);
 }
 
 bool io_work_t::ready() const noexcept {

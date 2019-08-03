@@ -1,5 +1,7 @@
 #
-#   The purpose of this Dockerfile is to build GCC for C++ 20 Coroutine
+#   Author: github.com/luncliff (luncliff@gmail.com)
+#
+#   The purpose of this Dockerfile is to build GCC for C++ 20 Coroutines
 #   https://cloud.docker.com/repository/docker/luncliff/gcc
 #
 

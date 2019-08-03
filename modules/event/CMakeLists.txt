@@ -32,16 +32,23 @@ if(NOT BUILD_SHARED_LIBS)
 endif()
 
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
-    if(WIN32)
-        target_compile_options(coroutine_event
+    if(BUILD_SHARED_LIBS)
+        target_compile_definitions(coroutine_event
         PRIVATE
-            -Wall
-            -Wno-unused-private-field
-            -Wno-unused-function
-            -Wno-c++98-compat
-            -Wno-reserved-id-macro
-            -Wno-missing-prototypes
+            _WINDLL
         )
+    endif()
+
+    target_compile_options(coroutine_event
+    PRIVATE
+        -Wall
+        -Wno-unused-private-field
+        -Wno-unused-function
+        -Wno-c++98-compat
+        -Wno-reserved-id-macro
+        -Wno-missing-prototypes
+    )
+    if(WIN32)
     elseif(UNIX)
         target_link_libraries(coroutine_event
         PUBLIC
@@ -51,7 +58,6 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
         PUBLIC
             -fPIC
         PRIVATE
-            -Wall -Wno-unknown-pragmas -Wno-unused-private-field
             -fno-rtti -fvisibility=hidden
             -ferror-limit=5
             # -fno-exceptions
