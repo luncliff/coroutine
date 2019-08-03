@@ -58,32 +58,22 @@ int resolve(coro::enumerable<endpoint_t>& g,
     return 0;
 }
 
-/*
-GSL_SUPPRESS(es .76)
-GSL_SUPPRESS(type .1)
-GSL_SUPPRESS(gsl.util)
-auto resolve(const addrinfo& hint, //
-             czstring_host name, czstring_serv serv) noexcept(false)
-    -> coro::enumerable<endpoint_t> {
+errc peer_name(uint64_t sd, sockaddr_in6& ep) noexcept {
+    socklen_t len = sizeof(sockaddr_in6);
+    errc ec{};
 
-    addrinfo* list = nullptr;
-    if (const auto ec = ::getaddrinfo(name, serv, addressof(hint), &list))
-        // instead of `runtime_error`, use `system_error`
-        throw system_error{ec, system_category(), gai_strerror(ec)};
-
-    // RAII clean up for the assigned addrinfo
-    // This holder guarantees clean up
-    //      when the generator is destroyed
-    auto d1 = gsl::finally([list]() noexcept { ::freeaddrinfo(list); });
-
-    endpoint_t* ptr = nullptr;
-    for (addrinfo* it = list; it != nullptr; it = it->ai_next) {
-        ptr = reinterpret_cast<endpoint_t*>(it->ai_addr);
-        if (ptr == nullptr)
-            continue;
-
-        endpoint_t& ep = *ptr;
-        co_yield ep;
-    }
+    if (getpeername(static_cast<int64_t>(sd), reinterpret_cast<sockaddr*>(&ep),
+                    &len))
+        ec = errc{errno};
+    return ec;
 }
-*/
+
+errc sock_name(uint64_t sd, sockaddr_in6& ep) noexcept {
+    socklen_t len = sizeof(sockaddr_in6);
+    errc ec{};
+
+    if (getsockname(static_cast<int64_t>(sd), reinterpret_cast<sockaddr*>(&ep),
+                    &len))
+        ec = errc{errno};
+    return ec;
+}

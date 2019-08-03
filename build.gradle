@@ -62,7 +62,7 @@ android {
             // it's ok to use 3.8 or later, 
             // but specify the version since this gradle requires it
             // see 'scripts/install-cmake-3.14.sh'
-            version "3.14.5"
+            // version "3.14.5"
             path "CMakeLists.txt"
         }
     }

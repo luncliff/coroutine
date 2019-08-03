@@ -25,7 +25,7 @@ auto enumerate_net_tasks(nanoseconds timeout) noexcept(false)
 }
 void wait_net_tasks(coro::enumerable<io_task_t>& tasks,
                     std::chrono::nanoseconds timeout) noexcept(false) {
-    g = enumerate_net_tasks(timeout);
+    tasks = enumerate_net_tasks(timeout);
 }
 
 bool io_work_t::ready() const noexcept {
@@ -198,26 +198,4 @@ int64_t io_recv::resume() noexcept {
     // update error code upon i/o failure
     errc = sz < 0 ? errno : 0;
     return sz;
-}
-
-// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-
-errc peer_name(uint64_t sd, sockaddr_in6& ep) noexcept {
-    socklen_t len = sizeof(sockaddr_in6);
-    errc ec{};
-
-    if (getpeername(static_cast<int>(sd), reinterpret_cast<sockaddr*>(&ep),
-                    &len))
-        ec = errc{errno};
-    return ec;
-}
-
-errc sock_name(uint64_t sd, sockaddr_in6& ep) noexcept {
-    socklen_t len = sizeof(sockaddr_in6);
-    errc ec{};
-
-    if (getsockname(static_cast<int>(sd), reinterpret_cast<sockaddr*>(&ep),
-                    &len))
-        ec = errc{errno};
-    return ec;
 }

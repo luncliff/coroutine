@@ -1,13 +1,20 @@
+#
+#   Bazel build support is not available for now. 
+#   this file is for reservation and to prevent future filename collision
+#
 cc_library(
     name = "coroutine_portable",
     includes = ["include"],
+    defines=[
+        "_RESUMABLE_FUNCTIONS_SUPPORTED" 
+    ],
 )
 
 cc_library(
-    name = "coroutine_concrt",
+    name = "coroutine_event",
     includes = [
         "include",
-        "modules/concrt"
+        "modules/event"
     ],
     srcs = ["modules/concrt/libmain.cpp"],
     deps = [
@@ -16,14 +23,5 @@ cc_library(
     defines=[
         "FORCE_STATIC_LINK" # for bazel build, use static linkage by default
     ],
+    # linkshared=True,
 )
-
-# cc_binary(
-#     name = "coroutine_test_suite",
-#     includes = ["test"],
-#     srcs = ["test/test_main.cpp"],
-#     deps = [
-#         ":coroutine_portable",
-#     ],
-#     # linkshared=True,
-# )

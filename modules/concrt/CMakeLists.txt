@@ -27,13 +27,6 @@ PUBLIC
 )
 
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
-    if(BUILD_SHARED_LIBS)
-        target_compile_definitions(concrt
-        PRIVATE
-            _WINDLL
-        )
-    endif()
-
     target_compile_options(concrt
     PRIVATE
         -Wall
@@ -42,15 +35,21 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
         -Wno-c++98-compat
         -Wno-reserved-id-macro
         -Wno-missing-prototypes
+        -ferror-limit=5
     )
     if(WIN32)
+        if(BUILD_SHARED_LIBS)
+            target_compile_definitions(concrt
+            PRIVATE
+                _WINDLL
+            )
+        endif()
     elseif(UNIX)
         target_compile_options(concrt
         PUBLIC
             -fPIC
         PRIVATE
             -fno-rtti -fvisibility=hidden
-            -ferror-limit=5
             # -fno-exceptions
         )
     endif()

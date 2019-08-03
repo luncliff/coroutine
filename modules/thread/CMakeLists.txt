@@ -39,8 +39,15 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
         -Wno-c++98-compat
         -Wno-reserved-id-macro
         -Wno-missing-prototypes
+        -ferror-limit=5
     )
     if(WIN32)
+        if(BUILD_SHARED_LIBS)
+            target_compile_definitions(coroutine_thread
+            PRIVATE
+                _WINDLL
+            )
+        endif()
     elseif(UNIX)
         target_link_libraries(coroutine_thread
         PUBLIC
@@ -51,7 +58,6 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
             -fPIC
         PRIVATE
             -fno-rtti -fvisibility=hidden
-            -ferror-limit=5
             # -fno-exceptions
         )
     endif()

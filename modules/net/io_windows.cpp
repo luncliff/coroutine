@@ -8,20 +8,8 @@ using namespace std;
 using namespace gsl;
 using namespace coro;
 
-// throws `system_error` if `WSAGetLastError` returns error code
-void throw_if_async_error(not_null<czstring<>> label) noexcept(false) {
-    const auto ec = WSAGetLastError();
-    if (ec == NO_ERROR)
-        return;
-    if (ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS ||
-        ec == ERROR_IO_PENDING)
-        return; // ok. expected for async i/o
-
-    throw system_error{ec, system_category(), label};
-}
-
 void wait_net_tasks(coro::enumerable<io_task_t>& tasks,
-                    std::chrono::nanoseconds timeout) noexcept(false) {
+                    std::chrono::nanoseconds) noexcept(false) {
     // windows implementation rely on callback.
     // So there is noting to yield ...
     tasks = coro::enumerable<io_task_t>{};
@@ -113,7 +101,16 @@ void io_send_to::suspend(io_task_t t) noexcept(false) {
 
     ::WSASendTo(sd, bufs, 1, nullptr, flag, addr, addrlen,
                 zero_overlapped(this), onWorkDone);
-    throw_if_async_error("WSASendTo");
+
+    const auto ec = WSAGetLastError();
+    if (ec == NO_ERROR)
+        return;
+    // ok. expected for async i/o
+    if (ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS ||
+        ec == ERROR_IO_PENDING)
+        return;
+
+    throw system_error{ec, system_category(), "WSASendTo"};
 }
 
 int64_t io_send_to::resume() noexcept {
@@ -156,7 +153,16 @@ void io_recv_from::suspend(io_task_t t) noexcept(false) {
 
     ::WSARecvFrom(sd, bufs, 1, nullptr, &flag, addr, &addrlen,
                   zero_overlapped(this), onWorkDone);
-    throw_if_async_error("WSARecvFrom");
+
+    const auto ec = WSAGetLastError();
+    if (ec == NO_ERROR)
+        return;
+    // ok. expected for async i/o
+    if (ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS ||
+        ec == ERROR_IO_PENDING)
+        return;
+
+    throw system_error{ec, system_category(), "WSARecvFrom"};
 }
 
 int64_t io_recv_from::resume() noexcept {
@@ -183,7 +189,16 @@ void io_send::suspend(io_task_t t) noexcept(false) {
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
 
     ::WSASend(sd, bufs, 1, nullptr, flag, zero_overlapped(this), onWorkDone);
-    throw_if_async_error("WSASend");
+
+    const auto ec = WSAGetLastError();
+    if (ec == NO_ERROR)
+        return;
+    // ok. expected for async i/o
+    if (ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS ||
+        ec == ERROR_IO_PENDING)
+        return;
+
+    throw system_error{ec, system_category(), "WSASend"};
 }
 
 int64_t io_send::resume() noexcept {
@@ -210,7 +225,16 @@ void io_recv::suspend(io_task_t t) noexcept(false) {
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
 
     ::WSARecv(sd, bufs, 1, nullptr, &flag, zero_overlapped(this), onWorkDone);
-    throw_if_async_error("WSARecv");
+
+    const auto ec = WSAGetLastError();
+    if (ec == NO_ERROR)
+        return;
+    // ok. expected for async i/o
+    if (ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS ||
+        ec == ERROR_IO_PENDING)
+        return;
+
+    throw system_error{ec, system_category(), "WSARecv"};
 }
 
 int64_t io_recv::resume() noexcept {
