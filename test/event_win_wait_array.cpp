@@ -2,14 +2,16 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test.h" ng namespace coro;
-using namespace concrt;
+#include <coroutine/event.h>
+#include <coroutine/return.h>
 
-#include <coroutine/channel.hpp>event& token, atomic_flag& flag) -> no_return;
-auto set_after_sleep(HANDLE ev, uint32_t ms) -> no_return;
+#include "test.h"
+using namespace std;
+using namespace coro;
 
-auto ptp_event_wait_array_test() {
-    array < HAforget_frforget_frames{};
+auto wait_an_event(ptp_event& token, atomic_flag& flag) -> forget_frame;
+auto set_after_sleep(HANDLE ev, uint32_t ms) -> forget_frame;
+
 auto ptp_event_wait_array_test() {
     array<HANDLE, 10> events{};
     for (auto& e : events) {
@@ -27,10 +29,11 @@ auto ptp_event_wait_array_test() {
         auto ms = rand() & 0b1111; // at most 16 ms
         set_after_sleep(e, ms);
     }
-
     SleepEx(3, true);
-    // issue: CI environment runs slowly, so too short timeout might fail
-    // wait for 300 ms
+
+    // issue: 
+	//	CI environment runs slowly, so too short timeout might fail ...
+    //	wait for 300 ms
     auto ec = WaitForMultipleObjectsEx( //
         gsl::narrow_cast<DWORD>(events.max_size()), events.data(), true, 300,
         true);
@@ -52,7 +55,7 @@ auto wait_an_event(ptp_event& token, atomic_flag& flag) -> forget_frame {
     // wait for set or cancel
     // `co_await` will forward `GetLastError` if canceled.
     if (DWORD ec = co_await token) {
-        FAIL_WITH_MESSAGE(system_category().message(ec));
+        _fail_now_(system_category().message(ec).c_str(), __FILE__, __LINE__);
         co_return;
     }
     flag.test_and_set();
@@ -65,11 +68,16 @@ auto set_after_sleep(HANDLE ev, uint32_t ms) -> forget_frame {
     // if failed, print error message
     if (SetEvent(ev) == 0) {
         auto ec = GetLastError();
-        FAIL_WITH_MESSAGE(system_category().message(ec));
+        _fail_now_(system_category().message(ec).c_str(), __FILE__, __LINE__);
     }
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class ptp_event_wait_array : public TestClass<ptp_event_wait_array> {
     TEST_METHOD(test_ptp_event_wait_array) {
         ptp_event_wait_array_test();

@@ -2,10 +2,13 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test.h" ng namespace coro;
+#include <coroutine/event.h>
+#include <coroutine/return.h>
+#include <coroutine/thread.h>
 
+#include "test.h"
+using namespace std;
 using namespace coro;
-#include <coroutine/channel.hpp>
 
 // we can't use rvalue reference. this design is necessary because
 // `ptp_event` uses INFINITE wait internally.
@@ -15,7 +18,7 @@ auto wait_an_event(ptp_event& token, atomic_flag& flag) -> forget_frame {
     // wait for set or cancel
     // `co_await` will forward `GetLastError` if canceled.
     if (DWORD ec = co_await token) {
-        FAIL_WITH_MESSAGE(system_category().message(ec));
+        _fail_now_(system_category().message(ec).c_str(), __FILE__, __LINE__);
         co_return;
     }
     flag.test_and_set();
@@ -28,32 +31,28 @@ auto set_after_sleep(HANDLE ev, uint32_t ms) -> forget_frame {
     // if failed, print error message
     if (SetEvent(ev) == 0) {
         auto ec = GetLastError();
-        FAIL_WITH_MESSAGE(system_category().message(ec));
+        _fail_now_(system_category().message(ec).c_str(), __FILE__, __LINE__);
     }
 }
 
 auto ptp_event_wait_one_test() {
-    array<HANDLE, 10> events{};
-    for (auto& e : events) {
-        e = CreateEventEx(nullptr, nullptr, //
-                          CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
-        _require_(e != NULL);
-        if (e) // if statement because of C6387
-            ResetEvent(e);
-    }
-    auto on_return = gsl::finally([&events]() {
-        for (auto e : events)
-            CloseHandle(e);
-    });
-    HANDLE& ev = events[0];
-    auto ms = rand() & 0b1111; // at most 16 ms
+    HANDLE e = CreateEventEx(nullptr, nullptr, //
+                             CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
+    if (e) // if statement because of C6387
+        ResetEvent(e);
+    _require_(e != NULL);
 
-    set_after_sleep(ev, ms);
+    auto on_return = gsl::finally([e]() { CloseHandle(e); });
+
+    auto ms = rand() & 0b1111; // at most 16 ms
+    set_after_sleep(e, ms);
 
     SleepEx(3, true);
-    // issue: CI environment runs slowly, so too short timeout might fail
-    // wait for 200 ms
-    auto ec = WaitForSingleObjectEx(ev, 200, true);
+
+    // issue:
+    //	CI environment runs slowly, so too short timeout might fail ...
+    //	wait for 300 ms
+    auto ec = WaitForSingleObjectEx(e, 200, true);
     _require_(ec == WAIT_OBJECT_0);
 
     return EXIT_SUCCESS;
@@ -65,6 +64,11 @@ int main(int, char* []) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class ptp_event_wait_one : public TestClass<ptp_event_wait_one> {
     TEST_METHOD(test_ptp_event_wait_one) {
         ptp_event_wait_one_test();

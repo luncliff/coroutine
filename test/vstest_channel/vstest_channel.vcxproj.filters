@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="..\test_shared.h" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="..\channel_ownership_consumer.cpp" />
+    <ClCompile Include="..\channel_ownership_producer.cpp" />
     <ClCompile Include="..\channel_race_no_leak.cpp" />
     <ClCompile Include="..\channel_read_fail_after_close.cpp" />
     <ClCompile Include="..\channel_read_write_mutex.cpp" />
@@ -14,7 +13,9 @@
     <ClCompile Include="..\channel_write_fail_after_close.cpp" />
     <ClCompile Include="..\channel_write_read_mutex.cpp" />
     <ClCompile Include="..\channel_write_read_nolock.cpp" />
-    <ClCompile Include="..\channel_ownership_consumer.cpp" />
-    <ClCompile Include="..\channel_ownership_producer.cpp" />
+    <ClCompile Include="..\test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\test.h" />
   </ItemGroup>
 </Project>

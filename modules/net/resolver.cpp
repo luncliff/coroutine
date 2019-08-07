@@ -29,6 +29,10 @@ int get_name(const endpoint_t& ep, //
                          (serv == nullptr) ? 0 : NI_MAXSERV, flags);
 }
 
+auto resolve_error(int ec) -> system_error {
+    return std::system_error{ec, system_category(), ::gai_strerror(ec)};
+}
+
 auto enumerate_addrinfo(gsl::not_null<addrinfo*> list)
     -> coro::enumerable<endpoint_t> {
     // RAII clean up for the assigned addrinfo
@@ -58,22 +62,14 @@ int resolve(coro::enumerable<endpoint_t>& g,
     return 0;
 }
 
-errc peer_name(uint64_t sd, sockaddr_in6& ep) noexcept {
-    socklen_t len = sizeof(sockaddr_in6);
-    errc ec{};
-
-    if (getpeername(static_cast<int64_t>(sd), reinterpret_cast<sockaddr*>(&ep),
-                    &len))
-        ec = errc{errno};
-    return ec;
+errc peer_name(uint64_t sd, endpoint_t& ep, socklen_t len) noexcept {
+    if (getpeername(gsl::narrow_cast<int64_t>(sd), addressof(ep.addr), &len))
+        return static_cast<errc>(errno);
+    return errc{};
 }
 
-errc sock_name(uint64_t sd, sockaddr_in6& ep) noexcept {
-    socklen_t len = sizeof(sockaddr_in6);
-    errc ec{};
-
-    if (getsockname(static_cast<int64_t>(sd), reinterpret_cast<sockaddr*>(&ep),
-                    &len))
-        ec = errc{errno};
-    return ec;
+errc sock_name(uint64_t sd, endpoint_t& ep, socklen_t len) noexcept {
+    if (getsockname(gsl::narrow_cast<int64_t>(sd), addressof(ep.addr), &len))
+        return static_cast<errc>(errno);
+    return errc{};
 }

@@ -253,14 +253,15 @@ int resolve(coro::enumerable<endpoint_t>& g,
             const addrinfo& hint, //
             czstring_host name, czstring_serv serv) noexcept;
 
+// construct system_error using `gai_strerror` function
+_INTERFACE_ auto resolve_error(int ec) -> std::system_error;
+
 inline auto resolve(const addrinfo& hint, //
                     czstring_host name, czstring_serv serv) noexcept(false)
     -> coro::enumerable<endpoint_t> {
-    using namespace std;
     coro::enumerable<endpoint_t> g{};
     if (auto ec = resolve(g, hint, name, serv)) {
-        throw system_error{ec, system_category(), //
-                           ::gai_strerror(ec)};
+        throw resolve_error(ec);
     }
     return g;
 }

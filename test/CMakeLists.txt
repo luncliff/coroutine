@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.8)
 
 if(BUILD_SHARED_LIBS AND NOT ${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
-    message(FATAL_ERROR "This CMake is for clang-cl on Windows. Use Visual Studio instead.")
+    message(WARNING "This CMake is for clang-cl on Windows. Use Visual Studio instead.")
 endif()
 
 if(WIN32 AND BUILD_SHARED_LIBS AND ${CMAKE_CXX_COMPILER_ID} MATCHES Clang)

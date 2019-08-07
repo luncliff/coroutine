@@ -9,7 +9,7 @@
 using namespace std;
 using namespace coro;
 
-auto net_getnameinfo_v4_test() {
+auto net_getnameinfo_v4_test() -> int {
     init_network_api();
     auto on_return = gsl::finally([]() { release_network_api(); });
 
@@ -42,6 +42,11 @@ int main(int, char* []) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class net_getnameinfo_v4 : public TestClass<net_getnameinfo_v4> {
     TEST_METHOD(test_net_getnameinfo_v4) {
         net_getnameinfo_v4_test();

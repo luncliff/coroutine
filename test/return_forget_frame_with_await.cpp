@@ -15,25 +15,34 @@ auto invoke_and_forget_frame() -> forget_frame {
     co_await suspend_never{};
     co_return;
 };
-auto coro_forget_frame_with_await() {
+
+auto coro_forget_frame_with_await_test() -> int {
     try {
+
         invoke_and_forget_frame();
+        return EXIT_SUCCESS;
+
     } catch (const exception& ex) {
         _println_(ex.what());
         return __LINE__;
     }
-    return EXIT_SUCCESS;
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char*[]) {
-    return coro_forget_frame_with_await();
+int main(int, char* []) {
+    return coro_forget_frame_with_await_test();
 }
 
 #elif __has_include(<CppUnitTest.h>)
-class coro_forget_frame : public TestClass<coro_forget_frame> {
-    TEST_METHOD(test_coro_forget_frame) {
-        coro_forget_frame_test();
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
+class coro_forget_frame_with_await
+    : public TestClass<coro_forget_frame_with_await> {
+    TEST_METHOD(test_coro_forget_frame_with_await) {
+        coro_forget_frame_with_await_test();
     }
 };
 #endif

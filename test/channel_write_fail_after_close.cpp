@@ -39,6 +39,11 @@ int main(int, char*[]) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_channel_write_return_false_after_close
     : public TestClass<coro_channel_write_return_false_after_close> {
     TEST_METHOD(test_coro_channel_write_return_false_after_close) {

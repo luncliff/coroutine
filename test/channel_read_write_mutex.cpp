@@ -57,6 +57,11 @@ int main(int, char*[]) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_channel_mutexed_read_before_write
     : public TestClass<coro_channel_mutexed_read_before_write> {
     TEST_METHOD(test_coro_channel_mutexed_read_before_write) {

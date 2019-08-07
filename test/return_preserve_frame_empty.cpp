@@ -22,6 +22,11 @@ int main(int, char*[]) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_frame_empty : public TestClass<coro_frame_empty> {
     TEST_METHOD(test_coro_frame_empty) {
         coro_frame_empty_test();

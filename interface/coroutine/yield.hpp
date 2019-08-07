@@ -42,7 +42,7 @@ class enumerable {
     enumerable(enumerable&& rhs) noexcept : coro{rhs.coro} {
         rhs.coro = nullptr;
     }
-    enumerable& operator=(enumerable&& rhs) {
+    enumerable& operator=(enumerable&& rhs) noexcept {
         std::swap(coro, rhs.coro);
         return *this;
     }

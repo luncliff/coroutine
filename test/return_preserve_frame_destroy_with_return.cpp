@@ -13,7 +13,7 @@ auto invoke_and_suspend_immediately() -> preserve_frame {
     co_return;
 };
 
-auto coro_preserve_frame_destroy_with_return() {
+auto coro_preserve_frame_destroy_with_return_test() {
     auto frame = invoke_and_suspend_immediately();
 
     // coroutine_handle<void> is final_suspended after `co_return`.
@@ -29,14 +29,20 @@ auto coro_preserve_frame_destroy_with_return() {
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char*[]) {
-    return coro_preserve_frame_destroy_with_return();
+int main(int, char* []) {
+    return coro_preserve_frame_destroy_with_return_test();
 }
 
 #elif __has_include(<CppUnitTest.h>)
-class coro_frame_first_suspend : public TestClass<coro_frame_first_suspend> {
-    TEST_METHOD(test_coro_frame_first_suspend) {
-        coro_frame_first_suspend_test();
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
+class coro_preserve_frame_destroy_with_return
+    : public TestClass<coro_preserve_frame_destroy_with_return> {
+    TEST_METHOD(test_coro_preserve_frame_destroy_with_return) {
+        coro_preserve_frame_destroy_with_return_test();
     }
 };
 #endif

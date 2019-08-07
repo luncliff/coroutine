@@ -35,7 +35,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 void _require_(bool expr) {
     Assert::IsTrue(expr);
 }
-void _require_(bool expr, gsl::czstring<> file, size_t line) {
+void _require_(bool expr, gsl::czstring<>, size_t) {
     if (expr == false) {
         // print file and line
     }
@@ -44,7 +44,7 @@ void _require_(bool expr, gsl::czstring<> file, size_t line) {
 void _println_(gsl::czstring<> message) {
     Logger::WriteMessage(message);
 }
-void _fail_now_(gsl::czstring<> message, gsl::czstring<> file, size_t line) {
+void _fail_now_(gsl::czstring<> message, gsl::czstring<>, size_t) {
     _println_(message);
     Assert::Fail();
 }

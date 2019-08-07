@@ -39,6 +39,11 @@ int main(int, char* []) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class net_getaddrinfo_tcp6_listen_numeric
     : public TestClass<net_getaddrinfo_tcp6_listen_numeric> {
     TEST_METHOD(test_net_getaddrinfo_tcp6_listen_numeric) {

@@ -16,16 +16,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\test_shared.h" />
+    <ClCompile Include="..\return_forget_frame_subroutine.cpp" />
+    <ClCompile Include="..\return_forget_frame_with_await.cpp" />
+    <ClCompile Include="..\return_preserve_frame_destroy_with_handle.cpp" />
+    <ClCompile Include="..\return_preserve_frame_destroy_with_return.cpp" />
+    <ClCompile Include="..\return_preserve_frame_empty.cpp" />
+    <ClCompile Include="..\test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\coro_frame_awaitable.cpp" />
-    <ClCompile Include="..\coro_frame_empty.cpp" />
-    <ClCompile Include="..\coro_frame_return.cpp" />
-    <ClCompile Include="..\coro_frame_suspend.cpp" />
-    <ClCompile Include="..\coro_no_return.cpp" />
-    <ClCompile Include="..\handle_move.cpp" />
-    <ClCompile Include="..\handle_swap.cpp" />
+    <ClInclude Include="..\test.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -66,6 +66,11 @@ int main(int, char* []) {
     return coro_channel_no_leak_under_race_test();
 }
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_channel_no_leak_under_race
     : public TestClass<coro_channel_no_leak_under_race> {
     TEST_METHOD(test_coro_channel_no_leak_under_race) {

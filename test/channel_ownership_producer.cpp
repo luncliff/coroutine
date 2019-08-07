@@ -49,11 +49,16 @@ auto coro_channel_ownership_producer_test() {
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char*[]) {
+int main(int, char* []) {
     return coro_channel_ownership_producer_test();
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_channel_ownership_producer
     : public TestClass<coro_channel_ownership_producer> {
     TEST_METHOD(test_coro_channel_ownership_producer) {

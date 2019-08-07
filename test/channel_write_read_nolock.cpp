@@ -53,6 +53,11 @@ int main(int, char*[]) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_channel_write_before_read
     : public TestClass<coro_channel_write_before_read> {
     TEST_METHOD(test_coro_channel_write_before_read) {

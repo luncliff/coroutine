@@ -5,32 +5,24 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="windows">
-      <UniqueIdentifier>{737376e5-3f53-4b44-85d3-0e4212b62559}</UniqueIdentifier>
+    <Filter Include="thread">
+      <UniqueIdentifier>{f760efd5-8867-43c0-8e77-cf323315caa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="event">
+      <UniqueIdentifier>{c56679a3-48ce-4141-a516-a1f6bb2f4a2b}</UniqueIdentifier>
     </Filter>
     <Filter Include="net">
-      <UniqueIdentifier>{0519d8a2-1283-4abb-8894-7628c971e825}</UniqueIdentifier>
+      <UniqueIdentifier>{7c538122-27a4-49ae-9169-626899b6e429}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="net\resolver.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="windows\concrt.cpp">
-      <Filter>windows</Filter>
-    </ClCompile>
-    <ClCompile Include="windows\dllmain.cpp">
-      <Filter>windows</Filter>
-    </ClCompile>
-    <ClCompile Include="windows\net.cpp">
-      <Filter>windows</Filter>
-    </ClCompile>
+    <Filter Include="concrt">
+      <UniqueIdentifier>{0f049dee-2fb1-4bec-8a5c-ed33e6ab82be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\interface\coroutine\channel.hpp">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\concrt.h">
+    <ClInclude Include="..\interface\coroutine\event.h">
       <Filter>coroutine</Filter>
     </ClInclude>
     <ClInclude Include="..\interface\coroutine\frame.h">
@@ -42,11 +34,40 @@
     <ClInclude Include="..\interface\coroutine\return.h">
       <Filter>coroutine</Filter>
     </ClInclude>
-    <ClInclude Include="..\interface\coroutine\suspend.h">
+    <ClInclude Include="..\interface\coroutine\sequence.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\interface\coroutine\thread.h">
       <Filter>coroutine</Filter>
     </ClInclude>
     <ClInclude Include="..\interface\coroutine\yield.hpp">
       <Filter>coroutine</Filter>
     </ClInclude>
+    <ClInclude Include="..\interface\coroutine\concepts.hpp">
+      <Filter>coroutine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="event\libmain.cpp">
+      <Filter>event</Filter>
+    </ClCompile>
+    <ClCompile Include="event\ptp_event.cpp">
+      <Filter>event</Filter>
+    </ClCompile>
+    <ClCompile Include="net\io_windows.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="net\resolver.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="thread\ptp_work.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="concrt\latch_win32.cpp">
+      <Filter>concrt</Filter>
+    </ClCompile>
+    <ClCompile Include="concrt\sync_windows.cpp">
+      <Filter>concrt</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

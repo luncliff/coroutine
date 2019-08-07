@@ -11,7 +11,7 @@
 #include <Windows.h>
 
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms682583(v=vs.85).aspx
-BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID) {
+BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID) noexcept {
     return TRUE;
 }
 

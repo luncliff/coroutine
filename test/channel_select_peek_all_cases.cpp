@@ -45,6 +45,11 @@ int main(int, char*[]) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_channel_select_peek_every
     : public TestClass<coro_channel_select_peek_every> {
     TEST_METHOD(test_coro_channel_select_peek_every) {

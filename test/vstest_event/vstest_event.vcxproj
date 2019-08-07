@@ -16,22 +16,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\test_shared.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\concrt_win32_get_threads.cpp" />
+    <ClCompile Include="..\concurrency_latch_throws_negative_from_positive.cpp" />
+    <ClCompile Include="..\concurrency_latch_throws_negative_from_zero.cpp" />
+    <ClCompile Include="..\concurrency_latch_wait_after_ready.cpp" />
+    <ClCompile Include="..\concurrency_latch_wait_multiple_times.cpp" />
     <ClCompile Include="..\event_win_cancel.cpp" />
     <ClCompile Include="..\event_win_signal.cpp" />
     <ClCompile Include="..\event_win_wait_array.cpp" />
     <ClCompile Include="..\event_win_wait_one.cpp" />
-    <ClCompile Include="..\latch_throws_negative_from_positive.cpp" />
-    <ClCompile Include="..\latch_throws_negative_from_zero.cpp" />
-    <ClCompile Include="..\latch_wait_after_ready.cpp" />
-    <ClCompile Include="..\latch_wait_multiple_times.cpp" />
+    <ClCompile Include="..\test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\test.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{29EF6166-79FB-4B04-948D-6D5AE10B24DA}</ProjectGuid>
+    <ProjectGuid>{813A11F3-33BB-4BA3-B5FC-48AF41B10219}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>vstest_yield</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>

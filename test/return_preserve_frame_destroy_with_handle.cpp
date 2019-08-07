@@ -21,7 +21,7 @@ auto save_current_handle_to_frame(coroutine_handle<void>& frame, //
     status += 1;
 }
 
-auto coro_preserve_frame_destroy_with_handle() {
+auto coro_preserve_frame_destroy_with_handle_test() {
     int status = 0;
     coroutine_handle<void> coro{};
 
@@ -46,13 +46,19 @@ auto coro_preserve_frame_destroy_with_handle() {
 #
 #if defined(CMAKE_TEST)
 int main(int, char*[]) {
-    return coro_preserve_frame_destroy_with_handle();
+    return coro_preserve_frame_destroy_with_handle_test();
 }
 
 #elif __has_include(<CppUnitTest.h>)
-class coro_forget_frame : public TestClass<coro_forget_frame> {
-    TEST_METHOD(test_coro_forget_frame) {
-        coro_forget_frame_test();
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
+class coro_preserve_frame_destroy_with_handle
+    : public TestClass<coro_preserve_frame_destroy_with_handle> {
+    TEST_METHOD(test_coro_preserve_frame_destroy_with_handle) {
+        coro_preserve_frame_destroy_with_handle_test();
     }
 };
 #endif
