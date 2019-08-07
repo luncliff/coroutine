@@ -2,15 +2,19 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test.h"
+#include <coroutine/return.h>
+#include <coroutine/sequence.hpp>
 
+#include "test.h"
+using namespace std;
 using namespace coro;
+
 using status_t = int64_t;
 
 auto sequence_yield_never() -> sequence<status_t> {
     co_return;
 }
-auto use_sequence_yield_never(status_t& ref) -> frame {
+auto use_sequence_yield_never(status_t& ref) -> preserve_frame {
     // clang-format off
     for co_await(auto v : sequence_yield_never())
         ref = v;
@@ -18,15 +22,15 @@ auto use_sequence_yield_never(status_t& ref) -> frame {
 };
 
 auto coro_sequence_yield_never_test() {
-    frame f1{}; // frame holder for the caller
-    auto on_return = gsl::finally([&f1]() {
-        if (f1.address() != nullptr)
-            f1.destroy();
+    preserve_frame frame{}; // frame holder for the caller
+    auto on_return = gsl::finally([&frame]() {
+        if (frame.address() != nullptr)
+            frame.destroy();
     });
 
     status_t storage = -1;
     // since there was no yield, it will remain unchanged
-    f1 = use_sequence_yield_never(storage);
+    frame = use_sequence_yield_never(storage);
     _require_(storage == -1);
 
     return EXIT_SUCCESS;

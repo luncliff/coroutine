@@ -2,27 +2,35 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test.h"
+#include <coroutine/return.h>
+#include <coroutine/sequence.hpp>
 
+#include "test.h"
+using namespace std;
 using namespace coro;
+
 using status_t = int64_t;
 
-auto sequence_suspend_with_yield(frame& manual_resume) -> sequence<status_t> {
+auto sequence_suspend_with_yield(coroutine_handle<void>& frame)
+    -> sequence<status_t> {
     status_t value = 0;
     co_yield value = 1;
-    co_yield manual_resume; // use `co_yield` instead of `co_await`
+    co_yield save_frame_t{frame}; // use `co_yield` instead of `co_await`
     co_yield value = 2;
 };
-auto use_sequence_yield_suspend_yield_2(status_t& ref, frame& fh) -> frame {
+
+auto use_sequence_yield_suspend_yield_2(status_t& ref,
+                                        coroutine_handle<void>& rh)
+    -> preserve_frame {
     // clang-format off
-    for co_await(auto v : sequence_suspend_with_yield(fh))
+    for co_await(auto v : sequence_suspend_with_yield(rh))
         ref = v;
     // clang-format on
 };
 
 auto coro_sequence_suspend_using_yield_test() {
     // see also: `coro_sequence_frame_status_test`
-    frame fs{};
+    coroutine_handle<void> fs{};
     status_t storage = -1;
     auto fc = use_sequence_yield_suspend_yield_2(storage, fs);
     auto on_return = gsl::finally([&fc]() {

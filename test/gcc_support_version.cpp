@@ -1,4 +1,6 @@
-
+//
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//
 #include <iostream>
 
 using namespace std;

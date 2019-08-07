@@ -2,26 +2,33 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test.h"
+#include <coroutine/return.h>
+#include <coroutine/sequence.hpp>
 
+#include "test.h"
+using namespace std;
 using namespace coro;
+
 using status_t = int64_t;
 
-auto sequence_suspend_with_yield(frame& manual_resume) -> sequence<status_t>;
+auto sequence_suspend_with_yield(coroutine_handle<void>& rh)
+    -> sequence<status_t>;
 
-auto use_sequence_yield_suspend_yield_final(status_t* ptr, frame& fh) -> frame {
+auto use_sequence_yield_suspend_yield_final(status_t* ptr,
+                                            coroutine_handle<void>& rh)
+    -> preserve_frame {
     auto on_return = gsl::finally([=]() {
         *ptr = 0xDEAD; // set the value in destruction phase
     });
     // clang-format off
-    for co_await(auto v : sequence_suspend_with_yield(fh))
+    for co_await(auto v : sequence_suspend_with_yield(rh))
         *ptr = v;
     // clang-format on
 };
 
 auto coro_sequence_destroy_when_suspended_test() {
     status_t storage = -1;
-    frame fs{}; // frame of sequence
+    coroutine_handle<void> fs{}; // frame of sequence
 
     auto fc = use_sequence_yield_suspend_yield_final(&storage, fs);
     _require_(fs.done() == false); // it is suspended. of course false
@@ -44,10 +51,12 @@ auto coro_sequence_destroy_when_suspended_test() {
 int main(int, char* []) {
     return coro_sequence_destroy_when_suspended_test();
 }
-auto sequence_suspend_with_yield(frame& manual_resume) -> sequence<status_t> {
+
+auto sequence_suspend_with_yield(coroutine_handle<void>& rh)
+    -> sequence<status_t> {
     status_t value = 0;
     co_yield value = 1;
-    co_yield manual_resume; // use `co_yield` instead of `co_await`
+    co_yield save_frame_t{rh}; // use `co_yield` instead of `co_await`
     co_yield value = 2;
 };
 

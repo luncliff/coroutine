@@ -2,9 +2,13 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test.h"
+#include <coroutine/return.h>
+#include <coroutine/sequence.hpp>
 
+#include "test.h"
+using namespace std;
 using namespace coro;
+
 using status_t = int64_t;
 
 // use like a generator

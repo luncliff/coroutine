@@ -22,6 +22,10 @@ project(coroutine
         VERSION 1.5.0
 )
 
+if(NOT DEFINED CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
 #
 # import cmake code snippets. see 'cmake/'
 #

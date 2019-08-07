@@ -1,6 +1,5 @@
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
 //
 //  Note
 //    This is a test code for GCC C++ Coroutines

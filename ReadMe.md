@@ -4,7 +4,7 @@ C++ 20 Coroutines in Action
 
 [![Build Status](https://dev.azure.com/luncliff/personal/_apis/build/status/luncliff.coroutine?branchName=dev/1.5)](https://dev.azure.com/luncliff/personal/_build/latest?definitionId=27&branchName=dev/1.5)
 [![Build status](https://ci.appveyor.com/api/projects/status/vpjssf4g6cv4a4ys/branch/dev/1.5?svg=true)](https://ci.appveyor.com/project/luncliff/coroutine/branch/dev/1.5)
-[![Build Status](https://travis-ci.org/luncliff/coroutine.svg?branch=dev%2F1.5)](https://travis-ci.org/luncliff/coroutine)  
+[![Build Status](https://travis-ci.org/luncliff/coroutine.svg?branch=dev%2F1.5)](https://travis-ci.org/luncliff/coroutine)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/38aa16f6d7e046898af3835918c0cd5e)](https://app.codacy.com/app/luncliff/coroutine?utm_source=github.com&utm_medium=referral&utm_content=luncliff/coroutine&utm_campaign=Badge_Grade_Dashboard)
 [![](https://sonarcloud.io/api/project_badges/measure?project=luncliff_coroutine&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=luncliff_coroutine)
 [![](https://sonarcloud.io/api/project_badges/measure?project=luncliff_coroutine&metric=ncloc)](https://sonarcloud.io/dashboard?id=luncliff_coroutine)
@@ -14,7 +14,9 @@ C++ 20 Coroutines in Action
 * Help understanding of the C++ Coroutines
 * Provide meaningful design example with the feature
 
-In that perspective, the library will be maintained as small as possible. Have fun with them. **And try your own coroutines !** 
+In that perspective, the library will be maintained as small as possible. Have fun with them. And try your own coroutines!
+
+**If you are looking for another materials, visit [the MattPD's collection](https://gist.github.com/MattPD/9b55db49537a90545a90447392ad3aeb#file-cpp-std-coroutines-draft-md)!**
 
 ## Developer Note
 
@@ -32,10 +34,9 @@ In that perspective, the library will be maintained as small as possible. Have f
   * `msvc` (vc141, vc142)
 * [CMake](./CMakeLists.txt)
   * `msvc`
-  * `clang-cl`: Works with VC++ headers. **Requires static linking**
+  * `clang-cl`: Works with VC++ headers
   * `clang`: Linux
   * `AppleClang`: Mac
-
 
 For Visual Studio users, please use **15.7.3 or later** versions.  
 For clang users, I recommend **Clang 6.0** or later versions.
@@ -50,17 +51,19 @@ If there is a collision(build issue), please make an issue in this repo so I can
 #include <coroutine/frame.h>
 ```
 
-Generator and async generator. Notice that the async generator is experimental. If you are curious with the concept, reference [the kirkshoop's repo](https://github.com/kirkshoop/await).
+Generator and async generator. Notice that the async generator is experimental. If you are curious with the concept, reference [the kirkshoop's repo](https://github.com/kirkshoop/await). Or you can navigate the [](https://github.com/Quuxplusone/coro)
 
 ```c++
-#include <coroutine/yield.hpp>  // enumerable<T> & sequence<T>
+#include <coroutine/yield.hpp>      // enumerable<T>
+#include <coroutine/sequence.hpp>   // sequence<T> has an optimization issue
 ```
 
 Utility types are in the following headers
 
 ```c++
-#include <coroutine/return.h> // return type for resumable functions
-#include <coroutine/concrt.h> // concurrency utilities
+#include <coroutine/return.h>   // return type for coroutine functions
+#include <coroutine/event.h>    // Awaitable event type over System API
+#include <coroutine/thread.h>   // Working with the thread API
 ```
 
 Go language style channel to deliver data between coroutines. 
@@ -110,8 +113,8 @@ Create an issue if you think another configuration is required.
 Exploring [test(example) codes](./test) will be helpful. The library uses 2 tools for its test.
 
 * Visual Studio Native Testing Tool
-* CMake generated project with CTest
-  
+* CTest for CMake users
+
 ### Import
 
 #### Visual Studio Project

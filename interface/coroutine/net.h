@@ -79,7 +79,7 @@ union endpoint_t final {
     sockaddr_in6 in6;
 };
 
-//  1 task item == 1 resumable function
+//  1 task item == 1 coroutine function
 using io_task_t = std::experimental::coroutine_handle<void>;
 
 //  This is simply a view to storage. Be aware that it doesn't have ownership
@@ -96,8 +96,10 @@ class io_work_t : public io_control_block {
     io_buffer_t buffer{};
     endpoint_t* ep{};
 
-  public:
+  protected:
     _INTERFACE_ bool ready() const noexcept;
+
+  public:
     _INTERFACE_ uint32_t error() const noexcept;
 };
 static_assert(sizeof(io_work_t) <= 64);

@@ -1,4 +1,6 @@
-
+//
+//  Author  : github.com/luncliff (luncliff@gmail.com)
+//
 #include <gsl/gsl>
 
 template <typename P>

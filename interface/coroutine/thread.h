@@ -22,8 +22,8 @@
 #endif
 // clang-format on
 
-#ifndef CONCURRENCY_HELPER_THREAD_H
-#define CONCURRENCY_HELPER_THREAD_H
+#ifndef COROUTINE_CONCURRENCY_HELPER_THREAD_H
+#define COROUTINE_CONCURRENCY_HELPER_THREAD_H
 
 #include <system_error>
 
@@ -200,4 +200,4 @@ class pthread_joiner_t final {
 } // namespace coro
 
 #endif
-#endif // CONCURRENCY_HELPER_THREAD_H
+#endif // COROUTINE_CONCURRENCY_HELPER_THREAD_H

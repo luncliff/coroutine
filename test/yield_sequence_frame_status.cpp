@@ -2,19 +2,24 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test.h"
+#include <coroutine/return.h>
+#include <coroutine/sequence.hpp>
 
+#include "test.h"
+using namespace std;
 using namespace coro;
+
 using status_t = int64_t;
 
-auto sequence_suspend_and_return(frame& fh) -> sequence<status_t> {
-    co_yield fh; // save current coroutine to the `frame`
-                 // the `frame` type inherits `suspend_always`
-    co_return;   // return without yield
+auto sequence_suspend_and_return(coroutine_handle<void>& rh)
+    -> sequence<status_t> {
+    co_yield save_frame_t{rh};
+    co_return;
 }
-auto use_sequence_suspend_and_return(status_t& ref, frame& fs) -> frame {
+auto use_sequence_suspend_and_return(status_t& ref, coroutine_handle<void>& rh)
+    -> preserve_frame {
     // clang-format off
-    for co_await(auto v : sequence_suspend_and_return(fs))
+    for co_await(auto v : sequence_suspend_and_return(rh))
         ref = v;
     // clang-format on
     ref = 2; // change the value after iteration
@@ -24,7 +29,7 @@ auto coro_sequence_frame_status_test() {
     // notice that `sequence<status_t>` is placed in the caller's frame,
     //  therefore, when the caller is returned, sequence<status_t> will be
     // destroyed in caller coroutine frame's destruction phase
-    frame fs{};
+    preserve_frame fs{};
     //  automatically. so using `destroy` to the frame manually will lead to
     //  access violation ...
 
@@ -54,7 +59,7 @@ auto coro_sequence_frame_status_test() {
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char*[]) {
+int main(int, char* []) {
     return coro_sequence_frame_status_test();
 }
 
