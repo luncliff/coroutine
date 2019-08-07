@@ -3,10 +3,6 @@
 #
 cmake_minimum_required(VERSION 3.8)
 
-if(BUILD_SHARED_LIBS AND NOT ${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
-    message(WARNING "This CMake is for clang-cl on Windows. Use Visual Studio instead.")
-endif()
-
 if(WIN32 AND BUILD_SHARED_LIBS AND ${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     # Since we can't sure which shell is used, 
     #  use Command Prompt unless a new issue occurs
@@ -75,6 +71,10 @@ function(generate_exe_test NAME)
     endif()
 endfunction()
 
+#
+#   Compiler related works
+#
+
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     generate_exe_test( clang_builtin_intrinsics )
 
@@ -84,6 +84,12 @@ elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     generate_exe_test( gcc_concepts_awaitable )
 
 endif()
+
+#
+#   Article examples
+#
+
+generate_exe_test( article_russian_roulette )
 
 #
 #   <coroutine/frame.h>
@@ -100,6 +106,11 @@ generate_exe_test( return_forget_frame_subroutine )
 generate_exe_test( return_preserve_frame_empty )
 generate_exe_test( return_preserve_frame_destroy_with_handle )
 generate_exe_test( return_preserve_frame_destroy_with_return )
+
+#
+#   <coroutine/yield.hpp>
+#   <coroutine/sequence.hpp>
+#
 
 generate_exe_test( yield_enumerable_accumulate )
 generate_exe_test( yield_enumerable_iterator )
@@ -120,6 +131,10 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
 
 endif()
 
+#
+#   <coroutine/channel.hpp>
+#
+
 generate_exe_test( channel_read_fail_after_close )
 generate_exe_test( channel_read_write_mutex )
 generate_exe_test( channel_read_write_nolock )
@@ -133,13 +148,15 @@ generate_exe_test( channel_race_no_leak )
 generate_exe_test( channel_ownership_consumer )
 generate_exe_test( channel_ownership_producer )
 
+#
+#   <coroutine/event.h>
+#
+
 if(WIN32)
-    # generate_exe_test( event_win_cancel )
-    # generate_exe_test( event_win_signal )
-    # generate_exe_test( event_win_wait_one )
-    # generate_exe_test( event_win_wait_array )
-    # generate_exe_test( latch_wait_after_ready )
-    # generate_exe_test( latch_wait_multiple_times )
+    generate_exe_test( event_win_cancel )
+    generate_exe_test( event_win_signal )
+    generate_exe_test( event_win_wait_one )
+    generate_exe_test( event_win_wait_array )
 
 elseif(UNIX)
     generate_exe_test( event_unix_no_wait )
@@ -152,6 +169,10 @@ elseif(UNIX)
     # generate_exe_test( pthread_joiner_no_spawn )
 
 endif()
+
+#
+#   <coroutine/net.h>
+#
 
 add_library(socket STATIC
     socket.h

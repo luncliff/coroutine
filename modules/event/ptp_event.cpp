@@ -38,17 +38,21 @@ ptp_event::ptp_event(HANDLE ev) noexcept(false) : wo{ev} {
     // until it is going to suspend
 }
 ptp_event::~ptp_event() noexcept {
-    if (wo != INVALID_HANDLE_VALUE)
-        this->cancel();
+    this->cancel();
 }
 auto ptp_event::cancel() noexcept -> uint32_t {
-    if (UnregisterWait(wo))
-        wo = INVALID_HANDLE_VALUE;
+    // secondary cancel must has no effect
+    if (wo == INVALID_HANDLE_VALUE)
+        return NO_ERROR;
+
+    UnregisterWait(wo);
+    wo = INVALID_HANDLE_VALUE;
 
     const auto ec = GetLastError();
-    if (ec == ERROR_IO_PENDING)
+    if (ec == ERROR_IO_PENDING) {
         // this is expected since we are using INFINITE timeout
         return NO_ERROR;
+    }
     return ec;
 }
 
@@ -69,8 +73,6 @@ void ptp_event::on_suspend(coroutine_handle<void> coro) noexcept(false) {
 
 // https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-unregisterwait
 uint32_t ptp_event::on_resume() noexcept {
-    if (wo == INVALID_HANDLE_VALUE) // already canceled
-        return NO_ERROR;
     return this->cancel();
 }
 

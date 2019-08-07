@@ -53,7 +53,7 @@ using chamber_t = uint32_t;
 auto select_chamber() -> chamber_t {
     std::random_device device{};
     std::mt19937_64 gen{device()};
-    return gen();
+    return static_cast<chamber_t>(gen());
 }
 
 //  trigger fires the bullet
@@ -103,9 +103,9 @@ class revolver_t : public trigger_t {
     chamber_t current;
 
   public:
-    revolver_t(chamber_t chamber, chamber_t num_player)
+    revolver_t(chamber_t chamber, size_t num_player)
         : trigger_t{loaded, current}, //
-          loaded{chamber % num_player}, current{num_player} {
+          loaded{chamber % num_player}, current{static_cast<chamber_t>(num_player)} {
     }
 };
 
@@ -139,6 +139,5 @@ int main(int, char* []) {
     revolver_t revolver{select_chamber(), users.max_size()};
 
     russian_roulette(revolver, users);
-
     return EXIT_SUCCESS;
 }

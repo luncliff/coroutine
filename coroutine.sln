@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "windows", "modules\windows.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vstest_event", "test\vstest_event\vstest_event.vcxproj", "{813A11F3-33BB-4BA3-B5FC-48AF41B10219}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vstest_yield", "test\vstest_yield\vstest_yield.vcxproj", "{EC0C05F9-F897-4748-9A33-36D757B05089}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -39,6 +41,10 @@ Global
 		{813A11F3-33BB-4BA3-B5FC-48AF41B10219}.Debug|x64.Build.0 = Debug|x64
 		{813A11F3-33BB-4BA3-B5FC-48AF41B10219}.Release|x64.ActiveCfg = Release|x64
 		{813A11F3-33BB-4BA3-B5FC-48AF41B10219}.Release|x64.Build.0 = Release|x64
+		{EC0C05F9-F897-4748-9A33-36D757B05089}.Debug|x64.ActiveCfg = Debug|x64
+		{EC0C05F9-F897-4748-9A33-36D757B05089}.Debug|x64.Build.0 = Debug|x64
+		{EC0C05F9-F897-4748-9A33-36D757B05089}.Release|x64.ActiveCfg = Release|x64
+		{EC0C05F9-F897-4748-9A33-36D757B05089}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

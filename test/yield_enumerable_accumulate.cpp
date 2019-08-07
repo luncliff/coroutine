@@ -26,6 +26,11 @@ int main(int, char* []) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_enumerable_accumulate
     : public TestClass<coro_enumerable_accumulate> {
     TEST_METHOD(test_coro_enumerable_accumulate) {

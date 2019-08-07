@@ -78,8 +78,16 @@ for:
     project: coroutine.sln
     parallel: true
     verbosity: minimal
+  before_test:
+    - ps: $outdir=Join-Path -Path (pwd)   -ChildPath $env:PLATFORM
+    - ps: $outdir=Join-Path -Path $outdir -ChildPath $env:CONFIGURATION
+    - ps: Write-Host $outdir
   test_script:
-    - ps: Write-Host "no tests available"
+    - ps: vstest.console "$outdir\coroutine_vstest_channel.dll"
+    - ps: vstest.console "$outdir\coroutine_vstest_event.dll"
+    - ps: vstest.console "$outdir\coroutine_vstest_return.dll"
+    - ps: vstest.console "$outdir\coroutine_vstest_yield.dll"
+    - ps: vstest.console "$outdir\coroutine_vstest_network.dll"
 
 - matrix:
     only:

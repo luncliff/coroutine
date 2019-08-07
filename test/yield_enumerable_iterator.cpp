@@ -34,6 +34,11 @@ auto yield_once(int value) -> enumerable<int> {
 };
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_enumerable_iterator : public TestClass<coro_enumerable_iterator> {
     TEST_METHOD(test_coro_enumerable_iterator) {
         coro_enumerable_iterator_test();

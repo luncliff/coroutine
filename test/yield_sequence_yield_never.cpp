@@ -42,6 +42,11 @@ int main(int, char* []) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_sequence_yield_never : public TestClass<coro_sequence_yield_never> {
     TEST_METHOD(test_coro_sequence_yield_never) {
         coro_sequence_yield_never_test();

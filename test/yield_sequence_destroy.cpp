@@ -61,6 +61,11 @@ auto sequence_suspend_with_yield(coroutine_handle<void>& rh)
 };
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_sequence_destroy_when_suspended
     : public TestClass<coro_sequence_destroy_when_suspended> {
     TEST_METHOD(test_coro_sequence_destroy_when_suspended) {

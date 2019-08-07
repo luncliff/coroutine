@@ -4,6 +4,7 @@
 //
 #include <coroutine/event.h>
 #include <coroutine/return.h>
+#include <coroutine/thread.h>
 
 #include "test.h"
 using namespace std;

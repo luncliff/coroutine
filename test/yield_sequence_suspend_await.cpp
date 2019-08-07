@@ -54,6 +54,11 @@ int main(int, char* []) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class coro_sequence_suspend_using_await
     : public TestClass<coro_sequence_suspend_using_await> {
     TEST_METHOD(test_coro_sequence_suspend_using_await) {

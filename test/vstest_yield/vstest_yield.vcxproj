@@ -11,26 +11,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\enumerable_accumulate.cpp" />
-    <ClCompile Include="..\enumerable_iterator.cpp" />
-    <ClCompile Include="..\enumerable_max_element.cpp" />
-    <ClCompile Include="..\enumerable_move.cpp" />
-    <ClCompile Include="..\enumerable_yield_never.cpp" />
-    <ClCompile Include="..\enumerable_yield_once.cpp" />
-    <ClCompile Include="..\sequence_destroy.cpp" />
-    <ClCompile Include="..\sequence_frame_status.cpp" />
-    <ClCompile Include="..\sequence_suspend_await.cpp" />
-    <ClCompile Include="..\sequence_suspend_yield.cpp" />
-    <ClCompile Include="..\sequence_yield_never.cpp" />
-    <ClCompile Include="..\sequence_yield_once.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\modules\windows.vcxproj">
       <Project>{cd3a78fe-7884-4206-98ad-cc2d4f5bb750}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\test_shared.h" />
+    <ClCompile Include="..\test.cpp" />
+    <ClCompile Include="..\yield_enumerable_accumulate.cpp" />
+    <ClCompile Include="..\yield_enumerable_iterator.cpp" />
+    <ClCompile Include="..\yield_enumerable_max_element.cpp" />
+    <ClCompile Include="..\yield_enumerable_move.cpp" />
+    <ClCompile Include="..\yield_enumerable_yield_never.cpp" />
+    <ClCompile Include="..\yield_enumerable_yield_once.cpp" />
+    <ClCompile Include="..\yield_sequence_destroy.cpp" />
+    <ClCompile Include="..\yield_sequence_frame_status.cpp" />
+    <ClCompile Include="..\yield_sequence_suspend_await.cpp" />
+    <ClCompile Include="..\yield_sequence_suspend_yield.cpp" />
+    <ClCompile Include="..\yield_sequence_yield_never.cpp" />
+    <ClCompile Include="..\yield_sequence_yield_once.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\test.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
