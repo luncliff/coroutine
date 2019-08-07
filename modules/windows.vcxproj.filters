@@ -66,7 +66,7 @@
     <ClCompile Include="concrt\latch_win32.cpp">
       <Filter>concrt</Filter>
     </ClCompile>
-    <ClCompile Include="concrt\sync_windows.cpp">
+    <ClCompile Include="concrt\section_win32.cpp">
       <Filter>concrt</Filter>
     </ClCompile>
   </ItemGroup>

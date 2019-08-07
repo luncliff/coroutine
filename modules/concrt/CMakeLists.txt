@@ -73,14 +73,9 @@ endif()
 if(WIN32)
     target_sources(concrt
     PRIVATE
-        sync_windows.cpp
+        latch_win32.cpp
+        section_win32.cpp
     )
-
-    # inherit from coro::thread
-    # target_compile_definitions(concrt
-    # PUBLIC
-    #     WIN32_LEAN_AND_MEAN NOMINMAX
-    # )
 elseif(UNIX)
     target_sources(concrt
     PRIVATE
@@ -88,5 +83,3 @@ elseif(UNIX)
         section_pthread.cpp
     )
 endif()
-
-

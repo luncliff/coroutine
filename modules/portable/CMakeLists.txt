@@ -1,4 +1,6 @@
-
+#
+#   Author  : github.com/luncliff (luncliff@gmail.com)
+#
 add_library(coroutine_portable INTERFACE)
 add_library(coro::portable ALIAS coroutine_portable)
 
@@ -9,13 +11,17 @@ if(MSVC)
     )
 endif()
 
+if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang AND WIN32)
+    set(USE_PORTABLE_HEADER true)
+endif()
+
 if(USE_PORTABLE_HEADER)
     message(STATUS "Customizaton")
     message(STATUS "  <coroutine/frame.h> is suppressing <experimental/coroutine>")
     message(STATUS)
     set_target_properties(coroutine_portable
     PROPERTIES
-        INTERFACE_COMPILE_DEFINITIONS "USE_PORTABLE_COROUTINE_HANDLE"# ;_EXPERIMENTAL_RESUMABLE_
+        INTERFACE_COMPILE_DEFINITIONS "USE_PORTABLE_COROUTINE_HANDLE"
     )
 endif()
 

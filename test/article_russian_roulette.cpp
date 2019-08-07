@@ -3,10 +3,11 @@
 //  License : CC BY 4.0
 //
 #include <array>
-#include <experimental/coroutine>
 #include <random>
 
 #include <gsl/gsl>
+
+#include <coroutine/frame.h>
 
 using namespace std;
 using namespace std::experimental;
@@ -103,9 +104,9 @@ class revolver_t : public trigger_t {
     chamber_t current;
 
   public:
-    revolver_t(chamber_t chamber, size_t num_player)
+    revolver_t(chamber_t chamber, chamber_t num_player)
         : trigger_t{loaded, current}, //
-          loaded{chamber % num_player}, current{static_cast<chamber_t>(num_player)} {
+          loaded{chamber % num_player}, current{num_player} {
     }
 };
 
@@ -136,7 +137,8 @@ auto russian_roulette(revolver_t& revolver, gsl::span<user_behavior_t> users) {
 int main(int, char* []) {
     // select some chamber with the users
     array<user_behavior_t, 6> users{};
-    revolver_t revolver{select_chamber(), users.max_size()};
+    revolver_t revolver{select_chamber(),
+                        static_cast<chamber_t>(users.max_size())};
 
     russian_roulette(revolver, users);
     return EXIT_SUCCESS;

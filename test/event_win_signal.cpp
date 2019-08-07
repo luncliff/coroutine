@@ -28,7 +28,7 @@ auto ptp_event_set_test() {
     wait_an_event(token, flag);
     SetEvent(e);
 
-    SleepEx(3, true); // give time to windows threads
+    SleepEx(30, true); // give time to windows threads
     _require_(flag.test_and_set());
 
     return EXIT_SUCCESS;

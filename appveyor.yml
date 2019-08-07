@@ -61,11 +61,10 @@ matrix:
       compiler: clang
 
 install:
-  - ps: Write-Host $env:APPVEYOR_BUILD_WORKER_IMAGE
+  - ps: Write-Output $env:APPVEYOR_BUILD_WORKER_IMAGE
 build_script:
   - ps: MSBuild.exe /version
   - ps: vstest.console.exe /?
-
 test_script:
   - ps: Write-Output $(ctest --output-on-failure)
 
@@ -74,20 +73,37 @@ for:
     only:
       - compiler: msvc
         cmake_gen: None
-  build:
-    project: coroutine.sln
-    parallel: true
-    verbosity: minimal
+  #
+  # see 'build_script' below
+  #
+  # build:
+  #   project: coroutine.sln
+  #   parallel: true
+  #   verbosity: minimal
+  build_script:
+    #
+    # If vcxproj and solution specifies toolset for them,
+    # We have to override them in AppVeyor's images
+    #
+    # For VS2019, /p:platformtoolset=v142 will be used
+    #
+    # See Also
+    # - https://stackoverflow.com/questions/33380128/visual-studio-2015-command-line-retarget-solution
+    #
+    - ps: if($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2017"){ $env:TOOLSET="v141" }
+    - ps: if($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2019"){ $env:TOOLSET="v142" }
+    - ps: Write-Output $env:TOOLSET
+    - ps: MSBuild.exe coroutine.sln /p:platformtoolset=$env:TOOLSET /p:configuration=$env:CONFIGURATION
   before_test:
-    - ps: $outdir=Join-Path -Path (pwd)   -ChildPath $env:PLATFORM
-    - ps: $outdir=Join-Path -Path $outdir -ChildPath $env:CONFIGURATION
-    - ps: Write-Host $outdir
+    - ps: $outdir=(Join-Path -Path (pwd)   -ChildPath $env:PLATFORM)
+    - ps: $outdir=(Join-Path -Path $outdir -ChildPath $env:CONFIGURATION)
+    - ps: Write-Output $outdir
   test_script:
-    - ps: vstest.console "$outdir\coroutine_vstest_channel.dll"
-    - ps: vstest.console "$outdir\coroutine_vstest_event.dll"
-    - ps: vstest.console "$outdir\coroutine_vstest_return.dll"
-    - ps: vstest.console "$outdir\coroutine_vstest_yield.dll"
-    - ps: vstest.console "$outdir\coroutine_vstest_network.dll"
+    - ps: vstest.console.exe "$outdir\coroutine_vstest_channel.dll"
+    - ps: vstest.console.exe "$outdir\coroutine_vstest_event.dll"
+    - ps: vstest.console.exe "$outdir\coroutine_vstest_return.dll"
+    - ps: vstest.console.exe "$outdir\coroutine_vstest_yield.dll"
+    - ps: vstest.console.exe "$outdir\coroutine_vstest_network.dll"
 
 - matrix:
     only:
@@ -96,7 +112,7 @@ for:
         cmake_gen: VS
   install:
     - ps: MSBuild.exe /version
-    - ps: Write-Host $env:APPVEYOR_BUILD_WORKER_IMAGE $env:CMAKE_GEN
+    - ps: Write-Output $env:APPVEYOR_BUILD_WORKER_IMAGE $env:CMAKE_GEN
   build_script:
     - ps: cmake . -G "Visual Studio 15 2017 Win64" -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH"
     - ps: cmake --build .
@@ -109,7 +125,7 @@ for:
         cmake_gen: VS
   install:
     - ps: MSBuild.exe /version
-    - ps: Write-Host $env:APPVEYOR_BUILD_WORKER_IMAGE
+    - ps: Write-Output $env:APPVEYOR_BUILD_WORKER_IMAGE
   build_script:
     - ps: cmake . -G "Visual Studio 16 2019" -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH"
     - ps: cmake --build .
@@ -164,8 +180,12 @@ for:
       - image: Ubuntu1804
         compiler: clang
   install:
-    # http://apt.llvm.org/
+    #
     # This library will use clang up to 'qualification branch'
+    #
+    # See Also
+    #   http://apt.llvm.org/
+    #
     - sh: sudo apt install -y -qq --fix-missing wget unzip rsync > /tmp/apt-install.log
     - sh: sudo bash ./scripts/setup-compilers-bionic.sh
     - sh: sudo bash ./scripts/install-cmake-3.14.sh
