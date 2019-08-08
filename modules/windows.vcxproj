@@ -19,19 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="net\resolver.cpp" />
-    <ClCompile Include="windows\concrt.cpp" />
-    <ClCompile Include="windows\dllmain.cpp" />
-    <ClCompile Include="windows\net.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\interface\coroutine\channel.hpp" />
-    <ClInclude Include="..\interface\coroutine\concrt.h" />
+    <ClInclude Include="..\interface\coroutine\concepts.hpp" />
+    <ClInclude Include="..\interface\coroutine\event.h" />
     <ClInclude Include="..\interface\coroutine\frame.h" />
     <ClInclude Include="..\interface\coroutine\net.h" />
     <ClInclude Include="..\interface\coroutine\return.h" />
-    <ClInclude Include="..\interface\coroutine\suspend.h" />
+    <ClInclude Include="..\interface\coroutine\sequence.hpp" />
+    <ClInclude Include="..\interface\coroutine\thread.h" />
     <ClInclude Include="..\interface\coroutine\yield.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="concrt\latch_win32.cpp" />
+    <ClCompile Include="concrt\section_win32.cpp" />
+    <ClCompile Include="event\libmain.cpp" />
+    <ClCompile Include="event\ptp_event.cpp" />
+    <ClCompile Include="net\io_windows.cpp" />
+    <ClCompile Include="net\resolver.cpp" />
+    <ClCompile Include="thread\ptp_work.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -45,32 +50,32 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WindowsAppContainer>false</WindowsAppContainer>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
     <WindowsAppContainer>false</WindowsAppContainer>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WindowsAppContainer>false</WindowsAppContainer>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
     <WindowsAppContainer>false</WindowsAppContainer>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -95,13 +100,13 @@
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <CodeAnalysisRuleSet>CppCoreCheckRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <TargetName>coroutine</TargetName>
+    <TargetName>coroutine_windows</TargetName>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CodeAnalysisRuleSet>CppCoreCheckRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <TargetName>coroutine</TargetName>
+    <TargetName>coroutine_windows</TargetName>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,12 +114,12 @@
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <CodeAnalysisRuleSet>CppCoreCheckRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <TargetName>coroutine</TargetName>
+    <TargetName>coroutine_windows</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <CodeAnalysisRuleSet>CppCoreCheckRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <TargetName>coroutine</TargetName>
+    <TargetName>coroutine_windows</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -135,8 +140,10 @@
       <EnableModules>true</EnableModules>
       <CompileAs>CompileAsCpp</CompileAs>
       <ControlFlowGuard>false</ControlFlowGuard>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <FloatingPointModel>
+      </FloatingPointModel>
+      <FloatingPointExceptions>
+      </FloatingPointExceptions>
       <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
       <MinimalRebuild>false</MinimalRebuild>
       <DisableSpecificWarnings>
@@ -170,8 +177,10 @@
       <EnableModules>true</EnableModules>
       <CompileAs>CompileAsCpp</CompileAs>
       <ControlFlowGuard>false</ControlFlowGuard>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <FloatingPointModel>
+      </FloatingPointModel>
+      <FloatingPointExceptions>
+      </FloatingPointExceptions>
       <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
       <MinimalRebuild>false</MinimalRebuild>
       <DisableSpecificWarnings>
@@ -207,8 +216,10 @@
       <EnableModules>true</EnableModules>
       <CompileAs>CompileAsCpp</CompileAs>
       <ControlFlowGuard>false</ControlFlowGuard>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <FloatingPointModel>
+      </FloatingPointModel>
+      <FloatingPointExceptions>
+      </FloatingPointExceptions>
       <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
       <MinimalRebuild>false</MinimalRebuild>
       <DisableSpecificWarnings>
@@ -245,8 +256,10 @@
       <EnableModules>true</EnableModules>
       <CompileAs>CompileAsCpp</CompileAs>
       <ControlFlowGuard>false</ControlFlowGuard>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <FloatingPointModel>
+      </FloatingPointModel>
+      <FloatingPointExceptions>
+      </FloatingPointExceptions>
       <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
       <MinimalRebuild>false</MinimalRebuild>
       <DisableSpecificWarnings>

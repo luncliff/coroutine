@@ -2,9 +2,11 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_network.h"
-#include "test_shared.h"
+#include <coroutine/net.h>
+#include "socket.h"
 
+#include "test.h"
+using namespace std;
 using namespace coro;
 
 auto net_getaddrinfo_tcp6_connect_test() {
@@ -18,14 +20,14 @@ auto net_getaddrinfo_tcp6_connect_test() {
 
     size_t count = 0u;
     for (auto ep : resolve(hint, "::1", "7")) {
-        REQUIRE(ep.in6.sin6_family == AF_INET6);
-        REQUIRE(ep.in6.sin6_port == htons(7));
+        _require_(ep.in6.sin6_family == AF_INET6);
+        _require_(ep.in6.sin6_port == htons(7));
 
         auto loopback = IN6_IS_ADDR_LOOPBACK(&ep.in6.sin6_addr);
-        REQUIRE(loopback);
+        _require_(loopback);
         ++count;
     }
-    REQUIRE(count > 0);
+    _require_(count > 0);
     return EXIT_SUCCESS;
 }
 
@@ -35,6 +37,11 @@ int main(int, char* []) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class net_getaddrinfo_tcp6_connect
     : public TestClass<net_getaddrinfo_tcp6_connect> {
     TEST_METHOD(test_net_getaddrinfo_tcp6_connect) {

@@ -1,0 +1,14 @@
+#
+# Author: github.com/luncliff (luncliff@gmail.com)
+#
+# Android NDK Build
+#
+
+jobs:
+- job: AndroidGradle
+  pool:
+    vmImage: 'macOS-latest'
+  steps:
+    - script: brew install ninja;
+    - script: gradle clean
+    - script: gradle assemble

@@ -1,57 +1,63 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
-//  Note
-//      Header to support coroutine frame difference between compilers
-//      This file will focus on compiler intrinsics and
-//      follow semantics of msvc intrinsics in `coroutine_handle<>`
-//  Reference
-//      https://wg21.link/p0057
-//      <experimental/resumable> from Microsoft Corperation (since 2017 Feb.)
-//      <experimental/coroutine> from LLVM libcxx 6.0.0+
-//      http://clang.llvm.org/docs/LanguageExtensions.html#c-coroutines-support-builtins
 //
-// ---------------------------------------------------------------------------
+//  Note
+//      Header to adjust the difference of coroutine frame between compilers
+//
+//  Reference
+//      <experimental/resumable> from Microsoft VC++ (since 2017 Feb.)
+//      <experimental/coroutine> from LLVM libcxx (since 6.0)
+//      https://github.com/iains/gcc-cxx-coroutines
+//
 #pragma once
 
 #include <cstddef>
 #include <cstdint>
 
-// <coroutine> header build issue handling
-#if defined(__clang__) && defined(_MSC_VER)
+#if defined(__clang__) && defined(_MSC_VER) // use this header
 //
 // case: clang-cl, VC++
 //	In this case, override <experimental/resumable>.
-//	since msvc and clang++ uses differnet frame layout,
-//	VC++ won't fit clang-cl's code generation. see the implementation below
+//	Since msvc and clang++ uses differnet frame layout,
+//  VC++ won't fit clang-cl's code generation.
+//  see the implementation below
 //
 #if defined(_EXPERIMENTAL_RESUMABLE_)
-#error "This header replaces <experimental/coroutine> for clang-cl and VC++ ";
+static_assert(false, "This header replaces <experimental/coroutine>"
+                     " for clang-cl/VC++. Please remove previous includes.");
 #endif
+// supporess later includes
 #define _EXPERIMENTAL_RESUMABLE_
 
-#elif defined(USE_CUSTOM_HEADER) // use custom header(this file)
+#elif defined(USE_PORTABLE_COROUTINE_HANDLE) // use this header
 //
 // case: clang-cl, VC++
 // case: msvc, VC++
 // case: clang, libc++
 //
-#else                            // use default header
+#if defined(_EXPERIMENTAL_RESUMABLE_)
+static_assert(false, "This header replaces <experimental/coroutine>"
+                     " for clang-cl/VC++. Please remove previous includes.");
+#endif
+// supporess later includes
+#define _EXPERIMENTAL_RESUMABLE_
+
+#else                          // use default header
 //
 // case: msvc, VC++
 // case: clang, libc++
 //	It is safe to use vendor's header.
 //	by defining macro variable, user can prevent template redefinition
 //
-#if __has_include(<coroutine>)
-#include <coroutine> // C++ 20 standard
-
-#elif __has_include(<experimental/coroutine>)
-#include <experimental/coroutine> // C++ 17 experimetal
-#define COROUTINE_CUSTOM_FRAME_H  // won't use custom implementation
+#if __has_include(<coroutine>) // C++ 20 standard
+#include <coroutine>
+#elif __has_include(<experimental/coroutine>) // C++ 17 experimetal
+#include <experimental/coroutine>
+// We don't need to use this portable one.
+// Disable the implementation below and use the default
+#define COROUTINE_PORTABLE_FRAME_H
 #endif
-
 #endif // <coroutine> header
 
 #if defined(__clang__)
@@ -59,19 +65,29 @@ static constexpr auto is_clang = true;
 static constexpr auto is_msvc = !is_clang;
 static constexpr auto is_gcc = !is_clang;
 
+using procedure_t = void(__cdecl*)(void*);
+
 #elif defined(_MSC_VER)
 static constexpr auto is_msvc = true;
 static constexpr auto is_clang = !is_msvc;
 static constexpr auto is_gcc = !is_msvc;
 
-#else // __GNUC__ is missing
-#error "compier doesn't support coroutine. if so, please contact the author :)"
+using procedure_t = void(__cdecl*)(void*);
+
+#elif defined(__GNUC__)
+static constexpr auto is_gcc = true;
+static constexpr auto is_msvc = !is_gcc;
+static constexpr auto is_clang = !is_gcc;
+
+// gcc-10 failes when __cdecl is used. declare it without convention
+using procedure_t = void (*)(void*);
+
+#else
+#error "unexpected compiler. please contact the author"
 #endif
 
 template <typename T>
-constexpr auto aligned_size_v = ((sizeof(T) + 16 - 1) & ~(16 - 1));
-
-using procedure_t = void(__cdecl*)(void*);
+constexpr auto aligned_size_v = ((sizeof(T) + 16u - 1u) & ~(16u - 1u));
 
 // - Note
 //      MSVC coroutine frame's prefix
@@ -99,32 +115,53 @@ struct clang_frame_prefix final {
 };
 static_assert(aligned_size_v<clang_frame_prefix> == 16);
 
-#ifndef COROUTINE_CUSTOM_FRAME_H
-#define COROUTINE_CUSTOM_FRAME_H
+// - Note
+//      GCC coroutine frame's prefix
+// - Layout
+//      Unknown
+struct gcc_frame_prefix final {
+    void* _unknown1;
+    void* _unknown2;
+};
+static_assert(aligned_size_v<gcc_frame_prefix> == 16);
+
+#ifndef COROUTINE_PORTABLE_FRAME_H
+#define COROUTINE_PORTABLE_FRAME_H
 #pragma warning(push, 4)
 #pragma warning(disable : 4455 4494 4577 4619 4643 4702 4984 4988)
 #pragma warning(disable : 26490 26481 26476 26429 26409)
 
 #include <type_traits>
 
-// - Note
-//      Alternative of `_coro_done` of msvc for this library.
-//      It is renamed to avoid redefinition
+// Alternative of `_coro_done` of msvc for this library.
+// It is renamed to avoid redefinition
 bool _coro_finished(const msvc_frame_prefix*) noexcept;
 
-// -------------------- Compiler intrinsic: MSVC  --------------------
-
+//
+// intrinsic: MSVC
+//
 extern "C" size_t _coro_resume(void*);
 extern "C" void _coro_destroy(void*);
 extern "C" size_t _coro_done(void*); // <- leads compiler error
 
-// -------------------- Compiler intrinsic: Clang --------------------
-
+//
+// intrinsic: Clang/GCC
+//
 extern "C" bool __builtin_coro_done(void*);
 extern "C" void __builtin_coro_resume(void*);
 extern "C" void __builtin_coro_destroy(void*);
+// void* __builtin_coro_promise(void* ptr, int align, bool p);
 
-namespace std::experimental {
+namespace std {
+namespace experimental {
+
+// template <typename R, class = void>
+// struct coroutine_traits_sfinae {};
+//
+// template <typename R>
+// struct coroutine_traits_sfinae<R, void_t<typename R::promise_type>> {
+//    using promise_type = typename R::promise_type;
+// };
 
 // traits to enforce `promise_type`, without sfinae consideration.
 template <typename ReturnType, typename... Args>
@@ -145,6 +182,7 @@ class coroutine_handle<void> {
         void* v{};
         msvc_frame_prefix* m;
         clang_frame_prefix* c;
+        gcc_frame_prefix* g;
     };
     static_assert(sizeof(prefix_t) == sizeof(void*));
     prefix_t prefix;
@@ -172,6 +210,8 @@ class coroutine_handle<void> {
             _coro_resume(prefix.m);
         } else if constexpr (is_clang) {
             __builtin_coro_resume(prefix.c);
+        } else if constexpr (is_gcc) {
+            __builtin_coro_resume(prefix.g);
         }
     }
     void destroy() noexcept {
@@ -179,6 +219,8 @@ class coroutine_handle<void> {
             _coro_destroy(prefix.m);
         } else if constexpr (is_clang) {
             __builtin_coro_destroy(prefix.c);
+        } else if constexpr (is_gcc) {
+            __builtin_coro_destroy(prefix.g);
         }
     }
     bool done() const noexcept {
@@ -187,6 +229,8 @@ class coroutine_handle<void> {
         } else if constexpr (is_clang) {
             return __builtin_coro_done(prefix.c);
         } else if constexpr (is_gcc) {
+            return __builtin_coro_done(prefix.g);
+        } else {
             return false;
         }
     }
@@ -211,7 +255,7 @@ class coroutine_handle : public coroutine_handle<void> {
   private:
     static promise_type* from_frame(prefix_t addr) noexcept {
         if constexpr (is_clang) {
-            // calculate the location of the coroutine frame prefix
+            // calculate the location of the frame's prefix
             auto* prefix = addr.c;
             // for clang, promise is placed just after frame prefix
             // so this line works like `__builtin_coro_promise`,
@@ -224,9 +268,12 @@ class coroutine_handle : public coroutine_handle<void> {
                 ptr - aligned_size_v<promise_type>);
             return promise;
         } else if constexpr (is_gcc) {
-            // !!! crash !!!
-            return nullptr;
+            void* ptr =
+                __builtin_coro_promise(addr.g, __alignof(promise_type), false);
+            return reinterpret_cast<promise_type*>(ptr);
         }
+        // !!! crash !!!
+        return nullptr;
     }
 
   public:
@@ -262,6 +309,10 @@ class coroutine_handle : public coroutine_handle<void> {
         } else if constexpr (is_msvc) {
             void* prefix =
                 reinterpret_cast<char*>(promise) + aligned_size_v<promise_type>;
+            return coroutine_handle::from_address(prefix);
+        } else if constexpr (is_gcc) {
+            void* prefix = __builtin_coro_promise(
+                reinterpret_cast<char*>(&prom), __alignof(promise_type), true);
             return coroutine_handle::from_address(prefix);
         }
         return coroutine_handle{};
@@ -305,6 +356,7 @@ class suspend_never {
         // Since the class won't suspend, this function won't be invoked
     }
 };
+
 class suspend_always {
   public:
     constexpr bool await_ready() const noexcept {
@@ -316,7 +368,9 @@ class suspend_always {
         // The routine will suspend but the class ignores the given handle
     }
 };
-} // namespace std::experimental
+
+} // namespace experimental
+} // namespace std
 
 #if defined(__clang__)
 //
@@ -397,7 +451,13 @@ struct _Resumable_helper_traits {
     }
 };
 } // namespace std::experimental
-#endif // __clang__ || _MSC_VER
 
+#elif defined(__GNUC__)
+
+inline bool is_suspended(gcc_frame_prefix* g) noexcept {
+    return __builtin_coro_is_suspended(g);
+}
+
+#endif // __clang__ || _MSC_VER || __GNUC__
 #pragma warning(pop)
-#endif // COROUTINE_CUSTOM_FRAME_H
+#endif // COROUTINE_PORTABLE_FRAME_H

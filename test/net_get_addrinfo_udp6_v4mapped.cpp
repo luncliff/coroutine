@@ -2,9 +2,11 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_network.h"
-#include "test_shared.h"
+#include <coroutine/net.h>
+#include "socket.h"
 
+#include "test.h"
+using namespace std;
 using namespace coro;
 
 auto net_getaddrinfo_udp6_bind_v4mapped_test() {
@@ -18,13 +20,13 @@ auto net_getaddrinfo_udp6_bind_v4mapped_test() {
 
     size_t count = 0u;
     for (auto ep : resolve(hint, "::ffff:192.168.0.1", "9287")) {
-        REQUIRE(ep.in6.sin6_port == htons(9287));
+        _require_(ep.in6.sin6_port == htons(9287));
 
         bool v4mapped = IN6_IS_ADDR_V4MAPPED(&ep.in6.sin6_addr);
-        REQUIRE(v4mapped);
+        _require_(v4mapped);
         ++count;
     }
-    REQUIRE(count > 0);
+    _require_(count > 0);
     return EXIT_SUCCESS;
 }
 
@@ -34,6 +36,11 @@ int main(int, char* []) {
 }
 
 #elif __has_include(<CppUnitTest.h>)
+#include <CppUnitTest.h>
+
+template <typename T>
+using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+
 class net_getaddrinfo_udp6_bind_v4mapped
     : public TestClass<net_getaddrinfo_udp6_bind_v4mapped> {
     TEST_METHOD(test_net_getaddrinfo_udp6_bind_v4mapped) {

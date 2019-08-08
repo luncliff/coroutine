@@ -2,26 +2,25 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include <coroutine/event.h>
+#include <coroutine/return.h>
 
+#include <array>
+
+using namespace std;
 using namespace coro;
-using namespace concrt;
 
-auto wait_three_events(event& e1, event& e2, event& e3, atomic_flag& flag)
-    -> no_return {
-
+auto wait_three_events(event& e1, event& e2, event& e3, atomic<uint32_t>& flag)
+    -> forget_frame {
     co_await e1;
     co_await e2;
     co_await e3;
-
-    flag.test_and_set();
+    flag = 1;
 }
 
 auto concrt_event_wait_multiple_events_test() {
-
     array<event, 3> events{};
-    atomic_flag flag = ATOMIC_FLAG_INIT;
-
+    atomic<uint32_t> flag{};
     wait_three_events(events[0], events[1], events[2], flag);
 
     // signal in descending order. notice the order in the test function ...
@@ -32,13 +31,14 @@ auto concrt_event_wait_multiple_events_test() {
             task.resume();
     }
     // set by the coroutine `wait_three_events`
-    REQUIRE(flag.test_and_set() == true);
+    if (flag != 1)
+        return __LINE__;
 
     return EXIT_SUCCESS;
 }
 
 #if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+int main(int, char* []) {
     return concrt_event_wait_multiple_events_test();
 }
 #endif

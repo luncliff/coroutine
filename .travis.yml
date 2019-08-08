@@ -6,161 +6,280 @@ sudo: false
 
 git:
   submodules: true
+  quiet: true
   depth: 5
 
 branches:
   except:
     - docs
+    - skip/*
 
 notifications:
   email:
     - luncliff@gmail.com
 
-language: cpp
-compiler: clang
-
 addons:
+  # chocolatey: # travis doesn't support this. It's for reference of the config below
+  #   packages:
+  #     - llvm # already installed
+  #     - ninja
+  #     - cmake
+
   homebrew:
     update: true
     packages:
+      # - llvm # already installed
       - ninja
-      - tree
       - cmake
+      - tree
 
   apt:
+    update: true
     sources:
       - ubuntu-toolchain-r-test
-      # - llvm-toolchain-xenial-6.0 # for clang-6.0 and llvm-6.0
+      - llvm-toolchain-xenial-6.0
       - llvm-toolchain-xenial-7
+      - llvm-toolchain-xenial-8
     packages:
-      - g++-7
       - g++-8
-      - libc++-dev
-      - libc++abi-dev
-      - unzip
-      - curl
+      - g++-9
+      - clang-6.0
+      - clang-7
+      - clang-8
+      - libc++abi-8-dev
+      - cmake
       - ninja-build
       - tree
+      - wget
+      - tar
+      - rsync
+
+language: cpp
 
 install:
-  - echo ${TRAVIS_OS_NAME};
-  # reinstall to ensure latest version
+  # for this env, we don't have to use setup-compilers script
+  # since we already installed them
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
-    sudo bash ./scripts/install-compilers.sh > /dev/null;
+    sudo rm -rf /usr/local/clang-7.0.0;
+    sudo rm -rf /usr/local/cmake-3.12.4;
     sudo bash ./scripts/install-cmake-3.14.sh;
-    sudo bash ./scripts/install-libc++8.sh > /dev/null;
-    sudo rm -rf prebuilt libcxx* llvm*;
-    sudo rm -rf cmake-3.14*;
-    export CC=/usr/bin/clang CXX=/usr/bin/clang;
+    export CC=gcc-9 CXX=g++-9;
+    sudo bash ./scripts/install-libc++8.sh;
     fi
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
     brew info llvm;
     fi
-before_script: 
-  # prepare build
-  - mkdir -p build && cd build;
-  - cmake ../
-    -G "Ninja"
-    -DBUILD_SHARED_LIBS=${SHARED}
-    -DCMAKE_BUILD_TYPE=${CONFIG}
-    -DUSE_CUSTOM_HEADER=${CUSTOM}
-    -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
+  - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
+    systeminfo;
+    choco info  llvm;
+    choco info  visualstudio2017-workload-vctools;
+    choco install --yes --no-progress         ninja;
+    choco install --yes --force --no-progress cmake;
+    fi
+
+before_script:
+  - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
+    export CC=${TRAVIS_COMPILER};
+    export CXX=${TRAVIS_COMPILER};
+    fi
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
+    export CXX=${TRAVIS_COMPILER};
+    fi
+  - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
+    export CXX=clang-cl;
+    fi
+
 script:
-  - cmake --build .
+  - cmake . -G "Ninja"
+    -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
+    -DBUILD_SHARED_LIBS=${SHARED}
+    -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+    -DUSE_PORTABLE_HEADER=${PORTABLE}
+  - cmake --build . --config ${BUILD_TYPE}
   - cmake --build . --target install
   - ctest --output-on-failure
+
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
-  - tree ./install
+  - tree ${TRAVIS_BUILD_DIR}/install
+
+# os:
+#   - windows
+#   - linux
+#   - osx
+
+# dist:
+#   - xenial
+
+# osx_image: 
+#   - xcode9.4
+#   - xcode10.2
+#   - xcode11
+
+# compiler:
+#   - gcc
+#   - clang
+#   - clang-6.0
+#   - clang-7
+#   - clang-8
+
+# env:
+#   - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+#   - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+#   - BUILD_TYPE=Release  SHARED=True  PORTABLE=True
+#   - BUILD_TYPE=Release  SHARED=False PORTABLE=True
 
 matrix:
   allow_failures:
-    - os: windows
+    - services:             # GCC Coroutines (Under develop)
+        - docker
+    - language: android     # Android NDK
+    - osx_image: xcode10.1  # iPhone OS
 
   include:
-    #
-    # to work with libc++, OFF the CUSTOM flag
-    #
-
-    - name: Mac Debug
-      os: osx
-      osx_image: xcode10.2
+    - os: windows
+      compiler: clang
       env:
-        - CONFIG=Debug    SHARED=true
-        - CUSTOM=false
-
-    - name: Mac Release
-      os: osx
-      osx_image: xcode10.2
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+      script:
+        #
+        # Because of the Travis CI env issue, we can't use `call` command.
+        # Normally with the Visual Studio 2017, vcvarsall.bat can be used like the following
+        #   call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64;
+        #
+        # However, this env is a bit different.
+        # This path is from chocolatey 'visualstudio2017-workload-vctools'
+        #
+        # see the batch file
+        #
+        - ./scripts/build-vs2017-cmake-clang.bat;
+        - ctest --output-on-failure
+    - os: windows
+      compiler: clang
       env:
-        - CONFIG=Release  SHARED=true
-        - CUSTOM=false
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+      script:
+        - ./scripts/build-vs2017-cmake-clang.bat;
+        - ctest --output-on-failure
 
-    - name: Ubuntu(Xenial) Debug
+    - os: osx
+      osx_image: xcode10.2
+      compiler: clang
+      env:
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+    - os: osx
+      osx_image: xcode10.2
+      compiler: clang
+      env:
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+
+    - os: osx
+      osx_image: xcode11
+      compiler: clang
+      env:
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+    - os: osx
+      osx_image: xcode11
+      compiler: clang
+      env:
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+
+    - os: linux
+      dist: xenial
+      compiler: clang-6.0
+      env:
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+    - os: linux
+      dist: xenial
+      compiler: clang-6.0
+      env:
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+
+    - os: linux
+      dist: xenial
+      compiler: clang-7
+      env:
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+    - os: linux
+      dist: xenial
+      compiler: clang-7
+      env:
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+
+    - os: linux
+      dist: xenial
+      compiler: clang-8
+      env:
+        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+    - os: linux
+      dist: xenial
+      compiler: clang-8
+      env:
+        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+
+    #
+    # ... allow_failures builds ...
+    #
+
+    - name: gcc-cxx-coroutines debug
       os: linux
       dist: xenial
+      apt:
+        update: true
+        sources:
+          - ubuntu-toolchain-r-test
+      services:
+        - docker
       env:
-        - CONFIG=Debug    SHARED=true
-        - CUSTOM=false
+        - CONFIG=Debug
+      install:
+        - docker pull luncliff/gcc
+        - docker run -it -d --name gcc_10_builder -w /code/build -v $(pwd):/code luncliff/gcc
+      before_script:
+        - export RUN="docker exec gcc_10_builder"
+        - $RUN apt install -y -qq cmake rsync wget tar unzip
+        - $RUN cmake --version
+      script:
+        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10 -DCMAKE_BUILD_TYPE=${CONFIG}
+        - $RUN make -k
+        - $RUN ctest --output-on-failure
 
-    - name: Ubuntu(Xenial) Release 
+    - name: gcc-cxx-coroutines release
       os: linux
       dist: xenial
+      apt:
+        update: true
+        sources:
+          - ubuntu-toolchain-r-test
+      services:
+        - docker
       env:
-        - CONFIG=Release  SHARED=true
-        - CUSTOM=false
-
-    #
-    # to use the implementation in <coroutine/frame.h>, 
-    # ON the CUSTOM flag
-    #
-
-    - name: Mac Debug (Custom)
-      os: osx
-      osx_image: xcode10.2
-      env:
-        - CONFIG=Debug    SHARED=true
-        - CUSTOM=true
-
-    - name: Mac Release (Custom)
-      os: osx
-      osx_image: xcode10.2
-      env:
-        - CONFIG=Release  SHARED=true
-        - CUSTOM=true
-
-    - name: Ubuntu(Xenial) Debug (Custom)
-      os: linux
-      dist: xenial
-      env:
-        - CONFIG=Debug    SHARED=true
-        - CUSTOM=true
-
-    - name: Ubuntu(Xenial) Release (Custom)
-      os: linux
-      dist: xenial
-      env:
-        - CONFIG=Release  SHARED=true
-        - CUSTOM=true
-
-    #
-    # cross-build for mobile
-    #
+        - CONFIG=Release
+      install:
+        - docker pull luncliff/gcc
+        - docker run -it -d --name gcc_10_builder -w /code/build -v $(pwd):/code luncliff/gcc
+      before_script:
+        - export RUN="docker exec gcc_10_builder"
+        - $RUN apt install -y -qq cmake rsync wget tar unzip
+        - $RUN cmake --version
+      script:
+        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10 -DCMAKE_BUILD_TYPE=${CONFIG}
+        - $RUN make -k
+        - $RUN ctest --output-on-failure
 
     - name: iPhone OS
       os: osx
       osx_image: xcode10.1
       compiler: clang
       before_script:
-        - mkdir -p build && cd build;
         # to ensure intended symbols are in the library,
         # the build generated shared object.
         # however, for deployment, it needs te be static. (libcoroutine.a)
-        - cmake ../
+        - cmake .
           -DBUILD_SHARED_LIBS=true
           -DCMAKE_BUILD_TYPE=Debug
-          -DCMAKE_INSTALL_PREFIX=../install
-          -DCMAKE_TOOLCHAIN_FILE=../external/ios-cmake/ios.toolchain.cmake
+          -DCMAKE_INSTALL_PREFIX=./install
+          -DCMAKE_TOOLCHAIN_FILE=./external/ios-cmake/ios.toolchain.cmake
           -DENABLE_BITCODE=false
           -DIOS_DEPLOYMENT_TARGET=11.0
       script:
@@ -201,6 +320,8 @@ matrix:
         - yes | sdkmanager --update > /dev/null 2>&1
         - sdkmanager ndk-bundle > /dev/null 2>&1
       before_script:
+        - export PATH=/usr/bin:$PATH
+        - cmake --version
         - gradle --version
       script:
         - gradle clean

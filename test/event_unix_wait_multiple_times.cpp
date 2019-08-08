@@ -2,12 +2,13 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include "test_shared.h"
+#include <coroutine/event.h>
+#include <coroutine/return.h>
 
 using namespace coro;
-using namespace concrt;
 
-auto wait_for_multiple_times(event& e, atomic<uint32_t>& counter) -> no_return {
+auto wait_for_multiple_times(event& e, atomic<uint32_t>& counter)
+    -> forget_frame {
     while (counter-- > 0)
         co_await e;
 }
@@ -20,9 +21,6 @@ auto concrt_event_multiple_wait_on_event_test() {
     wait_for_multiple_times(e1, counter);
 
     auto repeat = 100u; // prevent infinite loop
-    REQUIRE(repeat > counter);
-    REQUIRE(counter > 0);
-
     while (counter > 0 && repeat > 0) {
         e1.set();
         // resume if there is available event-waiting coroutines
@@ -31,13 +29,14 @@ auto concrt_event_multiple_wait_on_event_test() {
 
         --repeat;
     };
-    REQUIRE(counter == 0);
+    if (counter != 0)
+        return __LINE__;
 
     return EXIT_SUCCESS;
 }
 
 #if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
+int main(int, char* []) {
     return concrt_event_multiple_wait_on_event_test();
 }
 #endif

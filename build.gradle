@@ -44,8 +44,8 @@ android {
         targetSdkVersion 27
 
         // Follow native code's verson
-        versionCode 143
-        versionName "1.4.3"
+        versionCode 150
+        versionName "1.5.0"
 
         // External Native build: CMake
         externalNativeBuild {
@@ -62,7 +62,7 @@ android {
             // it's ok to use 3.8 or later, 
             // but specify the version since this gradle requires it
             // see 'scripts/install-cmake-3.14.sh'
-            version "3.14.5"
+            // version "3.14.5"
             path "CMakeLists.txt"
         }
     }

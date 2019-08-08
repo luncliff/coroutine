@@ -12,9 +12,10 @@ echo "----------------------------------------------------------------------"
 
 wget -q https://github.com/Kitware/CMake/releases/download/v3.14.5/cmake-3.14.5-Linux-x86_64.tar.gz
 tar -xf cmake-3.14.5-Linux-x86_64.tar.gz
-mv ./cmake-3.14.5-Linux-x86_64 ./cmake-3.14.5
+mv ./cmake-3.14.5-Linux-x86_64 /tmp/cmake-3.14.5
+rm cmake-3.14.5-Linux-x86_64.tar.gz
 
-rsync -ah ./cmake-3.14.5/bin     /usr
-rsync -ah ./cmake-3.14.5/share   /usr
+rsync -ah /tmp/cmake-3.14.5/bin     /usr
+rsync -ah /tmp/cmake-3.14.5/share   /usr
 
 cmake --version

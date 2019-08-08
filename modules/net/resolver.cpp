@@ -1,30 +1,16 @@
-// ---------------------------------------------------------------------------
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-// ---------------------------------------------------------------------------
 #include <coroutine/net.h>
 #include <gsl/gsl>
 
 using namespace std;
 using namespace coro;
 
-array<char, NI_MAXHOST> hnbuf{};
-
-auto host_name() noexcept -> czstring_host {
-    const auto namelen = gsl::narrow_cast<socklen_t>(hnbuf.size());
-    ::gethostname(hnbuf.data(), namelen);
-    return hnbuf.data();
-}
-
 GSL_SUPPRESS(type .1)
 int get_name(const endpoint_t& ep, //
              zstring_host name, zstring_serv serv, int flags) noexcept {
-
-    socklen_t slen = NI_MAXSERV;
-    if (serv == nullptr)
-        slen = 0;
 
     socklen_t addrlen = 0;
     if (ep.storage.ss_family == AF_INET)
@@ -40,21 +26,15 @@ int get_name(const endpoint_t& ep, //
     //      NI_NUMERICSERV
     // non-zero if failed
     return ::getnameinfo(addressof(ep.addr), addrlen, name, NI_MAXHOST, serv,
-                         slen, flags);
+                         (serv == nullptr) ? 0 : NI_MAXSERV, flags);
 }
 
-GSL_SUPPRESS(es .76)
-GSL_SUPPRESS(type .1)
-GSL_SUPPRESS(gsl.util)
-auto resolve(const addrinfo& hint, //
-             czstring_host name, czstring_serv serv) noexcept(false)
+auto resolve_error(int ec) -> system_error {
+    return std::system_error{ec, system_category(), ::gai_strerror(ec)};
+}
+
+auto enumerate_addrinfo(gsl::not_null<addrinfo*> list)
     -> coro::enumerable<endpoint_t> {
-
-    addrinfo* list = nullptr;
-    if (const auto ec = ::getaddrinfo(name, serv, addressof(hint), &list))
-        // instead of `runtime_error`, use `system_error`
-        throw system_error{ec, system_category(), gai_strerror(ec)};
-
     // RAII clean up for the assigned addrinfo
     // This holder guarantees clean up
     //      when the generator is destroyed
@@ -69,4 +49,27 @@ auto resolve(const addrinfo& hint, //
         endpoint_t& ep = *ptr;
         co_yield ep;
     }
+}
+
+int resolve(coro::enumerable<endpoint_t>& g,
+            const addrinfo& hint, //
+            czstring_host name, czstring_serv serv) noexcept {
+    addrinfo* list = nullptr;
+    if (const auto ec = ::getaddrinfo(name, serv, addressof(hint), &list))
+        return ec;
+
+    g = enumerate_addrinfo(list);
+    return 0;
+}
+
+errc peer_name(uint64_t sd, endpoint_t& ep, socklen_t len) noexcept {
+    if (getpeername(gsl::narrow_cast<int64_t>(sd), addressof(ep.addr), &len))
+        return static_cast<errc>(errno);
+    return errc{};
+}
+
+errc sock_name(uint64_t sd, endpoint_t& ep, socklen_t len) noexcept {
+    if (getsockname(gsl::narrow_cast<int64_t>(sd), addressof(ep.addr), &len))
+        return static_cast<errc>(errno);
+    return errc{};
 }
