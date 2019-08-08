@@ -15,7 +15,7 @@
 #include <cstddef>
 #include <cstdint>
 
-#if defined(__clang__) && defined(_MSC_VER)
+#if defined(__clang__) && defined(_MSC_VER) // use this header
 //
 // case: clang-cl, VC++
 //	In this case, override <experimental/resumable>.
@@ -30,20 +30,27 @@ static_assert(false, "This header replaces <experimental/coroutine>"
 // supporess later includes
 #define _EXPERIMENTAL_RESUMABLE_
 
-#elif defined(USE_PORTABLE_COROUTINE_HANDLE) // use this one
+#elif defined(USE_PORTABLE_COROUTINE_HANDLE) // use this header
 //
 // case: clang-cl, VC++
 // case: msvc, VC++
 // case: clang, libc++
 //
-#else                                        // use default header
+#if defined(_EXPERIMENTAL_RESUMABLE_)
+static_assert(false, "This header replaces <experimental/coroutine>"
+                     " for clang-cl/VC++. Please remove previous includes.");
+#endif
+// supporess later includes
+#define _EXPERIMENTAL_RESUMABLE_
+
+#else                          // use default header
 //
 // case: msvc, VC++
 // case: clang, libc++
 //	It is safe to use vendor's header.
 //	by defining macro variable, user can prevent template redefinition
 //
-#if __has_include(<coroutine>)               // C++ 20 standard
+#if __has_include(<coroutine>) // C++ 20 standard
 #include <coroutine>
 #elif __has_include(<experimental/coroutine>) // C++ 17 experimetal
 #include <experimental/coroutine>

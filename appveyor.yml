@@ -74,7 +74,7 @@ for:
       - compiler: msvc
         cmake_gen: None
   #
-  # see 'build_script' below
+  # See 'build_script' below
   #
   # build:
   #   project: coroutine.sln
@@ -83,9 +83,10 @@ for:
   build_script:
     #
     # If vcxproj and solution specifies toolset for them,
-    # We have to override them in AppVeyor's images
+    # We have to override them since AppVeyor's image might not have the toolset
     #
-    # For VS2019, /p:platformtoolset=v142 will be used
+    # - VS2017: MSBuild.exe /p:platformtoolset=v141 ...
+    # - VS2019: MSBuild.exe /p:platformtoolset=v142 ...
     #
     # See Also
     # - https://stackoverflow.com/questions/33380128/visual-studio-2015-command-line-retarget-solution
@@ -115,7 +116,11 @@ for:
     - ps: Write-Output $env:APPVEYOR_BUILD_WORKER_IMAGE $env:CMAKE_GEN
   build_script:
     - ps: cmake . -G "Visual Studio 15 2017 Win64" -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH"
-    - ps: cmake --build .
+    #
+    # Explicit config for debug|release is required
+    # to copy DLL to where test executables reside 
+    #
+    - ps: cmake --build . --config $env:CONFIGURATION
     - ps: cmake --build . --target install
 
 - matrix:
@@ -128,7 +133,8 @@ for:
     - ps: Write-Output $env:APPVEYOR_BUILD_WORKER_IMAGE
   build_script:
     - ps: cmake . -G "Visual Studio 16 2019" -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH"
-    - ps: cmake --build .
+    # Explicit config for debug|release is required
+    - ps: cmake --build . --config $env:CONFIGURATION
     - ps: cmake --build . --target install
 
 - matrix:
@@ -138,7 +144,7 @@ for:
   install:
     - ps: choco info llvm
     - ps: choco install --yes --no-progress         ninja
-    # for latest CMake, uncomment the line ...
+    # To install latest CMake ...
     # - ps: choco install --yes --force --no-progress cmake
     - ps: cmake --version
     #
@@ -152,10 +158,11 @@ for:
     # Since this is a yaml file, we can't use the command directly. Use simplified form.
     # [System.Environment]::SetEnvironmentVariable('CXX', "C:\Program Files\LLVM\bin\clang-cl", [System.EnvironmentVariableTarget]::User)
     - ps:  $env:CXX="clang-cl"
-    # for cmake, "-DCMAKE_CXX_COMPILER=clang-cl" can be ok
+    # For CMake users: "-DCMAKE_CXX_COMPILER=clang-cl" can be ok
     - cmd: set CXX=clang-cl
   build_script:
     - cmd: cmake . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=%install_path%
+    # CMake + clang-cl build doesn't require config for debug|release
     - cmd: cmake --build .
     - cmd: cmake --build . --target install
 

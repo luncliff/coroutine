@@ -3,18 +3,32 @@
 #
 cmake_minimum_required(VERSION 3.8)
 
-if(WIN32 AND BUILD_SHARED_LIBS AND ${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+if(WIN32 AND BUILD_SHARED_LIBS)
     # Since we can't sure which shell is used, 
     #  use Command Prompt unless a new issue occurs
-    add_custom_target(copy_dll_concurrency_helper
-        COMMENT "Test executables need dll. Copying with the Command Prompt ..."
-        COMMAND copy "modules\\event\\coroutine_event.dll"    "test\\coroutine_event.dll"
-        COMMAND copy "modules\\net\\coroutine_net.dll"        "test\\coroutine_net.dll"
-        COMMAND copy "modules\\thread\\coroutine_thread.dll"  "test\\coroutine_thread.dll"
-        COMMAND copy "modules\\concrt\\concrt.dll"            "test\\concrt.dll"
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        DEPENDS coro::event coro::net coro::thread concrt
-    )
+    if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+        add_custom_target(copy_dll_concurrency_helper
+            COMMENT "Test executables need dll. Copying with the Command Prompt ..."
+            COMMAND copy "modules\\event\\coroutine_event.dll"    "test\\coroutine_event.dll"
+            COMMAND copy "modules\\net\\coroutine_net.dll"        "test\\coroutine_net.dll"
+            COMMAND copy "modules\\thread\\coroutine_thread.dll"  "test\\coroutine_thread.dll"
+            COMMAND copy "modules\\concrt\\concrt.dll"            "test\\concrt.dll"
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+            DEPENDS coro::event coro::net coro::thread concrt
+        )
+    elseif(MSVC)
+        # for release build, 
+        #   cmake --build . --config release
+        add_custom_target(copy_dll_concurrency_helper
+            COMMENT "Test executables need dll. Copying with the Command Prompt ..."
+            COMMAND copy "modules\\event\\${CMAKE_BUILD_TYPE}\\coroutine_event.dll"    "test\\${CMAKE_BUILD_TYPE}\\coroutine_event.dll"
+            COMMAND copy "modules\\net\\${CMAKE_BUILD_TYPE}\\coroutine_net.dll"        "test\\${CMAKE_BUILD_TYPE}\\coroutine_net.dll"
+            COMMAND copy "modules\\thread\\${CMAKE_BUILD_TYPE}\\coroutine_thread.dll"  "test\\${CMAKE_BUILD_TYPE}\\coroutine_thread.dll"
+            COMMAND copy "modules\\concrt\\${CMAKE_BUILD_TYPE}\\concrt.dll"            "test\\${CMAKE_BUILD_TYPE}\\concrt.dll"
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+            DEPENDS coro::event coro::net coro::thread concrt
+        )
+    endif()
 endif()
 
 # generate_exe_test( ... )
@@ -65,7 +79,7 @@ function(generate_exe_test NAME)
             _CRT_SECURE_NO_WARNINGS
         )
         # copy dependent dlls to the folder where test executables are located
-        if(BUILD_SHARED_LIBS AND ${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+        if(BUILD_SHARED_LIBS)
             add_dependencies(${TEST_NAME} copy_dll_concurrency_helper)
         endif()
     endif()

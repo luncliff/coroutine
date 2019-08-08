@@ -46,6 +46,15 @@ jobs:
       inputs:
         targetType: 'inline'
         script: git submodule update --init --recursive;
-    - task: msbuild@1
+    - task: MSBuild@1
       inputs:
         solution: ${{ parameters.solution }}
+        msbuildArchitecture: $(platform)
+        platform: $(platform)
+        configuration: $(configuration)
+        msbuildArguments: '/p:platformtoolset=v141'
+    - task: VSTest@2
+      inputs:
+        testAssemblyVer2: |
+          **\*vstest*.dll
+        codeCoverageEnabled: true

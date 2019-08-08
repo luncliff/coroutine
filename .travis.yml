@@ -95,7 +95,7 @@ script:
     -DBUILD_SHARED_LIBS=${SHARED}
     -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
     -DUSE_PORTABLE_HEADER=${PORTABLE}
-  - cmake --build .
+  - cmake --build . --config ${BUILD_TYPE}
   - cmake --build . --target install
   - ctest --output-on-failure
 
