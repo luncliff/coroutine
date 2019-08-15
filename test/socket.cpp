@@ -4,11 +4,10 @@
 //
 #include "socket.h"
 
-#include <coroutine/net.h>
-
 using namespace std;
+using namespace coro;
 
-#define _require_(cond)                                                          \
+#define _require_(cond)                                                        \
     if ((cond) == false) {                                                     \
         printf("%s %d\n", __FILE__, __LINE__);                                 \
         exit(__LINE__);                                                        \
@@ -21,7 +20,6 @@ using namespace std;
         exit(__LINE__);                                                        \
     }
 #define FAIL_WITH_CODE(ec) FAIL_WITH_MESSAGE(system_category().message(ec));
-
 
 int64_t socket_create(const addrinfo& hint) {
     int64_t sd = ::socket(hint.ai_family, hint.ai_socktype, hint.ai_protocol);
@@ -41,9 +39,16 @@ socklen_t get_length(const endpoint_t& ep) noexcept {
     return len;
 }
 
-void socket_bind(int64_t sd, const endpoint_t& ep) {
+void socket_bind(int64_t sd, const sockaddr_in& local) {
     // bind socket and address
-    if (::bind(sd, &ep.addr, get_length(ep))) {
+    if (::bind(sd, (const sockaddr*)&local, sizeof(sockaddr_in))) {
+        auto ec = recent_net_error();
+        FAIL_WITH_CODE(ec);
+    }
+}
+void socket_bind(int64_t sd, const sockaddr_in6& local) {
+    // bind socket and address
+    if (::bind(sd, (const sockaddr*)&local, sizeof(sockaddr_in6))) {
         auto ec = recent_net_error();
         FAIL_WITH_CODE(ec);
     }
@@ -56,8 +61,43 @@ void socket_listen(int64_t sd) {
     }
 }
 
-int64_t socket_connect(int64_t sd, const endpoint_t& remote) {
-    return ::connect(sd, &remote.addr, get_length(remote));
+int64_t socket_connect(int64_t sd, const sockaddr_in& remote) {
+    if (::connect(sd, (const sockaddr*)&remote, sizeof(sockaddr_in)) < 0)
+        return recent_net_error();
+    return 0;
+}
+int64_t socket_connect(int64_t sd, const sockaddr_in6& remote) {
+    if (::connect(sd, (const sockaddr*)&remote, sizeof(sockaddr_in6)) < 0)
+        return recent_net_error();
+    return 0;
+}
+
+int64_t socket_get_name(int64_t sd, sockaddr_in& local) {
+    socklen_t len = sizeof(sockaddr_in);
+    if (getsockname(gsl::narrow_cast<int64_t>(sd), (sockaddr*)&local, &len))
+        return recent_net_error();
+    return 0;
+}
+
+int64_t socket_get_name(int64_t sd, sockaddr_in6& local) {
+    socklen_t len = sizeof(sockaddr_in6);
+    if (getsockname(gsl::narrow_cast<int64_t>(sd), (sockaddr*)&local, &len))
+        return recent_net_error();
+    return 0;
+}
+
+int64_t socket_get_peer(int64_t sd, sockaddr_in& local) {
+    socklen_t len = sizeof(sockaddr_in);
+    if (getpeername(gsl::narrow_cast<int64_t>(sd), (sockaddr*)&local, &len))
+        return recent_net_error();
+    return 0;
+}
+
+int64_t socket_get_peer(int64_t sd, sockaddr_in6& local) {
+    socklen_t len = sizeof(sockaddr_in6);
+    if (getpeername(gsl::narrow_cast<int64_t>(sd), (sockaddr*)&local, &len))
+        return recent_net_error();
+    return 0;
 }
 
 int64_t socket_accept(int64_t ln) {

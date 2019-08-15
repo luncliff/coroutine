@@ -12,6 +12,8 @@
     <ClCompile Include="..\net_get_nameinfo_v6.cpp" />
     <ClCompile Include="..\socket.cpp" />
     <ClCompile Include="..\test.cpp" />
+    <ClCompile Include="..\net_socket_tcp_echo.cpp" />
+    <ClCompile Include="..\net_socket_udp_echo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\socket.h" />

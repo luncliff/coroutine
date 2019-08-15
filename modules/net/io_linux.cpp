@@ -4,12 +4,12 @@
 //
 #include <coroutine/net.h>
 
-#include "./event_poll.h"
+#include "event_poll.h"
 
 static_assert(sizeof(ssize_t) <= sizeof(int64_t));
 using namespace std;
 using namespace std::chrono;
-using namespace coro;
+namespace coro {
 
 event_poll_t inbound{}, outbound{};
 
@@ -199,3 +199,5 @@ int64_t io_recv::resume() noexcept {
     errc = sz < 0 ? errno : 0;
     return sz;
 }
+
+} // namespace coro

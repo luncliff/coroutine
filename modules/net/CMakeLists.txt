@@ -80,6 +80,10 @@ if(WIN32)
     PRIVATE
         io_windows.cpp
     )
+    target_link_libraries(coroutine_net
+    PUBLIC
+        ws2_32 mswsock
+    )
 elseif(APPLE)
     target_sources(coroutine_net
     PRIVATE

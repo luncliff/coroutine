@@ -11,7 +11,8 @@
 static_assert(sizeof(ssize_t) <= sizeof(int64_t));
 using namespace std;
 using namespace std::chrono;
-using namespace coro;
+
+namespace coro {
 
 kernel_queue_t kq{};
 
@@ -222,3 +223,4 @@ int64_t io_recv::resume() noexcept {
     errc = sz < 0 ? errno : 0;
     return sz;
 }
+} // namespace coro

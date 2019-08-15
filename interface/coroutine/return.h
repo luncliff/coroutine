@@ -25,10 +25,10 @@ using namespace std::experimental;
 class promise_return_destroy {
   public:
     auto initial_suspend() noexcept {
-        return suspend_never{};
+        return suspend_never{}; // no suspend after invoke
     }
     auto final_suspend() noexcept {
-        return suspend_never{};
+        return suspend_never{}; // no suspend after return
     }
     void unhandled_exception() noexcept(false) {
         // customize this part
@@ -38,10 +38,23 @@ class promise_return_destroy {
 class promise_return_preserve {
   public:
     auto initial_suspend() noexcept {
-        return suspend_never{};
+        return suspend_never{}; // no suspend after invoke
     }
     auto final_suspend() noexcept {
-        return suspend_always{};
+        return suspend_always{}; // suspend after return
+    }
+    void unhandled_exception() noexcept(false) {
+        // customize this part
+    }
+};
+
+class promise_manual_control {
+  public:
+    auto initial_suspend() noexcept {
+        return suspend_always{}; // suspend after invoke
+    }
+    auto final_suspend() noexcept {
+        return suspend_always{}; // suspend after return
     }
     void unhandled_exception() noexcept(false) {
         // customize this part

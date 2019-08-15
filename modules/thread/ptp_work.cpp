@@ -21,14 +21,15 @@ auto get_threads_of(DWORD pid) noexcept(false) -> enumerable<DWORD> {
 
     auto h = gsl::finally([=]() noexcept { CloseHandle(snapshot); });
 
-    auto entry = THREADENTRY32{};
-    entry.dwSize = sizeof(entry);
+    THREADENTRY32 entry{};
+    entry.dwSize = sizeof(THREADENTRY32);
 
-    for (Thread32First(snapshot, &entry); Thread32Next(snapshot, &entry);
-         entry.dwSize = sizeof(entry)) {
+    for (Thread32First(snapshot, &entry); Thread32Next(snapshot, &entry);) {
         // filter other process's threads
         if (entry.th32OwnerProcessID != pid)
             co_yield entry.th32ThreadID;
+
+        entry.dwSize = sizeof(THREADENTRY32);
     }
 }
 

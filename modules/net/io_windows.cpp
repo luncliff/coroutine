@@ -6,13 +6,25 @@
 
 using namespace std;
 using namespace gsl;
-using namespace coro;
+namespace coro {
 
 void wait_net_tasks(coro::enumerable<io_task_t>& tasks,
                     std::chrono::nanoseconds) noexcept(false) {
     // windows implementation rely on callback.
     // So there is noting to yield ...
     tasks = coro::enumerable<io_task_t>{};
+}
+
+bool is_async_pending(int ec) noexcept {
+    switch (ec) {
+    case WSAEWOULDBLOCK:
+    case EWOULDBLOCK:
+    case EINPROGRESS:
+    case ERROR_IO_PENDING:
+        return true;
+    default:
+        return false;
+    }
 }
 
 GSL_SUPPRESS(type .1)
@@ -102,15 +114,12 @@ void io_send_to::suspend(io_task_t t) noexcept(false) {
     ::WSASendTo(sd, bufs, 1, nullptr, flag, addr, addrlen,
                 zero_overlapped(this), onWorkDone);
 
-    const auto ec = WSAGetLastError();
-    if (ec == NO_ERROR)
-        return;
-    // ok. expected for async i/o
-    if (ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS ||
-        ec == ERROR_IO_PENDING)
-        return;
+    if (const auto ec = WSAGetLastError()) {
+        if (is_async_pending(ec))
+            return;
 
-    throw system_error{ec, system_category(), "WSASendTo"};
+        throw system_error{ec, system_category(), "WSASendTo"};
+    }
 }
 
 int64_t io_send_to::resume() noexcept {
@@ -154,15 +163,12 @@ void io_recv_from::suspend(io_task_t t) noexcept(false) {
     ::WSARecvFrom(sd, bufs, 1, nullptr, &flag, addr, &addrlen,
                   zero_overlapped(this), onWorkDone);
 
-    const auto ec = WSAGetLastError();
-    if (ec == NO_ERROR)
-        return;
-    // ok. expected for async i/o
-    if (ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS ||
-        ec == ERROR_IO_PENDING)
-        return;
+    if (const auto ec = WSAGetLastError()) {
+        if (is_async_pending(ec))
+            return;
 
-    throw system_error{ec, system_category(), "WSARecvFrom"};
+        throw system_error{ec, system_category(), "WSARecvFrom"};
+    }
 }
 
 int64_t io_recv_from::resume() noexcept {
@@ -190,15 +196,12 @@ void io_send::suspend(io_task_t t) noexcept(false) {
 
     ::WSASend(sd, bufs, 1, nullptr, flag, zero_overlapped(this), onWorkDone);
 
-    const auto ec = WSAGetLastError();
-    if (ec == NO_ERROR)
-        return;
-    // ok. expected for async i/o
-    if (ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS ||
-        ec == ERROR_IO_PENDING)
-        return;
+    if (const auto ec = WSAGetLastError()) {
+        if (is_async_pending(ec))
+            return;
 
-    throw system_error{ec, system_category(), "WSASend"};
+        throw system_error{ec, system_category(), "WSASend"};
+    }
 }
 
 int64_t io_send::resume() noexcept {
@@ -226,17 +229,16 @@ void io_recv::suspend(io_task_t t) noexcept(false) {
 
     ::WSARecv(sd, bufs, 1, nullptr, &flag, zero_overlapped(this), onWorkDone);
 
-    const auto ec = WSAGetLastError();
-    if (ec == NO_ERROR)
-        return;
-    // ok. expected for async i/o
-    if (ec == WSAEWOULDBLOCK || ec == EWOULDBLOCK || ec == EINPROGRESS ||
-        ec == ERROR_IO_PENDING)
-        return;
+    if (const auto ec = WSAGetLastError()) {
+        if (is_async_pending(ec))
+            return;
 
-    throw system_error{ec, system_category(), "WSARecv"};
+        throw system_error{ec, system_category(), "WSARecv"};
+    }
 }
 
 int64_t io_recv::resume() noexcept {
     return gsl::narrow_cast<int64_t>(InternalHigh);
 }
+
+} // namespace coro

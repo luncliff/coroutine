@@ -27,24 +27,22 @@
 
 #ifndef COROUTINE_NET_IO_H
 #define COROUTINE_NET_IO_H
-#include <coroutine/yield.hpp>
 
 #include <chrono>
 #include <gsl/gsl>
+#include <coroutine/yield.hpp>
 
-#if defined(_MSC_VER) // use winsock
+#if __has_include(<WinSock2.h>) // use winsock
 #include <WS2tcpip.h>
 #include <WinSock2.h>
 #include <ws2def.h>
-#pragma comment(lib, "Ws2_32.lib")
 
 using io_control_block = OVERLAPPED;
 
 static constexpr bool is_winsock = true;
 static constexpr bool is_netinet = false;
 
-#elif defined(__unix__) || defined(__linux__) || defined(__APPLE__)
-// use netinet
+#elif __has_include(<netinet/in.h>) // use netinet
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -71,7 +69,11 @@ static constexpr bool is_netinet = true;
 
 #endif // winsock || netinet
 
-//  Helper type for socket address. it will be used for simplicity
+namespace coro {
+using namespace std;
+using namespace std::experimental;
+
+//  Helper type for socket address. It will be used only for simplicity
 union endpoint_t final {
     sockaddr_storage storage{};
     sockaddr addr;
@@ -79,7 +81,7 @@ union endpoint_t final {
     sockaddr_in6 in6;
 };
 
-//  1 task item == 1 coroutine function
+//  1 I/O task == 1 coroutine function
 using io_task_t = std::experimental::coroutine_handle<void>;
 
 //  This is simply a view to storage. Be aware that it doesn't have ownership
@@ -220,9 +222,11 @@ auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag, //
 
 // clang-format on
 
-//  This function is for non-windows platform. Over windows api, it always
-//  yields nothing. User must continue loop *without break*
-//  so that there is leak of event.
+//  This function is for non-Windows platform.
+//  Over Windows api, it always yields **nothing**.
+//
+//  Its caller must continue the loop without break
+//  so there is no leak of the I/O events
 //
 //  Also, the library doesn't guarantee all coroutines(i/o tasks) will be
 //  fetched at once. Therefore it is strongly recommended for user to have
@@ -260,7 +264,7 @@ inline auto resolve(const addrinfo& hint, //
                     czstring_host name, czstring_serv serv) noexcept(false)
     -> coro::enumerable<endpoint_t> {
     coro::enumerable<endpoint_t> g{};
-    if (auto ec = resolve(g, hint, name, serv)) {
+    if (const auto ec = resolve(g, hint, name, serv)) {
         throw resolve_error(ec);
     }
     return g;
@@ -268,13 +272,14 @@ inline auto resolve(const addrinfo& hint, //
 
 // clang-format off
 
-//  Thin wrapper of `getnameinfo`
-//  parameter `serv` can be `nullptr`.
+//  Thin wrapper of `getnameinfo`. 'serv' can be nullptr.
 [[nodiscard]] _INTERFACE_
 int get_name(const endpoint_t& ep, //
              zstring_host name, zstring_serv serv, 
              int flags = NI_NUMERICHOST | NI_NUMERICSERV) noexcept;
 
 // clang-format on
+
+} // namespace coro
 
 #endif // COROUTINE_NET_IO_H

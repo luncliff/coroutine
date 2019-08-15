@@ -6,7 +6,7 @@
 #include <gsl/gsl>
 
 using namespace std;
-using namespace coro;
+namespace coro {
 
 GSL_SUPPRESS(type .1)
 int get_name(const endpoint_t& ep, //
@@ -62,14 +62,4 @@ int resolve(coro::enumerable<endpoint_t>& g,
     return 0;
 }
 
-errc peer_name(uint64_t sd, endpoint_t& ep, socklen_t len) noexcept {
-    if (getpeername(gsl::narrow_cast<int64_t>(sd), addressof(ep.addr), &len))
-        return static_cast<errc>(errno);
-    return errc{};
-}
-
-errc sock_name(uint64_t sd, endpoint_t& ep, socklen_t len) noexcept {
-    if (getsockname(gsl::narrow_cast<int64_t>(sd), addressof(ep.addr), &len))
-        return static_cast<errc>(errno);
-    return errc{};
-}
+} // namespace coro
