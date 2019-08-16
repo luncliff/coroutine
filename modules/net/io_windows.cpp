@@ -80,8 +80,10 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, io_buffer_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to& {
 
     work.buffer = buffer;
-    work.ep = reinterpret_cast<endpoint_t*>(
-        const_cast<sockaddr_in6*>(addressof(remote)));
+    //work.ep = reinterpret_cast<endpoint_t*>(
+    //    const_cast<sockaddr_in6*>(addressof(remote)));
+    work.Pointer = reinterpret_cast<sockaddr*>(
+		const_cast<sockaddr_in6*>(addressof(remote)));
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
     // lead `co_await` operator to `io_send_to` type
@@ -93,7 +95,9 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to& {
 
     work.buffer = buffer;
-    work.ep = reinterpret_cast<endpoint_t*>(
+    //work.ep = reinterpret_cast<endpoint_t*>(
+    //    const_cast<sockaddr_in*>(addressof(remote)));
+    work.Pointer = reinterpret_cast<sockaddr*>(
         const_cast<sockaddr_in*>(addressof(remote)));
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
@@ -106,7 +110,8 @@ void io_send_to::suspend(io_task_t t) noexcept(false) {
     task = t; // coroutine will be resumed in overlapped callback
 
     const auto sd = gsl::narrow_cast<SOCKET>(Internal);
-    const auto addr = addressof(this->ep->addr);
+    //const auto addr = addressof(this->ep->addr);
+    auto addr = reinterpret_cast<sockaddr*>(Pointer);
     const auto addrlen = gsl::narrow_cast<socklen_t>(InternalHigh);
     const auto flag = DWORD{0};
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
@@ -131,7 +136,8 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from& {
 
     work.buffer = buffer;
-    work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
+    //work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
+    work.Pointer = reinterpret_cast<sockaddr*>(addressof(remote));
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
     // lead `co_await` operator to `io_recv_from` type
@@ -143,7 +149,8 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from& {
 
     work.buffer = buffer;
-    work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
+    //work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
+    work.Pointer = reinterpret_cast<sockaddr*>(addressof(remote));
     work.Internal = sd;
     work.InternalHigh = sizeof(remote);
     // lead `co_await` operator to `io_recv_from` type
@@ -155,7 +162,8 @@ void io_recv_from::suspend(io_task_t t) noexcept(false) {
     task = t; // coroutine will be resumed in overlapped callback
 
     const auto sd = gsl::narrow_cast<SOCKET>(Internal);
-    auto addr = addressof(this->ep->addr);
+    //auto addr = addressof(this->ep->addr);
+    auto addr = reinterpret_cast<sockaddr*>(Pointer);
     auto addrlen = gsl::narrow_cast<socklen_t>(InternalHigh);
     auto flag = DWORD{0};
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
