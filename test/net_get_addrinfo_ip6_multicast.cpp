@@ -2,8 +2,8 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <coroutine/net.h>
 #include "socket.h"
+#include <coroutine/net.h>
 
 #include "test.h"
 using namespace std;
@@ -20,10 +20,11 @@ auto net_getaddrinfo_ip6_multicast_test() {
 
     size_t count = 0u;
     // https://www.iana.org/assignments/ipv6-multicast-addresses/ipv6-multicast-addresses.xhtml
-    for (auto ep : resolve(hint, "FF0E::1", nullptr)) {
-        _require_(ep.in6.sin6_family == AF_INET6);
+    for (sockaddr& ep : resolve(hint, "FF0E::1", nullptr)) {
+        _require_(ep.sa_family == AF_INET6);
 
-        bool global = IN6_IS_ADDR_MC_GLOBAL(&ep.in6.sin6_addr);
+        const auto* in6 = reinterpret_cast<sockaddr_in6*>(addressof(ep));
+        bool global = IN6_IS_ADDR_MC_GLOBAL(addressof(in6->sin6_addr));
         _require_(global);
         ++count;
     }

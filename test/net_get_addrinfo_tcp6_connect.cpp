@@ -2,8 +2,8 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <coroutine/net.h>
 #include "socket.h"
+#include <coroutine/net.h>
 
 #include "test.h"
 using namespace std;
@@ -19,11 +19,13 @@ auto net_getaddrinfo_tcp6_connect_test() {
     hint.ai_flags = AI_ALL | AI_NUMERICHOST;
 
     size_t count = 0u;
-    for (auto ep : resolve(hint, "::1", "7")) {
-        _require_(ep.in6.sin6_family == AF_INET6);
-        _require_(ep.in6.sin6_port == htons(7));
+    for (sockaddr& ep : resolve(hint, "::1", "7")) {
+        _require_(ep.sa_family == AF_INET6);
 
-        auto loopback = IN6_IS_ADDR_LOOPBACK(&ep.in6.sin6_addr);
+        const auto* in6 = reinterpret_cast<sockaddr_in6*>(addressof(ep));
+        _require_(in6->sin6_port == htons(7));
+
+        bool loopback = IN6_IS_ADDR_LOOPBACK(addressof(in6->sin6_addr));
         _require_(loopback);
         ++count;
     }

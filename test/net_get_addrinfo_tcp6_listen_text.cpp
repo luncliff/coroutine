@@ -2,8 +2,8 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <coroutine/net.h>
 #include "socket.h"
+#include <coroutine/net.h>
 
 #include "test.h"
 using namespace std;
@@ -20,9 +20,10 @@ auto net_getaddrinfo_tcp6_listen_text_test() {
     hint.ai_flags = AI_PASSIVE | AI_V4MAPPED;
 
     size_t count = 0u;
-    for (auto ep : resolve(hint, nullptr, "https")) {
-        _require_(ep.in6.sin6_family == AF_INET6);
-        _require_(ep.in6.sin6_port == htons(443));
+    for (sockaddr& ep : resolve(hint, nullptr, "https")) {
+        _require_(ep.sa_family == AF_INET6);
+        const auto* in6 = reinterpret_cast<sockaddr_in6*>(addressof(ep));
+        _require_(in6->sin6_port == htons(443));
         ++count;
     }
     _require_(count > 0);

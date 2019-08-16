@@ -2,8 +2,8 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <coroutine/net.h>
 #include "socket.h"
+#include <coroutine/net.h>
 
 #include "test.h"
 using namespace std;
@@ -20,10 +20,11 @@ auto net_getaddrinfo_ip6_bind_test() {
 
     size_t count = 0u;
     // since this is ipv6, ignore port(service) number
-    for (auto ep : resolve(hint, "::0.0.0.0", nullptr)) {
-        _require_(ep.in6.sin6_family == AF_INET6);
+    for (sockaddr& ep : resolve(hint, "::0.0.0.0", nullptr)) {
+        _require_(ep.sa_family == AF_INET6);
 
-        bool unspec = IN6_IS_ADDR_UNSPECIFIED(&ep.in6.sin6_addr);
+        const auto* in6 = reinterpret_cast<sockaddr_in6*>(addressof(ep));
+        bool unspec = IN6_IS_ADDR_UNSPECIFIED(addressof(in6->sin6_addr));
         _require_(unspec);
         ++count;
     }

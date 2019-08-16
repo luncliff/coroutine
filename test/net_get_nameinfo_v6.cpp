@@ -2,8 +2,8 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <coroutine/net.h>
 #include "socket.h"
+#include <coroutine/net.h>
 
 #include "test.h"
 using namespace std;
@@ -18,19 +18,18 @@ auto net_getnameinfo_v6_test() -> int {
     zstring_host name = name_buffer.get();
     zstring_serv serv = serv_buffer.get();
 
-    endpoint_t ep{};
-    sockaddr_in6& ip = ep.in6;
-    ip.sin6_family = AF_INET6;
-    ip.sin6_addr = in6addr_any;
-    ip.sin6_port = htons(7654);
+    sockaddr_in6 in6{};
+    in6.sin6_family = AF_INET6;
+    in6.sin6_addr = in6addr_any;
+    in6.sin6_port = htons(7654);
 
     // non-zero for error.
     // the value is redirected from `getnameinfo`
-    if (auto ec = get_name(ep, name, nullptr)) {
+    if (auto ec = get_name(in6, name, nullptr)) {
         return __LINE__;
     }
     // retry with service name buffer
-    if (auto ec = get_name(ep, name, serv)) {
+    if (auto ec = get_name(in6, name, serv)) {
         return __LINE__;
     }
     return EXIT_SUCCESS;

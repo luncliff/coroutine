@@ -27,7 +27,7 @@ void kernel_queue_t::change(kevent64_s& req) noexcept(false) {
         throw system_error{errno, system_category(), "kevent64"};
 }
 auto kernel_queue_t::wait(const timespec& ts) noexcept(false)
-    -> coro::enumerable<kevent64_s> {
+    -> enumerable<kevent64_s> {
     // wait for events ...
     auto count = kevent64(kqfd, nullptr, 0,       //
                           events.get(), capacity, //

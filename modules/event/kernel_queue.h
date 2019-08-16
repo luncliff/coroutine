@@ -26,8 +26,7 @@ struct _INTERFACE_ kernel_queue_t final {
     ~kernel_queue_t() noexcept;
 
     void change(kevent64_s& req) noexcept(false);
-    auto wait(const timespec& ts) noexcept(false)
-        -> coro::enumerable<kevent64_s>;
+    auto wait(const timespec& ts) noexcept(false) -> enumerable<kevent64_s>;
 };
 
 } // namespace coro

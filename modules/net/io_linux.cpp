@@ -9,6 +9,7 @@
 static_assert(sizeof(ssize_t) <= sizeof(int64_t));
 using namespace std;
 using namespace std::chrono;
+
 namespace coro {
 
 event_poll_t inbound{}, outbound{};
@@ -49,8 +50,7 @@ uint32_t io_work_t::error() const noexcept {
 auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to& {
     work.handle = sd;
-    work.ep = reinterpret_cast<endpoint_t*>(
-        const_cast<sockaddr_in*>(addressof(remote)));
+    work.ptr = const_cast<sockaddr_in*>(addressof(remote));
     work.offset = sizeof(sockaddr_in);
     work.buffer = buffer;
     return *reinterpret_cast<io_send_to*>(addressof(work));
@@ -59,8 +59,7 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buffer,
 auto send_to(uint64_t sd, const sockaddr_in6& remote, io_buffer_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to& {
     work.handle = sd;
-    work.ep = reinterpret_cast<endpoint_t*>(
-        const_cast<sockaddr_in6*>(addressof(remote)));
+    work.ptr = const_cast<sockaddr_in6*>(addressof(remote));
     work.offset = sizeof(sockaddr_in6);
     work.buffer = buffer;
     return *reinterpret_cast<io_send_to*>(addressof(work));
@@ -80,7 +79,7 @@ void io_send_to::suspend(io_task_t rh) noexcept(false) {
 
 int64_t io_send_to::resume() noexcept {
     auto sd = this->handle;
-    auto addr = addressof(this->ep->addr);
+    auto addr = reinterpret_cast<sockaddr*>(this->ptr);
     auto addrlen = static_cast<socklen_t>(this->offset);
     auto& errc = this->internal;
     auto sz = sendto(sd, buffer.data(), buffer.size_bytes(), //
@@ -95,7 +94,7 @@ int64_t io_send_to::resume() noexcept {
 auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from& {
     work.handle = sd;
-    work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
+    work.ptr = reinterpret_cast<endpoint_t*>(addressof(remote));
     work.offset = sizeof(sockaddr_in);
     work.buffer = buffer;
     return *reinterpret_cast<io_recv_from*>(addressof(work));
@@ -104,7 +103,7 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buffer,
 auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from& {
     work.handle = sd;
-    work.ep = reinterpret_cast<endpoint_t*>(addressof(remote));
+    work.ptr = reinterpret_cast<endpoint_t*>(addressof(remote));
     work.offset = sizeof(sockaddr_in6);
     work.buffer = buffer;
     return *reinterpret_cast<io_recv_from*>(addressof(work));
@@ -124,7 +123,7 @@ void io_recv_from::suspend(io_task_t rh) noexcept(false) {
 
 int64_t io_recv_from::resume() noexcept {
     auto sd = this->handle;
-    auto addr = addressof(this->ep->addr);
+    auto addr = reinterpret_cast<sockaddr*>(this->ptr);
     auto addrlen = static_cast<socklen_t>(this->offset);
     auto& errc = this->internal;
     auto sz = recvfrom(sd, buffer.data(), buffer.size_bytes(), //

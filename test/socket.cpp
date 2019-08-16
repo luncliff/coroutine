@@ -30,15 +30,6 @@ int64_t socket_create(const addrinfo& hint) {
     return sd;
 }
 
-socklen_t get_length(const endpoint_t& ep) noexcept {
-    socklen_t len{};
-    if (ep.storage.ss_family == AF_INET)
-        len = sizeof(sockaddr_in);
-    if (ep.storage.ss_family == AF_INET6)
-        len = sizeof(sockaddr_in6);
-    return len;
-}
-
 void socket_bind(int64_t sd, const sockaddr_in& local) {
     // bind socket and address
     if (::bind(sd, (const sockaddr*)&local, sizeof(sockaddr_in))) {

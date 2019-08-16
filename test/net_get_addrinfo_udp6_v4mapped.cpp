@@ -2,8 +2,8 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
-#include <coroutine/net.h>
 #include "socket.h"
+#include <coroutine/net.h>
 
 #include "test.h"
 using namespace std;
@@ -19,10 +19,12 @@ auto net_getaddrinfo_udp6_bind_v4mapped_test() {
     hint.ai_flags = AI_ALL | AI_V4MAPPED | AI_NUMERICHOST | AI_NUMERICSERV;
 
     size_t count = 0u;
-    for (auto ep : resolve(hint, "::ffff:192.168.0.1", "9287")) {
-        _require_(ep.in6.sin6_port == htons(9287));
+    for (sockaddr& ep : resolve(hint, "::ffff:192.168.0.1", "9287")) {
+        _require_(ep.sa_family == AF_INET6);
+        const auto* in6 = reinterpret_cast<sockaddr_in6*>(addressof(ep));
+        _require_(in6->sin6_port == htons(9287));
 
-        bool v4mapped = IN6_IS_ADDR_V4MAPPED(&ep.in6.sin6_addr);
+        bool v4mapped = IN6_IS_ADDR_V4MAPPED(addressof(in6->sin6_addr));
         _require_(v4mapped);
         ++count;
     }
