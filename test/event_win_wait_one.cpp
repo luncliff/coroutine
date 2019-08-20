@@ -6,15 +6,17 @@
 #include <coroutine/return.h>
 #include <coroutine/thread.h>
 
+#include <atomic>
+
 #include "test.h"
 using namespace std;
 using namespace coro;
 
 // we can't use rvalue reference. this design is necessary because
-// `ptp_event` uses INFINITE wait internally.
+// `set_or_cancel` uses INFINITE wait internally.
 // so, with the reference, user must sure one of `SetEvent` or `cancel` will
 // happen in the future
-auto wait_an_event(ptp_event& token, atomic_flag& flag) -> forget_frame {
+auto wait_an_event(set_or_cancel& token, atomic_flag& flag) -> forget_frame {
     // wait for set or cancel
     // `co_await` will forward `GetLastError` if canceled.
     if (DWORD ec = co_await token) {
@@ -35,7 +37,7 @@ auto set_after_sleep(HANDLE ev, uint32_t ms) -> forget_frame {
     }
 }
 
-auto ptp_event_wait_one_test() {
+auto set_or_cancel_wait_one_test() {
     HANDLE e = CreateEventEx(nullptr, nullptr, //
                              CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
     if (e) // if statement because of C6387
@@ -59,8 +61,8 @@ auto ptp_event_wait_one_test() {
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
-    return ptp_event_wait_one_test();
+int main(int, char*[]) {
+    return set_or_cancel_wait_one_test();
 }
 
 #elif __has_include(<CppUnitTest.h>)
@@ -69,9 +71,9 @@ int main(int, char* []) {
 template <typename T>
 using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
 
-class ptp_event_wait_one : public TestClass<ptp_event_wait_one> {
-    TEST_METHOD(test_ptp_event_wait_one) {
-        ptp_event_wait_one_test();
+class set_or_cancel_wait_one : public TestClass<set_or_cancel_wait_one> {
+    TEST_METHOD(test_set_or_cancel_wait_one) {
+        set_or_cancel_wait_one_test();
     }
 };
 #endif

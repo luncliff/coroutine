@@ -6,11 +6,13 @@
 #include <coroutine/return.h>
 
 #include <array>
+#include <atomic>
 
 using namespace std;
 using namespace coro;
 
-auto wait_three_events(event& e1, event& e2, event& e3, atomic<uint32_t>& flag)
+auto wait_three_events(auto_reset_event& e1, auto_reset_event& e2,
+                       auto_reset_event& e3, atomic<uint32_t>& flag)
     -> forget_frame {
     co_await e1;
     co_await e2;
@@ -19,7 +21,7 @@ auto wait_three_events(event& e1, event& e2, event& e3, atomic<uint32_t>& flag)
 }
 
 auto concrt_event_wait_multiple_events_test() {
-    array<event, 3> events{};
+    array<auto_reset_event, 3> events{};
     atomic<uint32_t> flag{};
     wait_three_events(events[0], events[1], events[2], flag);
 
@@ -38,7 +40,7 @@ auto concrt_event_wait_multiple_events_test() {
 }
 
 #if !__has_include(<CppUnitTest.h>)
-int main(int, char* []) {
+int main(int, char*[]) {
     return concrt_event_wait_multiple_events_test();
 }
 #endif

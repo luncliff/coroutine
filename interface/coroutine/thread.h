@@ -77,28 +77,21 @@ namespace coro {
 using namespace std;
 using namespace std::experimental;
 
-// work like `ptp_work` of win32 based interface, but rely on standard
+// work like `ptp_work` of win32 based interface, but rely on the standard
 class ptp_work final {
-    coroutine_handle<void> rh;
-
   private:
     void on_suspend(coroutine_handle<void> handle) noexcept(false) {
-        rh = handle;
         async(launch::async, [handle]() mutable { handle.resume(); });
-    }
-    void on_resume() noexcept {
-        rh = nullptr; // forget it
     }
 
   public:
     constexpr bool await_ready() const noexcept {
         return false;
     }
-    void await_suspend(coroutine_handle<void> handle) noexcept(false) {
+    auto await_suspend(coroutine_handle<void> handle) noexcept(false) {
         return this->on_suspend(handle);
     }
-    void await_resume() noexcept {
-        return this->on_resume();
+    constexpr void await_resume() noexcept {
     }
 };
 

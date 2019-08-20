@@ -3,6 +3,7 @@
 //  License : CC BY 4.0
 //
 #include <coroutine/event.h>
+#include <system_error>
 
 #include "event_poll.h"
 
@@ -46,20 +47,20 @@ uint64_t make_signaled(int64_t efd) noexcept(false) {
     return emask | static_cast<uint64_t>(efd);
 }
 
-event::event() noexcept(false) : state{} {
+auto_reset_event::auto_reset_event() noexcept(false) : state{} {
     const auto fd = ::eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
     if (fd == -1)
         throw system_error{errno, system_category(), "eventfd"};
 
     this->state = fd; // start with unsignaled state
 }
-event::~event() noexcept {
+auto_reset_event::~auto_reset_event() noexcept {
     // if already closed, fd == 0
     if (auto fd = get_eventfd(state))
         close(fd);
 }
 
-void event::set() noexcept(false) {
+void auto_reset_event::set() noexcept(false) {
     // already signaled. nothing to do...
     if (is_signaled(state))
         // !!! under the race condition, this check is not safe !!!
@@ -69,17 +70,17 @@ void event::set() noexcept(false) {
     state = make_signaled(fd); // if it didn't throwed
                                //  it's signaled state from now
 }
-bool event::is_ready() const noexcept {
+bool auto_reset_event::is_ready() const noexcept {
     return is_signaled(state);
 }
-void event::on_resume() noexcept {
+void auto_reset_event::reset() noexcept {
     // make unsignaled state
     this->state = static_cast<decltype(state)>(get_eventfd(state));
 }
 
 // Reference
 //  https://github.com/grpc/grpc/blob/master/src/core/lib/iomgr/is_epollexclusive_available.cc
-void event::on_suspend(task t) noexcept(false) {
+void auto_reset_event::on_suspend(coroutine_handle<void> t) noexcept(false) {
     // just care if there was `write` for the eventfd
     //  when it happens, coroutine handle will be forwarded by epoll
     epoll_event req{};
@@ -90,20 +91,22 @@ void event::on_suspend(task t) noexcept(false) {
     selist.try_add(get_eventfd(state), req);
 }
 
-auto signaled_event_tasks() noexcept(false) -> coro::enumerable<event::task> {
-    event::task t{};
+auto signaled_event_tasks() noexcept(false)
+    -> coro::enumerable<coroutine_handle<void>> {
+    coroutine_handle<void> t{};
 
     // notice that the timeout is zero
     for (auto e : selist.wait(0)) {
-        // see also: `make_signaled`, `event::on_suspend`
+        // see also: `make_signaled`, `auto_reset_event::on_suspend`
         // we don't care about the internal counter.
         //  just receive the coroutine handle
-        t = event::task::from_address(e.data.ptr);
+        t = coroutine_handle<void>::from_address(e.data.ptr);
 
         // ensure we can resume it.
         // todo: check only for debug mode?
         if (t.done())
-            throw invalid_argument{"event::task is already done state"};
+            throw invalid_argument{
+                "coroutine_handle<void> is already done state"};
 
         co_yield t;
     }

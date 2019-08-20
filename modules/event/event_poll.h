@@ -5,10 +5,9 @@
 #pragma once
 #ifndef LINUX_EVENT_POLL_API_WRAPPER_H
 #define LINUX_EVENT_POLL_API_WRAPPER_H
-#include <memory>
 
 #include <coroutine/event.h>
-#include <coroutine/yield.hpp>
+#include <memory>
 
 #include <fcntl.h>
 #include <sys/epoll.h>

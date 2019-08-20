@@ -5,16 +5,18 @@
 #include <coroutine/event.h>
 #include <coroutine/return.h>
 
+#include <atomic>
+using namespace std;
 using namespace coro;
 
-auto wait_for_multiple_times(event& e, atomic<uint32_t>& counter)
+auto wait_for_multiple_times(auto_reset_event& e, atomic<uint32_t>& counter)
     -> forget_frame {
     while (counter-- > 0)
         co_await e;
 }
 
 auto concrt_event_multiple_wait_on_event_test() {
-    event e1{};
+    auto_reset_event e1{};
     atomic<uint32_t> counter{};
 
     counter = 6;
@@ -36,7 +38,7 @@ auto concrt_event_multiple_wait_on_event_test() {
 }
 
 #if !__has_include(<CppUnitTest.h>)
-int main(int, char* []) {
+int main(int, char*[]) {
     return concrt_event_multiple_wait_on_event_test();
 }
 #endif

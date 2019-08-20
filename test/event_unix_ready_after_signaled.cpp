@@ -7,7 +7,7 @@
 using namespace coro;
 
 auto concrt_event_ready_after_signaled_test() {
-    event e1{};
+    auto_reset_event e1{};
     e1.set(); // when the event is signaled,
               // `co_await` on it must proceed without suspend
     if (e1.await_ready() == false)
@@ -17,7 +17,7 @@ auto concrt_event_ready_after_signaled_test() {
 }
 
 #if !__has_include(<CppUnitTest.h>)
-int main(int, char* []) {
+int main(int, char*[]) {
     return concrt_event_ready_after_signaled_test();
 }
 #endif

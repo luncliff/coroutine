@@ -5,9 +5,14 @@
 #include <coroutine/event.h>
 #include <coroutine/return.h>
 
+#include <atomic>
+#include <system_error>
+
+using namespace std;
 using namespace coro;
 
-auto wait_for_one_event(event& e, atomic_flag& flag) -> forget_frame {
+auto wait_for_one_event(auto_reset_event& e, atomic_flag& flag)
+    -> forget_frame {
     try {
         // resume after the event is signaled ...
         co_await e;
@@ -15,13 +20,12 @@ auto wait_for_one_event(event& e, atomic_flag& flag) -> forget_frame {
         flag.test_and_set();
     } catch (system_error& e) {
         // event throws if there was an internal system error
-        ::fputs(e.what(), stderr);
-        ::exit(__LINE__);
+        std::terminate();
     }
 }
 
 auto concrt_event_wait_for_one_test() {
-    event e1{};
+    auto_reset_event e1{};
     atomic_flag flag = ATOMIC_FLAG_INIT;
 
     wait_for_one_event(e1, flag);
@@ -42,7 +46,7 @@ auto concrt_event_wait_for_one_test() {
 }
 
 #if !__has_include(<CppUnitTest.h>)
-int main(int, char* []) {
+int main(int, char*[]) {
     return concrt_event_wait_for_one_test();
 }
 #endif

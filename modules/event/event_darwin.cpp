@@ -20,22 +20,22 @@ namespace coro {
 // see also: `event_linux.cpp`
 kernel_queue_t selist{};
 
-// mock eventfd using pimpl idiom.
+// mock eventfd using pimpl
 // instead of `eventfd` in linux, we are going to use 'unix domain socket'
 // possible alternative is `fifo`, but it also requires path management.
-struct unix_event_t final {
+struct darwin_event final {
     int64_t sd;
     int64_t msg;
     sockaddr_un local;
 
   private:
-    unix_event_t(const unix_event_t&) = delete;
-    unix_event_t(unix_event_t&&) = delete;
-    unix_event_t& operator=(const unix_event_t&) = delete;
-    unix_event_t& operator=(unix_event_t&&) = delete;
+    darwin_event(const darwin_event&) = delete;
+    darwin_event(darwin_event&&) = delete;
+    darwin_event& operator=(const darwin_event&) = delete;
+    darwin_event& operator=(darwin_event&&) = delete;
 
   public:
-    unix_event_t() noexcept(false) : sd{}, msg{}, local{} {
+    darwin_event() noexcept(false) : sd{}, msg{}, local{} {
         constexpr const char pattern[] = "/tmp/coro_ev_XXXXXX"; // 19 char + 1
         static_assert(sizeof(pattern) == 20);
         static_assert(sizeof(pattern) < sizeof(sockaddr_un::sun_path));
@@ -71,7 +71,7 @@ struct unix_event_t final {
             throw se;
         }
     }
-    ~unix_event_t() noexcept {
+    ~darwin_event() noexcept {
         this->close();
     }
 
@@ -104,34 +104,28 @@ struct unix_event_t final {
     }
 };
 
-event::event() noexcept(false) : state{} {
-    auto* impl = new (std::nothrow) unix_event_t{};
-    if (impl == nullptr)
-        throw runtime_error{"failed to allocate data for event"};
-
+auto_reset_event::event() noexcept(false) : state{} {
+    auto* impl = new (std::nothrow) darwin_event{};
     state = reinterpret_cast<uint64_t>(impl);
 }
-event::~event() noexcept {
-    auto* impl = reinterpret_cast<unix_event_t*>(state);
+auto_reset_event::~event() noexcept {
+    auto* impl = reinterpret_cast<darwin_event*>(state);
     delete impl;
 }
 
-bool event::is_ready() const noexcept {
-    auto* impl = reinterpret_cast<unix_event_t*>(state);
+bool auto_reset_event::is_ready() const noexcept {
+    auto* impl = reinterpret_cast<darwin_event*>(state);
     return impl->is_signaled();
 }
 
-void event::set() noexcept(false) {
-    auto* impl = reinterpret_cast<unix_event_t*>(state);
-    if (impl->is_signaled())
-        // !!! under the race condition, this check is not safe !!!
-        return;
-
-    impl->signal();
+void auto_reset_event::set() noexcept(false) {
+    auto* impl = reinterpret_cast<darwin_event*>(state);
+    if (impl->is_signaled() == false)
+        impl->signal();
 }
 
-void event::on_suspend(task t) noexcept(false) {
-    auto* impl = reinterpret_cast<unix_event_t*>(state);
+void auto_reset_event::on_suspend(coroutine_handle<void> t) noexcept(false) {
+    auto* impl = reinterpret_cast<darwin_event*>(state);
 
     kevent64_s req{};
     req.ident = impl->sd;
@@ -143,34 +137,28 @@ void event::on_suspend(task t) noexcept(false) {
 
     selist.change(req);
 }
-void event::on_resume() noexcept {
-    auto* impl = reinterpret_cast<unix_event_t*>(state);
-    try {
-        // !!! throws `system_error` !!!
-        // this is intended
-        //  since the function must ensure it consumes message for the socket
-        impl->reset();
 
-    } catch (const system_error& e) {
-        // be explicit instead of c++ exception handler behavior
-        fputs(e.what(), stderr);
-
-        // normally we don't have a way to handle uds error ...
-        terminate();
-    }
+void auto_reset_event::reset() noexcept {
+    auto* impl = reinterpret_cast<darwin_event*>(state);
+    // throwing `system_error` is intended
+    //  since the function must ensure message consumption
+    impl->reset();
 }
 
-auto signaled_event_tasks() noexcept(false) -> coro::enumerable<event::task> {
-    event::task t{};
+auto signaled_event_tasks() noexcept(false)
+    -> coro::enumerable<coroutine_handle<void>> {
+    coroutine_handle<void> t{};
     timespec ts{}; // zero wait
 
     // notice that the timeout is zero
     for (auto ev : selist.wait(ts)) {
 
-        t = event::task::from_address(reinterpret_cast<void*>(ev.udata));
+        t = coroutine_handle<void>::from_address(
+            reinterpret_cast<void*>(ev.udata));
         // todo: check only for debug mode?
         if (t.done())
-            throw invalid_argument{"event::task is already done state"};
+            throw invalid_argument{
+                "coroutine_handle<void> is already done state"};
 
         co_yield t;
     }

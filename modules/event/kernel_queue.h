@@ -5,10 +5,9 @@
 #pragma once
 #ifndef DARWIN_KERNEL_QUEUE_API_WRAPPER_H
 #define DARWIN_KERNEL_QUEUE_API_WRAPPER_H
-#include <memory>
 
 #include <coroutine/event.h>
-#include <coroutine/yield.hpp>
+#include <memory>
 
 #include <fcntl.h>
 #include <sys/event.h>

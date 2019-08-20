@@ -83,7 +83,7 @@ class sequence final {
     }
 
   public:
-    class promise_type final {
+    class promise_type final : public promise_manual_control {
         friend class iterator;
         friend class sequence;
 
@@ -92,26 +92,22 @@ class sequence final {
         coroutine_handle<void> task{};
 
       public:
-        void unhandled_exception() noexcept {
-            std::terminate();
-        }
         auto get_return_object() noexcept -> promise_type* {
             return this;
         }
+        void unhandled_exception() noexcept {
+            std::terminate();
+        }
 
-        auto initial_suspend() const noexcept {
-            // Suspend immediately and let the iterator to resume
-            return suspend_always{};
-        }
-        auto final_suspend() const noexcept {
-            // Delete of `iterator` & `promise`
-            //
-            // Unfortunately, it's differ upon scenario that which one should
-            //   deleted before the other.
-            // Just suspend here and let them cooperate for it.
-            //
-            return suspend_always{};
-        }
+        // auto final_suspend() const noexcept {
+        //     // Delete of `iterator` & `promise`
+        //     //
+        //     // Unfortunately, it's differ upon scenario that which one should
+        //     //   deleted before the other.
+        //     // Just suspend here and let them cooperate for it.
+        //     //
+        //     return suspend_always{};
+        // }
 
         promise_type& yield_value(reference ref) noexcept {
             current = std::addressof(ref);

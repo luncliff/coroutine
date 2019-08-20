@@ -8,21 +8,13 @@
 #ifndef COROUTINE_YIELD_HPP
 #define COROUTINE_YIELD_HPP
 
-#if __has_include(<coroutine/frame.h>)
-#include <coroutine/frame.h>
-#elif __has_include(<experimental/coroutine>) // C++ 17
-#include <experimental/coroutine>
-#elif __has_include(<coroutine>) // C++ 20
-#include <coroutine>
-#else
-#error "expect header <experimental/coroutine> or <coroutine/frame.h>"
-#endif
+#include <coroutine/return.h>
 #include <iterator>
 
 namespace coro {
 using namespace std::experimental;
 
-// Another implementation of <experimental/generator>
+// <experimental/generator> from the VC++
 template <typename T>
 class enumerable {
   public:
@@ -72,19 +64,19 @@ class enumerable {
     }
 
   public:
-    class promise_type final
-    {
+    class promise_type final : public promise_manual_control {
         friend class iterator;
         friend class enumerable;
 
         pointer current = nullptr;
 
       public:
-        auto initial_suspend() const noexcept {
-            return suspend_always{};
+        promise_type* get_return_object() noexcept {
+            // enumerable will create coroutine handle from the address
+            return this;
         }
-        auto final_suspend() const noexcept {
-            return suspend_always{};
+        void unhandled_exception() noexcept {
+            std::terminate();
         }
 
         // `co_yield` expression. only for reference
@@ -92,20 +84,10 @@ class enumerable {
             current = std::addressof(ref);
             return suspend_always{};
         }
-
         // `co_return` expression
         void return_void() noexcept {
             // no more access to value
             current = nullptr;
-        }
-        void unhandled_exception() noexcept {
-            // just terminate?
-            std::terminate();
-        }
-
-        promise_type* get_return_object() noexcept {
-            // enumerable will create coroutine handle from the address
-            return this;
         }
     };
 

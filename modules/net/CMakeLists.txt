@@ -82,7 +82,7 @@ if(WIN32)
     )
     target_link_libraries(coroutine_net
     PUBLIC
-        ws2_32 mswsock
+        kernel32 ws2_32 mswsock
     )
 elseif(APPLE)
     target_sources(coroutine_net

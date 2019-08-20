@@ -6,8 +6,6 @@
 
 #include <system_error>
 
-#include <sys/eventfd.h>
-
 using namespace std;
 namespace coro {
 

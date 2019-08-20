@@ -96,11 +96,15 @@ if(ANDROID)
 elseif(WIN32)
     target_sources(coroutine_event
     PRIVATE
-        ptp_event.cpp
+        event_windows.cpp
     )
     target_compile_definitions(coroutine_event
     PUBLIC
         WIN32_LEAN_AND_MEAN NOMINMAX
+    )
+    target_link_libraries(coroutine_event
+    PUBLIC
+        kernel32
     )
 elseif(APPLE)
     target_sources(coroutine_event

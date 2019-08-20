@@ -33,7 +33,7 @@
     <ClCompile Include="concrt\latch_win32.cpp" />
     <ClCompile Include="concrt\section_win32.cpp" />
     <ClCompile Include="event\libmain.cpp" />
-    <ClCompile Include="event\ptp_event.cpp" />
+    <ClCompile Include="event\event_windows.cpp" />
     <ClCompile Include="net\io_windows.cpp" />
     <ClCompile Include="net\resolver.cpp" />
     <ClCompile Include="thread\ptp_work.cpp" />

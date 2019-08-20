@@ -202,17 +202,17 @@ static_assert(sizeof(io_recv) == sizeof(io_work_t));
     -> io_send_to&;
 
 //  Constructs awaitable `io_recv_from` object with the given parameters
-[[nodiscard]] _INTERFACE_                                         //
-    auto                                                          //
-    recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buf, //
-              io_work_t& work) noexcept(false)                    //
-    -> io_recv_from&;
-
-//  Constructs awaitable `io_recv_from` object with the given parameters
 [[nodiscard]] _INTERFACE_                                        //
     auto                                                         //
     recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buf, //
               io_work_t& work) noexcept(false)                   //
+    -> io_recv_from&;
+
+//  Constructs awaitable `io_recv_from` object with the given parameters
+[[nodiscard]] _INTERFACE_                                         //
+    auto                                                          //
+    recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buf, //
+              io_work_t& work) noexcept(false)                    //
     -> io_recv_from&;
 
 //  Constructs awaitable `io_send` object with the given parameters
@@ -264,7 +264,8 @@ int32_t resolve(enumerable<sockaddr>& g, const addrinfo& hint, //
                 czstring_host name, czstring_serv serv) noexcept;
 
 // construct system_error using `gai_strerror` function
-_INTERFACE_ auto resolve_error(int32_t ec) noexcept -> std::system_error;
+_INTERFACE_
+auto resolve_error(int32_t ec) noexcept -> std::system_error;
 
 inline auto resolve(const addrinfo& hint, //
                     czstring_host name, czstring_serv serv) noexcept(false)

@@ -51,7 +51,7 @@
     <ClCompile Include="event\libmain.cpp">
       <Filter>event</Filter>
     </ClCompile>
-    <ClCompile Include="event\ptp_event.cpp">
+    <ClCompile Include="event\event_windows.cpp">
       <Filter>event</Filter>
     </ClCompile>
     <ClCompile Include="net\io_windows.cpp">
