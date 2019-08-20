@@ -20,6 +20,22 @@ namespace coro {
 // see also: `event_linux.cpp`
 kernel_queue_t selist{};
 
+int32_t render_temp_name(char* buffer) noexcept {
+    constexpr const char pattern[] = "/tmp/coro_ev_XXXXXX"; // 19 char + 1
+    static_assert(sizeof(pattern) == 20);
+    static_assert(sizeof(pattern) < sizeof(sockaddr_un::sun_path));
+
+    ::strncpy(buffer, pattern, 19);    // ::strnlen(pattern, sizeof(pattern))
+    const auto sd = ::mkstemp(buffer); // ensure the path exists using 'mkstemp'
+    if (sd == -1)
+        return errno;
+    if (::close(sd))
+        return errno;
+    if (::remove(buffer))
+        return errno;
+    return 0;
+}
+
 // mock eventfd using pimpl
 // instead of `eventfd` in linux, we are going to use 'unix domain socket'
 // possible alternative is `fifo`, but it also requires path management.
@@ -35,33 +51,16 @@ struct darwin_event final {
     darwin_event& operator=(darwin_event&&) = delete;
 
   public:
-    darwin_event() noexcept(false) : sd{}, msg{}, local{} {
-        constexpr const char pattern[] = "/tmp/coro_ev_XXXXXX"; // 19 char + 1
-        static_assert(sizeof(pattern) == 20);
-        static_assert(sizeof(pattern) < sizeof(sockaddr_un::sun_path));
+    darwin_event() noexcept(false)
+        : sd{::socket(AF_UNIX, SOCK_DGRAM, 0)}, msg{}, local{} {
 
-        const auto len = ::strnlen(pattern, sizeof(pattern));
-        assert(len == 19);
-
-        ::strncpy(local.sun_path, pattern, len);
-        assert(local.sun_path[len] == 0); // null terminated ?
-
-        // ensure path exists using 'mkstemp'
-        sd = ::mkstemp(local.sun_path);
-        if (sd == -1)
-            throw system_error{errno, system_category(), "mkstemp"};
-        if (::close(sd))
-            throw system_error{errno, system_category(), "close"};
-        if (::remove(local.sun_path))
-            throw system_error{errno, system_category(), "remove"};
-
-        // prepare unix domain socket
-        sd = ::socket(AF_UNIX, SOCK_DGRAM, 0);
+        // prepared unix domain socket?
         if (sd == -1)
             throw system_error{errno, system_category(), "socket"};
 
-        // local.sun_path is already set.
         local.sun_family = AF_UNIX;
+        if (auto ec = render_temp_name(local.sun_path))
+            throw system_error{errno, system_category(), "render_temp_name"};
 
         if (::bind(sd, (sockaddr*)&local, SUN_LEN(&local))) {
             // this throw will make the object not-constructed
@@ -80,22 +79,22 @@ struct darwin_event final {
         ::unlink(local.sun_path); // don't forget this!
     }
 
+    bool is_signaled() noexcept {
+        return msg != 0;
+    }
+
     void signal() noexcept(false) {
-        socklen_t len = SUN_LEN(&local);
         // send 8 byte (size of state) to buffer
-        auto sz = ::sendto(sd, &msg, sizeof(msg), 0, (sockaddr*)&local, len);
-        if (sz == -1)
+        if (::sendto(sd, &msg, sizeof(msg), 0, //
+                     (sockaddr*)&local, SUN_LEN(&local)) < 0)
             throw system_error{errno, system_category(), "sendto"};
 
         msg = 1; // signaled
     }
-    bool is_signaled() noexcept {
-        return msg != 0;
-    }
     void reset() noexcept(false) {
         // socket buffer is limited. we must consume properly
-        auto sz = ::recvfrom(sd, &msg, sizeof(msg), 0, nullptr, nullptr);
-        if (sz == -1)
+        if (::recvfrom(sd, &msg, sizeof(msg), 0, //
+                       nullptr, nullptr) < 0)
             throw system_error{errno, system_category(), "recvfrom"};
 
         // by receiving message, it recovers non-signaled state
@@ -104,11 +103,11 @@ struct darwin_event final {
     }
 };
 
-auto_reset_event::event() noexcept(false) : state{} {
+auto_reset_event::auto_reset_event() noexcept(false) : state{} {
     auto* impl = new (std::nothrow) darwin_event{};
     state = reinterpret_cast<uint64_t>(impl);
 }
-auto_reset_event::~event() noexcept {
+auto_reset_event::~auto_reset_event() noexcept {
     auto* impl = reinterpret_cast<darwin_event*>(state);
     delete impl;
 }
@@ -153,12 +152,11 @@ auto signaled_event_tasks() noexcept(false)
     // notice that the timeout is zero
     for (auto ev : selist.wait(ts)) {
 
-        t = coroutine_handle<void>::from_address(
-            reinterpret_cast<void*>(ev.udata));
-        // todo: check only for debug mode?
+        auto ptr = reinterpret_cast<void*>(ev.udata);
+        t = coroutine_handle<void>::from_address(ptr);
         if (t.done())
-            throw invalid_argument{
-                "coroutine_handle<void> is already done state"};
+            // todo: check only for debug mode?
+            throw runtime_error{"coroutine_handle<void> is already done state"};
 
         co_yield t;
     }

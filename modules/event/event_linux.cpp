@@ -97,16 +97,15 @@ auto signaled_event_tasks() noexcept(false)
 
     // notice that the timeout is zero
     for (auto e : selist.wait(0)) {
+
         // see also: `make_signaled`, `auto_reset_event::on_suspend`
         // we don't care about the internal counter.
         //  just receive the coroutine handle
         t = coroutine_handle<void>::from_address(e.data.ptr);
-
         // ensure we can resume it.
-        // todo: check only for debug mode?
         if (t.done())
-            throw invalid_argument{
-                "coroutine_handle<void> is already done state"};
+            // todo: check only for debug mode?
+            throw runtime_error{"coroutine_handle<void> is already done state"};
 
         co_yield t;
     }
