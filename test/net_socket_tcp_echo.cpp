@@ -17,7 +17,7 @@ using on_accept_handler = auto (*)(int64_t) -> forget_frame;
 
 //  Accept socket connects and invoke designated function
 auto accept_until_error(int64_t ln, //
-                        gsl::not_null<on_accept_handler> service) {
+                        on_accept_handler service) {
 
     while (true) {
         // next accept is non-blocking
@@ -180,7 +180,7 @@ auto net_echo_tcp_test() {
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char*[]) {
+int main(int, char* []) {
     return net_echo_tcp_test();
 }
 

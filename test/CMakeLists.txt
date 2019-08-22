@@ -31,14 +31,28 @@ if(WIN32 AND BUILD_SHARED_LIBS)
     endif()
 endif()
 
+add_library(test_helper_suite STATIC
+    test.h test.cpp
+)
+target_include_directories(test_helper_suite
+PUBLIC
+    ${BUILD_INTERFACE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+target_link_libraries(test_helper_suite
+PUBLIC
+    coro::portable coro::event coro::thread
+)
+target_compile_definitions(test_helper_suite
+PUBLIC
+    CMAKE_TEST
+)
+
 # generate_exe_test( ... )
 function(generate_exe_test NAME)
     set(TEST_NAME test_${NAME})
     # create a test exe with the given name ...
-    add_executable(${TEST_NAME}
-        ${NAME}.cpp
-        test.h test.cpp # test adapters
-    )
+    add_executable(${TEST_NAME} ${NAME}.cpp)
     add_test(${NAME} ${TEST_NAME})
 
     # ... example cmake configuration of the library user ...
@@ -48,18 +62,12 @@ function(generate_exe_test NAME)
     )
     target_include_directories(${TEST_NAME}
     PRIVATE
-        ${BUILD_INTERFACE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}
         ${GSL_INCLUDE_DIR}
     )
     target_link_libraries(${TEST_NAME}
     PUBLIC
-        coro::portable coro::event coro::thread
         concrt ${ARGV1}
-    )
-    target_compile_definitions(${TEST_NAME}
-    PRIVATE
-        CMAKE_TEST
+        test_helper_suite
     )
 
     # clang release optimization issues

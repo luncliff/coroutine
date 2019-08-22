@@ -123,7 +123,7 @@ void io_send_to::suspend(io_task_t t) noexcept(false) {
     const auto addrlen = gsl::narrow_cast<socklen_t>(InternalHigh);
     const auto flag = gsl::narrow_cast<DWORD>(Internal);
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
-    LPOVERLAPPED pover = zero_overlapped(this);
+    LPOVERLAPPED pover = zero_overlapped(gsl::make_not_null(this));
 
     if (::WSASendTo(sd, bufs, 1, nullptr, flag, //
                     addr, addrlen,              //
@@ -182,7 +182,7 @@ void io_recv_from::suspend(io_task_t t) noexcept(false) {
 
     if (::WSARecvFrom(sd, bufs, 1, nullptr, &flag, //
                       addr, &addrlen,              //
-                      zero_overlapped(this), onWorkDone) == NO_ERROR)
+                      zero_overlapped(gsl::make_not_null(this)), onWorkDone) == NO_ERROR)
         return;
 
     if (const auto ec = WSAGetLastError()) {
@@ -218,7 +218,7 @@ void io_send::suspend(io_task_t t) noexcept(false) {
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
 
     if (::WSASend(sd, bufs, 1, nullptr, flag, //
-                  zero_overlapped(this), onWorkDone) == NO_ERROR)
+                  zero_overlapped(gsl::make_not_null(this)), onWorkDone) == NO_ERROR)
         return;
 
     if (const auto ec = WSAGetLastError()) {
@@ -254,7 +254,7 @@ void io_recv::suspend(io_task_t t) noexcept(false) {
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
 
     if (::WSARecv(sd, bufs, 1, nullptr, &flag, //
-                  zero_overlapped(this), onWorkDone) == NO_ERROR)
+                  zero_overlapped(gsl::make_not_null(this)), onWorkDone) == NO_ERROR)
         return;
 
     if (const auto ec = WSAGetLastError()) {
