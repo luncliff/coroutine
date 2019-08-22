@@ -88,12 +88,7 @@ elseif(MSVC)
     endif()
 endif()
 
-if(ANDROID)
-    target_link_libraries(coroutine_event
-    PUBLIC
-        ${ANDROID_STL}
-    )
-elseif(WIN32)
+if(WIN32)
     target_sources(coroutine_event
     PRIVATE
         event_windows.cpp
@@ -120,10 +115,17 @@ elseif(UNIX) # actually we can't sure it's a linux here ...
         event_poll.cpp
         event_linux.cpp
     )
-    target_link_libraries(coroutine_event
-    PUBLIC
-        rt
-    )
+    if(ANDROID)
+        target_link_libraries(coroutine_event
+        PUBLIC
+            ${ANDROID_STL}
+        )
+    else()
+        target_link_libraries(coroutine_event
+        PUBLIC
+            rt
+        )
+    endif()
 endif()
 
 if(NOT MSVC)

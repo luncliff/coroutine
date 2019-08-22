@@ -50,7 +50,7 @@ int32_t resolve(enumerable<sockaddr>& g, const addrinfo& hint, //
                                       addressof(hint), addressof(list)))
         return ec;
 
-    g = enumerate_addrinfo(list);
+    g = enumerate_addrinfo(gsl::make_not_null(list));
     return 0;
 }
 

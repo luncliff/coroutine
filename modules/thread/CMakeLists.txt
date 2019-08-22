@@ -3,6 +3,7 @@
 #
 add_library(coroutine_thread
     ${BUILD_INTERFACE_DIR}/coroutine/thread.h
+    libmain.cpp
 )
 add_library(coro::thread ALIAS coroutine_thread)
 

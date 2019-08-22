@@ -22,6 +22,9 @@ project(coroutine
         VERSION 1.5.0
 )
 
+if(NOT DEFINED BUILD_SHARED_LIBS)
+    set(BUILD_SHARED_LIBS true)
+endif()
 if(NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
@@ -46,8 +49,6 @@ add_subdirectory(modules/portable)
 add_subdirectory(modules/event)     # coroutine_event
 add_subdirectory(modules/net)       # coroutine_net
 add_subdirectory(modules/thread)    # coroutine_thread
-
-add_subdirectory(modules/concrt)    # concurrency helper for test codes
 
 #
 # export declared cmake targets
@@ -83,10 +84,11 @@ if(TEST_DISABLED)
 elseif(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     message(STATUS "This is not a root project. Skipping the tests")
     return()
-elseif(NO_TESTS)
-    message(STATUS "'NO_TESTS' is OFF. Skipping the tests")
+elseif(ANDROID OR IOS)
     return()
 endif()
 
 enable_testing()
+
+add_subdirectory(modules/concrt)    # concurrency helper for test codes
 add_subdirectory(test)
