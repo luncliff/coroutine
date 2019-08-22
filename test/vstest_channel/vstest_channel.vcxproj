@@ -89,6 +89,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <ErrorReporting>Send</ErrorReporting>
       <AdditionalOptions>/await %(AdditionalOptions)</AdditionalOptions>
+      <SupportJustMyCode>false</SupportJustMyCode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
