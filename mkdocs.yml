@@ -1,62 +1,66 @@
-site_name: luncliff/coroutine
-site_description: 'C++ 20 Coroutine in Action.'
+#
+# Any suggestion for this file will be welcomed :)
+#
 
-repo_url: http://github.com/luncliff/coroutine
+site_name: luncliff/coroutine
+site_description: "C++ 20 Coroutines in Action."
+site_author: Park Dong Ha
 site_url: https://luncliff.github.io/coroutine/Home
+
+repo_name: luncliff/coroutine
+repo_url: http://github.com/luncliff/coroutine
+
+copyright: "CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/deed"
 
 theme:
   name: material
 
 markdown_extensions:
   - codehilite
+  - footnotes
+  - admonition
 
 nav:
   - Home: Home.md
 
+  - PPT:
+      - C++ Korea 5th Seminar: ppt/Exploring-the-Cpp-Coroutine.md
+
   - Articles:
-    - PPT - C++ Korea 5th Seminar: ppt/Exploring-the-Cpp-Coroutine.md
-    - Awaitable event using the coroutine, epoll and eventfd: articles/awaitable-event.md
-    - Designing the coroutine channel: articles/designing-the-channel.md
-    - Combining C++ coroutines and `pthread_create`: articles/combining-coroutines-and-pthread_create.md
+      - Archive(Old posts):
+          - Exploring MSVC Coroutine: articles/exploring-msvc-coroutine.md
+      - Awaitable event using the coroutine, epoll and eventfd: articles/awaitable-event.md
+      - Designing the coroutine channel: articles/designing-the-channel.md
+      - Combining C++ coroutines and `pthread_create`: articles/combining-coroutines-and-pthread_create.md
+      - Russian Roulette and C++ Coroutines: articles/russian-roulette.md
+      # - Windows DLL linking issues(WIP): ./articles/windll-linking-issues.md
 
   - How To:
-    - Import:
-      - Visual Studio: import-using-visualstudio.md
-      - CMake: import-using-cmake.md
-    - Build:
-      - Visual Studio: build-using-visualstudio.md
-      - CMake: build-using-cmake.md
-    - Start Your Project!: howto-start-yours.md
+      - Start yours Project:
+          - CMake: howto/start-using-cmake.md
+      - Build this project:
+          - Visual Studio: howto/build-using-visualstudio.md
+          - CMake: howto/build-using-cmake.md
+      - Importing this project:
+          - Visual Studio: howto/import-using-visualstudio.md
+          - CMake: howto/import-using-cmake.md
 
   - Features:
-    - frame.h:
-      - Overview: frame-overview.md
-      - Compiler Specific Issues: frame-compiler_specific.md
-      - coroutine_handle: frame-coroutine_handle.md
-      - coroutine_traits: frame-coroutine_traits.md
-      - Suspend Types: frame-suspend_types.md
-    - return.h:
-      - Overview: return-overview.md
-      - no_return: return-no_return.md
-      - frame: return-frame.md
-    - yield.hpp:
-      - Overview: yield-overview.md
-      - Generator: yield-enumerable.md
-      - Async Generator: yield-sequence.md
-    - channel.hpp:
-      - Overview: channel-overview.md
-      - Read/Write: channel-read_write.md
-      - Select on multiple channel: channel-select.md
-    - concrt.h:
-      - Overview: concrt-overview.md
-      - section: concrt-section.md
-      - latch: concrt-latch.md
-      - Windows Thread Pool: concrt-ptp_work.md
-      - Windows Event: concrt-ptp_event.md
-      - POSIX event: articles/awaitable-event.md
-    - net.h:
-      - Overview: net-overview.md
-      - Windows Socket 2: net-implementation-winsock2.md
-      - Kqueue: net-implementation-kqueue.md
-      - Epoll: net-implementation-epoll.md
-
+      - Portable Frame:
+          - coroutine/frame.h: work-in-progress.md
+      - Return Types:
+          - coroutine/return.h: work-in-progress.md
+      - Channel:
+          - coroutine/channel.hpp: features/channel-overview.md
+          - read and write: features/channel-read_write.md
+          - select on multiple channels: features/channel-select.md
+      - System API:
+          - coroutine/event.h: work-in-progress.md
+          - coroutine/thread.h: work-in-progress.md
+      - Socket I/O:
+          - coroutine/net.h: net-overview.md
+      - co_yield:
+          - coroutine/yield.hpp: work-in-progress.md
+          - coroutine/sequence.hpp: work-in-progress.md
+      - Concepts:
+          - coroutine/concepts.hpp: work-in-progress.md
