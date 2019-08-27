@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/ppt/Exploring-the-Cpp-Coroutine/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/features/yield-overview/">
       
       
         <meta name="author" content="Park Dong Ha">
@@ -42,7 +42,7 @@
     
     
       
-        <title>C++ Korea 5th Seminar - luncliff/coroutine</title>
+        <title>Yield overview - luncliff/coroutine</title>
       
     
     
@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#exploring-the-c-coroutine-approach-compiler-and-issues" tabindex="1" class="md-skip">
+      <a href="#references" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -109,7 +109,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                C++ Korea 5th Seminar
+                Yield overview
               
             </span>
           
@@ -230,12 +230,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       PPT
@@ -251,56 +249,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        C++ Korea 5th Seminar
-      </label>
-    
-    <a href="./" title="C++ Korea 5th Seminar" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -689,7 +642,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
+    <a href="../channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
       coroutine/channel.hpp
     </a>
   </li>
@@ -701,7 +654,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-read_write/" title="read and write" class="md-nav__link">
+    <a href="../channel-read_write/" title="read and write" class="md-nav__link">
       read and write
     </a>
   </li>
@@ -713,7 +666,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-select/" title="select on multiple channels" class="md-nav__link">
+    <a href="../channel-select/" title="select on multiple channels" class="md-nav__link">
       select on multiple channels
     </a>
   </li>
@@ -911,22 +864,27 @@
 <nav class="md-nav md-nav--secondary">
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
+  <a href="#references" title="References" class="md-nav__link">
+    References
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
+  <a href="#background" title="Background" class="md-nav__link">
+    Background
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contents" title="Contents" class="md-nav__link">
+    Contents
   </a>
   
 </li>
@@ -947,17 +905,33 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/ppt/Exploring-the-Cpp-Coroutine.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/features/yield-overview.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="exploring-the-c-coroutine-approach-compiler-and-issues">Exploring the C++ Coroutine: Approach, Compiler, and Issues</h1>
-<h3 id="note">Note</h3>
-<p>I had a presentation in <a href="https://www.facebook.com/groups/cppkorea/">C++ Korea Facebook Group</a>'s <a href="https://github.com/CppKorea/CppKoreaSeminar5th">5th Seminar</a>.<br />
-You can download and share it :)</p>
-<h3 id="links">Links</h3>
+                  <h1>Yield overview</h1>
+                
+                <div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/yield.hpp&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
+</pre></div>
+
+
+<h2 id="references">References</h2>
 <ul>
-<li>PDF: <a href="../[Eng]ExploringTheCppCoroutine.pdf">Exploring The C++ Coroutine</a> / <a href="../[Kor]ExploringTheCppCoroutine.pdf">한국어</a></li>
-<li>OneDrive: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Eng</a> / <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">한국어</a></li>
+<li><code>&lt;experimental/generator&gt;</code>: implementation in VC++</li>
+<li><a href="https://github.com/kirkshoop/await">GitHub - kirkshoop/await</a></li>
+<li><a href="http://cpp.mimuw.edu.pl/files/await-yield-c++-coroutines.pdf">2016 await/yield: C++ coroutines - Zbigniew Skowron</a></li>
+<li><a href="https://arbmind.github.io/2018-cogen-en/">Meeting C++ 2018: Coroutine TS A new way of thinking - Andreas Reischuck</a></li>
+</ul>
+<h2 id="background">Background</h2>
+<p>I strongly recomment the last two materials.
+<a href="https://www.youtube.com/watch?v=RL5oYUl5548">Andreas Reischuck's explanation</a> will be a good time saver for you.</p>
+<blockquote>
+<p>ToDo: The essense of <code>co_yield</code>?</p>
+</blockquote>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><a href="../yield-enumerable/"><code>enumerable&lt;T&gt;</code></a></li>
+<li><a href="../yield-sequence/"><code>sequence&lt;T&gt;</code></a></li>
 </ul>
                 
                   
@@ -975,41 +949,6 @@ You can download and share it :)</p>
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../../Home/" title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Home
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Exploring MSVC Coroutine
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

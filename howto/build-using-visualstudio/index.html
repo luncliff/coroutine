@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/ppt/Exploring-the-Cpp-Coroutine/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/howto/build-using-visualstudio/">
       
       
         <meta name="author" content="Park Dong Ha">
@@ -42,7 +42,7 @@
     
     
       
-        <title>C++ Korea 5th Seminar - luncliff/coroutine</title>
+        <title>Visual Studio - luncliff/coroutine</title>
       
     
     
@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#exploring-the-c-coroutine-approach-compiler-and-issues" tabindex="1" class="md-skip">
+      <a href="#how-to-build-visual-studio" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -109,7 +109,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                C++ Korea 5th Seminar
+                Visual Studio
               
             </span>
           
@@ -230,12 +230,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       PPT
@@ -251,56 +249,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        C++ Korea 5th Seminar
-      </label>
-    
-    <a href="./" title="C++ Korea 5th Seminar" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -421,10 +374,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
       How To
@@ -461,7 +416,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/start-using-cmake/" title="CMake" class="md-nav__link">
+    <a href="../start-using-cmake/" title="CMake" class="md-nav__link">
       CMake
     </a>
   </li>
@@ -476,10 +431,12 @@
           
           
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2" checked>
     
     <label class="md-nav__link" for="nav-4-2">
       Build this project
@@ -495,11 +452,103 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../../howto/build-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Visual Studio
+      </label>
+    
+    <a href="./" title="Visual Studio" class="md-nav__link md-nav__link--active">
       Visual Studio
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-build" title="Before Build ..." class="md-nav__link">
+    Before Build ...
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-the-windows-sdk-and-visual-studio" title="Check the Windows SDK and Visual Studio" class="md-nav__link">
+    Check the Windows SDK and Visual Studio
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#follow-the-steps" title="Follow the steps!" class="md-nav__link">
+    Follow the steps!
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clone-the-repo-and-submodules" title="Clone the repo and submodules" class="md-nav__link">
+    Clone the repo and submodules
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open-the-visual-studio" title="Open the Visual Studio" class="md-nav__link">
+    Open the Visual Studio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#review-the-moduleswindowsvcxproj" title="Review the modules/windows.vcxproj" class="md-nav__link">
+    Review the modules/windows.vcxproj
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#try-the-buildtest" title="Try The Build/Test!" class="md-nav__link">
+    Try The Build/Test!
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -509,7 +558,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/build-using-cmake/" title="CMake" class="md-nav__link">
+    <a href="../build-using-cmake/" title="CMake" class="md-nav__link">
       CMake
     </a>
   </li>
@@ -545,7 +594,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+    <a href="../import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
       Visual Studio
     </a>
   </li>
@@ -557,7 +606,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/import-using-cmake/" title="CMake" class="md-nav__link">
+    <a href="../import-using-cmake/" title="CMake" class="md-nav__link">
       CMake
     </a>
   </li>
@@ -918,16 +967,63 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
+  <a href="#before-build" title="Before Build ..." class="md-nav__link">
+    Before Build ...
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-the-windows-sdk-and-visual-studio" title="Check the Windows SDK and Visual Studio" class="md-nav__link">
+    Check the Windows SDK and Visual Studio
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
+  <a href="#follow-the-steps" title="Follow the steps!" class="md-nav__link">
+    Follow the steps!
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clone-the-repo-and-submodules" title="Clone the repo and submodules" class="md-nav__link">
+    Clone the repo and submodules
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open-the-visual-studio" title="Open the Visual Studio" class="md-nav__link">
+    Open the Visual Studio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#review-the-moduleswindowsvcxproj" title="Review the modules/windows.vcxproj" class="md-nav__link">
+    Review the modules/windows.vcxproj
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#try-the-buildtest" title="Try The Build/Test!" class="md-nav__link">
+    Try The Build/Test!
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -947,18 +1043,71 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/ppt/Exploring-the-Cpp-Coroutine.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/howto/build-using-visualstudio.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="exploring-the-c-coroutine-approach-compiler-and-issues">Exploring the C++ Coroutine: Approach, Compiler, and Issues</h1>
-<h3 id="note">Note</h3>
-<p>I had a presentation in <a href="https://www.facebook.com/groups/cppkorea/">C++ Korea Facebook Group</a>'s <a href="https://github.com/CppKorea/CppKoreaSeminar5th">5th Seminar</a>.<br />
-You can download and share it :)</p>
-<h3 id="links">Links</h3>
+                <h1 id="how-to-build-visual-studio">How To Build: Visual Studio</h1>
+<h2 id="before-build">Before Build ...</h2>
+<h3 id="check-the-windows-sdk-and-visual-studio">Check the Windows SDK and Visual Studio</h3>
+<p>Tool/Compiler/Platform are listed in <a href="https://github.com/luncliff/coroutine/releases/tag/1.4.2">the 1.4.2 release note's 'Support' section</a>.</p>
 <ul>
-<li>PDF: <a href="../[Eng]ExploringTheCppCoroutine.pdf">Exploring The C++ Coroutine</a> / <a href="../[Kor]ExploringTheCppCoroutine.pdf">한국어</a></li>
-<li>OneDrive: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Eng</a> / <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">한국어</a></li>
+<li>Visual Studio 2017, 2019<ul>
+<li><code>msvc</code>: vc141, vc142</li>
 </ul>
+</li>
+<li>CMake (3.14 or later)<ul>
+<li><code>clang-cl</code>: 7.0.1, 8.0</li>
+</ul>
+</li>
+<li>Windows SDK <ul>
+<li>10.0.17134</li>
+<li>10.0.14393</li>
+</ul>
+</li>
+</ul>
+<p>The list will be updated for every release. And the maintenance of those configs are top priority because it is the baseline for the purpose of this repo.<br />
+You know, if you can't build &amp; run this repo, how can people try the feature?
+<a href="https://github.com/luncliff/coroutine/issues"><strong>Never</strong> hesitate to create a new issue for your configuration</a>.</p>
+<h2 id="follow-the-steps">Follow the steps!</h2>
+<h3 id="clone-the-repo-and-submodules">Clone the repo and submodules</h3>
+<p>Nothing special. <code>git clone</code> + <code>git submodule</code> will do the work!</p>
+<div class="codehilite"><pre><span></span>PS D:\&gt; git clone https://github.com/luncliff/coroutine
+PS D:\&gt; cd .\coroutine\
+PS D:\coroutine&gt; git submodule update --init --recursive
+Submodule &#39;external/guideline&#39; (https://github.com/Microsoft/GSL) registered for path &#39;external/guideline&#39;
+Submodule &#39;external/ios-cmake&#39; (https://github.com/leetal/ios-cmake) registered for path &#39;external/ios-cmake&#39;
+Cloning into &#39;D:/coroutine/external/guideline&#39;...
+Cloning into &#39;D:/coroutine/external/ios-cmake&#39;...
+Submodule path &#39;external/guideline&#39;: checked out &#39;b74b286d5e333561b0f1ef1abd18de2606624455&#39;
+Submodule path &#39;external/ios-cmake&#39;: checked out &#39;a177e3cafe05f0571218f3eeb39067aae7e5255a&#39;
+</pre></div>
+
+
+<h3 id="open-the-visual-studio">Open the Visual Studio</h3>
+<p>Assuming you are using PowerShell.
+If not, just double-click the <code>coroutine.sln</code>.</p>
+<div class="codehilite"><pre><span></span>PS D:\coroutine&gt; Invoke-Item .\coroutine.sln
+</pre></div>
+
+
+<p>The solution file includes 1 DLL project and the others are <a href="https://docs.microsoft.com/en-us/visualstudio/test/writing-unit-tests-for-c-cpp?view=vs-2019">Visual Studio Native Test</a> projects.</p>
+<p><img alt="first look" src="../../images/build-visualstudio-1.png" /></p>
+<p>And don't forget that this project is <strong>only for x64</strong>. The x86 arch is supported by MSVC, but it's not in the maintenance plan for now. </p>
+<p><img alt="x64 only" src="../../images/build-visualstudio-1-platform.png" /></p>
+<h3 id="review-the-moduleswindowsvcxproj">Review the <a href="https://github.com/luncliff/coroutine/blob/master/modules/windows.vcxproj">modules/windows.vcxproj</a></h3>
+<p>Mostly you have to change Windows SDK Version that you are going to use.<br />
+As far as I know, you don't need to touch the other settings.
+However, try the combinations and bother the VC++ team :D (not me!)</p>
+<p><img alt="DLL project properties" src="./images/build-visualstudio-2-properties.png" /></p>
+<h3 id="try-the-buildtest">Try The Build/Test!</h3>
+<p>Press <code>Ctrl + Shift + B</code> to start the solution build.
+Afther the first build is done, open the 'Test Explorer' and run the tests.
+If the test runs well, it's done!</p>
+<p>The network test might fail because of permission or firewall issue. Or you can't sure about the reason, please, create an issue. The library still needs more tests.</p>
+<p><img alt="" src="../../images/build-visualstudio-3-green.png" /></p>
+<p>If all tests fail immediately, it must be the issue of the test execution.<br />
+Check the 'Test &gt; Test Settings &gt; Default Processor Architecture'. Select the <code>x64</code>.</p>
+<p><img alt="" src="../../images/build-visualstudio-3-testarch.png" /></p>
                 
                   
                 
@@ -979,7 +1128,7 @@ You can download and share it :)</p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../../Home/" title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../start-using-cmake/" title="CMake" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -988,19 +1137,19 @@ You can download and share it :)</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Home
+                CMake
               </span>
             </div>
           </a>
         
         
-          <a href="../../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../build-using-cmake/" title="CMake" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Exploring MSVC Coroutine
+                CMake
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

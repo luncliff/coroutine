@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/ppt/Exploring-the-Cpp-Coroutine/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/howto/start-using-cmake/">
       
       
         <meta name="author" content="Park Dong Ha">
@@ -42,7 +42,7 @@
     
     
       
-        <title>C++ Korea 5th Seminar - luncliff/coroutine</title>
+        <title>CMake - luncliff/coroutine</title>
       
     
     
@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#exploring-the-c-coroutine-approach-compiler-and-issues" tabindex="1" class="md-skip">
+      <a href="#how-to-start-cmake" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -109,7 +109,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                C++ Korea 5th Seminar
+                CMake
               
             </span>
           
@@ -230,12 +230,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       PPT
@@ -251,56 +249,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        C++ Korea 5th Seminar
-      </label>
-    
-    <a href="./" title="C++ Korea 5th Seminar" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -421,10 +374,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
       How To
@@ -440,10 +395,12 @@
           
           
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1" checked>
     
     <label class="md-nav__link" for="nav-4-1">
       Start yours Project
@@ -459,11 +416,90 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../../howto/start-using-cmake/" title="CMake" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        CMake
+      </label>
+    
+    <a href="./" title="CMake" class="md-nav__link md-nav__link--active">
       CMake
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cmakes-version" title="CMake's Version ?" class="md-nav__link">
+    CMake's Version ?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#library-header-only" title="Library: Header-Only" class="md-nav__link">
+    Library: Header-Only
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dealing-with-the-compilers-and-their-flags" title="Dealing with the compilers and their flags" class="md-nav__link">
+    Dealing with the compilers and their flags
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#library" title="Library" class="md-nav__link">
+    Library
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executable" title="Executable" class="md-nav__link">
+    Executable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#thats-all" title="That's all !" class="md-nav__link">
+    That's all !
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -497,7 +533,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/build-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+    <a href="../build-using-visualstudio/" title="Visual Studio" class="md-nav__link">
       Visual Studio
     </a>
   </li>
@@ -509,7 +545,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/build-using-cmake/" title="CMake" class="md-nav__link">
+    <a href="../build-using-cmake/" title="CMake" class="md-nav__link">
       CMake
     </a>
   </li>
@@ -545,7 +581,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+    <a href="../import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
       Visual Studio
     </a>
   </li>
@@ -557,7 +593,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/import-using-cmake/" title="CMake" class="md-nav__link">
+    <a href="../import-using-cmake/" title="CMake" class="md-nav__link">
       CMake
     </a>
   </li>
@@ -918,15 +954,49 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
+  <a href="#cmakes-version" title="CMake's Version ?" class="md-nav__link">
+    CMake's Version ?
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
+  <a href="#library-header-only" title="Library: Header-Only" class="md-nav__link">
+    Library: Header-Only
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dealing-with-the-compilers-and-their-flags" title="Dealing with the compilers and their flags" class="md-nav__link">
+    Dealing with the compilers and their flags
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#library" title="Library" class="md-nav__link">
+    Library
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executable" title="Executable" class="md-nav__link">
+    Executable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#thats-all" title="That's all !" class="md-nav__link">
+    That's all !
   </a>
   
 </li>
@@ -947,17 +1017,176 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/ppt/Exploring-the-Cpp-Coroutine.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/howto/start-using-cmake.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="exploring-the-c-coroutine-approach-compiler-and-issues">Exploring the C++ Coroutine: Approach, Compiler, and Issues</h1>
-<h3 id="note">Note</h3>
-<p>I had a presentation in <a href="https://www.facebook.com/groups/cppkorea/">C++ Korea Facebook Group</a>'s <a href="https://github.com/CppKorea/CppKoreaSeminar5th">5th Seminar</a>.<br />
-You can download and share it :)</p>
-<h3 id="links">Links</h3>
+                <h1 id="how-to-start-cmake">How To Start: CMake</h1>
+<p>Welcome! 
+Well, this part is not about CMake's usage, nor setup of the CMake for your environment.
+I'd like to give the minimum CMake example for your project here.</p>
+<h3 id="cmakes-version">CMake's Version ?</h3>
+<p>At this moment(2019), I recommend you to use at least CMake 3.8 or later.
+The version is allows you to specify <code>17</code> for the <code>CXX_STANDARD</code> property(It will be commented).
+<strong>But that's not the necessary step</strong>. 
+Indeed the key part not the cmake but the compiler itself!
+If you already aware of your developer environment, forget about that recommendation!</p>
+<p>For the examples below, I will keep specifing flags related to C++ standard.
+Unless you are in some complicated situation, just 3.x will be fine.</p>
+<h2 id="library-header-only">Library: Header-Only</h2>
+<p><a href="https://github.com/luncliff/coroutine/blob/master/modules/portable/CMakeLists.txt"><code>coroutine_portable</code></a> is the only interface target in this example project.
+If you prefer to write header-only style codes, simply designating the path and flags will be enough.</p>
+<div class="codehilite"><pre><span></span><span class="nb">cmake_minimum_requried</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.6</span><span class="p">)</span>
+<span class="c"># start a project. </span>
+<span class="c"># defines cmake variables like PROJECT_NAME and PROJECT_SOURCE_DIR</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">my_coroutine_example</span>
+        <span class="s">LANGUAGES</span> <span class="s">CXX</span><span class="p">)</span>
+
+<span class="nb">add_library</span><span class="p">(</span><span class="s">my_coroutine_headers</span> <span class="s">INTERFACE</span><span class="p">)</span>
+
+<span class="nb">set_target_properties</span><span class="p">(</span><span class="s">my_coroutine_headers</span>
+<span class="s">PROPERTIES</span>
+    <span class="c"># macro defintions</span>
+    <span class="s">INTERFACE_COMPILE_DEFINITIONS</span> <span class="s2">&quot;${CMAKE_SYSTEM_NAME}&quot;</span>
+<span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;macro defined: ${CMAKE_SYSTEM_NAME}&quot;</span><span class="p">)</span>
+
+<span class="c"># header include path</span>
+<span class="nb">target_include_directories</span><span class="p">(</span><span class="s">my_coroutine_headers</span>
+<span class="s">INTERFACE</span>
+    <span class="c"># path for `add_subdirectoy`</span>
+    <span class="o">$&lt;</span><span class="nv">BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include</span><span class="o">&gt;</span>
+    <span class="c"># path after installation ( cmake --build . --target install )</span>
+    <span class="o">$&lt;</span><span class="nv">INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include</span><span class="o">&gt;</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<h3 id="dealing-with-the-compilers-and-their-flags">Dealing with the compilers and their flags</h3>
+<p>I strongly recommend to define compile options together so CMake can propagate them and reduce redundant compile option definitons in 'CMakeLists.txt' or '*.cmake' files.
+To do that, you have to check compiler.</p>
+<div class="codehilite"><pre><span></span><span class="nb">if</span><span class="p">(</span><span class="o">${</span><span class="nv">CMAKE_CXX_COMPILER_ID</span><span class="o">}</span> <span class="s">MATCHES</span> <span class="s">Clang</span><span class="p">)</span>
+    <span class="nb">if</span><span class="p">(</span><span class="s">WIN32</span><span class="p">)</span> <span class="c"># clang-cl for windows</span>
+        <span class="nb">target_compile_options</span><span class="p">(</span><span class="s">my_coroutine_headers</span>
+        <span class="s">INTERFACE</span>
+            <span class="s">/std:c++latest</span>
+            <span class="s">-fms-compatibility</span>
+            <span class="s">-Xclang</span> <span class="s">-fcoroutines-ts</span>
+        <span class="p">)</span>
+
+        <span class="c"># for multiple definitions, you can do like this</span>
+        <span class="nb">set_target_properties</span><span class="p">(</span><span class="s">my_coroutine_headers</span>
+        <span class="s">PROPERTIES</span>
+            <span class="s">INTERFACE_COMPILE_DEFINITIONS</span> <span class="s2">&quot;CLANG_CL;_RESUMABLE_FUNCTIONS_SUPPORTED&quot;</span>
+        <span class="p">)</span>
+
+    <span class="nb">elseif</span><span class="p">(</span><span class="s">UNIX</span> <span class="s">OR</span> <span class="s">APPLE</span><span class="p">)</span> <span class="c"># Clang or AppleClang</span>
+        <span class="nb">target_compile_options</span><span class="p">(</span><span class="s">my_coroutine_headers</span>
+        <span class="s">INTERFACE</span>
+            <span class="s">-std=c++2a</span> <span class="s">-stdlib=libc++</span>
+            <span class="s">-fcoroutines-ts</span>
+        <span class="p">)</span>
+    <span class="nb">endif</span><span class="p">()</span>
+
+<span class="nb">elseif</span><span class="p">(</span><span class="s">MSVC</span><span class="p">)</span>
+    <span class="nb">target_compile_options</span><span class="p">(</span><span class="s">my_coroutine_headers</span>
+    <span class="s">INTERFACE</span>
+        <span class="s">/std:c++latest</span>
+        <span class="s">/await</span>
+    <span class="p">)</span>
+
+<span class="nb">elseif</span><span class="p">(</span><span class="o">${</span><span class="nv">CMAKE_CXX_COMPILER_ID</span><span class="o">}</span> <span class="s">MATCHES</span> <span class="s">GNU</span><span class="p">)</span>
+    <span class="nb">target_compile_options</span><span class="p">(</span><span class="s">my_coroutine_headers</span>
+    <span class="s">INTERFACE</span>
+        <span class="s">-std=gnu++2a</span>
+        <span class="s">-fcoroutines</span> <span class="s">-fno-exceptions</span>
+    <span class="p">)</span>
+
+<span class="nb">endif</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Notice that I placed Clang ahead of MSVC.<br />
+Even though clang-cl is specified with <code>CMAKE_CXX_COMPILER</code>, the CMake branch into the <code>MSVC</code> scope.
+In ohter words, it behaves like it's reusing <code>WIN32</code> for the variable.
+So to be precise you always have to check the compiler familiy is clang.</p>
+<h2 id="library">Library</h2>
+<p>The only difference is that you have to list your source/header files in <code>add_libary</code>.</p>
+<div class="codehilite"><pre><span></span><span class="nb">cmake_minimum_requried</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.6</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">my_coroutine_example</span>
+        <span class="s">LANGUAGES</span> <span class="s">CXX</span><span class="p">)</span>
+
+<span class="nb">add_library</span><span class="p">(</span><span class="s">my_coroutine_lib</span>
+    <span class="c"># ... list of source files in relative path ...</span>
+    <span class="c"># ...</span>
+    <span class="s">libmain.cpp</span> 
+<span class="p">)</span>
+
+<span class="nb">set_target_properties</span><span class="p">(</span><span class="s">my_coroutine_lib</span>
+<span class="s">PROPERTIES</span>
+    <span class="s">CXX_STANDARD</span> <span class="s">14</span> <span class="c"># for CMake 3.8, you can use &#39;17&#39; here</span>
+                    <span class="c"># for CMake 3.14, it can be &#39;20&#39;                    </span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>If some source files are platform dependent or requires some condition, use <code>target_source</code> function.</p>
+<div class="codehilite"><pre><span></span><span class="nb">if</span><span class="p">(</span><span class="s">WIN32</span><span class="p">)</span>
+    <span class="nb">target_source</span><span class="p">(</span><span class="s">my_coroutine_lib</span>
+    <span class="s">PRIVATE</span>
+        <span class="s">impl_windows.cpp</span>
+    <span class="p">)</span>
+<span class="nb">elseif</span><span class="p">(</span><span class="s">APPLE</span><span class="p">)</span>
+    <span class="nb">target_source</span><span class="p">(</span><span class="s">my_coroutine_lib</span>
+    <span class="s">PRIVATE</span>
+        <span class="s">impl_darwin.cpp</span>
+    <span class="p">)</span>
+<span class="nb">elseif</span><span class="p">(</span><span class="s">UNIX</span><span class="p">)</span>
+    <span class="nb">target_source</span><span class="p">(</span><span class="s">my_coroutine_lib</span>
+    <span class="s">PRIVATE</span>
+        <span class="s">impl_unix.cpp</span>
+    <span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Since I already showed how to use compiler flags for C++ Coroutines, you can just copy &amp; paste the part.
+The other way is to use <code>target_link_libraries</code> function, and <strong>inherit</strong> those 'interface' or 'public' compiler options.</p>
+<div class="codehilite"><pre><span></span><span class="c"># PUBLIC: propagate these library dependencies</span>
+<span class="c"># PRIVATE: consume and hide those dependencies</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">my_coroutine_lib</span>
+<span class="s">PUBLIC</span>
+    <span class="s">my_coroutine_headers</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>Isn't it simple?
+In this project, <a href="https://github.com/luncliff/coroutine/blob/master/modules/event/CMakeLists.txt"><code>coroutine_event</code></a> is defined like this.</p>
+<h2 id="executable">Executable</h2>
+<p>If you already created some targets with <code>add_library</code>, the only thing you have to do is define an executable and to link it with the library.</p>
+<div class="codehilite"><pre><span></span><span class="nb">cmake_minimum_requried</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.6</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">my_coroutine_example</span>
+        <span class="s">LANGUAGES</span> <span class="s">CXX</span><span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">my_coroutine_exe</span>
+    <span class="c"># ... list of source files in relative path ...</span>
+    <span class="c"># ...</span>
+    <span class="s">main.cpp</span>
+<span class="p">)</span>
+
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">my_coroutine_exe</span>
+<span class="s">PRIVATE</span>
+    <span class="s">my_coroutine_headers</span>
+    <span class="s">my_coroutine_lib</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<h2 id="thats-all">That's all !</h2>
+<p>If you want to know more about the CMake and its usage, I recommend these materials.</p>
 <ul>
-<li>PDF: <a href="../[Eng]ExploringTheCppCoroutine.pdf">Exploring The C++ Coroutine</a> / <a href="../[Kor]ExploringTheCppCoroutine.pdf">한국어</a></li>
-<li>OneDrive: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Eng</a> / <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">한국어</a></li>
+<li>https://github.com/ruslo/CGold</li>
+<li>https://cliutils.gitlab.io/modern-cmake/</li>
 </ul>
                 
                   
@@ -979,7 +1208,7 @@ You can download and share it :)</p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../../Home/" title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../../articles/russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -988,19 +1217,19 @@ You can download and share it :)</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Home
+                Russian Roulette and C++ Coroutines
               </span>
             </div>
           </a>
         
         
-          <a href="../../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../build-using-visualstudio/" title="Visual Studio" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Exploring MSVC Coroutine
+                Visual Studio
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

@@ -1,0 +1,2707 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="C++ 20 Coroutines in Action.">
+      
+      
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/articles/exploring-msvc-coroutine-kor/">
+      
+      
+        <meta name="author" content="Park Dong Ha">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+    
+    
+      
+        <title>MSVC Coroutine 알아보기 - luncliff/coroutine</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.0284f74d.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#msvc-coroutine" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://luncliff.github.io/coroutine/Home" title="luncliff/coroutine" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              luncliff/coroutine
+            </span>
+            <span class="md-header-nav__topic">
+              
+                MSVC Coroutine 알아보기
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://luncliff.github.io/coroutine/Home" title="luncliff/coroutine" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    luncliff/coroutine
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Home/" title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      PPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        PPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
+      C++ Korea 5th Seminar
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Articles
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Articles
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1" type="checkbox" id="nav-3-1">
+    
+    <label class="md-nav__link" for="nav-3-1">
+      Archive(Old posts)
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-1">
+        Archive(Old posts)
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-nav__link">
+      Exploring MSVC Coroutine
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../awaitable-event/" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
+      Awaitable event using the coroutine, epoll and eventfd
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../designing-the-channel/" title="Designing the coroutine channel" class="md-nav__link">
+      Designing the coroutine channel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
+      Combining C++ coroutines and `pthread_create`
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
+      Russian Roulette and C++ Coroutines
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      How To
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        How To
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Start yours Project
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        Start yours Project
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../howto/start-using-cmake/" title="CMake" class="md-nav__link">
+      CMake
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+    
+    <label class="md-nav__link" for="nav-4-2">
+      Build this project
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-2">
+        Build this project
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../howto/build-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+      Visual Studio
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../howto/build-using-cmake/" title="CMake" class="md-nav__link">
+      CMake
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Importing this project
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Importing this project
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../howto/import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+      Visual Studio
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../howto/import-using-cmake/" title="CMake" class="md-nav__link">
+      CMake
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Features
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Features
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-1" type="checkbox" id="nav-5-1">
+    
+    <label class="md-nav__link" for="nav-5-1">
+      Portable Frame
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-1">
+        Portable Frame
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/frame.h" class="md-nav__link">
+      coroutine/frame.h
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
+    
+    <label class="md-nav__link" for="nav-5-2">
+      Return Types
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-2">
+        Return Types
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/return.h" class="md-nav__link">
+      coroutine/return.h
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3">
+    
+    <label class="md-nav__link" for="nav-5-3">
+      Channel
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-3">
+        Channel
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../features/channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
+      coroutine/channel.hpp
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../features/channel-read_write/" title="read and write" class="md-nav__link">
+      read and write
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../features/channel-select/" title="select on multiple channels" class="md-nav__link">
+      select on multiple channels
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
+    
+    <label class="md-nav__link" for="nav-5-4">
+      System API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-4">
+        System API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/event.h" class="md-nav__link">
+      coroutine/event.h
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/thread.h" class="md-nav__link">
+      coroutine/thread.h
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-5" type="checkbox" id="nav-5-5">
+    
+    <label class="md-nav__link" for="nav-5-5">
+      Socket I/O
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-5">
+        Socket I/O
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../net-overview.md" title="coroutine/net.h" class="md-nav__link">
+      coroutine/net.h
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-6" type="checkbox" id="nav-5-6">
+    
+    <label class="md-nav__link" for="nav-5-6">
+      co_yield
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-6">
+        co_yield
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/yield.hpp" class="md-nav__link">
+      coroutine/yield.hpp
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/sequence.hpp" class="md-nav__link">
+      coroutine/sequence.hpp
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-7" type="checkbox" id="nav-5-7">
+    
+    <label class="md-nav__link" for="nav-5-7">
+      Concepts
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-7">
+        Concepts
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/concepts.hpp" class="md-nav__link">
+      coroutine/concepts.hpp
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" title="참고자료" class="md-nav__link">
+    참고자료
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" title="제안서" class="md-nav__link">
+    제안서
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visual-c-team-blog" title="Visual C++ Team Blog" class="md-nav__link">
+    Visual C++ Team Blog
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" title="영상" class="md-nav__link">
+    영상
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github" title="GitHub 저장소" class="md-nav__link">
+    GitHub 저장소
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" title="주의사항" class="md-nav__link">
+    주의사항
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" title="정의" class="md-nav__link">
+    정의
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" title="고식(古式) : 기계레벨에서 생각하기" class="md-nav__link">
+    고식(古式) : 기계레벨에서 생각하기
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" title="관계" class="md-nav__link">
+    관계
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#caller-callee" title="서브루틴 : Caller-Callee" class="md-nav__link">
+    서브루틴 : Caller-Callee
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activator-activator" title="코루틴 : Activator-Activator" class="md-nav__link">
+    코루틴 : Activator-Activator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" title="차이점?" class="md-nav__link">
+    차이점?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" title="예제" class="md-nav__link">
+    예제
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" title="프로그래밍 모델" class="md-nav__link">
+    프로그래밍 모델
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" title="스택이다!" class="md-nav__link">
+    스택이다!
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blocking" title="Blocking" class="md-nav__link">
+    Blocking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" title="영속성" class="md-nav__link">
+    영속성
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" title="접근법" class="md-nav__link">
+    접근법
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" title="스택 안? 밖!" class="md-nav__link">
+    스택 안? 밖!
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stack-ful" title="스택 내(Stack-ful) 코루틴 / 분할 스택" class="md-nav__link">
+    스택 내(Stack-ful) 코루틴 / 분할 스택
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stack-less" title="스택 외(Stack-less) 코루틴과 함수 프레임" class="md-nav__link">
+    스택 외(Stack-less) 코루틴과 함수 프레임
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-c-coroutine-resumable-function" title="The C++ Coroutine : Resumable Function" class="md-nav__link">
+    The C++ Coroutine : Resumable Function
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#invoke" title="호출(Invoke)" class="md-nav__link">
+    호출(Invoke)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#finalize" title="종료(Finalize)" class="md-nav__link">
+    종료(Finalize)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suspend" title="중단(Suspend)" class="md-nav__link">
+    중단(Suspend)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activate" title="활성화(Activate)" class="md-nav__link">
+    활성화(Activate)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code" title="Code" class="md-nav__link">
+    Code
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#promise" title="Promise : 컴파일러가 원하는 것" class="md-nav__link">
+    Promise : 컴파일러가 원하는 것
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resumable-promise-requirement" title="Resumable Promise Requirement" class="md-nav__link">
+    Resumable Promise Requirement
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generator" title="Generator" class="md-nav__link">
+    Generator
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" title="개념" class="md-nav__link">
+    개념
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail" title="실체(Detail)" class="md-nav__link">
+    실체(Detail)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" title="컴파일러의 시점" class="md-nav__link">
+    컴파일러의 시점
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resumable-function" title="Resumable Function" class="md-nav__link">
+    Resumable Function
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" title="개념" class="md-nav__link">
+    개념
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" title="재개함수의 프레임" class="md-nav__link">
+    재개함수의 프레임
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coroutine-traits" title="Coroutine Traits" class="md-nav__link">
+    Coroutine Traits
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" title="잠깐 정리" class="md-nav__link">
+    잠깐 정리
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" title=""기다릴 수 있다"는 개념에 대해서" class="md-nav__link">
+    "기다릴 수 있다"는 개념에 대해서
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_1" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" title="기다리기 위한 인터페이스" class="md-nav__link">
+    기다리기 위한 인터페이스
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" title="컴파일러의 시점" class="md-nav__link">
+    컴파일러의 시점
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#co_await-tricks" title="co_await Tricks" class="md-nav__link">
+    co_await Tricks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async-generator" title="Async Generator" class="md-nav__link">
+    Async Generator
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_23" title="개념" class="md-nav__link">
+    개념
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_2" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_24" title="끝! 후기" class="md-nav__link">
+    끝! 후기
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/articles/exploring-msvc-coroutine-kor.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="msvc-coroutine">MSVC Coroutine 알아보기</h1>
+<blockquote>
+<p>Written in 2017/03/02</p>
+</blockquote>
+<p><a href="../exploring-msvc-coroutine/">English</a></p>
+<h3 id="_1">참고자료</h3>
+<h4 id="_2">제안서</h4>
+<ul>
+<li><a href="https://isocpp.org/files/papers/N3858.pdf">N3858</a></li>
+<li><a href="https://isocpp.org/files/papers/N3977.pdf">N3977</a></li>
+<li><a href="https://isocpp.org/files/papers/N4134.pdf">N4134</a></li>
+<li><a href="https://isocpp.org/files/papers/N4402.pdf">N4402</a></li>
+</ul>
+<h4 id="visual-c-team-blog">Visual C++ Team Blog</h4>
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/vcblog/2015/11/30/coroutines-in-visual-studio-2015-update-1/">Coroutines in Visual Studio 2015– Update 1</a></li>
+<li><a href="https://blogs.msdn.microsoft.com/vcblog/2015/04/29/more-about-resumable-functions-in-c/">More about resumable functions in C++</a></li>
+</ul>
+<h4 id="_3">영상</h4>
+<ul>
+<li>CppCon 2016 : <a href="https://channel9.msdn.com/events/CPP/CppCon-2016/CppCon-2016-Gor-Nishanov-C-Coroutines-Under-the-covers">Gor Nishanov "C++ Coroutines: Under the covers"</a></li>
+<li>CppCon 2016 : <a href="https://channel9.msdn.com/events/CPP/CppCon-2016/CppCon-2016-James-McNellis-Introduction-to-C-Coroutines">James McNellis "Introduction to C++ Coroutines"</a></li>
+<li>CppCon 2016 : <a href="https://channel9.msdn.com/events/CPP/CppCon-2016/CppCon-2016-Kenny-Kerr--James-McNellis-Putting-Coroutines-to-Work-with-the-Windows-Runtime">Kenny Kerr &amp; James McNellis "Putting Coroutines to Work with the Windows Runtime"</a></li>
+<li>CppCon 2016 : <a href="https://www.youtube.com/watch?v=N3CkQu39j5I&amp;t=1257s">John Bandela “Channels - An alternative to callbacks and futures"</a></li>
+<li>CppCon 2015 : <a href="https://channel9.msdn.com/events/CPP/CppCon-2015/CPPConD03V008">Gor Nishanov "C++ Coroutines - a negative overhead abstraction"</a></li>
+<li>Meeting C++ 2015 : <a href="https://www.youtube.com/watch?v=YYtzQ355_Co&amp;t=2890s">James McNellis "An Introduction to C++ Coroutines"</a></li>
+<li>Meeting C++ 2015 : <a href="https://www.youtube.com/watch?v=SbaLI2ZcyY0&amp;t=2180s">Grigory Demchenko "Asynchrony and Coroutines"</a></li>
+<li>CppCon 2014 : <a href="https://channel9.msdn.com/events/CPP/C-PP-Con-2014/0006-await-20-Stackless-Resumable-Functions">Gor Nishanov "await 2.0: Stackless Resumable Functions"</a></li>
+</ul>
+<h4 id="github">GitHub 저장소</h4>
+<ul>
+<li><a href="https://github.com/kirkshoop/await">kirkshoop/<strong>await</strong></a></li>
+</ul>
+<h3 id="_4">주의사항</h3>
+<p>우선 MSVC의 Coroutine을 사용하려면 3가지가 필요하다.</p>
+<ul>
+<li>Visual Studio 2015 Up3 혹은 그 이상의 개발환경</li>
+<li><code>/await</code> : 컴파일 옵션</li>
+<li><code>&lt;experimental/*&gt;</code> : 소스 코드에 넣을 헤더파일</li>
+</ul>
+<p><img alt="Fig: Command line option" src="https://cqldba.bn1304.livefilestore.com/y4mxWo9KNVrGutUuX0-nCTZefQXnqsDaRe8UNOQ89xEjUO2BrVrUuHz0c5cBAiZilYehHoPUZaJDruvP-6h-Q5hmmnSbwyNzTa2XcCNXa3mLaCCiUZxZIn7t3XBhRbvJXIAh2PSqJ2ZVKx_w6ytO_khp85PfSBYluHbSAUdzVW98b-5E-frvtigKcY3FmDqFBO-KfIGMFdBX2G_ibX9hwyB5Q?width=1024&amp;height=730&amp;cropmode=none" /></p>
+<h2 id="_5">정의</h2>
+<p>그래서, 코루틴이 대체 뭔가요?</p>
+<h3 id="_6">고식(古式) : 기계레벨에서 생각하기</h3>
+<p>기본적으로, 프로시저의 호출은 <code>goto</code>라고 할 수 있다. 그런데 어디로 <code>goto</code>한다는 것일까? 다음에 수행할 명령어일 것이다. 명령어는 루틴과 프로그램의 일부이기도 한데, 잠시 여기서 한번 짚어보겠다.</p>
+<p>[프로그램]은 일련의 [프로그램 상태]들로 볼 수 있다. 그리고 여기서 [프로그램 상태]란, 프로그래머가 정의한 것이어야 하며, 프로그램을 수행하는 기계의 환경과 메모리의 값들을 합친 것(composition)이다. 보통은 환경과 메모리 값의 조합이 유한하도록 설계한다.</p>
+<ul>
+<li><em>Program State = Environment X Memory (함수적 합성 : Cartesian Product)</em></li>
+</ul>
+<p>여기서 명령어들은 상태간의 전이(transition)라고 정의할 수 있다. 그리고 이러한 전이들을 순서대로 묶은 것을 루틴(routine)이라고 한다.</p>
+<ul>
+<li><em>Instruction : 명령, 프로그램 상태의 전이</em></li>
+<li><em>Routine : 순서가 있는 명령 묶음</em></li>
+</ul>
+<p>그러면 이제 서브루틴과 코루틴으로 넘어갈 차례다.</p>
+<h3 id="_7">관계</h3>
+<p>모든 프로그래머들은 코드에 대해서 자신만의 심상(Mental Model)을 갖기 마련이다. 서브루틴과 코루틴의 멘탈 모델 부터 시작해보고자 한다.</p>
+<h4 id="caller-callee">서브루틴 : Caller-Callee</h4>
+<p>서브루틴의 관계는 일방적이다.
+호출자(Caller)는 이미 어떤 상태에 있고(이전 조건), 어떤 루틴이 필요한지, 혹은 호출할지 알고있다.
+피호출자(Callee)는 프로그래머의 의도대로 정의된 코드를 가지고 있고, 호출자와 무관하게 명령들을 수행한다. 여기서 부수효과(Side-effect)가 있을 수 있지만, 그건 명령의 내용에 대한 것이고 관계와는 무관하다.</p>
+<p><img alt="Fig: Relation of Subroutine" src="https://caiska.bn1304.livefilestore.com/y4mpAqgE-2ZtAMBzq_B4eBn8S35AG_sqM-mrzhBzQ-qZsc-8-UqnF-6q5QBBqI0mI_e-hWEhFwBVpu3kSSToMa0qIclnvogKeRTJA-i7eqm9ZvnF2TGgziVlsD8YRj9rZogyizLpBaxaHZ3P_RqwdE2AKu7ThSdJZsGKJk1LQnb3afhPDsBz6ClDhrMRpBS86eSxMD3fva5BM2VJiLfo9PE-g?width=660&amp;height=425&amp;cropmode=none" /></p>
+<h4 id="activator-activator">코루틴 : Activator-Activator</h4>
+<p>보통 코루틴은 cooperative한 routine이다. 이 때문에 협력루틴이라고 번역되기도 하는데, 이런 이름은 코루틴이 묵시적으로 다른 루틴과 함께 동작하도록 설계된 것을 의미한다.</p>
+<p><img alt="Fig: Relation of Coroutine" src="https://cairka.bn1304.livefilestore.com/y4mJI5CB46xuv-xi1oajDyVT-EwddQKm-1RINOP34GvInKfxXZMS_hMk2lITYLcPhDRSOA3e3LIDx4WU20SJ_0ns1k7cu8rV6j4XAtj690i9x2yj_UEJ85Hq2yw-ylxpztnHQ2eBOGnl3p0XFJ8O06Jn-Klc04LcZHiHqzZ7ONPO4mvSAmLDXvrwUmbAbSDwpXiqssEeSzAEftW7_qlK_VFfQ?width=828&amp;height=374&amp;cropmode=none" /></p>
+<p>그림에서 나온 루틴들은 서로를 활성화한다. 코루틴은 호출자(Invoker)와 재개루틴(Resuming routine)에 의해서 활성화 된다. 역으로 중단하거나 반환함으로써 코루틴은 다른 루틴을 재개시키게 된다. 그림에서는 Suspend/Return등으로 구분하였으나, 활성화라는 것은 실제로는 루틴 안의 임의의 지점(명령어)으로 점프(<code>goto</code>/<code>jmp</code>)하는 것을 의미한다. 따라서 중단하는 것이 다른 함수를 호출하는 것과 같을 수 있으며, 함수의 종료와 중단의 차이 또한 확연하지 않을 수 있다.</p>
+<p>점프의 목표주소가 루틴의 도입부(함수라면 prologue)라면 활성화는 <strong>Invocation</strong> (<code>call</code>)이 된다.<br />
+목표주소가 프로시저의 한가운데 위치하면, 이는 <strong>Activation</strong>(<code>resume</code>)이 된다.  </p>
+<ul>
+<li><em>Invocation: 호출. 루틴의 시작지점으로 점프하는 것</em></li>
+<li><em>Activation: 활성화. 루틴의 임의 지점으로 점프하는 것</em></li>
+</ul>
+<p>서브루틴처럼, 코루틴은 이전 상태(Pre-condition)와 이후 상태(Post-condition)가 정의되어 있다. 이 말은, 코루틴 또한 프로그램 상태를 어떻게 전이시킬지 정의되어야 한다는 말이다.
+하지만 서브루틴과는 다르게, 코루틴은 자신만의 상태를 유지한 채로 다른 주소로 <code>goto</code>할 수 있다. 이를 <strong>Suspension</strong>(<code>yield</code>)이라 한다. 경우에 따라 이는 프로시저의 종료, 혹은 함수의 반환(<code>return</code>)이 될수 있으며, 그때는 종료(finalization)를 함께 수행하게 된다.</p>
+<ul>
+<li><em>Suspension: 중단. 종료작업 없이 다른 지점으로 점프하는 것</em></li>
+<li><em>Finalization: 종료. 루틴과 관련된 자원들을 정리(파괴)하고 다른 지점으로 점프하는 것</em></li>
+</ul>
+<h4 id="_8">차이점?</h4>
+<p>요컨대 가장 큰 차이점은, 코루틴은 서브루틴보다 더 많은 동작(Operation)을 지원한다는 것이다. 이것이 도널드 크누스가 <strong>The Art of Computer Programming</strong>에서 이렇게 서술한 이유다.</p>
+<blockquote>
+<p>"Subroutines are special cases of ... coroutines"  - Donald Knuth</p>
+</blockquote>
+<p>이를 표로 정리하면 다음과 같다.</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th align="center">Subroutine</th>
+<th align="center">Coroutine</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invoke</td>
+<td align="center">o</td>
+<td align="center">o</td>
+<td>프로시저를 시작한다</td>
+</tr>
+<tr>
+<td>Activate</td>
+<td align="center">x</td>
+<td align="center">o</td>
+<td>특정한 지점으로 진입한다</td>
+</tr>
+<tr>
+<td>Suspend</td>
+<td align="center">x</td>
+<td align="center">o</td>
+<td>Control Flow를 멈춘다.</td>
+</tr>
+<tr>
+<td>Finalize</td>
+<td align="center">o</td>
+<td align="center">o</td>
+<td>지역변수, 매개변수들을 정리하고 <code>return</code>한다.</td>
+</tr>
+</tbody>
+</table>
+<p>서브루틴은 동작이 제한되었지만 관계에 대한 고려가 필요없어 간단하다. 반면에 코루틴은 더 많은 동작이 가능하지만, 중단과 활성화에 대한(그리고 각각의 Pre/Post condition에 대한) 정의가 필요하므로 더 복잡하다.</p>
+<ul>
+<li><em>Routine: 프로그램의 상태를 변화시키는 명령어 묶음. 그 내용은 프로그래머가 정의한다.</em></li>
+<li><em>Subroutine: 동작 2개를 지원하는 루틴</em><ol>
+<li>Invoke</li>
+<li>Finalize</li>
+</ol>
+</li>
+<li><em>Coroutine: 동작 4개를 지원하는 루틴</em><ol>
+<li>Invoke</li>
+<li>Activate</li>
+<li>Suspend</li>
+<li>Finalize</li>
+</ol>
+</li>
+</ul>
+<h4 id="_9">예제</h4>
+<p>크누스는 이런 개념이 어떻게 코드로 표현되는지 그의 책에서 설명하고 있다. 다음 코드는 The Art of Computer Programming에 있는 MIX 명령어들을 그대로 옮겨온 것으로, 모두 이해할 필요는 없다. 오늘날의 <code>call</code>/<code>return</code>구조와 달리, 모든 동작들이 <code>JMP</code> 명령어로 수행되는 것을 확인할 수 있다.</p>
+<p>핵심은 <strong>코루틴은 다수의 진입점과 중단점을 가진다</strong>는 것이다. 더해서, 묵시적인 상태(레지스터 혹은 메모리)를 가질 수도 있다.</p>
+<div class="codehilite"><pre><span></span>// MIX 예제, 주석을 변경하였음
+// 자세한 내용은 The Art of Computer Programming 1.4.2 에 기술되어있다.
+
+// Subroutine for character input
+READER  EQU     16
+INPUT   ORIG    *+16
+NETCHAR STJ     9F
+        JXNZ    3F          // ---&gt; (3H)
+1H      J6N     2F          // ---&gt; (2H)
+        IN      INPUT(READER)
+        JBUS    *(READER)
+        ENN6    16
+2H      LDX     INPUT+16,6  // &lt;--- (1H) J6N 2F
+        INC6    1
+3H      ENTA    0           // &lt;--- JXNZ 3F
+        SLAX    1
+9H      JANZ    *
+        JMP     NEXTCHAR+1
+
+// First coroutine
+2H      INCA    30          // &lt;--- JGE 2B
+        JMP     OUT         // ---&gt; OUT1
+IN1     JMP     NEXTCHAR    // ---&gt; NETCHAR
+                            //  &lt;--
+        DECA    30
+        JAN     2B          // ---&gt; (2H)
+        CMPA    =10=
+        JGE     2B          // ---&gt; (2H)
+        STA     *,1(0:2)
+        ENT5    *
+        JMP     NEXTCHAR    // ---&gt; NETCHAR
+                            //  &lt;--
+        JMP     OUT         // ---&gt; OUT1
+                            // &lt;--- J5NN *-2
+        DEC5    1
+        J5NN    *-2         // ---&gt; JMP OUT
+        JMP     IN1         // ---&gt; (IN1)
+
+// Second coroutine
+        ALF
+OUTPUT  ORIG    *+16
+PUNCH   EQU     17
+OUT1    ENT4    -16         // &lt;--- JMP  OUT
+        MOVE    -1,1(16)
+1H      JMP     IN          // ---&gt; IN1
+        STA     OUTPUT+16,4(1:1)
+        CMPA    PERIOD
+        JE      9F          // ---&gt; (9H)
+        JMP     IN          // ---&gt; IN1
+        STA     OUTPUT+16,4(2:2)
+        CMPA    PERIOD
+        JE      9F          // ---&gt; (9H)
+        JMP     IN          // ---&gt; IN1
+        STA     OUTPUT+16,4(2:2)
+        CMPA    PERIOD
+        JE      9F          // ---&gt; (9H)
+        INC4    1
+        J4N     1B          // ---&gt; (1H)
+9H      OUT     OUTPUT(PUNCH)
+        JBUS    *(PUNCH)
+        JNE     OUT1        // ---&gt; OUT1
+        HLT
+PERIOD  ALF     .
+</pre></div>
+
+
+<h2 id="_10">프로그래밍 모델</h2>
+<h3 id="_11">스택이다!</h3>
+<blockquote>
+<p>"함정이다!" - 아크바 제독</p>
+</blockquote>
+<p>오늘날 널리 사용되고 있는 High-level 언어들은 런타임 스택을 사용한다. 런타임 스택은 언어적으로 명확하게 정의되고, 자동으로 관리되며, 프로그래머가 개입하지 않아도 문제없이 동작한다.</p>
+<p>구조적 프로그래밍 모델은 이런 스택중심의 모델과 조화를 이루어왔다. 이 모델에서 <strong>프로그램은 수학적으로 표현할 수 있는 수식트리</strong>라고 할 수 있다. 결과적으로 <code>main</code>함수는 종료하며, 적당한 결과값을 반환한다. 그림에서 표현한 것 처럼, 트리형 모델에서 함수의 흐름은 이 수식트리를 깊이-우선 순서로 순회하며, 작성하는 시점부터 각 구문(Statement)들의 실행 순서가 정해진다.</p>
+<p><img alt="Fig: Expression tree and Runtime stack" src="https://cwivka.bn1304.livefilestore.com/y4m3hNC7ri9XufcTvWshJc6x-FDX6cgTqyLZE_G08AEvbeK7I2nKexjWK5lvUbVArCiJgY0uB_pQwWhb2IpGXZHr2VJro2jjgThBiiDQi4_NC38QTittD7JuLRvhCBJTB2cMqd07w-9ELY9VAqDmIvbTW5F-TwjYf_RXyreZa5DHeNAFPeE_0FtLCLsjR1NAPMOJDJEM1yM0utxwtm4omOPTQ?width=1024&amp;height=401&amp;cropmode=none" /></p>
+<p>그림에서 B 구문에 도달하기 위해선, A 구문을 마쳐야 한다. 이 시점에 프로그램의 상태는 구문 A의 영향을 받아 변하게 되며, 레지스터/메모리는 적당한 값을 가지고 있을 것이다.</p>
+<h3 id="blocking">Blocking</h3>
+<p>여기서 문제가 되는 것은 의존성이다.</p>
+<p>트리 모델은 수학을 프로그램으로 옮겨놓은 것이다. 수식에 필요한 모든 값이 메모리에 있다면, 컴퓨터는 계산을 도중에 멈추지 않고도 수행할 수 있다. 다만 우리의 자원은 무한하지 않기 때문에, 프로그램 흐름이 시작되는 시점에 모든 값들을 준비할 수는 없다.</p>
+<blockquote>
+<p>다른 원인도 있다. 값이 물리적으로 겁나 먼 곳에 있어서 실시간 통신을 해야할수도 있다.</p>
+</blockquote>
+<p>결국 우리는 필연적으로 입출력을 해야한다. 전통적으로 입출력은 느리고, 결과를 기다리기 위해서 프로그램은 멈춰야 했다.</p>
+<p><img alt="Fig: Expression tree blocks" src="https://cwitka.bn1304.livefilestore.com/y4mU5R4khMBvmHhDnCCaAaX2FsvwsiDoJPtzrxGTXiYI8S9C-eKPFYSp8A7joRShjatPM9ymqZ4jQGnO7KHyO_hbbEjvO0sWFsPYtn_TcMFVF2DcS-mkjI-qedbz4ddNzEI0KShV9ZGm2DyBQF3uxkXrTH0iLk8nUMbcR_l0ZHD6vqCwkR_cJn3gRDmDPkziNNw6jmZ6QuEJhxKvVBDw9vzDw?width=1024&amp;height=693&amp;cropmode=none" /></p>
+<p>반응성(Responsiveness)을 위해 프로그램이 멈추기를 원하지 않는다면 어떨까? Non-blocking과 비동기(Asynchronous) 프로그래밍 모델은 여기서 시작한다. 이는 요약하자면 기존의 수식트리를 일반화 해서, 하나의 그래프를 작성하는 것이다. 상태기계가 그래프로 표현된다는 점을 생각해보라.</p>
+<p>이 그래프 모델에선 <strong>프로그램은 상태들로 이루어진 그래프</strong>가 된다. 그리고 프로세서들은 이 그래프를 순회하는 것이다.</p>
+<p><img alt="Fig: Graph of states" src="https://cgivka.bn1304.livefilestore.com/y4mgGPMais5Nox_bo2a89cnv97CkD-aEUbF-vczXI3Z2ZCnwcFq4okkX1OZwAnymFxJqYun9_D7T1E8OTGI5CCsg49c3dnoUL6orCbrfGIhIcWBlw4Ni9mk3YHi4wvIjp4vePNyxVnNG56A7Y44GrVImH1qZgNBRt-kbNoPn3hOnikh2JWgpxkaBmpXjX3dWwah-dbQAOuy6otLqa62emMDOA?width=1024&amp;height=681&amp;cropmode=none" /></p>
+<blockquote>
+<p>프로세서는 운영체제의 프로세스, 스레드일 수 있다. 또는 언어레벨에서 지원하는 추상화, 가령 Erlang의 프로세스나 Go언어의 Goroutine일 수 있다. 더 이상의 자세한 설명은 생략한다.</p>
+</blockquote>
+<h3 id="_12">영속성</h3>
+<p>핵심은, 그래프를 순회하면서 어떻게 정점간의 <strong>문맥(context)</strong>교환이 가능할까 하는 것이다. 우선 서브루틴은 <code>return</code>과 동시에 파괴되므로(사라지므로) 이것이 불가능하다.</p>
+<p>달리 말해 서브루틴은 영속성이 없다. 이는 런타임 스택이 동작하는 방식이지만, 동시에 정점(프로그램 상태)간의 문맥전달을 아주 어렵게 만들었다. <strong>콜백 지옥</strong>도 결국은 문맥전달을 하기 위한 고육지책이라 할 수 있다.</p>
+<blockquote>
+<p>"제임스, 이 코드에는 버그가 있어요. 고칠 수 있겠어요?" - Gor Nishanov, CppCon2015</p>
+</blockquote>
+<div class="codehilite"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span> <span class="n">tcp_reader</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">total</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">reader_state</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="mi">4096</span><span class="o">&gt;</span> <span class="n">_buffer</span><span class="p">;</span>
+        <span class="kt">int64_t</span>                <span class="n">_total</span><span class="p">;</span>
+        <span class="n">tcp</span><span class="o">::</span><span class="n">connection</span>        <span class="n">_connection</span><span class="p">;</span>
+
+        <span class="k">explicit</span> <span class="nf">reader_state</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">total</span><span class="p">)</span> <span class="o">:</span>
+            <span class="n">_total</span><span class="p">(</span><span class="n">total</span><span class="p">)</span> <span class="p">{}</span>
+    <span class="p">};</span>
+
+    <span class="k">auto</span> <span class="n">state</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">reader_state</span><span class="o">&gt;</span><span class="p">(</span><span class="n">total</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">tcp</span><span class="o">::</span><span class="n">connect</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="mi">1337</span><span class="p">).</span><span class="n">then</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">state</span><span class="p">](</span><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="n">tcp</span><span class="o">::</span><span class="n">connection</span><span class="o">&gt;</span> <span class="n">the_connection</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">state</span><span class="o">-&gt;</span><span class="n">_connection</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">the_connection</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+            <span class="k">return</span> <span class="nf">do_while</span><span class="p">([</span><span class="n">state</span><span class="p">]()</span> <span class="o">-&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">_total</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">make_ready_future</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">state</span><span class="o">-&gt;</span><span class="n">conn</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">_buffer</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span>
+                                        <span class="k">sizeof</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">_buffer</span><span class="p">)).</span><span class="n">then</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">state</span><span class="p">](</span><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span> <span class="n">bytes_read_future</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="kt">int64_t</span> <span class="n">bytes_read</span> <span class="o">=</span> <span class="n">bytes_read_future</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">bytes_read</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                            <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">make_ready_future</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+                        <span class="p">}</span>
+                        <span class="n">state</span><span class="o">-&gt;</span><span class="n">_total</span> <span class="o">-=</span> <span class="n">bytes_read</span><span class="p">;</span>
+                        <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">make_ready_future</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+                    <span class="p">});</span>
+           <span class="p">});</span>
+        <span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="_13">접근법</h2>
+<p>우리에겐 영속성 있는 함수가 필요하다. 코루틴이 종료(finalization)하지 않으면서 중단(suspend/yield)이 가능했다는 점을 생각하면, 답은 명확하다. 코루틴이 있으면 이 문제를 해결할 수 있을 것이다. 하지만 어셈블리어로 구현하던 개념을 어떻게 스택 세상으로 가져올 수 있을까?</p>
+<p>질문을 바꿔보자.</p>
+<ol>
+<li>무엇이 영속성을 가져야 하는가?: <strong>문맥</strong></li>
+<li>문맥은 무엇인가?: <strong>루틴의 상태</strong></li>
+<li>상태는 무엇으로 이루어지는가?: <strong>환경 &amp; 메모리</strong></li>
+<li>환경과 메모리는 어디에 위치하는가?: <strong>함수 프레임(Function Frame)</strong></li>
+</ol>
+<p>정리하자면, 질문은 <strong>어떻게 함수 프레임들을 영속성있게 만들 것인가</strong>라고 할 수 있다. 함수 프레임에 대한 설명은 자세히 기술하지는 않겠지만, 자세한 설명을 원한다면 <a href="http://duartes.org/gustavo/blog/post/journey-to-the-stack/">이 페이지</a>를 참고하라.</p>
+<h3 id="_14">스택 안? 밖!</h3>
+<blockquote>
+<p>"왜 은행을 터나요?"
+"돈이 거기에 있잖아요"  - 어느 은행 강도</p>
+</blockquote>
+<h4 id="stack-ful">스택 내(Stack-ful) 코루틴 / 분할 스택</h4>
+<p>언어마다 다르겠지만, C++는 함수 프레임을 스택에 배치한다. 이런 상황에서 프레임을 보존하려면, 프레임을 그대로 복사해서 어딘가에 저장해두는 수 밖에 없다. 다른 방법으로는 적당한 공간을 따로 예약해서 대체 스택(side stack)으로 사용하는 방법이 있을 것이다.</p>
+<p>이 부분은 지나치도록 하겠다. MSVC는 스택 외 코루틴을 구현하고 있다.</p>
+<h4 id="stack-less">스택 외(Stack-less) 코루틴과 함수 프레임</h4>
+<p>N3858 제안서에는 이른바 '다시 시작하는 함수'(Resumable Function, 이하 재개함수)의 구현가능성에 대해 기술하고 있다. 그 방법론 중 하나는 힙(Heap)에 함수의 활성 프레임(Activation Frame)을 할당하는 것이다.</p>
+<p>하지만 프레임은 단순하게는 구조체일 뿐이다. 코루틴의 동작 4개는 어떻게 된 것일까?
+이들은 Compiler Intrinsic 형태로 MSVC가 자체적으로 구현하고 있다.</p>
+<div class="codehilite"><pre><span></span><span class="c1">// Header File : &lt;experimental/resumable&gt;</span>
+
+<span class="c1">// ...</span>
+<span class="c1">// intrinsics used in implementation of coroutine_handle</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">size_t</span> <span class="n">_coro_resume</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span>   <span class="n">_coro_destroy</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">size_t</span> <span class="n">_coro_done</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="cp">#pragma intrinsic(_coro_resume)</span>
+<span class="cp">#pragma intrinsic(_coro_destroy)</span>
+<span class="cp">#pragma intrinsic(_coro_done)</span>
+
+<span class="c1">// ...</span>
+<span class="c1">// resumable functions support intrinsics</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">size_t</span> <span class="n">_coro_frame_size</span><span class="p">();</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span> <span class="o">*</span> <span class="n">_coro_frame_ptr</span><span class="p">();</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span>   <span class="n">_coro_init_block</span><span class="p">();</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span> <span class="o">*</span> <span class="n">_coro_resume_addr</span><span class="p">();</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span>   <span class="n">_coro_init_frame</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span>   <span class="n">_coro_save</span><span class="p">(</span><span class="kt">size_t</span><span class="p">);</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span>   <span class="n">_coro_suspend</span><span class="p">(</span><span class="kt">size_t</span><span class="p">);</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span>   <span class="n">_coro_cancel</span><span class="p">();</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span>   <span class="n">_coro_resume_block</span><span class="p">();</span>
+
+<span class="cp">#pragma intrinsic(_coro_frame_size)</span>
+<span class="cp">#pragma intrinsic(_coro_frame_ptr)</span>
+<span class="cp">#pragma intrinsic(_coro_init_block)</span>
+<span class="cp">#pragma intrinsic(_coro_resume_addr)</span>
+<span class="cp">#pragma intrinsic(_coro_init_frame)</span>
+<span class="cp">#pragma intrinsic(_coro_save)</span>
+<span class="cp">#pragma intrinsic(_coro_suspend)</span>
+<span class="cp">#pragma intrinsic(_coro_cancel)</span>
+<span class="cp">#pragma intrinsic(_coro_resume_block)</span>
+<span class="c1">// ...</span>
+</pre></div>
+
+
+<p>그러니 이 부분에 대해서는 손댈 수 있는 부분이 없다. 더 자세한 설명이 필요하다면 참고자료에서 CppCon 발표들을 시청하기를 권한다.</p>
+<ul>
+<li>Coroutine<ol>
+<li><code>_coro_resume</code></li>
+<li><code>_coro_destroy</code></li>
+<li><code>_coro_done</code></li>
+<li><code>_coro_save</code></li>
+<li><code>_coro_suspend</code></li>
+<li><code>_coro_cancel</code></li>
+<li><code>_coro_resume_addr</code></li>
+</ol>
+</li>
+<li>Frame<ol>
+<li><code>_coro_frame_ptr</code></li>
+<li><code>_coro_frame_size</code></li>
+<li><code>_coro_init_frame</code></li>
+</ol>
+</li>
+<li>Block<ol>
+<li><code>_coro_init_block</code></li>
+<li><code>_coro_resume_block</code></li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p>이 intrinsic들 중 Frame과 Block들의 역할에 대해서 명확하지 않은 부분이 남아있는 것 같습니다. 기회가 되면 업데이트 하도록 하겠습니다.</p>
+</blockquote>
+<h2 id="the-c-coroutine-resumable-function">The C++ Coroutine : Resumable Function</h2>
+<p>이 시점에서 두 용어를 정리할 필요가 있을 것 같다.</p>
+<ul>
+<li><em>Coroutine : <strong>개념</strong>. 동작 4개를 지원하는 루틴</em></li>
+<li><em>Resumable Function : C++ 언어에서 Coroutine의 <strong>구현</strong>방법</em></li>
+</ul>
+<p>추가로 다음 표는 코루틴의 동작들을 어떻게 사용하는지 정리한 것이다.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Operation</th>
+<th align="center">Subroutine</th>
+<th align="center">Coroutine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Invoke</td>
+<td align="center"><code>func(args)</code></td>
+<td align="center"><code>func(args)</code></td>
+</tr>
+<tr>
+<td align="left">Activate</td>
+<td align="center">x</td>
+<td align="center"><code>resume()</code></td>
+</tr>
+<tr>
+<td align="left">Suspend</td>
+<td align="center">x</td>
+<td align="center"><code>co_yield</code>/<code>co_await</code></td>
+</tr>
+<tr>
+<td align="left">Finalize</td>
+<td align="center"><code>return</code></td>
+<td align="center"><code>co_return</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="invoke">호출(Invoke)</h3>
+<p><strong>함수 호출에 대해서는 변경사항이 없다.</strong> 하지만 재개함수는 <code>std::future&lt;T&gt;</code> 를 반환할 수 있다.</p>
+<h3 id="finalize">종료(Finalize)</h3>
+<p>서브루틴 내에서 반환지점은 익히 알려진 <code>return</code> 키워드를 사용하면 된다. 코루틴이라면 <code>co_return</code> 키워드가 이 역할을 대신한다.</p>
+<h3 id="suspend">중단(Suspend)</h3>
+<p>함수를 중단하고 Control Flow를 양보하는 방법은 <code>co_yield</code> expression과 <code>co_await</code> 연산자를 사용하는 것이다. 이 둘 중 하나라도 사용하면, 그 지점은 중단/재개 지점으로 사용되며 MSVC는 그 함수를 재개함수로 만들게 된다. (더해서 <code>co_return</code> 구문도 함수 내에 위치하면 재개함수로 인식된다.)</p>
+<h3 id="activate">활성화(Activate)</h3>
+<p>중단된 함수를 활성화 할 때는, <code>coroutine_handle</code>과 멤버함수 <code>.resume()</code>를 사용한다. 이 호출은 Compiler Intrinsic인 <code>_coro_resume</code>위에 인터페이스를 올린 것이다.</p>
+<h2 id="code">Code</h2>
+<blockquote>
+<p>예제 코드와 관련해 <a href="https://github.com/kirkshoop/await">kirkshoop의 저장소</a>가 도움이 되었습니다.</p>
+</blockquote>
+<p>미리 요약하자면, MSVC의 요구사항을 따르기만 한다면 C++에서도 코루틴을 사용할 수 있다. 제안서의 이름이 <strong>재개</strong>(따라서, 영속성 있는) 함수 라는 점에 주목하라. 재개함수에는 몇가지 종류가 있는데, 함수에 어떤 역할을 맡기고자 하느냐에 따라 달라진다. 그러면 컴파일러의 요구사항이란 무엇일까?</p>
+<h3 id="promise">Promise : 컴파일러가 원하는 것</h3>
+<p>C++11에 추가된 <code>std::future&lt;T&gt;</code>와 <code>std::promise&lt;T&gt;</code>, 그리고 이 두 짝궁의 관계에 대해서 알 것이라 전제하겠다. 일반적으로, <code>future&lt;T&gt;</code>는 "<strong>나중에</strong> 값이나 예외를 줄게"라는 것을 의미한다. (<code>std::async</code>를 참고하라) 그리고 값/예외는 <code>promise&lt;T&gt;</code>를 통해서 전달된다. 이는 "결과를 준다는 <strong>약속</strong>을 지켰다."라는 것이다.</p>
+<p>앞서 재개함수가 <code>future&lt;T&gt;</code>를 반환한다고 설명했는데, 말 그대로다. 코루틴은 스스로 중단할 수 있기 때문에 활성화한 루틴 입장에서는 코루틴이 종료했는지 알 방법이 없다. 반환값이 있다는 것을 알 수 없는 것이다. 하지만 함수의 시그니처(Signature)상으로는, <strong>나중에</strong>라는 의미가 담긴 타입 <code>future</code>를 반환하도록 함으로써 일반적인 서브루틴처럼 사용할 수 있도록 하고 있다.</p>
+<p>다만 기존과 달리 여기서의 <code>promise</code>는 재개함수를 위한것이다. <a href="https://isocpp.org/files/papers/N4402.pdf">N4402</a>는 이 내용에 대해 기술하고 있다. 어째서 재개함수에게 약속이 필요한 것일까? 이는 재개함수가 <strong>추상화</strong>한 결과물이기 때문이다. </p>
+<p>스택 기반의 환경때문에, 코루틴 개념을 구현하기는 했지만 어셈블리와 같이 1차원으로 배치된(flat) 구문구조는 사용할 수 없었다. 재개함수는 결국 힙에서 살아있으며, 힙 영역(함수 프레임)에서 스택 영역(<code>future</code> 또는 awaitable)으로 값을 전달해야 하고, 이 과정은 일정한 <strong>인터페이스</strong>를 통해서 이루어지도록 한 것이다. 물론 인터페이스는 컴파일러와 프로그래머 양쪽 모두를 위한 것이다.</p>
+<h4 id="resumable-promise-requirement">Resumable Promise Requirement</h4>
+<blockquote>
+<p>재개함수의 Promise 요구사항</p>
+</blockquote>
+<p>그 인터페이스가 어떻게 쓰이는지는 잠시 후 기술하고, 그에 앞서 N4402 문서를 살펴보자. 재개함수에서 사용될 수 있는 Promise 타입은 아래 표에 열거된 멤버함수들을 지원해야 한다. 제안서를 요약한 것이므로, 보다 자세한 설명은 제안서를 참고하기 바란다.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Expression</th>
+<th align="left">Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>P{}</code></td>
+<td align="left">이 타입은 <a href="http://en.cppreference.com/w/cpp/concept/DefaultConstructible">default constructible</a> 해야한다.</td>
+</tr>
+<tr>
+<td align="left"><code>p.get_return_object()</code></td>
+<td align="left">재개함수의 반환값을 결정한다. <code>future&lt;T&gt;</code> 혹은 요구사항을 만족하는 사용자 정의 타입이 사용될 수 있다.</td>
+</tr>
+<tr>
+<td align="left"><code>p.return_value(v)</code></td>
+<td align="left"><code>co_return</code> 구문. 결과값으로 <code>v</code>를 전달하며, 그 값은 나중에 사용(consume)된다.</td>
+</tr>
+<tr>
+<td align="left"><code>p.return_value()</code></td>
+<td align="left"><code>co_return</code> 구문. <code>void</code> 타입에 사용되며, 결과값이 없음을 의미하기도 한다. 재개함수가 종료될때 사용된다. 이 함수가 호출되는 것은 "더이상 결과값이 없음"을 의미한다.</td>
+</tr>
+<tr>
+<td align="left"><code>p.set_exception(e)</code></td>
+<td align="left">예외를 전달한다. Resumer 측에서 결과값을 사용하려고 할때 <code>throw</code>된다.</td>
+</tr>
+<tr>
+<td align="left"><code>p.yield_value(v)</code></td>
+<td align="left"><code>co_yield</code> 표현식. <code>return_value(v)</code>와 유사하다.</td>
+</tr>
+<tr>
+<td align="left"><code>p.initial_suspend()</code></td>
+<td align="left"><code>true</code>를 반환할 경우, 초기 중단점(initial suspend point)에서 중단한다.</td>
+</tr>
+<tr>
+<td align="left"><code>p.final_suspend()</code></td>
+<td align="left"><code>true</code>를 반환할 경우, 최종 중단점(final suspend point)에서 중단한다.</td>
+</tr>
+</tbody>
+</table>
+<p>여기서 일부 함수들은 <code>coroutine_traits&lt;T&gt;</code>와 연관되어있는데, 이후에 이 타입의 유동성에 대해서 설명하겠다. 이제 C++ 코루틴의 사용방법으로 초점을 옮겨보자.</p>
+<h3 id="generator">Generator</h3>
+<h4 id="_15">개념</h4>
+<ul>
+<li><em>Generator = Iterator + Resumable Function</em></li>
+</ul>
+<p>반복자가 보이는가? <code>generator&lt;T&gt;</code>는 값의 수열(sequence)을 추상화 한 것이다. 이때 값은 재개함수에 의해서 생성되는데, 재개함수는 새로 호출되면 함수 프레임이 힙 영역에 유지되므로, <code>generator</code>마다 고유한 문맥을 가지게 된다.</p>
+<h4 id="example">Example</h4>
+<p>다음 코드는 N개의 피보나치 수를 생성하는 <code>generator</code>를 작성한 것이다.</p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;experimental/generator&gt;</span><span class="cp"></span>
+
+<span class="c1">// N개의 피보나치 수를 생성하는 generator를 반환한다.</span>
+<span class="k">auto</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="k">noexcept</span>
+    <span class="o">-&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">generator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">f1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">f2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 피보나치 수를 지정(Set)하고 중단(Suspend)한다.</span>
+        <span class="n">co_yield</span> <span class="n">f1</span><span class="p">;</span>
+
+        <span class="c1">// 다음 피보나치 수를 구한 뒤 Shift 한다.</span>
+        <span class="kt">int</span> <span class="n">f3</span> <span class="o">=</span> <span class="n">f1</span> <span class="o">+</span> <span class="n">f2</span><span class="p">;</span>
+        <span class="n">f1</span> <span class="o">=</span> <span class="n">f2</span><span class="p">;</span>
+        <span class="n">f2</span> <span class="o">=</span> <span class="n">f3</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">co_return</span><span class="p">;</span>  <span class="c1">// 더이상 값을 생성하지 않는다.</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">usecase</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// 10개의 피보나치 수를 받는다.</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">fibo</span> <span class="p">:</span> <span class="n">fibonacci</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="c1">// 0, 1, 1, 2, 3, 5, 8 ... 34</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>어떻게 이게 가능한걸까? <code>generator&lt;T&gt;</code>의 정의를 살펴보자.</p>
+<h4 id="detail">실체(Detail)</h4>
+<p>간략하게 <code>generator&lt;T&gt;</code> 를 옮겨왔다. <code>iterator</code>와 <code>promise_type</code>을 지원하는 것을 확인할 수 있다. 또한 <code>begin()</code>/<code>end()</code> 함수로 <a href="http://en.cppreference.com/w/cpp/language/range-for">Range-based for loop</a>를 지원하고 있다.</p>
+<div class="codehilite"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="n">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
+<span class="k">struct</span> <span class="n">generator</span>
+<span class="p">{</span>
+    <span class="c1">// Resumable Promise Requirement</span>
+    <span class="k">struct</span> <span class="n">promise_type</span><span class="p">;</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="c1">// 재개함수를 위한 핸들</span>
+    <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">_Coro</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="k">struct</span> <span class="n">promise_type</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
+    <span class="k">struct</span> <span class="n">iterator</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
+
+    <span class="n">iterator</span> <span class="nf">begin</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// 함수 프레임이 있다면 재개해서 값을 받아올 수 있다.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">_Coro</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">_Coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+            <span class="c1">// 함수가 반환되었나?</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">_Coro</span><span class="p">.</span><span class="n">done</span><span class="p">())</span>
+                <span class="k">return</span> <span class="p">{</span><span class="k">nullptr</span><span class="p">};</span> <span class="c1">// return end();</span>
+        <span class="p">}</span>
+        <span class="c1">// 아직 끝나지 않았다.</span>
+        <span class="c1">// 다음에 다시 resume하자...</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">_Coro</span><span class="p">};</span>
+    <span class="p">}</span>
+
+    <span class="n">iterator</span> <span class="nf">end</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// 함수 프레임이 없다면, 값을 더 가져올 수 없다.</span>
+        <span class="k">return</span> <span class="p">{</span><span class="k">nullptr</span><span class="p">};</span>
+    <span class="p">}</span>
+
+    <span class="o">~</span><span class="n">generator</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// RAII : 함수 프레임을 파괴한다.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">_Coro</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">_Coro</span><span class="p">.</span><span class="n">destroy</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">};</span>
+</pre></div>
+
+
+<p>이를 바탕으로 실제로는 이런 코드가 만들어질 것이다.</p>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="nf">usecase</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// N개의 피보나치 수를 생성하는 generator를 반환한다.</span>
+    <span class="n">generator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">gen</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+    <span class="c1">// `iter++`는 delete되었으므로 사용이 불가능하다.</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">gen</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+         <span class="n">iter</span> <span class="o">!=</span> <span class="n">gen</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+         <span class="o">++</span><span class="n">iter</span> <span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">fibo</span> <span class="o">=</span> <span class="o">*</span><span class="n">iter</span><span class="p">;</span>
+        <span class="c1">// 0, 1, 1, 2, 3, 5, 8 ... 34</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>일반적인 <code>iterator-for</code> 구문과 크게 다르지 않다. <code>iterator</code>는 어떻게 되어있을까?</p>
+<div class="codehilite"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="n">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
+<span class="k">struct</span> <span class="n">generator</span>
+<span class="p">{</span>
+    <span class="c1">// 반복자 인터페이스</span>
+    <span class="k">struct</span> <span class="nl">iterator</span> <span class="p">:</span> <span class="n">_STD</span> <span class="n">iterator</span><span class="o">&lt;</span><span class="n">input_iterator_tag</span><span class="p">,</span> <span class="n">_Ty</span><span class="o">&gt;</span>
+    <span class="p">{</span>
+        <span class="c1">// Resumable function handle</span>
+        <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">_Coro</span><span class="p">;</span>
+
+        <span class="n">iterator</span><span class="p">(</span><span class="n">nullptr_t</span><span class="p">);</span>
+        <span class="n">iterator</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">_CoroArg</span><span class="p">);</span>
+
+        <span class="c1">// 다음으로 이동할때...</span>
+        <span class="n">iterator</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">++</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="c1">// 함수를 재개해서 값을 yield하도록 한다.</span>
+            <span class="n">_Coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+
+            <span class="c1">// 만약 함수가 return했다면, 그 핸들은 generator가 소멸시킬 것이다.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">_Coro</span><span class="p">.</span><span class="n">done</span><span class="p">())</span>
+                <span class="n">_Coro</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+            <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// MSVC의 코멘트는, 요약하자면,</span>
+        <span class="c1">// 후위증가식은 iterator를 덮어쓸 수 있고,</span>
+        <span class="c1">// 이로인해 handle이 nullptr로 바뀌면서</span>
+        <span class="c1">// 함수 프레임 내에 마지막 값을 받아올 수 없다는 것이다.</span>
+        <span class="c1">// ---- ---- ---- ---- ----</span>
+        <span class="c1">// generator iterator current_value</span>
+        <span class="c1">// is a reference to a temporary on the coroutine frame</span>
+        <span class="c1">// implementing post increment will require storing a copy</span>
+        <span class="c1">// of the value in the iterator.</span>
+        <span class="n">iterator</span> <span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+        <span class="c1">//{</span>
+        <span class="c1">//      auto _Result = *this;</span>
+        <span class="c1">//      ++(*this);</span>
+        <span class="c1">//      return _Result;</span>
+        <span class="c1">//}</span>
+
+        <span class="c1">// `promise`에 포인터가 있다. 포인터를 참조해 프레임 안의 값을 가져온다.</span>
+        <span class="n">_Ty</span> <span class="k">const</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*</span><span class="p">()</span> <span class="k">const</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="o">*</span><span class="n">_Coro</span><span class="p">.</span><span class="n">promise</span><span class="p">().</span><span class="n">_CurrentValue</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">_Ty</span> <span class="k">const</span> <span class="o">*</span><span class="k">operator</span><span class="o">-&gt;</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+        <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="n">iterator</span> <span class="k">const</span> <span class="o">&amp;</span><span class="n">_Right</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="n">iterator</span> <span class="k">const</span> <span class="o">&amp;</span><span class="n">_Right</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<p>이 코드를 보면 반복자가 함수를 반복적으로 재개하는 것을 알 수 있다. 그리고 <code>generator&lt;T&gt;</code>의  <code>promise_type</code>을 통해서 값을 획득한다. 이 경우는 <code>usecase</code> 함수가 <strong><code>generator</code>의 호출자면서 재개자인 것이다.</strong></p>
+<p><img alt="Fig: Generator Invoke and Resume" src="https://cgiska.bn1304.livefilestore.com/y4myyjBEM4mTFN8yloP0iVkJc-b8wQ_OzKXH-Y03gXYlJqaxpsg7db3xWQAxUujyjQamngJ9mw7cnHmFt3_W2qxviWYpMzdRR6iub1Msi_bZOHuB76FbOOdfrhDo5yen6OAzJH48zRRfbbiiboTzymHRLN5xOosm6PyywXhQO9lYo80KY_lPRhaUMu-dcPkbu3wiL0OtjtiyJE8iGt1-d4vbw?width=1024&amp;height=607&amp;cropmode=none" /></p>
+<h4 id="_16">컴파일러의 시점</h4>
+<p>이제 핵심이 되는 <code>promise_type</code>을 볼 차례다. 기술된 것 보다 코드가 좀 더 있지만 단순화 하였다.</p>
+<div class="codehilite"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="n">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
+<span class="k">struct</span> <span class="n">generator</span>
+<span class="p">{</span>
+    <span class="c1">// Resumable Promise Requirement for `generator`</span>
+    <span class="k">struct</span> <span class="n">promise_type</span>
+    <span class="p">{</span>
+        <span class="c1">// it knows where the value is... in frame.</span>
+        <span class="n">_Ty</span> <span class="k">const</span> <span class="o">*</span><span class="n">_CurrentValue</span><span class="p">;</span>
+
+        <span class="c1">// It returns `promise_type`.</span>
+        <span class="c1">// The reason will be explained in next section.</span>
+        <span class="n">promise_type</span> <span class="o">&amp;</span><span class="n">get_return_object</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// If return `true`, suspends at initial suspend point.</span>
+        <span class="c1">// So we suspends at *some* point</span>
+        <span class="kt">bool</span> <span class="n">initial_suspend</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// If return `true`, suspends at final suspend point.</span>
+        <span class="c1">// So we suspends at *some* point</span>
+        <span class="kt">bool</span> <span class="n">final_suspend</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Support `co_yield` expression</span>
+        <span class="kt">void</span> <span class="n">yield_value</span><span class="p">(</span><span class="n">_Ty</span> <span class="k">const</span> <span class="o">&amp;</span><span class="n">_Value</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// point the value</span>
+            <span class="n">_CurrentValue</span> <span class="o">=</span> <span class="n">_STD</span> <span class="n">addressof</span><span class="p">(</span><span class="n">_Value</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>이 <code>promise_type</code>은 요구사항 중에서 4개의 멤버함수를 만족한다. <code>get_return_object</code>, <code>initial_suspend</code>, <code>final_suspend</code>, 그리고 <code>yield_value</code>가 정의되어 있다.
+<code>co_yield</code>는 "값을 지정하고 중단하라"와 같은 의미인데, 컴파일러는 이를 이렇게 변경한다.</p>
+<ul>
+<li><code>co_yield</code> : <code>co_await</code> + <code>p.yield_value(x)</code></li>
+</ul>
+<p>따라서, <code>co_yield</code>에 인자 표현식이 없다는 것은 <strong>불가능</strong>하다. <code>x</code>는 <code>void</code>가 될 수 없기 때문이다. 같은 이유로 <code>generator&lt;void&gt;</code>는 컴파일 에러가 되며, 연속된 값의 추상화라는 정의에도 위배된다.</p>
+<blockquote>
+<p>엄밀히 말해 여기서 <code>co_await</code>는 <code>suspend</code>를 의미한다. 자세한 설명은 후술한다.</p>
+</blockquote>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;experimental/generator&gt;</span><span class="cp"></span>
+
+<span class="k">auto</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="k">noexcept</span>
+    <span class="o">-&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">generator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="c1">// 컴파일러는 이 표현식을 아래와 같이 바꾼다.</span>
+        <span class="c1">// co_yield f1;</span>
+        <span class="n">p</span><span class="p">.</span><span class="n">yield_value</span><span class="p">(</span><span class="n">f1</span><span class="p">);</span>  <span class="c1">// 값에 대한 포인터를 지정하고</span>
+        <span class="n">co_await</span> <span class="n">suspend_always</span><span class="p">{};</span>              <span class="c1">// 중단한다.</span>
+
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+    <span class="n">co_return</span><span class="p">;</span>  <span class="c1">// 더이상 값이 없다.</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>이 코드에는 <code>promise_type p{}</code>같은 변수 선언이나, 다른 함수들의 호출이 없다. 그 이유는 다음 단원에서 다루겠다.</p>
+<h3 id="resumable-function">Resumable Function</h3>
+<blockquote>
+<p>재개 함수</p>
+</blockquote>
+<p>이번엔 좀 더 상향식으로 알아보자.  예제코드는 Awaitable Concept를 이해한 뒤에 봐야 한다.</p>
+<h4 id="_17">개념</h4>
+<ul>
+<li><em>Resumable Function : Heap Allocated Frame + Operation</em></li>
+<li><em>Operation : <code>call</code> | <code>co_await</code> | <code>co_return</code> | <code>resume()</code></em></li>
+</ul>
+<p><code>generator&lt;T&gt;</code>는 단순한 예제였다. <code>generator</code>는 <code>coroutine_handle</code>을 멤버변수로 가지고 있었는데, 이 타입은 무엇인지 살펴봐야 한다. 사실, <code>coroutine_handle</code>의 예전 이름은 <code>resumable_handle</code>였다.</p>
+<p>재개함수는 C++상에서 코루틴 개념을 구현한 것이라고 설명했는데, <code>coroutine_handle</code>는 달리 말하면 재개함수에 대한 핸들(Resumable Function Handle)이다. Windows API를 사용해본 경험이 있다면 <em>Handle</em>이 결국 <code>void*</code>라는 것을 알 것이다. 여기서도 동일하다.</p>
+<p>앞서 설명했던 것 처럼 MSVC는 힙 영역에 프레임을 동적할당하고, 거기에 약간의 intrinsic을 더하는 형태로 스택 외(stack-less) 코루틴을 구현하고 있다. <strong><code>coroutine_handle</code>은 이들을 하나의 타입으로 묶어놓은 것이다.</strong></p>
+<h4 id="_18">재개함수의 프레임</h4>
+<p>그러면, Resumable Frame 은 대체 어떻게 생겼을까? 일단 프레임은 Head와 Body로 나뉜다.</p>
+<div class="codehilite"><pre><span></span><span class="c1">// TEMPLATE CLASS coroutine_handle</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_PromiseT</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="p">;</span>
+
+<span class="c1">// TEMPLATE CLASS coroutine_handle&lt;void&gt; - no promise access</span>
+<span class="k">template</span> <span class="o">&lt;&gt;</span>
+<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// ---- ---- ---- ---- ----</span>
+    <span class="c1">// 함수 프레임 Head </span>
+    <span class="c1">//  - Fn    : 재개할 때 수행할 명령어의 주소</span>
+    <span class="c1">//  - cdecl : 이 Convention에서 함수 프레임의 정리는 Caller 가 담당한다.</span>
+    <span class="c1">//  - Index : Resumption point의 인덱스</span>
+    <span class="c1">//            0번은 함수가 종료된(`done()`) 경우에 사용한다.</span>
+    <span class="c1">//  - Flag  : ???</span>
+    <span class="k">struct</span> <span class="n">_Resumable_frame_prefix</span>
+    <span class="p">{</span>
+        <span class="k">typedef</span> <span class="kt">void</span><span class="p">(</span><span class="kr">__cdecl</span> <span class="o">*</span><span class="n">_Resume_fn</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
+        <span class="n">_Resume_fn</span> <span class="n">_Fn</span><span class="p">;</span>
+        <span class="kt">uint16_t</span> <span class="n">_Index</span><span class="p">;</span>
+        <span class="kt">uint16_t</span> <span class="n">_Flags</span><span class="p">;</span>
+    <span class="p">};</span>
+    <span class="c1">// ---- ---- ---- ---- ----</span>
+    <span class="c1">// 함수 프레임 Body 에는...</span>
+    <span class="c1">//  - Promise 타입 개체</span>
+    <span class="c1">//  - 프레임으로 이동시킨 Arguments</span>
+    <span class="c1">//  - 함수 Body</span>
+    <span class="c1">//      - 지역/임시 변수들</span>
+    <span class="c1">//  - Platform 전용</span>
+    <span class="c1">//      - 레지스터 등등</span>
+    <span class="c1">// ---- ---- ---- ---- ----</span>
+
+<span class="k">protected</span><span class="o">:</span>
+    <span class="n">_Resumable_frame_prefix</span> <span class="o">*</span><span class="n">_Ptr</span><span class="p">;</span>
+
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="n">coroutine_handle</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="n">coroutine_handle</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+
+    <span class="c1">// Import : the pointer to resumable handle</span>
+    <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="nf">from_address</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span>
+    <span class="p">{</span>
+        <span class="n">coroutine_handle</span> <span class="n">_Result</span><span class="p">;</span>
+        <span class="n">_Result</span><span class="p">.</span><span class="n">_Ptr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">_Resumable_frame_prefix</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">_Addr</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">_Result</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Export : return the frame address</span>
+    <span class="kt">void</span> <span class="o">*</span><span class="nf">address</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">_Ptr</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">explicit</span> <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">destroy</span><span class="p">();</span>
+
+    <span class="kt">bool</span> <span class="nf">done</span><span class="p">()</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="c1">// REVISIT: should return _coro_done() == 0; when intrinsic is</span>
+        <span class="c1">// hooked up</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">_Ptr</span><span class="o">-&gt;</span><span class="n">_Index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<p><strong>Head</strong> : 이름처럼 <code>_Resumable_frame_prefix</code>가 함수프레임의 앞부분이 된다. MSVC 는 이 공간에 <code>sizeof(void *) * 2</code>(x64 에서 16 바이트)만큼의 고정된 크기를 사용한다.</p>
+<ul>
+<li><code>Fn</code> :  <code>cdecl</code> 호출 규약으로 선언되어있다는 점이 특이한데, <code>cdecl</code>에서 프레임의 정리는 호출자의 역할이며, 따라서 <code>Fn</code>을 호출하는 것은 그 시점의 스택과 함수 프레임에 영향을 미치지 않는다.</li>
+<li><code>Index</code> : 재개함수는 다수의 중단/재개 지점들을 가지고 있고, <code>Index</code>는 각 지점들로 <code>switch</code>하는데 사용된다.  </li>
+<li><code>Flag</code> : ??? 이건 대체 뭘까 ???</li>
+</ul>
+<p><strong>Body</strong> : N4402에 함수 프레임의 구성에 대해 기술되어있다. James McNellis의 발표자료에 의하면, 컴파일러가 생성하는 프레임은 다음을 포함한다. 일반적인 스택 프레임과 크게 다르지 않다.</p>
+<ul>
+<li>Promise</li>
+<li>Captured arguments</li>
+<li>Function body<ul>
+<li>Local Variables and Temporaries</li>
+</ul>
+</li>
+<li>Platform context<ul>
+<li>Registers</li>
+</ul>
+</li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="c1">// `fibonacci` 함수를 위한 프레임(예시)</span>
+<span class="k">struct</span> <span class="n">__frame_fibonacci</span>
+<span class="p">{</span>
+    <span class="c1">// `_Resumable_frame_prefix`</span>
+    <span class="n">Frame_Prefix</span>  <span class="n">_prefix</span><span class="p">;</span>
+
+    <span class="c1">// Resumable Promise Requirement</span>
+    <span class="c1">//   fibonacci는 `generator&lt;int&gt;`를 반환한다.</span>
+    <span class="n">generator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">promise_type</span>  <span class="n">_p</span><span class="p">;</span>
+
+    <span class="c1">// 프레임에 인자를 저장한다.</span>
+    <span class="kt">int</span>   <span class="n">_n</span><span class="p">;</span> <span class="c1">// fibonacci(n);</span>
+
+    <span class="kt">int</span>   <span class="n">_f1</span><span class="p">,</span> <span class="n">_f2</span><span class="p">;</span>     <span class="c1">// 지역 변수</span>
+    <span class="kt">int</span>   <span class="n">_i</span><span class="p">,</span>  <span class="n">_f3</span><span class="p">;</span>     <span class="c1">// 임시 변수</span>
+
+    <span class="c1">// Platform 전용 저장소</span>
+    <span class="c1">//  레지스터나 이것저것...</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<h4 id="coroutine-traits">Coroutine Traits</h4>
+<p><code>p.get_return_object()</code>에 대해서 다루지 않았었는데, 여기서 같이 다루고자 한다. 먼저 <code>coroutine_traits</code>를 눈여겨봐야 한다.</p>
+<div class="codehilite"><pre><span></span><span class="c1">// &lt;experimental/resumable&gt;</span>
+
+<span class="c1">// TEMPLATE CLASS coroutine_traits</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Ts</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">coroutine_traits</span>
+<span class="p">{</span>
+    <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">_Ret</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<p>굉장히 단순한데, <code>coroutine_traits</code>이 요구하는 것은 결국 <code>promise_type</code>를 구현하라는 것이다. 이에 대한 검사는 컴파일 시간에 이루어지고, 이 타입은 <strong>Resumable Promise Requirement</strong>를 만족시켜야 한다.</p>
+<p>앞서 재개함수는 <code>future&lt;T&gt;</code>를 반환할 수 있다고 설명했는데, 사실 그것은 부정확한 설명이었다. <code>coroutine_traits</code>를 만족시키기만 한다면, 그 타입은 재개함수의 반환 타입이 될 수 있다.</p>
+<p><code>std::future&lt;T&gt;</code>를 위한 <code>coroutine_traits</code>의 <strong>템플릿 특수화</strong>버전을 옮겨왔다. <code>generator&lt;T&gt;</code>의 경우는 내부에 <code>promise_type</code>을 구현하고 있었는데, 예전부터 사용하던 타입들이나 커스텀 타입들은 이런 트릭을 사용해서 재개함수에서 유연하게 사용할 수 있다.</p>
+<div class="codehilite"><pre><span></span><span class="c1">// &lt;future&gt; 헤더</span>
+<span class="cp">#ifdef _RESUMABLE_FUNCTIONS_SUPPORTED</span>
+
+<span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span>
+<span class="p">{</span>
+
+<span class="c1">// `std::future&lt;T&gt;`를 위한 템플릿 특수화</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ty</span><span class="p">,</span> <span class="n">class</span><span class="p">...</span> <span class="n">_ArgTypes</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">future</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">_ArgTypes</span><span class="p">...</span><span class="o">&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// `future&lt;_Ty&gt;`를 반환하는 재개함수들을 위한 타입정의</span>
+    <span class="k">struct</span> <span class="n">promise_type</span>
+    <span class="p">{</span>
+        <span class="c1">// `std::promise&lt;T&gt;`를 그대로 사용한다.</span>
+        <span class="n">promise</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;</span> <span class="n">_MyPromise</span><span class="p">;</span>
+
+        <span class="c1">// 재개함수의 반환 타입은 `std::future&lt;T&gt;`...</span>
+        <span class="n">future</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;</span> <span class="n">get_return_object</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">_MyPromise</span><span class="p">.</span><span class="n">get_future</span><span class="p">());</span>
+        <span class="p">}</span>
+
+        <span class="c1">// `false`일 경우, 초기 중단점에서 멈춘다.</span>
+        <span class="kt">bool</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="k">const</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// `false`일 경우, 최종 중단점에서 멈춘다.</span>
+        <span class="kt">bool</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="k">const</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// `std::promise&lt;T&gt;`를 통해 값을 전달한다.</span>
+        <span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ut</span><span class="o">&gt;</span>
+        <span class="kt">void</span> <span class="n">return_value</span><span class="p">(</span><span class="n">_Ut</span><span class="o">&amp;&amp;</span> <span class="n">_Value</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">_MyPromise</span><span class="p">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">_STD</span> <span class="n">forward</span><span class="o">&lt;</span><span class="n">_Ut</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_Value</span><span class="p">));</span>
+        <span class="p">}</span>
+
+        <span class="c1">// `std::promise&lt;T&gt;`를 통해 예외를 전달한다.</span>
+        <span class="kt">void</span> <span class="n">set_exception</span><span class="p">(</span><span class="n">exception_ptr</span> <span class="n">_Exc</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">_MyPromise</span><span class="p">.</span><span class="n">set_exception</span><span class="p">(</span><span class="n">_STD</span> <span class="n">move</span><span class="p">(</span><span class="n">_Exc</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">};</span><span class="c1">// struct promise_type</span>
+<span class="p">};</span><span class="c1">// coroutine_traits&lt;T, Args...&gt;</span>
+
+<span class="c1">// ...</span>
+<span class="p">}</span><span class="c1">// namespace std::experimental</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+
+
+<p>MSVC는  <code>co_await</code>/<code>co_yield</code>/<code>co_return</code> 키워드 중 하나를 확인하면, <code>coroutine_traits</code>를 사용해 컴파일 시간에 검사를 수행할 수 있도록 코드르 생성한다. MSVC가 하는 일을 확인하기 위해 <code>fibonacci</code> 예제로 다시 가보자.</p>
+<blockquote>
+<p>이 코드는 틀린 형태일 수 있습니다. 정확한 메커니즘을 확인하게 되면 갱신하도록 하겠습니다.</p>
+</blockquote>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;experimental/generator&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
+
+<span class="c1">// Make a generator for `N` fibonacci numbers</span>
+<span class="k">auto</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="k">noexcept</span>
+    <span class="o">-&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">generator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// 별칭 : 반환타입 </span>
+    <span class="k">using</span> <span class="n">return_type</span> <span class="o">=</span> <span class="n">generator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">;</span>
+    <span class="c1">// 반환타입이 Promise Requirement를 만족하는가?</span>
+    <span class="k">using</span> <span class="n">traits</span> <span class="o">=</span> <span class="n">coroutine_traite</span><span class="o">&lt;</span><span class="n">return_type</span><span class="o">&gt;</span><span class="p">;</span>
+
+    <span class="c1">// 요구사항을 만족한다면 이 재개함수를 위한 프레임을 생성한다.</span>
+    <span class="c1">// fibonacci 함수를 위한 가상의 프레임. 위와 동일하다.</span>
+    <span class="k">struct</span> <span class="n">__frame</span>
+    <span class="p">{</span>
+        <span class="c1">// `_Resumable_frame_prefix`</span>
+        <span class="n">Frame_Prefix</span>  <span class="n">_prefix</span><span class="p">;</span>
+
+        <span class="c1">// Resumable Promise Requirement</span>
+        <span class="c1">//   fibonacci returns `generator&lt;int&gt;`</span>
+        <span class="n">generator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">promise_type</span>  <span class="n">_promise</span><span class="p">;</span>
+
+        <span class="c1">// Captured arguments</span>
+        <span class="kt">int</span>   <span class="n">_n</span><span class="p">;</span> <span class="c1">// fibonacci(n);</span>
+
+        <span class="kt">int</span>   <span class="n">_f1</span><span class="p">,</span> <span class="n">_f2</span><span class="p">;</span>     <span class="c1">// Local variable</span>
+        <span class="kt">int</span>   <span class="n">_i</span><span class="p">,</span>  <span class="n">_f3</span><span class="p">;</span>     <span class="c1">// Temporaries</span>
+
+        <span class="c1">// Platform dependent storage</span>
+        <span class="c1">//  for registers, etc.</span>
+    <span class="p">};</span>
+
+    <span class="c1">// 프레임을 동적으로 할당한다. context(ctx)라고 하겠다.</span>
+    <span class="c1">// 특정한 Allocator를 사용해 커스터마이즈 할 수도 있지만 여기선 단순히 new로 설명한다.</span>
+    <span class="n">__frame</span><span class="o">*</span> <span class="n">ctx</span> <span class="o">=</span> <span class="k">new</span> <span class="n">__frame</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">n</span><span class="p">)};</span>
+    <span class="c1">// 반환 개체를 생성한다.</span>
+    <span class="n">return_type</span> <span class="n">__return</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_promise</span><span class="p">.</span><span class="n">get_return_object</span><span class="p">();</span>
+
+    <span class="c1">// true일 경우 중단, false일 경우 진행한다.</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_promise</span><span class="p">.</span><span class="n">initial_suspend</span><span class="p">()</span> <span class="p">){</span> <span class="c1">// 항상 true</span>
+        <span class="c1">// 중단한다...</span>
+    <span class="nl">__initial_suspend_point</span><span class="p">:</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 사용자 코드는 프레임을 사용하도록 변경된다.</span>
+    <span class="c1">// ---- ---- ---- ---- ----</span>
+    <span class="p">{</span>
+        <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_f1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_f2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+             <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_i</span> <span class="o">&lt;</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_n</span><span class="p">;</span>
+             <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// promise를 통해 값을 전달한다.</span>
+            <span class="c1">// co_yield f1;</span>
+            <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_promise</span><span class="p">.</span><span class="n">yield_value</span><span class="p">(</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_f1</span><span class="p">);</span>
+
+            <span class="c1">// `ctx-&gt;_prefix`의 Index를 조정하고 중단한다.</span>
+            <span class="c1">// co_await suspend_always{};</span>
+        <span class="nl">__suspend_resume_point_1</span><span class="p">:</span>
+
+            <span class="c1">// 다음 피보나치 수를 계산하고 Shift</span>
+            <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_f3</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_f1</span> <span class="o">+</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_f2</span><span class="p">;</span>
+            <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_f1</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_f2</span><span class="p">;</span>
+            <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_f2</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_f3</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// co_return;</span>
+        <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_promise</span><span class="p">.</span><span class="n">set_result</span><span class="p">();</span>
+        <span class="k">goto</span> <span class="n">__final_suspend_point</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// ---- ---- ---- ---- ----</span>
+
+    <span class="k">if</span><span class="p">(</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">_promise</span><span class="p">.</span><span class="n">final_suspend</span><span class="p">()</span> <span class="p">){</span> <span class="c1">// 항상 true</span>
+        <span class="c1">// 중단한다...</span>
+    <span class="nl">__final_suspend_point</span><span class="p">:</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 정리작업...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>생각보다 컴파일러가 많은 작업을, 하지만 기존에 스택 프레임에 대해서 하던것과 유사한 작업을 하는 것을 알 수 있었다. <code>ctx</code>에 대한 포인터를 사용해 힙영역에 위치한 변수를 사용하는 방법은 <code>this</code> 포인터의 사용과 다르지 않기 때문에, 이런 프레임 기반 구현의 비용은 추가적인 <code>co_await</code>관련 비용이외에는 무시할 수 있는 수준일 것이다.</p>
+<ul>
+<li><code>co_yield</code>  : <code>co_await</code> + <code>p.yield_value(x)</code></li>
+<li><code>co_return</code> : <code>p.set_result(x)</code> + <code>goto final_suspend;</code></li>
+</ul>
+<h4 id="_19">잠깐 정리</h4>
+<p><code>co_return</code>과 <code>co_yield</code>에 대해서 <code>generator&lt;T&gt;</code> 예제를 통해 살펴봤다. Generator는 반복자와 재개함수를 합친 것이었다.</p>
+<p>재개함수는 <code>coroutine_handle</code>을 사용하는데, 이 타입은 함수 프레임에 대한 포인터와 컴파일러 Intrinsic을 합쳐놓은 것이다. 프레임 기반의 구현은 <code>this</code>포인터를 사용해 변수를 조작하는 것과 유사하다.</p>
+<p>컴파일 시간(정적) 검사를 위해 <code>coroutine_traits&lt;T&gt;</code>가 사용된다. 이를 통해 <code>promise_type</code>을 구현하도록 강제하며, 이 타입은 Resumable Promise Requirement를 만족해야 한다. <code>std::future&lt;T&gt;</code>의 경우 템플릿 특수화가 기본적으로 지원된다.</p>
+<h3 id="_20">"기다릴 수 있다"는 개념에 대해서</h3>
+<ul>
+<li><em><code>operator co_await</code> = Syntactic Sugar + Resumable Function</em></li>
+</ul>
+<p>재개함수의 마지막 핵심은 단항 연산자 <code>co_await</code>라고 할 수 있다. 
+문맥상으로, <strong>await는 suspend와 같은의미다</strong>. 그리고 이 중단 때문에, 재개함수의 반환값은 자연스럽게 <strong>비동기</strong>가 된다.</p>
+<p>멘탈 모델 상에서 이런 특성은 꽤 중요한 점인데, C# 언어의 <code>async</code> &amp; <code>await</code>기능과 유사하다고 볼 수 있다. C++ 세상에서 다른점은, 프로그래머의 코드와 컴파일러의 지원을 사용해서 <strong>수동으로</strong> 관리할 수 있다는 점이다.</p>
+<h4 id="example_1">Example</h4>
+<p>MSVC 블로그의 예제를 가져왔다.</p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;future&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;    // Windows Threadpool API</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">literals</span><span class="p">;</span>
+
+<span class="c1">// 연산자 오버로드</span>
+<span class="c1">// co_await 는 기본 타입(primitive type) 인자는 받지 않는다.</span>
+<span class="k">auto</span> <span class="k">operator</span> <span class="nf">co_await</span><span class="p">(</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">duration</span> <span class="n">duration</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
+
+    <span class="c1">// 기다리기 위해선 함수 3개를 구현해야 한다.</span>
+    <span class="c1">//  - bool await_ready();</span>
+    <span class="c1">//  - auto await_suspend();</span>
+    <span class="c1">//  - T    await_resume();</span>
+    <span class="k">class</span> <span class="nc">awaiter</span>
+    <span class="p">{</span>
+        <span class="k">static</span>
+        <span class="kt">void</span> <span class="n">CALLBACK</span> <span class="n">TimerCallback</span><span class="p">(</span><span class="n">PTP_CALLBACK_INSTANCE</span><span class="p">,</span>
+                                    <span class="kt">void</span> <span class="o">*</span><span class="n">Context</span><span class="p">,</span>
+                                    <span class="n">PTP_TIMER</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// Callback을 수행하는 Thread에서 Resume한다.</span>
+            <span class="n">coroutine_handle</span><span class="o">&lt;&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">Context</span><span class="p">).</span><span class="n">resume</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="n">PTP_TIMER</span> <span class="n">timer</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">duration</span> <span class="n">duration</span><span class="p">;</span>
+    <span class="k">public</span><span class="o">:</span>
+
+        <span class="k">explicit</span>
+        <span class="n">awaiter</span><span class="p">(</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">duration</span> <span class="n">d</span><span class="p">)</span> <span class="o">:</span> <span class="n">duration</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="p">{}</span>
+        <span class="o">~</span><span class="n">awaiter</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">timer</span><span class="p">)</span> <span class="n">CloseThreadpoolTimer</span><span class="p">(</span><span class="n">timer</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 준비가 안되었으면 (`false`), `await_suspend`를 호출한다.</span>
+        <span class="c1">// 값이 준비되었으면 (`true`), `await_resume`를 바로 호출한다.</span>
+        <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="n">duration</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 이 함수의 반환값은 무시될 수 있다.</span>
+        <span class="kt">bool</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">resume_cb</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int64_t</span> <span class="n">relative_count</span> <span class="o">=</span> <span class="o">-</span><span class="n">duration</span><span class="p">.</span><span class="n">count</span><span class="p">();</span>
+            <span class="n">timer</span> <span class="o">=</span> <span class="n">CreateThreadpoolTimer</span><span class="p">(</span><span class="n">TimerCallback</span><span class="p">,</span>
+                                          <span class="n">resume_cb</span><span class="p">.</span><span class="n">address</span><span class="p">(),</span>
+                                          <span class="k">nullptr</span><span class="p">);</span>
+            <span class="c1">// 타이머를 세팅하고 중단한다....</span>
+            <span class="n">SetThreadpoolTimer</span><span class="p">(</span><span class="n">timer</span><span class="p">,</span> <span class="p">(</span><span class="n">PFILETIME</span><span class="p">)</span><span class="o">&amp;</span><span class="n">relative_count</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+            <span class="k">return</span> <span class="n">timer</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 재개된 후에는 T 타입 값을 반환한다.</span>
+        <span class="c1">// `void`도 가능하다.</span>
+        <span class="kt">void</span> <span class="n">await_resume</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="n">awaiter</span><span class="p">{</span> <span class="n">duration</span> <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="c1">// 코루틴(재개함수)</span>
+<span class="n">future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">test</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">this_thread</span><span class="o">::</span><span class="n">get_id</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;: sleeping…</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+
+    <span class="c1">// 1 밀리초를 기다린다...</span>
+    <span class="n">co_await</span> <span class="mi">1</span><span class="n">ms</span><span class="p">;</span>
+
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">this_thread</span><span class="o">::</span><span class="n">get_id</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;: woke up</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 평범한 서브루틴</span>
+<span class="kt">void</span> <span class="n">usecase</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">test</span><span class="p">().</span><span class="n">get</span><span class="p">();</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">this_thread</span><span class="o">::</span><span class="n">get_id</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;: back in main</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>이 코드는 대략 이런 식으로 진행된다.</p>
+<p><img alt="Fig: Invoker and Resumer for co_await" src="https://bqivka.bn1304.livefilestore.com/y4mfcDYFCH6SMe0hrR74BNJzFaua5hK_tksI8vp8pdRykhjrX1yuUOQoHrhFVFu9ci5icB6lOrMGLwaC74PxZthzgw8u-O4yNDAgEnkT5EMTPv7CcAVmOX6DHF_Ofi44GE33IJgYheftmKUrKX46k9SubyycOFSpsjxd_2Vj5bKAwzML-6geswyforIr-YIeBH1_B82cMEKrJnsOf5kJDOfbQ?width=1024&amp;height=692&amp;cropmode=none" /></p>
+<h4 id="_21">기다리기 위한 인터페이스</h4>
+<p><code>co_await</code>는 동작하기 위해서 특정한 인터페이스를 요구한다. 위에서 본 것 처럼, Awaitable Interface는 3가지 함수를 구현해야만 한다.</p>
+<ul>
+<li><code>await_ready</code></li>
+<li><code>await_suspend</code></li>
+<li><code>await_resume</code></li>
+</ul>
+<p>이들은 멤버함수일 수도 있고, 일반 함수로도 가능하다. <code>future&lt;T&gt;</code>역시 이 인터페이스를 구현하고 있다. 달리말해, <code>future&lt;T&gt;</code>가 <code>co_await</code>의 인자가 될수도 있다는 의미다. 아래 코드처럼 비효율적일 수도 있겠지만, 사용자 정의 타입에 대해서 간단한 오버로드 만으로도 사용할 수 있다는 장점이 있다.</p>
+<div class="codehilite"><pre><span></span><span class="c1">// &lt;future&gt;</span>
+<span class="k">namespace</span> <span class="n">std</span>
+<span class="p">{</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ty</span><span class="o">&gt;</span>
+<span class="kt">bool</span> <span class="n">await_ready</span><span class="p">(</span><span class="n">future</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;&amp;</span> <span class="n">_Fut</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">_Fut</span><span class="p">.</span><span class="n">_Is_ready</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ty</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">future</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;&amp;</span> <span class="n">_Fut</span><span class="p">,</span>
+                   <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">_ResumeCb</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// future를 await하면 스레드를 만들어서 detach시킨다.</span>
+    <span class="c1">// change to .then when future gets .then</span>
+    <span class="kr">thread</span> <span class="n">_WaitingThread</span><span class="p">(</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">_Fut</span><span class="p">,</span> <span class="n">_ResumeCb</span><span class="p">]{</span>
+            <span class="n">_Fut</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span>
+            <span class="n">_ResumeCb</span><span class="p">();</span>
+        <span class="p">});</span>
+    <span class="n">_WaitingThread</span><span class="p">.</span><span class="n">detach</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ty</span><span class="o">&gt;</span>
+<span class="k">auto</span> <span class="n">await_resume</span><span class="p">(</span><span class="n">future</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;&amp;</span> <span class="n">_Fut</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">_Fut</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="p">}</span><span class="c1">// namespace std</span>
+</pre></div>
+
+
+<p>컴파일러 쪽은 어떨까? 이 코드가 어떻게 바뀔까?</p>
+<h4 id="_22">컴파일러의 시점</h4>
+<ul>
+<li><em><code>operator co_await</code> = Syntactic Sugar + Resumable Function</em></li>
+</ul>
+<p><code>co_await</code>는 표현을 바꾼다는 점에서 결국 syntatic sugar라고 할수 있다. 인자타입이 Awaitable Interface를 알맞게 구현하기만 한다면, 컴파일러는 코드를 바꿔준다. 좀전의 예제코드를 좀더 자세하게 살펴보겠다. </p>
+<div class="codehilite"><pre><span></span><span class="c1">// Before...</span>
+<span class="c1">// ---- ---- ---- ---- ----</span>
+<span class="n">future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">test</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="n">co_await</span> <span class="mi">1</span><span class="n">ms</span><span class="p">;</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// After...</span>
+<span class="c1">// ---- ---- ---- ---- ----</span>
+<span class="c1">// `co_await`키워드가 있으므로 재개함수가 된다.</span>
+<span class="n">future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">test</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// 컴파일러는 이 함수를 위한 프레임을 생성한다...</span>
+    <span class="n">__frame</span><span class="o">*</span> <span class="n">context</span><span class="p">;</span>
+    <span class="c1">// ...</span>
+
+    <span class="c1">// Awaitable interface를 구현하였다.</span>
+    <span class="c1">// 정확하게는 코루틴 프레임 안에 이 변수가 생성될 것이다.</span>
+    <span class="n">awaiter</span> <span class="n">aw</span> <span class="o">=</span> <span class="k">operator</span> <span class="n">co_await</span><span class="p">(</span><span class="mi">1</span><span class="n">ms</span><span class="p">);</span>
+
+    <span class="c1">// 값이 준비되어 있는가?</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">aw</span><span class="p">.</span><span class="n">await_ready</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="c1">// await_ready(aw);</span>
+    <span class="p">{</span>
+        <span class="c1">// 값이 없으므로 기다려야 한다. </span>
+        <span class="c1">// 함수 프레임을 `coroutine_handle` 타입으로 감싸고...</span>
+        <span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">resume_cb</span> <span class="o">=</span>
+                <span class="n">coroutine_handle</span><span class="o">&lt;&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+
+        <span class="c1">// suspend 함수를 호출한다.</span>
+        <span class="n">aw</span><span class="p">.</span><span class="n">await_suspend</span><span class="p">(</span><span class="n">resume_cb</span><span class="p">);</span>
+
+        <span class="c1">// 중단 직전에 프레임에 Index를 변경하고......</span>
+    <span class="nl">__suspend_resume_point_1</span><span class="p">:</span>
+        <span class="c1">// 중단/재개 지점이 여기에 있으므로 ready에서 true를 반환하면</span>
+        <span class="c1">// 함수는 멈추지 않고 진행한다. </span>
+    <span class="p">}</span>
+
+    <span class="c1">// await_resume이 반환타입이 있다면 value에 값을 저장한다.</span>
+    <span class="c1">// auto value = aw.await_resume();</span>
+    <span class="n">aw</span><span class="p">.</span><span class="n">await_resume</span><span class="p">();</span> <span class="c1">// await_resume(aw);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>이제 인터페이스의 각 함수들에 대해서 짚어볼 수 있겠다.</p>
+<ul>
+<li><em><code>await_ready</code> : "지금 값이 있는가?"</em></li>
+</ul>
+<p><code>await_ready</code>은 분기점이 된다. 값이 준비되었다면 <code>await_resume</code>에서 바로 그 값을 사용할 수 있겠지만, 그렇지 않다면 <code>if</code> 구문 안쪽으로 분기해 함수를 중단한다.
+<code>await_ready</code>함수가 언제나 <code>true</code>를 반환한다면 <code>if</code>구문 안쪽은 Dead Code가 되고, 컴파일러의 최적화 과정에서 소멸될 것이다. 이 경우는 프레임까지 소멸되고 일반 서브루틴처럼 최적화될 수 도 있다. </p>
+<p>중단점이 있는 유효 범위로 진입하면, 함수 프레임을 <code>coroutine_handle&lt;&gt;</code> 로 감싸서 인자로 넘겨준다. <code>coroutine_handle&lt;&gt;::from_address</code>함수가 이 역할을 해준다.</p>
+<ul>
+<li><em><code>await_suspend</code> : "곧 루틴이 멈춥니다. 해야할 일이라도?"</em></li>
+</ul>
+<p><code>await_suspend</code>는 <code>coroutine_handle&lt;&gt;</code>을 인자로 받고, 중단하기 전에 해야할 내용을 코드로 끼워넣을 수 있게 된다.</p>
+<div class="codehilite"><pre><span></span><span class="c1">// Windows Thread Pool Timer를 사용한다.</span>
+<span class="c1">//  Timer Callback에 프레임의 주소를 넘겨주는 방식으로 코루틴을 마무리한다.</span>
+<span class="k">class</span> <span class="nc">awaiter</span>
+<span class="p">{</span>
+
+    <span class="kt">bool</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">resume_cb</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int64_t</span> <span class="n">relative_count</span> <span class="o">=</span> <span class="o">-</span><span class="n">duration</span><span class="p">.</span><span class="n">count</span><span class="p">();</span>
+        <span class="n">timer</span> <span class="o">=</span> <span class="n">CreateThreadpoolTimer</span><span class="p">(</span><span class="n">TimerCallback</span><span class="p">,</span>
+                                    <span class="c1">// 포인터로 변환한다.</span>
+                                    <span class="n">resume_cb</span><span class="p">.</span><span class="n">address</span><span class="p">(),</span>
+                                    <span class="k">nullptr</span><span class="p">);</span>
+        <span class="n">SetThreadpoolTimer</span><span class="p">(</span><span class="n">timer</span><span class="p">,</span> <span class="p">(</span><span class="n">PFILETIME</span><span class="p">)</span><span class="o">&amp;</span><span class="n">relative_count</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">timer</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Windows Thread Pool에 있는 스레드가 Callback을 호출하게 된다.</span>
+    <span class="c1">//  자연스럽게 Resumer Thread가 된다.</span>
+    <span class="k">static</span>
+    <span class="kt">void</span> <span class="n">CALLBACK</span> <span class="n">TimerCallback</span><span class="p">(</span><span class="n">PTP_CALLBACK_INSTANCE</span><span class="p">,</span>
+                                <span class="kt">void</span> <span class="o">*</span><span class="n">Context</span><span class="p">,</span>
+                                <span class="n">PTP_TIMER</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// 프레임 포인터를 핸들로 변환, 그리고 재개.</span>
+        <span class="n">coroutine_handle</span><span class="o">&lt;&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">Context</span><span class="p">).</span><span class="n">resume</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<ul>
+<li><em><code>await_resume</code> : "여기 결과값과 실행 흐름이요."</em></li>
+</ul>
+<p>함수를 재개하면 중단지점으로 점프하며, 중단점이 있는 유효범위를 벗어나 <code>await_resume</code>을 호출한다. 중단하던 시점에는 결과값이 없었기 때문에, 함수가 재개되었다는 것은 결과값이 준비되었다는 의미가 된다. 만약 void라면 <code>co_await</code>아래에 있는 코드를 실행해야 하도록 실행흐름을 넘겨준다는 의미일 것이다.</p>
+<p><img alt="Fig: Awaiting Windows Threapool Timer" src="https://cgiuka.bn1304.livefilestore.com/y4mpoQFynRK0frHDJppknT-r10zBKbxf8AgNbV_lVSDl8WHEcPl7hGHltVblWdKQSeStvaegIMlhqTGiSZ0AF57wx5XOGV_T_8asbwKQsxOzs2X473nkhVGpS-AkoZJJfG2_dCA46XtuWEw6IHIk7_OePD1bV_BF1WcAGLqyTVTFps5Bl9UetnzIBKVyxrPb_NC_s0qqvHNR-DLF6KqZRiQBg?width=645&amp;height=660&amp;cropmode=none" /></p>
+<h4 id="co_await-tricks"><code>co_await</code> Tricks</h4>
+<p>Kenny Kerr 와 James Mcnellis 는 이런 메커니즘을 사용한 트릭들에 대해서 설명하는데, 시간적 여유가 있다면 꼭 보기를 권한다.</p>
+<p>CppCon 2016 : <a href="https://channel9.msdn.com/events/CPP/CppCon-2016/CppCon-2016-Kenny-Kerr--James-McNellis-Putting-Coroutines-to-Work-with-the-Windows-Runtime">Kenny Kerr &amp; James McNellis "Putting Coroutines to Work with the Windows Runtime"</a></p>
+<h3 id="async-generator">Async Generator</h3>
+<h4 id="_23">개념</h4>
+<ul>
+<li><em>Async Generator = Awaitable iterator + Resumable function</em></li>
+</ul>
+<p>Generator와 매우 유사하지만, 다른점은 <strong>반복자가 Awaitable하다</strong>는 것이다. 달리 말하면, Awaitable <code>iterator</code>에 대해서 <code>for co_await</code>구문을 사용할 수 있다. <a href="https://github.com/kirkshoop/await#async_generatort---each-value-arrives-later">Kirkshoop의 설명</a>이 도움이 될 것이다.</p>
+<h4 id="example_2">Example</h4>
+<p>이 기능을 제대로 사용해보지 못해 제대로 된 예제를 적지 못했다. 하지만 지금까지의 예제와 컴파일러의 시점에 대한 설명을 읽었다면 이 코드가 이해될 것이라 생각한다.</p>
+<div class="codehilite"><pre><span></span><span class="c1">// 무한한 정수 수열</span>
+<span class="n">async_generator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">infinite</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">co_yield</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">usecase</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// for co_await 구문</span>
+    <span class="k">for</span> <span class="n">co_await</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">v</span> <span class="p">:</span> <span class="n">infinite</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="c1">// `v`로 무언가 한다...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><code>iterator</code>가 Awaitable하다고 했는데, 이는 <code>usecase</code>가 다음과 같다는 의미다.</p>
+<div class="codehilite"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">usecase</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// 기다릴 수 있는 반복자 : awaitable(async) iterator</span>
+    <span class="n">async_generator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">gen</span> <span class="o">=</span> <span class="n">infinite</span><span class="p">();</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">co_await</span> <span class="n">gen</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>  <span class="c1">// `begin()` 에 </span>
+                                            <span class="c1">// `co_await`가 적용된다.</span>
+         <span class="n">iter</span> <span class="o">!=</span> <span class="n">gen</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>     <span class="c1">// `end()` 는 nullptr와 같다.</span>
+         <span class="n">co_await</span> <span class="o">++</span><span class="n">iter</span><span class="p">)</span> <span class="c1">// `operator++()`에 `co_await`가 적용된다.</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="o">*</span><span class="n">iter</span><span class="p">;</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><code>generator&lt;T&gt;</code> 예제와 다른 점은 함수가 2개 지점에서 반복자를 기다리고 있다는 것이다. 따라서 <code>begin()</code> 과 <code>operator++()</code>는 <code>usecase</code> 코루틴의 중단/재개지점이 된다.</p>
+<p>여기선 <code>value_type</code>은 기본 자료형 <code>int</code>라서 어려운 코드는 없다. Awaitable iterator 코드는 다음처럼 만들 수 있다. 사실 <code>std::experimental::generator&lt;T&gt;</code>의 코드를 거의 그대로 가져온 것이다.</p>
+<div class="codehilite"><pre><span></span><span class="c1">// generator가 아니라 iterator가 비동기로 동작한다.(awaitable).</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">async_generator</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">promise_type</span><span class="p">;</span>  
+
+    <span class="c1">// Awaitable interface를 구현해야 한다.</span>
+    <span class="k">struct</span> <span class="nl">iterator</span> <span class="p">:</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">iterator</span><span class="o">&lt;</span><span class="n">input_iterator_tag</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span>
+    <span class="p">{</span>
+        <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">chp</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+
+        <span class="c1">// ...</span>
+        <span class="n">iterator</span> <span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+        <span class="n">iterator</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">++</span><span class="p">();</span>
+        <span class="c1">// ...</span>
+        <span class="n">T</span> <span class="k">const</span> <span class="o">*</span><span class="k">operator</span><span class="o">-&gt;</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+        <span class="n">T</span> <span class="k">const</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*</span><span class="p">()</span> <span class="k">const</span>
+        <span class="p">{</span>
+            <span class="c1">// promise_type has constant pointer to value</span>
+            <span class="k">const</span> <span class="n">promise_type</span><span class="o">&amp;</span> <span class="n">prom</span> <span class="o">=</span> <span class="n">chp</span><span class="p">.</span><span class="n">promise</span><span class="p">();</span>
+            <span class="k">return</span> <span class="o">*</span><span class="n">prom</span><span class="p">.</span><span class="n">pvalue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">// ...</span>
+
+        <span class="c1">// 지금은 예제이므로, 언제나 값이 존재한다. 따라서 중단하지도 않는다.</span>
+        <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 중단하지 않으므로 내용이 없다.</span>
+        <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">hcoro</span><span class="p">)</span> <span class="p">{}</span>
+
+        <span class="c1">// 이 함수의 반환값이 `co_await`에게 전달된다.</span>
+        <span class="n">iterator</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">const</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">};</span><span class="c1">// iterator</span>
+
+<span class="p">};</span><span class="c1">// async_generator</span>
+</pre></div>
+
+
+<p>멤버함수 3개를 <code>iterator</code>에 추가함으로써, awaitable 인터페이스를 구현하였고 <code>for co_await</code>구문을 쓸 수 있었다. 하지만 <strong>Awaitable Interface</strong> 단락에서 설명했듯 굳이 멤버함수일 필요는 없다.</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">iter_type</span> <span class="o">=</span> <span class="n">async_generator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="nf">await_ready</span><span class="p">(</span><span class="n">iter_type</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">iter_type</span> <span class="o">&amp;</span> <span class="n">iter</span><span class="p">,</span>
+                   <span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">hcoro</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// do for suspension...</span>
+<span class="p">}</span>
+
+<span class="n">iter_type</span><span class="o">&amp;</span> <span class="n">await_resume</span><span class="p">(</span><span class="n">iter_type</span><span class="o">&amp;</span> <span class="n">it</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">it</span><span class="p">;</span>    <span class="c1">// forward the reference</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>이렇게 보조 함수를 정의하는 것 만으로도 기존에 사용하던 <code>iterator</code> 타입들을 재활용할 수 있다.</p>
+<h2 id="_24">끝! 후기</h2>
+<p>MSVC 코루틴의 개념과 코드를 훑어봤다. 그게 전부다. 부디 도움이 되었기를.</p>
+<p>사실 이 Feature의 디스어셈블리 결과에 대해서도 쓰고 싶었는데, 관련해서는 아직 초보자 단계라 제대로 설명할 수가 없었다. 기회가 된다면 차후에 다시 글을 써보고 싶다.</p>
+<p>나중에 더욱 개선할 기회가 있기를. :D</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/deed
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.245445c6.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+    
+  </body>
+</html>

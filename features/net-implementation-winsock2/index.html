@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/ppt/Exploring-the-Cpp-Coroutine/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/features/net-implementation-winsock2/">
       
       
         <meta name="author" content="Park Dong Ha">
@@ -42,7 +42,7 @@
     
     
       
-        <title>C++ Korea 5th Seminar - luncliff/coroutine</title>
+        <title>Net implementation winsock2 - luncliff/coroutine</title>
       
     
     
@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#exploring-the-c-coroutine-approach-compiler-and-issues" tabindex="1" class="md-skip">
+      <a href="#see-also" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -109,7 +109,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                C++ Korea 5th Seminar
+                Net implementation winsock2
               
             </span>
           
@@ -230,12 +230,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       PPT
@@ -251,56 +249,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        C++ Korea 5th Seminar
-      </label>
-    
-    <a href="./" title="C++ Korea 5th Seminar" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -689,7 +642,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
+    <a href="../channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
       coroutine/channel.hpp
     </a>
   </li>
@@ -701,7 +654,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-read_write/" title="read and write" class="md-nav__link">
+    <a href="../channel-read_write/" title="read and write" class="md-nav__link">
       read and write
     </a>
   </li>
@@ -713,7 +666,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-select/" title="select on multiple channels" class="md-nav__link">
+    <a href="../channel-select/" title="select on multiple channels" class="md-nav__link">
       select on multiple channels
     </a>
   </li>
@@ -911,23 +864,102 @@
 <nav class="md-nav md-nav--secondary">
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
+  <a href="#see-also" title="See Also" class="md-nav__link">
+    See Also
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
+  <a href="#winsock-overlapped-io" title="Winsock Overlapped I/O" class="md-nav__link">
+    Winsock Overlapped I/O
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remarks" title="Remarks" class="md-nav__link">
+    Remarks
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#socket" title="Socket" class="md-nav__link">
+    Socket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-flow-and-data" title="Control Flow and Data" class="md-nav__link">
+    Control Flow and Data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concurrent-io-control" title="Concurrent I/O control" class="md-nav__link">
+    Concurrent I/O control
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request" title="Request" class="md-nav__link">
+    Request
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progress-check" title="Progress Check" class="md-nav__link">
+    Progress Check
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suspend" title="Suspend" class="md-nav__link">
+    Suspend
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resume-by-completion-routine" title="Resume (by Completion Routine)" class="md-nav__link">
+    Resume (by Completion Routine)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations" title="Limitations" class="md-nav__link">
+    Limitations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -947,18 +979,193 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/ppt/Exploring-the-Cpp-Coroutine.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/features/net-implementation-winsock2.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="exploring-the-c-coroutine-approach-compiler-and-issues">Exploring the C++ Coroutine: Approach, Compiler, and Issues</h1>
-<h3 id="note">Note</h3>
-<p>I had a presentation in <a href="https://www.facebook.com/groups/cppkorea/">C++ Korea Facebook Group</a>'s <a href="https://github.com/CppKorea/CppKoreaSeminar5th">5th Seminar</a>.<br />
-You can download and share it :)</p>
-<h3 id="links">Links</h3>
+                  <h1>Net implementation winsock2</h1>
+                
+                <blockquote>
+<p>This document is under progress ...</p>
+</blockquote>
+<p>Coroutine + Socket Overlapped I/O + Completion Routine</p>
+<h3 id="see-also">See Also</h3>
 <ul>
-<li>PDF: <a href="../[Eng]ExploringTheCppCoroutine.pdf">Exploring The C++ Coroutine</a> / <a href="../[Kor]ExploringTheCppCoroutine.pdf">한국어</a></li>
-<li>OneDrive: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Eng</a> / <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">한국어</a></li>
+<li>CppCon 2017 : Gor Nishanov "Naked coroutines live(with networking)"</li>
+<li>CppCon 2016 : Kenny Kerr &amp; James McNellis "Putting Coroutines to Work with the Windows Runtime"</li>
 </ul>
+<h2 id="winsock-overlapped-io">Winsock Overlapped I/O</h2>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/modules/windows/net.cpp">modules/windows/net.cpp</a></li>
+</ul>
+<h3 id="remarks">Remarks</h3>
+<p>The library <strong>never</strong> invoke <code>WSAStartup</code> and <code>WSACleanup</code>. User must do it.</p>
+<h4 id="socket">Socket</h4>
+<p>socket object for the argument must be <code>WSA_FLAG_OVERLAPPED</code> flagged.</p>
+<div class="codehilite"><pre><span></span><span class="kt">int64_t</span> <span class="nf">socket_create</span><span class="p">(</span><span class="k">const</span> <span class="n">addrinfo</span><span class="o">&amp;</span> <span class="n">hint</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// use address hint in test class</span>
+    <span class="kt">int64_t</span> <span class="n">sd</span> <span class="o">=</span> <span class="o">::</span><span class="n">WSASocketW</span><span class="p">(</span><span class="n">hint</span><span class="p">.</span><span class="n">ai_family</span><span class="p">,</span> 
+                              <span class="n">hint</span><span class="p">.</span><span class="n">ai_socktype</span><span class="p">,</span>
+                              <span class="n">hint</span><span class="p">.</span><span class="n">ai_protocol</span><span class="p">,</span>
+                              <span class="k">nullptr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                              <span class="n">WSA_FLAG_OVERLAPPED</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sd</span> <span class="o">==</span> <span class="n">INVALID_SOCKET</span><span class="p">)</span>
+        <span class="n">fail_with_error_message</span><span class="p">(</span><span class="n">WSAGetLastError</span><span class="p">());</span>
+
+    <span class="k">return</span> <span class="n">sd</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>The library assumes that <code>SOCKET</code> will be destroyed like the following code.</p>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="nf">socket_close</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">shutdown</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">SD_BOTH</span><span class="p">);</span>
+    <span class="n">closesocket</span><span class="p">(</span><span class="n">sd</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4 id="control-flow-and-data">Control Flow and Data</h4>
+<p>The table shows all system calls that are used for each interface functions.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Interface</th>
+<th align="left">Internal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>send_to</code></td>
+<td align="left"><code>WSASendTo</code></td>
+</tr>
+<tr>
+<td align="left"><code>recv_from</code></td>
+<td align="left"><code>WSARecvFrom</code></td>
+</tr>
+<tr>
+<td align="left"><code>send_stream</code></td>
+<td align="left"><code>WSASend</code></td>
+</tr>
+<tr>
+<td align="left"><code>recv_stream</code></td>
+<td align="left"><code>WSARecv</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>io_work_t</code> containes <a href="https://docs.microsoft.com/en-us/windows/desktop/api/minwinbase/ns-minwinbase-_overlapped"><code>OVERLAPPED</code> struct</a>. </p>
+<div class="codehilite"><pre><span></span><span class="k">struct</span> <span class="nl">io_work_t</span> <span class="p">:</span> <span class="k">public</span> <span class="n">OVERLAPPED</span>
+<span class="p">{</span>
+    <span class="n">coroutine_task_t</span> <span class="n">task</span><span class="p">{};</span>
+    <span class="n">io_buffer_t</span> <span class="n">buffer</span><span class="p">{};</span>
+    <span class="k">union</span> <span class="p">{</span>
+        <span class="n">sockaddr</span><span class="o">*</span> <span class="n">addr</span><span class="p">{};</span>
+        <span class="n">sockaddr_in6</span><span class="o">*</span> <span class="n">from6</span><span class="p">;</span>
+        <span class="k">const</span> <span class="n">sockaddr_in6</span><span class="o">*</span> <span class="n">to6</span><span class="p">;</span>
+        <span class="n">sockaddr_in</span><span class="o">*</span> <span class="n">from</span><span class="p">;</span>
+        <span class="k">const</span> <span class="n">sockaddr_in</span><span class="o">*</span> <span class="n">to</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<p>Since it uses completion routine to resume I/O coroutines,<br />
+<code>wait_io_tasks</code> will always return 0 coroutine handle.</p>
+<div class="codehilite"><pre><span></span><span class="c1">// file: &lt;coroutine/net.h&gt;</span>
+
+<span class="c1">// - Note</span>
+<span class="c1">//      This function is only non-windows platform.</span>
+<span class="c1">//      Over windows api, it always yields nothing.</span>
+<span class="k">auto</span> <span class="nf">wait_io_tasks</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">nanoseconds</span> <span class="n">timeout</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="n">enumerable</span><span class="o">&lt;</span><span class="n">coroutine_task_t</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="concurrent-io-control">Concurrent I/O control</h3>
+<ol>
+<li>I/O Request</li>
+<li>I/O Progress Check</li>
+<li>I/O Suspend</li>
+<li>I/O Resume</li>
+</ol>
+<h4 id="request">Request</h4>
+<p>The interface function converts given arguments to invoke Winsock API.</p>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">send_to</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buffer</span><span class="p">,</span>
+             <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_send_to</span><span class="o">&amp;</span>
+<span class="p">{</span>
+    <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">SOCKET</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">));</span>
+    <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">HANDLE</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">SOCKET</span><span class="p">));</span>
+
+    <span class="n">work</span><span class="p">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">;</span>
+    <span class="n">work</span><span class="p">.</span><span class="n">to6</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">addressof</span><span class="p">(</span><span class="n">remote</span><span class="p">);</span>
+    <span class="n">work</span><span class="p">.</span><span class="n">Internal</span> <span class="o">=</span> <span class="n">sd</span><span class="p">;</span>
+    <span class="n">work</span><span class="p">.</span><span class="n">InternalHigh</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">remote</span><span class="p">);</span>
+
+    <span class="c1">// lead to co_await operations with `io_send_to` type</span>
+    <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_send_to</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">addressof</span><span class="p">(</span><span class="n">work</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4 id="progress-check">Progress Check</h4>
+<p>Always leads to suspend procedure.</p>
+<div class="codehilite"><pre><span></span><span class="kt">bool</span> <span class="n">io_work_t</span><span class="o">::</span><span class="n">ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// trigger `await_suspend`</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4 id="suspend">Suspend</h4>
+<p>Actual request comes after <code>coroutine_handle</code> is forwarded.</p>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="n">io_send_to</span><span class="o">::</span><span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_task_t</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">addrlen</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">narrow_cast</span><span class="o">&lt;</span><span class="kt">socklen_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">InternalHigh</span><span class="p">);</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">DWORD</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">narrow_cast</span><span class="o">&lt;</span><span class="n">SOCKET</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Internal</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">bufs</span> <span class="o">=</span> <span class="n">make_wsa_buf</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+
+    <span class="n">task</span> <span class="o">=</span> <span class="n">rh</span><span class="p">;</span> <span class="c1">// coroutine for the i/o callback</span>
+
+    <span class="o">::</span><span class="n">WSASendTo</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bufs</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>                 <span class="c1">//</span>
+                <span class="k">nullptr</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">addrlen</span><span class="p">,</span> <span class="c1">//</span>
+                <span class="n">zero_overlapped</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="n">onWorkDone</span><span class="p">);</span>
+
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">WSAGetLastError</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ec</span> <span class="o">==</span> <span class="n">NO_ERROR</span> <span class="o">||</span> <span class="n">ec</span> <span class="o">==</span> <span class="n">ERROR_IO_PENDING</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span> <span class="c1">// ok. expected for async i/o</span>
+
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">system_error</span><span class="p">{</span><span class="n">ec</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;WSASendTo&quot;</span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kt">int64_t</span> <span class="n">io_send_to</span><span class="o">::</span><span class="n">resume</span><span class="p">()</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">gsl</span><span class="o">::</span><span class="n">narrow_cast</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">InternalHigh</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4 id="resume-by-completion-routine">Resume (by Completion Routine)</h4>
+<p>Completion routine resumes its coroutine frame. <code>io_work</code> works as a receiver for the operation results.</p>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="n">CALLBACK</span> <span class="nf">onWorkDone</span><span class="p">(</span><span class="n">DWORD</span> <span class="n">errc</span><span class="p">,</span> <span class="n">DWORD</span> <span class="n">sz</span><span class="p">,</span>
+                         <span class="n">LPWSAOVERLAPPED</span> <span class="n">pover</span><span class="p">,</span>
+                         <span class="n">DWORD</span> <span class="n">flags</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="n">UNREFERENCED_PARAMETER</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
+    <span class="n">io_work_t</span><span class="o">*</span> <span class="n">work</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_work_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">pover</span><span class="p">);</span>
+
+    <span class="n">work</span><span class="o">-&gt;</span><span class="n">Internal</span> <span class="o">=</span> <span class="n">errc</span><span class="p">;</span>   <span class="c1">// -&gt; return of `await_resume()`</span>
+    <span class="n">work</span><span class="o">-&gt;</span><span class="n">InternalHigh</span> <span class="o">=</span> <span class="n">sz</span><span class="p">;</span> <span class="c1">// -&gt; return of `work.error()`</span>
+
+    <span class="n">work</span><span class="o">-&gt;</span><span class="n">task</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>In general(x64), <code>Internal</code> and <code>InternalHigh</code> already have same value with <code>errc</code>, <code>sz</code>. The routine just ensures it.</p>
+<h3 id="limitations">Limitations</h3>
+<p>Current version doesn't provide interface for I/O cancel.</p>
                 
                   
                 
@@ -975,41 +1182,6 @@ You can download and share it :)</p>
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../../Home/" title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Home
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Exploring MSVC Coroutine
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/ppt/Exploring-the-Cpp-Coroutine/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/features/concrt-ptp_work/">
       
       
         <meta name="author" content="Park Dong Ha">
@@ -42,7 +42,7 @@
     
     
       
-        <title>C++ Korea 5th Seminar - luncliff/coroutine</title>
+        <title>Win32 Thread Pool Work + Coroutine - luncliff/coroutine</title>
       
     
     
@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#exploring-the-c-coroutine-approach-compiler-and-issues" tabindex="1" class="md-skip">
+      <a href="#win32-thread-pool-work-coroutine" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -109,7 +109,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                C++ Korea 5th Seminar
+                Win32 Thread Pool Work + Coroutine
               
             </span>
           
@@ -230,12 +230,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       PPT
@@ -251,56 +249,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        C++ Korea 5th Seminar
-      </label>
-    
-    <a href="./" title="C++ Korea 5th Seminar" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -689,7 +642,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
+    <a href="../channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
       coroutine/channel.hpp
     </a>
   </li>
@@ -701,7 +654,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-read_write/" title="read and write" class="md-nav__link">
+    <a href="../channel-read_write/" title="read and write" class="md-nav__link">
       read and write
     </a>
   </li>
@@ -713,7 +666,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-select/" title="select on multiple channels" class="md-nav__link">
+    <a href="../channel-select/" title="select on multiple channels" class="md-nav__link">
       select on multiple channels
     </a>
   </li>
@@ -918,16 +871,50 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
+  <a href="#see-also" title="See Also" class="md-nav__link">
+    See Also
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
+  <a href="#ptp_work" title="ptp_work" class="md-nav__link">
+    ptp_work
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition" title="Definition" class="md-nav__link">
+    Definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-operations" title="Default Operations" class="md-nav__link">
+    Default Operations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" title="Functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -947,18 +934,94 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/ppt/Exploring-the-Cpp-Coroutine.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/features/concrt-ptp_work.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="exploring-the-c-coroutine-approach-compiler-and-issues">Exploring the C++ Coroutine: Approach, Compiler, and Issues</h1>
-<h3 id="note">Note</h3>
-<p>I had a presentation in <a href="https://www.facebook.com/groups/cppkorea/">C++ Korea Facebook Group</a>'s <a href="https://github.com/CppKorea/CppKoreaSeminar5th">5th Seminar</a>.<br />
-You can download and share it :)</p>
-<h3 id="links">Links</h3>
+                <h1 id="win32-thread-pool-work-coroutine">Win32 Thread Pool Work + Coroutine</h1>
+<h3 id="see-also">See Also</h3>
 <ul>
-<li>PDF: <a href="../[Eng]ExploringTheCppCoroutine.pdf">Exploring The C++ Coroutine</a> / <a href="../[Kor]ExploringTheCppCoroutine.pdf">한국어</a></li>
-<li>OneDrive: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Eng</a> / <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">한국어</a></li>
+<li>CppCon 2016 : Kenny Kerr &amp; James McNellis "Putting Coroutines to Work with the Windows Runtime"</li>
+<li><a href="https://docs.microsoft.com/en-us/windows/desktop/ProcThread/using-the-thread-pool-functions">Using the thread pool functions</a></li>
+<li><a href="https://docs.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolwork">MSDN: <code>CreateThreadpoolWork</code></a></li>
+<li><a href="https://wandbox.org/permlink/6FGKZjuzjNYoSmI1">WandBox example: A function that selects its thread</a></li>
 </ul>
+<h2 id="ptp_work"><code>ptp_work</code></h2>
+<p>Change current coroutine's execution thread to background thread in the windows thread pool.</p>
+<h3 id="example">Example</h3>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt; // for `no_return`</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;coroutine/concrt.h&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span> <span class="c1">// for `no_return`</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">concrt</span><span class="p">;</span>
+
+<span class="c1">// the example might fail because of the constant folding</span>
+<span class="k">auto</span> <span class="nf">switch_to_background</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">before</span> <span class="o">=</span> <span class="n">GetCurrentThreadId</span><span class="p">();</span>
+    <span class="n">co_await</span> <span class="n">ptp_work</span><span class="p">{};</span> <span class="c1">// resume on thread in the pool</span>
+
+    <span class="k">auto</span> <span class="n">after</span> <span class="o">=</span> <span class="n">GetCurrentThreadId</span><span class="p">();</span>
+    <span class="n">Assert</span><span class="o">::</span><span class="n">IsTrue</span><span class="p">(</span><span class="n">before</span> <span class="o">!=</span> <span class="n">after</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Like the example, 
+it is recommended to use it as a temporary object.</p>
+<h3 id="definition">Definition</h3>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/modules/windows/concrt.cpp">modules/windows/concrt.cpp</a></li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">concrt</span>
+<span class="p">{</span>
+<span class="c1">//  Move into the win32 thread pool and continue the routine</span>
+<span class="k">class</span> <span class="nc">ptp_work</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">suspend_always</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="kr">__stdcall</span> <span class="n">resume_on_thread_pool</span><span class="p">(</span> <span class="c1">//</span>
+        <span class="n">PTP_CALLBACK_INSTANCE</span><span class="p">,</span> <span class="n">PVOID</span><span class="p">,</span> <span class="n">PTP_WORK</span><span class="p">);</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">_INTERFACE_</span> <span class="k">auto</span> <span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">-&gt;</span> <span class="kt">uint32_t</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="p">}</span> <span class="c1">// namepace concrt</span>
+</pre></div>
+
+
+<h3 id="default-operations">Default Operations</h3>
+<p>The type doesn't require memory (0-byte size). And it is a regular type. </p>
+<h3 id="functions">Functions</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>suspend</code></td>
+<td align="left">send the given <code>coroutine_handle&lt;void&gt;</code> to background</td>
+</tr>
+<tr>
+<td align="left"><code>await_suspend</code></td>
+<td align="left">coroutine code is generated in importing code. throws error if an error is occurred.</td>
+</tr>
+</tbody>
+</table>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">concrt</span>
+<span class="p">{</span>
+<span class="c1">//  Move into the win32 thread pool and continue the routine</span>
+<span class="k">class</span> <span class="nc">ptp_work</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">suspend_always</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">_INTERFACE_</span> <span class="k">auto</span> <span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">-&gt;</span> <span class="kt">uint32_t</span><span class="p">;</span>
+
+    <span class="c1">// Lazy code generation in importing code by header usage.</span>
+    <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">suspend</span><span class="p">(</span><span class="n">coro</span><span class="p">))</span>
+            <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ec</span><span class="p">),</span> <span class="n">system_category</span><span class="p">(),</span>
+                               <span class="s">&quot;CreateThreadpoolWork&quot;</span><span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+<span class="p">}</span> <span class="c1">// namepace concrt</span>
+</pre></div>
                 
                   
                 
@@ -975,41 +1038,6 @@ You can download and share it :)</p>
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../../Home/" title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Home
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Exploring MSVC Coroutine
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

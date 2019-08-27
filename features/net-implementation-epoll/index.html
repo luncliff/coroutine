@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/ppt/Exploring-the-Cpp-Coroutine/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/features/net-implementation-epoll/">
       
       
         <meta name="author" content="Park Dong Ha">
@@ -42,7 +42,7 @@
     
     
       
-        <title>C++ Korea 5th Seminar - luncliff/coroutine</title>
+        <title>Net implementation epoll - luncliff/coroutine</title>
       
     
     
@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#exploring-the-c-coroutine-approach-compiler-and-issues" tabindex="1" class="md-skip">
+      <a href="#epoll" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -109,7 +109,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                C++ Korea 5th Seminar
+                Net implementation epoll
               
             </span>
           
@@ -230,12 +230,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       PPT
@@ -251,56 +249,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        C++ Korea 5th Seminar
-      </label>
-    
-    <a href="./" title="C++ Korea 5th Seminar" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -689,7 +642,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
+    <a href="../channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
       coroutine/channel.hpp
     </a>
   </li>
@@ -701,7 +654,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-read_write/" title="read and write" class="md-nav__link">
+    <a href="../channel-read_write/" title="read and write" class="md-nav__link">
       read and write
     </a>
   </li>
@@ -713,7 +666,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-select/" title="select on multiple channels" class="md-nav__link">
+    <a href="../channel-select/" title="select on multiple channels" class="md-nav__link">
       select on multiple channels
     </a>
   </li>
@@ -911,23 +864,95 @@
 <nav class="md-nav md-nav--secondary">
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
+  <a href="#epoll" title="Epoll" class="md-nav__link">
+    Epoll
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#expect-ensures" title="Expect &amp; Ensures" class="md-nav__link">
+    Expect &amp; Ensures
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#socket" title="Socket" class="md-nav__link">
+    Socket
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
+        
+          <li class="md-nav__item">
+  <a href="#control-flow-and-data" title="Control Flow and Data" class="md-nav__link">
+    Control Flow and Data
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concurrent-io-control" title="Concurrent I/O control" class="md-nav__link">
+    Concurrent I/O control
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request" title="Request" class="md-nav__link">
+    Request
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progress-check" title="Progress Check" class="md-nav__link">
+    Progress Check
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suspend" title="Suspend" class="md-nav__link">
+    Suspend
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polling-and-resume" title="Polling and Resume" class="md-nav__link">
+    Polling and Resume
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitations" title="Limitations" class="md-nav__link">
+    Limitations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -947,18 +972,176 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/ppt/Exploring-the-Cpp-Coroutine.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/features/net-implementation-epoll.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="exploring-the-c-coroutine-approach-compiler-and-issues">Exploring the C++ Coroutine: Approach, Compiler, and Issues</h1>
-<h3 id="note">Note</h3>
-<p>I had a presentation in <a href="https://www.facebook.com/groups/cppkorea/">C++ Korea Facebook Group</a>'s <a href="https://github.com/CppKorea/CppKoreaSeminar5th">5th Seminar</a>.<br />
-You can download and share it :)</p>
-<h3 id="links">Links</h3>
+                  <h1>Net implementation epoll</h1>
+                
+                <blockquote>
+<p>This document is under progress ...</p>
+</blockquote>
+<h2 id="epoll">Epoll</h2>
+<p>For Linux platform, it uses <code>epoll</code>.</p>
 <ul>
-<li>PDF: <a href="../[Eng]ExploringTheCppCoroutine.pdf">Exploring The C++ Coroutine</a> / <a href="../[Kor]ExploringTheCppCoroutine.pdf">한국어</a></li>
-<li>OneDrive: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Eng</a> / <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">한국어</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/modules/linux/net.cpp">modules/linux/net.cpp</a></li>
 </ul>
+<h3 id="expect-ensures">Expect &amp; Ensures</h3>
+<h4 id="socket">Socket</h4>
+<p>Socket object for the argument must be <code>O_NONBLOCK</code> flagged.</p>
+<div class="codehilite"><pre><span></span><span class="kt">int64_t</span> <span class="nf">socket_create</span><span class="p">(</span><span class="k">const</span> <span class="n">addrinfo</span><span class="o">&amp;</span> <span class="n">hint</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int64_t</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">hint</span><span class="p">.</span><span class="n">ai_family</span><span class="p">,</span> 
+                        <span class="n">hint</span><span class="p">.</span><span class="n">ai_socktype</span><span class="p">,</span> 
+                        <span class="n">hint</span><span class="p">.</span><span class="n">ai_protocol</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">FAIL</span><span class="p">(</span><span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">sd</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">socket_set_option_nonblock</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// make non-block/async</span>
+    <span class="n">REQUIRE</span><span class="p">(</span><span class="n">fcntl</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">F_SETFL</span><span class="p">,</span> <span class="n">O_NONBLOCK</span> <span class="o">|</span> <span class="n">O_ASYNC</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>The library assumes that all socket descriptors will be destroyed like the following code.</p>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="nf">socket_close</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">shutdown</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">SHUT_RDWR</span><span class="p">);</span>
+    <span class="n">close</span><span class="p">(</span><span class="n">sd</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4 id="control-flow-and-data">Control Flow and Data</h4>
+<p>The table shows all system calls that are used for each interface functions.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Interface</th>
+<th align="left">Internal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>send_to</code></td>
+<td align="left"><code>epoll_ctl</code>, <code>sendto</code></td>
+</tr>
+<tr>
+<td align="left"><code>recv_from</code></td>
+<td align="left"><code>epoll_ctl</code>, <code>recvfrom</code></td>
+</tr>
+<tr>
+<td align="left"><code>send_stream</code></td>
+<td align="left"><code>epoll_ctl</code>, <code>send</code></td>
+</tr>
+<tr>
+<td align="left"><code>recv_stream</code></td>
+<td align="left"><code>epoll_ctl</code>, <code>recv</code></td>
+</tr>
+<tr>
+<td align="left"><code>wait_io_tasks</code></td>
+<td align="left"><code>epoll_wait</code>, <code>epoll_create1</code>, <code>close</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="concurrent-io-control">Concurrent I/O control</h3>
+<ol>
+<li>I/O Request</li>
+<li>I/O Progress Check</li>
+<li>I/O Suspend</li>
+<li>I/O Polling and Resume</li>
+</ol>
+<h4 id="request">Request</h4>
+<p>This step works just like Winsock based implementation.</p>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">recv_from</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buffer</span><span class="p">,</span>
+               <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_recv_from</span><span class="o">&amp;</span>
+<span class="p">{</span>
+    <span class="n">work</span><span class="p">.</span><span class="n">sd</span> <span class="o">=</span> <span class="n">sd</span><span class="p">;</span>
+    <span class="n">work</span><span class="p">.</span><span class="n">from6</span> <span class="o">=</span> <span class="n">addressof</span><span class="p">(</span><span class="n">remote</span><span class="p">);</span>
+    <span class="n">work</span><span class="p">.</span><span class="n">addrlen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">sockaddr_in6</span><span class="p">);</span>
+    <span class="n">work</span><span class="p">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">;</span>
+    <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_recv_from</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">addressof</span><span class="p">(</span><span class="n">work</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4 id="progress-check">Progress Check</h4>
+<p><code>fcntl</code> checks the socket's flag for non blocking. If the socket is not flagged non-block, <code>co_await</code> will bypass the suspend step(which uses <code>epoll</code>) and it will directed to blocking I/O.</p>
+<div class="codehilite"><pre><span></span><span class="kt">bool</span> <span class="n">io_work_t</span><span class="o">::</span><span class="n">ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="c1">// non blocking operation is expected</span>
+    <span class="c1">// going to suspend</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fcntl</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">F_GETFL</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">O_NONBLOCK</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+    <span class="c1">// not configured. return true and bypass the epoll</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4 id="suspend">Suspend</h4>
+<p><code>coroutine_handle</code> becomes user data of epoll event.<br />
+However, <strong>if there is a pending <code>recv</code>, another <code>recv</code> request won't cancel the previous one</strong>. Therefore user have to be cautious about managing pending operations for the socket.</p>
+<div class="codehilite"><pre><span></span><span class="k">struct</span> <span class="n">event_data_t</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">fd</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">capacity</span><span class="p">;</span>
+    <span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">epoll_event</span><span class="p">[]</span><span class="o">&gt;</span> <span class="n">events</span><span class="p">;</span>
+
+    <span class="c1">// ...</span>
+    <span class="kt">void</span> <span class="nf">try_add</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">epoll_event</span><span class="o">&amp;</span> <span class="n">req</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">op</span> <span class="o">=</span> <span class="n">EPOLL_CTL_ADD</span><span class="p">,</span> <span class="n">ec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nl">TRY_OP</span><span class="p">:</span>
+        <span class="n">ec</span> <span class="o">=</span> <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">req</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ec</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">EEXIST</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">op</span> <span class="o">=</span> <span class="n">EPOLL_CTL_MOD</span><span class="p">;</span> <span class="c1">// already exists. try with modification</span>
+            <span class="k">goto</span> <span class="n">TRY_OP</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;epoll_ctl&quot;</span><span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="n">io_recv_from</span><span class="o">::</span><span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_task_t</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">errc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">epoll_event</span> <span class="n">req</span><span class="p">{};</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">EPOLLIN</span> <span class="o">|</span> <span class="n">EPOLLONESHOT</span> <span class="o">|</span> <span class="n">EPOLLET</span><span class="p">;</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">rh</span><span class="p">.</span><span class="n">address</span><span class="p">();</span>
+
+    <span class="n">inbound</span><span class="p">.</span><span class="n">try_add</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">req</span><span class="p">);</span> <span class="c1">// throws if epoll_ctl fails</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h4 id="polling-and-resume">Polling and Resume</h4>
+<p>Since only 1 event can be bound for a file descriptor, the implementation separates inbound and outbound. <code>send</code>, <code>send_to</code> uses inbound and <code>recv</code>, <code>recv_from</code> uses the other. <code>wait_io_tasks</code> function polls both like the following code.</p>
+<div class="codehilite"><pre><span></span><span class="n">event_data_t</span> <span class="n">inbound</span><span class="p">{},</span> <span class="n">outbound</span><span class="p">{};</span>
+
+<span class="k">auto</span> <span class="nf">wait_io_tasks</span><span class="p">(</span><span class="n">nanoseconds</span> <span class="n">timeout</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="n">enumerable</span><span class="o">&lt;</span><span class="n">coroutine_task_t</span><span class="o">&gt;</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">half_time</span> <span class="o">=</span> <span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">milliseconds</span><span class="o">&gt;</span><span class="p">(</span><span class="n">timeout</span><span class="p">).</span><span class="n">count</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">coro</span> <span class="p">:</span> <span class="n">inbound</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">half_time</span><span class="p">))</span>
+        <span class="n">co_yield</span> <span class="n">coro</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">coro</span> <span class="p">:</span> <span class="n">outbound</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">half_time</span><span class="p">))</span>
+        <span class="n">co_yield</span> <span class="n">coro</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3 id="limitations">Limitations</h3>
+<p>Current version doesn't provide interface for I/O cancel.</p>
                 
                   
                 
@@ -975,41 +1158,6 @@ You can download and share it :)</p>
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../../Home/" title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Home
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Exploring MSVC Coroutine
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

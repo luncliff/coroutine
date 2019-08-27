@@ -10,11 +10,13 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
-        <meta name="description" content="C++ 20 Coroutine in Action.">
+        <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
         <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/Home/">
       
+      
+        <meta name="author" content="Park Dong Ha">
       
       
         <meta name="lang:clipboard.copy" content="Copy to clipboard">
@@ -81,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#developer-note" tabindex="1" class="md-skip">
+      <a href="#first-with-the-c-20-coroutines" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -158,7 +160,7 @@
     </div>
   
   <div class="md-source__repository">
-    GitHub
+    luncliff/coroutine
   </div>
 </a>
           </div>
@@ -205,7 +207,7 @@
     </div>
   
   <div class="md-source__repository">
-    GitHub
+    luncliff/coroutine
   </div>
 </a>
     </div>
@@ -241,15 +243,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#developer-note" title="Developer Note" class="md-nav__link">
-    Developer Note
+  <a href="#first-with-the-c-20-coroutines" title="First with the C++ 20 Coroutines?" class="md-nav__link">
+    First with the C++ 20 Coroutines?
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#first-with-the-c-20-coroutines" title="First with the C++ 20 Coroutines?" class="md-nav__link">
-    First with the C++ 20 Coroutines?
+  <a href="#developer-note" title="Developer Note" class="md-nav__link">
+    Developer Note
   </a>
   
 </li>
@@ -258,54 +260,6 @@
   <a href="#library-features" title="Library Features" class="md-nav__link">
     Library Features
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#coroutine-handle" title="Coroutine Handle" class="md-nav__link">
-    Coroutine Handle
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#return-types-for-the-coroutine-functions" title="Return Types For The Coroutine Functions" class="md-nav__link">
-    Return Types For The Coroutine Functions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#yield" title="Yield" class="md-nav__link">
-    Yield
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#channel" title="Channel" class="md-nav__link">
-    Channel
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#concurrency-utilities" title="Concurrency Utilities" class="md-nav__link">
-    Concurrency Utilities
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#network-io" title="Network I/O" class="md-nav__link">
-    Network I/O
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -330,11 +284,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
-      Articles
+      PPT
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
-        Articles
+        PPT
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -345,9 +299,69 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="PPT - C++ Korea 5th Seminar" class="md-nav__link">
-      PPT - C++ Korea 5th Seminar
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
+      C++ Korea 5th Seminar
     </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Articles
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Articles
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1" type="checkbox" id="nav-3-1">
+    
+    <label class="md-nav__link" for="nav-3-1">
+      Archive(Old posts)
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-1">
+        Archive(Old posts)
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-nav__link">
+      Exploring MSVC Coroutine
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
         
@@ -387,134 +401,14 @@
   </li>
 
         
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
-    
-    <label class="md-nav__link" for="nav-3">
-      How To
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        How To
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1" type="checkbox" id="nav-3-1">
-    
-    <label class="md-nav__link" for="nav-3-1">
-      Import
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-3-1">
-        Import
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
           
           
           
 
 
   <li class="md-nav__item">
-    <a href="../import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
-      Visual Studio
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../import-using-cmake/" title="CMake" class="md-nav__link">
-      CMake
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
-    
-    <label class="md-nav__link" for="nav-3-2">
-      Build
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-3-2">
-        Build
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../build-using-visualstudio/" title="Visual Studio" class="md-nav__link">
-      Visual Studio
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../build-using-cmake/" title="CMake" class="md-nav__link">
-      CMake
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../howto-start-yours/" title="Start Your Project!" class="md-nav__link">
-      Start Your Project!
+    <a href="../articles/russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
+      Russian Roulette and C++ Coroutines
     </a>
   </li>
 
@@ -534,11 +428,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
     <label class="md-nav__link" for="nav-4">
-      Features
+      How To
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-4">
-        Features
+        How To
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -553,11 +447,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
     
     <label class="md-nav__link" for="nav-4-1">
-      frame.h
+      Start yours Project
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-4-1">
-        frame.h
+        Start yours Project
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -568,56 +462,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../frame-overview/" title="Overview" class="md-nav__link">
-      Overview
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../frame-compiler_specific/" title="Compiler Specific Issues" class="md-nav__link">
-      Compiler Specific Issues
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../frame-coroutine_handle/" title="coroutine_handle" class="md-nav__link">
-      coroutine_handle
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../frame-coroutine_traits/" title="coroutine_traits" class="md-nav__link">
-      coroutine_traits
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../frame-suspend_types/" title="Suspend Types" class="md-nav__link">
-      Suspend Types
+    <a href="../howto/start-using-cmake/" title="CMake" class="md-nav__link">
+      CMake
     </a>
   </li>
 
@@ -637,11 +483,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
     
     <label class="md-nav__link" for="nav-4-2">
-      return.h
+      Build this project
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-4-2">
-        return.h
+        Build this project
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -652,8 +498,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../return-overview/" title="Overview" class="md-nav__link">
-      Overview
+    <a href="../howto/build-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+      Visual Studio
     </a>
   </li>
 
@@ -664,20 +510,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../return-no_return/" title="no_return" class="md-nav__link">
-      no_return
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../return-frame/" title="frame" class="md-nav__link">
-      frame
+    <a href="../howto/build-using-cmake/" title="CMake" class="md-nav__link">
+      CMake
     </a>
   </li>
 
@@ -697,11 +531,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
     
     <label class="md-nav__link" for="nav-4-3">
-      yield.hpp
+      Importing this project
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-4-3">
-        yield.hpp
+        Importing this project
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -712,8 +546,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../yield-overview/" title="Overview" class="md-nav__link">
-      Overview
+    <a href="../howto/import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+      Visual Studio
     </a>
   </li>
 
@@ -724,11 +558,59 @@
 
 
   <li class="md-nav__item">
-    <a href="../yield-enumerable/" title="Generator" class="md-nav__link">
-      Generator
+    <a href="../howto/import-using-cmake/" title="CMake" class="md-nav__link">
+      CMake
     </a>
   </li>
 
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Features
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Features
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-1" type="checkbox" id="nav-5-1">
+    
+    <label class="md-nav__link" for="nav-5-1">
+      Portable Frame
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-1">
+        Portable Frame
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
         
           
           
@@ -736,8 +618,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../yield-sequence/" title="Async Generator" class="md-nav__link">
-      Async Generator
+    <a href="../work-in-progress/" title="coroutine/frame.h" class="md-nav__link">
+      coroutine/frame.h
     </a>
   </li>
 
@@ -754,14 +636,14 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
     
-    <label class="md-nav__link" for="nav-4-4">
-      channel.hpp
+    <label class="md-nav__link" for="nav-5-2">
+      Return Types
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-4">
-        channel.hpp
+      <label class="md-nav__title" for="nav-5-2">
+        Return Types
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -772,32 +654,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../channel-overview/" title="Overview" class="md-nav__link">
-      Overview
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-read_write/" title="Read/Write" class="md-nav__link">
-      Read/Write
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-select/" title="Select on multiple channel" class="md-nav__link">
-      Select on multiple channel
+    <a href="../work-in-progress/" title="coroutine/return.h" class="md-nav__link">
+      coroutine/return.h
     </a>
   </li>
 
@@ -814,14 +672,14 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3">
     
-    <label class="md-nav__link" for="nav-4-5">
-      concrt.h
+    <label class="md-nav__link" for="nav-5-3">
+      Channel
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-5">
-        concrt.h
+      <label class="md-nav__title" for="nav-5-3">
+        Channel
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -832,8 +690,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../concrt-overview/" title="Overview" class="md-nav__link">
-      Overview
+    <a href="../features/channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
+      coroutine/channel.hpp
     </a>
   </li>
 
@@ -844,8 +702,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../concrt-section/" title="section" class="md-nav__link">
-      section
+    <a href="../features/channel-read_write/" title="read and write" class="md-nav__link">
+      read and write
     </a>
   </li>
 
@@ -856,44 +714,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../concrt-latch/" title="latch" class="md-nav__link">
-      latch
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../concrt-ptp_work/" title="Windows Thread Pool" class="md-nav__link">
-      Windows Thread Pool
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../concrt-ptp_event/" title="Windows Event" class="md-nav__link">
-      Windows Event
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../articles/awaitable-event/" title="POSIX event" class="md-nav__link">
-      POSIX event
+    <a href="../features/channel-select/" title="select on multiple channels" class="md-nav__link">
+      select on multiple channels
     </a>
   </li>
 
@@ -910,14 +732,14 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-6" type="checkbox" id="nav-4-6">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
     
-    <label class="md-nav__link" for="nav-4-6">
-      net.h
+    <label class="md-nav__link" for="nav-5-4">
+      System API
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-6">
-        net.h
+      <label class="md-nav__title" for="nav-5-4">
+        System API
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -928,8 +750,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../net-overview/" title="Overview" class="md-nav__link">
-      Overview
+    <a href="../work-in-progress/" title="coroutine/event.h" class="md-nav__link">
+      coroutine/event.h
     </a>
   </li>
 
@@ -940,8 +762,80 @@
 
 
   <li class="md-nav__item">
-    <a href="../net-implementation-winsock2/" title="Windows Socket 2" class="md-nav__link">
-      Windows Socket 2
+    <a href="../work-in-progress/" title="coroutine/thread.h" class="md-nav__link">
+      coroutine/thread.h
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-5" type="checkbox" id="nav-5-5">
+    
+    <label class="md-nav__link" for="nav-5-5">
+      Socket I/O
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-5">
+        Socket I/O
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../net-overview.md" title="coroutine/net.h" class="md-nav__link">
+      coroutine/net.h
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-6" type="checkbox" id="nav-5-6">
+    
+    <label class="md-nav__link" for="nav-5-6">
+      co_yield
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-6">
+        co_yield
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../work-in-progress/" title="coroutine/yield.hpp" class="md-nav__link">
+      coroutine/yield.hpp
     </a>
   </li>
 
@@ -952,9 +846,14 @@
 
 
   <li class="md-nav__item">
-    <a href="../net-implementation-kqueue/" title="Kqueue" class="md-nav__link">
-      Kqueue
+    <a href="../work-in-progress/" title="coroutine/sequence.hpp" class="md-nav__link">
+      coroutine/sequence.hpp
     </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
         
@@ -963,9 +862,28 @@
           
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-7" type="checkbox" id="nav-5-7">
+    
+    <label class="md-nav__link" for="nav-5-7">
+      Concepts
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-7">
+        Concepts
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
-    <a href="../net-implementation-epoll/" title="Epoll" class="md-nav__link">
-      Epoll
+    <a href="../work-in-progress/" title="coroutine/concepts.hpp" class="md-nav__link">
+      coroutine/concepts.hpp
     </a>
   </li>
 
@@ -999,15 +917,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#developer-note" title="Developer Note" class="md-nav__link">
-    Developer Note
+  <a href="#first-with-the-c-20-coroutines" title="First with the C++ 20 Coroutines?" class="md-nav__link">
+    First with the C++ 20 Coroutines?
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#first-with-the-c-20-coroutines" title="First with the C++ 20 Coroutines?" class="md-nav__link">
-    First with the C++ 20 Coroutines?
+  <a href="#developer-note" title="Developer Note" class="md-nav__link">
+    Developer Note
   </a>
   
 </li>
@@ -1016,54 +934,6 @@
   <a href="#library-features" title="Library Features" class="md-nav__link">
     Library Features
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#coroutine-handle" title="Coroutine Handle" class="md-nav__link">
-    Coroutine Handle
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#return-types-for-the-coroutine-functions" title="Return Types For The Coroutine Functions" class="md-nav__link">
-    Return Types For The Coroutine Functions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#yield" title="Yield" class="md-nav__link">
-    Yield
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#channel" title="Channel" class="md-nav__link">
-    Channel
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#concurrency-utilities" title="Concurrency Utilities" class="md-nav__link">
-    Concurrency Utilities
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#network-io" title="Network I/O" class="md-nav__link">
-    Network I/O
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1088,15 +958,18 @@
                 
                   <h1>Home</h1>
                 
-                <ul>
-<li><a href="https://github.com/luncliff/coroutine/releases/tag/1.4.3">Latest Release</a> is <a href="https://github.com/luncliff/coroutine/tree/1.4.3">1.4.3</a></li>
-</ul>
+                <blockquote>
+<p>The document follows <code>master</code> branch
+</p>
+</blockquote>
 <p>Welcome to the luncliff/coroutine wiki!<br />
 <a href="https://luncliff.github.io/coroutine/Home"><strong>Please explore the pages with this link(GitHub Pages)</strong></a></p>
-<p>If you have opinion for these docs, please create an issue and claim your idea. 
-Let me hear you and write more helpful contents. :D</p>
-<p>This example project started with <a href="https://github.com/luncliff/luncliff.github.io/blob/master/posts/Exploring-MSVC-Coroutine.md">the post in 2017.02</a>.  </p>
+<p>If you have opinion for the docs, please create an issue and suggest your idea. Let me hear you and write more helpful contents. :D</p>
+<h2 id="first-with-the-c-20-coroutines">First with the C++ 20 Coroutines?</h2>
+<p>If you're longing for the good <strong>references</strong>, visit the <a href="https://gist.github.com/MattPD/9b55db49537a90545a90447392ad3aeb">MattPD's collection</a>!</p>
+<p>If you want to <strong>run it now</strong>, there is <a href="https://godbolt.org/z/rlKE7f">a little example(Compiler Explorer)</a></p>
 <h2 id="developer-note">Developer Note</h2>
+<p>This example project started with <a href="https://github.com/luncliff/luncliff.github.io/blob/master/posts/Exploring-MSVC-Coroutine.md">the post in 2017.02</a>.</p>
 <ul>
 <li>Presentations<ul>
 <li>C++ Korea 5th Seminar: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Exploring The C++ Coroutine(Eng)</a> <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">(한국어)</a> - <a href="../ppt/Exploring-the-Cpp-Coroutine/">the PDF is here!</a></li>
@@ -1106,76 +979,15 @@ Let me hear you and write more helpful contents. :D</p>
 <li><a href="../articles/awaitable-event/">Awaitable event using coroutine, <code>epoll</code>, and <code>eventfd</code></a></li>
 <li><a href="../articles/designing-the-channel/">Designing the coroutine channel</a></li>
 <li><a href="../articles/combining-coroutines-and-pthread_create/">Combining C++ coroutines and <code>pthread_create</code></a></li>
+<li><a href="../articles/russian-roulette/">Russian Roulette and C++ Coroutines</a></li>
+<li><a href="../articles/windll-linking-issues/">Windows DLL linking issues(WIP)</a></li>
 </ul>
 </li>
 </ul>
-<h2 id="first-with-the-c-20-coroutines">First with the C++ 20 Coroutines?</h2>
-<p>If you're finding any bunch of good <strong>references</strong>, visit the <a href="https://gist.github.com/MattPD/9b55db49537a90545a90447392ad3aeb">MattPD's collection</a>!</p>
-<p>If you want to <strong>run it now</strong>, there is a little <a href="https://wandbox.org/permlink/6FGKZjuzjNYoSmI1">WandBox example</a>...<br />
-but it's poor for now. I will write a new one and update the link ASAP.</p>
 <h2 id="library-features">Library Features</h2>
-<h3 id="coroutine-handle"><a href="../frame-overview/">Coroutine Handle</a></h3>
-<p>Works related to <code>&lt;coroutine&gt;</code> header are placed in 1 file.</p>
-<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/frame.h&gt;</span><span class="cp"></span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
-</pre></div>
-
-
-<h3 id="return-types-for-the-coroutine-functions"><a href="../return-overview/">Return Types For The Coroutine Functions</a></h3>
-<p>Pre-defined return types with this library's namespace, <code>coro</code>.</p>
-<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
-</pre></div>
-
-
-<h3 id="yield"><a href="../yield-overview/">Yield</a></h3>
-<p>All types for <code>co_yield</code> operator are placed here.</p>
-<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/yield.hpp&gt;</span><span class="cp"></span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
-</pre></div>
-
-
-<h3 id="channel"><a href="../channel-overview/">Channel</a></h3>
-<p>Have you ever used the Go language? or heard about the CSP(Communicating Sequential Processes)?</p>
-<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/channel.hpp&gt;</span><span class="cp"></span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
-</pre></div>
-
-
-<ul>
-<li><a href="../channel-overview/">Concept</a></li>
-<li><a href="../channel-read_write/">Read &amp; Write</a></li>
-<li><a href="../channel-select/">Select</a></li>
-</ul>
-<h3 id="concurrency-utilities"><a href="../concrt-overview/">Concurrency Utilities</a></h3>
-<p>Even though the C++ coroutines doesn't require thread features, 
-working with existing multi-threaded code is an important issue.
-I had to write some utilities for the purpose.</p>
-<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/concrt.h&gt;</span><span class="cp"></span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">concrt</span><span class="p">;</span>
-</pre></div>
-
-
-<ul>
-<li><a href="../articles/awaitable-event/">Awaitable Event using the coroutine, <code>epoll</code>, and <code>eventfd</code></a>.</li>
-</ul>
-<h3 id="network-io"><a href="../net-overview/">Network I/O</a></h3>
-<p>The socket async I/O related features are adopting <a href="https://github.com/microsoft/gsl">GSL(Guideline Support Library)</a>.<br />
-The types/functions in this interface <strong>don't have their namespace</strong> for now. (They are global !)</p>
-<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/net.h&gt; // nesting &lt;gsl/gsl&gt;</span><span class="cp"></span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">gsl</span><span class="p">;</span>
-</pre></div>
-
-
-<ul>
-<li><a href="../net-overview/">Overview</a></li>
-<li>Impl note for each system's API<ul>
-<li><a href="../net-implementation-winsock2/">Winsock 2</a></li>
-<li><a href="../net-implementation-epoll/">Epoll</a></li>
-<li><a href="../net-implementation-kqueue/">KQueue</a></li>
-</ul>
-</li>
-</ul>
+<p>Please check the navigation tab to explore the features.
+You can run them using the test codes in this repo.<br />
+Clone the <code>master</code> branch and start your dive! :)</p>
                 
                   
                 
@@ -1197,13 +1009,13 @@ The types/functions in this interface <strong>don't have their namespace</strong
       <nav class="md-footer-nav__inner md-grid">
         
         
-          <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="PPT - C++ Korea 5th Seminar" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                PPT - C++ Korea 5th Seminar
+                C++ Korea 5th Seminar
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
@@ -1217,6 +1029,10 @@ The types/functions in this interface <strong>don't have their namespace</strong
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/deed
+          </div>
         
         powered by
         <a href="https://www.mkdocs.org">MkDocs</a>

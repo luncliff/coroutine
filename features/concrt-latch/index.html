@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/ppt/Exploring-the-Cpp-Coroutine/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/features/concrt-latch/">
       
       
         <meta name="author" content="Park Dong Ha">
@@ -42,7 +42,7 @@
     
     
       
-        <title>C++ Korea 5th Seminar - luncliff/coroutine</title>
+        <title>Concrt latch - luncliff/coroutine</title>
       
     
     
@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#exploring-the-c-coroutine-approach-compiler-and-issues" tabindex="1" class="md-skip">
+      <a href="#see-also" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -109,7 +109,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                C++ Korea 5th Seminar
+                Concrt latch
               
             </span>
           
@@ -230,12 +230,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       PPT
@@ -251,56 +249,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        C++ Korea 5th Seminar
-      </label>
-    
-    <a href="./" title="C++ Korea 5th Seminar" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -689,7 +642,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
+    <a href="../channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
       coroutine/channel.hpp
     </a>
   </li>
@@ -701,7 +654,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-read_write/" title="read and write" class="md-nav__link">
+    <a href="../channel-read_write/" title="read and write" class="md-nav__link">
       read and write
     </a>
   </li>
@@ -713,7 +666,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-select/" title="select on multiple channels" class="md-nav__link">
+    <a href="../channel-select/" title="select on multiple channels" class="md-nav__link">
       select on multiple channels
     </a>
   </li>
@@ -911,23 +864,48 @@
 <nav class="md-nav md-nav--secondary">
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
+  <a href="#see-also" title="See Also" class="md-nav__link">
+    See Also
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
+  <a href="#latch" title="latch" class="md-nav__link">
+    latch
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-windows" title="Definition (Windows)" class="md-nav__link">
+    Definition (Windows)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definiton-posix" title="Definiton (POSIX)" class="md-nav__link">
+    Definiton (POSIX)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -947,17 +925,72 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/ppt/Exploring-the-Cpp-Coroutine.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/features/concrt-latch.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="exploring-the-c-coroutine-approach-compiler-and-issues">Exploring the C++ Coroutine: Approach, Compiler, and Issues</h1>
-<h3 id="note">Note</h3>
-<p>I had a presentation in <a href="https://www.facebook.com/groups/cppkorea/">C++ Korea Facebook Group</a>'s <a href="https://github.com/CppKorea/CppKoreaSeminar5th">5th Seminar</a>.<br />
-You can download and share it :)</p>
-<h3 id="links">Links</h3>
+                  <h1>Concrt latch</h1>
+                
+                <h3 id="see-also">See Also</h3>
 <ul>
-<li>PDF: <a href="../[Eng]ExploringTheCppCoroutine.pdf">Exploring The C++ Coroutine</a> / <a href="../[Kor]ExploringTheCppCoroutine.pdf">한국어</a></li>
-<li>OneDrive: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Eng</a> / <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">한국어</a></li>
+<li>Go Language: <a href="https://golang.org/pkg/sync/#WaitGroup"><code>sync.WaitGroup</code></a></li>
+<li>C++ Concurrency TS: <a href="https://en.cppreference.com/w/cpp/experimental/latch">Latch</a></li>
+</ul>
+<h2 id="latch"><a href="https://en.cppreference.com/w/cpp/experimental/latch"><code>latch</code></a></h2>
+<p>The type is used for synchronization in fork-join scenario.<br />
+It will be removed when it C++ Concurrency TS becomes available.</p>
+<p>Visit the <a href="https://en.cppreference.com/w/cpp/experimental/latch">cppreference.com</a> for the detailed explaination. Latch in this library has slightly different interface with that of the concurrency TS</p>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">concrt</span>
+<span class="p">{</span>
+<span class="c1">//  A temporary implementation of `std::experimental::latch`</span>
+<span class="k">class</span> <span class="nc">latch</span> <span class="k">final</span> <span class="o">:</span> <span class="n">no_copy_move</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">_INTERFACE_</span> <span class="k">explicit</span> <span class="n">latch</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">count</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="n">_INTERFACE_</span> <span class="o">~</span><span class="n">latch</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+
+    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="nf">count_down_and_wait</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="nf">count_down</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="n">_INTERFACE_</span> <span class="kt">bool</span> <span class="nf">is_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="nf">wait</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="p">}</span> <span class="c1">// namespace concrt</span>
+</pre></div>
+
+
+<h3 id="definition-windows">Definition (Windows)</h3>
+<p>The implementation uses Win32 Event object and a counter using <code>&lt;atomic&gt;</code>.
+The <code>win32_event</code> here doesn't support <code>co_await</code> expression.</p>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">concrt</span>
+<span class="p">{</span>
+<span class="k">class</span> <span class="nc">latch</span> <span class="p">{</span>
+    <span class="n">atomic_uint64_t</span> <span class="n">ref</span><span class="p">{};</span>
+    <span class="k">mutable</span> <span class="n">win32_event</span> <span class="n">ev</span><span class="p">{};</span>
+    <span class="c1">// ...</span>
+<span class="p">};</span>
+<span class="p">}</span> <span class="c1">// namespace concrt</span>
+</pre></div>
+
+
+<h3 id="definiton-posix">Definiton (POSIX)</h3>
+<p>The implementation uses <code>pthread_cond_t</code> and <code>pthread_mutex_t</code>.
+It checks <a href="https://github.com/luncliff/coroutine/blob/master/modules/posix/concrt.cpp#L84">spurious wake-up</a> so it can <a href="https://en.cppreference.com/w/cpp/experimental/latch/wait">wait without timeout</a> like the concurrency TS.</p>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">concrt</span>
+<span class="p">{</span>
+<span class="k">class</span> <span class="nc">latch</span> <span class="p">{</span>
+    <span class="n">atomic_uint64_t</span> <span class="n">ref</span><span class="p">{};</span>
+    <span class="n">pthread_cond_t</span> <span class="n">cv</span><span class="p">{};</span>
+    <span class="n">pthread_mutex_t</span> <span class="n">mtx</span><span class="p">{};</span>
+    <span class="c1">// ...</span>
+<span class="p">};</span>
+<span class="p">}</span> <span class="c1">// namespace concrt</span>
+</pre></div>
+
+
+<h3 id="example">Example</h3>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/latch_wait_multiple_times.cpp">Wait for multiple times</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/latch_throws_negative_from_positive.cpp">Throws exception when counter becomes negative</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/channel_race_no_leak.cpp#L35">test/channel_race_no_leak.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/net_echo_tcp.cpp#L165">test/net_echo_tcp.cpp</a></li>
 </ul>
                 
                   
@@ -975,41 +1008,6 @@ You can download and share it :)</p>
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../../Home/" title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Home
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Exploring MSVC Coroutine
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

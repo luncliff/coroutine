@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/ppt/Exploring-the-Cpp-Coroutine/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/features/frame-coroutine_handle/">
       
       
         <meta name="author" content="Park Dong Ha">
@@ -42,7 +42,7 @@
     
     
       
-        <title>C++ Korea 5th Seminar - luncliff/coroutine</title>
+        <title>Frame coroutine handle - luncliff/coroutine</title>
       
     
     
@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#exploring-the-c-coroutine-approach-compiler-and-issues" tabindex="1" class="md-skip">
+      <a href="#see-also" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -109,7 +109,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                C++ Korea 5th Seminar
+                Frame coroutine handle
               
             </span>
           
@@ -230,12 +230,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       PPT
@@ -251,56 +249,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        C++ Korea 5th Seminar
-      </label>
-    
-    <a href="./" title="C++ Korea 5th Seminar" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -689,7 +642,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
+    <a href="../channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
       coroutine/channel.hpp
     </a>
   </li>
@@ -701,7 +654,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-read_write/" title="read and write" class="md-nav__link">
+    <a href="../channel-read_write/" title="read and write" class="md-nav__link">
       read and write
     </a>
   </li>
@@ -713,7 +666,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-select/" title="select on multiple channels" class="md-nav__link">
+    <a href="../channel-select/" title="select on multiple channels" class="md-nav__link">
       select on multiple channels
     </a>
   </li>
@@ -911,23 +864,89 @@
 <nav class="md-nav md-nav--secondary">
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
+  <a href="#see-also" title="See Also" class="md-nav__link">
+    See Also
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
+  <a href="#library-issues" title="Library Issues" class="md-nav__link">
+    Library Issues
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coroutine-handle-standard" title="Coroutine Handle (Standard)" class="md-nav__link">
+    Coroutine Handle (Standard)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coroutine-handle-custom" title="Coroutine Handle (Custom)" class="md-nav__link">
+    Coroutine Handle (Custom)
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template-parameters" title="Template Parameters" class="md-nav__link">
+    Template Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-operations" title="Default Operations" class="md-nav__link">
+    Default Operations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-void" title="With Void" class="md-nav__link">
+    With Void
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-promise" title="With Promise" class="md-nav__link">
+    With Promise
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-member-functions" title="Non-Member Functions" class="md-nav__link">
+    Non-Member Functions
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compare-operators" title="Compare Operators" class="md-nav__link">
+    Compare Operators
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -947,18 +966,175 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/ppt/Exploring-the-Cpp-Coroutine.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/features/frame-coroutine_handle.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="exploring-the-c-coroutine-approach-compiler-and-issues">Exploring the C++ Coroutine: Approach, Compiler, and Issues</h1>
-<h3 id="note">Note</h3>
-<p>I had a presentation in <a href="https://www.facebook.com/groups/cppkorea/">C++ Korea Facebook Group</a>'s <a href="https://github.com/CppKorea/CppKoreaSeminar5th">5th Seminar</a>.<br />
-You can download and share it :)</p>
-<h3 id="links">Links</h3>
+                  <h1>Frame coroutine handle</h1>
+                
+                <h3 id="see-also">See Also</h3>
 <ul>
-<li>PDF: <a href="../[Eng]ExploringTheCppCoroutine.pdf">Exploring The C++ Coroutine</a> / <a href="../[Kor]ExploringTheCppCoroutine.pdf">한국어</a></li>
-<li>OneDrive: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Eng</a> / <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">한국어</a></li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4736.pdf">n4736</a></li>
+<li><code>&lt;experimental/coroutine&gt;</code> in VC++</li>
+<li><code>&lt;experimental/coroutine&gt;</code> in libc++ 7 or later</li>
 </ul>
+<h3 id="library-issues">Library Issues</h3>
+<ul>
+<li>https://github.com/luncliff/coroutine/issues/23</li>
+</ul>
+<h2 id="coroutine-handle-standard">Coroutine Handle (Standard)</h2>
+<blockquote>
+<p>ToDo: Summarize the standard docs</p>
+</blockquote>
+<h2 id="coroutine-handle-custom">Coroutine Handle (Custom)</h2>
+<p>Defines the templace class <code>coroutine_handle&lt;T&gt;</code> in <code>std::experimental</code> namespace.</p>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span>
+<span class="p">{</span>
+    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">PromiseType</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+    <span class="k">class</span> <span class="nc">coroutine_handle</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3 id="template-parameters">Template Parameters</h3>
+<p><strong>PromiseType</strong> must fulfills the Coroutine Promise Requirement.</p>
+<h3 id="default-operations">Default Operations</h3>
+<p>The class <code>coroutine_handle&lt;P&gt;</code> is <strong>regular type</strong>.</p>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span>
+<span class="p">{</span>
+    <span class="k">template</span> <span class="o">&lt;&gt;</span>
+    <span class="k">class</span> <span class="nc">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span>
+    <span class="p">{</span>
+      <span class="k">public</span><span class="o">:</span>
+        <span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+        <span class="o">~</span><span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+        <span class="n">coroutine_handle</span><span class="p">(</span><span class="n">coroutine_handle</span> <span class="k">const</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+        <span class="n">coroutine_handle</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">coroutine_handle</span> <span class="k">const</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+        <span class="n">coroutine_handle</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&amp;&amp;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+        <span class="n">coroutine_handle</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&amp;&amp;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+
+        <span class="k">explicit</span> <span class="nf">coroutine_handle</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+        <span class="c1">// ...</span>
+    <span class="p">};</span>
+
+    <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">));</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3 id="with-void">With Void</h3>
+<p>Mostly the type will be used with <code>void</code> as its promise type(<code>coroutine_handle&lt;void&gt;</code>). In the case, its member functions are like the following table.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>operator bool</code></td>
+<td align="left">Tells the coroutine handle is not empty</td>
+</tr>
+<tr>
+<td align="left"><code>resume</code></td>
+<td align="left">Resume the coroutine's control flow. The coroutine must be in suspended state.</td>
+</tr>
+<tr>
+<td align="left"><code>destroy</code></td>
+<td align="left">Destruct the variables in the coroutine frame and the frame</td>
+</tr>
+<tr>
+<td align="left"><code>done</code></td>
+<td align="left">Returns <code>true</code> if the coroutine is returned</td>
+</tr>
+<tr>
+<td align="left"><code>address</code></td>
+<td align="left">Acquire the address of the frame</td>
+</tr>
+<tr>
+<td align="left"><code>from_address</code></td>
+<td align="left">Create a coroutine handle that uses the given address as a frame</td>
+</tr>
+</tbody>
+</table>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span>
+<span class="p">{</span>
+    <span class="k">template</span> <span class="o">&lt;&gt;</span>
+    <span class="k">class</span> <span class="nc">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span>
+    <span class="p">{</span>
+      <span class="k">public</span><span class="o">:</span>
+        <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+
+        <span class="kt">void</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+        <span class="kt">void</span> <span class="nf">destroy</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="nf">done</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+
+        <span class="k">constexpr</span> <span class="kt">void</span><span class="o">*</span> <span class="nf">address</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+        <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="nf">from_address</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">addr</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+        <span class="c1">// ...</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3 id="with-promise">With Promise</h3>
+<p>When the promise type is <strong>not <code>void</code></strong>, the template class defines additional functions to work with the <code>PromiseType</code>.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>from_address</code></td>
+<td align="left">Considering the promise type's size, create a coroutine handle from the given address</td>
+</tr>
+<tr>
+<td align="left"><code>from_promise</code></td>
+<td align="left">Create a handle from the reference to promise</td>
+</tr>
+</tbody>
+</table>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span>
+<span class="p">{</span>
+    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">PromiseType</span><span class="o">&gt;</span>
+    <span class="k">class</span> <span class="nc">coroutine_handle</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span>
+    <span class="p">{</span>
+      <span class="k">public</span><span class="o">:</span>
+        <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="n">PromiseType</span><span class="p">;</span>
+        <span class="c1">// ...</span>
+
+        <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="nf">from_address</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">addr</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+        <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="nf">from_promise</span><span class="p">(</span><span class="n">promise_type</span><span class="o">&amp;</span> <span class="n">prom</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+        <span class="c1">// ...</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="non-member-functions">Non-Member Functions</h2>
+<h3 id="compare-operators">Compare Operators</h3>
+<div class="codehilite"><pre><span></span><span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span>
+<span class="p">{</span>
+    <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+
+    <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+
+    <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
+                   <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
+                   <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
                 
                   
                 
@@ -975,41 +1151,6 @@ You can download and share it :)</p>
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../../Home/" title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Home
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Exploring MSVC Coroutine
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

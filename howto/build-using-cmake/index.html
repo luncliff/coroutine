@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/ppt/Exploring-the-Cpp-Coroutine/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/howto/build-using-cmake/">
       
       
         <meta name="author" content="Park Dong Ha">
@@ -42,7 +42,7 @@
     
     
       
-        <title>C++ Korea 5th Seminar - luncliff/coroutine</title>
+        <title>CMake - luncliff/coroutine</title>
       
     
     
@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#exploring-the-c-coroutine-approach-compiler-and-issues" tabindex="1" class="md-skip">
+      <a href="#how-to-build-cmake-project" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -109,7 +109,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                C++ Korea 5th Seminar
+                CMake
               
             </span>
           
@@ -230,12 +230,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       PPT
@@ -251,56 +249,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        C++ Korea 5th Seminar
-      </label>
-    
-    <a href="./" title="C++ Korea 5th Seminar" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -421,10 +374,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
     
     <label class="md-nav__link" for="nav-4">
       How To
@@ -461,7 +416,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/start-using-cmake/" title="CMake" class="md-nav__link">
+    <a href="../start-using-cmake/" title="CMake" class="md-nav__link">
       CMake
     </a>
   </li>
@@ -476,10 +431,12 @@
           
           
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2" checked>
     
     <label class="md-nav__link" for="nav-4-2">
       Build this project
@@ -497,7 +454,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/build-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+    <a href="../build-using-visualstudio/" title="Visual Studio" class="md-nav__link">
       Visual Studio
     </a>
   </li>
@@ -507,11 +464,136 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../../howto/build-using-cmake/" title="CMake" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        CMake
+      </label>
+    
+    <a href="./" title="CMake" class="md-nav__link md-nav__link--active">
       CMake
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#known-configurations" title="Known Configurations?" class="md-nav__link">
+    Known Configurations?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ubuntu-linux" title="Ubuntu Linux" class="md-nav__link">
+    Ubuntu Linux
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-libc" title="Installing libc++" class="md-nav__link">
+    Installing libc++
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#android" title="Android" class="md-nav__link">
+    Android
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mac-os" title="Mac OS" class="md-nav__link">
+    Mac OS
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iphone-os" title="iPhone OS" class="md-nav__link">
+    iPhone OS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows" title="Windows" class="md-nav__link">
+    Windows
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visual-studio" title="Visual Studio" class="md-nav__link">
+    Visual Studio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llvm-clang-cl" title="LLVM Clang-cl" class="md-nav__link">
+    LLVM Clang-cl
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-chocolatey-required-packages" title="Install Chocolatey &amp; Required Packages" class="md-nav__link">
+    Install Chocolatey &amp; Required Packages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -545,7 +627,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+    <a href="../import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
       Visual Studio
     </a>
   </li>
@@ -557,7 +639,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/import-using-cmake/" title="CMake" class="md-nav__link">
+    <a href="../import-using-cmake/" title="CMake" class="md-nav__link">
       CMake
     </a>
   </li>
@@ -918,16 +1000,96 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#note" title="Note" class="md-nav__link">
-    Note
+  <a href="#known-configurations" title="Known Configurations?" class="md-nav__link">
+    Known Configurations?
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#links" title="Links" class="md-nav__link">
-    Links
+  <a href="#ubuntu-linux" title="Ubuntu Linux" class="md-nav__link">
+    Ubuntu Linux
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-libc" title="Installing libc++" class="md-nav__link">
+    Installing libc++
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#android" title="Android" class="md-nav__link">
+    Android
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mac-os" title="Mac OS" class="md-nav__link">
+    Mac OS
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iphone-os" title="iPhone OS" class="md-nav__link">
+    iPhone OS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows" title="Windows" class="md-nav__link">
+    Windows
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visual-studio" title="Visual Studio" class="md-nav__link">
+    Visual Studio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llvm-clang-cl" title="LLVM Clang-cl" class="md-nav__link">
+    LLVM Clang-cl
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-chocolatey-required-packages" title="Install Chocolatey &amp; Required Packages" class="md-nav__link">
+    Install Chocolatey &amp; Required Packages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -947,18 +1109,87 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/ppt/Exploring-the-Cpp-Coroutine.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/howto/build-using-cmake.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="exploring-the-c-coroutine-approach-compiler-and-issues">Exploring the C++ Coroutine: Approach, Compiler, and Issues</h1>
-<h3 id="note">Note</h3>
-<p>I had a presentation in <a href="https://www.facebook.com/groups/cppkorea/">C++ Korea Facebook Group</a>'s <a href="https://github.com/CppKorea/CppKoreaSeminar5th">5th Seminar</a>.<br />
-You can download and share it :)</p>
-<h3 id="links">Links</h3>
+                <h1 id="how-to-build-cmake-project">How To Build: CMake Project</h1>
+<h4 id="known-configurations">Known Configurations?</h4>
+<p>This library relies on various CI services. I'm testing the build with the multiple config files.</p>
+<p>Just follow those files and compare with the build log.
+It won't be that hard :)</p>
+<p>You can create an issue (of course PR will be wellcomed!) if you can't try one of them. 
+Also, if you think some complex configuration must be tested (for your development!), let me know with the issue!</p>
+<h3 id="ubuntu-linux">Ubuntu Linux</h3>
 <ul>
-<li>PDF: <a href="../[Eng]ExploringTheCppCoroutine.pdf">Exploring The C++ Coroutine</a> / <a href="../[Kor]ExploringTheCppCoroutine.pdf">한국어</a></li>
-<li>OneDrive: <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBkndclZxyCkg9lZg">Eng</a> / <a href="https://1drv.ms/p/s!AvzH7Qt0Bc-UiMBjVGbkgsjdGJhgVw">한국어</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/.travis.yml">Travis CI</a>: <code>dist: xenial</code></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/azure/vm-vs2017-win2016.yml">Azure Pipelines</a>: <code>ubuntu-16.04</code></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/appveyor.yml">AppVeyor</a>: Ubuntu 18.04</li>
 </ul>
+<p>I'm testing with Ubuntu distribution because it's the CI services above uses them. 
+I think build test with Docker might be possible. The option is reserved for really complex conditions.</p>
+<h4 id="installing-libc">Installing <a href="https://github.com/llvm-mirror/libcxx">libc++</a></h4>
+<p>By default the environment <strong>won't</strong> have libc++. We need it to use <code>&lt;experimental/coroutine&gt;</code>.
+This library has a custom implementation so it can deal with the problem, but it is obvious that installing libc++ is more helpful and practical.</p>
+<p>Review <a href="https://github.com/luncliff/coroutine/blob/master/scripts/install-libc%2B%2B8.sh">this script file</a> and run the installation with <code>sudo</code>.</p>
+<div class="codehilite"><pre><span></span><span class="c1"># suppose you are in coroutine/</span>
+sudo bash ./scripts/install-libc++8.sh<span class="p">;</span>
+</pre></div>
+
+
+<h4 id="android">Android</h4>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/.travis.yml">Travis CI</a>: <code>language: android</code></li>
+</ul>
+<p>I'm considering to deprecate Android build with NDK because of the CMake version in it :(</p>
+<h3 id="mac-os">Mac OS</h3>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/azure/vm-macos-latest.yml">Azure Pipelines</a>: <code>macos-latest</code></li>
+</ul>
+<h4 id="iphone-os">iPhone OS</h4>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/.travis.yml">Travis CI</a>: <code>osx_image: xcode10.1</code></li>
+</ul>
+<p>Special thanks to https://github.com/leetal/ios-cmake !!!</p>
+<h3 id="windows">Windows</h3>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/azure/vm-vs2017-win2016.yml">Azure Pipelines</a>: Visual Studio 2017</li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/appveyor.yml">AppVeyor</a>: Visual Studio 2017, 2019</li>
+</ul>
+<p>You can try with the Visual Studio. But it's a Cross-Platform Make! How can I ignore the charming OS?<br />
+Well, the configuration for the Windows OS is a bit special. It supports Clang-cl build.</p>
+<h4 id="visual-studio">Visual Studio</h4>
+<p>Just set the Generator as Visual Studio.</p>
+<div class="codehilite"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="err">:</span><span class="p">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">luncliff</span><span class="p">/</span><span class="n">coroutine</span>
+<span class="nb">Push-Location</span> <span class="n">coroutine</span><span class="p">;</span>
+    <span class="n">cmake</span> <span class="p">..</span> <span class="n">-G</span> <span class="s2">&quot;Visual Studio 15 2017 Win64&quot;</span> <span class="n">-DUSE_PORTABLE_HEADER</span><span class="p">=</span><span class="s2">&quot;true&quot;</span>
+<span class="nb">Pop-Location</span><span class="p">;</span>
+</pre></div>
+
+
+<h4 id="llvm-clang-cl"><a href="https://chocolatey.org/packages/llvm">LLVM Clang-cl</a></h4>
+<p>Currently, I recommend <a href="https://ci.appveyor.com/project/luncliff/coroutine/builds/25099366">static build for clang-cl</a>.
+But the DLL build is also available for current master branch.</p>
+<p>To do so, please reference <a href="https://github.com/luncliff/coroutine/blob/master/appveyor.yml">the AppVeyor build steps</a>.</p>
+<h5 id="install-chocolatey-required-packages">Install Chocolatey &amp; Required Packages</h5>
+<p>Chocolatey can be installed easily. <a href="https://chocolatey.org">Follow guide of the official page</a>.
+We need 2 packages.</p>
+<div class="codehilite"><pre><span></span><span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">ninja</span><span class="p">;</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">-y</span> <span class="n">llvm</span><span class="p">;</span>
+</pre></div>
+
+
+<p>After the installation, don't forget to check the version</p>
+<div class="codehilite"><pre><span></span><span class="gp">$</span> ninja --version
+<span class="go">...</span>
+<span class="gp">$</span> choco info    llvm
+<span class="go">...</span>
+</pre></div>
+
+
+<p><strong>The clang-cl will invoke the clang appropriately</strong>. So if clang-cl works well, then all setup is done correctly.</p>
+<div class="codehilite"><pre><span></span><span class="gp">$</span> clang-cl --version
+<span class="go">...</span>
+</pre></div>
                 
                   
                 
@@ -979,7 +1210,7 @@ You can download and share it :)</p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../../Home/" title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../build-using-visualstudio/" title="Visual Studio" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -988,19 +1219,19 @@ You can download and share it :)</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Home
+                Visual Studio
               </span>
             </div>
           </a>
         
         
-          <a href="../../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../import-using-visualstudio/" title="Visual Studio" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Exploring MSVC Coroutine
+                Visual Studio
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

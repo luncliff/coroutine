@@ -1,0 +1,1646 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="C++ 20 Coroutines in Action.">
+      
+      
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/features/net-overview/">
+      
+      
+        <meta name="author" content="Park Dong Ha">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+    
+    
+      
+        <title>Net overview - luncliff/coroutine</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.0284f74d.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#see-also" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://luncliff.github.io/coroutine/Home" title="luncliff/coroutine" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              luncliff/coroutine
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Net overview
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://luncliff.github.io/coroutine/Home" title="luncliff/coroutine" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    luncliff/coroutine
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Home/" title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      PPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        PPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
+      C++ Korea 5th Seminar
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Articles
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Articles
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1" type="checkbox" id="nav-3-1">
+    
+    <label class="md-nav__link" for="nav-3-1">
+      Archive(Old posts)
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-1">
+        Archive(Old posts)
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-nav__link">
+      Exploring MSVC Coroutine
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../articles/awaitable-event/" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
+      Awaitable event using the coroutine, epoll and eventfd
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../articles/designing-the-channel/" title="Designing the coroutine channel" class="md-nav__link">
+      Designing the coroutine channel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../articles/combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
+      Combining C++ coroutines and `pthread_create`
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../articles/russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
+      Russian Roulette and C++ Coroutines
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      How To
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        How To
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Start yours Project
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        Start yours Project
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../howto/start-using-cmake/" title="CMake" class="md-nav__link">
+      CMake
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+    
+    <label class="md-nav__link" for="nav-4-2">
+      Build this project
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-2">
+        Build this project
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../howto/build-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+      Visual Studio
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../howto/build-using-cmake/" title="CMake" class="md-nav__link">
+      CMake
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Importing this project
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Importing this project
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../howto/import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
+      Visual Studio
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../howto/import-using-cmake/" title="CMake" class="md-nav__link">
+      CMake
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Features
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Features
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-1" type="checkbox" id="nav-5-1">
+    
+    <label class="md-nav__link" for="nav-5-1">
+      Portable Frame
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-1">
+        Portable Frame
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/frame.h" class="md-nav__link">
+      coroutine/frame.h
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
+    
+    <label class="md-nav__link" for="nav-5-2">
+      Return Types
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-2">
+        Return Types
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/return.h" class="md-nav__link">
+      coroutine/return.h
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3">
+    
+    <label class="md-nav__link" for="nav-5-3">
+      Channel
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-3">
+        Channel
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
+      coroutine/channel.hpp
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-read_write/" title="read and write" class="md-nav__link">
+      read and write
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../channel-select/" title="select on multiple channels" class="md-nav__link">
+      select on multiple channels
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
+    
+    <label class="md-nav__link" for="nav-5-4">
+      System API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-4">
+        System API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/event.h" class="md-nav__link">
+      coroutine/event.h
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/thread.h" class="md-nav__link">
+      coroutine/thread.h
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-5" type="checkbox" id="nav-5-5">
+    
+    <label class="md-nav__link" for="nav-5-5">
+      Socket I/O
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-5">
+        Socket I/O
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../net-overview.md" title="coroutine/net.h" class="md-nav__link">
+      coroutine/net.h
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-6" type="checkbox" id="nav-5-6">
+    
+    <label class="md-nav__link" for="nav-5-6">
+      co_yield
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-6">
+        co_yield
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/yield.hpp" class="md-nav__link">
+      coroutine/yield.hpp
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/sequence.hpp" class="md-nav__link">
+      coroutine/sequence.hpp
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-7" type="checkbox" id="nav-5-7">
+    
+    <label class="md-nav__link" for="nav-5-7">
+      Concepts
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-7">
+        Concepts
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../work-in-progress/" title="coroutine/concepts.hpp" class="md-nav__link">
+      coroutine/concepts.hpp
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" title="See Also" class="md-nav__link">
+    See Also
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependency" title="Dependency" class="md-nav__link">
+    Dependency
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variables" title="Variables" class="md-nav__link">
+    Variables
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constexpr" title="constexpr" class="md-nav__link">
+    constexpr
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#types" title="Types" class="md-nav__link">
+    Types
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#io_control_block" title="io_control_block" class="md-nav__link">
+    io_control_block
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#endpoint_t" title="endpoint_t" class="md-nav__link">
+    endpoint_t
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#io_task_t" title="io_task_t" class="md-nav__link">
+    io_task_t
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#io_buffer_t" title="io_buffer_t" class="md-nav__link">
+    io_buffer_t
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#io_work_t" title="io_work_t" class="md-nav__link">
+    io_work_t
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operations" title="Operations" class="md-nav__link">
+    Operations
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remarks" title="Remarks" class="md-nav__link">
+    Remarks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wait_io_tasks" title="wait_io_tasks" class="md-nav__link">
+    wait_io_tasks
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#send_to" title="send_to" class="md-nav__link">
+    send_to
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#params" title="Params" class="md-nav__link">
+    Params
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#return" title="Return" class="md-nav__link">
+    Return
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_1" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recv_from" title="recv_from" class="md-nav__link">
+    recv_from
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#params_1" title="Params" class="md-nav__link">
+    Params
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#return_1" title="Return" class="md-nav__link">
+    Return
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_2" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#send_stream" title="send_stream" class="md-nav__link">
+    send_stream
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#params_2" title="Params" class="md-nav__link">
+    Params
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#return_2" title="Return" class="md-nav__link">
+    Return
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_3" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recv_stream" title="recv_stream" class="md-nav__link">
+    recv_stream
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#params_3" title="Params" class="md-nav__link">
+    Params
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#return_3" title="Return" class="md-nav__link">
+    Return
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_4" title="Example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-pattern" title="Usage Pattern" class="md-nav__link">
+    Usage Pattern
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-io-reqeust-1-coroutine" title="1 I/O Reqeust == 1 Coroutine" class="md-nav__link">
+    1 I/O Reqeust == 1 Coroutine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continuation-of-io-coroutines" title="Continuation of I/O Coroutines" class="md-nav__link">
+    Continuation of I/O Coroutines
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" title="Examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/features/net-overview.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>Net overview</h1>
+                
+                <p>The interface contains socket I/O functions with coroutine.</p>
+<h3 id="see-also">See Also</h3>
+<ul>
+<li>CppCon 2017 : Gor Nishanov "Naked coroutines live(with networking)"</li>
+</ul>
+<h2 id="dependency">Dependency</h2>
+<p>The interface uses <a href="https://github.com/microsoft/gsl">GSL(Guideline Support Library)</a> and some of this library's features.
+For GSL itself, please see <a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#gsl-guidelines-support-library">the GSL section in the C++ Core Guidelines</a>.</p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/yield.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;gsl/gsl&gt;</span><span class="cp"></span>
+</pre></div>
+
+
+<h2 id="variables">Variables</h2>
+<h3 id="constexpr"><code>constexpr</code></h3>
+<p>The header defines 2 <code>constexpr</code> variable.</p>
+<div class="codehilite"><pre><span></span><span class="k">static</span> <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">is_winsock</span> <span class="o">=</span> <span class="cm">/* true or false */</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">is_netinet</span> <span class="o">=</span> <span class="cm">/* true or false */</span><span class="p">;</span>
+</pre></div>
+
+
+<h2 id="types">Types</h2>
+<h3 id="io_control_block"><code>io_control_block</code></h3>
+<p>This is an alias of <code>OVERLAPPED</code> struct. For netinet, it's struct follows the <code>OVERLAPPED</code>.</p>
+<div class="codehilite"><pre><span></span><span class="c1">// follow the definition of Windows `OVERLAPPED`</span>
+<span class="k">struct</span> <span class="n">io_control_block</span> <span class="p">{</span>
+    <span class="kt">uint64_t</span> <span class="n">internal</span><span class="p">;</span> <span class="c1">// uint32_t errc; int32_t flag;</span>
+    <span class="kt">uint64_t</span> <span class="n">internal_high</span><span class="p">;</span>
+    <span class="k">union</span> <span class="p">{</span>
+        <span class="k">struct</span> <span class="p">{</span>
+            <span class="kt">int32_t</span> <span class="n">offset</span><span class="p">;</span> <span class="c1">// socklen_t addrlen;</span>
+            <span class="kt">int32_t</span> <span class="n">offset_high</span><span class="p">;</span>
+        <span class="p">};</span>
+        <span class="kt">void</span><span class="o">*</span> <span class="n">ptr</span><span class="p">;</span>
+    <span class="p">};</span>
+    <span class="kt">int64_t</span> <span class="n">handle</span><span class="p">;</span> <span class="c1">// int64_t sd;</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<h3 id="endpoint_t"><code>endpoint_t</code></h3>
+<p>Helper type for socket address usage.
+Notice that the type contains <code>sockaddr_storage</code>.</p>
+<div class="codehilite"><pre><span></span><span class="k">union</span> <span class="n">endpoint_t</span> <span class="k">final</span> <span class="p">{</span>
+    <span class="n">sockaddr_storage</span> <span class="n">storage</span><span class="p">{};</span>
+    <span class="n">sockaddr</span> <span class="n">addr</span><span class="p">;</span>
+    <span class="n">sockaddr_in</span> <span class="n">in4</span><span class="p">;</span>
+    <span class="n">sockaddr_in6</span> <span class="n">in6</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<h3 id="io_task_t"><code>io_task_t</code></h3>
+<p>This is an alias of <code>coroutine_handle&lt;void&gt;</code>.
+The coroutine frame becomes an user data in the underlying system's API</p>
+<div class="codehilite"><pre><span></span><span class="c1">//  1 task item == 1 resumable function</span>
+<span class="k">using</span> <span class="n">io_task_t</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="io_buffer_t"><code>io_buffer_t</code></h3>
+<p>The type is a view to the bytes(storage for read/write operation). 
+Be aware that it doesn't have ownership.</p>
+<p>See <a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#gslview-views"><code>gsl::span&lt;T&gt;</code></a> for its usage.</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">io_buffer_t</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">byte</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_buffer_t</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
+</pre></div>
+
+
+<h3 id="io_work_t"><code>io_work_t</code></h3>
+<p>It is a struct to describe 1 I/O request to the underlying system's API</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">io_work_t</span> <span class="o">:</span> <span class="k">public</span> <span class="n">io_control_block</span> <span class="p">{</span>
+    <span class="n">io_task_t</span>   <span class="n">task</span><span class="p">{};</span>
+    <span class="n">io_buffer_t</span> <span class="n">buffer</span><span class="p">{};</span>
+    <span class="n">endpoint_t</span><span class="o">*</span> <span class="n">ep</span><span class="p">{};</span>
+
+  <span class="k">public</span><span class="o">:</span>
+     <span class="kt">bool</span> <span class="n">ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+     <span class="kt">uint32_t</span> <span class="nf">error</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_work_t</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">64</span><span class="p">);</span>
+</pre></div>
+
+
+<p>After <code>co_await</code>, <code>error()</code> returns the stored error from I/O operation.
+For its usage, see the examples in I/O operation functions.</p>
+<h2 id="operations">Operations</h2>
+<h3 id="remarks">Remarks</h3>
+<p>The library doesn't use cancel/scatter/gather operations.</p>
+<p>The library doesn't provide create/destroy/option for the socket.<br />
+Such an abstraction is tedious and distracts to understand both interface design and internal codes.
+It just expects that the given socket is non-block and async one, and it works as designed only for the case.</p>
+<p>Test helper codes below contain socket functions. You can copy-and-paste them :)</p>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/test_network.h">test/test_network.h</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/test_network.cpp">test/test_network.cpp</a></li>
+</ul>
+<h3 id="wait_io_tasks"><code>wait_io_tasks</code></h3>
+<p>Acquires currently <strong>resumable</strong> I/O coroutines.</p>
+<p>This function is for non-windows platform.
+Over Windows API, the implementation resumes I/O coroutines automatically.
+So it always yields <strong>nothing</strong>.</p>
+<p>Also, the library <strong>does not guarantee</strong> that all coroutines(I/O tasks) will be fetched at once. 
+Therefore it is strongly recommended for user to have another method to detect that watching I/O coroutines are returned.
+User must repeat the resuming loop <strong>without break</strong> so that there is no leak of event.</p>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">wait_io_tasks</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">nanoseconds</span> <span class="n">timeout</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">io_task_t</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+
+
+<h4 id="example">Example</h4>
+<p>Use it with <a href="#variables">the <code>constexpr</code> variables</a>.</p>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="nf">io_polling_example</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_winsock</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// the library doesn&#39;t guarantee they will be fetched at once</span>
+        <span class="c1">// so user have to repeat enough to finish all i/o tasks</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">task</span> <span class="p">:</span> <span class="n">wait_io_tasks</span><span class="p">(</span><span class="mi">10</span><span class="n">ms</span><span class="p">))</span>
+            <span class="n">task</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3 id="send_to"><code>send_to</code></h3>
+<p>Request to internal API to send a buffer to specific endpoint
+and return a refernce of concrete <code>io_work_t</code> that can be used for <code>co_await</code>.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">io_send_to</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">io_work_t</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="kt">int64_t</span> <span class="nf">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_send_to</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">io_work_t</span><span class="p">));</span>
+
+<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> 
+<span class="k">auto</span> <span class="n">send_to</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span>           <span class="c1">//</span>
+             <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="c1">//</span>
+    <span class="o">-&gt;</span> <span class="n">io_send_to</span><span class="o">&amp;</span><span class="p">;</span>
+
+<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> 
+<span class="k">auto</span> <span class="n">send_to</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span>          <span class="c1">//</span>
+             <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="c1">//</span>
+    <span class="o">-&gt;</span> <span class="n">io_send_to</span><span class="o">&amp;</span><span class="p">;</span>
+</pre></div>
+
+
+<h4 id="params">Params</h4>
+<ul>
+<li><code>sd</code>: a <strong>bound</strong> socket descriptor</li>
+<li><code>remote</code>: remote address to send <code>buf</code></li>
+<li><code>buf</code>: data(span of <code>std::byte</code>) to send</li>
+<li><code>work</code>: I/O request holder. Down-casted to <code>io_send_to</code></li>
+</ul>
+<h4 id="return">Return</h4>
+<ul>
+<li><code>send_to</code>: lvalue reference to an awaitable type(<code>io_send_to</code>)</li>
+<li><code>await_resume</code>: <ul>
+<li>success: the length of sent bytes in <code>int64_t</code></li>
+<li>failure: the error code will be stored to given <code>work</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="example_1">Example</h4>
+<p>The following code shows how <code>send_to</code> can be used.</p>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">example</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> 
+             <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">ssz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span>
+<span class="p">{</span>
+    <span class="n">io_work_t</span> <span class="n">work</span><span class="p">{};</span>
+    <span class="n">array</span><span class="o">&lt;</span><span class="n">byte</span><span class="p">,</span> <span class="mi">1000</span><span class="o">&gt;</span> <span class="n">storage</span><span class="p">{};</span>
+
+    <span class="n">ssz</span> <span class="o">=</span> <span class="n">co_await</span> <span class="n">send_to</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">remote</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">work</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">work</span><span class="p">.</span><span class="n">error</span><span class="p">())</span>
+        <span class="n">FAIL</span><span class="p">(</span><span class="n">system_category</span><span class="p">().</span><span class="n">message</span><span class="p">(</span><span class="n">ec</span><span class="p">));</span>
+
+    <span class="n">REQUIRE</span><span class="p">(</span><span class="n">ssz</span> <span class="o">==</span> <span class="n">storage</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3 id="recv_from"><code>recv_from</code></h3>
+<p>Request to internal API to receive through a socket from the unspecified endpoint
+and return a refernce of concrete <code>io_work_t</code> that can be used for <code>co_await</code>.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">io_recv_from</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">io_work_t</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="kt">int64_t</span> <span class="nf">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_recv_from</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">io_work_t</span><span class="p">));</span>
+
+<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> 
+<span class="k">auto</span> <span class="n">recv_from</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="c1">//</span>
+               <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>                    <span class="c1">//</span>
+    <span class="o">-&gt;</span> <span class="n">io_recv_from</span><span class="o">&amp;</span><span class="p">;</span>
+
+<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> 
+<span class="k">auto</span> <span class="n">recv_from</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="c1">//</span>
+               <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>                   <span class="c1">//</span>
+    <span class="o">-&gt;</span> <span class="n">io_recv_from</span><span class="o">&amp;</span><span class="p">;</span>
+</pre></div>
+
+
+<h4 id="params_1">Params</h4>
+<ul>
+<li><code>sd</code>: a <strong>bound</strong> socket descriptor</li>
+<li><code>remote</code>: memory to store sender's address</li>
+<li><code>buf</code>: data(span of <code>std::byte</code>) to receive</li>
+<li><code>work</code>: I/O request holder. Down-casted to <code>io_recv_from</code></li>
+</ul>
+<h4 id="return_1">Return</h4>
+<ul>
+<li><code>recv_from</code>: lvalue reference to an awaitable type(<code>io_recv_from</code>)</li>
+<li><code>await_resume</code>: <ul>
+<li>success: the length of received bytes in <code>int64_t</code></li>
+<li>failure: the error code will be stored to given <code>work</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="example_2">Example</h4>
+<p>The following code shows how <code>recv_from</code> can be used.</p>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">example</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> 
+             <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">rsz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span>
+<span class="p">{</span>
+    <span class="n">io_work_t</span> <span class="n">work</span><span class="p">{};</span>
+    <span class="n">array</span><span class="o">&lt;</span><span class="n">byte</span><span class="p">,</span> <span class="mi">1000</span><span class="o">&gt;</span> <span class="n">storage</span><span class="p">{};</span>
+
+    <span class="n">rsz</span> <span class="o">=</span> <span class="n">co_await</span> <span class="n">recv_from</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">remote</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">work</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">work</span><span class="p">.</span><span class="n">error</span><span class="p">())</span>
+        <span class="n">FAIL</span><span class="p">(</span><span class="n">system_category</span><span class="p">().</span><span class="n">message</span><span class="p">(</span><span class="n">ec</span><span class="p">));</span>
+
+    <span class="n">REQUIRE</span><span class="p">(</span><span class="n">rsz</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3 id="send_stream"><code>send_stream</code></h3>
+<p>Request to internal API to send to the connected peer
+and return a refernce of concrete <code>io_work_t</code> that can be used for <code>co_await</code>.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">io_send</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">io_work_t</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="kt">int64_t</span> <span class="nf">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_send</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">io_work_t</span><span class="p">));</span>
+
+<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> 
+<span class="k">auto</span> <span class="n">send_stream</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span> <span class="c1">//</span>
+                 <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>             <span class="c1">//</span>
+    <span class="o">-&gt;</span> <span class="n">io_send</span><span class="o">&amp;</span><span class="p">;</span>
+</pre></div>
+
+
+<h4 id="params_2">Params</h4>
+<ul>
+<li><code>sd</code>: a descriptor of the <strong>connected</strong> socket</li>
+<li><code>buf</code>: data(span of <code>std::byte</code>) to receive</li>
+<li><code>flag</code>: operation flag for the underlying system's API</li>
+<li><code>work</code>: I/O request holder. Down-casted to <code>io_send</code></li>
+</ul>
+<h4 id="return_2">Return</h4>
+<ul>
+<li><code>send_stream</code>: lvalue reference to an awaitable type(<code>io_send</code>)</li>
+<li><code>await_resume</code>: <ul>
+<li>success: the length of received bytes in <code>int64_t</code></li>
+<li>failure: the error code will be stored to given <code>work</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="example_3">Example</h4>
+<p>The following code shows how <code>send_stream</code> can be used.</p>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">example</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">ssz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span>
+<span class="p">{</span>
+    <span class="n">io_work_t</span> <span class="n">work</span><span class="p">{};</span>
+    <span class="n">array</span><span class="o">&lt;</span><span class="n">byte</span><span class="p">,</span> <span class="mi">1000</span><span class="o">&gt;</span> <span class="n">storage</span><span class="p">{};</span>
+
+    <span class="n">ssz</span> <span class="o">=</span> <span class="n">co_await</span> <span class="n">send_stream</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">work</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">work</span><span class="p">.</span><span class="n">error</span><span class="p">())</span>
+        <span class="n">FAIL</span><span class="p">(</span><span class="n">system_category</span><span class="p">().</span><span class="n">message</span><span class="p">(</span><span class="n">ec</span><span class="p">));</span>
+
+    <span class="n">REQUIRE</span><span class="p">(</span><span class="n">ssz</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3 id="recv_stream"><code>recv_stream</code></h3>
+<p>Request to internal API to receive through the connected socket
+and return a refernce of concrete <code>io_work_t</code> that can be used for <code>co_await</code>.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">io_recv</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">io_work_t</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="kt">int64_t</span> <span class="nf">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_recv</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">io_work_t</span><span class="p">));</span>
+
+<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> 
+<span class="k">auto</span> <span class="n">recv_stream</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span> <span class="c1">//</span>
+                 <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>             <span class="c1">//</span>
+    <span class="o">-&gt;</span> <span class="n">io_recv</span><span class="o">&amp;</span><span class="p">;</span>
+</pre></div>
+
+
+<h4 id="params_3">Params</h4>
+<ul>
+<li><code>sd</code>: a descriptor of the <strong>connected</strong> socket</li>
+<li><code>buf</code>: data(span of <code>std::byte</code>) to receive</li>
+<li><code>flag</code>: operation flag for the underlying system's API</li>
+<li><code>work</code>: I/O request holder. Down-casted to <code>io_recv</code></li>
+</ul>
+<h4 id="return_3">Return</h4>
+<ul>
+<li><code>recv_stream</code>: lvalue reference to an awaitable type(<code>io_recv</code>)</li>
+<li><code>await_resume</code>: <ul>
+<li>success: the length of received bytes in <code>int64_t</code></li>
+<li>failure: the error code will be stored to given <code>work</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="example_4">Example</h4>
+<p>The following code shows how <code>recv_stream</code> can be used.</p>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">example</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="kt">int64_t</span><span class="o">&amp;</span> <span class="n">rsz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span>
+<span class="p">{</span>
+    <span class="n">io_work_t</span> <span class="n">work</span><span class="p">{};</span>
+    <span class="n">array</span><span class="o">&lt;</span><span class="n">byte</span><span class="p">,</span> <span class="mi">1000</span><span class="o">&gt;</span> <span class="n">storage</span><span class="p">{};</span>
+
+    <span class="n">rsz</span> <span class="o">=</span> <span class="n">co_await</span> <span class="n">recv_stream</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">work</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">work</span><span class="p">.</span><span class="n">error</span><span class="p">())</span>
+        <span class="n">FAIL</span><span class="p">(</span><span class="n">system_category</span><span class="p">().</span><span class="n">message</span><span class="p">(</span><span class="n">ec</span><span class="p">));</span>
+
+    <span class="n">REQUIRE</span><span class="p">(</span><span class="n">rsz</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="usage-pattern">Usage Pattern</h2>
+<p>User must use 2 parts to use the interface. </p>
+<ul>
+<li>I/O coroutine</li>
+<li>I/O polling subroutine</li>
+</ul>
+<h3 id="1-io-reqeust-1-coroutine">1 I/O Reqeust == 1 Coroutine</h3>
+<p>Each I/O request flows sequentially. Polling subroutine will yields coroutines with finished(errored) I/O.</p>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">user_io_coroutine</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">socket</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">some_return_type</span>
+<span class="p">{</span>
+    <span class="n">io_work_t</span> <span class="n">work</span><span class="p">{};</span>       <span class="c1">// control block object</span>
+    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">{};</span>    <span class="c1">// { byte*, size_t }</span>
+    <span class="n">endpoint_t</span> <span class="n">remote</span><span class="p">{};</span>
+
+    <span class="c1">// this is the only allowed usage pattern</span>
+    <span class="kt">int64_t</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">co_await</span> <span class="n">io_request</span><span class="p">(</span><span class="n">socket</span><span class="p">,</span> <span class="n">remote</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">work</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">sz</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// ec is updated after the request</span>
+        <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">work</span><span class="p">.</span><span class="n">error</span><span class="p">();</span>   
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>The request can be one of following functions.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Interface</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>send_to</code></td>
+<td align="left">Send to a specific endpoint(<code>sockaddr</code>)</td>
+</tr>
+<tr>
+<td align="left"><code>recv_from</code></td>
+<td align="left">Receive a packet and set the sender's endpoint(<code>sockaddr</code>)</td>
+</tr>
+<tr>
+<td align="left"><code>send_stream</code></td>
+<td align="left">Send to the socket's connected peer</td>
+</tr>
+<tr>
+<td align="left"><code>recv_stream</code></td>
+<td align="left">Receive from the socket's connected peer</td>
+</tr>
+</tbody>
+</table>
+<h3 id="continuation-of-io-coroutines">Continuation of I/O Coroutines</h3>
+<p>User can pool until all I/O coroutines are finished with <code>wait_io_tasks</code> function. It will yield at least 0 coroutine handle.</p>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">example_io_polling</span><span class="p">(</span><span class="kt">bool</span><span class="o">&amp;</span> <span class="n">all_io_finished</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// timeout with &lt;chrono&gt;</span>
+    <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono_literals</span><span class="p">;</span>
+
+    <span class="c1">// ...</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">all_io_finished</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">coro</span> <span class="p">:</span> <span class="n">wait_io_tasks</span><span class="p">(</span><span class="mi">10</span><span class="n">ms</span><span class="p">))</span> 
+            <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="examples">Examples</h2>
+<ul>
+<li><code>resolve</code><ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/net_get_addrinfo_ip6_multicast.cpp">IPv6 Multicast</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/net_get_addrinfo_tcp6_connect.cpp">TCPv6 Connect</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/net_get_addrinfo_udp6_v4mapped.cpp">UDPv6 v4 mapped</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/net_echo_tcp.cpp"><code>send_stream</code>/<code>recv_stream</code> (<code>wait_io_tasks</code>)</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/master/test/net_echo_udp.cpp"><code>send_to</code>/<code>recv_from</code> (<code>wait_io_tasks</code>)</a></li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/deed
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.245445c6.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+    
+  </body>
+</html>
