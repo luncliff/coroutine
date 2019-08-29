@@ -105,7 +105,7 @@ elseif(WIN32)
 elseif(UNIX) # actually we can't sure it's a linux here ...
     target_sources(coroutine_thread
     PRIVATE
-        pthread_joiner.cpp
+        pthread.cpp
     )
     target_link_libraries(coroutine_thread
     PUBLIC

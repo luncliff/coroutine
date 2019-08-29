@@ -187,8 +187,12 @@ elseif(UNIX)
     generate_exe_test( event_unix_wait_multiple_times )
     generate_exe_test( event_unix_wait_one )
     generate_exe_test( event_unix_wait_three )
-    # generate_exe_test( pthread_joiner_multiple_spawn )
-    # generate_exe_test( pthread_joiner_no_spawn )
+
+    generate_exe_test( thread_pthread_joiner_no_spawn )
+    generate_exe_test( thread_pthread_joiner_spawn_join )
+    generate_exe_test( thread_pthread_joiner_multiple_spawn )
+    generate_exe_test( thread_pthread_detacher_no_spawn )
+    generate_exe_test( thread_pthread_detacher_multiple_spawn )
 
 endif()
 
