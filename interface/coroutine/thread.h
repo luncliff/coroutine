@@ -37,16 +37,17 @@
 #error "expect header <experimental/coroutine> or <coroutine/frame.h>"
 #endif
 
-#if __has_include(<Windows.h>)
+#if __has_include(<threadpoolapiset.h>)
 #include <Windows.h>
+#include <threadpoolapiset.h>
 
 namespace coro {
 using namespace std;
 using namespace std::experimental;
 
-//  Move into the win32 thread pool and continue the routine
+// Move into the win32 thread pool and continue the routine
 class ptp_work final {
-    // PTP_WORK_CALLBACK
+    // Callback for CreateThreadpoolWork
     static void __stdcall resume_on_thread_pool(PTP_CALLBACK_INSTANCE, PVOID,
                                                 PTP_WORK);
 
@@ -67,16 +68,32 @@ class ptp_work final {
     }
 };
 
+// Move into the designated thread's APC queue and  and continue the routine
 class procedure_call_on final {
+    // Callback for QueueUserAPC
+    static void resume_on_apc(ULONG_PTR);
+
+    _INTERFACE_ auto on_suspend(coroutine_handle<void>) noexcept -> uint32_t;
+
   public:
     constexpr bool await_ready() const noexcept {
         return false;
     }
     constexpr void await_resume() noexcept {
     }
-    void await_suspend(coroutine_handle<void> coro) {
+    void await_suspend(coroutine_handle<void> coro) noexcept(false) {
+        if (const auto ec = on_suspend(coro))
+            throw system_error{static_cast<int>(ec), system_category(),
+                               "QueueUserAPC"};
     }
-}
+
+  public:
+    explicit procedure_call_on(HANDLE hThread) noexcept : thread{hThread} {
+    }
+
+  private:
+    HANDLE thread;
+};
 
 } // namespace coro
 
@@ -124,7 +141,8 @@ class ptp_work final : public pthread_spawner_t {
 
 // This is a special promise type which allows `pthread_attr_t*` as an
 // operand of `co_await` operator.
-// After the spawn, it contains thread id of it.
+// The type wraps `pthread_create` function. After spawn, it contains thread id
+// of the brand-new thread.
 class pthread_spawn_promise {
   public:
     pthread_t tid{};
@@ -174,7 +192,7 @@ class pthread_knower_t {
     pthread_spawn_promise* promise;
 };
 
-// Special return type that wraps `pthread_create` and `pthread_join`
+// Special return type that wraps `pthread_join`
 class pthread_joiner_t final : public pthread_knower_t {
   public:
     class promise_type final : public pthread_spawn_promise {
@@ -203,6 +221,7 @@ class pthread_joiner_t final : public pthread_knower_t {
     _INTERFACE_ pthread_joiner_t(promise_type* p) noexcept(false);
 };
 
+// Special return type that wraps `pthread_detach`
 class pthread_detacher_t final : public pthread_knower_t {
   public:
     class promise_type final : public pthread_spawn_promise {

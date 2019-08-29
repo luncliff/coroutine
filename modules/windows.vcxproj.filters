@@ -60,14 +60,14 @@
     <ClCompile Include="net\resolver.cpp">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="thread\ptp_work.cpp">
-      <Filter>thread</Filter>
-    </ClCompile>
     <ClCompile Include="concrt\latch_win32.cpp">
       <Filter>concrt</Filter>
     </ClCompile>
     <ClCompile Include="concrt\section_win32.cpp">
       <Filter>concrt</Filter>
+    </ClCompile>
+    <ClCompile Include="thread\win32_thread_pool.cpp">
+      <Filter>thread</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

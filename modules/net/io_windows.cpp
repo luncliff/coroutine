@@ -114,6 +114,7 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buffer,
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
+GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(bounds .3)
 void io_send_to::suspend(io_task_t t) noexcept(false) {
     task = t; // coroutine will be resumed in overlapped callback
@@ -170,6 +171,7 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buffer,
     return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
+GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(bounds .3)
 void io_recv_from::suspend(io_task_t t) noexcept(false) {
     task = t; // coroutine will be resumed in overlapped callback
@@ -182,7 +184,8 @@ void io_recv_from::suspend(io_task_t t) noexcept(false) {
 
     if (::WSARecvFrom(sd, bufs, 1, nullptr, &flag, //
                       addr, &addrlen,              //
-                      zero_overlapped(gsl::make_not_null(this)), onWorkDone) == NO_ERROR)
+                      zero_overlapped(gsl::make_not_null(this)),
+                      onWorkDone) == NO_ERROR)
         return;
 
     if (const auto ec = WSAGetLastError()) {
@@ -209,6 +212,7 @@ auto send_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
     return *reinterpret_cast<io_send*>(addressof(work));
 }
 
+GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(bounds .3)
 void io_send::suspend(io_task_t t) noexcept(false) {
     task = t; // coroutine will be resumed in overlapped callback
@@ -218,7 +222,8 @@ void io_send::suspend(io_task_t t) noexcept(false) {
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
 
     if (::WSASend(sd, bufs, 1, nullptr, flag, //
-                  zero_overlapped(gsl::make_not_null(this)), onWorkDone) == NO_ERROR)
+                  zero_overlapped(gsl::make_not_null(this)),
+                  onWorkDone) == NO_ERROR)
         return;
 
     if (const auto ec = WSAGetLastError()) {
@@ -245,6 +250,7 @@ auto recv_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
     return *reinterpret_cast<io_recv*>(addressof(work));
 }
 
+GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(bounds .3)
 void io_recv::suspend(io_task_t t) noexcept(false) {
     task = t; // coroutine will be resumed in overlapped callback
@@ -254,7 +260,8 @@ void io_recv::suspend(io_task_t t) noexcept(false) {
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
 
     if (::WSARecv(sd, bufs, 1, nullptr, &flag, //
-                  zero_overlapped(gsl::make_not_null(this)), onWorkDone) == NO_ERROR)
+                  zero_overlapped(gsl::make_not_null(this)),
+                  onWorkDone) == NO_ERROR)
         return;
 
     if (const auto ec = WSAGetLastError()) {

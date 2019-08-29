@@ -8,6 +8,7 @@
 using namespace std;
 namespace coro {
 
+GSL_SUPPRESS(type .1)
 int32_t get_name(const sockaddr_in& addr, zstring_host name, zstring_serv serv,
                  int32_t flags) noexcept {
     const auto* ptr = reinterpret_cast<const sockaddr*>(addressof(addr));
@@ -17,6 +18,7 @@ int32_t get_name(const sockaddr_in& addr, zstring_host name, zstring_serv serv,
                          flags);
 }
 
+GSL_SUPPRESS(type .1)
 int32_t get_name(const sockaddr_in6& addr, zstring_host name, zstring_serv serv,
                  int32_t flags) noexcept {
     const auto* ptr = reinterpret_cast<const sockaddr*>(addressof(addr));

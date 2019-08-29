@@ -36,7 +36,7 @@
     <ClCompile Include="event\event_windows.cpp" />
     <ClCompile Include="net\io_windows.cpp" />
     <ClCompile Include="net\resolver.cpp" />
-    <ClCompile Include="thread\ptp_work.cpp" />
+    <ClCompile Include="thread\win32_thread_pool.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

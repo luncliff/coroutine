@@ -9,7 +9,7 @@
 
 #include <TlHelp32.h>
 #include <synchapi.h>
-#include <threadpoolapiset.h>
+//#include <threadpoolapiset.h>
 
 namespace coro {
 
@@ -53,6 +53,23 @@ auto ptp_work::on_suspend(coroutine_handle<void> coro) noexcept -> uint32_t {
         return GetLastError();
 
     SubmitThreadpoolWork(work);
+    return S_OK;
+}
+
+GSL_SUPPRESS(type .1)
+void procedure_call_on::resume_on_apc(ULONG_PTR param) {
+    auto ptr = reinterpret_cast<void*>(param);
+    if (auto coro = coroutine_handle<void>::from_address(ptr))
+        coro.resume();
+}
+
+GSL_SUPPRESS(type .1)
+auto procedure_call_on::on_suspend(coroutine_handle<void> coro) noexcept
+    -> uint32_t {
+    const auto param = reinterpret_cast<ULONG_PTR>(coro.address());
+
+    if (QueueUserAPC(resume_on_apc, this->thread, param) == 0)
+        return GetLastError();
     return S_OK;
 }
 

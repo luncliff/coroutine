@@ -88,15 +88,10 @@ elseif(MSVC)
     endif()
 endif()
 
-if(ANDROID)
-    target_link_libraries(coroutine_thread
-    PUBLIC
-        ${ANDROID_STL}
-    )
-elseif(WIN32)
+if(WIN32)
     target_sources(coroutine_thread
     PRIVATE
-        ptp_work.cpp
+        win32_thread_pool.cpp
     )
     target_compile_definitions(coroutine_thread
     PUBLIC
@@ -107,10 +102,18 @@ elseif(UNIX) # actually we can't sure it's a linux here ...
     PRIVATE
         pthread.cpp
     )
-    target_link_libraries(coroutine_thread
-    PUBLIC
-        pthread
-    )
+    
+    if(ANDROID)
+        target_link_libraries(coroutine_thread
+        PUBLIC
+            ${ANDROID_STL}
+        )
+    else()
+        target_link_libraries(coroutine_thread
+        PUBLIC
+            pthread
+        )
+    endif()
 endif()
 
 if(NOT MSVC)
