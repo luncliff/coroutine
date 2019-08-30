@@ -94,7 +94,7 @@ constexpr auto aligned_size_v = ((sizeof(T) + 16u - 1u) & ~(16u - 1u));
 //      Reference <experimental/resumable> for the detail
 // - Layout
 //      +------------+------------------+--------------------+
-//      | Promise(?) | Frame Prefix(16) | Function Locals(?) |
+//      | Promise(?) | Frame Prefix(16) | Local variables(?) |
 //      +------------+------------------+--------------------+
 struct msvc_frame_prefix final {
     procedure_t factivate;
@@ -345,6 +345,43 @@ inline bool operator>=(const coroutine_handle<void> lhs,
     return !(lhs < rhs);
 }
 
+struct noop_coroutine_promise {};
+using noop_coroutine_handle = coroutine_handle<noop_coroutine_promise>;
+
+template <>
+class coroutine_handle<noop_coroutine_promise> : public coroutine_handle<void> {
+    noop_coroutine_promise p{};
+
+  public:
+    constexpr explicit operator bool() const noexcept {
+        return true;
+    }
+    constexpr bool done() const noexcept {
+        return false;
+    }
+
+    constexpr void operator()() const noexcept {
+        return;
+    }
+    constexpr void resume() const noexcept {
+        return;
+    }
+    constexpr void destroy() const noexcept {
+        return;
+    }
+
+    noop_coroutine_promise& promise() /* const */ noexcept {
+        return p;
+    }
+    constexpr void* address() const noexcept {
+        return (void*)0xFADE'038C'BCFA'9E64;
+    }
+};
+
+static noop_coroutine_handle noop_coroutine() noexcept {
+    return {};
+}
+
 class suspend_never {
   public:
     constexpr bool await_ready() const noexcept {
@@ -353,7 +390,7 @@ class suspend_never {
     constexpr void await_resume() const noexcept {
     }
     void await_suspend(coroutine_handle<void>) const noexcept {
-        // Since the class won't suspend, this function won't be invoked
+        // This function won't be invoked
     }
 };
 
@@ -365,7 +402,7 @@ class suspend_always {
     constexpr void await_resume() const noexcept {
     }
     void await_suspend(coroutine_handle<void>) const noexcept {
-        // The routine will suspend but the class ignores the given handle
+        // This function will ignore the given handle
     }
 };
 
