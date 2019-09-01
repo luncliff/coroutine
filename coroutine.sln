@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vstest_event", "test\vstest
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vstest_yield", "test\vstest_yield\vstest_yield.vcxproj", "{EC0C05F9-F897-4748-9A33-36D757B05089}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vstest_thread", "test\vstest_thread\vstest_thread.vcxproj", "{8255E68C-6AB9-42DB-BCCE-87E0FC17198D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -45,6 +47,10 @@ Global
 		{EC0C05F9-F897-4748-9A33-36D757B05089}.Debug|x64.Build.0 = Debug|x64
 		{EC0C05F9-F897-4748-9A33-36D757B05089}.Release|x64.ActiveCfg = Release|x64
 		{EC0C05F9-F897-4748-9A33-36D757B05089}.Release|x64.Build.0 = Release|x64
+		{8255E68C-6AB9-42DB-BCCE-87E0FC17198D}.Debug|x64.ActiveCfg = Debug|x64
+		{8255E68C-6AB9-42DB-BCCE-87E0FC17198D}.Debug|x64.Build.0 = Debug|x64
+		{8255E68C-6AB9-42DB-BCCE-87E0FC17198D}.Release|x64.ActiveCfg = Release|x64
+		{8255E68C-6AB9-42DB-BCCE-87E0FC17198D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
