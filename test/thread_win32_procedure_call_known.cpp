@@ -18,7 +18,11 @@ auto procedure_call_on_known_thread(HANDLE thread, DWORD tid, HANDLE finished)
 }
 
 DWORD __stdcall stay_alertible(LPVOID param) {
-    return SleepEx(500, true);
+    DWORD ec{};
+    while (ec == 0) { // retry in case of timeout (test on CI may run slow...)
+        ec = SleepEx(5000, true);
+    }
+    return ec;
 }
 
 auto win32_procedure_call_on_known_thread() {
