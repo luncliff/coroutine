@@ -12,10 +12,10 @@ jobs:
     visualstudio: '2017'
     solution: '**/*.sln'
 
-# - template: azure/vm-windows-2019.yml
-#   parameters:
-#     visualstudio: '2019'
-#     solution: '**/*.sln'
+- template: azure/vm-windows-2019.yml
+  parameters:
+    visualstudio: '2019'
+    solution: '**/*.sln'
 
 - template: azure/vm-ubuntu-16.04.yml
   parameters:

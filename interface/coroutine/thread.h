@@ -51,7 +51,8 @@ class ptp_work final {
     static void __stdcall resume_on_thread_pool(PTP_CALLBACK_INSTANCE, PVOID,
                                                 PTP_WORK);
 
-    _INTERFACE_ auto on_suspend(coroutine_handle<void>) noexcept -> uint32_t;
+    _INTERFACE_
+    auto create_and_submit_work(coroutine_handle<void>) noexcept -> uint32_t;
 
   public:
     constexpr bool await_ready() const noexcept {
@@ -62,7 +63,7 @@ class ptp_work final {
     }
     // Lazy code generation in importing code by header usage.
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
-        if (const auto ec = on_suspend(coro))
+        if (const auto ec = create_and_submit_work(coro))
             throw system_error{static_cast<int>(ec), system_category(),
                                "CreateThreadpoolWork"};
     }
@@ -71,9 +72,10 @@ class ptp_work final {
 // Move into the designated thread's APC queue and  and continue the routine
 class procedure_call_on final {
     // Callback for QueueUserAPC
-    static void resume_on_apc(ULONG_PTR);
+    static void __stdcall resume_on_apc(ULONG_PTR);
 
-    _INTERFACE_ auto on_suspend(coroutine_handle<void>) noexcept -> uint32_t;
+    _INTERFACE_
+    auto queue_user_apc(coroutine_handle<void>) noexcept -> uint32_t;
 
   public:
     constexpr bool await_ready() const noexcept {
@@ -82,7 +84,7 @@ class procedure_call_on final {
     constexpr void await_resume() noexcept {
     }
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
-        if (const auto ec = on_suspend(coro))
+        if (const auto ec = queue_user_apc(coro))
             throw system_error{static_cast<int>(ec), system_category(),
                                "QueueUserAPC"};
     }
