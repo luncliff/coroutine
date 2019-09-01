@@ -29,9 +29,16 @@ auto win32_ptp_work_fork_join() {
 
     wg.wait();
     _require_(counter == num_worker);
+
+    return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return win32_ptp_work_fork_join();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 #include <CppUnitTest.h>
 
 template <typename T>

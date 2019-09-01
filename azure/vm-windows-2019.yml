@@ -31,6 +31,7 @@ jobs:
             # So this build will test static linking
         SHARED: False 
         BUILD_TYPE: Debug
+      continueOnError: true
 
 - job: VS${{ parameters.visualstudio }}MSVC
   pool:
@@ -58,8 +59,10 @@ jobs:
         platform: $(platform)
         configuration: $(configuration)
         msbuildArguments: '/p:platformtoolset=v142'
+      continueOnError: true
     - task: VSTest@2
       inputs:
         testAssemblyVer2: |
           **\*vstest*.dll
         codeCoverageEnabled: true
+      continueOnError: true

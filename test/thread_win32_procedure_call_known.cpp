@@ -48,9 +48,16 @@ auto win32_procedure_call_on_known_thread() {
     CloseHandle(thread);
     // we used QueueUserAPC so the return must be 'elapsed' milliseconds
     _require_(retcode > 0, __FILE__, __LINE__);
+
+    return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return win32_procedure_call_on_known_thread();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 #include <CppUnitTest.h>
 
 template <typename T>

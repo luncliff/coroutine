@@ -28,9 +28,16 @@ auto win32_procedure_call_on_self() {
     // expect the wait is cancelled by APC
     _require_(ec == WAIT_IO_COMPLETION);
     _require_(thread == GetCurrentThread());
+
+    return EXIT_SUCCESS;
 }
 
-#if __has_include(<CppUnitTest.h>)
+#if defined(CMAKE_TEST)
+int main(int, char* []) {
+    return win32_procedure_call_on_self();
+}
+
+#elif __has_include(<CppUnitTest.h>)
 #include <CppUnitTest.h>
 
 template <typename T>
