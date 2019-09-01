@@ -97,6 +97,8 @@ jobs:
       inputs:
         filePath: 'scripts/create-coverage-xml.ps1'
     - task: SonarCloudAnalyze@1
+      continueOnError: true
     - task: SonarCloudPublish@1
       inputs:
         pollingTimeoutSec: '300'
+      continueOnError: true

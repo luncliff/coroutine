@@ -18,11 +18,8 @@ auto procedure_call_on_known_thread(HANDLE thread, DWORD tid, HANDLE finished)
 }
 
 DWORD __stdcall stay_alertible(LPVOID param) {
-    DWORD ec{};
-    while (ec == 0) { // retry in case of timeout (test on CI may run slow...)
-        ec = SleepEx(5000, true);
-    }
-    return ec;
+    // give enough timeout in case of timeout (test on CI may run slow...)
+    return SleepEx(5000, true);
 }
 
 auto win32_procedure_call_on_known_thread() {
@@ -50,8 +47,9 @@ auto win32_procedure_call_on_known_thread() {
     DWORD retcode{};
     GetExitCodeThread(thread, &retcode);
     CloseHandle(thread);
-    // we used QueueUserAPC so the return must be 'elapsed' milliseconds
-    _require_(retcode > 0, __FILE__, __LINE__);
+    // we used QueueUserAPC so the return can be 'elapsed' milliseconds
+    // allow zero for the timeout
+    _require_(retcode >= 0, __FILE__, __LINE__);
 
     return EXIT_SUCCESS;
 }
