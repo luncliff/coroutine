@@ -35,12 +35,12 @@ configuration:
 environment:
   install_path: c:\install
   matrix:
-    - compiler: msvc      # VS Solution
+    - compiler: msvc # VS Solution
       cmake_gen: None
-    - compiler: msvc      # CMake + MSVC
+    - compiler: msvc # CMake + MSVC
       cmake_gen: VS
-    - compiler: clang-cl  # CMake + Clang on Windows
-    - compiler: clang     # CMake + Clang on Ubuntu 18.04
+    - compiler: clang-cl # CMake + Clang on Windows
+    - compiler: clang # CMake + Clang on Ubuntu 18.04
 
 matrix:
   allow_failures:
@@ -68,137 +68,138 @@ build_script:
 test_script:
   - ps: Write-Output $(ctest --output-on-failure)
 
-for: 
-- matrix:
-    only:
-      - compiler: msvc
-        cmake_gen: None
-  #
-  # See 'build_script' below
-  #
-  # build:
-  #   project: coroutine.sln
-  #   parallel: true
-  #   verbosity: minimal
-  build_script:
+for:
+  - matrix:
+      only:
+        - compiler: msvc
+          cmake_gen: None
     #
-    # If vcxproj and solution specifies toolset for them,
-    # We have to override them since AppVeyor's image might not have the toolset
+    # See 'build_script' below
     #
-    # - VS2017: MSBuild.exe /p:platformtoolset=v141 ...
-    # - VS2019: MSBuild.exe /p:platformtoolset=v142 ...
-    #
-    # See Also
-    # - https://stackoverflow.com/questions/33380128/visual-studio-2015-command-line-retarget-solution
-    #
-    - ps: if($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2017"){ $env:TOOLSET="v141" }
-    - ps: if($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2019"){ $env:TOOLSET="v142" }
-    - ps: Write-Output $env:TOOLSET
-    - ps: MSBuild.exe coroutine.sln /p:platformtoolset=$env:TOOLSET /p:configuration=$env:CONFIGURATION
-  before_test:
-    - ps: $outdir=(Join-Path -Path (pwd)   -ChildPath $env:PLATFORM)
-    - ps: $outdir=(Join-Path -Path $outdir -ChildPath $env:CONFIGURATION)
-    - ps: Write-Output $outdir
-  test_script:
-    - ps: vstest.console.exe "$outdir\coroutine_vstest_channel.dll"
-    - ps: vstest.console.exe "$outdir\coroutine_vstest_event.dll"
-    - ps: vstest.console.exe "$outdir\coroutine_vstest_return.dll"
-    - ps: vstest.console.exe "$outdir\coroutine_vstest_yield.dll"
-    - ps: vstest.console.exe "$outdir\coroutine_vstest_network.dll"
+    # build:
+    #   project: coroutine.sln
+    #   parallel: true
+    #   verbosity: minimal
+    build_script:
+      #
+      # If vcxproj and solution specifies toolset for them,
+      # We have to override them since AppVeyor's image might not have the toolset
+      #
+      # - VS2017: MSBuild.exe /p:platformtoolset=v141 ...
+      # - VS2019: MSBuild.exe /p:platformtoolset=v142 ...
+      #
+      # See Also
+      # - https://stackoverflow.com/questions/33380128/visual-studio-2015-command-line-retarget-solution
+      #
+      - ps: if($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2017"){ $env:TOOLSET="v141" }
+      - ps: if($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2019"){ $env:TOOLSET="v142" }
+      - ps: Write-Output $env:TOOLSET
+      - ps: MSBuild.exe coroutine.sln /p:platformtoolset=$env:TOOLSET /p:configuration=$env:CONFIGURATION
+    before_test:
+      - ps: $outdir=(Join-Path -Path (pwd)   -ChildPath $env:PLATFORM)
+      - ps: $outdir=(Join-Path -Path $outdir -ChildPath $env:CONFIGURATION)
+      - ps: Write-Output $outdir
+    test_script:
+      - ps: vstest.console.exe "$outdir\coroutine_vstest_channel.dll"
+      - ps: vstest.console.exe "$outdir\coroutine_vstest_event.dll"
+      - ps: vstest.console.exe "$outdir\coroutine_vstest_return.dll"
+      - ps: vstest.console.exe "$outdir\coroutine_vstest_yield.dll"
+      - ps: vstest.console.exe "$outdir\coroutine_vstest_network.dll"
+      - ps: vstest.console.exe "$outdir\coroutine_vstest_thread.dll"
 
-- matrix:
-    only:
-      - image: Visual Studio 2017
-        compiler: msvc
-        cmake_gen: VS
-  install:
-    - ps: MSBuild.exe /version
-    - ps: Write-Output $env:APPVEYOR_BUILD_WORKER_IMAGE $env:CMAKE_GEN
-  build_script:
-    - ps: cmake . -G "Visual Studio 15 2017 Win64" -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH"
-    #
-    # Explicit config for debug|release is required
-    # to copy DLL to where test executables reside 
-    #
-    - ps: cmake --build . --config $env:CONFIGURATION
-    - ps: cmake --build . --target install
+  - matrix:
+      only:
+        - image: Visual Studio 2017
+          compiler: msvc
+          cmake_gen: VS
+    install:
+      - ps: MSBuild.exe /version
+      - ps: Write-Output $env:APPVEYOR_BUILD_WORKER_IMAGE $env:CMAKE_GEN
+    build_script:
+      - ps: cmake . -G "Visual Studio 15 2017 Win64" -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH"
+      #
+      # Explicit config for debug|release is required
+      # to copy DLL to where test executables reside
+      #
+      - ps: cmake --build . --config $env:CONFIGURATION
+      - ps: cmake --build . --target install
 
-- matrix:
-    only:
-      - image: Visual Studio 2019
-        compiler: msvc
-        cmake_gen: VS
-  install:
-    - ps: MSBuild.exe /version
-    - ps: Write-Output $env:APPVEYOR_BUILD_WORKER_IMAGE
-  build_script:
-    - ps: cmake . -G "Visual Studio 16 2019" -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH"
-    # Explicit config for debug|release is required
-    - ps: cmake --build . --config $env:CONFIGURATION
-    - ps: cmake --build . --target install
+  - matrix:
+      only:
+        - image: Visual Studio 2019
+          compiler: msvc
+          cmake_gen: VS
+    install:
+      - ps: MSBuild.exe /version
+      - ps: Write-Output $env:APPVEYOR_BUILD_WORKER_IMAGE
+    build_script:
+      - ps: cmake . -G "Visual Studio 16 2019" -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH"
+      # Explicit config for debug|release is required
+      - ps: cmake --build . --config $env:CONFIGURATION
+      - ps: cmake --build . --target install
 
-- matrix:
-    only:
-      - image: Visual Studio 2017
-        compiler: clang-cl
-  install:
-    - ps: choco info llvm
-    - ps: choco install --yes --no-progress         ninja
-    # To install latest CMake ...
-    # - ps: choco install --yes --force --no-progress cmake
-    - ps: cmake --version
-    #
-    # Emulate 'Visual Studio Native Tools Command Prompt'
-    #
-    # See Also
-    # - https://www.appveyor.com/docs/lang/cpp/#visual-studio
-    # - scripts/check-vcvars64-clang-cmake.bat
-    #
-    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-    # Since this is a yaml file, we can't use the command directly. Use simplified form.
-    # [System.Environment]::SetEnvironmentVariable('CXX', "C:\Program Files\LLVM\bin\clang-cl", [System.EnvironmentVariableTarget]::User)
-    - ps:  $env:CXX="clang-cl"
-    # For CMake users: "-DCMAKE_CXX_COMPILER=clang-cl" can be ok
-    - cmd: set CXX=clang-cl
-  build_script:
-    - cmd: cmake . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=%install_path%
-    # CMake + clang-cl build doesn't require config for debug|release
-    - cmd: cmake --build .
-    - cmd: cmake --build . --target install
+  - matrix:
+      only:
+        - image: Visual Studio 2017
+          compiler: clang-cl
+    install:
+      - ps: choco info llvm
+      - ps: choco install --yes --no-progress         ninja
+      # To install latest CMake ...
+      # - ps: choco install --yes --force --no-progress cmake
+      - ps: cmake --version
+      #
+      # Emulate 'Visual Studio Native Tools Command Prompt'
+      #
+      # See Also
+      # - https://www.appveyor.com/docs/lang/cpp/#visual-studio
+      # - scripts/check-vcvars64-clang-cmake.bat
+      #
+      - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+      # Since this is a yaml file, we can't use the command directly. Use simplified form.
+      # [System.Environment]::SetEnvironmentVariable('CXX', "C:\Program Files\LLVM\bin\clang-cl", [System.EnvironmentVariableTarget]::User)
+      - ps: $env:CXX="clang-cl"
+      # For CMake users: "-DCMAKE_CXX_COMPILER=clang-cl" can be ok
+      - cmd: set CXX=clang-cl
+    build_script:
+      - cmd: cmake . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=%install_path%
+      # CMake + clang-cl build doesn't require config for debug|release
+      - cmd: cmake --build .
+      - cmd: cmake --build . --target install
 
-- matrix:
-    only:
-      - image: Visual Studio 2019
-        compiler: clang-cl
-  install:
-    - ps: choco info llvm
-    - ps: choco install --yes --no-progress         ninja
-    # Emulate 'Visual Studio Native Tools Command Prompt'
-    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-    - ps:  $env:CXX="clang-cl"
-    - cmd: set CXX=clang-cl
-  build_script:
-    - cmd: cmake . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=%install_path%
-    - cmd: cmake --build .
-    - cmd: cmake --build . --target install
+  - matrix:
+      only:
+        - image: Visual Studio 2019
+          compiler: clang-cl
+    install:
+      - ps: choco info llvm
+      - ps: choco install --yes --no-progress         ninja
+      # Emulate 'Visual Studio Native Tools Command Prompt'
+      - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+      - ps: $env:CXX="clang-cl"
+      - cmd: set CXX=clang-cl
+    build_script:
+      - cmd: cmake . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=%configuration% -DCMAKE_INSTALL_PREFIX=%install_path%
+      - cmd: cmake --build .
+      - cmd: cmake --build . --target install
 
-- matrix:
-    only:
-      - image: Ubuntu1804
-        compiler: clang
-  install:
-    #
-    # This library will use clang up to 'qualification branch'
-    #
-    # See Also
-    #   http://apt.llvm.org/
-    #
-    - sh: sudo apt install -y -qq --fix-missing wget unzip rsync > /tmp/apt-install.log
-    - sh: sudo bash ./scripts/setup-compilers-bionic.sh
-    - sh: sudo bash ./scripts/install-cmake-3.14.sh
-    - sh: sudo bash ./scripts/install-libc++8.sh
-    - sh: export CC=clang-8 CXX=clang-8
-  build_script:
-    - sh: cmake . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=${CONFIGURATION} -DCMAKE_INSTALL_PREFIX=../install
-    - sh: cmake --build .
-    - sh: cmake --build . --target install
+  - matrix:
+      only:
+        - image: Ubuntu1804
+          compiler: clang
+    install:
+      #
+      # This library will use clang up to 'qualification branch'
+      #
+      # See Also
+      #   http://apt.llvm.org/
+      #
+      - sh: sudo apt install -y -qq --fix-missing wget unzip rsync > /tmp/apt-install.log
+      - sh: sudo bash ./scripts/setup-compilers-bionic.sh
+      - sh: sudo bash ./scripts/install-cmake-3.14.sh
+      - sh: sudo bash ./scripts/install-libc++8.sh
+      - sh: export CC=clang-8 CXX=clang-8
+    build_script:
+      - sh: cmake . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=${CONFIGURATION} -DCMAKE_INSTALL_PREFIX=../install
+      - sh: cmake --build .
+      - sh: cmake --build . --target install

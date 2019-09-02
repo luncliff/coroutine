@@ -35,12 +35,16 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 void _require_(bool expr) {
     Assert::IsTrue(expr);
 }
-void _require_(bool expr, gsl::czstring<>, size_t) {
+
+void _require_(bool expr, gsl::czstring<> file, size_t line) {
     if (expr == false) {
-        // print file and line
+        char buffer[500]{};
+        sprintf_s(buffer, "%s %zu", file, line);
+        Logger::WriteMessage(buffer);
     }
-    _require_(expr);
+    Assert::IsTrue(expr);
 }
+
 void _println_(gsl::czstring<> message) {
     Logger::WriteMessage(message);
 }

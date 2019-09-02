@@ -43,7 +43,8 @@ void ptp_work::resume_on_thread_pool(PTP_CALLBACK_INSTANCE, //
     ::CloseThreadpoolWork(work); // one-time work item
 }
 
-auto ptp_work::on_suspend(coroutine_handle<void> coro) noexcept -> uint32_t {
+auto ptp_work::create_and_submit_work(coroutine_handle<void> coro) noexcept
+    -> uint32_t {
     // just make sure no data loss in `static_cast`
     static_assert(sizeof(uint32_t) == sizeof(DWORD));
 
@@ -64,7 +65,7 @@ void procedure_call_on::resume_on_apc(ULONG_PTR param) {
 }
 
 GSL_SUPPRESS(type .1)
-auto procedure_call_on::on_suspend(coroutine_handle<void> coro) noexcept
+auto procedure_call_on::queue_user_apc(coroutine_handle<void> coro) noexcept
     -> uint32_t {
     const auto param = reinterpret_cast<ULONG_PTR>(coro.address());
 

@@ -58,3 +58,47 @@ jobs:
         testAssemblyVer2: |
           **\*vstest*.dll
         codeCoverageEnabled: true
+
+- job: SonarCloud
+  pool:
+    vmImage: 'vs2017-win2016'
+  variables:
+    configuration: debug
+    platform: x64
+  steps:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: git submodule update --init --recursive;
+
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'luncliff-sonarcloud'
+        organization: 'luncliff-github'
+        scannerMode: 'MSBuild'
+        projectKey: 'luncliff_coroutine'
+        projectName: 'luncliff-coroutine'
+        projectVersion: '1.5'
+        # see sonar-project.properties
+        configMode: 'file'
+
+    - task: PowerShell@2
+      inputs:
+        filePath: 'scripts/sonar-wrapper-download.ps1'
+    - task: PowerShell@2
+      inputs:
+        filePath: 'scripts/sonar-wrapper-build.ps1'
+    - task: VSTest@2
+      inputs:
+        testAssemblyVer2: |
+          **\*vstest*.dll
+        codeCoverageEnabled: true
+    - task: PowerShell@2
+      inputs:
+        filePath: 'scripts/create-coverage-xml.ps1'
+    - task: SonarCloudAnalyze@1
+      continueOnError: true
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
+      continueOnError: true

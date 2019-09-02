@@ -180,6 +180,10 @@ if(WIN32)
     generate_exe_test( event_win_wait_one )
     generate_exe_test( event_win_wait_array )
 
+    generate_exe_test( thread_win32_procedure_call_known )
+    generate_exe_test( thread_win32_procedure_call_self )
+    generate_exe_test( thread_win32_ptp_work )
+
 elseif(UNIX)
     generate_exe_test( event_unix_no_wait )
     generate_exe_test( event_unix_signal_multiple_times )
