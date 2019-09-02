@@ -112,6 +112,11 @@ void socket_set_option_nodelay(int64_t sd) {
     return socket_set_option(sd, IPPROTO_TCP, TCP_NODELAY, true);
 }
 
+void socket_set_option_timout(int64_t sd, uint32_t ms) {
+    socket_set_option(sd, SOL_SOCKET, SO_SNDTIMEO, ms);
+    socket_set_option(sd, SOL_SOCKET, SO_RCVTIMEO, ms);
+}
+
 #if defined(_MSC_VER)
 
 WSADATA wsa_data{};
