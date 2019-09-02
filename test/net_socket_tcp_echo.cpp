@@ -31,6 +31,8 @@ auto accept_until_error(int64_t ln, //
 
         socket_set_option_nonblock(cs); // set some options
         socket_set_option_nodelay(cs);
+        socket_set_option_timout(cs, 1000);
+
         service(cs); // attach(spawn) a service coroutine
     }
 }

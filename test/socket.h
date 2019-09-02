@@ -52,6 +52,9 @@ void socket_set_option_reuse_address(int64_t sd);
 //  make tcp send without delay
 void socket_set_option_nodelay(int64_t sd);
 
+//  set the socket's send/recv timeout
+void socket_set_option_timout(int64_t sd, uint32_t ms);
+
 //  network related error. It's from `errno` or `WSAGetLastError`
 int recent_net_error() noexcept;
 
