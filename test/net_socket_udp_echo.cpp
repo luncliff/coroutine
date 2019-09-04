@@ -115,7 +115,7 @@ auto net_echo_udp_test() {
         local.sin_port = 0; // let system define the port
         socket_bind(sd, local);
         socket_set_option_nonblock(sd);
-        socket_set_option_timout(sd, 1000);
+        socket_set_option_timout(sd, 900);
     }
     auto on_return3 = gsl::finally([&sockets]() {
         for (auto sd : sockets)

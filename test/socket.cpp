@@ -113,8 +113,21 @@ void socket_set_option_nodelay(int64_t sd) {
 }
 
 void socket_set_option_timout(int64_t sd, uint32_t ms) {
-    socket_set_option(sd, SOL_SOCKET, SO_SNDTIMEO, ms);
-    socket_set_option(sd, SOL_SOCKET, SO_RCVTIMEO, ms);
+    constexpr auto unit = 1000;
+    timeval timeout{};
+    timeout.tv_sec = ms / unit;
+    timeout.tv_usec = (ms % unit) * unit;
+
+    if (::setsockopt(sd, SOL_SOCKET, SO_SNDTIMEO, //
+                     (char*)&timeout, sizeof(timeval)) != 0) {
+        auto ec = recent_net_error();
+        FAIL_WITH_CODE(ec);
+    }
+    if (::setsockopt(sd, SOL_SOCKET, SO_RCVTIMEO, //
+                     (char*)&timeout, sizeof(timeval)) != 0) {
+        auto ec = recent_net_error();
+        FAIL_WITH_CODE(ec);
+    }
 }
 
 #if defined(_MSC_VER)
