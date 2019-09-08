@@ -123,7 +123,10 @@ elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     generate_exe_test( gcc_no_keyword_in_body )
     generate_exe_test( gcc_save_empty_frame )
     generate_exe_test( gcc_save_current_frame )
-    generate_exe_test( gcc_assign_reference )    
+    generate_exe_test( gcc_assign_reference )
+    generate_exe_test( gcc_memory_scenario_0 )
+    generate_exe_test( gcc_memory_scenario_1 )
+
     return()
 endif()
 

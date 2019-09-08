@@ -3,11 +3,12 @@
 //
 //  Note
 //    This is a test code for GCC C++ Coroutines
-//    Save current coroutine's frame using co_await operator
+//
+//    Memory allocation scenario - 1
+//      Provides the function to handle allocation failure
 //
 #include <cstdio>
 
-// https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
 #include "coro.h"
 
 using namespace std;
@@ -30,13 +31,15 @@ class preserve_frame final : public coroutine_handle<void> {
     class promise_type final : public promise_return_preserve {
       public:
         void return_void() noexcept {
-            // nothing to do because this is `void` return
         }
+
         auto get_return_object() noexcept -> preserve_frame {
+            puts(__FUNCTION__);
             return preserve_frame{this};
         }
         static auto get_return_object_on_allocation_failure() noexcept
             -> preserve_frame {
+            puts(__FUNCTION__);
             return preserve_frame{nullptr};
         }
     };
@@ -44,59 +47,31 @@ class preserve_frame final : public coroutine_handle<void> {
   private:
     explicit preserve_frame(promise_type* p) noexcept
         : coroutine_handle<void>{} {
+
+        printf("%s: %p\n", __FUNCTION__, p);
         if (p == nullptr)
             return;
+
         coroutine_handle<void>& ref = *this;
         ref = coroutine_handle<promise_type>::from_promise(*p);
     }
-
-  public:
-    // gcc-10 requires the type to be default constructible
-    preserve_frame() noexcept = default;
 };
 
-class save_frame_t final {
-  public:
-    void await_suspend(coroutine_handle<void> coro) noexcept {
-        ref = coro;
-    }
-    constexpr bool await_ready() noexcept {
-        return false;
-    }
-    constexpr void await_resume() noexcept {
-    }
-
-  public:
-    explicit save_frame_t(coroutine_handle<void>& target) noexcept
-        : ref{target} {
-    }
-
-  private:
-    coroutine_handle<void>& ref;
-};
-
-auto save_frame_using_awaitable(coroutine_handle<void>& coro) noexcept
-    -> preserve_frame {
-    co_await save_frame_t{coro};
+auto store_after_await(const char** label) noexcept -> preserve_frame {
+    co_await suspend_never{};
+    *label = __FUNCTION__;
     co_return;
 }
 
 int main(int, char* []) {
-    coroutine_handle<void> coro{};
-    puts("before invoke");
-    save_frame_using_awaitable(coro);
-    puts("after invoke");
 
-    if (coro.address() == nullptr)
+    const char* label = nullptr;
+    auto frame = store_after_await(&label);
+    printf("after invoke: %p %s\n", frame.address(), label);
+
+    if (frame.address() == nullptr)
         return __LINE__;
 
-    if (coro.done() == true)
-        return __LINE__;
-
-    coro.resume();
-    if (coro.done() == false)
-        return __LINE__;
-
-    coro.destroy();
+    frame.destroy();
     return 0;
 }

@@ -8,6 +8,8 @@
 //    the Coroutine Promise Requirement,
 //    but it forgot to use `co_await` or `co_return` in its definition
 //
+#include <cstdio>
+
 #include "coro.h"
 
 using namespace std;
@@ -50,12 +52,12 @@ class forget_frame {
     forget_frame() noexcept = default;
 };
 
-auto no_keyword_coroutine() -> forget_frame {
+auto no_keyword_coroutine(int argc) -> forget_frame {
     // use coroutine's return type, but no `co_await` or `co_return`
+    printf("%d\n", argc);
 }
 
-int main(int, char* []) {
-    no_keyword_coroutine();
-
+int main(int argc, char* []) {
+    no_keyword_coroutine(argc);
     return 0;
 }

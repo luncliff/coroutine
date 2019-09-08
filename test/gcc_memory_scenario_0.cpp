@@ -3,11 +3,12 @@
 //
 //  Note
 //    This is a test code for GCC C++ Coroutines
-//    Save current coroutine's frame using co_await operator
+//
+//    Memory allocation scenario - 0
+//      'get_return_object_on_allocation_failure' is not provided
 //
 #include <cstdio>
 
-// https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
 #include "coro.h"
 
 using namespace std;
@@ -30,52 +31,42 @@ class preserve_frame final : public coroutine_handle<void> {
     class promise_type final : public promise_return_preserve {
       public:
         void return_void() noexcept {
-            // nothing to do because this is `void` return
         }
+
         auto get_return_object() noexcept -> preserve_frame {
+            puts(__FUNCTION__);
             return preserve_frame{this};
-        }
-        static auto get_return_object_on_allocation_failure() noexcept
-            -> preserve_frame {
-            return preserve_frame{nullptr};
         }
     };
 
   private:
     explicit preserve_frame(promise_type* p) noexcept
         : coroutine_handle<void>{} {
+
+        printf("%s: %p\n", __FUNCTION__, p);
         if (p == nullptr)
             return;
+
         coroutine_handle<void>& ref = *this;
         ref = coroutine_handle<promise_type>::from_promise(*p);
     }
-
-  public:
-    // gcc-10 requires the type to be default constructible
-    preserve_frame() noexcept = default;
 };
 
-auto save_empty_frame(coroutine_handle<void>& coro) noexcept -> preserve_frame {
+auto store_after_await(const char** label) noexcept -> preserve_frame {
     co_await suspend_never{};
-    puts("before assignment");
-    coro = coroutine_handle<void>::from_address(nullptr);
-    puts("after assignment");
+    *label = __FUNCTION__;
     co_return;
 }
 
-int main(int, char* argv[]) {
-    // make some invalid coroutine handle
-    auto coro = coroutine_handle<void>::from_address(argv);
-    puts("before invoke");
+int main(int, char* []) {
 
-    auto frame = save_empty_frame(coro);
-    puts("after invoke");
+    const char* label = nullptr;
+    auto frame = store_after_await(&label);
+    printf("after invoke: %p %s\n", frame.address(), label);
 
-    if (frame)
-        frame.destroy();
-
-    if (coro.address() != nullptr)
+    if (frame.address() == nullptr)
         return __LINE__;
 
+    frame.destroy();
     return 0;
 }
