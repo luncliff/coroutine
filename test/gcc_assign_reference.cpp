@@ -64,7 +64,7 @@ auto assign_and_return(string& result) noexcept -> preserve_frame {
     co_await suspend_always{};
     // revision 273645:
     //  __FUNCTION__ is the empty string
-    result = __FUNCTION__;
+    result = "hello coroutine!";
     co_return;
 }
 
@@ -76,6 +76,8 @@ int main(int, char* argv[]) {
         frame.resume();
 
     frame.destroy();
-    puts(result.c_str());
+
+    if (result != "hello coroutine!")
+        return __LINE__;
     return 0;
 }

@@ -111,7 +111,7 @@ after_success:
 # dist:
 #   - xenial
 
-# osx_image: 
+# osx_image:
 #   - xcode9.4
 #   - xcode10.2
 #   - xcode11
@@ -131,10 +131,10 @@ after_success:
 
 matrix:
   allow_failures:
-    - services:             # GCC Coroutines (Under develop)
+    - services: # GCC Coroutines (Under develop)
         - docker
-    - language: android     # Android NDK
-    - osx_image: xcode10.1  # iPhone OS
+    - language: android # Android NDK
+    - osx_image: xcode10.1 # iPhone OS
 
   include:
     - os: windows
@@ -230,8 +230,6 @@ matrix:
           - ubuntu-toolchain-r-test
       services:
         - docker
-      env:
-        - CONFIG=Debug
       install:
         - docker pull luncliff/gcc
         - docker run -it -d --name gcc_10_builder -w /code/build -v $(pwd):/code luncliff/gcc
@@ -240,8 +238,8 @@ matrix:
         - $RUN apt install -y -qq cmake rsync wget tar unzip
         - $RUN cmake --version
       script:
-        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10 -DCMAKE_BUILD_TYPE=${CONFIG}
-        - $RUN make -k
+        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10 -DCMAKE_BUILD_TYPE=Debug
+        - $RUN cmake --build .
         - $RUN ctest --output-on-failure
 
     - name: gcc-cxx-coroutines release
@@ -253,8 +251,6 @@ matrix:
           - ubuntu-toolchain-r-test
       services:
         - docker
-      env:
-        - CONFIG=Release
       install:
         - docker pull luncliff/gcc
         - docker run -it -d --name gcc_10_builder -w /code/build -v $(pwd):/code luncliff/gcc
@@ -263,8 +259,8 @@ matrix:
         - $RUN apt install -y -qq cmake rsync wget tar unzip
         - $RUN cmake --version
       script:
-        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10 -DCMAKE_BUILD_TYPE=${CONFIG}
-        - $RUN make -k
+        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10 -DCMAKE_BUILD_TYPE=Release
+        - $RUN cmake --build .
         - $RUN ctest --output-on-failure
 
     - name: iPhone OS

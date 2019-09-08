@@ -5,6 +5,7 @@
 //    This is a test code for GCC C++ Coroutines
 //    Save current coroutine's frame using co_await operator
 //
+#include <cstdio>
 
 // https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
 #include "coro.h"
@@ -72,18 +73,28 @@ class save_frame_t final {
     coroutine_handle<void>& ref;
 };
 
-auto return_void_and_preserve(coroutine_handle<void>& coro) noexcept
+auto save_frame_using_awaitable(coroutine_handle<void>& coro) noexcept
     -> preserve_frame {
     co_await save_frame_t{coro};
     co_return;
 }
 
 int main(int, char* []) {
-    // coroutine_handle<void> coro{};
-    // return_void_and_preserve(coro);
-    // REQUIRE(coro.done() == false);
-    // coro.resume();
-    // REQUIRE(coro.done());
-    // coro.destroy();
+    coroutine_handle<void> coro{};
+    puts("before invoke");
+    save_frame_using_awaitable(coro);
+    puts("after invoke");
+
+    if (coro.address() == nullptr)
+        return __LINE__;
+
+    if (coro.done() == true)
+        return __LINE__;
+
+    coro.resume();
+    if (coro.done() == false)
+        return __LINE__;
+
+    coro.destroy();
     return 0;
 }

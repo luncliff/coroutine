@@ -351,6 +351,12 @@ using noop_coroutine_handle = coroutine_handle<noop_coroutine_promise>;
 template <>
 class coroutine_handle<noop_coroutine_promise> : public coroutine_handle<void> {
   public:
+    coroutine_handle() noexcept : coroutine_handle<void>{} {
+        auto& p = this->promise();
+        this->prefix.v = &p;
+    }
+
+  public:
     constexpr explicit operator bool() const noexcept {
         return true;
     }
@@ -373,8 +379,7 @@ class coroutine_handle<noop_coroutine_promise> : public coroutine_handle<void> {
         return p;
     }
     constexpr void* address() const noexcept {
-        auto& p = this->promise();
-        return &p;
+        return this->prefix.v;
     }
 };
 

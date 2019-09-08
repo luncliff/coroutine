@@ -120,8 +120,8 @@ elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     generate_exe_test( gcc_concepts_awaitable )
 
     generate_exe_test( gcc_empty_handle )
-    generate_exe_test( gcc_return_misusage_1 )
-    
+    generate_exe_test( gcc_no_keyword_in_body )
+    generate_exe_test( gcc_save_empty_frame )
     generate_exe_test( gcc_save_current_frame )
     generate_exe_test( gcc_assign_reference )    
     return()

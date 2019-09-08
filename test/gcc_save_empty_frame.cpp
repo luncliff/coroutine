@@ -1,12 +1,11 @@
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //
-
-//
-//  https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
+//  Note
+//    This is a test code for GCC C++ Coroutines
+//    Save current coroutine's frame using co_await operator
 //
 #include <cstdio>
-#include <string>
 
 // https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
 #include "coro.h"
@@ -54,20 +53,43 @@ class preserve_frame final : public coroutine_handle<void> {
     preserve_frame() noexcept = default;
 };
 
-using namespace std;
-using namespace std::experimental;
+class save_frame_t final {
+  public:
+    void await_suspend(coroutine_handle<void> coro) noexcept {
+        ref = coro;
+    }
+    constexpr bool await_ready() noexcept {
+        return false;
+    }
+    constexpr void await_resume() noexcept {
+    }
 
-auto assign_and_return(string& result) -> preserve_frame {
-    // use coroutine's return type, but no `co_await` or `co_return`
-    result = __FUNCTION__;
+  public:
+    explicit save_frame_t(coroutine_handle<void>& target) noexcept
+        : ref{target} {
+    }
+
+  private:
+    coroutine_handle<void>& ref;
+};
+
+auto save_empty_frame(coroutine_handle<void>& coro) noexcept -> preserve_frame {
+    puts("before assignment");
+    coro = coroutine_handle<void>::from_address(nullptr);
+    puts("after assignment");
+    co_return;
 }
 
-int main(int, char* []) {
-    string result{};
+int main(int, char* argv[]) {
+    // make some invalid coroutine handle
+    auto coro = coroutine_handle<void>::from_address(argv);
+    puts("before invoke");
 
-    auto frame = assign_and_return(result);
-    if (frame.address() != nullptr)
-        return 1;
+    save_empty_frame(coro);
+    puts("after invoke");
+
+    if (coro.address() != nullptr)
+        return __LINE__;
 
     return 0;
 }
