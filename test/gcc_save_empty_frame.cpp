@@ -1,15 +1,11 @@
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
 //
 //  Note
 //    This is a test code for GCC C++ Coroutines
-//    Assign to the reference in the coroutine function
-//    The assignment occurs when it is resumed.
+//    Save current coroutine's frame using co_await operator
 //
-
 #include <cstdio>
-#include <string>
 
 // https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
 #include "coro.h"
@@ -48,6 +44,8 @@ class preserve_frame final : public coroutine_handle<void> {
   private:
     explicit preserve_frame(promise_type* p) noexcept
         : coroutine_handle<void>{} {
+        if (p == nullptr)
+            return;
         coroutine_handle<void>& ref = *this;
         ref = coroutine_handle<promise_type>::from_promise(*p);
     }
@@ -57,27 +55,27 @@ class preserve_frame final : public coroutine_handle<void> {
     preserve_frame() noexcept = default;
 };
 
-using namespace std;
-using namespace std::experimental;
-
-auto assign_and_return(string& result) noexcept -> preserve_frame {
-    co_await suspend_always{};
-    // revision 273645:
-    //  __FUNCTION__ is the empty string
-    result = "hello coroutine!";
+auto save_empty_frame(coroutine_handle<void>& coro) noexcept -> preserve_frame {
+    co_await suspend_never{};
+    puts("before assignment");
+    coro = coroutine_handle<void>::from_address(nullptr);
+    puts("after assignment");
     co_return;
 }
 
 int main(int, char* argv[]) {
-    string result = argv[0]; // start with non-empty string
+    // make some invalid coroutine handle
+    auto coro = coroutine_handle<void>::from_address(argv);
+    puts("before invoke");
 
-    auto frame = assign_and_return(result);
-    while (frame.done() == false)
-        frame.resume();
+    auto frame = save_empty_frame(coro);
+    puts("after invoke");
 
-    frame.destroy();
+    if (frame)
+        frame.destroy();
 
-    if (result != "hello coroutine!")
+    if (coro.address() != nullptr)
         return __LINE__;
+
     return 0;
 }

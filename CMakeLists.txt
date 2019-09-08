@@ -46,9 +46,14 @@ include(external-gsl)
 #
 set(BUILD_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
 add_subdirectory(modules/portable)
-add_subdirectory(modules/event)     # coroutine_event
-add_subdirectory(modules/net)       # coroutine_net
-add_subdirectory(modules/thread)    # coroutine_thread
+
+if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+    # WIP: perform test with the portable headers
+else()
+    add_subdirectory(modules/event)     # coroutine_event
+    add_subdirectory(modules/net)       # coroutine_net
+    add_subdirectory(modules/thread)    # coroutine_thread
+endif()
 
 #
 # export declared cmake targets

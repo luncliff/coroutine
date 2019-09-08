@@ -1,17 +1,14 @@
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
 //
 //  Note
 //    This is a test code for GCC C++ Coroutines
-//    Assign to the reference in the coroutine function
-//    The assignment occurs when it is resumed.
 //
-
+//    Memory allocation scenario - 1
+//      Provides the function to handle allocation failure
+//
 #include <cstdio>
-#include <string>
 
-// https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
 #include "coro.h"
 
 using namespace std;
@@ -34,13 +31,15 @@ class preserve_frame final : public coroutine_handle<void> {
     class promise_type final : public promise_return_preserve {
       public:
         void return_void() noexcept {
-            // nothing to do because this is `void` return
         }
+
         auto get_return_object() noexcept -> preserve_frame {
+            puts(__FUNCTION__);
             return preserve_frame{this};
         }
         static auto get_return_object_on_allocation_failure() noexcept
             -> preserve_frame {
+            puts(__FUNCTION__);
             return preserve_frame{nullptr};
         }
     };
@@ -48,36 +47,31 @@ class preserve_frame final : public coroutine_handle<void> {
   private:
     explicit preserve_frame(promise_type* p) noexcept
         : coroutine_handle<void>{} {
+
+        printf("%s: %p\n", __FUNCTION__, p);
+        if (p == nullptr)
+            return;
+
         coroutine_handle<void>& ref = *this;
         ref = coroutine_handle<promise_type>::from_promise(*p);
     }
-
-  public:
-    // gcc-10 requires the type to be default constructible
-    preserve_frame() noexcept = default;
 };
 
-using namespace std;
-using namespace std::experimental;
-
-auto assign_and_return(string& result) noexcept -> preserve_frame {
-    co_await suspend_always{};
-    // revision 273645:
-    //  __FUNCTION__ is the empty string
-    result = "hello coroutine!";
+auto store_after_await(const char** label) noexcept -> preserve_frame {
+    co_await suspend_never{};
+    *label = __FUNCTION__;
     co_return;
 }
 
-int main(int, char* argv[]) {
-    string result = argv[0]; // start with non-empty string
+int main(int, char* []) {
 
-    auto frame = assign_and_return(result);
-    while (frame.done() == false)
-        frame.resume();
+    const char* label = nullptr;
+    auto frame = store_after_await(&label);
+    printf("after invoke: %p %s\n", frame.address(), label);
+
+    if (frame.address() == nullptr)
+        return __LINE__;
 
     frame.destroy();
-
-    if (result != "hello coroutine!")
-        return __LINE__;
     return 0;
 }

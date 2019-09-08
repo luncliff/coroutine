@@ -1,9 +1,9 @@
 //
 //  This file is a copy of
-//  https://github.com/iains/gcc-cxx-coroutines/blob/05e2be1ed6fba3c4367f6322220c19e28b1b8548/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
+//  https://github.com/iains/gcc-cxx-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
 //
-#ifndef __CORO_H_N4775
-#define __CORO_H_N4775
+#ifndef __CORO_H_N4830
+#define __CORO_H_N4830
 
 // Fragments (with short-cuts) to mimic enough of the library header to
 // make some progress.
@@ -12,7 +12,7 @@
 
 namespace std {
 namespace experimental {
-inline namespace coroutines_n4775 {
+inline namespace coroutines_n4830 {
 
 // 21.11.1 coroutine traits
 template <typename _R, typename...>
@@ -129,11 +129,11 @@ struct suspend_never {
     }
 };
 
-} // namespace coroutines_n4775
+} // namespace coroutines_n4830
 } // namespace experimental
 } // namespace std
 
 #else
-#error "coro.h _require_s support for coroutines TS 4775, add -fcoroutines"
+#error "coro.h requires support for coroutines TS 4775, add -fcoroutines"
 #endif
-#endif // __CORO_H_N4775
+#endif // __CORO_H_N4830

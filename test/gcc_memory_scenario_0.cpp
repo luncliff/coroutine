@@ -1,14 +1,14 @@
 //
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //
-
+//  Note
+//    This is a test code for GCC C++ Coroutines
 //
-//  https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
+//    Memory allocation scenario - 0
+//      'get_return_object_on_allocation_failure' is not provided
 //
 #include <cstdio>
-#include <string>
 
-// https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
 #include "coro.h"
 
 using namespace std;
@@ -31,43 +31,42 @@ class preserve_frame final : public coroutine_handle<void> {
     class promise_type final : public promise_return_preserve {
       public:
         void return_void() noexcept {
-            // nothing to do because this is `void` return
         }
+
         auto get_return_object() noexcept -> preserve_frame {
+            puts(__FUNCTION__);
             return preserve_frame{this};
-        }
-        static auto get_return_object_on_allocation_failure() noexcept
-            -> preserve_frame {
-            return preserve_frame{nullptr};
         }
     };
 
   private:
     explicit preserve_frame(promise_type* p) noexcept
         : coroutine_handle<void>{} {
+
+        printf("%s: %p\n", __FUNCTION__, p);
+        if (p == nullptr)
+            return;
+
         coroutine_handle<void>& ref = *this;
         ref = coroutine_handle<promise_type>::from_promise(*p);
     }
-
-  public:
-    // gcc-10 requires the type to be default constructible
-    preserve_frame() noexcept = default;
 };
 
-using namespace std;
-using namespace std::experimental;
-
-auto assign_and_return(string& result) -> preserve_frame {
-    // use coroutine's return type, but no `co_await` or `co_return`
-    result = __FUNCTION__;
+auto store_after_await(const char** label) noexcept -> preserve_frame {
+    co_await suspend_never{};
+    *label = __FUNCTION__;
+    co_return;
 }
 
 int main(int, char* []) {
-    string result{};
 
-    auto frame = assign_and_return(result);
-    if (frame.address() != nullptr)
-        return 1;
+    const char* label = nullptr;
+    auto frame = store_after_await(&label);
+    printf("after invoke: %p %s\n", frame.address(), label);
 
+    if (frame.address() == nullptr)
+        return __LINE__;
+
+    frame.destroy();
     return 0;
 }

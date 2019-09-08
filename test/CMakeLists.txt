@@ -41,12 +41,25 @@ PUBLIC
 )
 target_link_libraries(test_helper_suite
 PUBLIC
-    coro::portable coro::event coro::thread
+    coro::portable
 )
 target_compile_definitions(test_helper_suite
 PUBLIC
     CMAKE_TEST
 )
+if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+    # WIP: perform test with the portable headers
+    target_link_libraries(test_helper_suite
+    PUBLIC
+        stdc++
+    )
+else()
+    target_link_libraries(test_helper_suite
+    PUBLIC
+        coro::event coro::thread
+    )
+endif()
+
 
 # generate_exe_test( ... )
 function(generate_exe_test NAME)
@@ -102,9 +115,19 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
 
 elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     generate_exe_test( gcc_support_version )
+
     generate_exe_test( gcc_concepts_promise )
     generate_exe_test( gcc_concepts_awaitable )
 
+    generate_exe_test( gcc_empty_handle )
+    generate_exe_test( gcc_no_keyword_in_body )
+    generate_exe_test( gcc_save_empty_frame )
+    generate_exe_test( gcc_save_current_frame )
+    generate_exe_test( gcc_assign_reference )
+    generate_exe_test( gcc_memory_scenario_0 )
+    generate_exe_test( gcc_memory_scenario_1 )
+
+    return()
 endif()
 
 #
