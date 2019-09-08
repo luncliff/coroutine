@@ -23,8 +23,22 @@ endif()
 
 target_link_libraries(concrt
 PUBLIC
-    coro::portable coro::thread
+    coro::portable
 )
+
+if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+    if(UNIX)
+        target_link_libraries(concrt
+        PUBLIC
+            pthread
+        )
+    endif()
+else()
+    target_link_libraries(concrt
+    PUBLIC
+        coro::thread
+    )
+endif()
 
 if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
     target_compile_options(concrt
