@@ -9,6 +9,7 @@
 //    but it forgot to use `co_await` or `co_return` in its definition
 //
 #include <cstdio>
+#include <new> // <---- N4830, 9.4.4 Coroutine deﬁnitions, item 10
 
 #include "coro.h"
 
