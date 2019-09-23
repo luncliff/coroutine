@@ -6,7 +6,6 @@
 #include <coroutine/thread.h>
 
 #include <sstream>
-#include <thread>
 
 #include "test.h"
 using namespace std;
@@ -30,7 +29,7 @@ DWORD __stdcall stay_alertible(LPVOID) {
     DWORD retcode{};
     // give enough timeout in case of timeout (test on CI may run slow...)
     for (auto i = 0; i < 5; ++i) {
-        auto retcode = SleepEx(1000, true);
+        retcode = SleepEx(1000, true);
         if (retcode == 0) // timeout
             continue;
         break;
@@ -48,14 +47,15 @@ auto win32_procedure_call_on_known_thread() {
     _require_(event != INVALID_HANDLE_VALUE);
 
     DWORD tid{};
-    worker = CreateThread(nullptr, 2048, stay_alertible, nullptr, 0, &tid);
+    worker = CreateThread(nullptr, 0, stay_alertible, nullptr, 0, &tid);
     _require_(worker != INVALID_HANDLE_VALUE);
 
+    SleepEx(1000, true);
     procedure_call_on_known_thread(worker, tid, event);
 
-    constexpr bool wait_all = true;
-    auto ec = WaitForMultipleObjectsEx(2, handles, wait_all, INFINITE, true);
+    auto ec = WaitForMultipleObjectsEx(2, handles, TRUE, INFINITE, true);
     print_debug("WaitForMultipleObjectsEx", ec, __LINE__);
+    // expect the wait is cancelled by APC (WAIT_IO_COMPLETION)
     _require_(ec == WAIT_OBJECT_0 || ec == WAIT_IO_COMPLETION, //
               __FILE__, __LINE__);
     CloseHandle(event);

@@ -5,6 +5,8 @@
 #include <coroutine/return.h>
 #include <coroutine/thread.h>
 
+#include <sstream>
+
 #include "test.h"
 using namespace std;
 using namespace coro;
@@ -25,8 +27,14 @@ auto win32_procedure_call_on_self() {
     auto ec = WaitForSingleObjectEx(efinish, INFINITE, true);
     CloseHandle(efinish);
 
-    // expect the wait is cancelled by APC
-    _require_(ec == WAIT_IO_COMPLETION);
+    {
+        std::stringstream sout{};
+        sout << "Self: WaitForSingleObjectEx\t" << ec;
+        _println_(sout.str().c_str());
+    }
+    // expect the wait is cancelled by APC (WAIT_IO_COMPLETION)
+    _require_(ec == WAIT_OBJECT_0 || ec == WAIT_IO_COMPLETION, //
+              __FILE__, __LINE__);
     _require_(worker == GetCurrentThread());
 
     return EXIT_SUCCESS;
