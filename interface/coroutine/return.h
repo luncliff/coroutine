@@ -9,12 +9,12 @@
 #ifndef COROUTINE_PROMISE_AND_RETURN_TYPES_H
 #define COROUTINE_PROMISE_AND_RETURN_TYPES_H
 
-#if __has_include(<coroutine/frame.h>)
+#if __has_include(<coroutine>) // C++ 20
+#include <coroutine>
+#elif __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
 #elif __has_include(<experimental/coroutine>) // C++ 17
 #include <experimental/coroutine>
-#elif __has_include(<coroutine>) // C++ 20
-#include <coroutine>
 #else
 #error "expect header <experimental/coroutine> or <coroutine/frame.h>"
 #endif
@@ -31,7 +31,7 @@ class promise_return_destroy {
         return suspend_never{}; // no suspend after return
     }
     void unhandled_exception() noexcept(false) {
-        std::terminate();
+        throw;
     }
 };
 
@@ -44,7 +44,7 @@ class promise_return_preserve {
         return suspend_always{}; // suspend after return
     }
     void unhandled_exception() noexcept(false) {
-        std::terminate();
+        throw;
     }
 };
 
@@ -57,7 +57,7 @@ class promise_manual_control {
         return suspend_always{}; // suspend after return
     }
     void unhandled_exception() noexcept(false) {
-        std::terminate();
+        throw;
     }
 };
 
