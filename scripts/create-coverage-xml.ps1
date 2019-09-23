@@ -5,9 +5,14 @@ $env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Te
 
 # Acquire coverage file and generate temporary coverage file
 $coverage_file = Get-ChildItem -Recurse *.coverage;
+if($coverage_file -eq $null){
+    Write-Output "coverage file not found"
+    return
+}
 Write-Output $coverage_file
-$temp_coverage_xml_filepath  = "./TestResults/coverage-report.xml"
-CodeCoverage.exe analyze /output:$temp_coverage_xml_filepath $coverage_file
+
+$temp_coverage_xml_filepath = "./TestResults/coverage-report.xml"
+CodeCoverage.exe analyze /verbose /output:$temp_coverage_xml_filepath $coverage_file
 
 Tree ./TestResults /F
 
@@ -15,13 +20,13 @@ Tree ./TestResults /F
 #   and Create a new coverage xml
 $final_coverage_xml_filepath = "./TestResults/luncliff-coroutine.coveragexml"
 $xml_lines = Get-Content $temp_coverage_xml_filepath
-foreach($text in $xml_lines){
-    if($text -match 15732480){
+foreach ($text in $xml_lines) {
+    if ($text -match 15732480) {
         Write-Output "removed $text"
         continue;
     }
     else {
-       Add-Content $final_coverage_xml_filepath $text;
+        Add-Content $final_coverage_xml_filepath $text;
     }
 }
 

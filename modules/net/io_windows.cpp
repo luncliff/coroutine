@@ -13,6 +13,8 @@ void wait_net_tasks(enumerable<io_task_t>& tasks,
     // windows implementation rely on callback.
     // So there is noting to yield ...
     tasks = enumerable<io_task_t>{};
+    // Just comsume some items in this thread's APC queue
+    SleepEx(0, true);
 }
 
 bool is_async_pending(int ec) noexcept {

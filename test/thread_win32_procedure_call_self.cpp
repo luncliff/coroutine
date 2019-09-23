@@ -5,6 +5,8 @@
 #include <coroutine/return.h>
 #include <coroutine/thread.h>
 
+#include <sstream>
+
 #include "test.h"
 using namespace std;
 using namespace coro;
@@ -18,22 +20,28 @@ auto procedure_call_self(HANDLE& thread, HANDLE finished) -> forget_frame {
 
 auto win32_procedure_call_on_self() {
     auto efinish = CreateEvent(nullptr, false, false, nullptr);
-    auto thread = GetCurrentThread();
+    auto worker = GetCurrentThread();
 
-    procedure_call_self(thread, efinish);
+    procedure_call_self(worker, efinish);
 
     auto ec = WaitForSingleObjectEx(efinish, INFINITE, true);
     CloseHandle(efinish);
 
-    // expect the wait is cancelled by APC
-    _require_(ec == WAIT_IO_COMPLETION);
-    _require_(thread == GetCurrentThread());
+    {
+        std::stringstream sout{};
+        sout << "Self: WaitForSingleObjectEx\t" << ec;
+        _println_(sout.str().c_str());
+    }
+    // expect the wait is cancelled by APC (WAIT_IO_COMPLETION)
+    _require_(ec == WAIT_OBJECT_0 || ec == WAIT_IO_COMPLETION, //
+              __FILE__, __LINE__);
+    _require_(worker == GetCurrentThread());
 
     return EXIT_SUCCESS;
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
+int main(int, char*[]) {
     return win32_procedure_call_on_self();
 }
 
