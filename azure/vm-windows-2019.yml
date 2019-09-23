@@ -23,7 +23,7 @@ jobs:
         inputs:
           command: "install"
           installPackageId: "llvm"
-          installInstallArgs: "--no-progress --yes --version 8.0.1"
+          installInstallArgs: "--no-progress --yes --force --allow-downgrade --version 8.0.1"
       - task: BatchScript@1
         inputs:
           filename: "./scripts/build-vs2019-cmake-clang.bat"
