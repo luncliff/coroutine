@@ -20,6 +20,7 @@ auto work_on_win32_thread_pool(atomic_uint32_t& counter, latch& wg)
 
 auto win32_ptp_work_fork_join() {
     constexpr auto num_worker = 40u;
+
     latch wg{num_worker};
     atomic_uint32_t counter = 0;
 
@@ -27,14 +28,18 @@ auto win32_ptp_work_fork_join() {
         work_on_win32_thread_pool(counter, wg);
     }
 
-    wg.wait();
-    _require_(counter == num_worker);
+    try {
+        wg.wait();
+        _require_(counter == num_worker);
 
+    } catch (const system_error& e) {
+        _fail_now_(e.what(), __FILE__, __LINE__);
+    }
     return EXIT_SUCCESS;
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
+int main(int, char*[]) {
     return win32_ptp_work_fork_join();
 }
 
