@@ -31,7 +31,7 @@ class promise_return_destroy {
         return suspend_never{}; // no suspend after return
     }
     void unhandled_exception() noexcept(false) {
-        // customize this part
+        std::terminate();
     }
 };
 
@@ -44,7 +44,7 @@ class promise_return_preserve {
         return suspend_always{}; // suspend after return
     }
     void unhandled_exception() noexcept(false) {
-        // customize this part
+        std::terminate();
     }
 };
 
@@ -57,7 +57,7 @@ class promise_manual_control {
         return suspend_always{}; // suspend after return
     }
     void unhandled_exception() noexcept(false) {
-        // customize this part
+        std::terminate();
     }
 };
 
@@ -75,12 +75,6 @@ class forget_frame {
             -> forget_frame {
             return {nullptr};
         }
-        // void* operator new(size_t sz) noexcept {
-        //     return malloc(sz); // for tracing frame life cycle ...
-        // }
-        // void operator delete(void* ptr, size_t sz) noexcept {
-        //     free(ptr); // for tracing frame life cycle ...
-        // }
     };
 
   private:

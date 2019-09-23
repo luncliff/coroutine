@@ -59,9 +59,14 @@ auto ptp_work::create_and_submit_work(coroutine_handle<void> coro) noexcept
 
 GSL_SUPPRESS(type .1)
 void procedure_call_on::resume_on_apc(ULONG_PTR param) {
-    auto ptr = reinterpret_cast<void*>(param);
-    if (auto coro = coroutine_handle<void>::from_address(ptr))
-        coro.resume();
+    try {
+        auto ptr = reinterpret_cast<void*>(param);
+        if (auto coro = coroutine_handle<void>::from_address(ptr))
+            coro.resume();
+
+    } catch (const std::exception& ex) {
+        std::terminate();
+    }
 }
 
 GSL_SUPPRESS(type .1)

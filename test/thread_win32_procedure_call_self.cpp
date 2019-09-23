@@ -18,22 +18,22 @@ auto procedure_call_self(HANDLE& thread, HANDLE finished) -> forget_frame {
 
 auto win32_procedure_call_on_self() {
     auto efinish = CreateEvent(nullptr, false, false, nullptr);
-    auto thread = GetCurrentThread();
+    auto worker = GetCurrentThread();
 
-    procedure_call_self(thread, efinish);
+    procedure_call_self(worker, efinish);
 
     auto ec = WaitForSingleObjectEx(efinish, INFINITE, true);
     CloseHandle(efinish);
 
     // expect the wait is cancelled by APC
     _require_(ec == WAIT_IO_COMPLETION);
-    _require_(thread == GetCurrentThread());
+    _require_(worker == GetCurrentThread());
 
     return EXIT_SUCCESS;
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
+int main(int, char*[]) {
     return win32_procedure_call_on_self();
 }
 
