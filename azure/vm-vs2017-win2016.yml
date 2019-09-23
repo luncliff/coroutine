@@ -30,6 +30,7 @@ jobs:
         env:
           SHARED: False
           BUILD_TYPE: Debug
+        continueOnError: true
 
   - job: VS${{ parameters.visualstudio }}MSVC
     pool:
