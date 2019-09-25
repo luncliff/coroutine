@@ -137,7 +137,7 @@ void auto_reset_event::on_suspend(coroutine_handle<void> t) noexcept(false) {
     selist.change(req);
 }
 
-void auto_reset_event::reset() noexcept {
+void auto_reset_event::reset() noexcept(false) {
     auto* impl = reinterpret_cast<darwin_event*>(state);
     // throwing `system_error` is intended
     //  since the function must ensure message consumption
