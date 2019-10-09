@@ -195,7 +195,7 @@ class coroutine_handle<void> {
     coroutine_handle& operator=(coroutine_handle const&) noexcept = default;
     coroutine_handle& operator=(coroutine_handle&& rhs) noexcept = default;
 
-    explicit coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr} {
+    coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr} {
     }
     coroutine_handle& operator=(nullptr_t) noexcept {
         prefix.v = nullptr;
