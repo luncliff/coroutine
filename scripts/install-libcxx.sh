@@ -39,6 +39,9 @@ mkdir -p llvm-build && pushd llvm-build
 cmake -D LLVM_ENABLE_PROJECTS="libcxx;libcxxabi" \
       -D CMAKE_INSTALL_PREFIX="${install_prefix}" \
       ../llvm
-make -j7 install-cxx
-make -j7 install-cxxabi
+
+# too many logs. make silent ...
+make -j7 1>build-out.txt 2>build-err.txt
+make install-cxx
+make install-cxxabi
 popd

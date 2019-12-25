@@ -45,10 +45,10 @@ language: cpp
 
 install:
   # for this env, we don't have to use setup-compilers script
-  # since we already installed them
+  # since they are installed. just replace installed bins to what we want
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
-    sudo rm -rf /usr/local/clang-7.0.0;
-    sudo rm -rf /usr/local/cmake-3.12.4;
+    sudo rm -rf /usr/local/clang*;
+    sudo rm -rf /usr/local/cmake*;
     sudo bash ./scripts/install-cmake-3.sh;
     export CC=gcc-9 CXX=g++-9;
     sudo bash ./scripts/install-libcxx.sh release_90;
@@ -71,7 +71,7 @@ script:
     -D CMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
     -D BUILD_SHARED_LIBS=${SHARED}
     -D CMAKE_BUILD_TYPE=${BUILD_TYPE}
-    -D USE_PORTABLE_HEADER=${PORTABLE}
+    -D USE_PORTABLE_HEADER=True
   - cmake --build . --config ${BUILD_TYPE}
   - cmake --build . --target install
   - ctest --output-on-failure
@@ -86,53 +86,53 @@ jobs:
       osx_image: xcode10.3
       compiler: clang
       env:
-        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=True
     - os: osx
       osx_image: xcode10.3
       compiler: clang
       env:
-        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=False
 
     - os: osx
       osx_image: xcode11
       compiler: clang
       env:
-        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=True
     - os: osx
       osx_image: xcode11
       compiler: clang
       env:
-        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=False
 
     - os: linux
       dist: xenial
       compiler: clang-6.0
       env:
-        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=True
     - os: linux
       dist: xenial
       compiler: clang-6.0
       env:
-        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=False
 
     - os: linux
       dist: xenial
       compiler: clang-7
       env:
-        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=True
     - os: linux
       dist: xenial
       compiler: clang-7
       env:
-        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=False
 
     - os: linux
       dist: xenial
       compiler: clang-8
       env:
-        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=True
     - os: linux
       dist: xenial
       compiler: clang-8
       env:
-        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=False
