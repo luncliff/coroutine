@@ -23,6 +23,7 @@
     <ClCompile Include="..\yield_enumerable_move.cpp" />
     <ClCompile Include="..\yield_enumerable_yield_never.cpp" />
     <ClCompile Include="..\yield_enumerable_yield_once.cpp" />
+    <ClCompile Include="..\yield_enumerable_yield_rvalue.cpp" />
     <ClCompile Include="..\yield_sequence_destroy.cpp" />
     <ClCompile Include="..\yield_sequence_frame_status.cpp" />
     <ClCompile Include="..\yield_sequence_suspend_await.cpp" />
