@@ -5,6 +5,8 @@
 #include <coroutine/return.h>
 #include <coroutine/thread.h>
 
+#include <sstream>
+
 #include "test.h"
 using namespace std;
 using namespace coro;
@@ -17,36 +19,51 @@ auto procedure_call_on_known_thread(HANDLE thread, DWORD tid, HANDLE finished)
     SetEvent(finished);
 }
 
-DWORD __stdcall stay_alertible(LPVOID param) {
+void print_debug(const char* label, DWORD ec, size_t line) {
+    std::stringstream sout{};
+    sout << line << '\t' << label << '\t' << ec << endl;
+    _println_(sout.str().c_str());
+}
+
+DWORD __stdcall stay_alertible(LPVOID) {
+    DWORD retcode{};
     // give enough timeout in case of timeout (test on CI may run slow...)
-    return SleepEx(5000, true);
+    for (auto i = 0; i < 5; ++i) {
+        retcode = SleepEx(1000, true);
+        if (retcode == 0) // timeout
+            continue;
+        break;
+    }
+    print_debug("SleepEx", retcode, __LINE__);
+    return retcode;
 }
 
 auto win32_procedure_call_on_known_thread() {
-    // 0: new thread
-    // 1: event for the coroutine
     HANDLE handles[2]{};
-    HANDLE& thread = handles[0];
-    HANDLE& event = handles[1];
+    HANDLE& worker = handles[0]; // 0: worker thread
+    HANDLE& event = handles[1];  // 1: event for the coroutine
 
     event = CreateEvent(nullptr, false, false, nullptr);
     _require_(event != INVALID_HANDLE_VALUE);
 
     DWORD tid{};
-    thread = CreateThread(nullptr, 2048, stay_alertible, nullptr, 0, &tid);
-    _require_(thread != INVALID_HANDLE_VALUE);
+    worker = CreateThread(nullptr, 0, stay_alertible, nullptr, 0, &tid);
+    _require_(worker != INVALID_HANDLE_VALUE);
 
-    procedure_call_on_known_thread(thread, tid, event);
+    SleepEx(1000, true);
+    procedure_call_on_known_thread(worker, tid, event);
 
-    constexpr bool wait_all = true;
-    auto ec = WaitForMultipleObjectsEx(2, handles, wait_all, INFINITE, true);
+    auto ec = WaitForMultipleObjectsEx(2, handles, TRUE, INFINITE, true);
+    print_debug("WaitForMultipleObjectsEx", ec, __LINE__);
+    // expect the wait is cancelled by APC (WAIT_IO_COMPLETION)
     _require_(ec == WAIT_OBJECT_0 || ec == WAIT_IO_COMPLETION, //
               __FILE__, __LINE__);
     CloseHandle(event);
 
     DWORD retcode{};
-    GetExitCodeThread(thread, &retcode);
-    CloseHandle(thread);
+    GetExitCodeThread(worker, &retcode);
+    print_debug("GetExitCodeThread", retcode, __LINE__);
+    CloseHandle(worker);
     // we used QueueUserAPC so the return can be 'elapsed' milliseconds
     // allow zero for the timeout
     _require_(retcode >= 0, __FILE__, __LINE__);
@@ -55,7 +72,7 @@ auto win32_procedure_call_on_known_thread() {
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char* []) {
+int main(int, char*[]) {
     return win32_procedure_call_on_known_thread();
 }
 

@@ -195,7 +195,7 @@ class coroutine_handle<void> {
     coroutine_handle& operator=(coroutine_handle const&) noexcept = default;
     coroutine_handle& operator=(coroutine_handle&& rhs) noexcept = default;
 
-    explicit coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr} {
+    coroutine_handle(std::nullptr_t) noexcept : prefix{nullptr} {
     }
     coroutine_handle& operator=(nullptr_t) noexcept {
         prefix.v = nullptr;
@@ -352,8 +352,12 @@ template <>
 class coroutine_handle<noop_coroutine_promise> : public coroutine_handle<void> {
   public:
     coroutine_handle() noexcept : coroutine_handle<void>{} {
+#if defined(__clang__) && __has_builtin(__builtin_coro_noop)
+        this->prefix.v = __builtin_coro_noop();
+#else
         auto& p = this->promise();
         this->prefix.v = &p;
+#endif
     }
 
   public:
@@ -375,15 +379,20 @@ class coroutine_handle<noop_coroutine_promise> : public coroutine_handle<void> {
     }
 
     noop_coroutine_promise& promise() const noexcept {
+#if defined(__clang__) && __has_builtin(__builtin_coro_noop)
+        return *static_cast<noop_coroutine_promise*>(__builtin_coro_promise(
+            this->prefix.v, __alignof(noop_coroutine_promise), false));
+#else
         static noop_coroutine_promise p{};
         return p;
+#endif
     }
     constexpr void* address() const noexcept {
         return this->prefix.v;
     }
 };
 
-static noop_coroutine_handle noop_coroutine() noexcept {
+inline noop_coroutine_handle noop_coroutine() noexcept {
     return {};
 }
 

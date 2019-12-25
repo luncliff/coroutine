@@ -17,8 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\test.cpp" />
-    <ClCompile Include="..\thread_win32_procedure_call_known.cpp" />
-    <ClCompile Include="..\thread_win32_procedure_call_self.cpp" />
     <ClCompile Include="..\thread_win32_ptp_work.cpp" />
   </ItemGroup>
   <ItemGroup>

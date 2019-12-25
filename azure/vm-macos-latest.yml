@@ -6,32 +6,33 @@
 #
 
 jobs:
-- job: ${{ parameters.name }}
-  pool:
-    vmImage: 'macOS-latest'
-  steps:
-    - script: uname -a
-    - script: git submodule update --init --recursive
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          brew install ninja;
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          brew info llvm;
-          brew info cmake;
-    - task: CMake@1
-      inputs:
-        cmakeArgs: . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_CXX_COMPILER=clang -DUSE_PORTABLE_HEADER=true
-        workingDirectory: '.'
-    - task: CMake@1
-      inputs:
-        cmakeArgs: --build .
-        workingDirectory: '.'
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: ctest --output-on-failure
+  - job: ${{ parameters.name }}
+    pool:
+      vmImage: "macOS-latest"
+    steps:
+      - script: uname -a
+      - script: git submodule update --init --recursive
+      - task: Bash@3
+        inputs:
+          targetType: "inline"
+          script: |
+            brew install ninja;
+      - task: Bash@3
+        inputs:
+          targetType: "inline"
+          script: |
+            brew info llvm;
+            brew info cmake;
+      - task: CMake@1
+        inputs:
+          cmakeArgs: . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_CXX_COMPILER=clang -DUSE_PORTABLE_HEADER=true
+          workingDirectory: "."
+      - task: CMake@1
+        inputs:
+          cmakeArgs: --build .
+          workingDirectory: "."
+      - task: Bash@3
+        inputs:
+          targetType: "inline"
+          script: ctest --output-on-failure
+        timeoutInMinutes: 1

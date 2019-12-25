@@ -6,63 +6,90 @@
 #
 
 jobs:
-- job: VS${{ parameters.visualstudio }}Clang
-  pool:
-    vmImage: 'windows-2019'
-  steps:
-    - task: PowerShell@2
-      inputs:
-        targetType: 'inline'
-        script: git submodule update --init --recursive;
-    - task: ChocolateyCommand@0
-      inputs:
-        command: 'install'
-        installPackageId: 'ninja'
-        installInstallArgs: '--no-progress --yes'
-    - task: ChocolateyCommand@0
-      inputs:
-        command: 'install'
-        installPackageId: 'llvm'
-        installInstallArgs: '--no-progress --yes'
-    - task: BatchScript@1
-      inputs:
-        filename: './scripts/build-vs2019-cmake-clang.bat'
-      env:  # AppVeyor tests DLL build. 
-            # So this build will test static linking
-        SHARED: False 
-        BUILD_TYPE: Debug
-      continueOnError: true
+  - job: VS${{ parameters.visualstudio }}Clang8
+    pool:
+      vmImage: "windows-2019"
+    steps:
+      - task: PowerShell@2
+        inputs:
+          targetType: "inline"
+          script: git submodule update --init --recursive;
+      - task: ChocolateyCommand@0
+        inputs:
+          command: "install"
+          installPackageId: "ninja"
+          installInstallArgs: "--no-progress --yes"
+      - task: ChocolateyCommand@0
+        inputs:
+          command: "install"
+          installPackageId: "llvm"
+          installInstallArgs: "--no-progress --yes --force --allow-downgrade --version 8.0.1"
+      - task: BatchScript@1
+        inputs:
+          filename: "./scripts/build-vs2019-cmake-clang.bat"
+        env: # AppVeyor tests DLL build.
+          # So this build will test static linking
+          SHARED: False
+          BUILD_TYPE: Debug
+        continueOnError: true
 
-- job: VS${{ parameters.visualstudio }}MSVC
-  pool:
-    #
-    # See Also
-    #   https://github.com/Microsoft/azure-pipelines-image-generation/blob/master/images/win/Vs2019-Server2019-Readme.md
-    #
-    vmImage: 'windows-2019'
-  variables:
-    configuration: debug
-    platform: x64
-  steps:
-    - task: PowerShell@2
-      inputs:
-        targetType: 'inline'
-        script: systeminfo;
-    - task: PowerShell@2
-      inputs:
-        targetType: 'inline'
-        script: git submodule update --init --recursive;
-    - task: MSBuild@1
-      inputs:
-        solution: ${{ parameters.solution }}
-        msbuildArchitecture: $(platform)
-        platform: $(platform)
-        configuration: $(configuration)
-        msbuildArguments: '/p:platformtoolset=v142'
-      continueOnError: true
-    - task: VSTest@2
-      inputs:
-        testAssemblyVer2: |
-          **\*vstest*.dll
-        codeCoverageEnabled: true
-      continueOnError: true
+  - job: VS${{ parameters.visualstudio }}Clang9
+    pool:
+      vmImage: "windows-2019"
+    steps:
+      - task: PowerShell@2
+        inputs:
+          targetType: "inline"
+          script: git submodule update --init --recursive;
+      - task: ChocolateyCommand@0
+        inputs:
+          command: "install"
+          installPackageId: "ninja"
+          installInstallArgs: "--no-progress --yes"
+      - task: ChocolateyCommand@0
+        inputs:
+          command: "install"
+          installPackageId: "llvm"
+          installInstallArgs: "--no-progress --yes --version 9.0.0"
+      - task: BatchScript@1
+        inputs:
+          filename: "./scripts/build-vs2019-cmake-clang.bat"
+        env: # AppVeyor tests DLL build.
+          # So this build will test static linking
+          SHARED: False
+          BUILD_TYPE: Debug
+        continueOnError: true
+
+  - job: VS${{ parameters.visualstudio }}MSVC
+    pool:
+      #
+      # See Also
+      #   https://github.com/Microsoft/azure-pipelines-image-generation/blob/master/images/win/Vs2019-Server2019-Readme.md
+      #
+      vmImage: "windows-2019"
+    variables:
+      configuration: debug
+      platform: x64
+    steps:
+      - task: PowerShell@2
+        inputs:
+          targetType: "inline"
+          script: systeminfo;
+      - task: PowerShell@2
+        inputs:
+          targetType: "inline"
+          script: git submodule update --init --recursive;
+      - task: MSBuild@1
+        inputs:
+          solution: ${{ parameters.solution }}
+          msbuildArchitecture: $(platform)
+          platform: $(platform)
+          configuration: $(configuration)
+          msbuildArguments: "/p:platformtoolset=v142"
+        continueOnError: true
+      - task: VSTest@2
+        inputs:
+          testAssemblyVer2: |
+            **\*vstest*.dll
+          codeCoverageEnabled: true
+        continueOnError: true

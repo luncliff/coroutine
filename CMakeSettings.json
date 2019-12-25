@@ -14,7 +14,7 @@
       "variables": [
         {
           "name": "BUILD_SHARED_LIBS",
-          "value": "false",
+          "value": "true",
           "type": "BOOL"
         },
         {
@@ -31,7 +31,13 @@
           "name": "GSL_CXX_STANDARD",
           "value": "17",
           "type": "STRING"
+        },
+        {
+          "name": "USE_PORTABLE_HEADER",
+          "value": "true",
+          "type": "STRING"
         }
+
       ]
     }
   ]
