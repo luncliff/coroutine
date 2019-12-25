@@ -2,7 +2,6 @@
 #   Author
 #     - luncliff@gmail.com
 #
-sudo: false
 
 git:
   submodules: true
@@ -19,36 +18,24 @@ notifications:
     - luncliff@gmail.com
 
 addons:
-  # chocolatey: # travis doesn't support this. It's for reference of the config below
-  #   packages:
-  #     - llvm # already installed
-  #     - ninja
-  #     - cmake
-
   homebrew:
-    update: true
     packages:
       # - llvm # already installed
-      - ninja
       - cmake
       - tree
 
   apt:
-    update: true
     sources:
       - ubuntu-toolchain-r-test
       - llvm-toolchain-xenial-6.0
       - llvm-toolchain-xenial-7
       - llvm-toolchain-xenial-8
     packages:
-      - g++-8
       - g++-9
       - clang-6.0
       - clang-7
       - clang-8
       - libc++abi-8-dev
-      - cmake
-      - ninja-build
       - tree
       - wget
       - tar
@@ -58,23 +45,16 @@ language: cpp
 
 install:
   # for this env, we don't have to use setup-compilers script
-  # since we already installed them
+  # since they are installed. just replace installed bins to what we want
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
-    sudo rm -rf /usr/local/clang-7.0.0;
-    sudo rm -rf /usr/local/cmake-3.12.4;
-    sudo bash ./scripts/install-cmake-3.14.sh;
+    sudo rm -rf /usr/local/clang*;
+    sudo rm -rf /usr/local/cmake*;
+    sudo bash ./scripts/install-cmake-3.sh;
     export CC=gcc-9 CXX=g++-9;
-    sudo bash ./scripts/install-libc++8.sh;
+    sudo bash ./scripts/install-libcxx.sh release_90;
     fi
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
     brew info llvm;
-    fi
-  - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
-    systeminfo;
-    choco info  llvm;
-    choco info  visualstudio2017-workload-vctools;
-    choco install --yes --no-progress         ninja;
-    choco install --yes --force --no-progress cmake;
     fi
 
 before_script:
@@ -85,240 +65,74 @@ before_script:
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
     export CXX=${TRAVIS_COMPILER};
     fi
-  - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
-    export CXX=clang-cl;
-    fi
 
 script:
-  - cmake . -G "Ninja"
-    -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
-    -DBUILD_SHARED_LIBS=${SHARED}
-    -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-    -DUSE_PORTABLE_HEADER=${PORTABLE}
+  - cmake .
+    -D CMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
+    -D BUILD_SHARED_LIBS=${SHARED}
+    -D CMAKE_BUILD_TYPE=${BUILD_TYPE}
+    -D USE_PORTABLE_HEADER=True
   - cmake --build . --config ${BUILD_TYPE}
   - cmake --build . --target install
   - ctest --output-on-failure
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
-  - tree ${TRAVIS_BUILD_DIR}/install
+  - tree ./install
 
-# os:
-#   - windows
-#   - linux
-#   - osx
-
-# dist:
-#   - xenial
-
-# osx_image:
-#   - xcode9.4
-#   - xcode10.2
-#   - xcode11
-
-# compiler:
-#   - gcc
-#   - clang
-#   - clang-6.0
-#   - clang-7
-#   - clang-8
-
-# env:
-#   - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
-#   - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
-#   - BUILD_TYPE=Release  SHARED=True  PORTABLE=True
-#   - BUILD_TYPE=Release  SHARED=False PORTABLE=True
-
-matrix:
-  allow_failures:
-    - services: # GCC Coroutines (Under develop)
-        - docker
-    - language: android # Android NDK
-    - osx_image: xcode10.1 # iPhone OS
-
+jobs:
   include:
-    - os: windows
-      compiler: clang
-      env:
-        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
-      script:
-        #
-        # Because of the Travis CI env issue, we can't use `call` command.
-        # Normally with the Visual Studio 2017, vcvarsall.bat can be used like the following
-        #   call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64;
-        #
-        # However, this env is a bit different.
-        # This path is from chocolatey 'visualstudio2017-workload-vctools'
-        #
-        # see the batch file
-        #
-        - ./scripts/build-vs2017-cmake-clang.bat;
-        - ctest --output-on-failure
-    - os: windows
-      compiler: clang
-      env:
-        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
-      script:
-        - ./scripts/build-vs2017-cmake-clang.bat;
-        - ctest --output-on-failure
-
     - os: osx
-      osx_image: xcode10.2
+      osx_image: xcode10.3
       compiler: clang
       env:
-        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=True
     - os: osx
-      osx_image: xcode10.2
+      osx_image: xcode10.3
       compiler: clang
       env:
-        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=False
 
     - os: osx
       osx_image: xcode11
       compiler: clang
       env:
-        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=True
     - os: osx
       osx_image: xcode11
       compiler: clang
       env:
-        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=False
 
     - os: linux
       dist: xenial
       compiler: clang-6.0
       env:
-        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=True
     - os: linux
       dist: xenial
       compiler: clang-6.0
       env:
-        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=False
 
     - os: linux
       dist: xenial
       compiler: clang-7
       env:
-        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=True
     - os: linux
       dist: xenial
       compiler: clang-7
       env:
-        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=False
 
     - os: linux
       dist: xenial
       compiler: clang-8
       env:
-        - BUILD_TYPE=Debug    SHARED=True  PORTABLE=True
+        - BUILD_TYPE=Debug    SHARED=True
     - os: linux
       dist: xenial
       compiler: clang-8
       env:
-        - BUILD_TYPE=Debug    SHARED=False PORTABLE=True
-
-    #
-    # ... allow_failures builds ...
-    #
-
-    - name: gcc-cxx-coroutines debug
-      os: linux
-      dist: xenial
-      apt:
-        update: true
-        sources:
-          - ubuntu-toolchain-r-test
-      services:
-        - docker
-      install:
-        - docker pull luncliff/gcc
-        - docker run -it -d --name gcc_10_builder -w /code/build -v $(pwd):/code luncliff/gcc
-      before_script:
-        - export RUN="docker exec gcc_10_builder"
-        - $RUN apt install -y -qq cmake rsync wget tar unzip
-        - $RUN cmake --version
-      script:
-        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10 -DCMAKE_BUILD_TYPE=Debug
-        - $RUN cmake --build .
-        - $RUN ctest --output-on-failure
-
-    - name: gcc-cxx-coroutines release
-      os: linux
-      dist: xenial
-      apt:
-        update: true
-        sources:
-          - ubuntu-toolchain-r-test
-      services:
-        - docker
-      install:
-        - docker pull luncliff/gcc
-        - docker run -it -d --name gcc_10_builder -w /code/build -v $(pwd):/code luncliff/gcc
-      before_script:
-        - export RUN="docker exec gcc_10_builder"
-        - $RUN apt install -y -qq cmake rsync wget tar unzip
-        - $RUN cmake --version
-      script:
-        - $RUN cmake .. -DCMAKE_CXX_COMPILER=gcc-10 -DCMAKE_BUILD_TYPE=Release
-        - $RUN cmake --build .
-        - $RUN ctest --output-on-failure
-
-    - name: iPhone OS
-      os: osx
-      osx_image: xcode10.1
-      compiler: clang
-      before_script:
-        # to ensure intended symbols are in the library,
-        # the build generated shared object.
-        # however, for deployment, it needs te be static. (libcoroutine.a)
-        - cmake .
-          -DBUILD_SHARED_LIBS=true
-          -DCMAKE_BUILD_TYPE=Debug
-          -DCMAKE_INSTALL_PREFIX=./install
-          -DCMAKE_TOOLCHAIN_FILE=./external/ios-cmake/ios.toolchain.cmake
-          -DENABLE_BITCODE=false
-          -DIOS_DEPLOYMENT_TARGET=11.0
-      script:
-        # by using 11.0 or later, ensure target platform is 64 bit.
-        - make install;
-
-    - name: Android NDK
-      language: android
-      android:
-        components:
-          - tools
-          - platform-tools
-          - android-25 # 7.0
-          - android-27 # 8.1
-          - android-28 # 9.0
-          - build-tools-28.0.3
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - wget
-            - tar
-            - ninja-build
-            - tree
-            - rsync
-      before_install:
-        # Install CMake 3.14 (build.gradle knows the exact version)
-        - sudo bash ./scripts/install-cmake-3.14.sh;
-        # Install Gradle from https://sdkman.io/
-        - curl -s "https://get.sdkman.io" | bash > /dev/null
-        - source "$HOME/.sdkman/bin/sdkman-init.sh"
-        - sdk version
-        - sdk install gradle
-        - sdk use gradle
-      install:
-        # Accept SDK Licenses + Install NDK
-        - yes | sdkmanager --update > /dev/null 2>&1
-        - sdkmanager ndk-bundle > /dev/null 2>&1
-      before_script:
-        - export PATH=/usr/bin:$PATH
-        - cmake --version
-        - gradle --version
-      script:
-        - gradle clean
-        - gradle assemble -warning-mode all
+        - BUILD_TYPE=Debug    SHARED=False
