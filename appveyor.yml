@@ -200,6 +200,6 @@ for:
       - sh: sudo bash ./scripts/install-libcxx.sh release_90
       - sh: export CC=clang-8 CXX=clang-8
     build_script:
-      - sh: cmake . -G Ninja -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=${CONFIGURATION} -DCMAKE_INSTALL_PREFIX=../install
+      - sh: cmake . -D BUILD_SHARED_LIBS=true -D CMAKE_BUILD_TYPE="${CONFIGURATION}" -D CMAKE_INSTALL_PREFIX="../install"
       - sh: cmake --build .
       - sh: cmake --build . --target install
