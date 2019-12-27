@@ -14,6 +14,7 @@
     <ClCompile Include="..\yield_sequence_yield_never.cpp" />
     <ClCompile Include="..\yield_sequence_yield_once.cpp" />
     <ClCompile Include="..\test.cpp" />
+    <ClCompile Include="..\yield_enumerable_yield_rvalue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\test.h" />

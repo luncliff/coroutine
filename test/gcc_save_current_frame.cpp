@@ -6,6 +6,7 @@
 //    Save current coroutine's frame using co_await operator
 //
 #include <cstdio>
+#include <new> // <---- N4830, 9.4.4 Coroutine deﬁnitions, item 10
 
 // https://github.com/iains/gcc-cxx-coroutines/blob/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines/coro.h
 #include "coro.h"

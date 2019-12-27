@@ -12,4 +12,6 @@
 void _require_(bool expr);
 void _require_(bool expr, gsl::czstring<> file, size_t line);
 void _println_(gsl::czstring<> message);
-void _fail_now_(gsl::czstring<> message, gsl::czstring<> file, size_t line);
+
+void _fail_now_(gsl::czstring<> message, //
+                gsl::czstring<> file = __FILE__, size_t line = __LINE__);
