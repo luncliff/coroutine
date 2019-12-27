@@ -2,8 +2,8 @@
 
 C++ 20 Coroutines in Action
 
-[![Build Status](https://dev.azure.com/luncliff/personal/_apis/build/status/luncliff.coroutine?branchName=dev/1.5)](https://dev.azure.com/luncliff/personal/_build/latest?definitionId=27&branchName=dev/1.5)
-[![Build status](https://ci.appveyor.com/api/projects/status/vpjssf4g6cv4a4ys/branch/dev/1.5?svg=true)](https://ci.appveyor.com/project/luncliff/coroutine/branch/dev/1.5)
+[![Build Status](https://dev.azure.com/luncliff/personal/_apis/build/status/luncliff.coroutine?branchName=master)](https://dev.azure.com/luncliff/personal/_build/latest?definitionId=27&branchName=master)
+[![Build status](https://ci.appveyor.com/api/projects/status/vpjssf4g6cv4a4ys/branch/master?svg=true)](https://ci.appveyor.com/project/luncliff/coroutine/branch/master)
 [![Build Status](https://travis-ci.org/luncliff/coroutine.svg?branch=dev%2F1.5)](https://travis-ci.org/luncliff/coroutine)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/38aa16f6d7e046898af3835918c0cd5e)](https://app.codacy.com/app/luncliff/coroutine?utm_source=github.com&utm_medium=referral&utm_content=luncliff/coroutine&utm_campaign=Badge_Grade_Dashboard)
 [![](https://sonarcloud.io/api/project_badges/measure?project=luncliff_coroutine&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=luncliff_coroutine)
