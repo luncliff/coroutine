@@ -45,22 +45,17 @@ jobs:
         parameters:
           llvm_version: "8.0.1"
 
-  - job: vs2017_cmake_ninja_clang9
+  - job: vs2019_cmake_ninja_clang8
     pool:
-      vmImage: "vs2017-win2016"
+      vmImage: windows-2019
     variables:
-      visualstudio: 2017
+      visualstudio: 2019
       configuration: Debug
       is_dynamic: True
     steps:
-      - template: azure/steps-win-llvm.yml
+      - template: azure/steps-win-llvm.yml # uses relative path
         parameters:
-          llvm_version: "9.0.0"
-
-  - template: azure/jobs-win2019-llvm.yml
-    parameters:
-      make_shared: True
-      configuration: "Debug"
+          llvm_version: "8.0.1"
 
   - job: ubuntu_cmake_clang8_debug
     pool:
