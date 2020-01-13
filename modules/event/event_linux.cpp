@@ -35,16 +35,18 @@ bool is_signaled(uint64_t state) noexcept {
 int64_t get_eventfd(uint64_t state) noexcept {
     return static_cast<int64_t>(~emask & state);
 }
-uint64_t make_signaled(int64_t efd) noexcept(false) {
+void notify_event(int64_t efd) noexcept(false) {
     // signal the eventfd...
     //  the message can be any value
     //  since the purpose of it is to trigger the epoll
     //  we won't care about the internal counter of the eventfd
-    auto sz = write(efd, &efd, sizeof(efd));
-    if (sz == -1)
+    if (write(efd, &efd, sizeof(efd)) == -1)
         throw system_error{errno, system_category(), "write"};
+}
 
-    return emask | static_cast<uint64_t>(efd);
+void consume_event(int64_t efd) noexcept(false) {
+    if (read(efd, &efd, sizeof(efd)) == -1)
+        throw system_error{errno, system_category(), "read"};
 }
 
 auto_reset_event::auto_reset_event() noexcept(false) : state{} {
@@ -60,6 +62,10 @@ auto_reset_event::~auto_reset_event() noexcept {
         close(fd);
 }
 
+bool auto_reset_event::is_ready() const noexcept {
+    return is_signaled(state);
+}
+
 void auto_reset_event::set() noexcept(false) {
     // already signaled. nothing to do...
     if (is_signaled(state))
@@ -67,15 +73,17 @@ void auto_reset_event::set() noexcept(false) {
         return;
 
     auto fd = get_eventfd(state);
-    state = make_signaled(fd); // if it didn't throwed
-                               //  it's signaled state from now
+    notify_event(fd);                             // if it didn't throwed
+    state = emask | static_cast<uint64_t>(fd); //  it's signaled state from now
 }
-bool auto_reset_event::is_ready() const noexcept {
-    return is_signaled(state);
-}
-void auto_reset_event::reset() noexcept {
+
+void auto_reset_event::reset() noexcept(false) {
+    const auto fd = get_eventfd(state);
+    // if already signaled. nothing to do...
+    if (is_signaled(state))
+        consume_event(fd);
     // make unsignaled state
-    this->state = static_cast<decltype(state)>(get_eventfd(state));
+    this->state = static_cast<uint64_t>(fd);
 }
 
 // Reference
@@ -98,7 +106,7 @@ auto signaled_event_tasks() noexcept(false)
     // notice that the timeout is zero
     for (auto e : selist.wait(0)) {
 
-        // see also: `make_signaled`, `auto_reset_event::on_suspend`
+        // see also: `notify_event`, `auto_reset_event::on_suspend`
         // we don't care about the internal counter.
         //  just receive the coroutine handle
         t = coroutine_handle<void>::from_address(e.data.ptr);

@@ -107,7 +107,7 @@ class auto_reset_event final {
 
     _INTERFACE_ bool is_ready() const noexcept;
     _INTERFACE_ void on_suspend(coroutine_handle<void>) noexcept(false);
-    _INTERFACE_ void reset() noexcept;
+    _INTERFACE_ void reset() noexcept(false);
 
   public:
     _INTERFACE_ auto_reset_event() noexcept(false);
@@ -121,7 +121,7 @@ class auto_reset_event final {
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         return this->on_suspend(coro);
     }
-    void await_resume() noexcept {
+    void await_resume() noexcept(false) {
         return this->reset(); // automatically reset on resume
     }
 };

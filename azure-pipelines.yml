@@ -53,7 +53,7 @@ jobs:
       configuration: Debug
       is_dynamic: True
     steps:
-      - template: azure/steps-win-llvm.yml # uses relative path
+      - template: azure/steps-win-llvm.yml
         parameters:
           llvm_version: "8.0.1"
 

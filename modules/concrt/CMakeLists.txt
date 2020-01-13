@@ -2,7 +2,7 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(concrt
-    ${BUILD_INTERFACE_DIR}/concurrency_helper.h
+    ${MODULE_INTERFACE_DIR}/concurrency_helper.h
 )
 set_target_properties(concrt
 PROPERTIES

@@ -11,18 +11,9 @@ repo_name: luncliff/coroutine
 repo_url: http://github.com/luncliff/coroutine
 
 copyright: "CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/deed"
-
-theme:
-  name: material
-
-markdown_extensions:
-  - codehilite
-  - footnotes
-  - admonition
-
+  
 nav:
   - Home: Home.md
-
   - PPT:
       - C++ Korea 5th Seminar: ppt/Exploring-the-Cpp-Coroutine.md
 
@@ -33,34 +24,43 @@ nav:
       - Designing the coroutine channel: articles/designing-the-channel.md
       - Combining C++ coroutines and `pthread_create`: articles/combining-coroutines-and-pthread_create.md
       - Russian Roulette and C++ Coroutines: articles/russian-roulette.md
-      # - Windows DLL linking issues(WIP): ./articles/windll-linking-issues.md
 
-  - How To:
-      - Start yours Project:
-          - CMake: howto/start-using-cmake.md
-      - Build this project:
-          - Visual Studio: howto/build-using-visualstudio.md
-          - CMake: howto/build-using-cmake.md
-      - Importing this project:
-          - Visual Studio: howto/import-using-visualstudio.md
-          - CMake: howto/import-using-cmake.md
+  - Code:
+      - Namespaces: namespaces.md
+      - Functions: functions.md
+      - Classes: classes.md
+      - Files: files.md
 
-  - Features:
-      - Portable Frame:
-          - coroutine/frame.h: work-in-progress.md
-      - Return Types:
-          - coroutine/return.h: work-in-progress.md
-      - Channel:
-          - coroutine/channel.hpp: features/channel-overview.md
-          - read and write: features/channel-read_write.md
-          - select on multiple channels: features/channel-select.md
-      - System API:
-          - coroutine/event.h: work-in-progress.md
-          - coroutine/thread.h: work-in-progress.md
-      - Socket I/O:
-          - coroutine/net.h: net-overview.md
-      - co_yield:
-          - coroutine/yield.hpp: work-in-progress.md
-          - coroutine/sequence.hpp: work-in-progress.md
-      - Concepts:
-          - coroutine/concepts.hpp: work-in-progress.md
+#   - How To:
+#       - Start yours Project:
+#           - CMake: howto/start-using-cmake.md
+#       - Build this project:
+#           - Visual Studio: howto/build-using-visualstudio.md
+#           - CMake: howto/build-using-cmake.md
+#       - Importing this project:
+#           - Visual Studio: howto/import-using-visualstudio.md
+#           - CMake: howto/import-using-cmake.md
+
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
+  - footnotes
+
+theme:
+  name: "material"
+  extra:
+    search:
+      language: "en, kr"
+  palette:
+    primary: "white"
+    accent: "blue"
+  logo:
+    icon: "call_split"
+
+extra:
+  social:
+    - type: "github"
+      link: "https://github.com/luncliff"

@@ -1,28 +1,27 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-//  Note
-//      Return and utility types for coroutine frame management
-//
+/**
+ * @file coroutine/return.h
+ * @author github.com/luncliff (luncliff@gmail.com)
+ * @brief Utility to define return types for coroutine
+ * @copyright CC BY 4.0
+ * @link
+ * https://devblogs.microsoft.com/cppblog/c20-concepts-are-here-in-visual-studio-2019-version-16-3/
+ */
 #pragma once
 #ifndef COROUTINE_PROMISE_AND_RETURN_TYPES_H
 #define COROUTINE_PROMISE_AND_RETURN_TYPES_H
+#include <type_traits>
 
-#if __has_include(<coroutine>) // C++ 20
-#include <coroutine>
-#elif __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
-#elif __has_include(<experimental/coroutine>) // C++ 17
-#include <experimental/coroutine>
-#else
-#error "expect header <experimental/coroutine> or <coroutine/frame.h>"
-#endif
 
 namespace coro {
+#if __has_include(<coroutine>) // C++ 20
+using namespace std;
+#elif __has_include(<experimental/coroutine>) // C++ 17
+using namespace std;
 using namespace std::experimental;
+#endif
 
-class promise_return_destroy {
+class promise_nn {
   public:
     auto initial_suspend() noexcept {
         return suspend_never{}; // no suspend after invoke
@@ -30,12 +29,9 @@ class promise_return_destroy {
     auto final_suspend() noexcept {
         return suspend_never{}; // no suspend after return
     }
-    void unhandled_exception() noexcept(false) {
-        throw;
-    }
 };
 
-class promise_return_preserve {
+class promise_na {
   public:
     auto initial_suspend() noexcept {
         return suspend_never{}; // no suspend after invoke
@@ -43,12 +39,19 @@ class promise_return_preserve {
     auto final_suspend() noexcept {
         return suspend_always{}; // suspend after return
     }
-    void unhandled_exception() noexcept(false) {
-        throw;
+};
+
+class promise_an {
+  public:
+    auto initial_suspend() noexcept {
+        return suspend_always{}; // suspend after invoke
+    }
+    auto final_suspend() noexcept {
+        return suspend_never{}; // no suspend after return
     }
 };
 
-class promise_manual_control {
+class promise_aa {
   public:
     auto initial_suspend() noexcept {
         return suspend_always{}; // suspend after invoke
@@ -56,86 +59,60 @@ class promise_manual_control {
     auto final_suspend() noexcept {
         return suspend_always{}; // suspend after return
     }
-    void unhandled_exception() noexcept(false) {
-        throw;
-    }
 };
 
-class forget_frame {
+/**
+ * @brief A type to acquire `coroutine_handle<void>` from anonymous
+ * coroutine's return
+ * @see coroutine_handle<void>
+ */
+class frame_t final : public coroutine_handle<void> {
   public:
-    class promise_type final : public promise_return_destroy {
+    class promise_type final : public coro::promise_aa {
       public:
+        /**
+         * @brief The coroutine with the `frame_t` will do nothing for exception
+         * handling
+         */
+        void unhandled_exception() noexcept(false) {
+            throw;
+        }
+        /**
+         * @brief this is a `void` return for the coroutines
+         */
         void return_void() noexcept {
-            // nothing to do because this is `void` return
         }
-        auto get_return_object() noexcept -> forget_frame {
-            return {this};
-        }
-        static auto get_return_object_on_allocation_failure() noexcept
-            -> forget_frame {
-            return {nullptr};
+        auto get_return_object() noexcept {
+            frame_t frame{};
+            coroutine_handle<void>& ref = frame;
+            ref = coroutine_handle<promise_type>::from_promise(*this);
+            return frame;
         }
     };
-
-  private:
-    forget_frame(const promise_type*) noexcept {
-        // the type truncates all given info about its frame
-    }
-
-  public:
-    // gcc-10 requires the type to be default constructible
-    forget_frame() noexcept = default;
 };
 
-class preserve_frame : public coroutine_handle<void> {
-  public:
-    class promise_type final : public promise_return_preserve {
-      public:
-        void return_void() noexcept {
-            // nothing to do because this is `void` return
-        }
-        auto get_return_object() noexcept -> preserve_frame {
-            return {this};
-        }
-        static auto get_return_object_on_allocation_failure() noexcept
-            -> preserve_frame {
-            return {nullptr};
-        }
-    };
-
-  private:
-    preserve_frame(promise_type* p) noexcept : coroutine_handle<void>{} {
-        if (p == nullptr)
-            return;
-        coroutine_handle<void>& ref = *this;
-        ref = coroutine_handle<promise_type>::from_promise(*p);
-    }
-
-  public:
-    // gcc-10 requires the type to be default constructible
-    preserve_frame() noexcept = default;
+#if defined(__cpp_concepts)
+template <typename T, typename R = void>
+concept awaitable = requires(T a, coroutine_handle<void> h) {
+    { a.await_ready() }
+    ->bool;
+    { a.await_suspend(h) }
+    ->void;
+    { a.await_resume() }
+    ->R;
 };
 
-class save_frame_t final {
-  public:
-    // provide interface to receive handle
-    // when it's used as an operand of `co_await`
-    void await_suspend(coroutine_handle<void> coro) noexcept {
-        ref = coro;
-    }
-    constexpr bool await_ready() noexcept {
-        return false;
-    }
-    constexpr void await_resume() noexcept {
-    }
-
-  public:
-    explicit save_frame_t(coroutine_handle<void>& target) : ref{target} {
-    }
-
-  private:
-    coroutine_handle<void>& ref;
+template <typename P>
+concept promise_requirement_basic = requires(P p) {
+    { p.initial_suspend() }
+    ->awaitable;
+    { p.final_suspend() }
+    ->awaitable;
+    { p.unhandled_exception() }
+    ->void;
 };
+
+#endif
 
 } // namespace coro
 
