@@ -12,5 +12,5 @@ auto invoke_and_no_await() -> coro::frame_t {
 
 int main(int, char* []) {
     invoke_and_no_await();
-    return EXIT_SUCCESS;
+    return 0;
 }

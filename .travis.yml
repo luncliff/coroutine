@@ -62,7 +62,7 @@ after_success:
   - cd ${TRAVIS_BUILD_DIR}
   - tree ./install
 
-jobs:
+matrix:
   include:
     - os: windows
       compiler: clang-cl
@@ -83,10 +83,10 @@ jobs:
       compiler: clang-8
 
 before_deploy:
-  - pip install -r requirements.txt
+  - python3 -m pip install -r requirements.txt
   - doxygen ./docs/Doxyfile
-  - doxybook -i docs/xml -o docs -t mkdocs
-  - mkdocs build
+  - python3 -m doxybook -i docs/xml -o docs -t mkdocs
+  - python3 -m mkdocs build
 
 deploy:
   - provider: pages

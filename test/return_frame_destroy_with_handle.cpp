@@ -21,43 +21,18 @@ auto save_current_handle_to_frame(int& status) -> frame_t {
     status += 1;
 }
 
-auto coro_preserve_frame_destroy_with_handle_test() {
+int main(int, char* []) {
     int status = 0;
-    coroutine_handle<void> coro{};
-
-    {
-        coro = save_current_handle_to_frame(status);
-        assert(status == 1);
-        assert(coro.address() != nullptr);
-    }
-
+    coroutine_handle<void> coro = save_current_handle_to_frame(status);
+    assert(status == 1);
+    assert(coro.address() != nullptr);
     coro.resume();
 
     // the coroutine reached end
-    // so, gsl::finally should changed the status
+    // so, `gsl::finally` should changed the status
     assert(coro.done());
     assert(status == 3);
 
     coro.destroy();
-
-    return EXIT_SUCCESS;
+    return 0;
 }
-
-#if defined(CMAKE_TEST)
-int main(int, char* []) {
-    return coro_preserve_frame_destroy_with_handle_test();
-}
-
-#elif __has_include(<CppUnitTest.h>)
-#include <CppUnitTest.h>
-
-template <typename T>
-using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
-
-class coro_preserve_frame_destroy_with_handle
-    : public TestClass<coro_preserve_frame_destroy_with_handle> {
-    TEST_METHOD(test_coro_preserve_frame_destroy_with_handle) {
-        coro_preserve_frame_destroy_with_handle_test();
-    }
-};
-#endif

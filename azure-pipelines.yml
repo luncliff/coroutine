@@ -45,7 +45,17 @@ jobs:
         parameters:
           llvm_version: "8.0.1"
 
-  - template: azure/jobs-win2019-llvm.yml
+  - job: vs2019_cmake_ninja_clang8
+    pool:
+      vmImage: windows-2019
+    variables:
+      visualstudio: 2019
+      configuration: Debug
+      is_dynamic: True
+    steps:
+      - template: azure/steps-win-llvm.yml
+        parameters:
+          llvm_version: "8.0.1"
 
   - job: ubuntu_cmake_clang8_debug
     pool:

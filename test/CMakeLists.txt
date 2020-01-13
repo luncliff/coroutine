@@ -24,6 +24,18 @@ function(create_ctest FILE_NAME)
     PRIVATE
         CMAKE_TEST NDEBUG
     )
+    if(WIN32)
+    elseif(APPLE)
+        target_link_libraries(${TEST_NAME}
+        PRIVATE
+            c++
+        )
+    else()
+        target_link_libraries(${TEST_NAME}
+        PRIVATE
+            stdc++ c++
+        )
+    endif()
 endfunction()
 
 #
