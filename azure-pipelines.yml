@@ -4,29 +4,110 @@
 # References
 #   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops
 #   https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops#use-a-microsoft-hosted-agent
+#   https://github.com/Microsoft/azure-pipelines-image-generation/blob/master/images/win/Vs2019-Server2019-Readme.md
+#   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/conditions?view=azure-devops&tabs=yaml
 #
 
 jobs:
-- template: azure/vm-vs2017-win2016.yml
-  parameters:
-    visualstudio: '2017'
-    solution: '**/*.sln'
+  - job: vs2017_cmake_vs_msvc141
+    pool:
+      vmImage: "vs2017-win2016"
+    variables:
+      platform: x64
+      configuration: Debug
+      is_dynamic: True
+    steps:
+      - template: azure/steps-win-vs.yml
+        parameters:
+          toolset: v141
 
-- template: azure/vm-windows-2019.yml
-  parameters:
-    visualstudio: '2019'
-    solution: '**/*.sln'
+  - job: vs2019_cmake_vs_msvc142
+    pool:
+      vmImage: "windows-2019"
+    variables:
+      platform: x64
+      configuration: Debug
+      is_dynamic: True
+    steps:
+      - template: azure/steps-win-vs.yml
+        parameters:
+          toolset: v142
 
-- template: azure/vm-ubuntu-16.04.yml
-  parameters:
-    name: Ubuntu1604
+  - job: vs2017_cmake_ninja_clang8
+    pool:
+      vmImage: "vs2017-win2016"
+    variables:
+      visualstudio: 2017
+      configuration: Debug
+      is_dynamic: True
+    steps:
+      - template: azure/steps-win-llvm.yml
+        parameters:
+          llvm_version: "8.0.1"
 
-- template: azure/vm-macos-latest.yml
-  parameters:
-    name: MacOS
+  - job: vs2017_cmake_ninja_clang9
+    pool:
+      vmImage: "vs2017-win2016"
+    variables:
+      visualstudio: 2017
+      configuration: Debug
+      is_dynamic: True
+    steps:
+      - template: azure/steps-win-llvm.yml
+        parameters:
+          llvm_version: "9.0.0"
 
-#
-#   Bazel's wrapped_clang doesn't support coroutine for now.
-#   Will be skipped until it becomes available
-#
-# - template: azure/exp-bazel.yml
+  - template: azure/jobs-win2019-llvm.yml
+    parameters:
+      make_shared: True
+      configuration: "Debug"
+
+  - job: ubuntu_cmake_clang8_debug
+    pool:
+      vmImage: "ubuntu-latest"
+    variables:
+      configuration: Debug
+      is_dynamic: True
+    steps:
+      - template: azure/steps-ubuntu.yml
+        parameters:
+          cmake_cxx_compiler: "clang-8"
+          cmake_work_dir: "build-ub"
+          cmake_install_dir: "../install"
+
+  - job: ubuntu_cmake_clang8_release
+    pool:
+      vmImage: "ubuntu-latest"
+    variables:
+      configuration: Release
+      is_dynamic: True
+    steps:
+      - template: azure/steps-ubuntu.yml
+        parameters:
+          cmake_cxx_compiler: "clang-8"
+          cmake_work_dir: "build-ub"
+          cmake_install_dir: "../install"
+
+  - job: mac_cmake_appleclang11_debug
+    pool:
+      vmImage: "macos-latest"
+    variables:
+      configuration: Debug
+      is_dynamic: True
+    steps:
+      - template: azure/steps-mac.yml
+        parameters:
+          cmake_work_dir: "build-osx"
+          cmake_install_dir: "../install"
+
+  - job: mac_cmake_appleclang11_release
+    pool:
+      vmImage: "macos-latest"
+    variables:
+      configuration: Release
+      is_dynamic: True
+    steps:
+      - template: azure/steps-mac.yml
+        parameters:
+          cmake_work_dir: "build-osx"
+          cmake_install_dir: "../install"

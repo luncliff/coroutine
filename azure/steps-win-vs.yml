@@ -1,0 +1,31 @@
+#
+# Author: github.com/luncliff (luncliff@gmail.com)
+#
+# References
+#   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops#passing-parameters
+#
+
+steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: "inline"
+      script: systeminfo
+
+  - task: CMake@1
+    inputs:
+      cmakeArgs: . -A $(platform) -DBUILD_SHARED_LIBS=$(is_dynamic)
+      workingDirectory: "."
+
+  - task: MSBuild@1
+    inputs:
+      solution: "**/*.sln"
+      msbuildArchitecture: $(platform)
+      platform: $(platform)
+      configuration: $(configuration)
+      msbuildArguments: "/p:platformtoolset=${{ parameters.toolset }}"
+  # - task: VSTest@2
+  #   inputs:
+  #     testAssemblyVer2: |
+  #       **\*vstest*.dll
+  #     codeCoverageEnabled: true
+  #   continueOnError: true

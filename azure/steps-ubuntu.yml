@@ -1,0 +1,33 @@
+#
+# Author: github.com/luncliff (luncliff@gmail.com)
+#
+# References
+#   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops#passing-parameters
+#
+
+steps:
+  - task: Bash@3
+    inputs:
+      targetType: "inline"
+      script: |
+        sudo bash ./scripts/setup-compilers-ubuntu.sh;
+        sudo apt install -y -qq --fix-missing rsync wget unzip;
+        sudo bash ./scripts/install-libcxx.sh;
+        mkdir -p ${{ parameters.cmake_work_dir }};
+    displayName: "Install: compilers, libcxx"
+
+  - task: CMake@1
+    inputs:
+      cmakeArgs: .. -DBUILD_SHARED_LIBS=$(is_dynamic) -DCMAKE_BUILD_TYPE=$(configuration) -DCMAKE_INSTALL_PREFIX=${{ parameters.cmake_install_dir }} -DCMAKE_CXX_COMPILER=${{ parameters.cmake_cxx_compiler }}
+      workingDirectory: ${{ parameters.cmake_work_dir }}
+
+  - task: CMake@1
+    inputs:
+      cmakeArgs: --build . --target install --config $(configuration)
+      workingDirectory: ${{ parameters.cmake_work_dir }}
+
+  - task: Bash@3
+    inputs:
+      targetType: "inline"
+      script: ctest --output-on-failure
+    timeoutInMinutes: 1
