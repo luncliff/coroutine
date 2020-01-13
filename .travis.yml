@@ -42,7 +42,7 @@ install:
     brew info llvm;
     fi
   - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
-    choco install llvm --yes --allow-downgrade --version=8.0.1
+    choco install llvm --yes --allow-downgrade --version=8.0.1;
     fi
 
 before_script:
