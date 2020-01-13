@@ -5,6 +5,8 @@
 #include <cassert>
 #include <coroutine/return.h>
 
+using namespace coro;
+
 // this is a coroutine
 auto invoke_and_forget_frame() -> coro::frame_t {
     co_await suspend_never{};
