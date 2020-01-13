@@ -8,7 +8,7 @@
 using namespace std;
 using namespace coro;
 
-auto invoke_and_suspend_immediately() -> preserve_frame {
+auto invoke_and_suspend_immediately() -> frame_t {
     co_await suspend_always{};
     co_return;
 };

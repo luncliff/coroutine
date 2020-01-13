@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.12)
 
 # create_ctest( ... )
 function(create_ctest FILE_NAME)
@@ -30,8 +30,7 @@ endfunction()
 #   <coroutine/frame.h>
 #   <coroutine/return.h>
 #
-create_ctest( return_forget_frame_subroutine )
-create_ctest( return_forget_frame_with_await )
-create_ctest( return_preserve_frame_destroy_with_handle )
-create_ctest( return_preserve_frame_destroy_with_return )
-create_ctest( return_preserve_frame_empty )
+create_ctest( return_frame_destroy_with_handle )
+create_ctest( return_frame_destroy_with_return )
+create_ctest( return_frame_not_coroutine )
+create_ctest( return_frame_not_subroutine )

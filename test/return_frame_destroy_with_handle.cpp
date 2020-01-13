@@ -10,15 +10,14 @@
 using namespace std;
 using namespace coro;
 
-auto save_current_handle_to_frame(coroutine_handle<void>& frame, //
-                                  int& status) -> preserve_frame {
+auto save_current_handle_to_frame(int& status) -> frame_t {
     auto on_return = gsl::finally([&status]() {
         // change the status when the frame is going to be destroyed
         status += 1;
     });
 
     status += 1;
-    co_await save_frame_t{frame};
+    co_await suspend_always{};
     status += 1;
 }
 
@@ -27,7 +26,7 @@ auto coro_preserve_frame_destroy_with_handle_test() {
     coroutine_handle<void> coro{};
 
     {
-        save_current_handle_to_frame(coro, status);
+        coro = save_current_handle_to_frame(status);
         assert(status == 1);
         assert(coro.address() != nullptr);
     }
@@ -44,7 +43,6 @@ auto coro_preserve_frame_destroy_with_handle_test() {
     return EXIT_SUCCESS;
 }
 
-#
 #if defined(CMAKE_TEST)
 int main(int, char* []) {
     return coro_preserve_frame_destroy_with_handle_test();

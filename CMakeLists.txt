@@ -15,7 +15,7 @@
 #   Variables
 #       - TEST_DISABLED : Explicitly disables building tests
 #
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.12)
 
 project(coroutine 
         LANGUAGES CXX 
