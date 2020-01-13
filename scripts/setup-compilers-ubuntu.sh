@@ -2,15 +2,19 @@
 #
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
+verion_name=$(. /etc/os-release;echo $VERSION)
+distribution=$(. /etc/os-release;echo $UBUNTU_CODENAME)
+
 echo "----------------------------------------------------------------------"
 echo "                                                                      "
-echo " Install C++ Compilers                                                "
-echo "  - Target Platform  : Ubuntu Xenial(16.04)                           "
+echo " Install C++ Compilers: ${verion_name}                                "
 echo "  - Path      : /usr/bin                                              "
-echo "  - Compiler  : gcc-7, g++-7, gcc-8, g++-8, clang-7, clang-8          "
-echo "  - Library   : libc++abi-7-dev                                       "
+echo "  - Compiler  : g++-8, g++-9, clang-8, clang-9                        "
 echo "                                                                      "
 echo "----------------------------------------------------------------------"
+
+# display release info. this will helpful for checking CI environment
+cat /etc/os-release
 
 apt update -qq
 apt install -y -qq \
@@ -20,16 +24,16 @@ apt-add-repository -y ppa:ubuntu-toolchain-r/test
 # http://apt.llvm.org/
 # This library will use clang up to 'qualification branch'
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
-apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main"
-apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-8 main"
+apt-add-repository "deb http://apt.llvm.org/${distribution}/ llvm-toolchain-${distribution}-8 main"
+apt-add-repository "deb http://apt.llvm.org/${distribution}/ llvm-toolchain-${distribution}-9 main"
 
 apt update -qq
 apt install -y -q \
-  ninja-build \
-  g++-7 g++-8 clang-7 clang-8 libc++abi-7-dev
+  g++-8 g++-9 clang-8 clang-9 \
+  libc++abi-8-dev
 
-cd /usr/bin # pushd
-ln -s --force gcc-8 gcc
-ln -s --force g++-8 g++
+pushd /usr/bin
+ln -s --force gcc-9 gcc
+ln -s --force g++-9 g++
 ln -s --force clang-8 clang
-cd - # popd
+popd

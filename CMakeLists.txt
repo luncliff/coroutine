@@ -95,5 +95,5 @@ endif()
 
 enable_testing()
 
-add_subdirectory(modules/concrt)    # concurrency helper for test codes
-add_subdirectory(test)
+# add_subdirectory(modules/concrt)    # concurrency helper for test codes
+# add_subdirectory(test)

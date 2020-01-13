@@ -1,11 +1,7 @@
 [submodule "external/guideline"]
 	path = external/guideline
 	url = https://github.com/Microsoft/GSL
-	branch = master
-[submodule "external/ios-cmake"]
-	path = external/ios-cmake
-	url = https://github.com/leetal/ios-cmake
-	branch = 3.0.2
+	branch = v2.1.0
 [submodule "docs"]
 	path = docs
 	url = https://github.com/luncliff/coroutine.wiki

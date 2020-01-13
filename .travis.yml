@@ -1,8 +1,3 @@
-#
-#   Author
-#     - luncliff@gmail.com
-#
-
 git:
   submodules: true
   quiet: true
@@ -11,7 +6,6 @@ git:
 branches:
   except:
     - docs
-    - skip/*
 
 notifications:
   email:
@@ -20,26 +14,18 @@ notifications:
 addons:
   homebrew:
     packages:
-      # - llvm # already installed
+      - doxygen
       - cmake
       - tree
 
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-xenial-6.0
-      - llvm-toolchain-xenial-7
-      - llvm-toolchain-xenial-8
     packages:
-      - g++-9
-      - clang-6.0
-      - clang-7
-      - clang-8
-      - libc++abi-8-dev
+      - doxygen
       - tree
-      - wget
       - tar
-      - rsync
+      - python3-pip
 
 language: cpp
 
@@ -47,32 +33,28 @@ install:
   # for this env, we don't have to use setup-compilers script
   # since they are installed. just replace installed bins to what we want
   - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
-    sudo rm -rf /usr/local/clang*;
-    sudo rm -rf /usr/local/cmake*;
-    sudo bash ./scripts/install-cmake-3.sh;
-    export CC=gcc-9 CXX=g++-9;
-    sudo bash ./scripts/install-libcxx.sh release_90;
+    sudo rm -rf /usr/local/clang* /usr/local/cmake*;
+    sudo bash ./scripts/setup-compilers-ubuntu.sh > /dev/null;
+    sudo bash ./scripts/install-cmake-3.sh > /dev/null;
+    CC=gcc-9 CXX=g++-9 sudo bash ./scripts/install-libcxx.sh release_90;
     fi
   - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
     brew info llvm;
     fi
+  - if [ ${TRAVIS_OS_NAME} == "windows" ]; then
+    choco install llvm --yes --allow-downgrade --version=8.0.1;
+    fi
 
 before_script:
-  - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
-    export CC=${TRAVIS_COMPILER};
-    export CXX=${TRAVIS_COMPILER};
-    fi
-  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
-    export CXX=${TRAVIS_COMPILER};
-    fi
+  - export CXX=${TRAVIS_COMPILER}
 
 script:
   - cmake .
-    -D CMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
-    -D BUILD_SHARED_LIBS=${SHARED}
-    -D CMAKE_BUILD_TYPE=${BUILD_TYPE}
-    -D USE_PORTABLE_HEADER=True
-  - cmake --build . --config ${BUILD_TYPE}
+    -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
+    -DBUILD_SHARED_LIBS=True
+    -DCMAKE_BUILD_TYPE=Debug
+    -DUSE_PORTABLE_HEADER=True
+  - cmake --build . --config debug
   - cmake --build . --target install
   - ctest --output-on-failure
 
@@ -82,57 +64,35 @@ after_success:
 
 jobs:
   include:
-    - os: osx
-      osx_image: xcode10.3
-      compiler: clang
-      env:
-        - BUILD_TYPE=Debug    SHARED=True
-    - os: osx
-      osx_image: xcode10.3
-      compiler: clang
-      env:
-        - BUILD_TYPE=Debug    SHARED=False
+    - os: windows
+      compiler: clang-cl
+      script:
+        - ./scripts/build-vs2017-cmake-clang.bat
+        - ctest --output-on-failure
 
     - os: osx
-      osx_image: xcode11
+      osx_image: xcode11.3
       compiler: clang
-      env:
-        - BUILD_TYPE=Debug    SHARED=True
-    - os: osx
-      osx_image: xcode11
-      compiler: clang
-      env:
-        - BUILD_TYPE=Debug    SHARED=False
-
-    - os: linux
-      dist: xenial
-      compiler: clang-6.0
-      env:
-        - BUILD_TYPE=Debug    SHARED=True
-    - os: linux
-      dist: xenial
-      compiler: clang-6.0
-      env:
-        - BUILD_TYPE=Debug    SHARED=False
-
-    - os: linux
-      dist: xenial
-      compiler: clang-7
-      env:
-        - BUILD_TYPE=Debug    SHARED=True
-    - os: linux
-      dist: xenial
-      compiler: clang-7
-      env:
-        - BUILD_TYPE=Debug    SHARED=False
 
     - os: linux
       dist: xenial
       compiler: clang-8
-      env:
-        - BUILD_TYPE=Debug    SHARED=True
+
     - os: linux
-      dist: xenial
+      dist: bionic
       compiler: clang-8
-      env:
-        - BUILD_TYPE=Debug    SHARED=False
+
+before_deploy:
+  - pip install -r requirements.txt
+  - doxygen ./docs/Doxyfile
+  - doxybook -i docs/xml -o docs -t mkdocs
+  - mkdocs build
+
+deploy:
+  - provider: pages
+    github_token: ${MAINTAINER_GITHUB_TOKEN}
+    local_dir: site
+    skip_cleanup: true
+    keep_history: true
+    on:
+      branch: master
