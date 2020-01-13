@@ -195,7 +195,7 @@ for:
       #   http://apt.llvm.org/
       #
       - sh: sudo apt install -y -qq --fix-missing wget unzip rsync > /tmp/apt-install.log
-      - sh: sudo bash ./scripts/setup-compilers-bionic.sh
+      - sh: sudo bash ./scripts/setup-compilers-ubuntu.sh
       - sh: sudo bash ./scripts/install-cmake-3.sh
       - sh: sudo bash ./scripts/install-libcxx.sh release_90
       - sh: export CC=clang-8 CXX=clang-8

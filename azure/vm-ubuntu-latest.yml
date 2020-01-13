@@ -8,7 +8,7 @@
 jobs:
   - job: ${{ parameters.name }}
     pool:
-      vmImage: "ubuntu-16.04"
+      vmImage: "ubuntu-latest"
     steps:
       - script: uname -a
       - script: git submodule update --init --recursive
@@ -16,7 +16,7 @@ jobs:
         inputs:
           targetType: "inline"
           script: |
-            sudo bash ./scripts/setup-compilers-xenial.sh;
+            sudo bash ./scripts/setup-compilers-ubuntu.sh;
             sudo apt install -y -qq --fix-missing rsync wget unzip;
       - task: Bash@3
         inputs:
