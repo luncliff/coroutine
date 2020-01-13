@@ -2,7 +2,7 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(coroutine_thread
-    ${BUILD_INTERFACE_DIR}/coroutine/thread.h
+    ${MODULE_INTERFACE_DIR}/coroutine/thread.h
     libmain.cpp
 )
 add_library(coro::thread ALIAS coroutine_thread)
@@ -132,7 +132,7 @@ if(NOT MSVC)
     endif()
 endif()
 
-install(FILES       ${BUILD_INTERFACE_DIR}/coroutine/thread.h
+install(FILES       ${MODULE_INTERFACE_DIR}/coroutine/thread.h
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
 )
 install(TARGETS         coroutine_thread

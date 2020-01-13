@@ -2,18 +2,6 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(coroutine_portable INTERFACE)
-add_library(coro::portable ALIAS coroutine_portable)
-
-if(MSVC)
-    set_target_properties(coroutine_portable
-    PROPERTIES
-        INTERFACE_LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
-    )
-endif()
-
-if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang AND WIN32)
-    set(USE_PORTABLE_HEADER true)
-endif()
 
 if(USE_PORTABLE_HEADER)
     message(STATUS "Customizaton")
@@ -27,12 +15,12 @@ endif()
 
 target_include_directories(coroutine_portable
 INTERFACE
-    $<BUILD_INTERFACE:${BUILD_INTERFACE_DIR}>
+    $<BUILD_INTERFACE:${MODULE_INTERFACE_DIR}>
     $<BUILD_INTERFACE:${GSL_INCLUDE_DIR}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
 )
 
-if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
     if(WIN32)
         # 'target_compile_options' removes duplicated -Xclang directive.
         # avoide the removal using cmake flag variable
@@ -56,27 +44,27 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
         )
     endif()
 
-elseif(MSVC)
-    target_compile_options(coroutine_portable
-    INTERFACE
-        /std:c++latest /await
-    )
-
-elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     target_compile_options(coroutine_portable
     INTERFACE
         -std=gnu++2a
         -fcoroutines -fconcepts # -fno-exceptions
     )
 
+elseif(MSVC)
+    set_target_properties(coroutine_portable
+    PROPERTIES
+        INTERFACE_LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
+    )
+    target_compile_options(coroutine_portable
+    INTERFACE
+        /std:c++latest /await
+    )
+
 endif()
 
-install(FILES   ${BUILD_INTERFACE_DIR}/coroutine/frame.h
-                ${BUILD_INTERFACE_DIR}/coroutine/return.h
-                ${BUILD_INTERFACE_DIR}/coroutine/channel.hpp
-        # Use DESTINATION instead to make sure of the path.
-        # Must be same with INSTALL_INTERFACE above
-        # TYPE    INCLUDE
+install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/frame.h
+                ${MODULE_INTERFACE_DIR}/coroutine/return.h
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
 )
 install(TARGETS         coroutine_portable
@@ -84,5 +72,5 @@ install(TARGETS         coroutine_portable
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-        # INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+        INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/include
 )

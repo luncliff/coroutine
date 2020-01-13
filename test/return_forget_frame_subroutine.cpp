@@ -2,9 +2,9 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include <cassert>
 #include <coroutine/return.h>
 
-#include "test.h"
 using namespace std;
 using namespace coro;
 
@@ -15,12 +15,11 @@ auto invoke_and_no_await() -> forget_frame {
 
 auto coro_forget_frame_without_await_test() -> int {
     try {
-
         invoke_and_no_await();
         return EXIT_SUCCESS;
 
     } catch (const exception& ex) {
-        _println_(ex.what());
+        fputs(ex.what(), stderr);
         return __LINE__;
     }
 }

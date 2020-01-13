@@ -2,7 +2,7 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(coroutine_net
-    ${BUILD_INTERFACE_DIR}/coroutine/net.h
+    ${MODULE_INTERFACE_DIR}/coroutine/net.h
     resolver.cpp
 )
 add_library(coro::net ALIAS coroutine_net)
@@ -111,7 +111,7 @@ if(NOT MSVC)
     endif()
 endif()
 
-install(FILES   ${BUILD_INTERFACE_DIR}/coroutine/net.h
+install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/net.h
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
 )
 install(TARGETS         coroutine_net

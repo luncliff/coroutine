@@ -2,10 +2,11 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include <cassert>
+
 #include <coroutine/return.h>
 #include <gsl/gsl>
 
-#include "test.h"
 using namespace std;
 using namespace coro;
 
@@ -27,16 +28,16 @@ auto coro_preserve_frame_destroy_with_handle_test() {
 
     {
         save_current_handle_to_frame(coro, status);
-        _require_(status == 1);
-        _require_(coro.address() != nullptr);
+        assert(status == 1);
+        assert(coro.address() != nullptr);
     }
 
     coro.resume();
 
     // the coroutine reached end
     // so, gsl::finally should changed the status
-    _require_(coro.done());
-    _require_(status == 3);
+    assert(coro.done());
+    assert(status == 3);
 
     coro.destroy();
 
@@ -45,7 +46,7 @@ auto coro_preserve_frame_destroy_with_handle_test() {
 
 #
 #if defined(CMAKE_TEST)
-int main(int, char*[]) {
+int main(int, char* []) {
     return coro_preserve_frame_destroy_with_handle_test();
 }
 

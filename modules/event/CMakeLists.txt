@@ -2,7 +2,7 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(coroutine_event
-    ${BUILD_INTERFACE_DIR}/coroutine/event.h
+    ${MODULE_INTERFACE_DIR}/coroutine/event.h
     libmain.cpp
 )
 add_library(coro::event ALIAS coroutine_event)
@@ -144,7 +144,7 @@ if(NOT MSVC)
     endif()
 endif()
 
-install(FILES       ${BUILD_INTERFACE_DIR}/coroutine/event.h
+install(FILES       ${MODULE_INTERFACE_DIR}/coroutine/event.h
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
 )
 install(TARGETS         coroutine_event

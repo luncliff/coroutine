@@ -2,9 +2,9 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include <cassert>
 #include <coroutine/return.h>
 
-#include "test.h"
 using namespace std;
 using namespace coro;
 
@@ -19,8 +19,8 @@ auto coro_preserve_frame_destroy_with_return_test() {
     // coroutine_handle<void> is final_suspended after `co_return`.
     coroutine_handle<void>& coro = frame;
 
-    _require_(static_cast<bool>(coro)); // not null
-    _require_(coro.done() == false);    // it is susepended !
+    assert(static_cast<bool>(coro)); // not null
+    assert(coro.done() == false);    // it is susepended !
 
     // we don't care. destroy it
     coro.destroy();

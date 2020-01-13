@@ -2,22 +2,22 @@
 //  Author  : github.com/luncliff (luncliff@gmail.com)
 //  License : CC BY 4.0
 //
+#include <cassert>
 #include <coroutine/return.h>
 
-#include "test.h"
 using namespace std;
 using namespace coro;
 
 auto coro_frame_empty_test() {
     preserve_frame frame{};
 
-    _require_(frame.address() == nullptr);
+    assert(frame.address() == nullptr);
 
     return EXIT_SUCCESS;
 }
 
 #if defined(CMAKE_TEST)
-int main(int, char*[]) {
+int main(int, char* []) {
     return coro_frame_empty_test();
 }
 

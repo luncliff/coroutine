@@ -15,7 +15,7 @@
 #   Variables
 #       - TEST_DISABLED : Explicitly disables building tests
 #
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.13)
 
 project(coroutine 
         LANGUAGES CXX 
@@ -42,18 +42,21 @@ include(report-project-info)
 include(external-gsl)
 
 #
-# build/interface targets for CMake. see 'modules/'
+# targets for CMake. see 'modules/'
 #
-set(BUILD_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
+set(MODULE_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
+    set(USE_PORTABLE_HEADER true)
+endif()
 add_subdirectory(modules/portable)
 
-if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
-    # WIP: perform test with the portable headers
-else()
-    add_subdirectory(modules/event)     # coroutine_event
-    add_subdirectory(modules/net)       # coroutine_net
-    add_subdirectory(modules/thread)    # coroutine_thread
-endif()
+# if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+#     # WIP: perform test with the portable headers
+# else()
+#     add_subdirectory(modules/event)     # coroutine_event
+#     add_subdirectory(modules/net)       # coroutine_net
+#     add_subdirectory(modules/thread)    # coroutine_thread
+# endif()
 
 #
 # export declared cmake targets
@@ -96,4 +99,4 @@ endif()
 enable_testing()
 
 # add_subdirectory(modules/concrt)    # concurrency helper for test codes
-# add_subdirectory(test)
+add_subdirectory(test)
