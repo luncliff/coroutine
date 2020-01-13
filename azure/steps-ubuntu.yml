@@ -6,6 +6,10 @@
 #
 
 steps:
+  - checkout: self
+    fetchDepth: 5
+    submodules: recursive
+
   - task: Bash@3
     inputs:
       targetType: "inline"

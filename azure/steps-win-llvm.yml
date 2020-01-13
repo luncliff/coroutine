@@ -6,6 +6,10 @@
 #
 
 steps:
+  - checkout: self
+    fetchDepth: 5
+    submodules: recursive
+
   - task: ChocolateyCommand@0
     inputs:
       command: "install"
