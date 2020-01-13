@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="net_8h" kind="file" language="C++">
     <compoundname>net.h</compoundname>
     <includes local="no">chrono</includes>
@@ -10,59 +10,59 @@
     <includedby refid="io__windows_8cpp" local="no">modules/net/io_windows.cpp</includedby>
     <includedby refid="resolver_8cpp" local="no">modules/net/resolver.cpp</includedby>
     <incdepgraph>
-      <node id="4">
+      <node id="147">
         <label>coroutine/yield.hpp</label>
         <link refid="yield_8hpp_source"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="148" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>iterator</label>
-      </node>
-      <node id="9">
-        <label>cstdint</label>
-      </node>
-      <node id="5">
-        <label>coroutine/return.h</label>
-        <link refid="return_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="153" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="150">
         <label>coroutine/frame.h</label>
         <link refid="frame_8h_source"/>
-        <childnode refid="8" relation="include">
+        <childnode refid="151" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="152" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="149" relation="include">
         </childnode>
       </node>
-      <node id="3">
+      <node id="153">
+        <label>iterator</label>
+      </node>
+      <node id="152">
+        <label>cstdint</label>
+      </node>
+      <node id="144">
+        <label>interface/coroutine/net.h</label>
+        <link refid="net.h"/>
+        <childnode refid="145" relation="include">
+        </childnode>
+        <childnode refid="146" relation="include">
+        </childnode>
+        <childnode refid="147" relation="include">
+        </childnode>
+      </node>
+      <node id="148">
+        <label>coroutine/return.h</label>
+        <link refid="return_8h"/>
+        <childnode refid="149" relation="include">
+        </childnode>
+        <childnode refid="150" relation="include">
+        </childnode>
+      </node>
+      <node id="146">
         <label>gsl/gsl</label>
       </node>
-      <node id="8">
+      <node id="151">
         <label>cstddef</label>
       </node>
-      <node id="2">
+      <node id="145">
         <label>chrono</label>
       </node>
-      <node id="6">
+      <node id="149">
         <label>type_traits</label>
-      </node>
-      <node id="1">
-        <label>interface/coroutine/net.h</label>
-        <link refid="net_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
       </node>
     </incdepgraph>
     <innerclass refid="classcoro_1_1io__work__t" prot="public">coro::io_work_t</innerclass>
@@ -159,9 +159,9 @@
 <codeline lineno="69"><highlight class="normal"></highlight></codeline>
 <codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>winsock<sp/>||<sp/>netinet</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">coro<sp/>{</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::experimental;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1experimental" kindref="compound">std::experimental</ref>;</highlight></codeline>
 <codeline lineno="75"><highlight class="normal"></highlight></codeline>
 <codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>1<sp/>I/O<sp/>task<sp/>==<sp/>1<sp/>coroutine<sp/>function</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>io_task_t<sp/>=<sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref>;</highlight></codeline>
@@ -350,7 +350,7 @@
 <codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Combination<sp/>of<sp/>`getaddrinfo`<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>If<sp/>there<sp/>is<sp/>an<sp/>error,<sp/>the<sp/>enumerable<sp/>is<sp/>untouched</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="262"><highlight class="normal">_INTERFACE_</highlight></codeline>
-<codeline lineno="263"><highlight class="normal">int32_t<sp/>resolve(enumerable&lt;sockaddr&gt;&amp;<sp/>g,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>addrinfo&amp;<sp/>hint,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal">int32_t<sp/>resolve(<ref refid="classcoro_1_1enumerable" kindref="compound">enumerable&lt;sockaddr&gt;</ref>&amp;<sp/>g,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>addrinfo&amp;<sp/>hint,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>czstring_host<sp/>name,<sp/>czstring_serv<sp/>serv)<sp/>noexcept;</highlight></codeline>
 <codeline lineno="265"><highlight class="normal"></highlight></codeline>
 <codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>construct<sp/>system_error<sp/>using<sp/>`gai_strerror`<sp/>function</highlight><highlight class="normal"></highlight></codeline>
@@ -359,8 +359,8 @@
 <codeline lineno="269"><highlight class="normal"></highlight></codeline>
 <codeline lineno="270"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolve(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>addrinfo&amp;<sp/>hint,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>czstring_host<sp/>name,<sp/>czstring_serv<sp/>serv)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
-<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<sp/>enumerable&lt;sockaddr&gt;<sp/>{</highlight></codeline>
-<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>enumerable&lt;sockaddr&gt;<sp/>g{};</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<sp/><ref refid="classcoro_1_1enumerable" kindref="compound">enumerable&lt;sockaddr&gt;</ref><sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1enumerable" kindref="compound">enumerable&lt;sockaddr&gt;</ref><sp/>g{};</highlight></codeline>
 <codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ec<sp/>=<sp/>resolve(g,<sp/>hint,<sp/>name,<sp/>serv))<sp/>{</highlight></codeline>
 <codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>resolve_error(ec);</highlight></codeline>
 <codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>

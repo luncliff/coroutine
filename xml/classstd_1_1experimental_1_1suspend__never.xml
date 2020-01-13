@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classstd_1_1experimental_1_1suspend__never" kind="class" language="C++" prot="public">
     <compoundname>std::experimental::suspend_never</compoundname>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classstd_1_1experimental_1_1suspend__never_1af3ad1c874a9bd3160fee7da2d45ef86c" prot="public" static="no" constexpr="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classstd_1_1experimental_1_1suspend__never_1af3ad1c874a9bd3160fee7da2d45ef86c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>constexpr bool</type>
         <definition>constexpr bool std::experimental::suspend_never::await_ready</definition>
         <argsstring>() const noexcept</argsstring>
@@ -14,9 +14,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="401" column="20" bodyfile="interface/coroutine/frame.h" bodystart="401" bodyend="403"/>
+        <location file="interface/coroutine/frame.h" line="401" column="1" bodyfile="interface/coroutine/frame.h" bodystart="401" bodyend="403"/>
       </memberdef>
-      <memberdef kind="function" id="classstd_1_1experimental_1_1suspend__never_1a7754430540e2b8a0a7513ad57e44a0a7" prot="public" static="no" constexpr="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classstd_1_1experimental_1_1suspend__never_1a7754430540e2b8a0a7513ad57e44a0a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>constexpr void</type>
         <definition>constexpr void std::experimental::suspend_never::await_resume</definition>
         <argsstring>() const noexcept</argsstring>
@@ -27,9 +27,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="404" column="20" bodyfile="interface/coroutine/frame.h" bodystart="404" bodyend="405"/>
+        <location file="interface/coroutine/frame.h" line="404" column="1" bodyfile="interface/coroutine/frame.h" bodystart="404" bodyend="405"/>
       </memberdef>
-      <memberdef kind="function" id="classstd_1_1experimental_1_1suspend__never_1a0064e54a38e05222f0dd2395229d3afd" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classstd_1_1experimental_1_1suspend__never_1a0064e54a38e05222f0dd2395229d3afd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
         <definition>void std::experimental::suspend_never::await_suspend</definition>
         <argsstring>(coroutine_handle&lt; void &gt;) const noexcept</argsstring>
@@ -43,14 +43,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="406" column="10" bodyfile="interface/coroutine/frame.h" bodystart="406" bodyend="408"/>
+        <location file="interface/coroutine/frame.h" line="406" column="1" bodyfile="interface/coroutine/frame.h" bodystart="406" bodyend="408"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="399" column="20" bodyfile="interface/coroutine/frame.h" bodystart="399" bodyend="409"/>
+    <location file="interface/coroutine/frame.h" line="399" column="1" bodyfile="interface/coroutine/frame.h" bodystart="399" bodyend="409"/>
     <listofallmembers>
       <member refid="classstd_1_1experimental_1_1suspend__never_1af3ad1c874a9bd3160fee7da2d45ef86c" prot="public" virt="non-virtual"><scope>std::experimental::suspend_never</scope><name>await_ready</name></member>
       <member refid="classstd_1_1experimental_1_1suspend__never_1a7754430540e2b8a0a7513ad57e44a0a7" prot="public" virt="non-virtual"><scope>std::experimental::suspend_never</scope><name>await_resume</name></member>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="strided__span__tests_8cpp" kind="file" language="C++">
     <compoundname>strided_span_tests.cpp</compoundname>
     <includes local="no">catch/catch.hpp</includes>
@@ -12,54 +12,54 @@
     <includes local="no">type_traits</includes>
     <includes local="no">vector</includes>
     <incdepgraph>
-      <node id="1">
-        <label>external/guideline/tests/strided_span_tests.cpp</label>
-        <link refid="strided__span__tests_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-      </node>
-      <node id="7">
+      <node id="98">
         <label>iterator</label>
       </node>
-      <node id="5">
+      <node id="96">
         <label>gsl/multi_span</label>
       </node>
-      <node id="2">
+      <node id="93">
         <label>catch/catch.hpp</label>
       </node>
-      <node id="8">
+      <node id="99">
         <label>numeric</label>
       </node>
-      <node id="10">
+      <node id="101">
         <label>vector</label>
       </node>
-      <node id="6">
+      <node id="97">
         <label>iostream</label>
       </node>
-      <node id="3">
+      <node id="94">
         <label>gsl/gsl_byte</label>
       </node>
-      <node id="4">
+      <node id="95">
         <label>gsl/gsl_util</label>
       </node>
-      <node id="9">
+      <node id="100">
         <label>type_traits</label>
+      </node>
+      <node id="92">
+        <label>external/guideline/tests/strided_span_tests.cpp</label>
+        <link refid="strided_span_tests.cpp"/>
+        <childnode refid="93" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
+        <childnode refid="96" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+        <childnode refid="100" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacegsl">gsl</innernamespace>
@@ -79,7 +79,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="602" column="17" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="603" bodyend="-1"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="602" column="1" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="603" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="strided__span__tests_8cpp_1abd85c2070160672d8f9ae58a7b98e2b9" prot="public" static="no" mutable="no">
         <type>auto</type>
@@ -93,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="610" column="10" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="610" bodyend="-1"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="610" column="1" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="610" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="strided__span__tests_8cpp_1ae40354a1051342eb5a9db005715dcfa9" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="620" column="9" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="620" bodyend="-1"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="620" column="1" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="620" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="strided__span__tests_8cpp_1abebb816f1b612415d9f6e74155b4db41" prot="public" static="no" mutable="no">
         <type></type>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="667" column="3" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="667" bodyend="-1"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="667" column="1" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="667" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="strided__span__tests_8cpp_1a3b6996a985dd29521083047be6139165" prot="public" static="no" mutable="no">
         <type>auto</type>
@@ -134,7 +134,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="670" column="10" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="670" bodyend="-1"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="670" column="1" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="670" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="strided__span__tests_8cpp_1acb559820d9ca11295b4500f179ef6392" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -148,7 +148,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="686" column="9" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="686" bodyend="-1"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="686" column="1" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="686" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -201,10 +201,10 @@
         </inbodydescription>
         <location file="external/guideline/tests/strided_span_tests.cpp" line="89" column="1" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="89" bodyend="288"/>
       </memberdef>
-      <memberdef kind="function" id="strided__span__tests_8cpp_1a874ea93cf77b333d1e18cb7306093e5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="strided__span__tests_8cpp_1a3761275e447960c3d95397bbf0c1d190" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>strided_span&lt; int, 1 &gt; strided &amp;</type>
         <definition>strided_span&lt;int, 1&gt; strided&amp; av</definition>
-        <argsstring>()[1], av.size() - 1, bounds</argsstring>
+        <argsstring>()[1], av.size()-1, bounds</argsstring>
         <name>av</name>
         <briefdescription>
         </briefdescription>
@@ -212,7 +212,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="612" column="18" declfile="external/guideline/tests/strided_span_tests.cpp" declline="612" declcolumn="18"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="612" column="1"/>
       </memberdef>
       <memberdef kind="function" id="strided__span__tests_8cpp_1a22cfee31c9663e304a7edaba6d461239" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -231,7 +231,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="614" column="5" declfile="external/guideline/tests/strided_span_tests.cpp" declline="614" declcolumn="5"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="614" column="1"/>
       </memberdef>
       <memberdef kind="function" id="strided__span__tests_8cpp_1a1aaf96f3948e89a7dfa288b2dbbac567" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -250,7 +250,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="615" column="5" declfile="external/guideline/tests/strided_span_tests.cpp" declline="615" declcolumn="5"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="615" column="1"/>
       </memberdef>
       <memberdef kind="function" id="strided__span__tests_8cpp_1a624c1640611e2b3a6d080665e00a2edd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -263,15 +263,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="616" column="5" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="616" bodyend="618"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="616" column="1" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="616" bodyend="618"/>
       </memberdef>
-      <memberdef kind="function" id="strided__span__tests_8cpp_1acf6b466c3fc2bdb4b4280ac3515599fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="strided__span__tests_8cpp_1a90f139dbe41ff68071356298a45586c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>for</definition>
-        <argsstring>(auto num :strided)</argsstring>
+        <argsstring>(auto num:strided)</argsstring>
         <name>for</name>
         <param>
-          <type>auto num :strided</type>
+          <type>auto num:strided</type>
         </param>
         <briefdescription>
         </briefdescription>
@@ -279,15 +279,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="621" column="5" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="621" bodyend="624"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="621" column="1" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="621" bodyend="624"/>
       </memberdef>
-      <memberdef kind="function" id="strided__span__tests_8cpp_1aea1e88517116195c911208177957a252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="strided__span__tests_8cpp_1a81535d501c5f5a7dc216014dd8725916" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>for</definition>
-        <argsstring>(const auto num :section)</argsstring>
+        <argsstring>(const auto num:section)</argsstring>
         <name>for</name>
         <param>
-          <type>const auto num :section</type>
+          <type>const auto num:section</type>
         </param>
         <briefdescription>
         </briefdescription>
@@ -295,7 +295,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/strided_span_tests.cpp" line="687" column="5" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="687" bodyend="690"/>
+        <location file="external/guideline/tests/strided_span_tests.cpp" line="687" column="1" bodyfile="external/guideline/tests/strided_span_tests.cpp" bodystart="687" bodyend="690"/>
       </memberdef>
       <memberdef kind="function" id="strided__span__tests_8cpp_1aa2645a7f498360ce8079484bf4f00b95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -359,12 +359,12 @@
 <codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>for<sp/>integral_constant&lt;&gt;::value,<sp/>is_convertible</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="41"><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">gsl<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacegsl" kindref="compound">gsl</ref><sp/>{</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">fail_fast;</highlight></codeline>
 <codeline lineno="44"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gsl</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">gsl;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacegsl" kindref="compound">gsl</ref>;</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"></highlight></codeline>
 <codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">namespace</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="50"><highlight class="normal">{</highlight></codeline>
@@ -1037,7 +1037,7 @@
 <codeline lineno="717"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>height<sp/>=<sp/>12,<sp/>width<sp/>=<sp/>2;</highlight></codeline>
 <codeline lineno="718"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>size<sp/>=<sp/>height<sp/>*<sp/>width;</highlight></codeline>
 <codeline lineno="719"><highlight class="normal"></highlight></codeline>
-<codeline lineno="720"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>arr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">[static_cast&lt;std::size_t&gt;(size)];</highlight></codeline>
+<codeline lineno="720"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>arr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(size)];</highlight></codeline>
 <codeline lineno="721"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>size;<sp/>++i)<sp/>{</highlight></codeline>
 <codeline lineno="722"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>arr[i]<sp/>=<sp/>i;</highlight></codeline>
 <codeline lineno="723"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -1080,9 +1080,9 @@
 <codeline lineno="760"><highlight class="normal"></highlight></codeline>
 <codeline lineno="761"><highlight class="normal"><sp/><sp/><sp/><sp/>X<sp/>arr[4]<sp/>=<sp/>{{0,<sp/>1,<sp/>2},<sp/>{3,<sp/>4,<sp/>5},<sp/>{6,<sp/>7,<sp/>8},<sp/>{9,<sp/>10,<sp/>11}};</highlight></codeline>
 <codeline lineno="762"><highlight class="normal"></highlight></codeline>
-<codeline lineno="763"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>s<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(int)<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">byte</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="763"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>s<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(int)<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(byte);</highlight></codeline>
 <codeline lineno="764"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d2<sp/>=<sp/>3<sp/>*<sp/>s;</highlight></codeline>
-<codeline lineno="765"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d1<sp/>=<sp/>narrow_cast&lt;int&gt;(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">))<sp/>*<sp/>12<sp/>/<sp/>d2;</highlight></codeline>
+<codeline lineno="765"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d1<sp/>=<sp/>narrow_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(int))<sp/>*<sp/>12<sp/>/<sp/>d2;</highlight></codeline>
 <codeline lineno="766"><highlight class="normal"></highlight></codeline>
 <codeline lineno="767"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>convert<sp/>to<sp/>4x12<sp/>array<sp/>of<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="768"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>av<sp/>=<sp/>as_multi_span(as_bytes(as_multi_span(&amp;arr[0],<sp/>4)),<sp/>dim(d1),<sp/>dim(d2));</highlight></codeline>

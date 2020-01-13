@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="test_8cpp" kind="file" language="C++">
     <compoundname>test.cpp</compoundname>
     <includes local="no">catch/catch.hpp</includes>
     <incdepgraph>
-      <node id="2">
-        <label>catch/catch.hpp</label>
-      </node>
-      <node id="1">
+      <node id="116">
         <label>external/guideline/tests/test.cpp</label>
-        <link refid="test_8cpp"/>
-        <childnode refid="2" relation="include">
+        <link refid="test.cpp"/>
+        <childnode refid="117" relation="include">
         </childnode>
+      </node>
+      <node id="117">
+        <label>catch/catch.hpp</label>
       </node>
     </incdepgraph>
       <sectiondef kind="define">

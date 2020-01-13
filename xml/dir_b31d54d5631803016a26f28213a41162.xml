@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="dir_b31d54d5631803016a26f28213a41162" kind="dir">
     <compoundname>interface</compoundname>
     <innerdir refid="dir_9b61234ab8cba81e3caae75634773f62">interface/coroutine</innerdir>

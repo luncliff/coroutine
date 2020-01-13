@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.16">
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.11">
   <compound refid="structcoro_1_1bypass__lock" kind="struct"><name>coro::bypass_lock</name>
     <member refid="structcoro_1_1bypass__lock_1a9069d6262eb50d8ea8b113e6cbc09575" kind="function"><name>try_lock</name></member>
     <member refid="structcoro_1_1bypass__lock_1a7fc833c99d35b41e2798feb347b1d951" kind="function"><name>lock</name></member>
@@ -36,12 +36,13 @@
     <member refid="classstd_1_1experimental_1_1coroutine__handle_1aa6d09ecbb759391a485814cbcf29c9a6" kind="typedef"><name>promise_type</name></member>
     <member refid="classstd_1_1experimental_1_1coroutine__handle_1ae82bd2ef38ef317c7cea3c5e645b17c6" kind="function"><name>from_frame</name></member>
     <member refid="classstd_1_1experimental_1_1coroutine__handle_1ab78f9d5a21820ed3e34dda3189450ea9" kind="function"><name>operator=</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_1ab2ccb4573eb9ae4e60149daac99a6261" kind="function"><name>promise</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_1aa50f07f3445dbfe442eac3f1dba29575" kind="function"><name>promise</name></member>
+    <member refid="classstd_1_1experimental_1_1coroutine__handle_1a2ca267e94ef0885b578c63ba634d89fd" kind="function"><name>promise</name></member>
+    <member refid="classstd_1_1experimental_1_1coroutine__handle_1a77abdab694dcf7246042d54a94e86234" kind="function"><name>promise</name></member>
     <member refid="classstd_1_1experimental_1_1coroutine__handle_1ad100f808f737bc0e487007678dc933c4" kind="function"><name>from_address</name></member>
     <member refid="classstd_1_1experimental_1_1coroutine__handle_1a9a25f06db61142e7be4f6418b04de246" kind="function"><name>from_promise</name></member>
   </compound>
   <compound refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4" kind="class"><name>std::experimental::coroutine_handle&lt; noop_coroutine_promise &gt;</name>
+    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1aeb47c9fa622a2d0e73bfbca18f98ff7a" kind="variable"><name>v</name></member>
     <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a8fafcf4a2736bebb941def74b0d4fc64" kind="function"><name>coroutine_handle</name></member>
     <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a06d7817af4083ffd2294170d44bb3047" kind="function"><name>operator bool</name></member>
     <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a4eb3b3c62336eba294792dd182bef7d6" kind="function"><name>done</name></member>
@@ -71,11 +72,11 @@
   <compound refid="structstd_1_1experimental_1_1coroutine__traits" kind="struct"><name>std::experimental::coroutine_traits</name>
     <member refid="structstd_1_1experimental_1_1coroutine__traits_1a89b8abe24d6a2e8636d2bb7e026b4196" kind="typedef"><name>promise_type</name></member>
   </compound>
-  <compound refid="struct_custom_ptr" kind="struct"><name>CustomPtr</name>
-    <member refid="struct_custom_ptr_1a3d7cbc9f1a2ba51a9c2fb819acb8955c" kind="variable"><name>p_</name></member>
-    <member refid="struct_custom_ptr_1a33d9b42cfaf6cc6bd38ec9516d084672" kind="function"><name>CustomPtr</name></member>
-    <member refid="struct_custom_ptr_1a72e3480bc1d07b5f51cfee87a00b8483" kind="function"><name>operator T*</name></member>
-    <member refid="struct_custom_ptr_1a142dc4845d552d6fa07fd702744a8971" kind="function"><name>operator!=</name></member>
+  <compound refid="structCustomPtr" kind="struct"><name>CustomPtr</name>
+    <member refid="structCustomPtr_1a3d7cbc9f1a2ba51a9c2fb819acb8955c" kind="variable"><name>p_</name></member>
+    <member refid="structCustomPtr_1a33d9b42cfaf6cc6bd38ec9516d084672" kind="function"><name>CustomPtr</name></member>
+    <member refid="structCustomPtr_1a59b18afa7900e0483b598a88cd2d3e20" kind="function"><name>operator T *</name></member>
+    <member refid="structCustomPtr_1ad00e95e12ae956228b9d75ee88dcdf5a" kind="function"><name>operator!=</name></member>
   </compound>
   <compound refid="structcoro_1_1darwin__event" kind="struct"><name>coro::darwin_event</name>
     <member refid="structcoro_1_1darwin__event_1a08bd6dc782c5db0185316089486bea63" kind="variable"><name>sd</name></member>
@@ -196,16 +197,16 @@
     <member refid="structmsvc__frame__prefix_1a86df18eaa75a15b102d1e8920870d2ff" kind="variable"><name>index</name></member>
     <member refid="structmsvc__frame__prefix_1aa24c497b63b9d2069c178cb07091409c" kind="variable"><name>flag</name></member>
   </compound>
-  <compound refid="struct_my_base" kind="struct"><name>MyBase</name>
+  <compound refid="structMyBase" kind="struct"><name>MyBase</name>
   </compound>
-  <compound refid="struct_my_derived" kind="struct"><name>MyDerived</name>
+  <compound refid="structMyDerived" kind="struct"><name>MyDerived</name>
   </compound>
-  <compound refid="struct_non_copyable_non_movable" kind="struct"><name>NonCopyableNonMovable</name>
-    <member refid="struct_non_copyable_non_movable_1ac6158be93fae560d3eb76866e999b43c" kind="function"><name>NonCopyableNonMovable</name></member>
-    <member refid="struct_non_copyable_non_movable_1ae703e4b57bc2b31c5a1a595ce1522393" kind="function"><name>NonCopyableNonMovable</name></member>
-    <member refid="struct_non_copyable_non_movable_1af20f4599a87549a42f725047a934b5a8" kind="function"><name>operator=</name></member>
-    <member refid="struct_non_copyable_non_movable_1a59843becd2600f24c94c50479f01ffcf" kind="function"><name>NonCopyableNonMovable</name></member>
-    <member refid="struct_non_copyable_non_movable_1a2e1af14022b8a268721bed0e3f7391c4" kind="function"><name>operator=</name></member>
+  <compound refid="structNonCopyableNonMovable" kind="struct"><name>NonCopyableNonMovable</name>
+    <member refid="structNonCopyableNonMovable_1ac6158be93fae560d3eb76866e999b43c" kind="function"><name>NonCopyableNonMovable</name></member>
+    <member refid="structNonCopyableNonMovable_1ae703e4b57bc2b31c5a1a595ce1522393" kind="function"><name>NonCopyableNonMovable</name></member>
+    <member refid="structNonCopyableNonMovable_1af20f4599a87549a42f725047a934b5a8" kind="function"><name>operator=</name></member>
+    <member refid="structNonCopyableNonMovable_1a59843becd2600f24c94c50479f01ffcf" kind="function"><name>NonCopyableNonMovable</name></member>
+    <member refid="structNonCopyableNonMovable_1a2e1af14022b8a268721bed0e3f7391c4" kind="function"><name>operator=</name></member>
   </compound>
   <compound refid="structstd_1_1experimental_1_1noop__coroutine__promise" kind="struct"><name>std::experimental::noop_coroutine_promise</name>
   </compound>
@@ -287,10 +288,10 @@
     <member refid="classcoro_1_1reader_1acb83e8badffecbd9215745c594a11f66" kind="function"><name>await_suspend</name></member>
     <member refid="classcoro_1_1reader_1aa2dc7ae346429d572c59f97fb97586c2" kind="function"><name>await_resume</name></member>
   </compound>
-  <compound refid="struct_ref_counted" kind="struct"><name>RefCounted</name>
-    <member refid="struct_ref_counted_1a5486e2d0954f6462a8619cabfaf8fb27" kind="variable"><name>p_</name></member>
-    <member refid="struct_ref_counted_1a8bf5bb3a0224a47321f037c7fd67dd7e" kind="function"><name>RefCounted</name></member>
-    <member refid="struct_ref_counted_1af2c476a22394d788e365eb7d2bb38fe8" kind="function"><name>operator T*</name></member>
+  <compound refid="structRefCounted" kind="struct"><name>RefCounted</name>
+    <member refid="structRefCounted_1a5486e2d0954f6462a8619cabfaf8fb27" kind="variable"><name>p_</name></member>
+    <member refid="structRefCounted_1a8bf5bb3a0224a47321f037c7fd67dd7e" kind="function"><name>RefCounted</name></member>
+    <member refid="structRefCounted_1a80059c52865724ef71265a1fc3a7baca" kind="function"><name>operator T *</name></member>
   </compound>
   <compound refid="classstd_1_1experimental_1_1suspend__always" kind="class"><name>std::experimental::suspend_always</name>
     <member refid="classstd_1_1experimental_1_1suspend__always_1aac17bbdbc141b9c3dbee8469804fc1dc" kind="function"><name>await_ready</name></member>
@@ -302,7 +303,7 @@
     <member refid="classstd_1_1experimental_1_1suspend__never_1a7754430540e2b8a0a7513ad57e44a0a7" kind="function"><name>await_resume</name></member>
     <member refid="classstd_1_1experimental_1_1suspend__never_1a0064e54a38e05222f0dd2395229d3afd" kind="function"><name>await_suspend</name></member>
   </compound>
-  <compound refid="struct_unrelated" kind="struct"><name>Unrelated</name>
+  <compound refid="structUnrelated" kind="struct"><name>Unrelated</name>
   </compound>
   <compound refid="classcoro_1_1writer" kind="class"><name>coro::writer</name>
     <member refid="classcoro_1_1writer_1a1452c1b29a1eb95e8d71053b42b200f2" kind="typedef"><name>value_type</name></member>
@@ -332,15 +333,15 @@
     <member refid="classcoro_1_1writer_1a2ea9de7ab0feb35e876eeac2bd586704" kind="function"><name>await_suspend</name></member>
     <member refid="classcoro_1_1writer_1a44318a41cddbfe6cd1819deeb17cb7bb" kind="function"><name>await_resume</name></member>
   </compound>
-  <compound refid="namespace_0d11" kind="namespace"><name>@11</name>
+  <compound refid="namespace_0D10" kind="namespace"><name>@10</name>
   </compound>
-  <compound refid="namespace_0d13" kind="namespace"><name>@13</name>
+  <compound refid="namespace_0D12" kind="namespace"><name>@12</name>
   </compound>
-  <compound refid="namespace_0d4" kind="namespace"><name>@4</name>
+  <compound refid="namespace_0D3" kind="namespace"><name>@3</name>
   </compound>
-  <compound refid="namespace_0d5" kind="namespace"><name>@5</name>
+  <compound refid="namespace_0D4" kind="namespace"><name>@4</name>
   </compound>
-  <compound refid="namespace_0d6" kind="namespace"><name>@6</name>
+  <compound refid="namespace_0D5" kind="namespace"><name>@5</name>
   </compound>
   <compound refid="namespacecoro" kind="namespace"><name>coro</name>
     <member refid="net_8h_1a6b4d8b23b13890de7209b4439dbe7675" kind="typedef"><name>io_task_t</name></member>
@@ -355,7 +356,7 @@
     <member refid="io__linux_8cpp_1a88274bb060b5d19a9d0984d609fa8587" kind="variable"><name>inbound</name></member>
     <member refid="io__linux_8cpp_1a3a33676583ef092ce05d6aeed2c81b32" kind="variable"><name>outbound</name></member>
     <member refid="channel_8hpp_1a63d87ae8cd27ef6af053b2012e14b8bc" kind="function"><name>select</name></member>
-    <member refid="channel_8hpp_1adaac60d53bf528369c2cbf20c0b05c31" kind="function"><name>select</name></member>
+    <member refid="channel_8hpp_1afed570d52b7e624ce887594a76fa2a38" kind="function"><name>select</name></member>
     <member refid="net_8h_1a31d5a4a545024c3c24e6f5204537307b" kind="function"><name>send_to</name></member>
     <member refid="net_8h_1ae85ec53584de7c5275cf85e7913316eb" kind="function"><name>send_to</name></member>
     <member refid="net_8h_1ace516cdc1f8b51596ba7a406190182eb" kind="function"><name>recv_from</name></member>
@@ -365,7 +366,7 @@
     <member refid="net_8h_1af3bc33fbcf57637a812334cabe8e4e19" kind="function"><name>wait_net_tasks</name></member>
     <member refid="net_8h_1abb2d455ad4df2f4fc43d516803892c1d" kind="function"><name>wait_net_tasks</name></member>
     <member refid="net_8h_1a0b503261a300525ba16f8b4e576e17a5" kind="function"><name>resolve</name></member>
-    <member refid="net_8h_1ac98b95643cd1198733a686f4c2bb9a1c" kind="function"><name>resolve_error</name></member>
+    <member refid="net_8h_1aefb3480ba01b81ab77676f8e4b7ffbb2" kind="function"><name>resolve_error</name></member>
     <member refid="net_8h_1af8bb73fbd0e46818d3c79530cfd73955" kind="function"><name>resolve</name></member>
     <member refid="net_8h_1a31de141f201ee316e7e7647de235464a" kind="function"><name>get_name</name></member>
     <member refid="net_8h_1ae745b9fdc387085a5bb2383b74ccb504" kind="function"><name>get_name</name></member>
@@ -382,9 +383,9 @@
     <member refid="io__windows_8cpp_1a235ed77379aa523e6a1c7596601e7129" kind="function"><name>onWorkDone</name></member>
     <member refid="io__windows_8cpp_1aaa874db68805b8dd64c59b7727648a17" kind="function"><name>get_io_error</name></member>
     <member refid="io__windows_8cpp_1afdc260d04de2933c90bdc26d9bd09768" kind="function"><name>get_io_length</name></member>
-    <member refid="io__windows_8cpp_1a646229324cc07deaa99ad73b3776ab9c" kind="function"><name>zero_overlapped</name></member>
-    <member refid="io__windows_8cpp_1a596120d7a665644d4d841b1345d5b6a3" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="resolver_8cpp_1acc04f476cdb2eff58a9465188f5014b0" kind="function"><name>enumerate_addrinfo</name></member>
+    <member refid="io__windows_8cpp_1a382624f87cab31808c4bb1565cef08c4" kind="function"><name>zero_overlapped</name></member>
+    <member refid="io__windows_8cpp_1aeebb761b70e474419a62f56419402531" kind="function"><name>GSL_SUPPRESS</name></member>
+    <member refid="resolver_8cpp_1a92c9a83d182f38fe315384a5eff8b731" kind="function"><name>enumerate_addrinfo</name></member>
     <member refid="pthread_8cpp_1ace94a5be399e660811ba950ba1686cdc" kind="function"><name>coroutine_pthread_resume</name></member>
     <member refid="win32__thread__pool_8cpp_1af6f7397c971ca11e32a5de076f5a2abf" kind="function"><name>get_threads_of</name></member>
   </compound>
@@ -410,21 +411,6 @@
     <member refid="frame_8h_1a6d55bc3fb1700c4f6ed95c24ba7e91bb" kind="function"><name>operator&lt;=</name></member>
     <member refid="frame_8h_1a279287d45bcdbc54be630cefcc73d854" kind="function"><name>operator&gt;=</name></member>
     <member refid="frame_8h_1a6fb7945da7b9ad20181e92a97e44ae7f" kind="function"><name>noop_coroutine</name></member>
-  </compound>
-  <compound refid="_c_make_c_x_x_compiler_id_8cpp" kind="file"><name>CMakeCXXCompilerId.cpp</name>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a81dee0709ded976b2e0319239f72d174" kind="define"><name>COMPILER_ID</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a2ae9b72bb13abaabfcf2ee0ba7d3fa1d" kind="define"><name>STRINGIFY_HELPER</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a43e1cad902b6477bec893cb6430bd6c8" kind="define"><name>STRINGIFY</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1adbc5372f40838899018fadbc89bd588b" kind="define"><name>PLATFORM_ID</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1aba35d0d200deaeb06aee95ca297acb28" kind="define"><name>ARCHITECTURE_ID</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1ad1280362da42492bbc11aa78cbf776ad" kind="define"><name>DEC</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a46d5d95daa1bef867bd0179594310ed5" kind="define"><name>HEX</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a34cc889e576a1ae6c84ae9e0a851ba21" kind="define"><name>CXX_STD</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a4b0efeb7a5d59313986b3a0390f050f6" kind="variable"><name>info_compiler</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a2321403dee54ee23f0c2fa849c60f7d4" kind="variable"><name>info_platform</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a59647e99d304ed33b15cb284c27ed391" kind="variable"><name>info_arch</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a1ce162bad2fe6966ac8b33cc19e120b8" kind="variable"><name>info_language_dialect_default</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" kind="function"><name>main</name></member>
   </compound>
   <compound refid="algorithm__tests_8cpp" kind="file"><name>algorithm_tests.cpp</name>
     <member refid="algorithm__tests_8cpp_1aad0dd059f1216c0e076e8f3d97c987a3" kind="function"><name>GSL_SUPPRESS</name></member>
@@ -464,9 +450,9 @@
     <member refid="multi__span__tests_8cpp_1a148949ac6f9b0e68aff5a8308e54d936" kind="function"><name>for</name></member>
     <member refid="multi__span__tests_8cpp_1a572d07051297237446f23c0f2d90eb31" kind="function"><name>CHECK</name></member>
     <member refid="multi__span__tests_8cpp_1a8663bccfa5cb54d3de7f86d97dcb275d" kind="function"><name>CHECK</name></member>
-    <member refid="multi__span__tests_8cpp_1a33e46dbbe644ac0bf6728d50cb6cda5c" kind="function"><name>for</name></member>
+    <member refid="multi__span__tests_8cpp_1a58e0a20d81947e65d0ab47d13f5ac7b7" kind="function"><name>for</name></member>
     <member refid="multi__span__tests_8cpp_1af91dcc498ca50969cc3124f44e850d10" kind="function"><name>CHECK</name></member>
-    <member refid="multi__span__tests_8cpp_1a6f7ac9761244c5c527ab085529e61f3e" kind="function"><name>for</name></member>
+    <member refid="multi__span__tests_8cpp_1a219b7b4412198f779ea187e3b39af5ae" kind="function"><name>for</name></member>
   </compound>
   <compound refid="no__exception__ensure__tests_8cpp" kind="file"><name>no_exception_ensure_tests.cpp</name>
     <member refid="no__exception__ensure__tests_8cpp_1acc45b46d9a1370848749beaee2b64db3" kind="function"><name>operator_subscript_no_throw</name></member>
@@ -524,12 +510,12 @@
     <member refid="strided__span__tests_8cpp_1a0ddce587e9b840dedd2a3e5899685d8d" kind="function"><name>TEST_CASE</name></member>
     <member refid="strided__span__tests_8cpp_1ac09b7c631df16725813203851bb9ae34" kind="function"><name>TEST_CASE</name></member>
     <member refid="strided__span__tests_8cpp_1afdc55acb2e0776ae7dbd3b316236fe2d" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="strided__span__tests_8cpp_1a874ea93cf77b333d1e18cb7306093e5c" kind="function"><name>av</name></member>
+    <member refid="strided__span__tests_8cpp_1a3761275e447960c3d95397bbf0c1d190" kind="function"><name>av</name></member>
     <member refid="strided__span__tests_8cpp_1a22cfee31c9663e304a7edaba6d461239" kind="function"><name>CHECK</name></member>
     <member refid="strided__span__tests_8cpp_1a1aaf96f3948e89a7dfa288b2dbbac567" kind="function"><name>CHECK</name></member>
     <member refid="strided__span__tests_8cpp_1a624c1640611e2b3a6d080665e00a2edd" kind="function"><name>for</name></member>
-    <member refid="strided__span__tests_8cpp_1acf6b466c3fc2bdb4b4280ac3515599fa" kind="function"><name>for</name></member>
-    <member refid="strided__span__tests_8cpp_1aea1e88517116195c911208177957a252" kind="function"><name>for</name></member>
+    <member refid="strided__span__tests_8cpp_1a90f139dbe41ff68071356298a45586c3" kind="function"><name>for</name></member>
+    <member refid="strided__span__tests_8cpp_1a81535d501c5f5a7dc216014dd8725916" kind="function"><name>for</name></member>
     <member refid="strided__span__tests_8cpp_1aa2645a7f498360ce8079484bf4f00b95" kind="function"><name>GSL_SUPPRESS</name></member>
   </compound>
   <compound refid="string__span__tests_8cpp" kind="file"><name>string_span_tests.cpp</name>
@@ -636,12 +622,6 @@
   <compound refid="pthread_8cpp" kind="file"><name>pthread.cpp</name>
   </compound>
   <compound refid="win32__thread__pool_8cpp" kind="file"><name>win32_thread_pool.cpp</name>
-  </compound>
-  <compound refid="dir_b914448c048576ce1ed2e0ee762ff30c" kind="dir"><name>CMakeFiles/3.16.1</name>
-  </compound>
-  <compound refid="dir_017ad5e908c41501f6a06b5119b37293" kind="dir"><name>CMakeFiles</name>
-  </compound>
-  <compound refid="dir_ca2145c691e612cf00f5f2c7c7d8369b" kind="dir"><name>CMakeFiles/3.16.1/CompilerIdCXX</name>
   </compound>
   <compound refid="dir_efd85e361fabb3b869a38eac7e59b342" kind="dir"><name>modules/concrt</name>
   </compound>

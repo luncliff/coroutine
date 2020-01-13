@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classstd_1_1experimental_1_1coroutine__handle" kind="class" language="C++" prot="public">
     <compoundname>std::experimental::coroutine_handle</compoundname>
     <templateparamlist>
@@ -21,11 +21,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="253" column="5" bodyfile="interface/coroutine/frame.h" bodystart="253" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="253" column="1" bodyfile="interface/coroutine/frame.h" bodystart="253" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
-      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1ae82bd2ef38ef317c7cea3c5e645b17c6" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1ae82bd2ef38ef317c7cea3c5e645b17c6" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>promise_type *</type>
         <definition>static promise_type* std::experimental::coroutine_handle&lt; PromiseType &gt;::from_frame</definition>
         <argsstring>(prefix_t addr) noexcept</argsstring>
@@ -40,11 +40,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="256" column="25" bodyfile="interface/coroutine/frame.h" bodystart="256" bodyend="277"/>
+        <location file="interface/coroutine/frame.h" line="256" column="1" bodyfile="interface/coroutine/frame.h" bodystart="256" bodyend="277"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1ab78f9d5a21820ed3e34dda3189450ea9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1ab78f9d5a21820ed3e34dda3189450ea9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref> &amp;</type>
         <definition>coroutine_handle&amp; std::experimental::coroutine_handle&lt; PromiseType &gt;::operator=</definition>
         <argsstring>(nullptr_t) noexcept</argsstring>
@@ -58,12 +58,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="282" column="22" bodyfile="interface/coroutine/frame.h" bodystart="282" bodyend="285"/>
+        <location file="interface/coroutine/frame.h" line="282" column="1" bodyfile="interface/coroutine/frame.h" bodystart="282" bodyend="285"/>
       </memberdef>
-      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1ab2ccb4573eb9ae4e60149daac99a6261" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1a2ca267e94ef0885b578c63ba634d89fd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>auto</type>
         <definition>auto std::experimental::coroutine_handle&lt; PromiseType &gt;::promise</definition>
-        <argsstring>() const noexcept -&gt; const promise_type &amp;</argsstring>
+        <argsstring>() const noexcept-&gt; const promise_type &amp;</argsstring>
         <name>promise</name>
         <briefdescription>
         </briefdescription>
@@ -71,12 +71,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="286" column="10" bodyfile="interface/coroutine/frame.h" bodystart="286" bodyend="289"/>
+        <location file="interface/coroutine/frame.h" line="286" column="1" bodyfile="interface/coroutine/frame.h" bodystart="286" bodyend="289"/>
       </memberdef>
-      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1aa50f07f3445dbfe442eac3f1dba29575" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1a77abdab694dcf7246042d54a94e86234" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>auto</type>
         <definition>auto std::experimental::coroutine_handle&lt; PromiseType &gt;::promise</definition>
-        <argsstring>() noexcept -&gt; promise_type &amp;</argsstring>
+        <argsstring>() noexcept-&gt; promise_type &amp;</argsstring>
         <name>promise</name>
         <briefdescription>
         </briefdescription>
@@ -84,11 +84,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="290" column="10" bodyfile="interface/coroutine/frame.h" bodystart="290" bodyend="293"/>
+        <location file="interface/coroutine/frame.h" line="290" column="1" bodyfile="interface/coroutine/frame.h" bodystart="290" bodyend="293"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1ad100f808f737bc0e487007678dc933c4" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1ad100f808f737bc0e487007678dc933c4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref></type>
         <definition>static coroutine_handle std::experimental::coroutine_handle&lt; PromiseType &gt;::from_address</definition>
         <argsstring>(void *addr) noexcept</argsstring>
@@ -103,9 +103,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="296" column="29" bodyfile="interface/coroutine/frame.h" bodystart="296" bodyend="300"/>
+        <location file="interface/coroutine/frame.h" line="296" column="1" bodyfile="interface/coroutine/frame.h" bodystart="296" bodyend="300"/>
       </memberdef>
-      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1a9a25f06db61142e7be4f6418b04de246" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1a9a25f06db61142e7be4f6418b04de246" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref></type>
         <definition>static coroutine_handle std::experimental::coroutine_handle&lt; PromiseType &gt;::from_promise</definition>
         <argsstring>(promise_type &amp;prom) noexcept</argsstring>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="302" column="29" bodyfile="interface/coroutine/frame.h" bodystart="302" bodyend="319"/>
+        <location file="interface/coroutine/frame.h" line="302" column="1" bodyfile="interface/coroutine/frame.h" bodystart="302" bodyend="319"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -133,8 +133,8 @@
       <member refid="classstd_1_1experimental_1_1coroutine__handle_1ae82bd2ef38ef317c7cea3c5e645b17c6" prot="private" virt="non-virtual"><scope>std::experimental::coroutine_handle</scope><name>from_frame</name></member>
       <member refid="classstd_1_1experimental_1_1coroutine__handle_1a9a25f06db61142e7be4f6418b04de246" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_handle</scope><name>from_promise</name></member>
       <member refid="classstd_1_1experimental_1_1coroutine__handle_1ab78f9d5a21820ed3e34dda3189450ea9" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_handle</scope><name>operator=</name></member>
-      <member refid="classstd_1_1experimental_1_1coroutine__handle_1ab2ccb4573eb9ae4e60149daac99a6261" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_handle</scope><name>promise</name></member>
-      <member refid="classstd_1_1experimental_1_1coroutine__handle_1aa50f07f3445dbfe442eac3f1dba29575" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_handle</scope><name>promise</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_1a2ca267e94ef0885b578c63ba634d89fd" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_handle</scope><name>promise</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_1a77abdab694dcf7246042d54a94e86234" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_handle</scope><name>promise</name></member>
       <member refid="classstd_1_1experimental_1_1coroutine__handle_1aa6d09ecbb759391a485814cbcf29c9a6" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_handle</scope><name>promise_type</name></member>
     </listofallmembers>
   </compounddef>

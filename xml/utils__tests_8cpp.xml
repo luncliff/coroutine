@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="utils__tests_8cpp" kind="file" language="C++">
     <compoundname>utils_tests.cpp</compoundname>
     <includes local="no">catch/catch.hpp</includes>
@@ -10,44 +10,44 @@
     <includes local="no">stdint.h</includes>
     <includes local="no">type_traits</includes>
     <incdepgraph>
-      <node id="5">
+      <node id="123">
         <label>functional</label>
       </node>
-      <node id="6">
+      <node id="124">
         <label>limits</label>
       </node>
-      <node id="7">
+      <node id="125">
         <label>stdint.h</label>
       </node>
-      <node id="1">
-        <label>external/guideline/tests/utils_tests.cpp</label>
-        <link refid="utils__tests_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="2">
+      <node id="120">
         <label>catch/catch.hpp</label>
       </node>
-      <node id="3">
+      <node id="121">
         <label>gsl/gsl_util</label>
       </node>
-      <node id="8">
+      <node id="126">
         <label>type_traits</label>
       </node>
-      <node id="4">
+      <node id="122">
         <label>algorithm</label>
+      </node>
+      <node id="119">
+        <label>external/guideline/tests/utils_tests.cpp</label>
+        <link refid="utils_tests.cpp"/>
+        <childnode refid="120" relation="include">
+        </childnode>
+        <childnode refid="121" relation="include">
+        </childnode>
+        <childnode refid="122" relation="include">
+        </childnode>
+        <childnode refid="123" relation="include">
+        </childnode>
+        <childnode refid="124" relation="include">
+        </childnode>
+        <childnode refid="125" relation="include">
+        </childnode>
+        <childnode refid="126" relation="include">
+        </childnode>
       </node>
     </incdepgraph>
       <sectiondef kind="var">
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/utils_tests.cpp" line="83" column="12" bodyfile="external/guideline/tests/utils_tests.cpp" bodystart="83" bodyend="-1"/>
+        <location file="external/guideline/tests/utils_tests.cpp" line="83" column="1" bodyfile="external/guideline/tests/utils_tests.cpp" bodystart="83" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -98,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/utils_tests.cpp" line="42" column="6" bodyfile="external/guideline/tests/utils_tests.cpp" bodystart="42" bodyend="42"/>
+        <location file="external/guideline/tests/utils_tests.cpp" line="42" column="1" bodyfile="external/guideline/tests/utils_tests.cpp" bodystart="42" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="utils__tests_8cpp_1ad9db1bfb808106ecd51f8994d921da17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -159,7 +159,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/utils_tests.cpp" line="84" column="6" bodyfile="external/guideline/tests/utils_tests.cpp" bodystart="84" bodyend="84"/>
+        <location file="external/guideline/tests/utils_tests.cpp" line="84" column="1" bodyfile="external/guideline/tests/utils_tests.cpp" bodystart="84" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="utils__tests_8cpp_1acf647eefdbacbcf0be41da326eb92acc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -231,7 +231,7 @@
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>uint32_t,<sp/>int32_t</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>for<sp/>is_same</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">gsl;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacegsl" kindref="compound">gsl</ref>;</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
 <codeline lineno="36"><highlight class="normal">TEST_CASE(</highlight><highlight class="stringliteral">&quot;sanity<sp/>check<sp/>for<sp/>gsl::index<sp/>typedef&quot;</highlight><highlight class="normal">)</highlight></codeline>
 <codeline lineno="37"><highlight class="normal">{</highlight></codeline>
@@ -296,11 +296,11 @@
 <codeline lineno="96"><highlight class="normal">TEST_CASE(&quot;narrow_cast&quot;)</highlight></codeline>
 <codeline lineno="97"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>120;</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>=<sp/>narrow_cast&lt;char&gt;(n);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>=<sp/>narrow_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">&gt;(n);</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>CHECK(c<sp/>==<sp/>120);</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"></highlight></codeline>
 <codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>n<sp/>=<sp/>300;</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>uc<sp/>=<sp/>narrow_cast&lt;unsigned<sp/>char&gt;(n);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>uc<sp/>=<sp/>narrow_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">&gt;(n);</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>CHECK(uc<sp/>==<sp/>44);</highlight></codeline>
 <codeline lineno="105"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="106"><highlight class="normal"></highlight></codeline>

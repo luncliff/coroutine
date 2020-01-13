@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="latch__pthread_8cpp" kind="file" language="C++">
     <compoundname>latch_pthread.cpp</compoundname>
     <includes local="no">cstdio</includes>
@@ -7,50 +7,50 @@
     <includes local="no">system_error</includes>
     <includes refid="concurrency__helper_8h" local="no">concurrency_helper.h</includes>
     <incdepgraph>
-      <node id="6">
+      <node id="185">
         <label>atomic</label>
       </node>
-      <node id="4">
+      <node id="183">
         <label>system_error</label>
       </node>
-      <node id="2">
-        <label>cstdio</label>
-      </node>
-      <node id="8">
-        <label>future</label>
-      </node>
-      <node id="3">
-        <label>ctime</label>
-      </node>
-      <node id="5">
+      <node id="184">
         <label>concurrency_helper.h</label>
         <link refid="concurrency__helper_8h_source"/>
-        <childnode refid="6" relation="include">
+        <childnode refid="185" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="186" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="187" relation="include">
         </childnode>
       </node>
-      <node id="1">
+      <node id="181">
+        <label>cstdio</label>
+      </node>
+      <node id="187">
+        <label>future</label>
+      </node>
+      <node id="182">
+        <label>ctime</label>
+      </node>
+      <node id="180">
         <label>modules/concrt/latch_pthread.cpp</label>
-        <link refid="latch__pthread_8cpp"/>
-        <childnode refid="2" relation="include">
+        <link refid="latch_pthread.cpp"/>
+        <childnode refid="181" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="182" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="183" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="184" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="186">
         <label>chrono</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacestd_1_1chrono">std::chrono</innernamespace>
       <sectiondef kind="func">
-      <memberdef kind="function" id="latch__pthread_8cpp_1a02e043f4cf18d9dbe8d44c6aed535116" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="latch__pthread_8cpp_1a02e043f4cf18d9dbe8d44c6aed535116" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void setup_mutex_attr</definition>
         <argsstring>(pthread_mutexattr_t &amp;attr) noexcept(false)</argsstring>
@@ -65,7 +65,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/concrt/latch_pthread.cpp" line="14" column="6" bodyfile="modules/concrt/latch_pthread.cpp" bodystart="14" bodyend="27"/>
+        <location file="modules/concrt/latch_pthread.cpp" line="14" column="1" bodyfile="modules/concrt/latch_pthread.cpp" bodystart="14" bodyend="27"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -83,8 +83,8 @@
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;concurrency_helper.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1chrono" kindref="compound">std::chrono</ref>;</highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setup_mutex_attr(pthread_mutexattr_t&amp;<sp/>attr)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ec<sp/>=<sp/>pthread_mutexattr_settype(&amp;attr,<sp/>PTHREAD_MUTEX_ERRORCHECK))</highlight></codeline>
@@ -195,7 +195,7 @@
 <codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ec<sp/>==<sp/>0)</highlight></codeline>
 <codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ec<sp/>!=<sp/>ETIMEDOUT)</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{static_cast&lt;int&gt;(ec),<sp/>system_category()};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ec),<sp/>system_category()};</highlight></codeline>
 <codeline lineno="124"><highlight class="normal"></highlight></codeline>
 <codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...<sp/>update<sp/>timeout<sp/>if<sp/>it<sp/>need<sp/>to<sp/>be<sp/>changed<sp/>...</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>

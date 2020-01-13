@@ -1,28 +1,28 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="no__exception__throw__tests_8cpp" kind="file" language="C++">
     <compoundname>no_exception_throw_tests.cpp</compoundname>
     <includes local="no">cstdlib</includes>
     <includes local="no">gsl/gsl_assert</includes>
     <includes local="no">gsl/gsl_util</includes>
     <incdepgraph>
-      <node id="1">
-        <label>external/guideline/tests/no_exception_throw_tests.cpp</label>
-        <link refid="no__exception__throw__tests_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
+      <node id="56">
         <label>gsl/gsl_assert</label>
       </node>
-      <node id="2">
+      <node id="55">
         <label>cstdlib</label>
       </node>
-      <node id="4">
+      <node id="54">
+        <label>external/guideline/tests/no_exception_throw_tests.cpp</label>
+        <link refid="no_exception_throw_tests.cpp"/>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
         <label>gsl/gsl_util</label>
       </node>
     </incdepgraph>
@@ -38,7 +38,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/no_exception_throw_tests.cpp" line="21" column="5" bodyfile="external/guideline/tests/no_exception_throw_tests.cpp" bodystart="21" bodyend="25"/>
+        <location file="external/guideline/tests/no_exception_throw_tests.cpp" line="21" column="1" bodyfile="external/guideline/tests/no_exception_throw_tests.cpp" bodystart="21" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="no__exception__throw__tests_8cpp_1a5b48515c97b543baa61ea7dba266920f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -51,9 +51,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/no_exception_throw_tests.cpp" line="27" column="7" bodyfile="external/guideline/tests/no_exception_throw_tests.cpp" bodystart="27" bodyend="27"/>
+        <location file="external/guideline/tests/no_exception_throw_tests.cpp" line="27" column="1" bodyfile="external/guideline/tests/no_exception_throw_tests.cpp" bodystart="27" bodyend="27"/>
       </memberdef>
-      <memberdef kind="function" id="no__exception__throw__tests_8cpp_1a5db1049dcd956f2f8cf495479e5cd77c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="no__exception__throw__tests_8cpp_1a5db1049dcd956f2f8cf495479e5cd77c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void setup_termination_handler</definition>
         <argsstring>() noexcept</argsstring>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/no_exception_throw_tests.cpp" line="29" column="6" bodyfile="external/guideline/tests/no_exception_throw_tests.cpp" bodystart="29" bodyend="41"/>
+        <location file="external/guideline/tests/no_exception_throw_tests.cpp" line="29" column="1" bodyfile="external/guideline/tests/no_exception_throw_tests.cpp" bodystart="29" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="no__exception__throw__tests_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/no_exception_throw_tests.cpp" line="43" column="5" bodyfile="external/guideline/tests/no_exception_throw_tests.cpp" bodystart="43" bodyend="48"/>
+        <location file="external/guideline/tests/no_exception_throw_tests.cpp" line="43" column="1" bodyfile="external/guideline/tests/no_exception_throw_tests.cpp" bodystart="43" bodyend="48"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

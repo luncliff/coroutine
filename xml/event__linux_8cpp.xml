@@ -1,57 +1,57 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="event__linux_8cpp" kind="file" language="C++">
     <compoundname>event_linux.cpp</compoundname>
     <includes refid="event_8h" local="no">coroutine/event.h</includes>
     <includes local="no">system_error</includes>
     <includes refid="event__poll_8h" local="yes">event_poll.h</includes>
     <incdepgraph>
-      <node id="3">
+      <node id="227">
         <label>system_error</label>
       </node>
-      <node id="4">
+      <node id="230">
+        <label>fcntl.h</label>
+      </node>
+      <node id="228">
         <label>event_poll.h</label>
         <link refid="event__poll_8h_source"/>
-        <childnode refid="2" relation="include">
+        <childnode refid="226" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="229" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="230" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="231" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="232" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="233" relation="include">
         </childnode>
       </node>
-      <node id="2">
+      <node id="225">
+        <label>modules/event/event_linux.cpp</label>
+        <link refid="event_linux.cpp"/>
+        <childnode refid="226" relation="include">
+        </childnode>
+        <childnode refid="227" relation="include">
+        </childnode>
+        <childnode refid="228" relation="include">
+        </childnode>
+      </node>
+      <node id="226">
         <label>coroutine/event.h</label>
         <link refid="event_8h_source"/>
       </node>
-      <node id="6">
-        <label>fcntl.h</label>
-      </node>
-      <node id="1">
-        <label>modules/event/event_linux.cpp</label>
-        <link refid="event__linux_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
+      <node id="233">
         <label>unistd.h</label>
       </node>
-      <node id="8">
+      <node id="232">
         <label>sys/eventfd.h</label>
       </node>
-      <node id="7">
+      <node id="231">
         <label>sys/epoll.h</label>
       </node>
-      <node id="5">
+      <node id="229">
         <label>memory</label>
       </node>
     </incdepgraph>
@@ -70,7 +70,7 @@
 <codeline lineno="7"><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;event_poll.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">coro<sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>signaled<sp/>event<sp/>list.<sp/>it&apos;s<sp/>badly<sp/>named<sp/>to<sp/>prevent<sp/>possible<sp/>collision</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal">event_poll_t<sp/>selist{};</highlight></codeline>
@@ -96,7 +96,7 @@
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>emask<sp/>&amp;<sp/>state;<sp/></highlight><highlight class="comment">//<sp/>msb<sp/>is<sp/>1?</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="35"><highlight class="normal">int64_t<sp/>get_eventfd(uint64_t<sp/>state)<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>static_cast&lt;int64_t&gt;(~emask<sp/>&amp;<sp/>state);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(~emask<sp/>&amp;<sp/>state);</highlight></codeline>
 <codeline lineno="37"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>notify_event(int64_t<sp/>efd)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>signal<sp/>the<sp/>eventfd...</highlight><highlight class="normal"></highlight></codeline>
@@ -137,7 +137,7 @@
 <codeline lineno="74"><highlight class="normal"></highlight></codeline>
 <codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fd<sp/>=<sp/>get_eventfd(state);</highlight></codeline>
 <codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>notify_event(fd);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>it<sp/>didn&apos;t<sp/>throwed</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>state<sp/>=<sp/>emask<sp/>|<sp/>static_cast&lt;uint64_t&gt;(fd);<sp/></highlight><highlight class="comment">//<sp/><sp/>it&apos;s<sp/>signaled<sp/>state<sp/>from<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>state<sp/>=<sp/>emask<sp/>|<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fd);<sp/></highlight><highlight class="comment">//<sp/><sp/>it&apos;s<sp/>signaled<sp/>state<sp/>from<sp/>now</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="78"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="79"><highlight class="normal"></highlight></codeline>
 <codeline lineno="80"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>auto_reset_event::reset()<sp/>noexcept(false)<sp/>{</highlight></codeline>
@@ -146,7 +146,7 @@
 <codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(is_signaled(state))</highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>consume_event(fd);</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>make<sp/>unsignaled<sp/>state</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;state<sp/>=<sp/>static_cast&lt;uint64_t&gt;(fd);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;state<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fd);</highlight></codeline>
 <codeline lineno="87"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight></codeline>
 <codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reference</highlight><highlight class="normal"></highlight></codeline>
@@ -163,7 +163,7 @@
 <codeline lineno="100"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"></highlight></codeline>
 <codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>signaled_event_tasks()<sp/>noexcept(false)</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<sp/>coro::enumerable&lt;coroutine_handle&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;&gt;<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<sp/><ref refid="namespacecoro" kindref="compound">coro</ref>::enumerable&lt;coroutine_handle&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;&gt;<sp/>{</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>coroutine_handle&lt;void&gt;<sp/>t{};</highlight></codeline>
 <codeline lineno="105"><highlight class="normal"></highlight></codeline>
 <codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>notice<sp/>that<sp/>the<sp/>timeout<sp/>is<sp/>zero</highlight><highlight class="normal"></highlight></codeline>

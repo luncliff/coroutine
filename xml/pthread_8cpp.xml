@@ -1,22 +1,22 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="pthread_8cpp" kind="file" language="C++">
     <compoundname>pthread.cpp</compoundname>
     <includes refid="thread_8h" local="no">coroutine/thread.h</includes>
     <incdepgraph>
-      <node id="3">
+      <node id="348">
         <label>system_error</label>
       </node>
-      <node id="1">
+      <node id="346">
         <label>modules/thread/pthread.cpp</label>
-        <link refid="pthread_8cpp"/>
-        <childnode refid="2" relation="include">
+        <link refid="pthread.cpp"/>
+        <childnode refid="347" relation="include">
         </childnode>
       </node>
-      <node id="2">
+      <node id="347">
         <label>coroutine/thread.h</label>
         <link refid="thread_8h_source"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="348" relation="include">
         </childnode>
       </node>
     </incdepgraph>
@@ -32,7 +32,7 @@
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;coroutine/thread.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="6"><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">coro<sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>coroutine_pthread_resume(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>assume<sp/>we<sp/>will<sp/>receive<sp/>an<sp/>address<sp/>of<sp/>the<sp/>coroutine<sp/>frame</highlight><highlight class="normal"></highlight></codeline>

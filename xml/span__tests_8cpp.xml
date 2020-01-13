@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="span__tests_8cpp" kind="file" language="C++">
     <compoundname>span_tests.cpp</compoundname>
     <includes local="no">catch/catch.hpp</includes>
@@ -16,73 +16,73 @@
     <includes local="no">type_traits</includes>
     <includes local="no">vector</includes>
     <incdepgraph>
-      <node id="8">
+      <node id="80">
         <label>iterator</label>
       </node>
-      <node id="2">
+      <node id="74">
         <label>catch/catch.hpp</label>
       </node>
-      <node id="12">
+      <node id="84">
         <label>string</label>
       </node>
-      <node id="10">
+      <node id="82">
         <label>regex</label>
       </node>
-      <node id="11">
+      <node id="83">
         <label>stddef.h</label>
       </node>
-      <node id="1">
+      <node id="73">
         <label>external/guideline/tests/span_tests.cpp</label>
-        <link refid="span__tests_8cpp"/>
-        <childnode refid="2" relation="include">
+        <link refid="span_tests.cpp"/>
+        <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="75" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="76" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="79" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="80" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="81" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="84" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="86" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="86">
         <label>vector</label>
       </node>
-      <node id="6">
+      <node id="78">
         <label>array</label>
       </node>
-      <node id="7">
+      <node id="79">
         <label>iostream</label>
       </node>
-      <node id="3">
+      <node id="75">
         <label>gsl/gsl_byte</label>
       </node>
-      <node id="4">
+      <node id="76">
         <label>gsl/gsl_util</label>
       </node>
-      <node id="13">
+      <node id="85">
         <label>type_traits</label>
       </node>
-      <node id="5">
+      <node id="77">
         <label>gsl/span</label>
       </node>
-      <node id="9">
+      <node id="81">
         <label>memory</label>
       </node>
     </incdepgraph>
@@ -180,13 +180,13 @@
 <codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>for<sp/>integral_constant&lt;&gt;::value,<sp/>is_default_co...</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="39"><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">gsl</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacegsl" kindref="compound">gsl</ref></highlight></codeline>
 <codeline lineno="41"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">fail_fast;</highlight></codeline>
 <codeline lineno="43"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gsl</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">gsl;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacegsl" kindref="compound">gsl</ref>;</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight></codeline>
 <codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">namespace</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="49"><highlight class="normal">{</highlight></codeline>
@@ -635,7 +635,7 @@
 <codeline lineno="492"><highlight class="normal"></highlight></codeline>
 <codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_an_array<sp/>=<sp/>[]()<sp/>-&gt;<sp/>std::array&lt;int,<sp/>4&gt;<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{1,<sp/>2,<sp/>3,<sp/>4};<sp/>};</highlight></codeline>
-<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>take_a_span<sp/>=<sp/>[](span&lt;int&gt;<sp/>s)<sp/>{<sp/>static_cast&lt;void&gt;(s);<sp/>};</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>take_a_span<sp/>=<sp/>[](span&lt;int&gt;<sp/>s)<sp/>{<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s);<sp/>};</highlight></codeline>
 <codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>try<sp/>to<sp/>take<sp/>a<sp/>temporary<sp/>std::array</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>take_a_span(get_an_array());</highlight></codeline>
 <codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -643,7 +643,7 @@
 <codeline lineno="500"><highlight class="normal"></highlight></codeline>
 <codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_an_array<sp/>=<sp/>[]()<sp/>-&gt;<sp/>std::array&lt;int,<sp/>4&gt;<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{1,<sp/>2,<sp/>3,<sp/>4};<sp/>};</highlight></codeline>
-<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>take_a_span<sp/>=<sp/>[](span&lt;const<sp/>int&gt;<sp/>s)<sp/>{<sp/>static_cast&lt;void&gt;(s);<sp/>};</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>take_a_span<sp/>=<sp/>[](span&lt;const<sp/>int&gt;<sp/>s)<sp/>{<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s);<sp/>};</highlight></codeline>
 <codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>try<sp/>to<sp/>take<sp/>a<sp/>temporary<sp/>std::array</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>take_a_span(get_an_array());</highlight></codeline>
 <codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -712,7 +712,7 @@
 <codeline lineno="569"><highlight class="normal"></highlight></codeline>
 <codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_an_array<sp/>=<sp/>[]()<sp/>-&gt;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;int,<sp/>4&gt;<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{1,<sp/>2,<sp/>3,<sp/>4};<sp/>};</highlight></codeline>
-<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>take_a_span<sp/>=<sp/>[](span&lt;const<sp/>int&gt;<sp/>s)<sp/>{<sp/>static_cast&lt;void&gt;(s);<sp/>};</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>take_a_span<sp/>=<sp/>[](span&lt;const<sp/>int&gt;<sp/>s)<sp/>{<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s);<sp/>};</highlight></codeline>
 <codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>try<sp/>to<sp/>take<sp/>a<sp/>temporary<sp/>std::array</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>take_a_span(get_an_array());</highlight></codeline>
 <codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -802,42 +802,42 @@
 <codeline lineno="659"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="660"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>CONFIRM_COMPILATION_ERRORS</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="661"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_temp_vector<sp/>=<sp/>[]()<sp/>-&gt;<sp/>std::vector&lt;int&gt;<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>};</highlight></codeline>
-<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;int&gt;<sp/>s)<sp/>{<sp/>static_cast&lt;void&gt;(s);<sp/>};</highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;int&gt;<sp/>s)<sp/>{<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s);<sp/>};</highlight></codeline>
 <codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>use_span(get_temp_vector());</highlight></codeline>
 <codeline lineno="664"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="665"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="666"><highlight class="normal"></highlight></codeline>
 <codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="668"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_temp_vector<sp/>=<sp/>[]()<sp/>-&gt;<sp/>std::vector&lt;int&gt;<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>};</highlight></codeline>
-<codeline lineno="669"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;const<sp/>int&gt;<sp/>s)<sp/>{<sp/>static_cast&lt;void&gt;(s);<sp/>};</highlight></codeline>
+<codeline lineno="669"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;const<sp/>int&gt;<sp/>s)<sp/>{<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s);<sp/>};</highlight></codeline>
 <codeline lineno="670"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>use_span(get_temp_vector());</highlight></codeline>
 <codeline lineno="671"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="672"><highlight class="normal"></highlight></codeline>
 <codeline lineno="673"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="674"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>CONFIRM_COMPILATION_ERRORS</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="675"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_temp_string<sp/>=<sp/>[]()<sp/>-&gt;<sp/>std::string<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>};</highlight></codeline>
-<codeline lineno="676"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;char&gt;<sp/>s)<sp/>{<sp/>static_cast&lt;void&gt;(s);<sp/>};</highlight></codeline>
+<codeline lineno="676"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;char&gt;<sp/>s)<sp/>{<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s);<sp/>};</highlight></codeline>
 <codeline lineno="677"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>use_span(get_temp_string());</highlight></codeline>
 <codeline lineno="678"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="679"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="680"><highlight class="normal"></highlight></codeline>
 <codeline lineno="681"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="682"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_temp_string<sp/>=<sp/>[]()<sp/>-&gt;<sp/>std::string<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>};</highlight></codeline>
-<codeline lineno="683"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;const<sp/>char&gt;<sp/>s)<sp/>{<sp/>static_cast&lt;void&gt;(s);<sp/>};</highlight></codeline>
+<codeline lineno="683"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;const<sp/>char&gt;<sp/>s)<sp/>{<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s);<sp/>};</highlight></codeline>
 <codeline lineno="684"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>use_span(get_temp_string());</highlight></codeline>
 <codeline lineno="685"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="686"><highlight class="normal"></highlight></codeline>
 <codeline lineno="687"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="688"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>CONFIRM_COMPILATION_ERRORS</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="689"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_temp_vector<sp/>=<sp/>[]()<sp/>-&gt;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>};</highlight></codeline>
-<codeline lineno="690"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;const<sp/>char&gt;<sp/>s)<sp/>{<sp/>static_cast&lt;void&gt;(s);<sp/>};</highlight></codeline>
+<codeline lineno="690"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;const<sp/>char&gt;<sp/>s)<sp/>{<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s);<sp/>};</highlight></codeline>
 <codeline lineno="691"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>use_span(get_temp_vector());</highlight></codeline>
 <codeline lineno="692"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="693"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="694"><highlight class="normal"></highlight></codeline>
 <codeline lineno="695"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="696"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_temp_string<sp/>=<sp/>[]()<sp/>-&gt;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>};</highlight></codeline>
-<codeline lineno="697"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;const<sp/>char&gt;<sp/>s)<sp/>{<sp/>static_cast&lt;void&gt;(s);<sp/>};</highlight></codeline>
+<codeline lineno="697"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>use_span<sp/>=<sp/>[](span&lt;const<sp/>char&gt;<sp/>s)<sp/>{<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s);<sp/>};</highlight></codeline>
 <codeline lineno="698"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>use_span(get_temp_string());</highlight></codeline>
 <codeline lineno="699"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="700"><highlight class="normal"></highlight></codeline>
@@ -863,14 +863,14 @@
 <codeline lineno="720"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="721"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;DerivedClass&gt;<sp/>avd;</highlight></codeline>
 <codeline lineno="722"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;const<sp/>DerivedClass&gt;<sp/>avcd<sp/>=<sp/>avd;</highlight></codeline>
-<codeline lineno="723"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(avcd);</highlight></codeline>
+<codeline lineno="723"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(avcd);</highlight></codeline>
 <codeline lineno="724"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="725"><highlight class="normal"></highlight></codeline>
 <codeline lineno="726"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="727"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>CONFIRM_COMPILATION_ERRORS</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="728"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;DerivedClass&gt;<sp/>avd;</highlight></codeline>
 <codeline lineno="729"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;BaseClass&gt;<sp/>avb<sp/>=<sp/>avd;</highlight></codeline>
-<codeline lineno="730"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(avb);</highlight></codeline>
+<codeline lineno="730"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(avb);</highlight></codeline>
 <codeline lineno="731"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="732"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="733"><highlight class="normal"></highlight></codeline>
@@ -878,19 +878,19 @@
 <codeline lineno="735"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="736"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;int&gt;<sp/>s;</highlight></codeline>
 <codeline lineno="737"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;unsigned<sp/>int&gt;<sp/>s2<sp/>=<sp/>s;</highlight></codeline>
-<codeline lineno="738"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(s2);</highlight></codeline>
+<codeline lineno="738"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s2);</highlight></codeline>
 <codeline lineno="739"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="740"><highlight class="normal"></highlight></codeline>
 <codeline lineno="741"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="742"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;int&gt;<sp/>s;</highlight></codeline>
 <codeline lineno="743"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;const<sp/>unsigned<sp/>int&gt;<sp/>s2<sp/>=<sp/>s;</highlight></codeline>
-<codeline lineno="744"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(s2);</highlight></codeline>
+<codeline lineno="744"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s2);</highlight></codeline>
 <codeline lineno="745"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="746"><highlight class="normal"></highlight></codeline>
 <codeline lineno="747"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="748"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;int&gt;<sp/>s;</highlight></codeline>
 <codeline lineno="749"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;short&gt;<sp/>s2<sp/>=<sp/>s;</highlight></codeline>
-<codeline lineno="750"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(s2);</highlight></codeline>
+<codeline lineno="750"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s2);</highlight></codeline>
 <codeline lineno="751"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="752"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="753"><highlight class="normal">}</highlight></codeline>
@@ -1594,7 +1594,7 @@
 <codeline lineno="1451"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="1452"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;int&gt;<sp/>s<sp/>=<sp/>s4;</highlight></codeline>
 <codeline lineno="1453"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CHECK(s.size()<sp/>==<sp/>s4.size());</highlight></codeline>
-<codeline lineno="1454"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(s);</highlight></codeline>
+<codeline lineno="1454"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s);</highlight></codeline>
 <codeline lineno="1455"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="1456"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1457"><highlight class="normal"></highlight><highlight class="comment">//<sp/>initialization<sp/>or<sp/>assignment<sp/>to<sp/>static<sp/>span<sp/>that<sp/>REDUCES<sp/>size<sp/>is<sp/>NOT<sp/>ok</highlight><highlight class="normal"></highlight></codeline>
@@ -1604,7 +1604,7 @@
 <codeline lineno="1461"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="1462"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="1463"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;int,<sp/>2&gt;<sp/>s2<sp/>=<sp/>s4;</highlight></codeline>
-<codeline lineno="1464"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(s2);</highlight></codeline>
+<codeline lineno="1464"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s2);</highlight></codeline>
 <codeline lineno="1465"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="1466"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="1467"><highlight class="normal"></highlight></codeline>
@@ -1613,7 +1613,7 @@
 <codeline lineno="1470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;int&gt;<sp/>s<sp/>=<sp/>arr;</highlight></codeline>
 <codeline lineno="1471"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/>[&amp;]()<sp/>{</highlight></codeline>
 <codeline lineno="1472"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>span&lt;int,<sp/>2&gt;<sp/>s2<sp/>=<sp/>s;</highlight></codeline>
-<codeline lineno="1473"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(s2);</highlight></codeline>
+<codeline lineno="1473"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s2);</highlight></codeline>
 <codeline lineno="1474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="1475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CHECK_THROWS_AS(f(),<sp/>fail_fast);</highlight></codeline>
 <codeline lineno="1476"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -1623,18 +1623,18 @@
 <codeline lineno="1480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>you<sp/>can<sp/>convert<sp/>statically</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="1481"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="1482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>span&lt;int,<sp/>2&gt;<sp/>s2<sp/>=<sp/>{&amp;arr[0],<sp/>2};</highlight></codeline>
-<codeline lineno="1483"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(s2);</highlight></codeline>
+<codeline lineno="1483"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s2);</highlight></codeline>
 <codeline lineno="1484"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="1485"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="1486"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>span&lt;int,<sp/>1&gt;<sp/>s1<sp/>=<sp/>s4.first&lt;1&gt;();</highlight></codeline>
-<codeline lineno="1487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(s1);</highlight></codeline>
+<codeline lineno="1487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s1);</highlight></codeline>
 <codeline lineno="1488"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="1489"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1490"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...or<sp/>dynamically</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="1491"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="1492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NB:<sp/>implicit<sp/>conversion<sp/>to<sp/>span&lt;int,1&gt;<sp/>from<sp/>span&lt;int&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="1493"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>span&lt;int,<sp/>1&gt;<sp/>s1<sp/>=<sp/>s4.first(1);</highlight></codeline>
-<codeline lineno="1494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(s1);</highlight></codeline>
+<codeline lineno="1494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s1);</highlight></codeline>
 <codeline lineno="1495"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="1496"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1497"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>initialization<sp/>or<sp/>assignment<sp/>to<sp/>static<sp/>span<sp/>that<sp/>requires<sp/>size<sp/>INCREASE<sp/>is<sp/>not<sp/>ok.</highlight><highlight class="normal"></highlight></codeline>
@@ -1652,7 +1652,7 @@
 <codeline lineno="1509"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="1510"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/>[&amp;]()<sp/>{</highlight></codeline>
 <codeline lineno="1511"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>span&lt;int,<sp/>4&gt;<sp/>_s4<sp/>=<sp/>{arr2,<sp/>2};</highlight></codeline>
-<codeline lineno="1512"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(_s4);</highlight></codeline>
+<codeline lineno="1512"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_s4);</highlight></codeline>
 <codeline lineno="1513"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="1514"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CHECK_THROWS_AS(f(),<sp/>fail_fast);</highlight></codeline>
 <codeline lineno="1515"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -1661,7 +1661,7 @@
 <codeline lineno="1518"><highlight class="normal"><sp/><sp/><sp/><sp/>span&lt;int&gt;<sp/>av<sp/>=<sp/>arr2;</highlight></codeline>
 <codeline lineno="1519"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/>[&amp;]()<sp/>{</highlight></codeline>
 <codeline lineno="1520"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>span&lt;int,<sp/>4&gt;<sp/>_s4<sp/>=<sp/>av;</highlight></codeline>
-<codeline lineno="1521"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;void&gt;(_s4);</highlight></codeline>
+<codeline lineno="1521"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_s4);</highlight></codeline>
 <codeline lineno="1522"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="1523"><highlight class="normal"><sp/><sp/><sp/><sp/>CHECK_THROWS_AS(f(),<sp/>fail_fast);</highlight></codeline>
 <codeline lineno="1524"><highlight class="normal">}</highlight></codeline>

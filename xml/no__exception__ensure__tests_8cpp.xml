@@ -1,27 +1,27 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="no__exception__ensure__tests_8cpp" kind="file" language="C++">
     <compoundname>no_exception_ensure_tests.cpp</compoundname>
     <includes local="no">cstdlib</includes>
     <includes local="no">gsl/span</includes>
     <incdepgraph>
-      <node id="1">
+      <node id="50">
         <label>external/guideline/tests/no_exception_ensure_tests.cpp</label>
-        <link refid="no__exception__ensure__tests_8cpp"/>
-        <childnode refid="2" relation="include">
+        <link refid="no_exception_ensure_tests.cpp"/>
+        <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="52" relation="include">
         </childnode>
       </node>
-      <node id="2">
+      <node id="51">
         <label>cstdlib</label>
       </node>
-      <node id="3">
+      <node id="52">
         <label>gsl/span</label>
       </node>
     </incdepgraph>
       <sectiondef kind="func">
-      <memberdef kind="function" id="no__exception__ensure__tests_8cpp_1acc45b46d9a1370848749beaee2b64db3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="no__exception__ensure__tests_8cpp_1acc45b46d9a1370848749beaee2b64db3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int operator_subscript_no_throw</definition>
         <argsstring>() noexcept</argsstring>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/no_exception_ensure_tests.cpp" line="20" column="5" bodyfile="external/guideline/tests/no_exception_ensure_tests.cpp" bodystart="20" bodyend="25"/>
+        <location file="external/guideline/tests/no_exception_ensure_tests.cpp" line="20" column="1" bodyfile="external/guideline/tests/no_exception_ensure_tests.cpp" bodystart="20" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="no__exception__ensure__tests_8cpp_1a5b48515c97b543baa61ea7dba266920f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -45,9 +45,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/no_exception_ensure_tests.cpp" line="27" column="7" bodyfile="external/guideline/tests/no_exception_ensure_tests.cpp" bodystart="27" bodyend="27"/>
+        <location file="external/guideline/tests/no_exception_ensure_tests.cpp" line="27" column="1" bodyfile="external/guideline/tests/no_exception_ensure_tests.cpp" bodystart="27" bodyend="27"/>
       </memberdef>
-      <memberdef kind="function" id="no__exception__ensure__tests_8cpp_1a5db1049dcd956f2f8cf495479e5cd77c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="no__exception__ensure__tests_8cpp_1a5db1049dcd956f2f8cf495479e5cd77c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void setup_termination_handler</definition>
         <argsstring>() noexcept</argsstring>
@@ -58,9 +58,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/no_exception_ensure_tests.cpp" line="29" column="6" bodyfile="external/guideline/tests/no_exception_ensure_tests.cpp" bodystart="29" bodyend="41"/>
+        <location file="external/guideline/tests/no_exception_ensure_tests.cpp" line="29" column="1" bodyfile="external/guideline/tests/no_exception_ensure_tests.cpp" bodystart="29" bodyend="41"/>
       </memberdef>
-      <memberdef kind="function" id="no__exception__ensure__tests_8cpp_1aebb4bc46e316a8d7c5ee6d7cdb2ec570" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="no__exception__ensure__tests_8cpp_1aebb4bc46e316a8d7c5ee6d7cdb2ec570" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int main</definition>
         <argsstring>() noexcept</argsstring>
@@ -71,7 +71,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/no_exception_ensure_tests.cpp" line="43" column="5" bodyfile="external/guideline/tests/no_exception_ensure_tests.cpp" bodystart="43" bodyend="48"/>
+        <location file="external/guideline/tests/no_exception_ensure_tests.cpp" line="43" column="1" bodyfile="external/guideline/tests/no_exception_ensure_tests.cpp" bodystart="43" bodyend="48"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

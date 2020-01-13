@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="event_8h" kind="file" language="C++">
     <compoundname>event.h</compoundname>
     <includedby refid="event__darwin_8cpp" local="no">modules/event/event_darwin.cpp</includedby>
@@ -8,19 +8,19 @@
     <includedby refid="event__poll_8h" local="no">modules/event/event_poll.h</includedby>
     <includedby refid="event__windows_8cpp" local="no">modules/event/event_windows.cpp</includedby>
     <invincdepgraph>
-      <node id="3">
+      <node id="135">
         <label>modules/event/event_poll.h</label>
         <link refid="event__poll_8h_source"/>
       </node>
-      <node id="1">
+      <node id="133">
         <label>interface/coroutine/event.h</label>
-        <link refid="event_8h"/>
-        <childnode refid="2" relation="include">
+        <link refid="event.h"/>
+        <childnode refid="134" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="135" relation="include">
         </childnode>
       </node>
-      <node id="2">
+      <node id="134">
         <label>modules/event/kernel_queue.h</label>
         <link refid="kernel__queue_8h_source"/>
       </node>
@@ -72,9 +72,9 @@
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>__has_include(&lt;Windows.h&gt;)<sp/>//<sp/>...<sp/>activate<sp/>VC++<sp/>based<sp/>features<sp/>...</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="return_8h" kindref="compound">coroutine/return.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">coro<sp/>{</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::experimental;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1experimental" kindref="compound">std::experimental</ref>;</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>win_handle_t<sp/>=<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*;</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight></codeline>
@@ -111,8 +111,8 @@
 <codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>await_ready()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>await_suspend(<ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>coro)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;on_suspend(coro);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>await_suspend(<ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;on_suspend(<ref refid="namespacecoro" kindref="compound">coro</ref>);</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>await_resume()<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;on_resume();</highlight></codeline>
@@ -124,9 +124,9 @@
 <codeline lineno="80"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__unix__)<sp/>||<sp/>defined(__linux__)<sp/>||<sp/>defined(__APPLE__)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="81"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;coroutine/yield.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">coro<sp/>{</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::experimental;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1experimental" kindref="compound">std::experimental</ref>;</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"></highlight></codeline>
 <codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Awaitable<sp/>event<sp/>type<sp/>over<sp/>`eventfd`<sp/>&amp;<sp/>`epoll`</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
@@ -162,8 +162,8 @@
 <codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>await_ready()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;is_ready();</highlight></codeline>
 <codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>await_suspend(<ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>coro)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;on_suspend(coro);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>await_suspend(<ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;on_suspend(<ref refid="namespacecoro" kindref="compound">coro</ref>);</highlight></codeline>
 <codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>await_resume()<sp/>noexcept(false)<sp/>{</highlight></codeline>
 <codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;reset();<sp/></highlight><highlight class="comment">//<sp/>automatically<sp/>reset<sp/>on<sp/>resume</highlight><highlight class="normal"></highlight></codeline>

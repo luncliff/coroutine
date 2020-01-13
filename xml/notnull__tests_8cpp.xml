@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="notnull__tests_8cpp" kind="file" language="C++">
     <compoundname>notnull_tests.cpp</compoundname>
     <includes local="no">catch/catch.hpp</includes>
@@ -11,57 +11,57 @@
     <includes local="no">string</includes>
     <includes local="no">typeinfo</includes>
     <incdepgraph>
-      <node id="7">
+      <node id="59">
+        <label>external/guideline/tests/notnull_tests.cpp</label>
+        <link refid="notnull_tests.cpp"/>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+      </node>
+      <node id="65">
         <label>stdint.h</label>
       </node>
-      <node id="2">
+      <node id="60">
         <label>catch/catch.hpp</label>
       </node>
-      <node id="8">
+      <node id="66">
         <label>string</label>
       </node>
-      <node id="9">
+      <node id="67">
         <label>typeinfo</label>
       </node>
-      <node id="3">
+      <node id="61">
         <label>gsl/pointers</label>
       </node>
-      <node id="6">
+      <node id="64">
         <label>sstream</label>
       </node>
-      <node id="1">
-        <label>external/guideline/tests/notnull_tests.cpp</label>
-        <link refid="notnull__tests_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="4">
+      <node id="62">
         <label>algorithm</label>
       </node>
-      <node id="5">
+      <node id="63">
         <label>memory</label>
       </node>
     </incdepgraph>
-    <innerclass refid="struct_my_base" prot="public">MyBase</innerclass>
-    <innerclass refid="struct_my_derived" prot="public">MyDerived</innerclass>
-    <innerclass refid="struct_unrelated" prot="public">Unrelated</innerclass>
-    <innerclass refid="struct_ref_counted" prot="public">RefCounted</innerclass>
-    <innerclass refid="struct_custom_ptr" prot="public">CustomPtr</innerclass>
-    <innerclass refid="struct_non_copyable_non_movable" prot="public">NonCopyableNonMovable</innerclass>
+    <innerclass refid="structMyBase" prot="public">MyBase</innerclass>
+    <innerclass refid="structMyDerived" prot="public">MyDerived</innerclass>
+    <innerclass refid="structUnrelated" prot="public">Unrelated</innerclass>
+    <innerclass refid="structRefCounted" prot="public">RefCounted</innerclass>
+    <innerclass refid="structCustomPtr" prot="public">CustomPtr</innerclass>
+    <innerclass refid="structNonCopyableNonMovable" prot="public">NonCopyableNonMovable</innerclass>
     <innernamespace refid="namespacegsl">gsl</innernamespace>
       <sectiondef kind="func">
       <memberdef kind="function" id="notnull__tests_8cpp_1aa37326db75c33d444162d85302d8d046" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -78,11 +78,11 @@
         <argsstring>(CustomPtr&lt; T &gt; const &amp;lhs, CustomPtr&lt; U &gt; const &amp;rhs)</argsstring>
         <name>operator==</name>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
           <declname>lhs</declname>
         </param>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
           <declname>rhs</declname>
         </param>
         <briefdescription>
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/notnull_tests.cpp" line="74" column="13" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="74" bodyend="79"/>
+        <location file="external/guideline/tests/notnull_tests.cpp" line="74" column="1" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="74" bodyend="79"/>
       </memberdef>
       <memberdef kind="function" id="notnull__tests_8cpp_1a16d10810ae939fb5a6d2101159f32907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -107,11 +107,11 @@
         <argsstring>(CustomPtr&lt; T &gt; const &amp;lhs, CustomPtr&lt; U &gt; const &amp;rhs)</argsstring>
         <name>operator!=</name>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
           <declname>lhs</declname>
         </param>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
           <declname>rhs</declname>
         </param>
         <briefdescription>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/notnull_tests.cpp" line="82" column="13" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="82" bodyend="87"/>
+        <location file="external/guideline/tests/notnull_tests.cpp" line="82" column="1" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="82" bodyend="87"/>
       </memberdef>
       <memberdef kind="function" id="notnull__tests_8cpp_1a55195d9899904156110d9dc39d5e27dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -136,11 +136,11 @@
         <argsstring>(CustomPtr&lt; T &gt; const &amp;lhs, CustomPtr&lt; U &gt; const &amp;rhs)</argsstring>
         <name>operator&lt;</name>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
           <declname>lhs</declname>
         </param>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
           <declname>rhs</declname>
         </param>
         <briefdescription>
@@ -165,11 +165,11 @@
         <argsstring>(CustomPtr&lt; T &gt; const &amp;lhs, CustomPtr&lt; U &gt; const &amp;rhs)</argsstring>
         <name>operator&gt;</name>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
           <declname>lhs</declname>
         </param>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
           <declname>rhs</declname>
         </param>
         <briefdescription>
@@ -178,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/notnull_tests.cpp" line="98" column="13" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="98" bodyend="103"/>
+        <location file="external/guideline/tests/notnull_tests.cpp" line="98" column="1" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="98" bodyend="103"/>
       </memberdef>
       <memberdef kind="function" id="notnull__tests_8cpp_1a1d76a90aa314067b630eec54a0c34388" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -194,11 +194,11 @@
         <argsstring>(CustomPtr&lt; T &gt; const &amp;lhs, CustomPtr&lt; U &gt; const &amp;rhs)</argsstring>
         <name>operator&lt;=</name>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
           <declname>lhs</declname>
         </param>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
           <declname>rhs</declname>
         </param>
         <briefdescription>
@@ -223,11 +223,11 @@
         <argsstring>(CustomPtr&lt; T &gt; const &amp;lhs, CustomPtr&lt; U &gt; const &amp;rhs)</argsstring>
         <name>operator&gt;=</name>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; T &gt; const &amp;</type>
           <declname>lhs</declname>
         </param>
         <param>
-          <type><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
+          <type><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>&lt; U &gt; const &amp;</type>
           <declname>rhs</declname>
         </param>
         <briefdescription>
@@ -236,7 +236,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/notnull_tests.cpp" line="114" column="13" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="114" bodyend="119"/>
+        <location file="external/guideline/tests/notnull_tests.cpp" line="114" column="1" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="114" bodyend="119"/>
       </memberdef>
       <memberdef kind="function" id="notnull__tests_8cpp_1a5e4ea132eef3b989e59447c3f69f1609" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -266,7 +266,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/notnull_tests.cpp" line="135" column="5" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="135" bodyend="135"/>
+        <location file="external/guideline/tests/notnull_tests.cpp" line="135" column="1" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="135" bodyend="135"/>
       </memberdef>
       <memberdef kind="function" id="notnull__tests_8cpp_1a8666fc02e1bcda05f78658533e5f0f23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const int *</type>
@@ -279,7 +279,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/notnull_tests.cpp" line="136" column="11" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="136" bodyend="136"/>
+        <location file="external/guideline/tests/notnull_tests.cpp" line="136" column="1" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="136" bodyend="136"/>
       </memberdef>
       <memberdef kind="function" id="notnull__tests_8cpp_1aa26d82772660b2b12727ddc027d6a050" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -435,109 +435,109 @@
 <codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>basic_string,<sp/>operator==,<sp/>string,<sp/>operator&lt;&lt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;typeinfo&gt;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>type_info</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">gsl</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacegsl" kindref="compound">gsl</ref></highlight></codeline>
 <codeline lineno="38"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">fail_fast;</highlight></codeline>
 <codeline lineno="40"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gsl</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="41"><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">gsl;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacegsl" kindref="compound">gsl</ref>;</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight></codeline>
-<codeline lineno="44" refid="struct_my_base" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_my_base" kindref="compound">MyBase</ref></highlight></codeline>
+<codeline lineno="44" refid="structMyBase" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structMyBase" kindref="compound">MyBase</ref></highlight></codeline>
 <codeline lineno="45"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="46"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="47" refid="struct_my_derived" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_my_derived" kindref="compound">MyDerived</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="struct_my_base" kindref="compound">MyBase</ref></highlight></codeline>
+<codeline lineno="47" refid="structMyDerived" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structMyDerived" kindref="compound">MyDerived</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structMyBase" kindref="compound">MyBase</ref></highlight></codeline>
 <codeline lineno="48"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="49"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="50" refid="struct_unrelated" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_unrelated" kindref="compound">Unrelated</ref></highlight></codeline>
+<codeline lineno="50" refid="structUnrelated" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structUnrelated" kindref="compound">Unrelated</ref></highlight></codeline>
 <codeline lineno="51"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="52"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"></highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>stand-in<sp/>for<sp/>a<sp/>user-defined<sp/>ref-counted<sp/>class</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
-<codeline lineno="56" refid="struct_ref_counted" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_ref_counted" kindref="compound">RefCounted</ref></highlight></codeline>
+<codeline lineno="56" refid="structRefCounted" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structRefCounted" kindref="compound">RefCounted</ref></highlight></codeline>
 <codeline lineno="57"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_ref_counted" kindref="compound">RefCounted</ref>(T*<sp/>p)<sp/>:<sp/>p_(p)<sp/>{}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structRefCounted" kindref="compound">RefCounted</ref>(T*<sp/>p)<sp/>:<sp/>p_(p)<sp/>{}</highlight></codeline>
 <codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>T*()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p_;<sp/>}</highlight></codeline>
 <codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>T*<sp/>p_;</highlight></codeline>
 <codeline lineno="61"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="62"><highlight class="normal"></highlight></codeline>
 <codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>user<sp/>defined<sp/>smart<sp/>pointer<sp/>with<sp/>comparison<sp/>operators<sp/>returning<sp/>non<sp/>bool<sp/>value</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
-<codeline lineno="65" refid="struct_custom_ptr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref></highlight></codeline>
+<codeline lineno="65" refid="structCustomPtr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref></highlight></codeline>
 <codeline lineno="66"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>(T*<sp/>p)<sp/>:<sp/>p_(p)<sp/>{}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structCustomPtr" kindref="compound">CustomPtr</ref>(T*<sp/>p)<sp/>:<sp/>p_(p)<sp/>{}</highlight></codeline>
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>T*()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p_;<sp/>}</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator!=(std::nullptr_t)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>T*<sp/>p_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="71"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"></highlight></codeline>
 <codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>U&gt;</highlight></codeline>
-<codeline lineno="74"><highlight class="normal">std::string<sp/>operator==(<ref refid="struct_custom_ptr" kindref="compound">CustomPtr&lt;T&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>lhs,<sp/><ref refid="struct_custom_ptr" kindref="compound">CustomPtr&lt;U&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>rhs)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">std::string<sp/>operator==(<ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;T&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>lhs,<sp/><ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;U&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>rhs)</highlight></codeline>
 <codeline lineno="75"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>GSL_SUPPRESS(type.1)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(lhs.p_)<sp/>==<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(rhs.p_)<sp/>?<sp/>&quot;true&quot;</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>&quot;false&quot;;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(lhs.p_)<sp/>==<sp/>reinterpret_cast&lt;const<sp/>void*&gt;(rhs.p_)<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="79"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="80"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal">template<sp/>&lt;typename<sp/>T,<sp/>typename<sp/>U&gt;</highlight></codeline>
-<codeline lineno="82"><highlight class="normal">std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>operator!=(<ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt;T&gt;<sp/>const&amp;<sp/>lhs,<sp/><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt;U&gt;<sp/>const&amp;<sp/>rhs)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>U&gt;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">std::string<sp/>operator!=(<ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;T&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>lhs,<sp/><ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;U&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>rhs)</highlight></codeline>
 <codeline lineno="83"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>GSL_SUPPRESS(type.1)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(lhs.p_)<sp/>!=<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(rhs.p_)<sp/>?<sp/>&quot;true&quot;</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>&quot;false&quot;;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(lhs.p_)<sp/>!=<sp/>reinterpret_cast&lt;const<sp/>void*&gt;(rhs.p_)<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="87"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal">template<sp/>&lt;typename<sp/>T,<sp/>typename<sp/>U&gt;</highlight></codeline>
-<codeline lineno="90"><highlight class="normal">std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>operator&lt;(<ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt;T&gt;<sp/>const&amp;<sp/>lhs,<sp/><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt;U&gt;<sp/>const&amp;<sp/>rhs)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>U&gt;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">std::string<sp/>operator&lt;(CustomPtr&lt;T&gt;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>lhs,<sp/><ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;U&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>rhs)</highlight></codeline>
 <codeline lineno="91"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>GSL_SUPPRESS(type.1)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(lhs.p_)<sp/>&lt;<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(rhs.p_)<sp/>?<sp/>&quot;true&quot;</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>&quot;false&quot;;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(lhs.p_)<sp/>&lt;<sp/>reinterpret_cast&lt;const<sp/>void*&gt;(rhs.p_)<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="95"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="96"><highlight class="normal"></highlight></codeline>
-<codeline lineno="97"><highlight class="normal">template<sp/>&lt;typename<sp/>T,<sp/>typename<sp/>U&gt;</highlight></codeline>
-<codeline lineno="98"><highlight class="normal">std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>operator&gt;(<ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt;T&gt;<sp/>const&amp;<sp/>lhs,<sp/><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt;U&gt;<sp/>const&amp;<sp/>rhs)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>U&gt;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">std::string<sp/>operator&gt;(<ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;T&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>lhs,<sp/><ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;U&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>rhs)</highlight></codeline>
 <codeline lineno="99"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>GSL_SUPPRESS(type.1)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(lhs.p_)<sp/>&gt;<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(rhs.p_)<sp/>?<sp/>&quot;true&quot;</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>&quot;false&quot;;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(lhs.p_)<sp/>&gt;<sp/>reinterpret_cast&lt;const<sp/>void*&gt;(rhs.p_)<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="103"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"></highlight></codeline>
-<codeline lineno="105"><highlight class="normal">template<sp/>&lt;typename<sp/>T,<sp/>typename<sp/>U&gt;</highlight></codeline>
-<codeline lineno="106"><highlight class="normal">std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>operator&lt;=(<ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt;T&gt;<sp/>const&amp;<sp/>lhs,<sp/><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt;U&gt;<sp/>const&amp;<sp/>rhs)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>U&gt;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">std::string<sp/>operator&lt;=(CustomPtr&lt;T&gt;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>lhs,<sp/><ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;U&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>rhs)</highlight></codeline>
 <codeline lineno="107"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>GSL_SUPPRESS(type.1)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(lhs.p_)<sp/>&lt;=<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(rhs.p_)<sp/>?<sp/>&quot;true&quot;</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>&quot;false&quot;;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(lhs.p_)<sp/>&lt;=<sp/>reinterpret_cast&lt;const<sp/>void*&gt;(rhs.p_)<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="111"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="112"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal">template<sp/>&lt;typename<sp/>T,<sp/>typename<sp/>U&gt;</highlight></codeline>
-<codeline lineno="114"><highlight class="normal">std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>operator&gt;=(<ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt;T&gt;<sp/>const&amp;<sp/>lhs,<sp/><ref refid="struct_custom_ptr" kindref="compound">CustomPtr</ref>&lt;U&gt;<sp/>const&amp;<sp/>rhs)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>U&gt;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">std::string<sp/>operator&gt;=(<ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;T&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>lhs,<sp/><ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;U&gt;</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>rhs)</highlight></codeline>
 <codeline lineno="115"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>GSL_SUPPRESS(type.1)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(lhs.p_)<sp/>&gt;=<sp/>reinterpret_cast&lt;const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;(rhs.p_)<sp/>?<sp/>&quot;true&quot;</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>&quot;false&quot;;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(lhs.p_)<sp/>&gt;=<sp/>reinterpret_cast&lt;const<sp/>void*&gt;(rhs.p_)<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="119"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="120"><highlight class="normal"></highlight></codeline>
-<codeline lineno="121" refid="struct_non_copyable_non_movable" refkind="compound"><highlight class="normal">struct<sp/><ref refid="struct_non_copyable_non_movable" kindref="compound">NonCopyableNonMovable</ref></highlight></codeline>
+<codeline lineno="121" refid="structNonCopyableNonMovable" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structNonCopyableNonMovable" kindref="compound">NonCopyableNonMovable</ref></highlight></codeline>
 <codeline lineno="122"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_non_copyable_non_movable" kindref="compound">NonCopyableNonMovable</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_non_copyable_non_movable" kindref="compound">NonCopyableNonMovable</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_non_copyable_non_movable" kindref="compound">NonCopyableNonMovable</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_non_copyable_non_movable" kindref="compound">NonCopyableNonMovable</ref>&amp;<sp/>operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_non_copyable_non_movable" kindref="compound">NonCopyableNonMovable</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_non_copyable_non_movable" kindref="compound">NonCopyableNonMovable</ref>(<ref refid="struct_non_copyable_non_movable" kindref="compound">NonCopyableNonMovable</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_non_copyable_non_movable" kindref="compound">NonCopyableNonMovable</ref>&amp;<sp/>operator=(<ref refid="struct_non_copyable_non_movable" kindref="compound">NonCopyableNonMovable</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structNonCopyableNonMovable" kindref="compound">NonCopyableNonMovable</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structNonCopyableNonMovable" kindref="compound">NonCopyableNonMovable</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structNonCopyableNonMovable" kindref="compound">NonCopyableNonMovable</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structNonCopyableNonMovable" kindref="compound">NonCopyableNonMovable</ref>&amp;<sp/>operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structNonCopyableNonMovable" kindref="compound">NonCopyableNonMovable</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structNonCopyableNonMovable" kindref="compound">NonCopyableNonMovable</ref>(<ref refid="structNonCopyableNonMovable" kindref="compound">NonCopyableNonMovable</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structNonCopyableNonMovable" kindref="compound">NonCopyableNonMovable</ref>&amp;<sp/>operator=(<ref refid="structNonCopyableNonMovable" kindref="compound">NonCopyableNonMovable</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="128"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="129"><highlight class="normal"></highlight></codeline>
 <codeline lineno="130"><highlight class="normal">GSL_SUPPRESS(f.4)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="131"><highlight class="normal">bool<sp/>helper(not_null&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*&gt;<sp/>p)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*p<sp/>==<sp/>12;<sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>helper(not_null&lt;int*&gt;<sp/>p)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*p<sp/>==<sp/>12;<sp/>}</highlight></codeline>
 <codeline lineno="132"><highlight class="normal">GSL_SUPPRESS(f.4)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="133"><highlight class="normal">bool<sp/>helper_const(not_null&lt;const<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*&gt;<sp/>p)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*p<sp/>==<sp/>12;<sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>helper_const(not_null&lt;const<sp/>int*&gt;<sp/>p)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*p<sp/>==<sp/>12;<sp/>}</highlight></codeline>
 <codeline lineno="134"><highlight class="normal"></highlight></codeline>
 <codeline lineno="135"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>return_pointer()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
 <codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*<sp/>return_pointer_const()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
 <codeline lineno="137"><highlight class="normal"></highlight></codeline>
 <codeline lineno="138"><highlight class="normal">GSL_SUPPRESS(con.4)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="139"><highlight class="normal">TEST_CASE(&quot;TestNotNullConstructors&quot;)</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">TEST_CASE(</highlight><highlight class="stringliteral">&quot;TestNotNullConstructors&quot;</highlight><highlight class="normal">)</highlight></codeline>
 <codeline lineno="140"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>CONFIRM_COMPILATION_ERRORS</highlight><highlight class="normal"></highlight></codeline>
@@ -557,7 +557,7 @@
 <codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>from<sp/>shared<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>12;</highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rp<sp/>=<sp/><ref refid="struct_ref_counted" kindref="compound">RefCounted&lt;int&gt;</ref>(&amp;i);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rp<sp/>=<sp/><ref refid="structRefCounted" kindref="compound">RefCounted&lt;int&gt;</ref>(&amp;i);</highlight></codeline>
 <codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>not_null&lt;int*&gt;<sp/>p(rp);</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CHECK(p.get()<sp/>==<sp/>&amp;i);</highlight></codeline>
 <codeline lineno="162"><highlight class="normal"></highlight></codeline>
@@ -629,7 +629,7 @@
 <codeline lineno="228"><highlight class="normal"></highlight></codeline>
 <codeline lineno="229"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
 <codeline lineno="230"><highlight class="normal">GSL_SUPPRESS(con.4)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="231"><highlight class="normal">void<sp/>ostream_helper(T<sp/>v)</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ostream_helper(T<sp/>v)</highlight></codeline>
 <codeline lineno="232"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>not_null&lt;T*&gt;<sp/>p(&amp;v);</highlight></codeline>
 <codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -661,11 +661,11 @@
 <codeline lineno="260"><highlight class="normal"></highlight></codeline>
 <codeline lineno="261"><highlight class="normal">GSL_SUPPRESS(type.1)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="262"><highlight class="normal">GSL_SUPPRESS(con.4)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="263"><highlight class="normal">TEST_CASE(&quot;TestNotNullCasting&quot;)</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">TEST_CASE(</highlight><highlight class="stringliteral">&quot;TestNotNullCasting&quot;</highlight><highlight class="normal">)</highlight></codeline>
 <codeline lineno="264"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_my_base" kindref="compound">MyBase</ref><sp/>base;</highlight></codeline>
-<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_my_derived" kindref="compound">MyDerived</ref><sp/>derived;</highlight></codeline>
-<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_unrelated" kindref="compound">Unrelated</ref><sp/>unrelated;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structMyBase" kindref="compound">MyBase</ref><sp/>base;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structMyDerived" kindref="compound">MyDerived</ref><sp/>derived;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structUnrelated" kindref="compound">Unrelated</ref><sp/>unrelated;</highlight></codeline>
 <codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>not_null&lt;Unrelated*&gt;<sp/>u{&amp;unrelated};</highlight></codeline>
 <codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)<sp/>u;</highlight></codeline>
 <codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>not_null&lt;MyDerived*&gt;<sp/>p{&amp;derived};</highlight></codeline>
@@ -678,7 +678,7 @@
 <codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>p<sp/>=<sp/>q;<sp/></highlight><highlight class="comment">//<sp/>not<sp/>possible<sp/>to<sp/>implicitly<sp/>convert<sp/>MyBase*<sp/>to<sp/>MyDerived*</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="278"><highlight class="normal"></highlight></codeline>
 <codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>not_null&lt;Unrelated*&gt;<sp/>r<sp/>=<sp/>p;</highlight></codeline>
-<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>not_null&lt;Unrelated*&gt;<sp/>s<sp/>=<sp/>reinterpret_cast&lt;Unrelated*&gt;(p);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>not_null&lt;Unrelated*&gt;<sp/>s<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal"><ref refid="structUnrelated" kindref="compound">Unrelated</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(p);</highlight></codeline>
 <codeline lineno="281"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>not_null&lt;Unrelated*&gt;<sp/>t(reinterpret_cast&lt;Unrelated*&gt;(p.get()));</highlight></codeline>
 <codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>CHECK(reinterpret_cast&lt;void*&gt;(p.get())<sp/>==<sp/>reinterpret_cast&lt;void*&gt;(t.get()));</highlight></codeline>
@@ -723,7 +723,7 @@
 <codeline lineno="322"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="323"><highlight class="normal"></highlight></codeline>
 <codeline lineno="324"><highlight class="normal">GSL_SUPPRESS(con.4)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="325"><highlight class="normal">TEST_CASE(&quot;TestNotNullDereferenceOperator&quot;)</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">TEST_CASE(</highlight><highlight class="stringliteral">&quot;TestNotNullDereferenceOperator&quot;</highlight><highlight class="normal">)</highlight></codeline>
 <codeline lineno="326"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sp1<sp/>=<sp/>std::make_shared&lt;NonCopyableNonMovable&gt;();</highlight></codeline>
@@ -735,7 +735,7 @@
 <codeline lineno="334"><highlight class="normal"></highlight></codeline>
 <codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ints[1]<sp/>=<sp/>{42};</highlight></codeline>
-<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_custom_ptr" kindref="compound">CustomPtr&lt;int&gt;</ref><sp/>p1(&amp;ints[0]);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;int&gt;</ref><sp/>p1(&amp;ints[0]);</highlight></codeline>
 <codeline lineno="338"><highlight class="normal"></highlight></codeline>
 <codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>NotNull1<sp/>=<sp/>not_null&lt;decltype(p1)&gt;;</highlight></codeline>
 <codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CHECK(</highlight><highlight class="keyword">typeid</highlight><highlight class="normal">(*NotNull1(p1))<sp/>==<sp/></highlight><highlight class="keyword">typeid</highlight><highlight class="normal">(*p1));</highlight></codeline>
@@ -785,11 +785,11 @@
 <codeline lineno="384"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="385"><highlight class="normal"></highlight></codeline>
 <codeline lineno="386"><highlight class="normal">GSL_SUPPRESS(con.4)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="387"><highlight class="normal">TEST_CASE(&quot;TestNotNullCustomPtrComparison&quot;)</highlight></codeline>
+<codeline lineno="387"><highlight class="normal">TEST_CASE(</highlight><highlight class="stringliteral">&quot;TestNotNullCustomPtrComparison&quot;</highlight><highlight class="normal">)</highlight></codeline>
 <codeline lineno="388"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ints[2]<sp/>=<sp/>{42,<sp/>43};</highlight></codeline>
-<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_custom_ptr" kindref="compound">CustomPtr&lt;int&gt;</ref><sp/>p1(&amp;ints[0]);</highlight></codeline>
-<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_custom_ptr" kindref="compound">CustomPtr&lt;const int&gt;</ref><sp/>p2(&amp;ints[1]);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;int&gt;</ref><sp/>p1(&amp;ints[0]);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structCustomPtr" kindref="compound">CustomPtr&lt;const int&gt;</ref><sp/>p2(&amp;ints[1]);</highlight></codeline>
 <codeline lineno="392"><highlight class="normal"></highlight></codeline>
 <codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>NotNull1<sp/>=<sp/>not_null&lt;decltype(p1)&gt;;</highlight></codeline>
 <codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>NotNull2<sp/>=<sp/>not_null&lt;decltype(p2)&gt;;</highlight></codeline>
@@ -820,7 +820,7 @@
 <codeline lineno="419"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__cplusplus)<sp/>&amp;&amp;<sp/>(__cplusplus<sp/>&gt;=<sp/>201703L)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="420"><highlight class="normal"></highlight></codeline>
 <codeline lineno="421"><highlight class="normal">GSL_SUPPRESS(con.4)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="422"><highlight class="normal">TEST_CASE(&quot;TestNotNullConstructorTypeDeduction&quot;)</highlight></codeline>
+<codeline lineno="422"><highlight class="normal">TEST_CASE(</highlight><highlight class="stringliteral">&quot;TestNotNullConstructorTypeDeduction&quot;</highlight><highlight class="normal">)</highlight></codeline>
 <codeline lineno="423"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>42;</highlight></codeline>

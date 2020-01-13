@@ -1,32 +1,32 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="section__win32_8cpp" kind="file" language="C++">
     <compoundname>section_win32.cpp</compoundname>
     <includes refid="concurrency__helper_8h" local="no">concurrency_helper.h</includes>
     <incdepgraph>
-      <node id="3">
+      <node id="208">
         <label>atomic</label>
       </node>
-      <node id="1">
+      <node id="206">
         <label>modules/concrt/section_win32.cpp</label>
-        <link refid="section__win32_8cpp"/>
-        <childnode refid="2" relation="include">
+        <link refid="section_win32.cpp"/>
+        <childnode refid="207" relation="include">
         </childnode>
       </node>
-      <node id="5">
-        <label>future</label>
-      </node>
-      <node id="2">
+      <node id="207">
         <label>concurrency_helper.h</label>
         <link refid="concurrency__helper_8h_source"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="208" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="209" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="210" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="210">
+        <label>future</label>
+      </node>
+      <node id="209">
         <label>chrono</label>
       </node>
     </incdepgraph>
@@ -41,7 +41,7 @@
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;concurrency_helper.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="6"><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal">static_assert(is_move_assignable_v&lt;section&gt;<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="10"><highlight class="normal">static_assert(is_move_constructible_v&lt;section&gt;<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>

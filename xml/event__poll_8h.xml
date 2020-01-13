@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="event__poll_8h" kind="file" language="C++">
     <compoundname>event_poll.h</compoundname>
     <includes refid="event_8h" local="no">coroutine/event.h</includes>
@@ -12,39 +12,39 @@
     <includedby refid="event__poll_8cpp" local="yes">modules/event/event_poll.cpp</includedby>
     <includedby refid="io__linux_8cpp" local="yes">modules/net/io_linux.cpp</includedby>
     <incdepgraph>
-      <node id="1">
+      <node id="248">
+        <label>fcntl.h</label>
+      </node>
+      <node id="245">
         <label>modules/event/event_poll.h</label>
-        <link refid="event__poll_8h"/>
-        <childnode refid="2" relation="include">
+        <link refid="event_poll.h"/>
+        <childnode refid="246" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="247" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="248" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="249" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="250" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="251" relation="include">
         </childnode>
       </node>
-      <node id="2">
+      <node id="246">
         <label>coroutine/event.h</label>
         <link refid="event_8h_source"/>
       </node>
-      <node id="4">
-        <label>fcntl.h</label>
-      </node>
-      <node id="7">
+      <node id="251">
         <label>unistd.h</label>
       </node>
-      <node id="6">
+      <node id="250">
         <label>sys/eventfd.h</label>
       </node>
-      <node id="5">
+      <node id="249">
         <label>sys/epoll.h</label>
       </node>
-      <node id="3">
+      <node id="247">
         <label>memory</label>
       </node>
     </incdepgraph>
@@ -83,7 +83,7 @@
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/eventfd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">coro<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="19" refid="structcoro_1_1event__poll__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_INTERFACE_<sp/><ref refid="structcoro_1_1event__poll__t" kindref="compound">event_poll_t</ref><sp/>final<sp/>{</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>epfd;</highlight></codeline>
@@ -95,7 +95,7 @@
 <codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="structcoro_1_1event__poll__t" kindref="compound">event_poll_t</ref>()<sp/>noexcept;</highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>try_add(uint64_t<sp/>fd,<sp/>epoll_event&amp;<sp/>req)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>remove(uint64_t<sp/>fd);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">remove</highlight><highlight class="normal">(uint64_t<sp/>fd);</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>wait(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>timeout)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1enumerable" kindref="compound">enumerable&lt;epoll_event&gt;</ref>;</highlight></codeline>
 <codeline lineno="31"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>

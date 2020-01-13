@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="string__span__tests_8cpp" kind="file" language="C++">
     <compoundname>string_span_tests.cpp</compoundname>
     <includes local="no">catch/catch.hpp</includes>
@@ -14,63 +14,63 @@
     <includes local="no">type_traits</includes>
     <includes local="no">vector</includes>
     <incdepgraph>
-      <node id="2">
+      <node id="104">
         <label>catch/catch.hpp</label>
       </node>
-      <node id="10">
+      <node id="112">
         <label>string</label>
       </node>
-      <node id="9">
+      <node id="111">
         <label>map</label>
       </node>
-      <node id="3">
+      <node id="105">
         <label>gsl/gsl_assert</label>
       </node>
-      <node id="1">
-        <label>external/guideline/tests/string_span_tests.cpp</label>
-        <link refid="string__span__tests_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
+      <node id="108">
         <label>gsl/string_span</label>
       </node>
-      <node id="12">
+      <node id="114">
         <label>vector</label>
       </node>
-      <node id="4">
+      <node id="106">
         <label>gsl/pointers</label>
       </node>
-      <node id="8">
+      <node id="110">
         <label>cstddef</label>
       </node>
-      <node id="11">
+      <node id="103">
+        <label>external/guideline/tests/string_span_tests.cpp</label>
+        <link refid="string_span_tests.cpp"/>
+        <childnode refid="104" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
+        <childnode refid="106" relation="include">
+        </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
+        </childnode>
+        <childnode refid="109" relation="include">
+        </childnode>
+        <childnode refid="110" relation="include">
+        </childnode>
+        <childnode refid="111" relation="include">
+        </childnode>
+        <childnode refid="112" relation="include">
+        </childnode>
+        <childnode refid="113" relation="include">
+        </childnode>
+        <childnode refid="114" relation="include">
+        </childnode>
+      </node>
+      <node id="113">
         <label>type_traits</label>
       </node>
-      <node id="5">
+      <node id="107">
         <label>gsl/span</label>
       </node>
-      <node id="7">
+      <node id="109">
         <label>algorithm</label>
       </node>
     </incdepgraph>
@@ -113,7 +113,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/string_span_tests.cpp" line="802" column="3" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="802" bodyend="805"/>
+        <location file="external/guideline/tests/string_span_tests.cpp" line="802" column="1" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="802" bodyend="805"/>
       </memberdef>
       <memberdef kind="function" id="string__span__tests_8cpp_1a5c02d45e74f8336ae640d4edd656a27c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -131,7 +131,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/string_span_tests.cpp" line="808" column="3" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="808" bodyend="811"/>
+        <location file="external/guideline/tests/string_span_tests.cpp" line="808" column="1" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="808" bodyend="811"/>
       </memberdef>
       <memberdef kind="function" id="string__span__tests_8cpp_1ad719cfbb95114264e8a7b91d8ddf7416" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -152,7 +152,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/string_span_tests.cpp" line="814" column="6" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="814" bodyend="816"/>
+        <location file="external/guideline/tests/string_span_tests.cpp" line="814" column="1" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="814" bodyend="816"/>
       </memberdef>
       <memberdef kind="function" id="string__span__tests_8cpp_1a1b49ab98f0ef4530b72fcfcc28a6a1bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -201,7 +201,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/string_span_tests.cpp" line="901" column="2" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="901" bodyend="916"/>
+        <location file="external/guideline/tests/string_span_tests.cpp" line="901" column="1" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="901" bodyend="916"/>
       </memberdef>
       <memberdef kind="function" id="string__span__tests_8cpp_1a57500b6766be4fd8e29011632597d1c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>cwzstring_span</type>
@@ -218,7 +218,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/string_span_tests.cpp" line="957" column="2" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="957" bodyend="972"/>
+        <location file="external/guideline/tests/string_span_tests.cpp" line="957" column="1" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="957" bodyend="972"/>
       </memberdef>
       <memberdef kind="function" id="string__span__tests_8cpp_1aa20ba2875349cbff29d4119d95c3c729" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>cu16zstring_span</type>
@@ -235,7 +235,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/string_span_tests.cpp" line="1013" column="2" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="1013" bodyend="1028"/>
+        <location file="external/guideline/tests/string_span_tests.cpp" line="1013" column="1" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="1013" bodyend="1028"/>
       </memberdef>
       <memberdef kind="function" id="string__span__tests_8cpp_1a3a3f8c41ec7c46682700202d367e2199" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>cu32zstring_span</type>
@@ -252,7 +252,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="external/guideline/tests/string_span_tests.cpp" line="1069" column="2" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="1069" bodyend="1084"/>
+        <location file="external/guideline/tests/string_span_tests.cpp" line="1069" column="1" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="1069" bodyend="1084"/>
       </memberdef>
       <memberdef kind="function" id="string__span__tests_8cpp_1a559b64edfb9295bbda422eb01a2fb04e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -311,12 +311,12 @@
 <codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>for<sp/>remove_reference&lt;&gt;::type</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>vector,<sp/>allocator</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">gsl;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacegsl" kindref="compound">gsl</ref>;</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight></codeline>
 <codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Generic<sp/>string<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="42"><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">generic</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacegeneric" kindref="compound">generic</ref></highlight></codeline>
 <codeline lineno="44"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>CharT&gt;</highlight></codeline>
@@ -331,7 +331,7 @@
 <codeline lineno="55"><highlight class="normal"></highlight></codeline>
 <codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>CharT&gt;</highlight></codeline>
 <codeline lineno="57"><highlight class="normal">GSL_SUPPRESS(bounds.1)<sp/></highlight><highlight class="comment">//<sp/>NO-FORMAT:<sp/>attribute</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="58"><highlight class="normal">auto<sp/>strnlen(const<sp/>CharT*<sp/>s,<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">auto<sp/>strnlen(const<sp/>CharT*<sp/>s,<sp/><ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n)</highlight></codeline>
 <codeline lineno="59"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::find(s,<sp/>s<sp/>+<sp/>n,<sp/>CharT{0})<sp/>-<sp/>s;</highlight></codeline>
 <codeline lineno="61"><highlight class="normal">}</highlight></codeline>

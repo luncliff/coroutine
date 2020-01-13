@@ -1,105 +1,105 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="io__linux_8cpp" kind="file" language="C++">
     <compoundname>io_linux.cpp</compoundname>
     <includes refid="net_8h" local="no">coroutine/net.h</includes>
     <includes refid="event__poll_8h" local="yes">event_poll.h</includes>
     <incdepgraph>
-      <node id="5">
+      <node id="307">
         <label>coroutine/yield.hpp</label>
         <link refid="yield_8hpp_source"/>
-        <childnode refid="6" relation="include">
+        <childnode refid="308" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="313" relation="include">
         </childnode>
       </node>
-      <node id="11">
+      <node id="310">
+        <label>coroutine/frame.h</label>
+        <link refid="frame_8h_source"/>
+        <childnode refid="311" relation="include">
+        </childnode>
+        <childnode refid="312" relation="include">
+        </childnode>
+        <childnode refid="309" relation="include">
+        </childnode>
+      </node>
+      <node id="313">
         <label>iterator</label>
       </node>
-      <node id="10">
+      <node id="312">
         <label>cstdint</label>
       </node>
-      <node id="6">
+      <node id="304">
+        <label>coroutine/net.h</label>
+        <link refid="net_8h_source"/>
+        <childnode refid="305" relation="include">
+        </childnode>
+        <childnode refid="306" relation="include">
+        </childnode>
+        <childnode refid="307" relation="include">
+        </childnode>
+      </node>
+      <node id="317">
+        <label>fcntl.h</label>
+      </node>
+      <node id="303">
+        <label>modules/net/io_linux.cpp</label>
+        <link refid="io_linux.cpp"/>
+        <childnode refid="304" relation="include">
+        </childnode>
+        <childnode refid="314" relation="include">
+        </childnode>
+      </node>
+      <node id="308">
         <label>coroutine/return.h</label>
         <link refid="return_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="309" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="310" relation="include">
         </childnode>
       </node>
-      <node id="12">
+      <node id="306">
+        <label>gsl/gsl</label>
+      </node>
+      <node id="314">
         <label>event_poll.h</label>
         <link refid="event__poll_8h_source"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="315" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="316" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="317" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="318" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="319" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
+        <childnode refid="320" relation="include">
         </childnode>
       </node>
-      <node id="13">
+      <node id="315">
         <label>coroutine/event.h</label>
         <link refid="event_8h_source"/>
       </node>
-      <node id="8">
-        <label>coroutine/frame.h</label>
-        <link refid="frame_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="15">
-        <label>fcntl.h</label>
-      </node>
-      <node id="4">
-        <label>gsl/gsl</label>
-      </node>
-      <node id="18">
+      <node id="320">
         <label>unistd.h</label>
       </node>
-      <node id="17">
+      <node id="319">
         <label>sys/eventfd.h</label>
       </node>
-      <node id="1">
-        <label>modules/net/io_linux.cpp</label>
-        <link refid="io__linux_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
+      <node id="311">
         <label>cstddef</label>
       </node>
-      <node id="3">
+      <node id="305">
         <label>chrono</label>
       </node>
-      <node id="7">
+      <node id="309">
         <label>type_traits</label>
       </node>
-      <node id="2">
-        <label>coroutine/net.h</label>
-        <link refid="net_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="16">
+      <node id="318">
         <label>sys/epoll.h</label>
       </node>
-      <node id="14">
+      <node id="316">
         <label>memory</label>
       </node>
     </incdepgraph>
@@ -118,10 +118,10 @@
 <codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;event_poll.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ssize_t)<sp/>&lt;=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(int64_t));</highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1chrono" kindref="compound">std::chrono</ref>;</highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">coro<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight></codeline>
 <codeline lineno="15"><highlight class="normal">event_poll_t<sp/>inbound{},<sp/>outbound{};</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
@@ -161,19 +161,19 @@
 <codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>send_to(uint64_t<sp/>sd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sockaddr_in&amp;<sp/>remote,<sp/>io_buffer_t<sp/>buffer,</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>io_work_t&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/>io_send_to&amp;<sp/>{</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>work.handle<sp/>=<sp/>sd;</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>work.ptr<sp/>=<sp/>const_cast&lt;sockaddr_in*&gt;(addressof(remote));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>work.ptr<sp/>=<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="normal">sockaddr_in*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(remote));</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>work.internal_high<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(sockaddr_in);</highlight></codeline>
 <codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>work.buffer<sp/>=<sp/>buffer;</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*reinterpret_cast&lt;io_send_to*&gt;(addressof(work));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_send_to*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="57"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="58"><highlight class="normal"></highlight></codeline>
 <codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>send_to(uint64_t<sp/>sd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sockaddr_in6&amp;<sp/>remote,<sp/>io_buffer_t<sp/>buffer,</highlight></codeline>
 <codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>io_work_t&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/>io_send_to&amp;<sp/>{</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>work.handle<sp/>=<sp/>sd;</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>work.ptr<sp/>=<sp/>const_cast&lt;sockaddr_in6*&gt;(addressof(remote));</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>work.ptr<sp/>=<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="normal">sockaddr_in6*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(remote));</highlight></codeline>
 <codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>work.internal_high<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(sockaddr_in6);</highlight></codeline>
 <codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>work.buffer<sp/>=<sp/>buffer;</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*reinterpret_cast&lt;io_send_to*&gt;(addressof(work));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_send_to*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="66"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="67"><highlight class="normal"></highlight></codeline>
 <codeline lineno="68"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send_to::suspend(io_task_t<sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
@@ -190,8 +190,8 @@
 <codeline lineno="79"><highlight class="normal"></highlight></codeline>
 <codeline lineno="80"><highlight class="normal">int64_t<sp/>io_send_to::resume()<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sd<sp/>=<sp/>this-&gt;handle;</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addr<sp/>=<sp/>reinterpret_cast&lt;sockaddr*&gt;(this-&gt;ptr);</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addrlen<sp/>=<sp/>static_cast&lt;socklen_t&gt;(this-&gt;internal_high);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">sockaddr*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(this-&gt;ptr);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addrlen<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">socklen_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(this-&gt;internal_high);</highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>errc<sp/>=<sp/>this-&gt;</highlight><highlight class="keyword">internal</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sz<sp/>=<sp/>sendto(sd,<sp/>buffer.data(),<sp/>buffer.size_bytes(),<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>addr,<sp/>addrlen);</highlight></codeline>
@@ -208,7 +208,7 @@
 <codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>work.ptr<sp/>=<sp/>addressof(remote);</highlight></codeline>
 <codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>work.internal_high<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(sockaddr_in);</highlight></codeline>
 <codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>work.buffer<sp/>=<sp/>buffer;</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*reinterpret_cast&lt;io_recv_from*&gt;(addressof(work));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_recv_from*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="101"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"></highlight></codeline>
 <codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recv_from(uint64_t<sp/>sd,<sp/>sockaddr_in6&amp;<sp/>remote,<sp/>io_buffer_t<sp/>buffer,</highlight></codeline>
@@ -217,7 +217,7 @@
 <codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>work.ptr<sp/>=<sp/>addressof(remote);</highlight></codeline>
 <codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>work.internal_high<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(sockaddr_in6);</highlight></codeline>
 <codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>work.buffer<sp/>=<sp/>buffer;</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*reinterpret_cast&lt;io_recv_from*&gt;(addressof(work));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_recv_from*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="110"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="111"><highlight class="normal"></highlight></codeline>
 <codeline lineno="112"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv_from::suspend(io_task_t<sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
@@ -234,8 +234,8 @@
 <codeline lineno="123"><highlight class="normal"></highlight></codeline>
 <codeline lineno="124"><highlight class="normal">int64_t<sp/>io_recv_from::resume()<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sd<sp/>=<sp/>this-&gt;handle;</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addr<sp/>=<sp/>reinterpret_cast&lt;sockaddr*&gt;(this-&gt;ptr);</highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addrlen<sp/>=<sp/>static_cast&lt;socklen_t&gt;(this-&gt;internal_high);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">sockaddr*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(this-&gt;ptr);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addrlen<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">socklen_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(this-&gt;internal_high);</highlight></codeline>
 <codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>errc<sp/>=<sp/>this-&gt;</highlight><highlight class="keyword">internal</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sz<sp/>=<sp/>recvfrom(sd,<sp/>buffer.data(),<sp/>buffer.size_bytes(),<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>addr,<sp/>addressof(addrlen));</highlight></codeline>
@@ -252,7 +252,7 @@
 <codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>work.handle<sp/>=<sp/>sd;</highlight></codeline>
 <codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>work.internal<sp/>=<sp/>flag;</highlight></codeline>
 <codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>work.buffer<sp/>=<sp/>buffer;</highlight></codeline>
-<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*reinterpret_cast&lt;io_send*&gt;(addressof(work));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_send*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="145"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="146"><highlight class="normal"></highlight></codeline>
 <codeline lineno="147"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send::suspend(io_task_t<sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
@@ -285,7 +285,7 @@
 <codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>work.handle<sp/>=<sp/>sd;</highlight></codeline>
 <codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>work.internal<sp/>=<sp/>flag;</highlight></codeline>
 <codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>work.buffer<sp/>=<sp/>buffer;</highlight></codeline>
-<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*reinterpret_cast&lt;io_recv*&gt;(addressof(work));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_recv*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="178"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="179"><highlight class="normal"></highlight></codeline>
 <codeline lineno="180"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv::suspend(io_task_t<sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>

@@ -1,43 +1,40 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classcoro_1_1frame__t" kind="class" language="C++" prot="public" final="yes">
     <compoundname>coro::frame_t</compoundname>
     <basecompoundref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" prot="public" virt="non-virtual">std::experimental::coroutine_handle&lt; void &gt;</basecompoundref>
     <includes refid="return_8h" local="no">return.h</includes>
     <innerclass refid="classcoro_1_1frame__t_1_1promise__type" prot="public">coro::frame_t::promise_type</innerclass>
     <briefdescription>
-<para>A type to acquire <computeroutput>coroutine_handle&lt;void&gt;</computeroutput> from anonymous coroutine&apos;s return. </para>
-    </briefdescription>
+<para>A type to acquire <computeroutput>coroutine_handle&lt;void&gt;</computeroutput> from anonymous coroutine&apos;s return. </para>    </briefdescription>
     <detaileddescription>
-<para><simplesect kind="see"><para>coroutine_handle&lt;void&gt; </para>
-</simplesect>
-</para>
-    </detaileddescription>
+<para><simplesect kind="see"><para>coroutine_handle&lt;void&gt; </para></simplesect>
+</para>    </detaileddescription>
     <inheritancegraph>
-      <node id="2">
+      <node id="172">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="1">
+      <node id="171">
         <label>coro::frame_t</label>
         <link refid="classcoro_1_1frame__t"/>
-        <childnode refid="2" relation="public-inheritance">
+        <childnode refid="172" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="2">
+      <node id="174">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="1">
+      <node id="173">
         <label>coro::frame_t</label>
         <link refid="classcoro_1_1frame__t"/>
-        <childnode refid="2" relation="public-inheritance">
+        <childnode refid="174" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/return.h" line="69" column="39" bodyfile="interface/coroutine/return.h" bodystart="69" bodyend="92"/>
+    <location file="interface/coroutine/return.h" line="69" column="1" bodyfile="interface/coroutine/return.h" bodystart="69" bodyend="92"/>
     <listofallmembers>
       <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a91b3e76af53b029da67649a99a7efdd5" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>address</name></member>
       <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a2d93acbaf2756143278d58623e972ef7" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>coroutine_handle</name></member>

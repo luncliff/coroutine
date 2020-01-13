@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classcoro_1_1io__work__t" kind="class" language="C++" prot="public">
     <compoundname>coro::io_work_t</compoundname>
     <basecompoundref prot="public" virt="non-virtual">io_control_block</basecompoundref>
@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="86" column="15" bodyfile="interface/coroutine/net.h" bodystart="86" bodyend="-1"/>
+        <location file="interface/coroutine/net.h" line="86" column="1" bodyfile="interface/coroutine/net.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcoro_1_1io__work__t_1aa2108f1c95a93873abf686f496f9f719" prot="public" static="no" mutable="no">
         <type>io_buffer_t</type>
@@ -34,11 +34,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="87" column="17" bodyfile="interface/coroutine/net.h" bodystart="87" bodyend="-1"/>
+        <location file="interface/coroutine/net.h" line="87" column="1" bodyfile="interface/coroutine/net.h" bodystart="87" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
-      <memberdef kind="function" id="classcoro_1_1io__work__t_1ad2abca547f53bd91caa112e3ea78271c" prot="protected" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1io__work__t_1ad2abca547f53bd91caa112e3ea78271c" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>_INTERFACE_ bool</type>
         <definition>bool coro::io_work_t::ready</definition>
         <argsstring>() const noexcept</argsstring>
@@ -49,11 +49,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="90" column="22" bodyfile="modules/net/io_darwin.cpp" bodystart="36" bodyend="46"/>
+        <location file="interface/coroutine/net.h" line="90" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="36" bodyend="46"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classcoro_1_1io__work__t_1aefde12bcce0b60f06c1a4f168a830142" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1io__work__t_1aefde12bcce0b60f06c1a4f168a830142" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>_INTERFACE_ uint32_t</type>
         <definition>uint32_t coro::io_work_t::error</definition>
         <argsstring>() const noexcept</argsstring>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="94" column="26" bodyfile="modules/net/io_darwin.cpp" bodystart="48" bodyend="50"/>
+        <location file="interface/coroutine/net.h" line="94" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="48" bodyend="50"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -72,59 +72,59 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="1">
+      <node id="205">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="2" relation="public-inheritance">
+        <childnode refid="206" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="207">
         <label>coro::io_recv</label>
         <link refid="classcoro_1_1io__recv"/>
-        <childnode refid="1" relation="public-inheritance">
+        <childnode refid="205" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="2">
+      <node id="206">
         <label>io_control_block</label>
       </node>
-      <node id="4">
+      <node id="208">
         <label>coro::io_recv_from</label>
         <link refid="classcoro_1_1io__recv__from"/>
-        <childnode refid="1" relation="public-inheritance">
+        <childnode refid="205" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="209">
         <label>coro::io_send</label>
         <link refid="classcoro_1_1io__send"/>
-        <childnode refid="1" relation="public-inheritance">
+        <childnode refid="205" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="210">
         <label>coro::io_send_to</label>
         <link refid="classcoro_1_1io__send__to"/>
-        <childnode refid="1" relation="public-inheritance">
+        <childnode refid="205" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="1">
+      <node id="211">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="2" relation="public-inheritance">
+        <childnode refid="212" relation="public-inheritance">
         </childnode>
-        <childnode refid="3" relation="usage">
+        <childnode refid="213" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="2">
+      <node id="212">
         <label>io_control_block</label>
       </node>
-      <node id="3">
+      <node id="213">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/net.h" line="84" column="40" bodyfile="interface/coroutine/net.h" bodystart="84" bodyend="95"/>
+    <location file="interface/coroutine/net.h" line="84" column="1" bodyfile="interface/coroutine/net.h" bodystart="84" bodyend="95"/>
     <listofallmembers>
       <member refid="classcoro_1_1io__work__t_1aa2108f1c95a93873abf686f496f9f719" prot="public" virt="non-virtual"><scope>coro::io_work_t</scope><name>buffer</name></member>
       <member refid="classcoro_1_1io__work__t_1aefde12bcce0b60f06c1a4f168a830142" prot="public" virt="non-virtual"><scope>coro::io_work_t</scope><name>error</name></member>

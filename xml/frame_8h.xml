@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="frame_8h" kind="file" language="C++">
     <compoundname>frame.h</compoundname>
     <includes local="no">cstddef</includes>
@@ -8,48 +8,48 @@
     <includedby refid="return_8h" local="no">interface/coroutine/return.h</includedby>
     <includedby refid="event__windows_8cpp" local="no">modules/event/event_windows.cpp</includedby>
     <incdepgraph>
-      <node id="3">
+      <node id="136">
+        <label>interface/coroutine/frame.h</label>
+        <link refid="frame.h"/>
+        <childnode refid="137" relation="include">
+        </childnode>
+        <childnode refid="138" relation="include">
+        </childnode>
+        <childnode refid="139" relation="include">
+        </childnode>
+      </node>
+      <node id="138">
         <label>cstdint</label>
       </node>
-      <node id="1">
-        <label>interface/coroutine/frame.h</label>
-        <link refid="frame_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="2">
+      <node id="137">
         <label>cstddef</label>
       </node>
-      <node id="4">
+      <node id="139">
         <label>type_traits</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
+      <node id="142">
         <label>interface/coroutine/yield.hpp</label>
         <link refid="yield_8hpp_source"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="143" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>interface/coroutine/return.h</label>
-        <link refid="return_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="1">
+      <node id="140">
         <label>interface/coroutine/frame.h</label>
-        <link refid="frame_8h"/>
-        <childnode refid="2" relation="include">
+        <link refid="frame.h"/>
+        <childnode refid="141" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="143">
         <label>interface/coroutine/net.h</label>
         <link refid="net_8h_source"/>
+      </node>
+      <node id="141">
+        <label>interface/coroutine/return.h</label>
+        <link refid="return_8h"/>
+        <childnode refid="142" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="structmsvc__frame__prefix" prot="public">msvc_frame_prefix</innerclass>
@@ -79,7 +79,7 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
-      <memberdef kind="variable" id="frame_8h_1abee7037222597d67247c60a41fcedc80" prot="public" static="no" constexpr="yes" mutable="no">
+      <memberdef kind="variable" id="frame_8h_1abee7037222597d67247c60a41fcedc80" prot="public" static="no" mutable="no">
         <templateparamlist>
           <param>
             <type>typename T</type>
@@ -96,11 +96,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="90" column="16" bodyfile="interface/coroutine/frame.h" bodystart="90" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="90" column="1" bodyfile="interface/coroutine/frame.h" bodystart="90" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="frame_8h_1a5bb86b7b6ba79d344e36d104b4a67f23" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="frame_8h_1a5bb86b7b6ba79d344e36d104b4a67f23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool _coro_finished</definition>
         <argsstring>(const msvc_frame_prefix *) noexcept</argsstring>
@@ -114,7 +114,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="138" column="6" declfile="interface/coroutine/frame.h" declline="138" declcolumn="6"/>
+        <location file="interface/coroutine/frame.h" line="138" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8h_1a5d0e68792f8b064aa120ae1418c03b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -130,7 +130,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="143" column="19" declfile="interface/coroutine/frame.h" declline="143" declcolumn="19"/>
+        <location file="interface/coroutine/frame.h" line="143" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8h_1a5a4e460c9fbacbd253a7fc3c17ee0e9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -146,7 +146,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="144" column="17" declfile="interface/coroutine/frame.h" declline="144" declcolumn="17"/>
+        <location file="interface/coroutine/frame.h" line="144" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8h_1afb7c0a1ff1cf3ec9331651fa180a1f55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -162,7 +162,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="145" column="19" declfile="interface/coroutine/frame.h" declline="145" declcolumn="19"/>
+        <location file="interface/coroutine/frame.h" line="145" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8h_1acb7f973f4e6ad1693c30280e369d927b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -178,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="150" column="17" declfile="interface/coroutine/frame.h" declline="150" declcolumn="17"/>
+        <location file="interface/coroutine/frame.h" line="150" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8h_1a689025ba7111862b86b178803894cb99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -194,7 +194,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="151" column="17" declfile="interface/coroutine/frame.h" declline="151" declcolumn="17"/>
+        <location file="interface/coroutine/frame.h" line="151" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8h_1a2f56e6ded0ef72ae52ad3b71e829e9fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -210,7 +210,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="152" column="17" declfile="interface/coroutine/frame.h" declline="152" declcolumn="17"/>
+        <location file="interface/coroutine/frame.h" line="152" column="1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -372,7 +372,7 @@
 <codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>__builtin_coro_destroy(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
 <codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>void*<sp/>__builtin_coro_promise(void*<sp/>ptr,<sp/>int<sp/>align,<sp/>bool<sp/>p);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="154"><highlight class="normal"></highlight></codeline>
-<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">std<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref><sp/>{</highlight></codeline>
 <codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">experimental<sp/>{</highlight></codeline>
 <codeline lineno="157"><highlight class="normal"></highlight></codeline>
 <codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>template<sp/>&lt;typename<sp/>R,<sp/>class<sp/>=<sp/>void&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -408,24 +408,24 @@
 <codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>prefix_t<sp/>prefix;</highlight></codeline>
 <codeline lineno="189"><highlight class="normal"></highlight></codeline>
 <codeline lineno="190"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>()<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
-<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>()<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
-<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>(<ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref><sp/>const&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
-<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>(<ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&amp;&amp;<sp/>rhs)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
-<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&amp;<sp/>operator=(<ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref><sp/>const&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
-<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&amp;<sp/>operator=(<ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&amp;&amp;<sp/>rhs)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>()<sp/>noexcept<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>()<sp/>noexcept<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>(<ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;)<sp/>noexcept<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>(<ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&amp;&amp;<sp/>rhs)<sp/>noexcept<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&amp;<sp/>operator=(<ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;)<sp/>noexcept<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&amp;<sp/>operator=(<ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&amp;&amp;<sp/>rhs)<sp/>noexcept<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="197"><highlight class="normal"></highlight></codeline>
 <codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>(std::nullptr_t)<sp/>noexcept<sp/>:<sp/>prefix{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">}<sp/>{</highlight></codeline>
 <codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>coroutine_handle&amp;<sp/>operator=(nullptr_t)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&amp;<sp/>operator=(nullptr_t)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prefix.v<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="204"><highlight class="normal"></highlight></codeline>
-<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>prefix.v<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>resume()<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>resume()<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
 <codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_coro_resume(prefix.m);</highlight></codeline>
 <codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
@@ -443,7 +443,7 @@
 <codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__builtin_coro_destroy(prefix.g);</highlight></codeline>
 <codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>done()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>done()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
 <codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_coro_finished(prefix.m);</highlight></codeline>
 <codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
@@ -456,19 +456,19 @@
 <codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="237"><highlight class="normal"></highlight></codeline>
 <codeline lineno="238"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>address()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>address()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>prefix.v;</highlight></codeline>
 <codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="242"><highlight class="normal"></highlight></codeline>
-<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>coroutine_handle<sp/>from_address(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>addr)<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coroutine_handle<sp/>rh{};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref><sp/>from_address(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>addr)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref><sp/>rh{};</highlight></codeline>
 <codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rh.prefix.v<sp/>=<sp/>addr;</highlight></codeline>
 <codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rh;</highlight></codeline>
 <codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="248"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="249"><highlight class="normal"></highlight></codeline>
 <codeline lineno="250"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>PromiseType&gt;</highlight></codeline>
-<codeline lineno="251"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">coroutine_handle<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt;void&gt;<sp/>{</highlight></codeline>
 <codeline lineno="252"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>promise_type<sp/>=<sp/>PromiseType;</highlight></codeline>
 <codeline lineno="254"><highlight class="normal"></highlight></codeline>
@@ -479,31 +479,31 @@
 <codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>prefix<sp/>=<sp/>addr.c;</highlight></codeline>
 <codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>clang,<sp/>promise<sp/>is<sp/>placed<sp/>just<sp/>after<sp/>frame<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>this<sp/>line<sp/>works<sp/>like<sp/>`__builtin_coro_promise`,</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>promise<sp/>=<sp/>reinterpret_cast&lt;promise_type*&gt;(prefix<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>promise<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">promise_type*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(prefix<sp/>+<sp/>1);</highlight></codeline>
 <codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>promise;</highlight></codeline>
 <codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
-<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/>reinterpret_cast&lt;char*&gt;(addr.m);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addr.m);</highlight></codeline>
 <codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>msvc,<sp/>promise<sp/>is<sp/>placed<sp/>before<sp/>frame<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>promise<sp/>=<sp/>reinterpret_cast&lt;promise_type*&gt;(</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>promise<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">promise_type*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
 <codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptr<sp/>-<sp/>aligned_size_v&lt;promise_type&gt;);</highlight></codeline>
 <codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>promise;</highlight></codeline>
 <codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_gcc)<sp/>{</highlight></codeline>
 <codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=</highlight></codeline>
 <codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__builtin_coro_promise(addr.g,<sp/>__alignof(promise_type),<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>reinterpret_cast&lt;promise_type*&gt;(ptr);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">promise_type*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr);</highlight></codeline>
 <codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>!!!<sp/>crash<sp/>!!!</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="278"><highlight class="normal"></highlight></codeline>
 <codeline lineno="279"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;::coroutine_handle;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle&lt;void&gt;::coroutine_handle</ref>;</highlight></codeline>
 <codeline lineno="281"><highlight class="normal"></highlight></codeline>
-<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>coroutine_handle&amp;<sp/>operator=(nullptr_t)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&amp;<sp/>operator=(nullptr_t)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;prefix.v<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>promise()<sp/>const<sp/>noexcept<sp/>-&gt;<sp/>const<sp/>promise_type&amp;<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>promise()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>noexcept<sp/>-&gt;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>promise_type&amp;<sp/>{</highlight></codeline>
 <codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>promise_type*<sp/>p<sp/>=<sp/>from_frame(prefix);</highlight></codeline>
 <codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*p;</highlight></codeline>
 <codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -513,55 +513,55 @@
 <codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="294"><highlight class="normal"></highlight></codeline>
 <codeline lineno="295"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>coroutine_handle<sp/>from_address(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>addr)<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coroutine_handle<sp/>rh{};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref><sp/>from_address(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>addr)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref><sp/>rh{};</highlight></codeline>
 <codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rh.prefix.v<sp/>=<sp/>addr;</highlight></codeline>
 <codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rh;</highlight></codeline>
 <codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="301"><highlight class="normal"></highlight></codeline>
-<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>coroutine_handle<sp/>from_promise(promise_type&amp;<sp/>prom)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref><sp/>from_promise(promise_type&amp;<sp/>prom)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>promise_type*<sp/>promise<sp/>=<sp/>&amp;prom;</highlight></codeline>
 <codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>calculate<sp/>the<sp/>location<sp/>of<sp/>the<sp/>coroutine<sp/>frame<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
 <codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>prefix<sp/>=</highlight></codeline>
-<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reinterpret_cast&lt;char*&gt;(promise)<sp/>-<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref>);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(promise)<sp/>-<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref>);</highlight></codeline>
 <codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>coroutine_handle::from_address(prefix);</highlight></codeline>
 <codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
 <codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>prefix<sp/>=</highlight></codeline>
-<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reinterpret_cast&lt;char*&gt;(promise)<sp/>+<sp/>aligned_size_v&lt;promise_type&gt;;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(promise)<sp/>+<sp/>aligned_size_v&lt;promise_type&gt;;</highlight></codeline>
 <codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>coroutine_handle::from_address(prefix);</highlight></codeline>
 <codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_gcc)<sp/>{</highlight></codeline>
 <codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>prefix<sp/>=<sp/>__builtin_coro_promise(</highlight></codeline>
 <codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reinterpret_cast&lt;char*&gt;(&amp;prom),<sp/>__alignof(promise_type),<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>coroutine_handle::from_address(prefix);</highlight></codeline>
 <codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>coroutine_handle{};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>{};</highlight></codeline>
 <codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="320"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="321"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(coroutine_handle&lt;void&gt;)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*));</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref>)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*));</highlight></codeline>
 <codeline lineno="322"><highlight class="normal"></highlight></codeline>
-<codeline lineno="323"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>lhs,</highlight></codeline>
-<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>lhs,</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>lhs.address()<sp/>==<sp/>rhs.address();</highlight></codeline>
 <codeline lineno="326"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="327"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator!=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>lhs,</highlight></codeline>
-<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator!=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>lhs,</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(lhs<sp/>==<sp/>rhs);</highlight></codeline>
 <codeline lineno="330"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="331"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator&lt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>lhs,</highlight></codeline>
-<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator&lt;(const<sp/>coroutine_handle&lt;void&gt;<sp/>lhs,</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>lhs.address()<sp/>&lt;<sp/>rhs.address();</highlight></codeline>
 <codeline lineno="334"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="335"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>lhs,</highlight></codeline>
-<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>lhs,</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(lhs<sp/>&lt;<sp/>rhs);</highlight></codeline>
 <codeline lineno="338"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="339"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator&lt;=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>lhs,</highlight></codeline>
-<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator&lt;=(const<sp/>coroutine_handle&lt;void&gt;<sp/>lhs,</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(lhs<sp/>&gt;<sp/>rhs);</highlight></codeline>
 <codeline lineno="342"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="343"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator&gt;=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>lhs,</highlight></codeline>
-<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coroutine_handle&lt;void&gt;<sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator&gt;=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>lhs,</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>rhs)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(lhs<sp/>&lt;<sp/>rhs);</highlight></codeline>
 <codeline lineno="346"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="347"><highlight class="normal"></highlight></codeline>
@@ -600,7 +600,7 @@
 <codeline lineno="380"><highlight class="normal"></highlight></codeline>
 <codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structstd_1_1experimental_1_1noop__coroutine__promise" kindref="compound">noop_coroutine_promise</ref>&amp;<sp/>promise()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="382"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__clang__)<sp/>&amp;&amp;<sp/>__has_builtin(__builtin_coro_noop)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*static_cast&lt;noop_coroutine_promise*&gt;(__builtin_coro_promise(</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="structstd_1_1experimental_1_1noop__coroutine__promise" kindref="compound">noop_coroutine_promise</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(__builtin_coro_promise(</highlight></codeline>
 <codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;prefix.v,<sp/>__alignof(<ref refid="structstd_1_1experimental_1_1noop__coroutine__promise" kindref="compound">noop_coroutine_promise</ref>),<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
 <codeline lineno="385"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structstd_1_1experimental_1_1noop__coroutine__promise" kindref="compound">noop_coroutine_promise</ref><sp/>p{};</highlight></codeline>
@@ -657,18 +657,18 @@
 <codeline lineno="437"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>_coro_finished(<ref refid="structmsvc__frame__prefix" kindref="compound">msvc_frame_prefix</ref>*<sp/>m)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>expect:<sp/>coroutine<sp/>==<sp/>suspended</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>expect:<sp/>coroutine<sp/>!=<sp/>destroyed</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>c<sp/>=<sp/>reinterpret_cast&lt;clang_frame_prefix*&gt;(m);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>c<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal"><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(m);</highlight></codeline>
 <codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>__builtin_coro_done(c)<sp/>?<sp/>1<sp/>:<sp/>0;</highlight></codeline>
 <codeline lineno="442"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="443"><highlight class="normal"></highlight></codeline>
 <codeline lineno="444"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>_coro_resume(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>addr)<sp/>{</highlight></codeline>
-<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>c<sp/>=<sp/>reinterpret_cast&lt;clang_frame_prefix*&gt;(addr);</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>c<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal"><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addr);</highlight></codeline>
 <codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>__builtin_coro_resume(c);</highlight></codeline>
 <codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
 <codeline lineno="448"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="449"><highlight class="normal"></highlight></codeline>
 <codeline lineno="450"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>_coro_destroy(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>addr)<sp/>{</highlight></codeline>
-<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>c<sp/>=<sp/>reinterpret_cast&lt;clang_frame_prefix*&gt;(addr);</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>c<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal"><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addr);</highlight></codeline>
 <codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>__builtin_coro_destroy(c);</highlight></codeline>
 <codeline lineno="453"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="454"><highlight class="normal"></highlight></codeline>
@@ -680,13 +680,13 @@
 <codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>prefix-&gt;index<sp/>==<sp/>0;</highlight></codeline>
 <codeline lineno="461"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="462"><highlight class="normal"></highlight></codeline>
-<codeline lineno="463"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">std::experimental<sp/>{</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1experimental" kindref="compound">std::experimental</ref><sp/>{</highlight></codeline>
 <codeline lineno="464"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>traits<sp/>for<sp/>MSVC&apos;s<sp/>coroutine<sp/>compilation.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="465"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>original<sp/>code<sp/>is<sp/>in<sp/>&lt;experimental/resumable&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="466"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>_Ret,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>_Ts&gt;</highlight></codeline>
 <codeline lineno="467"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_Resumable_helper_traits<sp/>{</highlight></codeline>
-<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>promise_type<sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>coroutine_traits&lt;_Ret,<sp/>_Ts...&gt;::promise_type;</highlight></codeline>
-<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>handle_type<sp/>=<sp/>coroutine_handle&lt;promise_type&gt;;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>promise_type<sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="structstd_1_1experimental_1_1coroutine__traits" kindref="compound">coroutine_traits</ref>&lt;_Ret,<sp/>_Ts...&gt;::promise_type;</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>handle_type<sp/>=<sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle&lt;promise_type&gt;</ref>;</highlight></codeline>
 <codeline lineno="470"><highlight class="normal"></highlight></codeline>
 <codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>promise_type*<sp/>_Promise_from_frame(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>addr)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>prom<sp/>=<sp/>handle_type::from_address(addr).promise();</highlight></codeline>
@@ -705,11 +705,11 @@
 <codeline lineno="485"><highlight class="normal"></highlight></codeline>
 <codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>_ConstructPromise(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>addr,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>func,</highlight></codeline>
 <codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>_HeapElision)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>prefix<sp/>=<sp/>static_cast&lt;msvc_frame_prefix*&gt;(addr);</highlight></codeline>
-<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prefix-&gt;factivate<sp/>=<sp/>static_cast&lt;procedure_t&gt;(func);</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>prefix<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="structmsvc__frame__prefix" kindref="compound">msvc_frame_prefix</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addr);</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prefix-&gt;factivate<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">procedure_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(func);</highlight></codeline>
 <codeline lineno="490"><highlight class="normal"></highlight></codeline>
-<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t*<sp/>ptr<sp/>=<sp/>reinterpret_cast&lt;uint32_t*&gt;(</highlight></codeline>
-<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reinterpret_cast&lt;uintptr_t&gt;(prefix)<sp/>+<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*));</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uint32_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(prefix)<sp/>+<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*));</highlight></codeline>
 <codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*ptr<sp/>=<sp/>2<sp/>+<sp/>(_HeapElision<sp/>?<sp/>0<sp/>:<sp/>0x10000);</highlight></codeline>
 <codeline lineno="494"><highlight class="normal"></highlight></codeline>
 <codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>prom<sp/>=<sp/>_Promise_from_frame(prefix);</highlight></codeline>
@@ -717,7 +717,7 @@
 <codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="498"><highlight class="normal"></highlight></codeline>
 <codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>_DestructPromise(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>addr)<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>prefix<sp/>=<sp/>static_cast&lt;msvc_frame_prefix*&gt;(addr);</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>prefix<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="structmsvc__frame__prefix" kindref="compound">msvc_frame_prefix</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addr);</highlight></codeline>
 <codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_Promise_from_frame(prefix)-&gt;~promise_type();</highlight></codeline>
 <codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="503"><highlight class="normal">};</highlight></codeline>

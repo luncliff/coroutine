@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="structcoro_1_1event__poll__t" kind="struct" language="C++" prot="public" final="yes">
     <compoundname>coro::event_poll_t</compoundname>
       <sectiondef kind="public-attrib">
@@ -14,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_poll.h" line="20" column="9" bodyfile="modules/event/event_poll.h" bodystart="20" bodyend="-1"/>
+        <location file="modules/event/event_poll.h" line="20" column="1" bodyfile="modules/event/event_poll.h" bodystart="20" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structcoro_1_1event__poll__t_1a023cf75931814423442b9af0bcaea90f" prot="public" static="no" mutable="no">
         <type>const size_t</type>
@@ -27,7 +27,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_poll.h" line="21" column="18" bodyfile="modules/event/event_poll.h" bodystart="21" bodyend="-1"/>
+        <location file="modules/event/event_poll.h" line="21" column="1" bodyfile="modules/event/event_poll.h" bodystart="21" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structcoro_1_1event__poll__t_1aa77b37ba0babe3c139b621ae5ee7bce5" prot="public" static="no" mutable="no">
         <type>std::unique_ptr&lt; epoll_event[]&gt;</type>
@@ -40,11 +40,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_poll.h" line="22" column="21" bodyfile="modules/event/event_poll.h" bodystart="22" bodyend="-1"/>
+        <location file="modules/event/event_poll.h" line="22" column="1" bodyfile="modules/event/event_poll.h" bodystart="22" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="structcoro_1_1event__poll__t_1a072ac63ba622c7e98caeed6694d2e968" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="structcoro_1_1event__poll__t_1a072ac63ba622c7e98caeed6694d2e968" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>coro::event_poll_t::event_poll_t</definition>
         <argsstring>() noexcept(false)</argsstring>
@@ -55,9 +55,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_poll.h" line="25" column="5" bodyfile="modules/event/event_poll.cpp" bodystart="12" bodyend="20"/>
+        <location file="modules/event/event_poll.h" line="25" column="1" bodyfile="modules/event/event_poll.cpp" bodystart="12" bodyend="20"/>
       </memberdef>
-      <memberdef kind="function" id="structcoro_1_1event__poll__t_1a07f57b3b6edb836e03bd29d0d90adb0c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="structcoro_1_1event__poll__t_1a07f57b3b6edb836e03bd29d0d90adb0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>coro::event_poll_t::~event_poll_t</definition>
         <argsstring>() noexcept</argsstring>
@@ -68,9 +68,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_poll.h" line="26" column="5" bodyfile="modules/event/event_poll.cpp" bodystart="21" bodyend="23"/>
+        <location file="modules/event/event_poll.h" line="26" column="1" bodyfile="modules/event/event_poll.cpp" bodystart="21" bodyend="23"/>
       </memberdef>
-      <memberdef kind="function" id="structcoro_1_1event__poll__t_1af3a35a047a844fa726d486794a4e8404" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="structcoro_1_1event__poll__t_1af3a35a047a844fa726d486794a4e8404" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void coro::event_poll_t::try_add</definition>
         <argsstring>(uint64_t fd, epoll_event &amp;req) noexcept(false)</argsstring>
@@ -89,7 +89,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_poll.h" line="28" column="10" bodyfile="modules/event/event_poll.cpp" bodystart="25" bodyend="37"/>
+        <location file="modules/event/event_poll.h" line="28" column="1" bodyfile="modules/event/event_poll.cpp" bodystart="25" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="structcoro_1_1event__poll__t_1a85b549884413bd37740515c78f86bdb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -106,9 +106,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_poll.h" line="29" column="10" bodyfile="modules/event/event_poll.cpp" bodystart="39" bodyend="44"/>
+        <location file="modules/event/event_poll.h" line="29" column="1" bodyfile="modules/event/event_poll.cpp" bodystart="39" bodyend="44"/>
       </memberdef>
-      <memberdef kind="function" id="structcoro_1_1event__poll__t_1a4c56de3d7d1762001a79b0586a093828" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="structcoro_1_1event__poll__t_1a4c56de3d7d1762001a79b0586a093828" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
         <definition>auto coro::event_poll_t::wait</definition>
         <argsstring>(int timeout) noexcept(false) -&gt; enumerable&lt; epoll_event &gt;</argsstring>
@@ -123,14 +123,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_poll.h" line="30" column="10" bodyfile="modules/event/event_poll.cpp" bodystart="46" bodyend="55"/>
+        <location file="modules/event/event_poll.h" line="30" column="1" bodyfile="modules/event/event_poll.cpp" bodystart="46" bodyend="55"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="modules/event/event_poll.h" line="19" column="18" bodyfile="modules/event/event_poll.h" bodystart="19" bodyend="31"/>
+    <location file="modules/event/event_poll.h" line="19" column="1" bodyfile="modules/event/event_poll.h" bodystart="19" bodyend="31"/>
     <listofallmembers>
       <member refid="structcoro_1_1event__poll__t_1a023cf75931814423442b9af0bcaea90f" prot="public" virt="non-virtual"><scope>coro::event_poll_t</scope><name>capacity</name></member>
       <member refid="structcoro_1_1event__poll__t_1a445a28935dd1cbe9854ea2b68a2f2bfc" prot="public" virt="non-virtual"><scope>coro::event_poll_t</scope><name>epfd</name></member>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classcoro_1_1peeker" kind="class" language="C++" prot="public">
     <compoundname>coro::peeker</compoundname>
     <basecompoundref refid="classcoro_1_1reader" prot="protected" virt="non-virtual">coro::reader&lt; T, M &gt;</basecompoundref>
@@ -23,7 +23,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="337" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="337" bodyend="-1"/>
+        <location file="interface/coroutine/channel.hpp" line="337" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="337" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1peeker_1af40b2c507a7811bf7b4cb39fd51f5cff" prot="private" static="no">
         <type><ref refid="classcoro_1_1channel" kindref="compound">channel</ref>&lt; T, M &gt;</type>
@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="338" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="338" bodyend="-1"/>
+        <location file="interface/coroutine/channel.hpp" line="338" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="338" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1peeker_1a1b5939a4c375fd221a9b69a476ee76c7" prot="private" static="no">
         <type>typename channel_type::reader</type>
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="339" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="339" bodyend="-1"/>
+        <location file="interface/coroutine/channel.hpp" line="339" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="339" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1peeker_1a2f401d6d7d49fc161d8dee0d32377e7a" prot="private" static="no">
         <type>typename channel_type::writer</type>
@@ -62,11 +62,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="340" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="340" bodyend="-1"/>
+        <location file="interface/coroutine/channel.hpp" line="340" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="340" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
-      <memberdef kind="function" id="classcoro_1_1peeker_1a553cf225a304e1830bd751763b931846" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1peeker_1a553cf225a304e1830bd751763b931846" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>coro::peeker&lt; T, M &gt;::peeker</definition>
         <argsstring>(const peeker &amp;) noexcept(false)=delete</argsstring>
@@ -80,9 +80,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="343" column="5"/>
+        <location file="interface/coroutine/channel.hpp" line="343" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1peeker_1a9506af829a3679cee7d640863273b6a5" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1peeker_1a9506af829a3679cee7d640863273b6a5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>coro::peeker&lt; T, M &gt;::peeker</definition>
         <argsstring>(peeker &amp;&amp;) noexcept(false)=delete</argsstring>
@@ -96,9 +96,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="344" column="5"/>
+        <location file="interface/coroutine/channel.hpp" line="344" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1peeker_1aa4365123e514fd0e862880de04309663" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1peeker_1aa4365123e514fd0e862880de04309663" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>peeker &amp;</type>
         <definition>peeker&amp; coro::peeker&lt; T, M &gt;::operator=</definition>
         <argsstring>(const peeker &amp;) noexcept(false)=delete</argsstring>
@@ -112,9 +112,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="345" column="12"/>
+        <location file="interface/coroutine/channel.hpp" line="345" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1peeker_1a30fee19e4abfe6c6c02426c8fffb9271" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1peeker_1a30fee19e4abfe6c6c02426c8fffb9271" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>peeker &amp;</type>
         <definition>peeker&amp; coro::peeker&lt; T, M &gt;::operator=</definition>
         <argsstring>(peeker &amp;&amp;) noexcept(false)=delete</argsstring>
@@ -128,11 +128,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="346" column="12"/>
+        <location file="interface/coroutine/channel.hpp" line="346" column="1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classcoro_1_1peeker_1a771cc447fded1e7e7a00713616dafa9c" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1peeker_1a771cc447fded1e7e7a00713616dafa9c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
         <definition>coro::peeker&lt; T, M &gt;::peeker</definition>
         <argsstring>(channel_type &amp;ch) noexcept(false)</argsstring>
@@ -147,9 +147,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="349" column="14" bodyfile="interface/coroutine/channel.hpp" bodystart="349" bodyend="350"/>
+        <location file="interface/coroutine/channel.hpp" line="349" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="349" bodyend="350"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1peeker_1a64be2881d163164ab17ce97c6b1c8cce" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1peeker_1a64be2881d163164ab17ce97c6b1c8cce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>coro::peeker&lt; T, M &gt;::~peeker</definition>
         <argsstring>() noexcept=default</argsstring>
@@ -160,9 +160,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="351" column="5"/>
+        <location file="interface/coroutine/channel.hpp" line="351" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1peeker_1a1304d55086488f0ee1c788a4fb4ea5ff" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1peeker_1a1304d55086488f0ee1c788a4fb4ea5ff" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
         <definition>void coro::peeker&lt; T, M &gt;::peek</definition>
         <argsstring>() const noexcept(false)</argsstring>
@@ -173,9 +173,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="354" column="10" bodyfile="interface/coroutine/channel.hpp" bodystart="354" bodyend="362"/>
+        <location file="interface/coroutine/channel.hpp" line="354" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="354" bodyend="362"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1peeker_1a8d57ce07ece2c6b0b70272e7654fbdf2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1peeker_1a8d57ce07ece2c6b0b70272e7654fbdf2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
         <definition>bool coro::peeker&lt; T, M &gt;::acquire</definition>
         <argsstring>(value_type &amp;storage) noexcept(false)</argsstring>
@@ -190,7 +190,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="363" column="10" bodyfile="interface/coroutine/channel.hpp" bodystart="363" bodyend="373"/>
+        <location file="interface/coroutine/channel.hpp" line="363" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="363" bodyend="373"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -198,47 +198,47 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="1">
+      <node id="234">
         <label>coro::peeker&lt; T, M &gt;</label>
         <link refid="classcoro_1_1peeker"/>
-        <childnode refid="2" relation="protected-inheritance">
+        <childnode refid="235" relation="protected-inheritance">
         </childnode>
       </node>
-      <node id="2">
+      <node id="235">
         <label>coro::reader&lt; T, M &gt;</label>
         <link refid="classcoro_1_1reader"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="3">
+      <node id="238">
         <label>coro::channel&lt; T, M &gt;</label>
         <link refid="classcoro_1_1channel"/>
-        <childnode refid="4" relation="private-inheritance">
+        <childnode refid="239" relation="private-inheritance">
         </childnode>
-        <childnode refid="5" relation="private-inheritance">
+        <childnode refid="240" relation="private-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="240">
         <label>coro::internal::list&lt; writer&lt; T, M &gt; &gt;</label>
         <link refid="classcoro_1_1internal_1_1list"/>
       </node>
-      <node id="1">
+      <node id="236">
         <label>coro::peeker&lt; T, M &gt;</label>
         <link refid="classcoro_1_1peeker"/>
-        <childnode refid="2" relation="protected-inheritance">
+        <childnode refid="237" relation="protected-inheritance">
         </childnode>
       </node>
-      <node id="4">
+      <node id="239">
         <label>coro::internal::list&lt; reader&lt; T, M &gt; &gt;</label>
         <link refid="classcoro_1_1internal_1_1list"/>
       </node>
-      <node id="2">
+      <node id="237">
         <label>coro::reader&lt; T, M &gt;</label>
         <link refid="classcoro_1_1reader"/>
-        <childnode refid="3" relation="usage">
+        <childnode refid="238" relation="usage">
           <edgelabel>chan</edgelabel>
         </childnode>
-        <childnode refid="2" relation="usage">
+        <childnode refid="237" relation="usage">
           <edgelabel>next</edgelabel>
         </childnode>
       </node>

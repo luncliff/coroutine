@@ -1,55 +1,55 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="return_8h" kind="file" language="C++">
     <compoundname>return.h</compoundname>
     <includes local="no">type_traits</includes>
     <includes refid="frame_8h" local="no">coroutine/frame.h</includes>
     <includedby refid="yield_8hpp" local="no">interface/coroutine/yield.hpp</includedby>
     <incdepgraph>
-      <node id="5">
-        <label>cstdint</label>
-      </node>
-      <node id="1">
-        <label>interface/coroutine/return.h</label>
-        <link refid="return_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
+      <node id="157">
         <label>coroutine/frame.h</label>
         <link refid="frame_8h_source"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="158" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="159" relation="include">
         </childnode>
-        <childnode refid="2" relation="include">
+        <childnode refid="156" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="159">
+        <label>cstdint</label>
+      </node>
+      <node id="155">
+        <label>interface/coroutine/return.h</label>
+        <link refid="return.h"/>
+        <childnode refid="156" relation="include">
+        </childnode>
+        <childnode refid="157" relation="include">
+        </childnode>
+      </node>
+      <node id="158">
         <label>cstddef</label>
       </node>
-      <node id="2">
+      <node id="156">
         <label>type_traits</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="2">
+      <node id="161">
         <label>interface/coroutine/yield.hpp</label>
         <link refid="yield_8hpp_source"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="162" relation="include">
         </childnode>
       </node>
-      <node id="1">
-        <label>interface/coroutine/return.h</label>
-        <link refid="return_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
+      <node id="162">
         <label>interface/coroutine/net.h</label>
         <link refid="net_8h_source"/>
+      </node>
+      <node id="160">
+        <label>interface/coroutine/return.h</label>
+        <link refid="return.h"/>
+        <childnode refid="161" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="classcoro_1_1promise__nn" prot="public">coro::promise_nn</innerclass>
@@ -72,15 +72,11 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para>Utility to define return types for coroutine. </para>
-    </briefdescription>
+<para>Utility to define return types for coroutine. </para>    </briefdescription>
     <detaileddescription>
-<para><simplesect kind="author"><para>github.com/luncliff (<ulink url="mailto:luncliff@gmail.com">luncliff@gmail.com</ulink>) </para>
-</simplesect>
-<simplesect kind="copyright"><para>CC BY 4.0 <ref refid="" kindref="compound">https://devblogs.microsoft.com/cppblog/c20-concepts-are-here-in-visual-studio-2019-version-16-3/</ref></para>
-</simplesect>
-</para>
-    </detaileddescription>
+<para><simplesect kind="author"><para>github.com/luncliff (<ulink url="mailto:luncliff@gmail.com">luncliff@gmail.com</ulink>) </para></simplesect>
+<simplesect kind="copyright"><para>CC BY 4.0 <ref refid="" kindref="compound">https://devblogs.microsoft.com/cppblog/c20-concepts-are-here-in-visual-studio-2019-version-16-3/</ref></para></simplesect>
+</para>    </detaileddescription>
     <programlisting>
 <codeline lineno="1"></codeline>
 <codeline lineno="9"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
@@ -90,12 +86,12 @@
 <codeline lineno="13"><highlight class="normal"></highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;coroutine/frame.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="15"><highlight class="normal"></highlight></codeline>
-<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">coro<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>__has_include(&lt;coroutine&gt;)<sp/>//<sp/>C++<sp/>20</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>__has_include(&lt;experimental/coroutine&gt;)<sp/>//<sp/>C++<sp/>17</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::experimental;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1experimental" kindref="compound">std::experimental</ref>;</highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight></codeline>
 <codeline lineno="24" refid="classcoro_1_1promise__nn" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1promise__nn" kindref="compound">promise_nn</ref><sp/>{</highlight></codeline>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="structcoro_1_1darwin__event" kind="struct" language="C++" prot="public" final="yes">
     <compoundname>coro::darwin_event</compoundname>
       <sectiondef kind="public-attrib">
@@ -14,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="43" column="13" bodyfile="modules/event/event_darwin.cpp" bodystart="43" bodyend="-1"/>
+        <location file="modules/event/event_darwin.cpp" line="43" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="43" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structcoro_1_1darwin__event_1a989575fd12cf8495abc4e4441299f3bf" prot="public" static="no" mutable="no">
         <type>int64_t</type>
@@ -27,7 +27,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="44" column="13" bodyfile="modules/event/event_darwin.cpp" bodystart="44" bodyend="-1"/>
+        <location file="modules/event/event_darwin.cpp" line="44" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structcoro_1_1darwin__event_1abf7193f39a3660124f1d6974fa5539b8" prot="public" static="no" mutable="no">
         <type>sockaddr_un</type>
@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="45" column="17" bodyfile="modules/event/event_darwin.cpp" bodystart="45" bodyend="-1"/>
+        <location file="modules/event/event_darwin.cpp" line="45" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="45" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="48" column="5"/>
+        <location file="modules/event/event_darwin.cpp" line="48" column="1"/>
       </memberdef>
       <memberdef kind="function" id="structcoro_1_1darwin__event_1aed99ebaa09a02d6d5cf9f716875079ea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -74,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="49" column="5"/>
+        <location file="modules/event/event_darwin.cpp" line="49" column="1"/>
       </memberdef>
       <memberdef kind="function" id="structcoro_1_1darwin__event_1aea6a7d08824e5cd08d973f4554a1d98b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structcoro_1_1darwin__event" kindref="compound">darwin_event</ref> &amp;</type>
@@ -90,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="50" column="18"/>
+        <location file="modules/event/event_darwin.cpp" line="50" column="1"/>
       </memberdef>
       <memberdef kind="function" id="structcoro_1_1darwin__event_1a89a11a1d459c747809f9e6f06ccccbe3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structcoro_1_1darwin__event" kindref="compound">darwin_event</ref> &amp;</type>
@@ -106,11 +106,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="51" column="18"/>
+        <location file="modules/event/event_darwin.cpp" line="51" column="1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="structcoro_1_1darwin__event_1ae1e458a4f316ebd3abf3851844a4365d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="structcoro_1_1darwin__event_1ae1e458a4f316ebd3abf3851844a4365d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
         <definition>coro::darwin_event::darwin_event</definition>
         <argsstring>() noexcept(false)</argsstring>
@@ -121,9 +121,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="54" column="5" bodyfile="modules/event/event_darwin.cpp" bodystart="54" bodyend="72"/>
+        <location file="modules/event/event_darwin.cpp" line="54" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="54" bodyend="72"/>
       </memberdef>
-      <memberdef kind="function" id="structcoro_1_1darwin__event_1ae71db021e0061b98efb9d6ea2ce4750d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="structcoro_1_1darwin__event_1ae71db021e0061b98efb9d6ea2ce4750d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
         <definition>coro::darwin_event::~darwin_event</definition>
         <argsstring>() noexcept</argsstring>
@@ -134,9 +134,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="73" column="5" bodyfile="modules/event/event_darwin.cpp" bodystart="73" bodyend="75"/>
+        <location file="modules/event/event_darwin.cpp" line="73" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="73" bodyend="75"/>
       </memberdef>
-      <memberdef kind="function" id="structcoro_1_1darwin__event_1a7a191c3c18effe427db95e42379030bb" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="structcoro_1_1darwin__event_1a7a191c3c18effe427db95e42379030bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
         <definition>void coro::darwin_event::close</definition>
         <argsstring>() noexcept</argsstring>
@@ -147,9 +147,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="77" column="10" bodyfile="modules/event/event_darwin.cpp" bodystart="77" bodyend="80"/>
+        <location file="modules/event/event_darwin.cpp" line="77" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="77" bodyend="80"/>
       </memberdef>
-      <memberdef kind="function" id="structcoro_1_1darwin__event_1addcd4aec871202d80960888051480673" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="structcoro_1_1darwin__event_1addcd4aec871202d80960888051480673" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
         <definition>bool coro::darwin_event::is_signaled</definition>
         <argsstring>() noexcept</argsstring>
@@ -160,9 +160,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="82" column="10" bodyfile="modules/event/event_darwin.cpp" bodystart="82" bodyend="84"/>
+        <location file="modules/event/event_darwin.cpp" line="82" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="82" bodyend="84"/>
       </memberdef>
-      <memberdef kind="function" id="structcoro_1_1darwin__event_1a996aaa4d5b926815e29b89c701c35d69" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="structcoro_1_1darwin__event_1a996aaa4d5b926815e29b89c701c35d69" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
         <definition>void coro::darwin_event::signal</definition>
         <argsstring>() noexcept(false)</argsstring>
@@ -173,9 +173,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="86" column="10" bodyfile="modules/event/event_darwin.cpp" bodystart="86" bodyend="93"/>
+        <location file="modules/event/event_darwin.cpp" line="86" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="86" bodyend="93"/>
       </memberdef>
-      <memberdef kind="function" id="structcoro_1_1darwin__event_1a8ce5332f69892056812bd204a2ee6580" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="structcoro_1_1darwin__event_1a8ce5332f69892056812bd204a2ee6580" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
         <definition>void coro::darwin_event::reset</definition>
         <argsstring>() noexcept(false)</argsstring>
@@ -186,14 +186,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="94" column="10" bodyfile="modules/event/event_darwin.cpp" bodystart="94" bodyend="103"/>
+        <location file="modules/event/event_darwin.cpp" line="94" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="94" bodyend="103"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="modules/event/event_darwin.cpp" line="42" column="19" bodyfile="modules/event/event_darwin.cpp" bodystart="42" bodyend="104"/>
+    <location file="modules/event/event_darwin.cpp" line="42" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="42" bodyend="104"/>
     <listofallmembers>
       <member refid="structcoro_1_1darwin__event_1a7a191c3c18effe427db95e42379030bb" prot="public" virt="non-virtual"><scope>coro::darwin_event</scope><name>close</name></member>
       <member refid="structcoro_1_1darwin__event_1af87c11ec878c47498e9707a573bd0c39" prot="private" virt="non-virtual"><scope>coro::darwin_event</scope><name>darwin_event</name></member>

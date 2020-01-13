@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classcoro_1_1promise__nn" kind="class" language="C++" prot="public">
     <compoundname>coro::promise_nn</compoundname>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classcoro_1_1promise__nn_1a23c328fd1aacc2448ee29bde8e95ccfb" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1promise__nn_1a23c328fd1aacc2448ee29bde8e95ccfb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>auto</type>
         <definition>auto coro::promise_nn::initial_suspend</definition>
         <argsstring>() noexcept</argsstring>
@@ -14,9 +14,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="26" column="10" bodyfile="interface/coroutine/return.h" bodystart="26" bodyend="28"/>
+        <location file="interface/coroutine/return.h" line="26" column="1" bodyfile="interface/coroutine/return.h" bodystart="26" bodyend="28"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1promise__nn_1ae6590423b6711f78db1c0519fb999f12" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1promise__nn_1ae6590423b6711f78db1c0519fb999f12" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>auto</type>
         <definition>auto coro::promise_nn::final_suspend</definition>
         <argsstring>() noexcept</argsstring>
@@ -27,14 +27,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="29" column="10" bodyfile="interface/coroutine/return.h" bodystart="29" bodyend="31"/>
+        <location file="interface/coroutine/return.h" line="29" column="1" bodyfile="interface/coroutine/return.h" bodystart="29" bodyend="31"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/return.h" line="24" column="17" bodyfile="interface/coroutine/return.h" bodystart="24" bodyend="32"/>
+    <location file="interface/coroutine/return.h" line="24" column="1" bodyfile="interface/coroutine/return.h" bodystart="24" bodyend="32"/>
     <listofallmembers>
       <member refid="classcoro_1_1promise__nn_1ae6590423b6711f78db1c0519fb999f12" prot="public" virt="non-virtual"><scope>coro::promise_nn</scope><name>final_suspend</name></member>
       <member refid="classcoro_1_1promise__nn_1a23c328fd1aacc2448ee29bde8e95ccfb" prot="public" virt="non-virtual"><scope>coro::promise_nn</scope><name>initial_suspend</name></member>

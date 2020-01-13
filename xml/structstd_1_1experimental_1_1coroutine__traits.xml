@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="structstd_1_1experimental_1_1coroutine__traits" kind="struct" language="C++" prot="public">
     <compoundname>std::experimental::coroutine_traits</compoundname>
     <templateparamlist>
@@ -24,14 +24,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="169" column="5" bodyfile="interface/coroutine/frame.h" bodystart="169" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="169" column="1" bodyfile="interface/coroutine/frame.h" bodystart="169" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="168" column="23" bodyfile="interface/coroutine/frame.h" bodystart="168" bodyend="170"/>
+    <location file="interface/coroutine/frame.h" line="168" column="1" bodyfile="interface/coroutine/frame.h" bodystart="168" bodyend="170"/>
     <listofallmembers>
       <member refid="structstd_1_1experimental_1_1coroutine__traits_1a89b8abe24d6a2e8636d2bb7e026b4196" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_traits</scope><name>promise_type</name></member>
     </listofallmembers>
