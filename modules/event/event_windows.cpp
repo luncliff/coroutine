@@ -14,6 +14,8 @@
 // Windows Concurrency Runtime's event is not alertible.
 //#include <concrt.h>
 
+#include <cassert>
+
 using namespace std;
 using namespace gsl;
 

@@ -1,0 +1,34 @@
+#
+# Author: github.com/luncliff (luncliff@gmail.com)
+#
+# References
+#   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops#passing-parameters
+#
+
+steps:
+  - checkout: self
+    fetchDepth: 5
+    submodules: recursive
+
+  - task: Bash@3
+    inputs:
+      targetType: "inline"
+      script: |
+        brew info llvm;
+        brew info cmake;
+
+  - task: CMake@1
+    inputs:
+      cmakeArgs: .. -DBUILD_SHARED_LIBS=$(is_dynamic) -DCMAKE_BUILD_TYPE=$(configuration) -DCMAKE_INSTALL_PREFIX=${{ parameters.cmake_install_dir }}
+      workingDirectory: ${{ parameters.cmake_work_dir }}
+
+  - task: CMake@1
+    inputs:
+      cmakeArgs: --build . --target install --config $(configuration)
+      workingDirectory: ${{ parameters.cmake_work_dir }}
+
+  - task: Bash@3
+    inputs:
+      targetType: "inline"
+      script: ctest --output-on-failure
+    timeoutInMinutes: 1

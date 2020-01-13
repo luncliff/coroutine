@@ -8,6 +8,8 @@
 //      Provides the function to handle allocation failure
 //
 #include <cstdio>
+#include <new> // <---- N4830, 9.4.4 Coroutine deﬁnitions, item 10
+// ::operator new(size_t, nothrow_t) noexcept is required
 
 #include "coro.h"
 
@@ -47,7 +49,6 @@ class preserve_frame final : public coroutine_handle<void> {
   private:
     explicit preserve_frame(promise_type* p) noexcept
         : coroutine_handle<void>{} {
-
         printf("%s: %p\n", __FUNCTION__, p);
         if (p == nullptr)
             return;
