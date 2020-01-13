@@ -1,0 +1,59 @@
+# Doxyfile 1.8.16
+
+#---------------------------------------------------------------------------
+# Project related configuration options
+#---------------------------------------------------------------------------
+
+PROJECT_NAME           = "ssf"
+PROJECT_NUMBER         = "1.0"
+PROJECT_BRIEF          = "Minimal C++ code snippet to build something"
+
+OUTPUT_LANGUAGE        = Korean-en
+
+MARKDOWN_SUPPORT       = YES
+
+#---------------------------------------------------------------------------
+# Configuration options related to the input files
+#---------------------------------------------------------------------------
+
+# the contents is relative to CLI working directory
+INPUT                  = .
+INPUT_ENCODING         = UTF-8
+
+FILE_PATTERNS          = *.c \
+                         *.cpp \
+                         *.c++ \
+                         *.h \
+                         *.hpp \
+                         *.inc \
+                         *.md \
+                         *.dox \
+                         *.ifc
+
+RECURSIVE              = YES
+
+EXCLUDE                = test \
+                         build \
+                         install \
+                         docs/xml
+
+EXCLUDE_PATTERNS        = */*.md
+
+EXAMPLE_PATH           = examples
+EXAMPLE_RECURSIVE      = NO
+
+IMAGE_PATH             = docs/images
+OUTPUT_DIRECTORY       = docs
+
+#---------------------------------------------------------------------------
+# Configuration options related to source browsing
+#---------------------------------------------------------------------------
+
+#CLANG_ASSISTED_PARSING = YES
+#CLANG_OPTIONS          = include
+
+#---------------------------------------------------------------------------
+
+GENERATE_HTML           = NO
+GENERATE_XML            = YES
+GENERATE_LATEX          = NO

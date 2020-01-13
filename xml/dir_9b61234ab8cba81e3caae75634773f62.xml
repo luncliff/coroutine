@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="dir_9b61234ab8cba81e3caae75634773f62" kind="dir">
+    <compoundname>interface/coroutine</compoundname>
+    <innerfile refid="channel_8hpp">channel.hpp</innerfile>
+    <innerfile refid="event_8h">event.h</innerfile>
+    <innerfile refid="frame_8h">frame.h</innerfile>
+    <innerfile refid="net_8h">net.h</innerfile>
+    <innerfile refid="return_8h">return.h</innerfile>
+    <innerfile refid="thread_8h">thread.h</innerfile>
+    <innerfile refid="yield_8hpp">yield.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/"/>
+  </compounddef>
+</doxygen>

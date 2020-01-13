@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -46,17 +46,23 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.1b62728e.css">
       
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
       
     
     
-      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+      <script src="../../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -69,7 +75,9 @@
     
   </head>
   
-    <body dir="ltr">
+    
+    
+    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="blue">
   
     <svg class="md-svg">
       <defs>
@@ -94,7 +102,7 @@
       <div class="md-flex__cell md-flex__cell--shrink">
         <a href="https://luncliff.github.io/coroutine/Home" title="luncliff/coroutine" class="md-header-nav__button md-logo">
           
-            <i class="md-icon"></i>
+            <i class="md-icon">call_split</i>
           
         </a>
       </div>
@@ -175,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -186,7 +194,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href="https://luncliff.github.io/coroutine/Home" title="luncliff/coroutine" class="md-nav__button md-logo">
       
-        <i class="md-icon"></i>
+        <i class="md-icon">call_split</i>
       
     </a>
     luncliff/coroutine
@@ -376,7 +384,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#creating-a-new-thread" title="Creating a new thread" class="md-nav__link">
+  <a href="#creating-a-new-thread" class="md-nav__link">
     Creating a new thread
   </a>
   
@@ -384,14 +392,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#design" title="Design" class="md-nav__link">
+  <a href="#design" class="md-nav__link">
     Design
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#implementation" title="Implementation" class="md-nav__link">
+  <a href="#implementation" class="md-nav__link">
     Implementation
   </a>
   
@@ -399,14 +407,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#start_routine-to-resume-the-coroutine" title="start_routine to resume the coroutine" class="md-nav__link">
+  <a href="#start_routine-to-resume-the-coroutine" class="md-nav__link">
     start_routine to resume the coroutine
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forwarding-arg-from-co_await" title="Forwarding arg from co_await" class="md-nav__link">
+  <a href="#forwarding-arg-from-co_await" class="md-nav__link">
     Forwarding arg from co_await
   </a>
   
@@ -418,7 +426,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#concerns" title="Concerns" class="md-nav__link">
+  <a href="#concerns" class="md-nav__link">
     Concerns
   </a>
   
@@ -430,7 +438,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dealing-with-the-threads-join" title="Dealing with the thread's join" class="md-nav__link">
+  <a href="#dealing-with-the-threads-join" class="md-nav__link">
     Dealing with the thread's join
   </a>
   
@@ -438,14 +446,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#design_1" title="Design" class="md-nav__link">
+  <a href="#design_1" class="md-nav__link">
     Design
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#implementation_1" title="Implementation" class="md-nav__link">
+  <a href="#implementation_1" class="md-nav__link">
     Implementation
   </a>
   
@@ -453,14 +461,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#intend-of-the-final-suspension" title="Intend of the final suspension" class="md-nav__link">
+  <a href="#intend-of-the-final-suspension" class="md-nav__link">
     Intend of the final suspension
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#preserving-frame-for-pthread_join" title="Preserving frame for pthread_join" class="md-nav__link">
+  <a href="#preserving-frame-for-pthread_join" class="md-nav__link">
     Preserving frame for pthread_join
   </a>
   
@@ -472,7 +480,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#concerns_1" title="Concerns" class="md-nav__link">
+  <a href="#concerns_1" class="md-nav__link">
     Concerns
   </a>
   
@@ -484,7 +492,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#context-aware-co_await-through-await_transform" title="Context-Aware co_await through await_transform" class="md-nav__link">
+  <a href="#context-aware-co_await-through-await_transform" class="md-nav__link">
     Context-Aware co_await through await_transform
   </a>
   
@@ -492,14 +500,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#design_2" title="Design" class="md-nav__link">
+  <a href="#design_2" class="md-nav__link">
     Design
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#implementation_2" title="Implementation" class="md-nav__link">
+  <a href="#implementation_2" class="md-nav__link">
     Implementation
   </a>
   
@@ -507,21 +515,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#pairing-pthread_joiner_t-with-pthread_spawner_t" title="Pairing pthread_joiner_t with pthread_spawner_t" class="md-nav__link">
+  <a href="#pairing-pthread_joiner_t-with-pthread_spawner_t" class="md-nav__link">
     Pairing pthread_joiner_t with pthread_spawner_t
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#defining-await_transform" title="Defining await_transform" class="md-nav__link">
+  <a href="#defining-await_transform" class="md-nav__link">
     Defining await_transform
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#exposing-pthread_t" title="Exposing pthread_t" class="md-nav__link">
+  <a href="#exposing-pthread_t" class="md-nav__link">
     Exposing pthread_t
   </a>
   
@@ -538,7 +546,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#conclusion" title="Conclusion" class="md-nav__link">
+  <a href="#conclusion" class="md-nav__link">
     Conclusion
   </a>
   
@@ -546,14 +554,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#after-note" title="After Note" class="md-nav__link">
+  <a href="#after-note" class="md-nav__link">
     After Note
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#allowing-another-awaitable-types" title="Allowing another awaitable types" class="md-nav__link">
+  <a href="#allowing-another-awaitable-types" class="md-nav__link">
     Allowing another awaitable types
   </a>
   
@@ -602,30 +610,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
     <label class="md-nav__link" for="nav-4">
-      How To
+      Code
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-4">
-        How To
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
-    
-    <label class="md-nav__link" for="nav-4-1">
-      Start yours Project
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-1">
-        Start yours Project
+        Code
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -636,44 +625,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/start-using-cmake/" title="CMake" class="md-nav__link">
-      CMake
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
-    
-    <label class="md-nav__link" for="nav-4-2">
-      Build this project
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-2">
-        Build this project
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../howto/build-using-visualstudio/" title="Visual Studio" class="md-nav__link">
-      Visual Studio
+    <a href="../../namespaces/" title="Namespaces" class="md-nav__link">
+      Namespaces
     </a>
   </li>
 
@@ -684,44 +637,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/build-using-cmake/" title="CMake" class="md-nav__link">
-      CMake
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
-    
-    <label class="md-nav__link" for="nav-4-3">
-      Importing this project
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-3">
-        Importing this project
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../howto/import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
-      Visual Studio
+    <a href="../../functions/" title="Functions" class="md-nav__link">
+      Functions
     </a>
   </li>
 
@@ -732,140 +649,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/import-using-cmake/" title="CMake" class="md-nav__link">
-      CMake
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
-    
-    <label class="md-nav__link" for="nav-5">
-      Features
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
-        Features
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-1" type="checkbox" id="nav-5-1">
-    
-    <label class="md-nav__link" for="nav-5-1">
-      Portable Frame
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-1">
-        Portable Frame
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/frame.h" class="md-nav__link">
-      coroutine/frame.h
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
-    
-    <label class="md-nav__link" for="nav-5-2">
-      Return Types
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-2">
-        Return Types
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/return.h" class="md-nav__link">
-      coroutine/return.h
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3">
-    
-    <label class="md-nav__link" for="nav-5-3">
-      Channel
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-3">
-        Channel
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../features/channel-overview/" title="coroutine/channel.hpp" class="md-nav__link">
-      coroutine/channel.hpp
+    <a href="../../classes/" title="Classes" class="md-nav__link">
+      Classes
     </a>
   </li>
 
@@ -876,194 +661,9 @@
 
 
   <li class="md-nav__item">
-    <a href="../../features/channel-read_write/" title="read and write" class="md-nav__link">
-      read and write
+    <a href="../../files/" title="Files" class="md-nav__link">
+      Files
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../features/channel-select/" title="select on multiple channels" class="md-nav__link">
-      select on multiple channels
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
-    
-    <label class="md-nav__link" for="nav-5-4">
-      System API
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-4">
-        System API
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/event.h" class="md-nav__link">
-      coroutine/event.h
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/thread.h" class="md-nav__link">
-      coroutine/thread.h
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-5" type="checkbox" id="nav-5-5">
-    
-    <label class="md-nav__link" for="nav-5-5">
-      Socket I/O
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-5">
-        Socket I/O
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../net-overview.md" title="coroutine/net.h" class="md-nav__link">
-      coroutine/net.h
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-6" type="checkbox" id="nav-5-6">
-    
-    <label class="md-nav__link" for="nav-5-6">
-      co_yield
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-6">
-        co_yield
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/yield.hpp" class="md-nav__link">
-      coroutine/yield.hpp
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/sequence.hpp" class="md-nav__link">
-      coroutine/sequence.hpp
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-7" type="checkbox" id="nav-5-7">
-    
-    <label class="md-nav__link" for="nav-5-7">
-      Concepts
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-7">
-        Concepts
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/concepts.hpp" class="md-nav__link">
-      coroutine/concepts.hpp
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
   </li>
 
         
@@ -1093,7 +693,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#creating-a-new-thread" title="Creating a new thread" class="md-nav__link">
+  <a href="#creating-a-new-thread" class="md-nav__link">
     Creating a new thread
   </a>
   
@@ -1101,14 +701,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#design" title="Design" class="md-nav__link">
+  <a href="#design" class="md-nav__link">
     Design
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#implementation" title="Implementation" class="md-nav__link">
+  <a href="#implementation" class="md-nav__link">
     Implementation
   </a>
   
@@ -1116,14 +716,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#start_routine-to-resume-the-coroutine" title="start_routine to resume the coroutine" class="md-nav__link">
+  <a href="#start_routine-to-resume-the-coroutine" class="md-nav__link">
     start_routine to resume the coroutine
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#forwarding-arg-from-co_await" title="Forwarding arg from co_await" class="md-nav__link">
+  <a href="#forwarding-arg-from-co_await" class="md-nav__link">
     Forwarding arg from co_await
   </a>
   
@@ -1135,7 +735,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#concerns" title="Concerns" class="md-nav__link">
+  <a href="#concerns" class="md-nav__link">
     Concerns
   </a>
   
@@ -1147,7 +747,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dealing-with-the-threads-join" title="Dealing with the thread's join" class="md-nav__link">
+  <a href="#dealing-with-the-threads-join" class="md-nav__link">
     Dealing with the thread's join
   </a>
   
@@ -1155,14 +755,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#design_1" title="Design" class="md-nav__link">
+  <a href="#design_1" class="md-nav__link">
     Design
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#implementation_1" title="Implementation" class="md-nav__link">
+  <a href="#implementation_1" class="md-nav__link">
     Implementation
   </a>
   
@@ -1170,14 +770,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#intend-of-the-final-suspension" title="Intend of the final suspension" class="md-nav__link">
+  <a href="#intend-of-the-final-suspension" class="md-nav__link">
     Intend of the final suspension
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#preserving-frame-for-pthread_join" title="Preserving frame for pthread_join" class="md-nav__link">
+  <a href="#preserving-frame-for-pthread_join" class="md-nav__link">
     Preserving frame for pthread_join
   </a>
   
@@ -1189,7 +789,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#concerns_1" title="Concerns" class="md-nav__link">
+  <a href="#concerns_1" class="md-nav__link">
     Concerns
   </a>
   
@@ -1201,7 +801,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#context-aware-co_await-through-await_transform" title="Context-Aware co_await through await_transform" class="md-nav__link">
+  <a href="#context-aware-co_await-through-await_transform" class="md-nav__link">
     Context-Aware co_await through await_transform
   </a>
   
@@ -1209,14 +809,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#design_2" title="Design" class="md-nav__link">
+  <a href="#design_2" class="md-nav__link">
     Design
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#implementation_2" title="Implementation" class="md-nav__link">
+  <a href="#implementation_2" class="md-nav__link">
     Implementation
   </a>
   
@@ -1224,21 +824,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#pairing-pthread_joiner_t-with-pthread_spawner_t" title="Pairing pthread_joiner_t with pthread_spawner_t" class="md-nav__link">
+  <a href="#pairing-pthread_joiner_t-with-pthread_spawner_t" class="md-nav__link">
     Pairing pthread_joiner_t with pthread_spawner_t
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#defining-await_transform" title="Defining await_transform" class="md-nav__link">
+  <a href="#defining-await_transform" class="md-nav__link">
     Defining await_transform
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#exposing-pthread_t" title="Exposing pthread_t" class="md-nav__link">
+  <a href="#exposing-pthread_t" class="md-nav__link">
     Exposing pthread_t
   </a>
   
@@ -1255,7 +855,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#conclusion" title="Conclusion" class="md-nav__link">
+  <a href="#conclusion" class="md-nav__link">
     Conclusion
   </a>
   
@@ -1263,14 +863,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#after-note" title="After Note" class="md-nav__link">
+  <a href="#after-note" class="md-nav__link">
     After Note
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#allowing-another-awaitable-types" title="Allowing another awaitable types" class="md-nav__link">
+  <a href="#allowing-another-awaitable-types" class="md-nav__link">
     Allowing another awaitable types
   </a>
   
@@ -1300,7 +900,7 @@
                   <a href="http://github.com/luncliff/coroutine/edit/master/docs/articles/combining-coroutines-and-pthread_create.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="combining-c-coroutines-and-pthread_create">Combining C++ Coroutines and <code>pthread_create</code></h1>
+                <h1 id="combining-c-coroutines-and-pthread_create">Combining C++ Coroutines and <code>pthread_create</code><a class="headerlink" href="#combining-c-coroutines-and-pthread_create" title="Permanent link">&para;</a></h1>
 <blockquote>
 <p>commit: <a href="https://github.com/luncliff/coroutine/tree/93ed8748a4cb70c73ee92892ab4161b7985d5572"><code>93ed8748</code></a></p>
 </blockquote>
@@ -1309,8 +909,8 @@ In this article, I'm going to cover how such functions can be wrapped with <code
 <p>The base of examples here is my experience to try something like <a href="https://www.youtube.com/watch?v=v0SjumbIips">CppCon 2016 : Kenny Kerr &amp; James McNellis "Putting Coroutines to Work with the Windows Runtime"</a> with the POSIX threads.
 If you are a beginner, please do read <a href="https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type">the article about <code>promise_type</code> by Lewiss Baker</a>.
 The article will enhance your understanding greatly.</p>
-<h2 id="creating-a-new-thread">Creating a new thread</h2>
-<h3 id="design">Design</h3>
+<h2 id="creating-a-new-thread">Creating a new thread<a class="headerlink" href="#creating-a-new-thread" title="Permanent link">&para;</a></h2>
+<h3 id="design">Design<a class="headerlink" href="#design" title="Permanent link">&para;</a></h3>
 <p>What I'm going to try is creating a new thread in a simple manner.
 Traditionally we had to separate the step before/after <code>pthread_create</code>. 
 To do so, we must write an additional function which is executed on the new thread.
@@ -1333,8 +933,8 @@ Let's see how it looks like.</p>
 
 <p>Since it's an example, it will be differenct when you have to write for your own.
 What I want to show here is that the look &amp; feel of the wrapping pattern.</p>
-<h3 id="implementation">Implementation</h3>
-<h4 id="start_routine-to-resume-the-coroutine"><code>start_routine</code> to resume the coroutine</h4>
+<h3 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h3>
+<h4 id="start_routine-to-resume-the-coroutine"><code>start_routine</code> to resume the coroutine<a class="headerlink" href="#start_routine-to-resume-the-coroutine" title="Permanent link">&para;</a></h4>
 <p>Obviously the most important functions are the life cycle functions.</p>
 <ul>
 <li><a href="http://man7.org/linux/man-pages/man3/pthread_create.3.html"><code>pthread_create</code></a></li>
@@ -1380,7 +980,7 @@ It constructs the <code>coroutine_handle</code> from the <code>arg</code> and th
 </pre></div>
 
 
-<h4 id="forwarding-arg-from-co_await">Forwarding <code>arg</code> from <code>co_await</code></h4>
+<h4 id="forwarding-arg-from-co_await">Forwarding <code>arg</code> from <code>co_await</code><a class="headerlink" href="#forwarding-arg-from-co_await" title="Permanent link">&para;</a></h4>
 <p>So to make the function work properly, we have to forward <code>coroutine_handle&lt;void&gt;</code> as an argument of <code>arg</code>.
 This is easy since there is a member fuction, <code>address</code>.</p>
 <p><code>await_suspend</code> will give us the handle like the following code.</p>
@@ -1426,14 +1026,14 @@ So we can trigger it in 1 line.</p>
 </pre></div>
 
 
-<h3 id="concerns">Concerns</h3>
+<h3 id="concerns">Concerns<a class="headerlink" href="#concerns" title="Permanent link">&para;</a></h3>
 <p>You might curious about <code>throw</code> in the second <code>pthread_spawner_t::await_suspend</code>.<br />
 In general, the function is the last point for the error handling.
 For our case, suppose that <code>pthread_create</code> failed. The callback <code>resume_on_pthread</code> won't be invoked.</p>
 <p>That means the coroutine's frame can't be <code>resume</code>d and coverage after <code>co_await</code> is going to be lost.
 So we have to make caller handle the situation <strong>before</strong> the coroutine becomes suspended state. One of the way is to throw an exception in <code>await_suspend</code>.</p>
-<h2 id="dealing-with-the-threads-join">Dealing with the thread's join</h2>
-<h3 id="design_1">Design</h3>
+<h2 id="dealing-with-the-threads-join">Dealing with the thread's join<a class="headerlink" href="#dealing-with-the-threads-join" title="Permanent link">&para;</a></h2>
+<h3 id="design_1">Design<a class="headerlink" href="#design_1" title="Permanent link">&para;</a></h3>
 <p>Now we have to support join for the thread. <code>pthread_join</code> is so simple that we can't misuse it.
 What we have care is not the function but the behavior after <code>pthread_join</code> returned without an error.</p>
 <p>Do you remember that I returned the coroutine frame's address for our <code>start_routine</code>?</p>
@@ -1464,8 +1064,8 @@ The reason is that there is no way to know whether the frame is not destroyed.</
 But when the corouitine didn't suspended after <code>final_suspend</code>, its <code>co_return</code> will destroy the frame immediately.
 So the <code>coro.destroy()</code> above is a double-delete situation.</p>
 <p>Here, our plan is to provide a special return type which guarantees safe destruction of the frame.</p>
-<h3 id="implementation_1">Implementation</h3>
-<h4 id="intend-of-the-final-suspension">Intend of the final suspension</h4>
+<h3 id="implementation_1">Implementation<a class="headerlink" href="#implementation_1" title="Permanent link">&para;</a></h3>
+<h4 id="intend-of-the-final-suspension">Intend of the final suspension<a class="headerlink" href="#intend-of-the-final-suspension" title="Permanent link">&para;</a></h4>
 <p>A coroutine's frame is preserved if its <code>coroutine_traits&lt;R&gt;::promise_type</code> does final suspension.
 That means, it intended manual destruction of the frame, like <code>generator&lt;T&gt;</code>.</p>
 <div class="codehilite"><pre><span></span><span class="c1">// From VC++, &lt;experimental/generator&gt;</span>
@@ -1501,7 +1101,7 @@ That means, it intended manual destruction of the frame, like <code>generator&lt
 
 <p>You can see <code>destroy()</code> is invoked in its destructor.
 We will follow the way.</p>
-<h4 id="preserving-frame-for-pthread_join">Preserving frame for <code>pthread_join</code></h4>
+<h4 id="preserving-frame-for-pthread_join">Preserving frame for <code>pthread_join</code><a class="headerlink" href="#preserving-frame-for-pthread_join" title="Permanent link">&para;</a></h4>
 <p>There are 2 things that should be guaranteed.</p>
 <ul>
 <li>Meet the condition <code>final_suspend == true</code> so <code>pthread_join</code> can receive the <strong>destroyable</strong> frame</li>
@@ -1568,13 +1168,13 @@ Review the look and feel with the <code>pthread_spawner_t</code>.</p>
 
 
 <p>It seems like we are almost done, but it's not.</p>
-<h3 id="concerns_1">Concerns</h3>
+<h3 id="concerns_1">Concerns<a class="headerlink" href="#concerns_1" title="Permanent link">&para;</a></h3>
 <p>You may ask that such design is seriously vulnerable when <code>pthread_exit</code> is used explicitly.
 My answer for that is, most of <code>pthread_exit</code>'s usage is careful enough.
 You can note for the dangerous point in your comment, document, or even <code>#warn</code> for the issue.
 And the users are able to redesign/rewrite their own logic with the note.</p>
-<h2 id="context-aware-co_await-through-await_transform">Context-Aware <code>co_await</code> through <code>await_transform</code></h2>
-<h3 id="design_2">Design</h3>
+<h2 id="context-aware-co_await-through-await_transform">Context-Aware <code>co_await</code> through <code>await_transform</code><a class="headerlink" href="#context-aware-co_await-through-await_transform" title="Permanent link">&para;</a></h2>
+<h3 id="design_2">Design<a class="headerlink" href="#design_2" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="nf">resume_on_new_thread</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_attr_t</span><span class="o">*</span> <span class="n">attr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pthread_joiner_t</span> <span class="p">{</span>
     <span class="n">co_await</span> <span class="n">pthread_spawner_t</span><span class="p">{</span><span class="n">attr</span><span class="p">};</span>
     <span class="c1">// ...</span>
@@ -1601,8 +1201,8 @@ Can you find the difference?</p>
 <p><code>pthread_attr_t</code> can't work alone since it's a reserved type for the <code>pthread_create</code>.
 So when there is an instance of it, there must be an <strong>intent</strong> to create a new thread with it.
 Therefore <code>co_await</code> on it does express something like "wait for the thread creation and then ...".</p>
-<h3 id="implementation_2">Implementation</h3>
-<h4 id="pairing-pthread_joiner_t-with-pthread_spawner_t">Pairing <code>pthread_joiner_t</code> with <code>pthread_spawner_t</code></h4>
+<h3 id="implementation_2">Implementation<a class="headerlink" href="#implementation_2" title="Permanent link">&para;</a></h3>
+<h4 id="pairing-pthread_joiner_t-with-pthread_spawner_t">Pairing <code>pthread_joiner_t</code> with <code>pthread_spawner_t</code><a class="headerlink" href="#pairing-pthread_joiner_t-with-pthread_spawner_t" title="Permanent link">&para;</a></h4>
 <p>Until now, <code>pthread_spawner_t</code> was an global type that can be used anywhere.
 The first we have to do is to make it available <strong>only</strong> when <code>pthread_joiner_t</code> is known.
 Simply nesting it will do the work.</p>
@@ -1638,7 +1238,7 @@ Simply nesting it will do the work.</p>
 </pre></div>
 
 
-<h4 id="defining-await_transform">Defining <code>await_transform</code></h4>
+<h4 id="defining-await_transform">Defining <code>await_transform</code><a class="headerlink" href="#defining-await_transform" title="Permanent link">&para;</a></h4>
 <p>As mentioned above, we will define the <code>await_transform</code> in <code>pthread_joiner_t::promise_type</code>.
 The role of the function is to transform the operand of <code>co_await</code> to an awaitable type.
 In this case, the awaitable type is <code>pthread_spawner_t</code>.</p>
@@ -1673,7 +1273,7 @@ In this case, the awaitable type is <code>pthread_spawner_t</code>.</p>
 
 <p>By doing so we can achieve our design goal.
 Because typical return types for the coroutines are not aware of how to <code>co_await</code> on <code>pthread_attr_t</code>.</p>
-<h4 id="exposing-pthread_t">Exposing <code>pthread_t</code></h4>
+<h4 id="exposing-pthread_t">Exposing <code>pthread_t</code><a class="headerlink" href="#exposing-pthread_t" title="Permanent link">&para;</a></h4>
 <p>Now the last part is to store the new pthread's id in the <code>pthread_joiner_t</code>.
 This is what I wrote above.</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">pthread_joiner_t</span> <span class="k">final</span> <span class="p">{</span>
@@ -1838,7 +1438,7 @@ Let's rewrite the <code>pthread_spawner_t</code>.</p>
 
 
 <p>Whoa, that was a long run !</p>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
 <p>You can run the example with the WandBox.<br />
 <a href="https://wandbox.org/permlink/qQ1vbwshsoujYnI0">https://wandbox.org/permlink/qQ1vbwshsoujYnI0</a></p>
 <p>In this article we covered 2 things by wrapping <code>pthread_create</code> for the coroutines step by step.</p>
@@ -1855,10 +1455,10 @@ the assumption of the <code>pthread_joiner_t</code> will be broken.</p>
 <li>The detach of a thread</li>
 <li>Triggering <strong>multiple</strong> thread createion for 1 <code>pthread_joiner_t</code></li>
 </ul>
-<h3 id="after-note">After Note</h3>
+<h3 id="after-note">After Note<a class="headerlink" href="#after-note" title="Permanent link">&para;</a></h3>
 <p><a href="https://quuxplusone.github.io/blog/">Arthur O'Dwyer</a> let me know how to improve the final(WandBox) example using <code>private</code> constructor. I will cover that in later post.<br />
 Appreciate for his help and opinions! :D</p>
-<h3 id="allowing-another-awaitable-types">Allowing another awaitable types</h3>
+<h3 id="allowing-another-awaitable-types">Allowing another awaitable types<a class="headerlink" href="#allowing-another-awaitable-types" title="Permanent link">&para;</a></h3>
 <p>You may need to define more generic <code>await_transform</code> like <a href="https://github.com/luncliff/coroutine/blob/93ed8748a4cb70c73ee92892ab4161b7985d5572/interface/coroutine/thread.h#L167">this</a>.</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">pthread_joiner_t</span> <span class="k">final</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
@@ -1886,6 +1486,7 @@ Appreciate for his help and opinions! :D</p>
 </pre></div>
                 
                   
+                
                 
               
               
@@ -1951,13 +1552,20 @@ Appreciate for his help and opinions! :D</p>
           Material for MkDocs</a>
       </div>
       
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/luncliff" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
     </div>
   </div>
 </footer>
       
     </div>
     
-      <script src="../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       

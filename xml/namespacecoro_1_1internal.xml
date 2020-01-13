@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="namespacecoro_1_1internal" kind="namespace" language="C++">
+    <compoundname>coro::internal</compoundname>
+    <innerclass refid="classcoro_1_1internal_1_1list" prot="public">coro::internal::list</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="channel_8hpp_1a5477a9df5dbe696d741b9a7dd064ff49" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>static void* coro::internal::poison</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>poison</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="45" column="20" bodyfile="interface/coroutine/channel.hpp" bodystart="45" bodyend="47"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/channel.hpp" line="42" column="18"/>
+  </compounddef>
+</doxygen>

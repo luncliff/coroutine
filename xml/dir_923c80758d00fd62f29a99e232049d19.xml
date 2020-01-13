@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="dir_923c80758d00fd62f29a99e232049d19" kind="dir">
+    <compoundname>modules/net</compoundname>
+    <innerfile refid="io__darwin_8cpp">io_darwin.cpp</innerfile>
+    <innerfile refid="io__linux_8cpp">io_linux.cpp</innerfile>
+    <innerfile refid="io__windows_8cpp">io_windows.cpp</innerfile>
+    <innerfile refid="resolver_8cpp">resolver.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="modules/net/"/>
+  </compounddef>
+</doxygen>

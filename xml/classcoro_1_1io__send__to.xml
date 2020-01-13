@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="classcoro_1_1io__send__to" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::io_send_to</compoundname>
+    <basecompoundref refid="classcoro_1_1io__work__t" prot="public" virt="non-virtual">coro::io_work_t</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcoro_1_1io__send__to_1a76072671f5aee40521bb906a16dad02f" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>_INTERFACE_ void</type>
+        <definition>void coro::io_send_to::suspend</definition>
+        <argsstring>(io_task_t t) noexcept(false)</argsstring>
+        <name>suspend</name>
+        <param>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">io_task_t</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="102" column="22" bodyfile="modules/net/io_darwin.cpp" bodystart="72" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1io__send__to_1ae3e83d398f7673a4a1bb253eb022822a" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>_INTERFACE_ int64_t</type>
+        <definition>int64_t coro::io_send_to::resume</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resume</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="106" column="25" bodyfile="modules/net/io_darwin.cpp" bodystart="88" bodyend="97"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1io__send__to_1af8fa0d72e893de5ca95a2683c113c39c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool coro::io_send_to::await_ready</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>await_ready</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="109" column="10" bodyfile="interface/coroutine/net.h" bodystart="109" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1io__send__to_1a6f9055428dfe92496ff52a83c8ecd51d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::io_send_to::await_suspend</definition>
+        <argsstring>(io_task_t t) noexcept(false)</argsstring>
+        <name>await_suspend</name>
+        <param>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">io_task_t</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="112" column="10" bodyfile="interface/coroutine/net.h" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1io__send__to_1aa42fd8c2600ce7233ced36991b88990f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::io_send_to::await_resume</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>await_resume</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="115" column="10" bodyfile="interface/coroutine/net.h" bodystart="115" bodyend="117"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>coro::io_work_t</label>
+        <link refid="classcoro_1_1io__work__t"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>io_control_block</label>
+      </node>
+      <node id="1">
+        <label>coro::io_send_to</label>
+        <link refid="classcoro_1_1io__send__to"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>coro::io_work_t</label>
+        <link refid="classcoro_1_1io__work__t"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>task</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>io_control_block</label>
+      </node>
+      <node id="4">
+        <label>std::experimental::coroutine_handle&lt; void &gt;</label>
+        <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
+      </node>
+      <node id="1">
+        <label>coro::io_send_to</label>
+        <link refid="classcoro_1_1io__send__to"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/net.h" line="99" column="34" bodyfile="interface/coroutine/net.h" bodystart="99" bodyend="118"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1io__send__to_1af8fa0d72e893de5ca95a2683c113c39c" prot="public" virt="non-virtual"><scope>coro::io_send_to</scope><name>await_ready</name></member>
+      <member refid="classcoro_1_1io__send__to_1aa42fd8c2600ce7233ced36991b88990f" prot="public" virt="non-virtual"><scope>coro::io_send_to</scope><name>await_resume</name></member>
+      <member refid="classcoro_1_1io__send__to_1a6f9055428dfe92496ff52a83c8ecd51d" prot="public" virt="non-virtual"><scope>coro::io_send_to</scope><name>await_suspend</name></member>
+      <member refid="classcoro_1_1io__work__t_1aa2108f1c95a93873abf686f496f9f719" prot="public" virt="non-virtual"><scope>coro::io_send_to</scope><name>buffer</name></member>
+      <member refid="classcoro_1_1io__work__t_1aefde12bcce0b60f06c1a4f168a830142" prot="public" virt="non-virtual"><scope>coro::io_send_to</scope><name>error</name></member>
+      <member refid="classcoro_1_1io__work__t_1ad2abca547f53bd91caa112e3ea78271c" prot="protected" virt="non-virtual"><scope>coro::io_send_to</scope><name>ready</name></member>
+      <member refid="classcoro_1_1io__send__to_1ae3e83d398f7673a4a1bb253eb022822a" prot="private" virt="non-virtual"><scope>coro::io_send_to</scope><name>resume</name></member>
+      <member refid="classcoro_1_1io__send__to_1a76072671f5aee40521bb906a16dad02f" prot="private" virt="non-virtual"><scope>coro::io_send_to</scope><name>suspend</name></member>
+      <member refid="classcoro_1_1io__work__t_1a02fa31185cce555001f410383b6d57f6" prot="public" virt="non-virtual"><scope>coro::io_send_to</scope><name>task</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

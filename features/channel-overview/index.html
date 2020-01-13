@@ -38,25 +38,31 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
-        <title>coroutine/channel.hpp - luncliff/coroutine</title>
+        <title>Overview: Coroutine based channel - luncliff/coroutine</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.1b62728e.css">
       
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
       
     
     
-      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+      <script src="../../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -69,7 +75,9 @@
     
   </head>
   
-    <body dir="ltr">
+    
+    
+    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="blue">
   
     <svg class="md-svg">
       <defs>
@@ -94,7 +102,7 @@
       <div class="md-flex__cell md-flex__cell--shrink">
         <a href="https://luncliff.github.io/coroutine/Home" title="luncliff/coroutine" class="md-header-nav__button md-logo">
           
-            <i class="md-icon"></i>
+            <i class="md-icon">call_split</i>
           
         </a>
       </div>
@@ -109,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                coroutine/channel.hpp
+                Overview: Coroutine based channel
               
             </span>
           
@@ -175,7 +183,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -186,7 +194,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href="https://luncliff.github.io/coroutine/Home" title="luncliff/coroutine" class="md-nav__button md-logo">
       
-        <i class="md-icon"></i>
+        <i class="md-icon">call_split</i>
       
     </a>
     luncliff/coroutine
@@ -380,30 +388,11 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
     <label class="md-nav__link" for="nav-4">
-      How To
+      Code
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-4">
-        How To
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
-    
-    <label class="md-nav__link" for="nav-4-1">
-      Start yours Project
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-1">
-        Start yours Project
+        Code
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -414,44 +403,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/start-using-cmake/" title="CMake" class="md-nav__link">
-      CMake
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
-    
-    <label class="md-nav__link" for="nav-4-2">
-      Build this project
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-2">
-        Build this project
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../howto/build-using-visualstudio/" title="Visual Studio" class="md-nav__link">
-      Visual Studio
+    <a href="../../namespaces/" title="Namespaces" class="md-nav__link">
+      Namespaces
     </a>
   </li>
 
@@ -462,44 +415,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/build-using-cmake/" title="CMake" class="md-nav__link">
-      CMake
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
-    
-    <label class="md-nav__link" for="nav-4-3">
-      Importing this project
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-3">
-        Importing this project
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../howto/import-using-visualstudio/" title="Visual Studio" class="md-nav__link">
-      Visual Studio
+    <a href="../../functions/" title="Functions" class="md-nav__link">
+      Functions
     </a>
   </li>
 
@@ -510,242 +427,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../howto/import-using-cmake/" title="CMake" class="md-nav__link">
-      CMake
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-  
-
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
-    
-    <label class="md-nav__link" for="nav-5">
-      Features
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
-        Features
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-1" type="checkbox" id="nav-5-1">
-    
-    <label class="md-nav__link" for="nav-5-1">
-      Portable Frame
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-1">
-        Portable Frame
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/frame.h" class="md-nav__link">
-      coroutine/frame.h
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
-    
-    <label class="md-nav__link" for="nav-5-2">
-      Return Types
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-2">
-        Return Types
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/return.h" class="md-nav__link">
-      coroutine/return.h
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-  
-
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3" checked>
-    
-    <label class="md-nav__link" for="nav-5-3">
-      Channel
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-3">
-        Channel
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-  
-
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        coroutine/channel.hpp
-      </label>
-    
-    <a href="./" title="coroutine/channel.hpp" class="md-nav__link md-nav__link--active">
-      coroutine/channel.hpp
-    </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" title="See Also" class="md-nav__link">
-    See Also
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example" title="Example" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#channel-with-a-lockable" title="Channel with a Lockable" class="md-nav__link">
-    Channel with a Lockable
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#template-parameters" title="Template Parameters" class="md-nav__link">
-    Template Parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#default-operations" title="Default Operations" class="md-nav__link">
-    Default Operations
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#member-variables" title="Member Variables" class="md-nav__link">
-    Member Variables
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#functions" title="Functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../channel-read_write/" title="read and write" class="md-nav__link">
-      read and write
+    <a href="../../classes/" title="Classes" class="md-nav__link">
+      Classes
     </a>
   </li>
 
@@ -756,182 +439,9 @@
 
 
   <li class="md-nav__item">
-    <a href="../channel-select/" title="select on multiple channels" class="md-nav__link">
-      select on multiple channels
+    <a href="../../files/" title="Files" class="md-nav__link">
+      Files
     </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
-    
-    <label class="md-nav__link" for="nav-5-4">
-      System API
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-4">
-        System API
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/event.h" class="md-nav__link">
-      coroutine/event.h
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/thread.h" class="md-nav__link">
-      coroutine/thread.h
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-5" type="checkbox" id="nav-5-5">
-    
-    <label class="md-nav__link" for="nav-5-5">
-      Socket I/O
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-5">
-        Socket I/O
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../net-overview.md" title="coroutine/net.h" class="md-nav__link">
-      coroutine/net.h
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-6" type="checkbox" id="nav-5-6">
-    
-    <label class="md-nav__link" for="nav-5-6">
-      co_yield
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-6">
-        co_yield
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/yield.hpp" class="md-nav__link">
-      coroutine/yield.hpp
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/sequence.hpp" class="md-nav__link">
-      coroutine/sequence.hpp
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-7" type="checkbox" id="nav-5-7">
-    
-    <label class="md-nav__link" for="nav-5-7">
-      Concepts
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-5-7">
-        Concepts
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../work-in-progress/" title="coroutine/concepts.hpp" class="md-nav__link">
-      coroutine/concepts.hpp
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
   </li>
 
         
@@ -961,21 +471,21 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#see-also" title="See Also" class="md-nav__link">
+  <a href="#see-also" class="md-nav__link">
     See Also
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" title="Example" class="md-nav__link">
+  <a href="#example" class="md-nav__link">
     Example
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#channel-with-a-lockable" title="Channel with a Lockable" class="md-nav__link">
+  <a href="#channel-with-a-lockable" class="md-nav__link">
     Channel with a Lockable
   </a>
   
@@ -983,28 +493,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#template-parameters" title="Template Parameters" class="md-nav__link">
+  <a href="#template-parameters" class="md-nav__link">
     Template Parameters
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#default-operations" title="Default Operations" class="md-nav__link">
+  <a href="#default-operations" class="md-nav__link">
     Default Operations
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#member-variables" title="Member Variables" class="md-nav__link">
+  <a href="#member-variables" class="md-nav__link">
     Member Variables
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#functions" title="Functions" class="md-nav__link">
+  <a href="#functions" class="md-nav__link">
     Functions
   </a>
   
@@ -1034,11 +544,11 @@
                   <a href="http://github.com/luncliff/coroutine/edit/master/docs/features/channel-overview.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="overview-coroutine-based-channel">Overview: Coroutine based channel</h1>
+                <h1 id="overview-coroutine-based-channel">Overview: Coroutine based channel<a class="headerlink" href="#overview-coroutine-based-channel" title="Permanent link">&para;</a></h1>
 <p>This is a simplified form of <a href="https://gobyexample.com/channels">channel in The Go Language</a>. Just like this library, several C++ coroutines libraries already has their own implementation of the concept.</p>
 <p>So it might be redundant to have another implementation in this repositoty, but this is one of the very first type I've wrote after the feature becomes available. 
 Debugging its examples will help you to enhance understanding of the coroutine and which trick can be possible.</p>
-<h3 id="see-also">See Also</h3>
+<h3 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h3>
 <ul>
 <li><a href="https://golang.org/ref/spec#Channel_types">Go Channel types</a><ul>
 <li><a href="https://tour.golang.org/concurrency/2">A Tour of Go: Channels</a></li>
@@ -1048,7 +558,7 @@ Debugging its examples will help you to enhance understanding of the coroutine a
 </ul>
 <p>If you're first with the concept, I strongly recommend you to see the talk above 
 even though I've implemented it in a different way. </p>
-<h3 id="example">Example</h3>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
 <ul>
 <li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_read_write_nolock.cpp">test/channel_read_write_nolock.cpp</a></li>
 <li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_write_read_nolock.cpp">test/channel_write_read_nolock.cpp</a></li>
@@ -1056,7 +566,7 @@ even though I've implemented it in a different way. </p>
 <li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_read_fail_after_close.cpp">test/channel_read_fail_after_close.cpp</a></li>
 <li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_race_no_leak.cpp">test/channel_race_no_leak.cpp</a></li>
 </ul>
-<h2 id="channel-with-a-lockable">Channel with a <a href="https://en.cppreference.com/w/cpp/named_req/Lockable"><code>Lockable</code></a></h2>
+<h2 id="channel-with-a-lockable">Channel with a <a href="https://en.cppreference.com/w/cpp/named_req/Lockable"><code>Lockable</code></a><a class="headerlink" href="#channel-with-a-lockable" title="Permanent link">&para;</a></h2>
 <p>When <code>channel&lt;T&gt;</code> is used, which means that <code>bypass_lock</code> is used, channel doesn't care about the race condition (NOT MT-safe).
 Therefore, user have to provide an appropriate Lockable type and instance if it must be MT-safe</p>
 <p>As a result, <strong>the type doesn't support copy/move</strong> since typically those operations are unavailable for Lockable objects.</p>
@@ -1082,12 +592,12 @@ Therefore, user have to provide an appropriate Lockable type and instance if it 
 
 <p>Channel guarantees coverage of all reader/writer coroutines in its list. When a <a href="../channel-read_write/"><code>writer</code></a> found its <a href="../channel-read_write/"><code>reader</code></a>, or vice versa, it resumes the other's routine and then proceeds its flow. </p>
 <p>When <code>reader</code> can't be matched with a <code>writer</code>, it attaches itself in <code>channel</code> just before <code>suspend</code>. In the same way, <code>writer</code> attaches itself if it couldn't find <code>reader</code>. </p>
-<h3 id="template-parameters">Template Parameters</h3>
+<h3 id="template-parameters">Template Parameters<a class="headerlink" href="#template-parameters" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>T</code>: An element type to deliver between reader/writer coroutines</li>
 <li><code>M</code>: <strong>Must</strong> be <a href="https://en.cppreference.com/w/cpp/named_req/BasicLockable">a <code>BasicLockable</code> type</a></li>
 </ul>
-<h3 id="default-operations">Default Operations</h3>
+<h3 id="default-operations">Default Operations<a class="headerlink" href="#default-operations" title="Permanent link">&para;</a></h3>
 <p>As mentioned above, the type can't be copied/moved.</p>
 <div class="codehilite"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel</span> <span class="k">final</span>
@@ -1107,7 +617,7 @@ Therefore, user have to provide an appropriate Lockable type and instance if it 
 <p><strong>Notice that its destructor throws exception</strong>. 
 In the destructor, the channel resumes its pending coroutines. 
 The destructor throws if (and only if) one of the resumed coroutines throws an exception.</p>
-<h3 id="member-variables">Member Variables</h3>
+<h3 id="member-variables">Member Variables<a class="headerlink" href="#member-variables" title="Permanent link">&para;</a></h3>
 <p>Since stackless coroutines are heap-allocated, it uses linked list to those coroutines without additional allocation.</p>
 <table>
 <thead>
@@ -1152,7 +662,7 @@ The destructor throws if (and only if) one of the resumed coroutines throws an e
 </pre></div>
 
 
-<h3 id="functions">Functions</h3>
+<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1193,6 +703,7 @@ The destructor throws if (and only if) one of the resumed coroutines throws an e
                 
                   
                 
+                
               
               
                 
@@ -1206,41 +717,6 @@ The destructor throws if (and only if) one of the resumed coroutines throws an e
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../../work-in-progress/" title="coroutine/return.h" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                coroutine/return.h
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../channel-read_write/" title="read and write" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                read and write
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1257,13 +733,20 @@ The destructor throws if (and only if) one of the resumed coroutines throws an e
           Material for MkDocs</a>
       </div>
       
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/luncliff" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
     </div>
   </div>
 </footer>
       
     </div>
     
-      <script src="../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       

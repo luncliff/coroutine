@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="classcoro_1_1enumerable_1_1promise__type" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::enumerable::promise_type</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">promise_manual_control</basecompoundref>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classcoro_1_1enumerable_1_1promise__type_1a67171474c4da6cc8efe0c7fafefd2b2d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class iterator</definition>
+        <argsstring></argsstring>
+        <name>iterator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/yield.hpp" line="68" column="9" bodyfile="interface/coroutine/yield.hpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="classcoro_1_1enumerable_1_1promise__type_1ad8220d50c77d15ee61635c1d0fc0f6ce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class enumerable</definition>
+        <argsstring></argsstring>
+        <name>enumerable</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/yield.hpp" line="69" column="9" bodyfile="interface/coroutine/yield.hpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcoro_1_1enumerable_1_1promise__type_1a8f51915e09459e0f24aed367b85ed530" prot="private" static="no" mutable="no">
+        <type>pointer</type>
+        <definition>pointer coro::enumerable&lt; T &gt;::promise_type::current</definition>
+        <argsstring></argsstring>
+        <name>current</name>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/yield.hpp" line="71" column="17" bodyfile="interface/coroutine/yield.hpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1enumerable_1_1promise__type_1a1aa33df61f957a21f7f7f0bb31490ea7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classcoro_1_1enumerable_1_1promise__type" kindref="compound">promise_type</ref> *</type>
+        <definition>promise_type* coro::enumerable&lt; T &gt;::promise_type::get_return_object</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_return_object</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/yield.hpp" line="74" column="22" bodyfile="interface/coroutine/yield.hpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1enumerable_1_1promise__type_1a2a417b44f5048389ac628f891a851a28" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::enumerable&lt; T &gt;::promise_type::yield_value</definition>
+        <argsstring>(reference ref) noexcept</argsstring>
+        <name>yield_value</name>
+        <param>
+          <type>reference</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/yield.hpp" line="80" column="14" bodyfile="interface/coroutine/yield.hpp" bodystart="80" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1enumerable_1_1promise__type_1aea5f74fe3a0de6660ffedd99382626f5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::enumerable&lt; T &gt;::promise_type::yield_value</definition>
+        <argsstring>(value_type &amp;&amp;v) noexcept</argsstring>
+        <name>yield_value</name>
+        <param>
+          <type>value_type &amp;&amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/yield.hpp" line="85" column="14" bodyfile="interface/coroutine/yield.hpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1enumerable_1_1promise__type_1a24f0cdb9f39fff8bea46089495dabbcf" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::enumerable&lt; T &gt;::promise_type::return_void</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>return_void</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/yield.hpp" line="89" column="14" bodyfile="interface/coroutine/yield.hpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>coro::enumerable&lt; T &gt;::promise_type</label>
+        <link refid="classcoro_1_1enumerable_1_1promise__type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>promise_manual_control</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>coro::enumerable&lt; T &gt;::promise_type</label>
+        <link refid="classcoro_1_1enumerable_1_1promise__type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>promise_manual_control</label>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/yield.hpp" line="67" column="53" bodyfile="interface/coroutine/yield.hpp" bodystart="67" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1enumerable_1_1promise__type_1a8f51915e09459e0f24aed367b85ed530" prot="private" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>current</name></member>
+      <member refid="classcoro_1_1enumerable_1_1promise__type_1ad8220d50c77d15ee61635c1d0fc0f6ce" prot="private" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>enumerable</name></member>
+      <member refid="classcoro_1_1enumerable_1_1promise__type_1a1aa33df61f957a21f7f7f0bb31490ea7" prot="public" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>get_return_object</name></member>
+      <member refid="classcoro_1_1enumerable_1_1promise__type_1a67171474c4da6cc8efe0c7fafefd2b2d" prot="private" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>iterator</name></member>
+      <member refid="classcoro_1_1enumerable_1_1promise__type_1a24f0cdb9f39fff8bea46089495dabbcf" prot="public" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>return_void</name></member>
+      <member refid="classcoro_1_1enumerable_1_1promise__type_1a2a417b44f5048389ac628f891a851a28" prot="public" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>yield_value</name></member>
+      <member refid="classcoro_1_1enumerable_1_1promise__type_1aea5f74fe3a0de6660ffedd99382626f5" prot="public" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>yield_value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,384 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="classcoro_1_1channel" kind="class" language="C++" prot="public">
+    <compoundname>coro::channel</compoundname>
+    <basecompoundref refid="classcoro_1_1internal_1_1list" prot="private" virt="non-virtual">coro::internal::list&lt; reader&lt; T, M &gt; &gt;</basecompoundref>
+    <basecompoundref refid="classcoro_1_1internal_1_1list" prot="private" virt="non-virtual">coro::internal::list&lt; writer&lt; T, M &gt; &gt;</basecompoundref>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+      <param>
+        <type>typename M</type>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classcoro_1_1channel_1a9ec75050c355ffb2b024714a7ab431a4" prot="public" static="no">
+        <type>T</type>
+        <definition>using coro::channel&lt; T, M &gt;::value_type =  T</definition>
+        <argsstring></argsstring>
+        <name>value_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="259" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classcoro_1_1channel_1aa39036482a7cbe5948361f05cb90f08e" prot="public" static="no">
+        <type>value_type *</type>
+        <definition>using coro::channel&lt; T, M &gt;::pointer =  value_type*</definition>
+        <argsstring></argsstring>
+        <name>pointer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="260" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classcoro_1_1channel_1a237892aa34ea2f74b81f2357a35a9d39" prot="public" static="no">
+        <type>value_type &amp;</type>
+        <definition>using coro::channel&lt; T, M &gt;::reference =  value_type&amp;</definition>
+        <argsstring></argsstring>
+        <name>reference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="261" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classcoro_1_1channel_1a4c5a25ab02b09adfca500dad9847e614" prot="public" static="no">
+        <type>M</type>
+        <definition>using coro::channel&lt; T, M &gt;::mutex_type =  M</definition>
+        <argsstring></argsstring>
+        <name>mutex_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="262" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classcoro_1_1channel_1a0e0862b379c2e73a0cf13180107970d9" prot="private" static="no">
+        <type>reader&lt; value_type, mutex_type &gt;</type>
+        <definition>using coro::channel&lt; T, M &gt;::reader =  reader&lt;value_type, mutex_type&gt;</definition>
+        <argsstring></argsstring>
+        <name>reader</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="265" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classcoro_1_1channel_1aed049c9040cfa7902a7fb9de70108c95" prot="private" static="no">
+        <type><ref refid="classcoro_1_1internal_1_1list" kindref="compound">internal::list</ref>&lt; reader &gt;</type>
+        <definition>using coro::channel&lt; T, M &gt;::reader_list =  internal::list&lt;reader&gt;</definition>
+        <argsstring></argsstring>
+        <name>reader_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="266" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classcoro_1_1channel_1a8eaecd733c3cf16999f79d9ab4b09161" prot="private" static="no">
+        <type>writer&lt; value_type, mutex_type &gt;</type>
+        <definition>using coro::channel&lt; T, M &gt;::writer =  writer&lt;value_type, mutex_type&gt;</definition>
+        <argsstring></argsstring>
+        <name>writer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="267" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classcoro_1_1channel_1ad3a8386d74fd125feb5b415fb63d3cbe" prot="private" static="no">
+        <type><ref refid="classcoro_1_1internal_1_1list" kindref="compound">internal::list</ref>&lt; writer &gt;</type>
+        <definition>using coro::channel&lt; T, M &gt;::writer_list =  internal::list&lt;writer&gt;</definition>
+        <argsstring></argsstring>
+        <name>writer_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="268" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classcoro_1_1channel_1ae0e11e13d1766a334d33d8c7f559c8d9" prot="private" static="no">
+        <type>peeker&lt; value_type, mutex_type &gt;</type>
+        <definition>using coro::channel&lt; T, M &gt;::peeker =  peeker&lt;value_type, mutex_type&gt;</definition>
+        <argsstring></argsstring>
+        <name>peeker</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="269" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcoro_1_1channel_1ab7a630a2afa7580a6dd2231930dd7f3c" prot="private" static="no" mutable="no">
+        <type>friend</type>
+        <definition>friend coro::channel&lt; T, M &gt;::reader</definition>
+        <argsstring></argsstring>
+        <name>reader</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="271" column="12" bodyfile="interface/coroutine/channel.hpp" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcoro_1_1channel_1a041271ea7d37ead351ca38af51d56794" prot="private" static="no" mutable="no">
+        <type>friend</type>
+        <definition>friend coro::channel&lt; T, M &gt;::writer</definition>
+        <argsstring></argsstring>
+        <name>writer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="272" column="12" bodyfile="interface/coroutine/channel.hpp" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcoro_1_1channel_1abb4d8d26d937b9baf21a1a06fe9e0c97" prot="private" static="no" mutable="no">
+        <type>friend</type>
+        <definition>friend coro::channel&lt; T, M &gt;::peeker</definition>
+        <argsstring></argsstring>
+        <name>peeker</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="273" column="12" bodyfile="interface/coroutine/channel.hpp" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcoro_1_1channel_1a6deb1d8b1bee0f3bae168e50e58d323b" prot="private" static="no" mutable="no">
+        <type>mutex_type</type>
+        <definition>mutex_type coro::channel&lt; T, M &gt;::mtx</definition>
+        <argsstring></argsstring>
+        <name>mtx</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="276" column="16" bodyfile="interface/coroutine/channel.hpp" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcoro_1_1channel_1a4cf1a95a2cebe1212be7f4c340aeabc0" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>coro::channel&lt; T, M &gt;::channel</definition>
+        <argsstring>(const channel &amp;) noexcept(false)=delete</argsstring>
+        <name>channel</name>
+        <param>
+          <type>const <ref refid="classcoro_1_1channel" kindref="compound">channel</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="279" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1channel_1ae74b89cd4fdfb128412fb0fe9b6eabcb" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>coro::channel&lt; T, M &gt;::channel</definition>
+        <argsstring>(channel &amp;&amp;) noexcept(false)=delete</argsstring>
+        <name>channel</name>
+        <param>
+          <type><ref refid="classcoro_1_1channel" kindref="compound">channel</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="280" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1channel_1a2d58af94b4f7002acce60ebd79f5db3c" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classcoro_1_1channel" kindref="compound">channel</ref> &amp;</type>
+        <definition>channel&amp; coro::channel&lt; T, M &gt;::operator=</definition>
+        <argsstring>(const channel &amp;) noexcept(false)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classcoro_1_1channel" kindref="compound">channel</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="281" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1channel_1afa31c58572b4af15fab3618cdff5b556" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classcoro_1_1channel" kindref="compound">channel</ref> &amp;</type>
+        <definition>channel&amp; coro::channel&lt; T, M &gt;::operator=</definition>
+        <argsstring>(channel &amp;&amp;) noexcept(false)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classcoro_1_1channel" kindref="compound">channel</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="282" column="13"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1channel_1a74304f24df84623d98ff6733a2ba2281" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>coro::channel&lt; T, M &gt;::channel</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>channel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="285" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="285" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1channel_1adb12b67c3ed3050bf108583e495d240e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>coro::channel&lt; T, M &gt;::~channel</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>~channel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="288" column="5" bodyfile="interface/coroutine/channel.hpp" bodystart="288" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1channel_1a1cbff064b82e41767691003a7c1a64d1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>decltype(auto)</type>
+        <definition>decltype(auto) coro::channel&lt; T, M &gt;::write</definition>
+        <argsstring>(reference ref) noexcept(false)</argsstring>
+        <name>write</name>
+        <param>
+          <type>reference</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="326" column="14" bodyfile="interface/coroutine/channel.hpp" bodystart="326" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1channel_1a899183f59f63289060c79d4c6f57cd52" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>decltype(auto)</type>
+        <definition>decltype(auto) coro::channel&lt; T, M &gt;::read</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>read</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="329" column="14" bodyfile="interface/coroutine/channel.hpp" bodystart="329" bodyend="331"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>coro::channel&lt; T, M &gt;</label>
+        <link refid="classcoro_1_1channel"/>
+        <childnode refid="2" relation="private-inheritance">
+        </childnode>
+        <childnode refid="3" relation="private-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>coro::internal::list&lt; writer&lt; T, M &gt; &gt;</label>
+        <link refid="classcoro_1_1internal_1_1list"/>
+      </node>
+      <node id="2">
+        <label>coro::internal::list&lt; reader&lt; T, M &gt; &gt;</label>
+        <link refid="classcoro_1_1internal_1_1list"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>coro::channel&lt; T, M &gt;</label>
+        <link refid="classcoro_1_1channel"/>
+        <childnode refid="2" relation="private-inheritance">
+        </childnode>
+        <childnode refid="3" relation="private-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>coro::internal::list&lt; writer&lt; T, M &gt; &gt;</label>
+        <link refid="classcoro_1_1internal_1_1list"/>
+      </node>
+      <node id="2">
+        <label>coro::internal::list&lt; reader&lt; T, M &gt; &gt;</label>
+        <link refid="classcoro_1_1internal_1_1list"/>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/channel.hpp" line="84" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="84" bodyend="-1"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1channel_1a4cf1a95a2cebe1212be7f4c340aeabc0" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>channel</name></member>
+      <member refid="classcoro_1_1channel_1ae74b89cd4fdfb128412fb0fe9b6eabcb" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>channel</name></member>
+      <member refid="classcoro_1_1channel_1a74304f24df84623d98ff6733a2ba2281" prot="public" virt="non-virtual"><scope>coro::channel</scope><name>channel</name></member>
+      <member refid="classcoro_1_1internal_1_1list_1a04a7df7b349952b290c8a1bc393c278e" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>is_empty</name></member>
+      <member refid="classcoro_1_1internal_1_1list_1aad45a4bcb56ac78354e0190ec10d910d" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>list</name></member>
+      <member refid="classcoro_1_1channel_1a6deb1d8b1bee0f3bae168e50e58d323b" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>mtx</name></member>
+      <member refid="classcoro_1_1channel_1a4c5a25ab02b09adfca500dad9847e614" prot="public" virt="non-virtual"><scope>coro::channel</scope><name>mutex_type</name></member>
+      <member refid="classcoro_1_1channel_1a2d58af94b4f7002acce60ebd79f5db3c" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1channel_1afa31c58572b4af15fab3618cdff5b556" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1channel_1ae0e11e13d1766a334d33d8c7f559c8d9" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>peeker</name></member>
+      <member refid="classcoro_1_1channel_1abb4d8d26d937b9baf21a1a06fe9e0c97" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>peeker</name></member>
+      <member refid="classcoro_1_1channel_1aa39036482a7cbe5948361f05cb90f08e" prot="public" virt="non-virtual"><scope>coro::channel</scope><name>pointer</name></member>
+      <member refid="classcoro_1_1internal_1_1list_1a54a7b1bcebc30b311d7388781de59ae6" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>pop</name></member>
+      <member refid="classcoro_1_1internal_1_1list_1a8b415c8d52c36078cbb68671c1c51983" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>push</name></member>
+      <member refid="classcoro_1_1channel_1a899183f59f63289060c79d4c6f57cd52" prot="public" virt="non-virtual"><scope>coro::channel</scope><name>read</name></member>
+      <member refid="classcoro_1_1channel_1a0e0862b379c2e73a0cf13180107970d9" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>reader</name></member>
+      <member refid="classcoro_1_1channel_1ab7a630a2afa7580a6dd2231930dd7f3c" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>reader</name></member>
+      <member refid="classcoro_1_1channel_1aed049c9040cfa7902a7fb9de70108c95" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>reader_list</name></member>
+      <member refid="classcoro_1_1channel_1a237892aa34ea2f74b81f2357a35a9d39" prot="public" virt="non-virtual"><scope>coro::channel</scope><name>reference</name></member>
+      <member refid="classcoro_1_1channel_1a9ec75050c355ffb2b024714a7ab431a4" prot="public" virt="non-virtual"><scope>coro::channel</scope><name>value_type</name></member>
+      <member refid="classcoro_1_1channel_1a1cbff064b82e41767691003a7c1a64d1" prot="public" virt="non-virtual"><scope>coro::channel</scope><name>write</name></member>
+      <member refid="classcoro_1_1channel_1a8eaecd733c3cf16999f79d9ab4b09161" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>writer</name></member>
+      <member refid="classcoro_1_1channel_1a041271ea7d37ead351ca38af51d56794" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>writer</name></member>
+      <member refid="classcoro_1_1channel_1ad3a8386d74fd125feb5b415fb63d3cbe" prot="private" virt="non-virtual"><scope>coro::channel</scope><name>writer_list</name></member>
+      <member refid="classcoro_1_1channel_1adb12b67c3ed3050bf108583e495d240e" prot="public" virt="non-virtual"><scope>coro::channel</scope><name>~channel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

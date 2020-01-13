@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="namespacegeneric" kind="namespace" language="C++">
+    <compoundname>generic</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="string__span__tests_8cpp_1a99ee50625b21980f8d6935763acf7d29" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t generic::n</definition>
+        <argsstring></argsstring>
+        <name>n</name>
+        <initializer>{
+    return std::find(s, s + n, CharT{0}) - s</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="external/guideline/tests/string_span_tests.cpp" line="58" column="22" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="string__span__tests_8cpp_1a4b1e5a22dc78463ecdedbd41cc2987cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename CharT</type>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>generic::GSL_SUPPRESS</definition>
+        <argsstring>(bounds.1) GSL_SUPPRESS(f.23) auto strlen(const CharT *s)</argsstring>
+        <name>GSL_SUPPRESS</name>
+        <param>
+          <type>bounds.</type>
+          <declname>1</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="external/guideline/tests/string_span_tests.cpp" line="47" column="1" bodyfile="external/guideline/tests/string_span_tests.cpp" bodystart="47" bodyend="54"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="external/guideline/tests/string_span_tests.cpp" line="44" column="1"/>
+  </compounddef>
+</doxygen>

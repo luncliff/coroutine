@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="classcoro_1_1frame__t_1_1promise__type" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::frame_t::promise_type</compoundname>
+    <basecompoundref refid="classcoro_1_1promise__aa" prot="public" virt="non-virtual">coro::promise_aa</basecompoundref>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1frame__t_1_1promise__type_1a63d10c951414b16b7ff45a574e3094a9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::frame_t::promise_type::unhandled_exception</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>unhandled_exception</name>
+        <briefdescription>
+<para>The coroutine with the <computeroutput><ref refid="classcoro_1_1frame__t" kindref="compound">frame_t</ref></computeroutput> will do nothing for exception handling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="77" column="14" bodyfile="interface/coroutine/return.h" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1frame__t_1_1promise__type_1a9644f5c45cb2843a4458eaf25a0ebe74" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::frame_t::promise_type::return_void</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>return_void</name>
+        <briefdescription>
+<para>this is a <computeroutput>void</computeroutput> return for the coroutines </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="83" column="14" bodyfile="interface/coroutine/return.h" bodystart="83" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1frame__t_1_1promise__type_1a7c07fbbb36644bc2a76bca7b9248e038" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::frame_t::promise_type::get_return_object</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_return_object</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="85" column="14" bodyfile="interface/coroutine/return.h" bodystart="85" bodyend="90"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>coro::frame_t::promise_type</label>
+        <link refid="classcoro_1_1frame__t_1_1promise__type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>coro::promise_aa</label>
+        <link refid="classcoro_1_1promise__aa"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>coro::frame_t::promise_type</label>
+        <link refid="classcoro_1_1frame__t_1_1promise__type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>coro::promise_aa</label>
+        <link refid="classcoro_1_1promise__aa"/>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/return.h" line="71" column="47" bodyfile="interface/coroutine/return.h" bodystart="71" bodyend="91"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1promise__aa_1aa15c4ca4ee5060f3d992fd3bd6a03af3" prot="public" virt="non-virtual"><scope>coro::frame_t::promise_type</scope><name>final_suspend</name></member>
+      <member refid="classcoro_1_1frame__t_1_1promise__type_1a7c07fbbb36644bc2a76bca7b9248e038" prot="public" virt="non-virtual"><scope>coro::frame_t::promise_type</scope><name>get_return_object</name></member>
+      <member refid="classcoro_1_1promise__aa_1a04a18d03868c5a49f8e37a5b8cf7ab42" prot="public" virt="non-virtual"><scope>coro::frame_t::promise_type</scope><name>initial_suspend</name></member>
+      <member refid="classcoro_1_1frame__t_1_1promise__type_1a9644f5c45cb2843a4458eaf25a0ebe74" prot="public" virt="non-virtual"><scope>coro::frame_t::promise_type</scope><name>return_void</name></member>
+      <member refid="classcoro_1_1frame__t_1_1promise__type_1a63d10c951414b16b7ff45a574e3094a9" prot="public" virt="non-virtual"><scope>coro::frame_t::promise_type</scope><name>unhandled_exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

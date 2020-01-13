@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t" kind="union" language="C++" prot="public">
+    <compoundname>std::experimental::coroutine_handle&lt; void &gt;::prefix_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a4b616f3a365c765231b47e6fdfa6f5d4" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* std::experimental::coroutine_handle&lt; void &gt;::prefix_t::v</definition>
+        <argsstring></argsstring>
+        <name>v</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="182" column="14" bodyfile="interface/coroutine/frame.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a0ad2fb1ff63bda4c5dcb0cd8d01747b7" prot="public" static="no" mutable="no">
+        <type><ref refid="structmsvc__frame__prefix" kindref="compound">msvc_frame_prefix</ref> *</type>
+        <definition>msvc_frame_prefix* std::experimental::coroutine_handle&lt; void &gt;::prefix_t::m</definition>
+        <argsstring></argsstring>
+        <name>m</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="183" column="27" bodyfile="interface/coroutine/frame.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a667d0c5c42097163346ecb9e57845d8b" prot="public" static="no" mutable="no">
+        <type><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref> *</type>
+        <definition>clang_frame_prefix* std::experimental::coroutine_handle&lt; void &gt;::prefix_t::c</definition>
+        <argsstring></argsstring>
+        <name>c</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="184" column="28" bodyfile="interface/coroutine/frame.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a0091bb9e7db56bd8cd21c5ff12e516d6" prot="public" static="no" mutable="no">
+        <type><ref refid="structgcc__frame__prefix" kindref="compound">gcc_frame_prefix</ref> *</type>
+        <definition>gcc_frame_prefix* std::experimental::coroutine_handle&lt; void &gt;::prefix_t::g</definition>
+        <argsstring></argsstring>
+        <name>g</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="185" column="26" bodyfile="interface/coroutine/frame.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>gcc_frame_prefix</label>
+        <link refid="structgcc__frame__prefix"/>
+      </node>
+      <node id="2">
+        <label>clang_frame_prefix</label>
+        <link refid="structclang__frame__prefix"/>
+      </node>
+      <node id="4">
+        <label>msvc_frame_prefix</label>
+        <link refid="structmsvc__frame__prefix"/>
+      </node>
+      <node id="1">
+        <label>std::experimental::coroutine_handle&lt; void &gt;::prefix_t</label>
+        <link refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>c</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>g</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>m</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/frame.h" line="181" column="19" bodyfile="interface/coroutine/frame.h" bodystart="181" bodyend="186"/>
+    <listofallmembers>
+      <member refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a667d0c5c42097163346ecb9e57845d8b" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_handle&lt; void &gt;::prefix_t</scope><name>c</name></member>
+      <member refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a0091bb9e7db56bd8cd21c5ff12e516d6" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_handle&lt; void &gt;::prefix_t</scope><name>g</name></member>
+      <member refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a0ad2fb1ff63bda4c5dcb0cd8d01747b7" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_handle&lt; void &gt;::prefix_t</scope><name>m</name></member>
+      <member refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a4b616f3a365c765231b47e6fdfa6f5d4" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_handle&lt; void &gt;::prefix_t</scope><name>v</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

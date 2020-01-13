@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="dir_898e359a3b1c0c35c95190e719ce85a7" kind="dir">
+    <compoundname>external/guideline</compoundname>
+    <innerdir refid="dir_b599469a9c8999c9a06fd818dc911b93">external/guideline/tests</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="external/guideline/"/>
+  </compounddef>
+</doxygen>

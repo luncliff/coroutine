@@ -1,0 +1,1568 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="C++ 20 Coroutines in Action.">
+      
+      
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/Home/namespacecoro/">
+      
+      
+        <meta name="author" content="Park Dong Ha">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+    
+    
+      
+        <title>Namespace coro - luncliff/coroutine</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#namespace-coro" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://luncliff.github.io/coroutine/Home" title="luncliff/coroutine" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">call_split</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              luncliff/coroutine
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Namespace coro
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://luncliff.github.io/coroutine/Home" title="luncliff/coroutine" class="md-nav__button md-logo">
+      
+        <i class="md-icon">call_split</i>
+      
+    </a>
+    luncliff/coroutine
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Home/" title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      PPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        PPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
+      C++ Korea 5th Seminar
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Articles
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Articles
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1" type="checkbox" id="nav-3-1">
+    
+    <label class="md-nav__link" for="nav-3-1">
+      Archive(Old posts)
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-1">
+        Archive(Old posts)
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-nav__link">
+      Exploring MSVC Coroutine
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../articles/awaitable-event/" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
+      Awaitable event using the coroutine, epoll and eventfd
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../articles/designing-the-channel/" title="Designing the coroutine channel" class="md-nav__link">
+      Designing the coroutine channel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../articles/combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
+      Combining C++ coroutines and `pthread_create`
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../articles/russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
+      Russian Roulette and C++ Coroutines
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../namespaces/" title="Namespaces" class="md-nav__link">
+      Namespaces
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../classes/" title="Classes" class="md-nav__link">
+      Classes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../files/" title="Files" class="md-nav__link">
+      Files
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#namespaces" class="md-nav__link">
+    Namespaces
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    Classes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-types" class="md-nav__link">
+    Public Types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-attributes" class="md-nav__link">
+    Public Attributes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-functions" class="md-nav__link">
+    Public Functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-types-documentation" class="md-nav__link">
+    Public Types Documentation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typedef-czstring95host" class="md-nav__link">
+    typedef czstring_host
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typedef-czstring95serv" class="md-nav__link">
+    typedef czstring_serv
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typedef-io95buffer95t" class="md-nav__link">
+    typedef io_buffer_t
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typedef-io95task95t" class="md-nav__link">
+    typedef io_task_t
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typedef-zstring95host" class="md-nav__link">
+    typedef zstring_host
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typedef-zstring95serv" class="md-nav__link">
+    typedef zstring_serv
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-attributes-documentation" class="md-nav__link">
+    Public Attributes Documentation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variable-emask" class="md-nav__link">
+    variable emask
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-inbound" class="md-nav__link">
+    variable inbound
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-kq" class="md-nav__link">
+    variable kq
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-outbound" class="md-nav__link">
+    variable outbound
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-selist" class="md-nav__link">
+    variable selist
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-functions-documentation" class="md-nav__link">
+    Public Functions Documentation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-gsl95suppress" class="md-nav__link">
+    function GSL_SUPPRESS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-consume95event" class="md-nav__link">
+    function consume_event
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-coroutine95pthread95resume" class="md-nav__link">
+    function coroutine_pthread_resume
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-enumerate95addrinfo" class="md-nav__link">
+    function enumerate_addrinfo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-enumerate95net95tasks" class="md-nav__link">
+    function enumerate_net_tasks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-get95eventfd" class="md-nav__link">
+    function get_eventfd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-get95io95error" class="md-nav__link">
+    function get_io_error
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-get95io95length" class="md-nav__link">
+    function get_io_length
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-get95name" class="md-nav__link">
+    function get_name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-get95name_1" class="md-nav__link">
+    function get_name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-get95threads95of" class="md-nav__link">
+    function get_threads_of
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-is95async95pending" class="md-nav__link">
+    function is_async_pending
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-is95signaled" class="md-nav__link">
+    function is_signaled
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-notify95event" class="md-nav__link">
+    function notify_event
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-onworkdone" class="md-nav__link">
+    function onWorkDone
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-recv95from" class="md-nav__link">
+    function recv_from
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-recv95from_1" class="md-nav__link">
+    function recv_from
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-recv95stream" class="md-nav__link">
+    function recv_stream
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-render95temp95name" class="md-nav__link">
+    function render_temp_name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-resolve" class="md-nav__link">
+    function resolve
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-resolve_1" class="md-nav__link">
+    function resolve
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-resolve95error" class="md-nav__link">
+    function resolve_error
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-select" class="md-nav__link">
+    function select
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-select_1" class="md-nav__link">
+    function select
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-send95stream" class="md-nav__link">
+    function send_stream
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-send95to" class="md-nav__link">
+    function send_to
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-send95to_1" class="md-nav__link">
+    function send_to
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-signaled95event95tasks" class="md-nav__link">
+    function signaled_event_tasks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-wait95net95tasks" class="md-nav__link">
+    function wait_net_tasks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-wait95net95tasks_1" class="md-nav__link">
+    function wait_net_tasks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-wait95net95tasks_2" class="md-nav__link">
+    function wait_net_tasks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-wait95on95thread95pool" class="md-nav__link">
+    function wait_on_thread_pool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-zero95overlapped" class="md-nav__link">
+    function zero_overlapped
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/namespacecoro.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="namespace-coro">Namespace coro<a class="headerlink" href="#namespace-coro" title="Permanent link">&para;</a></h1>
+<p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="./"><strong>coro</strong></a></p>
+<h2 id="namespaces">Namespaces<a class="headerlink" href="#namespaces" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th align="right">Type</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">namespace</td>
+<td align="left"><a href="../namespacecoro_1_1internal/"><strong>internal</strong></a> <br></td>
+</tr>
+</tbody>
+</table>
+<h2 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th align="right">Type</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structcoro_1_1bypass__lock/"><strong>bypass_lock</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1channel/"><strong>channel</strong></a> &lt;typename T, typename M&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structcoro_1_1darwin__event/"><strong>darwin_event</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1enumerable/"><strong>enumerable</strong></a> &lt;T&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structcoro_1_1event__poll__t/"><strong>event_poll_t</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1frame__t/"><strong>frame_t</strong></a> <br><em>A type to acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from anonymous coroutine's return.</em></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1io__recv/"><strong>io_recv</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1io__recv__from/"><strong>io_recv_from</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1io__send/"><strong>io_send</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1io__send__to/"><strong>io_send_to</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structcoro_1_1kernel__queue__t/"><strong>kernel_queue_t</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1peeker/"><strong>peeker</strong></a> &lt;typename T, typename M&gt;<br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1promise__aa/"><strong>promise_aa</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1promise__an/"><strong>promise_an</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1promise__na/"><strong>promise_na</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1promise__nn/"><strong>promise_nn</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1reader/"><strong>reader</strong></a> &lt;typename T, typename M&gt;<br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classcoro_1_1writer/"><strong>writer</strong></a> &lt;typename T, typename M&gt;<br></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-types">Public Types<a class="headerlink" href="#public-types" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th align="right">Type</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">typedef gsl::czstring&lt; NI_MAXHOST &gt;</td>
+<td align="left"><a href="./#typedef-czstring-host"><strong>czstring_host</strong></a>  <br></td>
+</tr>
+<tr>
+<td align="right">typedef gsl::czstring&lt; NI_MAXSERV &gt;</td>
+<td align="left"><a href="./#typedef-czstring-serv"><strong>czstring_serv</strong></a>  <br></td>
+</tr>
+<tr>
+<td align="right">typedef gsl::span&lt; std::byte &gt;</td>
+<td align="left"><a href="./#typedef-io-buffer-t"><strong>io_buffer_t</strong></a>  <br></td>
+</tr>
+<tr>
+<td align="right">typedef <a href="../classstd_1_1experimental_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt;</td>
+<td align="left"><a href="./#typedef-io-task-t"><strong>io_task_t</strong></a>  <br></td>
+</tr>
+<tr>
+<td align="right">typedef gsl::zstring&lt; NI_MAXHOST &gt;</td>
+<td align="left"><a href="./#typedef-zstring-host"><strong>zstring_host</strong></a>  <br></td>
+</tr>
+<tr>
+<td align="right">typedef gsl::zstring&lt; NI_MAXSERV &gt;</td>
+<td align="left"><a href="./#typedef-zstring-serv"><strong>zstring_serv</strong></a>  <br></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes<a class="headerlink" href="#public-attributes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th align="right">Type</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">constexpr uint64_t</td>
+<td align="left"><a href="./#variable-emask"><strong>emask</strong></a>   = = 1ULL &lt;&lt; 63<br></td>
+</tr>
+<tr>
+<td align="right"><a href="../structcoro_1_1event__poll__t/"><strong>event_poll_t</strong></a></td>
+<td align="left"><a href="./#variable-inbound"><strong>inbound</strong></a>   = {}<br></td>
+</tr>
+<tr>
+<td align="right"><a href="../structcoro_1_1kernel__queue__t/"><strong>kernel_queue_t</strong></a></td>
+<td align="left"><a href="./#variable-kq"><strong>kq</strong></a>   = {}<br></td>
+</tr>
+<tr>
+<td align="right"><a href="../structcoro_1_1event__poll__t/"><strong>event_poll_t</strong></a></td>
+<td align="left"><a href="./#variable-outbound"><strong>outbound</strong></a>   = {}<br></td>
+</tr>
+<tr>
+<td align="right"><a href="../structcoro_1_1kernel__queue__t/"><strong>kernel_queue_t</strong></a></td>
+<td align="left"><a href="./#variable-selist"><strong>selist</strong></a>   = {}<br></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th align="right">Type</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right"></td>
+<td align="left"><a href="./#function-gsl-suppress"><strong>GSL_SUPPRESS</strong></a> (f . 4) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">void</td>
+<td align="left"><a href="./#function-consume-event"><strong>consume_event</strong></a> (int64_t efd) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">void *</td>
+<td align="left"><a href="./#function-coroutine-pthread-resume"><strong>coroutine_pthread_resume</strong></a> (void * ptr) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">auto</td>
+<td align="left"><a href="./#function-enumerate-addrinfo"><strong>enumerate_addrinfo</strong></a> (gsl::not_null&lt; addrinfo * &gt; list) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">auto</td>
+<td align="left"><a href="./#function-enumerate-net-tasks"><strong>enumerate_net_tasks</strong></a> (nanoseconds timeout) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">int64_t</td>
+<td align="left"><a href="./#function-get-eventfd"><strong>get_eventfd</strong></a> (uint64_t state) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">uint32_t</td>
+<td align="left"><a href="./#function-get-io-error"><strong>get_io_error</strong></a> (const OVERLAPPED * target) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">int64_t</td>
+<td align="left"><a href="./#function-get-io-length"><strong>get_io_length</strong></a> (const OVERLAPPED * target) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">_INTERFACE_ int32_t</td>
+<td align="left"><a href="./#function-get-name"><strong>get_name</strong></a> (const sockaddr_in &amp; addr, zstring_host name, zstring_serv serv, int32_t flags=NI_NUMERICHOST</td>
+</tr>
+<tr>
+<td align="right">_INTERFACE_ int32_t</td>
+<td align="left"><a href="./#function-get-name"><strong>get_name</strong></a> (const sockaddr_in6 &amp; addr, zstring_host name, zstring_serv serv, int32_t flags=NI_NUMERICHOST</td>
+</tr>
+<tr>
+<td align="right">auto</td>
+<td align="left"><a href="./#function-get-threads-of"><strong>get_threads_of</strong></a> (DWORD pid) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">bool</td>
+<td align="left"><a href="./#function-is-async-pending"><strong>is_async_pending</strong></a> (int ec) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">bool</td>
+<td align="left"><a href="./#function-is-signaled"><strong>is_signaled</strong></a> (uint64_t state) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">void</td>
+<td align="left"><a href="./#function-notify-event"><strong>notify_event</strong></a> (int64_t efd) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">void CALLBACK</td>
+<td align="left"><a href="./#function-onworkdone"><strong>onWorkDone</strong></a> (DWORD errc, DWORD sz, LPWSAOVERLAPPED pover, DWORD flags) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">_INTERFACE_ auto</td>
+<td align="left"><a href="./#function-recv-from"><strong>recv_from</strong></a> (uint64_t sd, sockaddr_in &amp; remote, io_buffer_t buf, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">_INTERFACE_ auto</td>
+<td align="left"><a href="./#function-recv-from"><strong>recv_from</strong></a> (uint64_t sd, sockaddr_in6 &amp; remote, io_buffer_t buf, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">_INTERFACE_ auto</td>
+<td align="left"><a href="./#function-recv-stream"><strong>recv_stream</strong></a> (uint64_t sd, io_buffer_t buf, uint32_t flag, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">int32_t</td>
+<td align="left"><a href="./#function-render-temp-name"><strong>render_temp_name</strong></a> (char * buffer) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">_INTERFACE_ int32_t</td>
+<td align="left"><a href="./#function-resolve"><strong>resolve</strong></a> (<a href="../classcoro_1_1enumerable/"><strong>enumerable</strong></a>&lt; sockaddr &gt; &amp; g, const addrinfo &amp; hint, czstring_host name, czstring_serv serv) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">auto</td>
+<td align="left"><a href="./#function-resolve"><strong>resolve</strong></a> (const addrinfo &amp; hint, czstring_host name, czstring_serv serv) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">_INTERFACE_ auto</td>
+<td align="left"><a href="./#function-resolve-error"><strong>resolve_error</strong></a> (int32_t ec) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">void</td>
+<td align="left"><a href="./#function-select"><strong>select</strong></a> (<a href="../classcoro_1_1channel/"><strong>channel</strong></a>&lt; T, M &gt; &amp; ch, Fn &amp;&amp; fn) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">void</td>
+<td align="left"><a href="./#function-select"><strong>select</strong></a> (ChanType &amp; ch, FuncType &amp;&amp; fn, Args &amp;&amp;... args) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">_INTERFACE_ auto</td>
+<td align="left"><a href="./#function-send-stream"><strong>send_stream</strong></a> (uint64_t sd, io_buffer_t buf, uint32_t flag, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">_INTERFACE_ auto</td>
+<td align="left"><a href="./#function-send-to"><strong>send_to</strong></a> (uint64_t sd, const sockaddr_in &amp; remote, io_buffer_t buf, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">_INTERFACE_ auto</td>
+<td align="left"><a href="./#function-send-to"><strong>send_to</strong></a> (uint64_t sd, const sockaddr_in6 &amp; remote, io_buffer_t buf, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">auto</td>
+<td align="left"><a href="./#function-signaled-event-tasks"><strong>signaled_event_tasks</strong></a> () noexcept<br></td>
+</tr>
+<tr>
+<td align="right">_INTERFACE_ void</td>
+<td align="left"><a href="./#function-wait-net-tasks"><strong>wait_net_tasks</strong></a> (<a href="../classcoro_1_1enumerable/"><strong>enumerable</strong></a>&lt; <a href="../classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4/"><strong>io_task_t</strong></a> &gt; &amp; tasks, chrono::nanoseconds timeout) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">auto</td>
+<td align="left"><a href="./#function-wait-net-tasks"><strong>wait_net_tasks</strong></a> (chrono::nanoseconds timeout) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">void</td>
+<td align="left"><a href="./#function-wait-net-tasks"><strong>wait_net_tasks</strong></a> (<a href="../classcoro_1_1enumerable/"><strong>coro::enumerable</strong></a>&lt; <a href="../classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4/"><strong>io_task_t</strong></a> &gt; &amp; tasks, std::chrono::nanoseconds timeout) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">void __stdcall</td>
+<td align="left"><a href="./#function-wait-on-thread-pool"><strong>wait_on_thread_pool</strong></a> (PVOID ctx, BOOLEAN timedout) <br></td>
+</tr>
+<tr>
+<td align="right">auto</td>
+<td align="left"><a href="./#function-zero-overlapped"><strong>zero_overlapped</strong></a> (gsl::not_null&lt; io_control_block * &gt; work) noexcept<br></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-types-documentation">Public Types Documentation<a class="headerlink" href="#public-types-documentation" title="Permanent link">&para;</a></h2>
+<h3 id="typedef-czstring95host">typedef czstring_host<a class="headerlink" href="#typedef-czstring95host" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">coro</span><span class="o">::</span><span class="n">czstring_host</span> <span class="o">=</span> <span class="k">typedef</span> <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;</span><span class="n">NI_MAXHOST</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="typedef-czstring95serv">typedef czstring_serv<a class="headerlink" href="#typedef-czstring95serv" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">coro</span><span class="o">::</span><span class="n">czstring_serv</span> <span class="o">=</span> <span class="k">typedef</span> <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;</span><span class="n">NI_MAXSERV</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="typedef-io95buffer95t">typedef io_buffer_t<a class="headerlink" href="#typedef-io95buffer95t" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_buffer_t</span> <span class="o">=</span> <span class="k">typedef</span> <span class="n">gsl</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">byte</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="typedef-io95task95t">typedef io_task_t<a class="headerlink" href="#typedef-io95task95t" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_task_t</span> <span class="o">=</span> <span class="k">typedef</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="typedef-zstring95host">typedef zstring_host<a class="headerlink" href="#typedef-zstring95host" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">coro</span><span class="o">::</span><span class="n">zstring_host</span> <span class="o">=</span> <span class="k">typedef</span> <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span><span class="n">NI_MAXHOST</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="typedef-zstring95serv">typedef zstring_serv<a class="headerlink" href="#typedef-zstring95serv" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">coro</span><span class="o">::</span><span class="n">zstring_serv</span> <span class="o">=</span> <span class="k">typedef</span> <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span><span class="n">NI_MAXSERV</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+
+
+<h2 id="public-attributes-documentation">Public Attributes Documentation<a class="headerlink" href="#public-attributes-documentation" title="Permanent link">&para;</a></h2>
+<h3 id="variable-emask">variable emask<a class="headerlink" href="#variable-emask" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">constexpr</span> <span class="kt">uint64_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">emask</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="variable-inbound">variable inbound<a class="headerlink" href="#variable-inbound" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">event_poll_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">inbound</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="variable-kq">variable kq<a class="headerlink" href="#variable-kq" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">kernel_queue_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">kq</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="variable-outbound">variable outbound<a class="headerlink" href="#variable-outbound" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">event_poll_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">outbound</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="variable-selist">variable selist<a class="headerlink" href="#variable-selist" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">event_poll_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">selist</span><span class="p">;</span>
+</pre></div>
+
+
+<h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
+<h3 id="function-gsl95suppress">function GSL_SUPPRESS<a class="headerlink" href="#function-gsl95suppress" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">coro</span><span class="o">::</span><span class="n">GSL_SUPPRESS</span> <span class="p">(</span>
+    <span class="n">f</span> <span class="p">.</span> <span class="mi">4</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-consume95event">function consume_event<a class="headerlink" href="#function-consume95event" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">consume_event</span> <span class="p">(</span>
+    <span class="kt">int64_t</span> <span class="n">efd</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-coroutine95pthread95resume">function coroutine_pthread_resume<a class="headerlink" href="#function-coroutine95pthread95resume" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="o">*</span> <span class="n">coro</span><span class="o">::</span><span class="n">coroutine_pthread_resume</span> <span class="p">(</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">ptr</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-enumerate95addrinfo">function enumerate_addrinfo<a class="headerlink" href="#function-enumerate95addrinfo" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerate_addrinfo</span> <span class="p">(</span>
+    <span class="n">gsl</span><span class="o">::</span><span class="n">not_null</span><span class="o">&lt;</span> <span class="n">addrinfo</span> <span class="o">*</span> <span class="o">&gt;</span> <span class="n">list</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-enumerate95net95tasks">function enumerate_net_tasks<a class="headerlink" href="#function-enumerate95net95tasks" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerate_net_tasks</span> <span class="p">(</span>
+    <span class="n">nanoseconds</span> <span class="n">timeout</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-get95eventfd">function get_eventfd<a class="headerlink" href="#function-get95eventfd" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">int64_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">get_eventfd</span> <span class="p">(</span>
+    <span class="kt">uint64_t</span> <span class="n">state</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-get95io95error">function get_io_error<a class="headerlink" href="#function-get95io95error" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">uint32_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">get_io_error</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">OVERLAPPED</span> <span class="o">*</span> <span class="n">target</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-get95io95length">function get_io_length<a class="headerlink" href="#function-get95io95length" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">int64_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">get_io_length</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">OVERLAPPED</span> <span class="o">*</span> <span class="n">target</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-get95name">function get_name<a class="headerlink" href="#function-get95name" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="kt">int32_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">get_name</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">sockaddr_in</span> <span class="o">&amp;</span> <span class="n">addr</span><span class="p">,</span>
+    <span class="n">zstring_host</span> <span class="n">name</span><span class="p">,</span>
+    <span class="n">zstring_serv</span> <span class="n">serv</span><span class="p">,</span>
+    <span class="kt">int32_t</span> <span class="n">flags</span><span class="o">=</span><span class="n">NI_NUMERICHOST</span><span class="o">|</span><span class="n">NI_NUMERICSERV</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-get95name_1">function get_name<a class="headerlink" href="#function-get95name_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="kt">int32_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">get_name</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">sockaddr_in6</span> <span class="o">&amp;</span> <span class="n">addr</span><span class="p">,</span>
+    <span class="n">zstring_host</span> <span class="n">name</span><span class="p">,</span>
+    <span class="n">zstring_serv</span> <span class="n">serv</span><span class="p">,</span>
+    <span class="kt">int32_t</span> <span class="n">flags</span><span class="o">=</span><span class="n">NI_NUMERICHOST</span><span class="o">|</span><span class="n">NI_NUMERICSERV</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-get95threads95of">function get_threads_of<a class="headerlink" href="#function-get95threads95of" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">get_threads_of</span> <span class="p">(</span>
+    <span class="n">DWORD</span> <span class="n">pid</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-is95async95pending">function is_async_pending<a class="headerlink" href="#function-is95async95pending" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">bool</span> <span class="n">coro</span><span class="o">::</span><span class="n">is_async_pending</span> <span class="p">(</span>
+    <span class="kt">int</span> <span class="n">ec</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-is95signaled">function is_signaled<a class="headerlink" href="#function-is95signaled" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">bool</span> <span class="n">coro</span><span class="o">::</span><span class="n">is_signaled</span> <span class="p">(</span>
+    <span class="kt">uint64_t</span> <span class="n">state</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-notify95event">function notify_event<a class="headerlink" href="#function-notify95event" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">notify_event</span> <span class="p">(</span>
+    <span class="kt">int64_t</span> <span class="n">efd</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-onworkdone">function onWorkDone<a class="headerlink" href="#function-onworkdone" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="n">CALLBACK</span> <span class="n">coro</span><span class="o">::</span><span class="n">onWorkDone</span> <span class="p">(</span>
+    <span class="n">DWORD</span> <span class="n">errc</span><span class="p">,</span>
+    <span class="n">DWORD</span> <span class="n">sz</span><span class="p">,</span>
+    <span class="n">LPWSAOVERLAPPED</span> <span class="n">pover</span><span class="p">,</span>
+    <span class="n">DWORD</span> <span class="n">flags</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-recv95from">function recv_from<a class="headerlink" href="#function-recv95from" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">recv_from</span> <span class="p">(</span>
+    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
+    <span class="n">sockaddr_in</span> <span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span>
+    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
+    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-recv95from_1">function recv_from<a class="headerlink" href="#function-recv95from_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">recv_from</span> <span class="p">(</span>
+    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
+    <span class="n">sockaddr_in6</span> <span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span>
+    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
+    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-recv95stream">function recv_stream<a class="headerlink" href="#function-recv95stream" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">recv_stream</span> <span class="p">(</span>
+    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
+    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
+    <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span>
+    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-render95temp95name">function render_temp_name<a class="headerlink" href="#function-render95temp95name" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">int32_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">render_temp_name</span> <span class="p">(</span>
+    <span class="kt">char</span> <span class="o">*</span> <span class="n">buffer</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-resolve">function resolve<a class="headerlink" href="#function-resolve" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="kt">int32_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">resolve</span> <span class="p">(</span>
+    <span class="n">enumerable</span> <span class="o">&lt;</span> <span class="n">sockaddr</span> <span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">g</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">addrinfo</span> <span class="o">&amp;</span> <span class="n">hint</span><span class="p">,</span>
+    <span class="n">czstring_host</span> <span class="n">name</span><span class="p">,</span>
+    <span class="n">czstring_serv</span> <span class="n">serv</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-resolve_1">function resolve<a class="headerlink" href="#function-resolve_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kr">inline</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">resolve</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">addrinfo</span> <span class="o">&amp;</span> <span class="n">hint</span><span class="p">,</span>
+    <span class="n">czstring_host</span> <span class="n">name</span><span class="p">,</span>
+    <span class="n">czstring_serv</span> <span class="n">serv</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-resolve95error">function resolve_error<a class="headerlink" href="#function-resolve95error" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">resolve_error</span> <span class="p">(</span>
+    <span class="kt">int32_t</span> <span class="n">ec</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-select">function select<a class="headerlink" href="#function-select" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span> <span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span> <span class="k">typename</span> <span class="n">M</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Fn</span> <span class="k">typename</span> <span class="n">Fn</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">select</span> <span class="p">(</span>
+    <span class="n">channel</span> <span class="o">&lt;</span> <span class="n">T</span><span class="p">,</span> <span class="n">M</span> <span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">ch</span><span class="p">,</span>
+    <span class="n">Fn</span> <span class="o">&amp;&amp;</span> <span class="n">fn</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-select_1">function select<a class="headerlink" href="#function-select_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="p">,</span> <span class="k">typename</span> <span class="n">ChanType</span> <span class="k">typename</span> <span class="n">ChanType</span><span class="p">,</span> <span class="k">typename</span> <span class="n">FuncType</span> <span class="k">typename</span> <span class="n">FuncType</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">select</span> <span class="p">(</span>
+    <span class="n">ChanType</span> <span class="o">&amp;</span> <span class="n">ch</span><span class="p">,</span>
+    <span class="n">FuncType</span> <span class="o">&amp;&amp;</span> <span class="n">fn</span><span class="p">,</span>
+    <span class="n">Args</span> <span class="o">&amp;&amp;</span><span class="p">...</span> <span class="n">args</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-send95stream">function send_stream<a class="headerlink" href="#function-send95stream" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">send_stream</span> <span class="p">(</span>
+    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
+    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
+    <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span>
+    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-send95to">function send_to<a class="headerlink" href="#function-send95to" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">send_to</span> <span class="p">(</span>
+    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">sockaddr_in</span> <span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span>
+    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
+    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-send95to_1">function send_to<a class="headerlink" href="#function-send95to_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">send_to</span> <span class="p">(</span>
+    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">sockaddr_in6</span> <span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span>
+    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
+    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-signaled95event95tasks">function signaled_event_tasks<a class="headerlink" href="#function-signaled95event95tasks" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">signaled_event_tasks</span> <span class="p">()</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-wait95net95tasks">function wait_net_tasks<a class="headerlink" href="#function-wait95net95tasks" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">wait_net_tasks</span> <span class="p">(</span>
+    <span class="n">enumerable</span> <span class="o">&lt;</span> <span class="n">io_task_t</span> <span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">tasks</span><span class="p">,</span>
+    <span class="n">chrono</span><span class="o">::</span><span class="n">nanoseconds</span> <span class="n">timeout</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-wait95net95tasks_1">function wait_net_tasks<a class="headerlink" href="#function-wait95net95tasks_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kr">inline</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">wait_net_tasks</span> <span class="p">(</span>
+    <span class="n">chrono</span><span class="o">::</span><span class="n">nanoseconds</span> <span class="n">timeout</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-wait95net95tasks_2">function wait_net_tasks<a class="headerlink" href="#function-wait95net95tasks_2" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">wait_net_tasks</span> <span class="p">(</span>
+    <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span> <span class="o">&lt;</span> <span class="n">io_task_t</span> <span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">tasks</span><span class="p">,</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">nanoseconds</span> <span class="n">timeout</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-wait95on95thread95pool">function wait_on_thread_pool<a class="headerlink" href="#function-wait95on95thread95pool" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="kr">__stdcall</span> <span class="n">coro</span><span class="o">::</span><span class="n">wait_on_thread_pool</span> <span class="p">(</span>
+    <span class="n">PVOID</span> <span class="n">ctx</span><span class="p">,</span>
+    <span class="n">BOOLEAN</span> <span class="n">timedout</span>
+<span class="p">)</span> 
+</pre></div>
+
+
+<h3 id="function-zero95overlapped">function zero_overlapped<a class="headerlink" href="#function-zero95overlapped" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">zero_overlapped</span> <span class="p">(</span>
+    <span class="n">gsl</span><span class="o">::</span><span class="n">not_null</span><span class="o">&lt;</span> <span class="n">io_control_block</span> <span class="o">*</span> <span class="o">&gt;</span> <span class="n">work</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<hr />
+<p>The documentation for this class was generated from the following file <code>interface/coroutine/channel.hpp</code></p>
+                
+                  
+                
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/deed
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/luncliff" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.808e90bb.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>

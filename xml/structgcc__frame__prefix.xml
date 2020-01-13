@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="structgcc__frame__prefix" kind="struct" language="C++" prot="public" final="yes">
+    <compoundname>gcc_frame_prefix</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structgcc__frame__prefix_1a01460f12131e646420ffa43942466704" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* gcc_frame_prefix::_unknown1</definition>
+        <argsstring></argsstring>
+        <name>_unknown1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="123" column="10" bodyfile="interface/coroutine/frame.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structgcc__frame__prefix_1a46a6c9f8fb7368987107043fe06bbfa1" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* gcc_frame_prefix::_unknown2</definition>
+        <argsstring></argsstring>
+        <name>_unknown2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="124" column="10" bodyfile="interface/coroutine/frame.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/frame.h" line="122" column="23" bodyfile="interface/coroutine/frame.h" bodystart="122" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structgcc__frame__prefix_1a01460f12131e646420ffa43942466704" prot="public" virt="non-virtual"><scope>gcc_frame_prefix</scope><name>_unknown1</name></member>
+      <member refid="structgcc__frame__prefix_1a46a6c9f8fb7368987107043fe06bbfa1" prot="public" virt="non-virtual"><scope>gcc_frame_prefix</scope><name>_unknown2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

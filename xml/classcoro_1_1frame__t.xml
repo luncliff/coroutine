@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="classcoro_1_1frame__t" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::frame_t</compoundname>
+    <basecompoundref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" prot="public" virt="non-virtual">std::experimental::coroutine_handle&lt; void &gt;</basecompoundref>
+    <includes refid="return_8h" local="no">return.h</includes>
+    <innerclass refid="classcoro_1_1frame__t_1_1promise__type" prot="public">coro::frame_t::promise_type</innerclass>
+    <briefdescription>
+<para>A type to acquire <computeroutput>coroutine_handle&lt;void&gt;</computeroutput> from anonymous coroutine&apos;s return. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="see"><para>coroutine_handle&lt;void&gt; </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::experimental::coroutine_handle&lt; void &gt;</label>
+        <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
+      </node>
+      <node id="1">
+        <label>coro::frame_t</label>
+        <link refid="classcoro_1_1frame__t"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::experimental::coroutine_handle&lt; void &gt;</label>
+        <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
+      </node>
+      <node id="1">
+        <label>coro::frame_t</label>
+        <link refid="classcoro_1_1frame__t"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/return.h" line="69" column="39" bodyfile="interface/coroutine/return.h" bodystart="69" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a91b3e76af53b029da67649a99a7efdd5" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>address</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a2d93acbaf2756143278d58623e972ef7" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>coroutine_handle</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1afc742d2bb6c3d57cb9f634b59870595f" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>coroutine_handle</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a9bfe8d863ca3990766933966ee7aac98" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>coroutine_handle</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a159f11cf324cb9e52b3ab4efa18749b4" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>coroutine_handle</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a1eac3fe500f7af2b02c37ee0ecacde68" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>destroy</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a5dd3756163ceeb9ca8a7f283225a8b34" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>done</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a9bd09d9dc0b1b54e726b74b1991ddd47" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>from_address</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1aee1109d9f9f6152d7dab7654d914d92e" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>operator bool</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a56103ccddff839bb50669adc1ad129fe" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>operator=</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a8e50e6f4cd7ef094b57dcfa93678ef9e" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>operator=</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a44c1faf2c62a32c57492f6b423493e03" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>operator=</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a539afb4dbb98ef72c4b1bc815ca544dd" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>prefix</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1af25e195bac0d596e66043e82a9406d0e" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>resume</name></member>
+      <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1afe0b96dcd8ba2e9e2cf6f40a8bbdc6de" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>~coroutine_handle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

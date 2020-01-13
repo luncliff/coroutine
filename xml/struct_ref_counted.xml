@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.16">
+  <compounddef id="struct_ref_counted" kind="struct" language="C++" prot="public">
+    <compoundname>RefCounted</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_ref_counted_1a5486e2d0954f6462a8619cabfaf8fb27" prot="public" static="no" mutable="no">
+        <type>T *</type>
+        <definition>T* RefCounted&lt; T &gt;::p_</definition>
+        <argsstring></argsstring>
+        <name>p_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="external/guideline/tests/notnull_tests.cpp" line="60" column="7" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_ref_counted_1a8bf5bb3a0224a47321f037c7fd67dd7e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RefCounted&lt; T &gt;::RefCounted</definition>
+        <argsstring>(T *p)</argsstring>
+        <name>RefCounted</name>
+        <param>
+          <type>T *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="external/guideline/tests/notnull_tests.cpp" line="58" column="5" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_ref_counted_1af2c476a22394d788e365eb7d2bb38fe8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RefCounted&lt; T &gt;::operator T*</definition>
+        <argsstring>()</argsstring>
+        <name>operator T*</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="external/guideline/tests/notnull_tests.cpp" line="59" column="5" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="external/guideline/tests/notnull_tests.cpp" line="57" column="1" bodyfile="external/guideline/tests/notnull_tests.cpp" bodystart="56" bodyend="61"/>
+    <listofallmembers>
+      <member refid="struct_ref_counted_1af2c476a22394d788e365eb7d2bb38fe8" prot="public" virt="non-virtual"><scope>RefCounted</scope><name>operator T*</name></member>
+      <member refid="struct_ref_counted_1a5486e2d0954f6462a8619cabfaf8fb27" prot="public" virt="non-virtual"><scope>RefCounted</scope><name>p_</name></member>
+      <member refid="struct_ref_counted_1a8bf5bb3a0224a47321f037c7fd67dd7e" prot="public" virt="non-virtual"><scope>RefCounted</scope><name>RefCounted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
