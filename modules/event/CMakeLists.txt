@@ -2,24 +2,29 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(coroutine_event
-    ${MODULE_INTERFACE_DIR}/coroutine/event.h
+    ${MODULE_INTERFACE_DIR}/coroutine/event_${CMAKE_SYSTEM_NAME}.h
     libmain.cpp
+    event_${CMAKE_SYSTEM_NAME}.cpp
 )
-add_library(coro::event ALIAS coroutine_event)
 
 set_target_properties(coroutine_event
 PROPERTIES
     CXX_STANDARD    17
+    PUBLIC_HEADER   "${MODULE_INTERFACE_DIR}/coroutine/event_${CMAKE_SYSTEM_NAME}.h"
+    WINDOWS_EXPORT_ALL_SYMBOLS  true
 )
 
 target_include_directories(coroutine_event
-PUBLIC
+PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+PUBLIC
+    $<BUILD_INTERFACE:${MODULE_INTERFACE_DIR}>
+    $<BUILD_INTERFACE:${GSL_INCLUDE_DIR}>
 )
 
 target_link_libraries(coroutine_event
 PUBLIC
-    coro::portable
+    coroutine_portable
 PRIVATE
     ${CMAKE_DL_LIBS}
 )
@@ -31,70 +36,49 @@ if(NOT BUILD_SHARED_LIBS)
     )
 endif()
 
-if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
-    target_compile_options(coroutine_event
-    PRIVATE
-        -Wall
-        -Wno-unused-private-field
-        -Wno-unused-function
-        -Wno-c++98-compat
-        -Wno-reserved-id-macro
-        -Wno-missing-prototypes
-        -ferror-limit=5
-    )
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
     if(WIN32)
-        if(BUILD_SHARED_LIBS)
-            target_compile_definitions(coroutine_event
-            PRIVATE
-                _WINDLL
-            )
-        endif()
-    elseif(UNIX)
-        target_link_libraries(coroutine_event
-        PUBLIC
-            c++
-        )
         target_compile_options(coroutine_event
         PUBLIC
-            -fPIC
-        PRIVATE
-            -fno-rtti -fvisibility=hidden
-            # -fno-exceptions
+            /std:c++latest
+            -fms-compatibility -Xclang -fcoroutines-ts
+        )
+        # in this case, we always use portable header
+        set_target_properties(coroutine_event
+        PROPERTIES
+            PUBLIC_COMPILE_DEFINITIONS "USE_PORTABLE_COROUTINE_HANDLE;_RESUMABLE_FUNCTIONS_SUPPORTED"
+        )
+        
+    elseif(UNIX OR APPLE)
+        target_compile_options(coroutine_event
+        PUBLIC
+            -std=c++2a -stdlib=libc++
+            -fcoroutines-ts
         )
     endif()
-elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
-    target_link_libraries(coroutine_event
-    PUBLIC
-        stdc++
-    )
+
+elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     target_compile_options(coroutine_event
     PUBLIC
-        -fPIC
-    PRIVATE
-        -Wall -Wno-unknown-pragmas
-        -fno-rtti -fvisibility=hidden
-        # -fno-exceptions
+        -std=gnu++2a
+        -fcoroutines -fconcepts # -fno-exceptions
     )
+
 elseif(MSVC)
-    target_compile_options(coroutine_event
-    PRIVATE
-        /W4
+    set_target_properties(coroutine_event
+    PROPERTIES
+        INTERFACE_LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
     )
-    if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-        target_compile_options(coroutine_event
-        PRIVATE
-            /Od
-        )
-    endif()
+    target_compile_options(coroutine_event
+    PUBLIC
+        /std:c++latest /await
+    )
+
 endif()
 
 if(WIN32)
-    target_sources(coroutine_event
-    PRIVATE
-        event_windows.cpp
-    )
     target_compile_definitions(coroutine_event
-    PUBLIC
+    PRIVATE
         WIN32_LEAN_AND_MEAN NOMINMAX
     )
     target_link_libraries(coroutine_event
@@ -106,14 +90,12 @@ elseif(APPLE)
     PRIVATE
         kernel_queue.h
         kernel_queue.cpp
-        event_darwin.cpp
     )
 elseif(UNIX) # actually we can't sure it's a linux here ...
     target_sources(coroutine_event
     PRIVATE
         event_poll.h
         event_poll.cpp
-        event_linux.cpp
     )
     if(ANDROID)
         target_link_libraries(coroutine_event
@@ -128,27 +110,9 @@ elseif(UNIX) # actually we can't sure it's a linux here ...
     endif()
 endif()
 
-if(NOT MSVC)
-    if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-        # code coverage option can lead to compiler crash
-        # list(APPEND CMAKE_CXX_FLAGS "--coverage")
-        target_compile_options(coroutine_event
-        PRIVATE
-            -g -O0
-        )
-    else()
-        target_compile_options(coroutine_event
-        PRIVATE
-            -O3
-        )
-    endif()
-endif()
-
-install(FILES       ${MODULE_INTERFACE_DIR}/coroutine/event.h
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
-)
 install(TARGETS         coroutine_event
         EXPORT          coroutine-config
+        INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib

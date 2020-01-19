@@ -9,20 +9,24 @@ add_library(coroutine_net
 set_target_properties(coroutine_net
 PROPERTIES
     CXX_STANDARD    17
+    PUBLIC_HEADER   "${MODULE_INTERFACE_DIR}/coroutine/net.h"
     WINDOWS_EXPORT_ALL_SYMBOLS  true
 )
 
 target_include_directories(coroutine_net
-PUBLIC
+PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+PUBLIC
     $<BUILD_INTERFACE:${MODULE_INTERFACE_DIR}>
     $<BUILD_INTERFACE:${GSL_INCLUDE_DIR}>
 )
 
-# target_link_libraries(coroutine_net
-# PRIVATE
-#     ${CMAKE_DL_LIBS}
-# )
+target_link_libraries(coroutine_net
+PUBLIC
+    coroutine_portable
+PRIVATE
+    ${CMAKE_DL_LIBS}
+)
 
 # if(NOT BUILD_SHARED_LIBS)
 #     target_compile_definitions(coroutine_net
@@ -92,11 +96,9 @@ elseif(UNIX) # actually we can't sure it's a linux here ...
     )
 endif()
 
-install(FILES   ${MODULE_PUBLIC_DIR}/coroutine/net.h
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
-)
 install(TARGETS         coroutine_net
         EXPORT          coroutine-config
+        INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/include
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib

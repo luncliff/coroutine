@@ -1,17 +1,27 @@
 /**
+ * @file net.h
  * @brief Async I/O operation support with system socket functions
  * @author github.com/luncliff <luncliff@gmail.com>
+ * @copyright CC BY 4.0
  */
 #pragma once
 #ifndef COROUTINE_NET_IO_H
 #define COROUTINE_NET_IO_H
 
 #include <coroutine/return.h>
+
+#include <experimental/generator>
 #include <gsl/gsl>
 
-#if __has_include(<experimental/generator>)
-#include <experimental/generator>
-#endif
+/**
+ * @defgroup NetWork
+ * Helper types to apply `co_await` for socket operations
+ */
+
+/**
+ * @defgroup NetResolve
+ * Name resolution utilities
+ */
 
 #if __has_include(<WinSock2.h>) // use winsock
 #include <WS2tcpip.h>
@@ -21,11 +31,6 @@
 static constexpr bool is_winsock = true;
 static constexpr bool is_netinet = false;
 
-/**
- * @brief Follow the definition of Windows `OVERLAPPED`
- * @see https://docs.microsoft.com/en-us/windows/win32/sync/synchronization-and-overlapped-input-and-output
- * @see https://docs.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-overlapped
- */
 using io_control_block = OVERLAPPED;
 
 #elif __has_include(<netinet/in.h>) // use netinet
@@ -64,11 +69,6 @@ using namespace std;
 using namespace std::experimental;
 
 /**
- * @defgroup NetWork
- * Helper types to apply `co_await` for socket operations
- */
-
-/**
  * @brief This is simply a view to storage. Be aware that it doesn't have ownership
  * @ingroup NetWork
  */
@@ -86,6 +86,11 @@ class io_work_t : public io_control_block {
     io_buffer_t buffer{};
 
   protected:
+    /**
+     * @see await_ready
+     * @return true  The given socket can be use for non-blocking operations
+     * @return false For Windows, the return is always `false`
+     */
     bool ready() const noexcept;
 
   public:
@@ -107,6 +112,7 @@ class io_send_to final : public io_work_t {
   private:
     /**
      * @brief makes an I/O request with given context(`coroutine_handle<void>`)
+     * @throw std::system_error
      */
     void suspend(coroutine_handle<void> t) noexcept(false);
     /**
@@ -121,6 +127,9 @@ class io_send_to final : public io_work_t {
     bool await_ready() const noexcept {
         return this->ready();
     }
+    /**
+     * @throw std::system_error
+     */
     void await_suspend(coroutine_handle<void> t) noexcept(false) {
         return this->suspend(t);
     }
@@ -140,6 +149,7 @@ class io_recv_from final : public io_work_t {
   private:
     /**
      * @brief makes an I/O request with given context(`coroutine_handle<void>`)
+     * @throw std::system_error
      */
     void suspend(coroutine_handle<void> t) noexcept(false);
     /**
@@ -154,6 +164,9 @@ class io_recv_from final : public io_work_t {
     bool await_ready() const noexcept {
         return this->ready();
     }
+    /**
+     * @throw std::system_error
+     */
     void await_suspend(coroutine_handle<void> t) noexcept(false) {
         return this->suspend(t);
     }
@@ -173,6 +186,7 @@ class io_send final : public io_work_t {
   private:
     /**
      * @brief makes an I/O request with given context(`coroutine_handle<void>`)
+     * @throw std::system_error
      */
     void suspend(coroutine_handle<void> t) noexcept(false);
     /**
@@ -206,6 +220,7 @@ class io_recv final : public io_work_t {
   private:
     /**
      * @brief makes an I/O request with given context(`coroutine_handle<void>`)
+     * @throw std::system_error
      */
     void suspend(coroutine_handle<void> t) noexcept(false);
 
@@ -303,13 +318,6 @@ auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_recv&;
 
 /**
- * @defgroup NetResolve
- * Name resolution utilities
- */
-
-#if __has_include(<experimental/generator>)
-
-/**
  * @brief Thin wrapper of `getaddrinfo` for IPv4
  * @ingroup NetResolve
  * @param hint 
@@ -334,8 +342,6 @@ uint32_t get_address(const addrinfo& hint, //
 uint32_t get_address(const addrinfo& hint, //
                      gsl::czstring<> host, gsl::czstring<> serv,
                      generator<sockaddr_in6>& g) noexcept;
-
-#endif
 
 /**
  * @brief Thin wrapper of `getnameinfo`
