@@ -9,6 +9,10 @@
 #include <coroutine/return.h>
 #include <gsl/gsl>
 
+#if __has_include(<experimental/generator>)
+#include <experimental/generator>
+#endif
+
 #if __has_include(<WinSock2.h>) // use winsock
 #include <WS2tcpip.h>
 #include <WinSock2.h>
@@ -303,6 +307,36 @@ auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
  * Name resolution utilities
  */
 
+#if __has_include(<experimental/generator>)
+
+/**
+ * @brief Thin wrapper of `getaddrinfo` for IPv4
+ * @ingroup NetResolve
+ * @param hint 
+ * @param host 
+ * @param serv 
+ * @param g 
+ * @return uint32_t Error code from the `getaddrinfo` that can be the argument of `gai_strerror`
+ */
+uint32_t get_address(const addrinfo& hint, //
+                     gsl::czstring<> host, gsl::czstring<> serv,
+                     generator<sockaddr_in>& g) noexcept;
+
+/**
+ * @brief Thin wrapper of `getaddrinfo` for IPv6
+ * @ingroup NetResolve
+ * @param hint 
+ * @param host 
+ * @param serv 
+ * @param g 
+ * @return uint32_t Error code from the `getaddrinfo` that can be the argument of `gai_strerror`
+ */
+uint32_t get_address(const addrinfo& hint, //
+                     gsl::czstring<> host, gsl::czstring<> serv,
+                     generator<sockaddr_in6>& g) noexcept;
+
+#endif
+
 /**
  * @brief Thin wrapper of `getnameinfo`
  * @ingroup NetResolve
@@ -311,8 +345,8 @@ auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
  * @param serv can be `nullptr`
  * @param flags 
  * @return uint32_t EAI_AGAIN ...
+ * @see getnameinfo
  */
-
 uint32_t get_name(const sockaddr_in& addr, //
                   gsl::zstring<NI_MAXHOST> name, gsl::zstring<NI_MAXSERV> serv,
                   int32_t flags = NI_NUMERICHOST | NI_NUMERICSERV) noexcept;
@@ -325,8 +359,8 @@ uint32_t get_name(const sockaddr_in& addr, //
  * @param serv can be `nullptr`
  * @param flags 
  * @return uint32_t EAI_AGAIN ...
+ * @see getnameinfo
  */
-
 uint32_t get_name(const sockaddr_in6& addr, //
                   gsl::zstring<NI_MAXHOST> name, gsl::zstring<NI_MAXSERV> serv,
                   int32_t flags = NI_NUMERICHOST | NI_NUMERICSERV) noexcept;

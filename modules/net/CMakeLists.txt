@@ -5,7 +5,6 @@ add_library(coroutine_net
     ${MODULE_INTERFACE_DIR}/coroutine/net.h
     resolver.cpp
 )
-# add_library(coro::net ALIAS coroutine_net)
 
 set_target_properties(coroutine_net
 PROPERTIES
@@ -32,48 +31,45 @@ PUBLIC
 #     )
 # endif()
 
-# if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+    if(WIN32)
+        target_compile_options(coroutine_net
+        PUBLIC
+            /std:c++latest
+            -fms-compatibility -Xclang -fcoroutines-ts
+        )
+        # in this case, we always use portable header
+        set_target_properties(coroutine_net
+        PROPERTIES
+            PUBLIC_COMPILE_DEFINITIONS "USE_PORTABLE_COROUTINE_HANDLE;_RESUMABLE_FUNCTIONS_SUPPORTED"
+        )
+        
+    elseif(UNIX OR APPLE)
+        target_compile_options(coroutine_net
+        PUBLIC
+            -std=c++2a -stdlib=libc++
+            -fcoroutines-ts
+        )
+    endif()
 
-#     target_compile_options(coroutine_net
-#     PRIVATE
-#         -Wall
-#         -Wno-unused-private-field
-#         -Wno-unused-function
-#         -Wno-c++98-compat
-#         -Wno-reserved-id-macro
-#         -Wno-missing-prototypes
-#         -ferror-limit=5
-#     )
-#     if(WIN32)
-#         if(BUILD_SHARED_LIBS)
-#             target_compile_definitions(coroutine_net
-#             PRIVATE
-#                 _WINDLL
-#             )
-#         endif()
-#     elseif(UNIX)
-#         target_compile_options(coroutine_net
-#         PUBLIC
-#             -fPIC
-#         PRIVATE
-#             -fno-rtti -fvisibility=hidden
-#         )
-#     endif()
-# elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
-#     target_compile_options(coroutine_net
-#     PUBLIC
-#         -fPIC
-#     PRIVATE
-#         -Wall -Wno-unknown-pragmas
-#         -fno-rtti -fvisibility=hidden
-#         # -fno-exceptions
-#     )
-# elseif(MSVC)
-#     target_compile_options(coroutine_net
-#     PRIVATE
-#         /W4
-#     )
-# endif()
+elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    target_compile_options(coroutine_net
+    PUBLIC
+        -std=gnu++2a
+        -fcoroutines -fconcepts # -fno-exceptions
+    )
+
+elseif(MSVC)
+    set_target_properties(coroutine_net
+    PROPERTIES
+        INTERFACE_LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
+    )
+    target_compile_options(coroutine_net
+    PUBLIC
+        /std:c++latest /await
+    )
+
+endif()
 
 if(WIN32)
     target_sources(coroutine_net
@@ -96,7 +92,7 @@ elseif(UNIX) # actually we can't sure it's a linux here ...
     )
 endif()
 
-install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/net.h
+install(FILES   ${MODULE_PUBLIC_DIR}/coroutine/net.h
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
 )
 install(TARGETS         coroutine_net

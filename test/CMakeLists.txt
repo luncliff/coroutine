@@ -22,7 +22,7 @@ function(create_ctest FILE_NAME LIB_NAME)
     )
     target_compile_definitions(${TEST_NAME}
     PRIVATE
-        CMAKE_TEST NDEBUG
+        CMAKE_TEST
     )
     if(WIN32)
     elseif(APPLE)
@@ -54,3 +54,10 @@ create_ctest( net_get_nameinfo_v4 coroutine_net )
 create_ctest( net_get_nameinfo_v6 coroutine_net )
 # create_ctest( net_socket_tcp_echo coroutine_net )
 # create_ctest( net_socket_udp_echo coroutine_net )
+create_ctest( net_get_addrinfo_ip6_bind             coroutine_net )
+create_ctest( net_get_addrinfo_ip6_multicast        coroutine_net )
+create_ctest( net_get_addrinfo_tcp6_connect         coroutine_net )
+create_ctest( net_get_addrinfo_tcp6_listen_text     coroutine_net )
+create_ctest( net_get_addrinfo_tcp6_listen_numeric  coroutine_net )
+create_ctest( net_get_addrinfo_udp6_unspecified     coroutine_net )
+create_ctest( net_get_addrinfo_udp6_v4mapped        coroutine_net )
