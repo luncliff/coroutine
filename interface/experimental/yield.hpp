@@ -1,10 +1,10 @@
-﻿//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-//  Note
-//      `enumerable` is simply a copy of `generator` in VC++
-//
+﻿/**
+ * @file yield.hpp
+ * @author github.com/luncliff (luncliff@gmail.com)
+ * @brief 
+ * @copyright CC BY 4.0
+ * `enumerable` is simply a copy of `generator` in VC++
+ */
 #ifndef COROUTINE_YIELD_HPP
 #define COROUTINE_YIELD_HPP
 
@@ -64,7 +64,7 @@ class enumerable {
     }
 
   public:
-    class promise_type final : public promise_manual_control {
+    class promise_type final : public promise_aa {
         friend class iterator;
         friend class enumerable;
 

@@ -45,58 +45,6 @@ namespace coro {
 using namespace std;
 using namespace std::experimental;
 
-// Move into the win32 thread pool and continue the routine
-class ptp_work final {
-    // Callback for CreateThreadpoolWork
-    static void __stdcall resume_on_thread_pool(PTP_CALLBACK_INSTANCE, PVOID,
-                                                PTP_WORK);
-
-    _INTERFACE_
-    auto create_and_submit_work(coroutine_handle<void>) noexcept -> uint32_t;
-
-  public:
-    constexpr bool await_ready() const noexcept {
-        return false;
-    }
-    constexpr void await_resume() noexcept {
-        // nothing to do for this implementation
-    }
-    // Lazy code generation in importing code by header usage.
-    void await_suspend(coroutine_handle<void> coro) noexcept(false) {
-        if (const auto ec = create_and_submit_work(coro))
-            throw system_error{static_cast<int>(ec), system_category(),
-                               "CreateThreadpoolWork"};
-    }
-};
-
-// Move into the designated thread's APC queue and  and continue the routine
-class procedure_call_on final {
-    // Callback for QueueUserAPC
-    static void __stdcall resume_on_apc(ULONG_PTR);
-
-    _INTERFACE_
-    auto queue_user_apc(coroutine_handle<void>) noexcept -> uint32_t;
-
-  public:
-    constexpr bool await_ready() const noexcept {
-        return false;
-    }
-    constexpr void await_resume() noexcept {
-    }
-    void await_suspend(coroutine_handle<void> coro) noexcept(false) {
-        if (const auto ec = queue_user_apc(coro))
-            throw system_error{static_cast<int>(ec), system_category(),
-                               "QueueUserAPC"};
-    }
-
-  public:
-    explicit procedure_call_on(HANDLE hThread) noexcept : thread{hThread} {
-    }
-
-  private:
-    HANDLE thread;
-};
-
 } // namespace coro
 
 #elif __has_include(<pthread.h>)

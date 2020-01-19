@@ -1,7 +1,7 @@
 ﻿/**
  * @file event_windows.h
  * @brief Awaitable type over system's event object
- * @author github.com/luncliff <luncliff@gmail.com>
+ * @author github.com/luncliff (luncliff@gmail.com)
  * @copyright CC BY 4.0
  */
 #pragma once
@@ -9,6 +9,10 @@
 #define COROUTINE_AWAITABLE_EVENT_H
 
 #include <coroutine/frame.h>
+
+#include <system_error>
+
+#include <Windows.h>
 
 /**
  * @defgroup Event
@@ -19,6 +23,10 @@
  * For Darwin, it uses Kqueue.
  */
 
+/**
+ * @defgroup Windows
+ */
+
 namespace coro {
 using namespace std;
 using namespace std::experimental;
@@ -26,6 +34,7 @@ using namespace std::experimental;
 /**
  * @brief Awaitable event type over Win32 thread pool
  * @ingroup Event
+ * @ingroup Windows
  * 
  * Its object can be `co_await`ed only once.
  * The purpose of such design is to encourage use of short functions rather
@@ -74,6 +83,77 @@ class set_or_cancel final {
     uint32_t await_resume() noexcept {
         return unregister();
     }
+};
+
+/**
+ * @brief Move into the win32 thread pool and continue the routine
+ * @ingroup Windows
+ */
+class continue_on_thread_pool final {
+    /** @see CreateThreadpoolWork */
+    static void __stdcall resume_on_thread_pool(PTP_CALLBACK_INSTANCE, PVOID,
+                                                PTP_WORK);
+
+    uint32_t create_and_submit_work(coroutine_handle<void>) noexcept;
+
+  public:
+    constexpr bool await_ready() const noexcept {
+        return false;
+    }
+    constexpr void await_resume() noexcept {
+        // nothing to do for this implementation
+    }
+
+    /**
+     * @brief Try to submit the coroutine to thread pool
+     * @param coro
+     * @throw system_error
+     */
+    void await_suspend(coroutine_handle<void> coro) noexcept(false) {
+        if (const auto ec = create_and_submit_work(coro))
+            throw system_error{static_cast<int>(ec), system_category(),
+                               "CreateThreadpoolWork"};
+    }
+};
+
+/**
+ * @brief Move into the designated thread's APC queue and continue the routine
+ * @ingroup Windows
+ */
+class continue_on_apc final {
+    /** @see QueueUserAPC */
+    static void __stdcall resume_on_apc(ULONG_PTR);
+
+    uint32_t queue_user_apc(coroutine_handle<void>) noexcept;
+
+  public:
+    constexpr bool await_ready() const noexcept {
+        return false;
+    }
+    constexpr void await_resume() noexcept {
+    }
+
+    /**
+     * @brief Try to submit the coroutine to the thread's APC queue
+     * @param coro
+     * @throw system_error
+     */
+    void await_suspend(coroutine_handle<void> coro) noexcept(false) {
+        if (const auto ec = queue_user_apc(coro))
+            throw system_error{static_cast<int>(ec), system_category(),
+                               "QueueUserAPC"};
+    }
+
+  public:
+    /**
+     * @param hThread Target thread's handle
+     * @see OpenThread
+     */
+    explicit continue_on_apc(HANDLE hThread) noexcept : thread{hThread} {
+    }
+
+  private:
+    HANDLE thread;
 };
 
 } // namespace coro

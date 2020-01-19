@@ -15,7 +15,7 @@
 #   Variables
 #       - TEST_DISABLED : Explicitly disables building tests
 #
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.12) # C++ 20
 
 project(coroutine 
         LANGUAGES CXX 
@@ -53,9 +53,8 @@ add_subdirectory(modules/portable)
 if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
     # WIP: perform test with the portable headers
 else()
-    add_subdirectory(modules/event)     # coroutine_event
+    add_subdirectory(modules/system)    # coroutine_system
     add_subdirectory(modules/net)       # coroutine_net
-    # add_subdirectory(modules/thread)    # coroutine_thread
 endif()
 
 #
@@ -86,7 +85,7 @@ install(FILES           ${VERSION_FILE_PATH}
 #
 # for testing, CTest will be used
 #
-if(TEST_DISABLED)
+if(NOT BUILD_TESTING)
     message(STATUS "Test is disabled.")
     return()
 elseif(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})

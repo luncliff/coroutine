@@ -1,7 +1,7 @@
 ﻿/**
  * @file event_posix.h
  * @brief Awaitable type over system's event object
- * @author github.com/luncliff <luncliff@gmail.com>
+ * @author github.com/luncliff (luncliff@gmail.com)
  * @copyright CC BY 4.0
  */
 #pragma once
