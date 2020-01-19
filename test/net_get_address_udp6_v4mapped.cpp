@@ -1,7 +1,7 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
+/**
+ * @author github.com/luncliff <luncliff@gmail.com>
+ * @brief get a list of address for IPv6, UDP v4mapped
+ */
 #include <cassert>
 #include <coroutine/net.h>
 
@@ -17,21 +17,22 @@ int main(int, char*[]) {
 
     addrinfo hint{};
     hint.ai_family = AF_INET6;
-    hint.ai_socktype = SOCK_RAW;
+    hint.ai_socktype = SOCK_DGRAM;
     hint.ai_flags = AI_ALL | AI_V4MAPPED | AI_NUMERICHOST | AI_NUMERICSERV;
 
     size_t count = 0u;
-    // since this is ipv6, ignore port(service) number
     generator<sockaddr_in6> addresses{};
-    if (const auto ec = get_address(hint, "::0.0.0.0", nullptr, addresses)) {
+    if (const auto ec = get_address(hint, //
+                                    "::ffff:192.168.0.1", "9287", addresses)) {
         fputs(gai_strerror(ec), stderr);
         return ec;
     }
 
     for (const sockaddr_in6& ep : addresses) {
-        assert(ep.sa_family == AF_INET6);
-        bool unspec = IN6_IS_ADDR_UNSPECIFIED(addressof(ep.sin6_addr));
-        assert(unspec);
+        assert(ep.sin6_family == AF_INET6);
+        assert(ep.sin6_port == htons(9287));
+        bool v4mapped = IN6_IS_ADDR_V4MAPPED(addressof(ep.sin6_addr));
+        assert(v4mapped);
         ++count;
     }
     assert(count > 0);

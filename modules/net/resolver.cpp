@@ -1,7 +1,6 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
+/**
+ * @author github.com/luncliff <luncliff@gmail.com>
+ */
 #include <coroutine/net.h>
 
 using namespace std;

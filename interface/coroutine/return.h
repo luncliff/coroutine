@@ -68,7 +68,7 @@ class promise_aa {
  */
 class frame_t final : public coroutine_handle<void> {
   public:
-    class promise_type final : public coro::promise_aa {
+    class promise_type final : public coro::promise_na {
       public:
         /**
          * @brief The coroutine with the `frame_t` will do nothing for exception
