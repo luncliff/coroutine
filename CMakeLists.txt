@@ -50,13 +50,13 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
 endif()
 add_subdirectory(modules/portable)
 
-# if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
-#     # WIP: perform test with the portable headers
-# else()
-#     add_subdirectory(modules/event)     # coroutine_event
-#     add_subdirectory(modules/net)       # coroutine_net
-#     add_subdirectory(modules/thread)    # coroutine_thread
-# endif()
+if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+    # WIP: perform test with the portable headers
+else()
+    # add_subdirectory(modules/event)     # coroutine_event
+    add_subdirectory(modules/net)       # coroutine_net
+    # add_subdirectory(modules/thread)    # coroutine_thread
+endif()
 
 #
 # export declared cmake targets

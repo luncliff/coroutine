@@ -3,19 +3,21 @@
 //  License : CC BY 4.0
 //
 #include <coroutine/net.h>
+#include <cassert>
 
 using namespace std;
 using namespace gsl;
+
 namespace coro {
 
-void wait_net_tasks(enumerable<io_task_t>& tasks,
-                    chrono::nanoseconds) noexcept(false) {
-    // windows implementation rely on callback.
-    // So there is noting to yield ...
-    tasks = enumerable<io_task_t>{};
-    // Just comsume some items in this thread's APC queue
-    SleepEx(0, true);
-}
+//void wait_net_tasks(enumerable<coroutine_handle<void>>& tasks,
+//                    chrono::nanoseconds) noexcept(false) {
+//    // windows implementation rely on callback.
+//    // So there is noting to yield ...
+//    tasks = enumerable<coroutine_handle<void>>{};
+//    // Just comsume some items in this thread's APC queue
+//    SleepEx(0, true);
+//}
 
 bool is_async_pending(int ec) noexcept {
     switch (ec) {
@@ -31,17 +33,17 @@ bool is_async_pending(int ec) noexcept {
 
 GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(f .6)
-void CALLBACK onWorkDone(DWORD errc, DWORD sz, LPWSAOVERLAPPED pover,
+void CALLBACK on_io_done(DWORD errc, DWORD sz, LPWSAOVERLAPPED pover,
                          DWORD flags) noexcept {
     UNREFERENCED_PARAMETER(flags);
     io_work_t* work = reinterpret_cast<io_work_t*>(pover);
 
-    // Mostly, `Internal` and `InternalHigh` holds exactly same value with the
-    //  parameters. So these assignments are redundant.
-    // Here, we are just making sure of it.
-    work->Internal = errc;   // -> return of `work.error()`
-    work->InternalHigh = sz; // -> return of `await_resume()`
+    // Mostly, `Internal` and `InternalHigh` holds exactly same value with the parameters.
+    // So these assignments are redundant. Here, we are just making sure of it.
 
+    work->Internal = errc;   // -> return of `work.error()`
+    work->InternalHigh = sz; // -> return of `work.resume()`
+    assert(static_cast<bool>(work->task));
     work->task.resume();
 }
 
@@ -50,7 +52,6 @@ bool io_work_t::ready() const noexcept {
 }
 
 uint32_t get_io_error(const OVERLAPPED* target) noexcept {
-    static_assert(sizeof(DWORD) == sizeof(uint32_t));
     return gsl::narrow_cast<uint32_t>(target->Internal);
 }
 
@@ -58,16 +59,13 @@ int64_t get_io_length(const OVERLAPPED* target) noexcept {
     return gsl::narrow_cast<int64_t>(target->InternalHigh);
 }
 
-// see also: `onWorkDone`
+// see also: `on_io_done`
 uint32_t io_work_t::error() const noexcept {
     return get_io_error(this);
 }
 
 // zero memory the `OVERLAPPED` part in the `io_work_t`
-auto zero_overlapped(gsl::not_null<io_control_block*> work) noexcept
-    -> gsl::not_null<io_control_block*> {
-    static_assert(is_same_v<io_control_block, OVERLAPPED>);
-
+auto zero_overlapped(io_control_block* work) noexcept -> io_control_block* {
     *work = OVERLAPPED{};
     return work;
 }
@@ -118,7 +116,7 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buffer,
 
 GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(bounds .3)
-void io_send_to::suspend(io_task_t t) noexcept(false) {
+void io_send_to::suspend(coroutine_handle<void> t) noexcept(false) {
     task = t; // coroutine will be resumed in overlapped callback
 
     const auto sd = reinterpret_cast<SOCKET>(hEvent);
@@ -126,11 +124,10 @@ void io_send_to::suspend(io_task_t t) noexcept(false) {
     const auto addrlen = gsl::narrow_cast<socklen_t>(InternalHigh);
     const auto flag = gsl::narrow_cast<DWORD>(Internal);
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
-    LPOVERLAPPED pover = zero_overlapped(gsl::make_not_null(this));
 
     if (::WSASendTo(sd, bufs, 1, nullptr, flag, //
                     addr, addrlen,              //
-                    pover, onWorkDone) == NO_ERROR)
+                    zero_overlapped(this), on_io_done) == NO_ERROR)
         return;
 
     if (const auto ec = WSAGetLastError()) {
@@ -175,7 +172,7 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buffer,
 
 GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(bounds .3)
-void io_recv_from::suspend(io_task_t t) noexcept(false) {
+void io_recv_from::suspend(coroutine_handle<void> t) noexcept(false) {
     task = t; // coroutine will be resumed in overlapped callback
 
     const auto sd = reinterpret_cast<SOCKET>(hEvent);
@@ -186,8 +183,7 @@ void io_recv_from::suspend(io_task_t t) noexcept(false) {
 
     if (::WSARecvFrom(sd, bufs, 1, nullptr, &flag, //
                       addr, &addrlen,              //
-                      zero_overlapped(gsl::make_not_null(this)),
-                      onWorkDone) == NO_ERROR)
+                      zero_overlapped(this), on_io_done) == NO_ERROR)
         return;
 
     if (const auto ec = WSAGetLastError()) {
@@ -216,7 +212,7 @@ auto send_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
 
 GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(bounds .3)
-void io_send::suspend(io_task_t t) noexcept(false) {
+void io_send::suspend(coroutine_handle<void> t) noexcept(false) {
     task = t; // coroutine will be resumed in overlapped callback
 
     const auto sd = reinterpret_cast<SOCKET>(hEvent);
@@ -224,8 +220,7 @@ void io_send::suspend(io_task_t t) noexcept(false) {
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
 
     if (::WSASend(sd, bufs, 1, nullptr, flag, //
-                  zero_overlapped(gsl::make_not_null(this)),
-                  onWorkDone) == NO_ERROR)
+                  zero_overlapped(this), on_io_done) == NO_ERROR)
         return;
 
     if (const auto ec = WSAGetLastError()) {
@@ -254,7 +249,7 @@ auto recv_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
 
 GSL_SUPPRESS(type .1)
 GSL_SUPPRESS(bounds .3)
-void io_recv::suspend(io_task_t t) noexcept(false) {
+void io_recv::suspend(coroutine_handle<void> t) noexcept(false) {
     task = t; // coroutine will be resumed in overlapped callback
 
     const auto sd = reinterpret_cast<SOCKET>(hEvent);
@@ -262,8 +257,7 @@ void io_recv::suspend(io_task_t t) noexcept(false) {
     WSABUF bufs[1] = {make_wsa_buf(buffer)};
 
     if (::WSARecv(sd, bufs, 1, nullptr, &flag, //
-                  zero_overlapped(gsl::make_not_null(this)),
-                  onWorkDone) == NO_ERROR)
+                  zero_overlapped(this), on_io_done) == NO_ERROR)
         return;
 
     if (const auto ec = WSAGetLastError()) {
