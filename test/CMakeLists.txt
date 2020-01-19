@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # create_ctest( ... )
-function(create_ctest FILE_NAME)
+function(create_ctest FILE_NAME LIB_NAME)
     set(TEST_NAME test_${FILE_NAME})
 
     # create a test exe with the given name ...
@@ -18,7 +18,7 @@ function(create_ctest FILE_NAME)
     )
     target_link_libraries(${TEST_NAME}
     PRIVATE
-        coroutine_portable
+        ${LIB_NAME}
     )
     target_compile_definitions(${TEST_NAME}
     PRIVATE
@@ -42,7 +42,15 @@ endfunction()
 #   <coroutine/frame.h>
 #   <coroutine/return.h>
 #
-create_ctest( return_frame_destroy_with_handle )
-create_ctest( return_frame_destroy_with_return )
-create_ctest( return_frame_not_coroutine )
-create_ctest( return_frame_not_subroutine )
+create_ctest( return_frame_destroy_with_handle  coroutine_portable )
+create_ctest( return_frame_destroy_with_return  coroutine_portable )
+create_ctest( return_frame_not_coroutine        coroutine_portable )
+create_ctest( return_frame_not_subroutine       coroutine_portable )
+
+#
+#   <coroutine/net.h>
+#
+create_ctest( net_get_nameinfo_v4 coroutine_net )
+create_ctest( net_get_nameinfo_v6 coroutine_net )
+# create_ctest( net_socket_tcp_echo coroutine_net )
+# create_ctest( net_socket_udp_echo coroutine_net )

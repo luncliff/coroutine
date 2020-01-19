@@ -18,28 +18,19 @@ nav:
       - C++ Korea 5th Seminar: ppt/Exploring-the-Cpp-Coroutine.md
 
   - Articles:
-      - Archive(Old posts):
-          - Exploring MSVC Coroutine: articles/exploring-msvc-coroutine.md
-      - Awaitable event using the coroutine, epoll and eventfd: articles/awaitable-event.md
-      - Designing the coroutine channel: articles/designing-the-channel.md
-      - Combining C++ coroutines and `pthread_create`: articles/combining-coroutines-and-pthread_create.md
-      - Russian Roulette and C++ Coroutines: articles/russian-roulette.md
+    - Archive(Old posts):
+        - Exploring MSVC Coroutine: articles/exploring-msvc-coroutine.md
+    - Awaitable event using the coroutine, epoll and eventfd: articles/awaitable-event.md
+    - Designing the coroutine channel: articles/designing-the-channel.md
+    - Combining C++ coroutines and `pthread_create`: articles/combining-coroutines-and-pthread_create.md
+    - Russian Roulette and C++ Coroutines: articles/russian-roulette.md
 
   - Code:
-      - Namespaces: namespaces.md
-      - Functions: functions.md
-      - Classes: classes.md
-      - Files: files.md
-
-#   - How To:
-#       - Start yours Project:
-#           - CMake: howto/start-using-cmake.md
-#       - Build this project:
-#           - Visual Studio: howto/build-using-visualstudio.md
-#           - CMake: howto/build-using-cmake.md
-#       - Importing this project:
-#           - Visual Studio: howto/import-using-visualstudio.md
-#           - CMake: howto/import-using-cmake.md
+    - Groups: modules.md
+    - Namespaces: namespaces.md
+    - Functions: functions.md
+    - Classes: classes.md
+    - Files: files.md
 
 markdown_extensions:
   - admonition

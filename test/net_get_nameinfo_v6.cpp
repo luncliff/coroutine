@@ -1,22 +1,21 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include "socket.h"
+/**
+ * @author github.com/luncliff <luncliff@gmail.com>
+ * @brief Get a string representation from the `sockaddr_in6` object
+ */
 #include <coroutine/net.h>
 
-#include "test.h"
 using namespace std;
 using namespace coro;
 
-auto net_getnameinfo_v6_test() -> int {
-    init_network_api();
-    auto on_return = gsl::finally([]() { release_network_api(); });
+void socket_setup() noexcept(false);
+void socket_teardown() noexcept;
 
-    auto name_buffer = make_unique<char[]>(NI_MAXHOST);
-    auto serv_buffer = make_unique<char[]>(NI_MAXSERV);
-    zstring_host name = name_buffer.get();
-    zstring_serv serv = serv_buffer.get();
+int main(int, char*[]) {
+    socket_setup();
+    auto on_return = gsl::finally([]() { socket_teardown(); });
+
+    auto name_buf = make_unique<char[]>(NI_MAXHOST);
+    auto serv_buf = make_unique<char[]>(NI_MAXSERV);
 
     sockaddr_in6 in6{};
     in6.sin6_family = AF_INET6;
@@ -25,30 +24,37 @@ auto net_getnameinfo_v6_test() -> int {
 
     // non-zero for error.
     // the value is redirected from `getnameinfo`
-    if (auto ec = get_name(in6, name, nullptr)) {
-        return __LINE__;
+    if (auto ec = get_name(in6, name_buf.get(), nullptr)) {
+        return ec;
     }
     // retry with service name buffer
-    if (auto ec = get_name(in6, name, serv)) {
-        return __LINE__;
+    if (auto ec = get_name(in6, name_buf.get(), serv_buf.get())) {
+        return ec;
     }
     return EXIT_SUCCESS;
 }
 
-#if defined(CMAKE_TEST)
-int main(int, char* []) {
-    return net_getnameinfo_v6_test();
+#if __has_include(<WinSock2.h>)
+
+WSADATA wsa{};
+
+void socket_setup() noexcept(false) {
+    if (::WSAStartup(MAKEWORD(2, 2), &wsa)) {
+        throw system_error{WSAGetLastError(), system_category(), "WSAStartup"};
+    }
 }
 
-#elif __has_include(<CppUnitTest.h>)
-#include <CppUnitTest.h>
+void socket_teardown() noexcept {
+    ::WSACleanup();
+}
 
-template <typename T>
-using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
+#elif __has_include(<netinet/in.h>)
 
-class net_getnameinfo_v6 : public TestClass<net_getnameinfo_v6> {
-    TEST_METHOD(test_net_getnameinfo_v6) {
-        net_getnameinfo_v6_test();
-    }
-};
+void socket_setup() noexcept(false) {
+    // do nothing for POSIX
+}
+void socket_teardown() noexcept {
+    // do nothing for POSIX
+}
+
 #endif
