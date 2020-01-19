@@ -1,81 +1,44 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include <coroutine/event.h>
-#include <coroutine/return.h>
-#include <coroutine/thread.h>
-
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
 #include <atomic>
+#include <cassert>
+#include <iostream>
 
-#include "test.h"
+#include <gsl/gsl>
+
+#include <coroutine/return.h>
+#include <coroutine/windows.h>
+
 using namespace std;
 using namespace coro;
 
-auto wait_an_event(set_or_cancel& token, atomic_flag& flag) -> forget_frame;
-auto set_after_sleep(HANDLE ev, uint32_t ms) -> forget_frame;
+auto wait_an_event(set_or_cancel& token, atomic_flag& flag) -> frame_t;
 
-auto set_or_cancel_set_test() {
+int main(int, char*[]) {
     HANDLE e = CreateEventEx(nullptr, nullptr, //
                              CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
-    if (e) // if statement because of C6387
-        ResetEvent(e);
-    _require_(e != NULL);
-
+    assert(e != NULL);
     auto on_return = gsl::finally([e]() { CloseHandle(e); });
 
+    ResetEvent(e);
     set_or_cancel token{e};
     atomic_flag flag = ATOMIC_FLAG_INIT;
 
     wait_an_event(token, flag);
-    SetEvent(e);
+    SetEvent(e); // set
 
     SleepEx(30, true); // give time to windows threads
-    _require_(flag.test_and_set());
-
+    assert(flag.test_and_set());
     return EXIT_SUCCESS;
 }
 
-#if defined(CMAKE_TEST)
-
-int main(int, char*[]) {
-    return set_or_cancel_set_test();
-}
-
-// we can't use rvalue reference. this design is necessary because
-// `set_or_cancel` uses INFINITE wait internally.
-// so, with the reference, user must sure one of `SetEvent` or `cancel` will
-// happen in the future
-auto wait_an_event(set_or_cancel& token, atomic_flag& flag) -> forget_frame {
+auto wait_an_event(set_or_cancel& evt, atomic_flag& flag) -> frame_t {
     // wait for set or cancel
     // `co_await` will forward `GetLastError` if canceled.
-    if (DWORD ec = co_await token) {
-        _fail_now_(system_category().message(ec).c_str(), __FILE__, __LINE__);
+    if (DWORD ec = co_await evt) {
+        cerr << system_category().message(ec) << endl;
         co_return;
     }
     flag.test_and_set();
 }
-
-auto set_after_sleep(HANDLE ev, uint32_t ms) -> forget_frame {
-    co_await ptp_work{}; // move to background thread ...
-
-    SleepEx(ms, true);
-    // if failed, print error message
-    if (SetEvent(ev) == 0) {
-        auto ec = GetLastError();
-        _fail_now_(system_category().message(ec).c_str(), __FILE__, __LINE__);
-    }
-}
-
-#elif __has_include(<CppUnitTest.h>)
-#include <CppUnitTest.h>
-
-template <typename T>
-using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
-
-class set_or_cancel_set : public TestClass<set_or_cancel_set> {
-    TEST_METHOD(test_set_or_cancel_set) {
-        set_or_cancel_set_test();
-    }
-};
-#endif

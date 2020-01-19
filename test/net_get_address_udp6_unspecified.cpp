@@ -1,5 +1,5 @@
 /**
- * @author github.com/luncliff <luncliff@gmail.com>
+ * @author github.com/luncliff (luncliff@gmail.com)
  * @brief get a list of address for IPv6, UDP unspecified
  */
 #include <cassert>

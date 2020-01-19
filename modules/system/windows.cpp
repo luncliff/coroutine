@@ -97,8 +97,8 @@ auto continue_on_thread_pool::create_and_submit_work(
     // just make sure no data loss in `static_cast`
     static_assert(sizeof(uint32_t) == sizeof(DWORD));
 
-    auto work =
-        ::CreateThreadpoolWork(resume_on_thread_pool, coro.address(), nullptr);
+    auto work = ::CreateThreadpoolWork(resume_on_thread_pool, //
+                                       coro.address(), nullptr);
     if (work == nullptr)
         return GetLastError();
 

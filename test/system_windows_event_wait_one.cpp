@@ -20,17 +20,18 @@ int main(int, char*[]) {
     HANDLE e = CreateEventEx(nullptr, nullptr, //
                              CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
     assert(e != NULL);
+    ResetEvent(e);
     auto on_return = gsl::finally([e]() { CloseHandle(e); });
 
-    ResetEvent(e);
-    set_or_cancel evt{e};
-    atomic_flag flag = ATOMIC_FLAG_INIT;
+    auto ms = rand() & 0b1111; // at most 16 ms
+    set_after_sleep(e, ms);
 
-    wait_an_event(evt, flag);
-    evt.unregister(); // cancel
-
-    SleepEx(30, true); // give time to windows threads
-    assert(flag.test_and_set() == false);
+    SleepEx(3, true);
+    // issue:
+    //	CI environment runs slowly, so too short timeout might fail ...
+    //	wait for 300 ms
+    auto ec = WaitForSingleObjectEx(e, 300, true);
+    assert(ec == WAIT_OBJECT_0);
     return EXIT_SUCCESS;
 }
 

@@ -1,60 +1,35 @@
-﻿//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
+﻿/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
+#include <atomic>
+#include <cassert>
+#include <iostream>
+
+#include <gsl/gsl>
+
 #include <coroutine/return.h>
-#include <coroutine/thread.h>
+#include <coroutine/windows.h>
 
-#include <sstream>
-
-#include "test.h"
 using namespace std;
 using namespace coro;
 
-auto procedure_call_self(HANDLE& thread, HANDLE finished) -> forget_frame {
-    co_await procedure_call_on{thread};
-
-    thread = GetCurrentThread();
-    SetEvent(finished);
+auto call_on_known_thread(HANDLE thread, HANDLE event) -> frame_t {
+    co_await continue_on_apc{thread};
+    if (SetEvent(event) == FALSE)
+        cerr << system_category().message(GetLastError()) << endl;
 }
 
-auto win32_procedure_call_on_self() {
-    auto efinish = CreateEvent(nullptr, false, false, nullptr);
-    auto worker = GetCurrentThread();
+int main(int, char*[]) {
+    HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+    assert(event != INVALID_HANDLE_VALUE);
+    auto on_return_1 = gsl::finally([event]() { CloseHandle(event); });
 
-    procedure_call_self(worker, efinish);
+    HANDLE worker = GetCurrentThread();
 
-    auto ec = WaitForSingleObjectEx(efinish, INFINITE, true);
-    CloseHandle(efinish);
+    call_on_known_thread(worker, event);
 
-    {
-        std::stringstream sout{};
-        sout << "Self: WaitForSingleObjectEx\t" << ec;
-        _println_(sout.str().c_str());
-    }
+    auto ec = WaitForSingleObjectEx(event, INFINITE, true);
     // expect the wait is cancelled by APC (WAIT_IO_COMPLETION)
-    _require_(ec == WAIT_OBJECT_0 || ec == WAIT_IO_COMPLETION, //
-              __FILE__, __LINE__);
-    _require_(worker == GetCurrentThread());
-
+    assert(ec == WAIT_OBJECT_0 || ec == WAIT_IO_COMPLETION);
     return EXIT_SUCCESS;
 }
-
-#if defined(CMAKE_TEST)
-int main(int, char*[]) {
-    return win32_procedure_call_on_self();
-}
-
-#elif __has_include(<CppUnitTest.h>)
-#include <CppUnitTest.h>
-
-template <typename T>
-using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
-
-class coro_win32_procedure_call_on_self
-    : public TestClass<coro_win32_procedure_call_on_self> {
-    TEST_METHOD(test_win32_procedure_call_on_self) {
-        win32_procedure_call_on_self();
-    }
-};
-#endif

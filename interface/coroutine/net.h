@@ -1,7 +1,7 @@
 /**
  * @file net.h
  * @brief Async I/O operation support with system socket functions
- * @author github.com/luncliff <luncliff@gmail.com>
+ * @author github.com/luncliff (luncliff@gmail.com)
  * @copyright CC BY 4.0
  */
 #pragma once

@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.12)
 
 # create_ctest( ... )
-function(create_ctest FILE_NAME LIB_NAME)
-    set(TEST_NAME test_${FILE_NAME})
-
+function(create_ctest TEST_NAME LIB_NAME)
     # create a test exe with the given name ...
-    add_executable(${TEST_NAME} ${FILE_NAME}.cpp)
-    add_test(${FILE_NAME} ${TEST_NAME})
+    add_executable(${TEST_NAME} ${TEST_NAME}.cpp)
+    add_test(${TEST_NAME} ${TEST_NAME})
     
     set_target_properties(${TEST_NAME}
     PROPERTIES
@@ -61,3 +59,15 @@ create_ctest( net_get_address_tcp6_listen_text     coroutine_net )
 create_ctest( net_get_address_tcp6_listen_numeric  coroutine_net )
 create_ctest( net_get_address_udp6_unspecified     coroutine_net )
 create_ctest( net_get_address_udp6_v4mapped        coroutine_net )
+
+#
+#   <coroutine/windows.h>
+#   <coroutine/posix.h>
+#
+create_ctest( system_windows_event_set              coroutine_system )
+create_ctest( system_windows_event_cancel           coroutine_system )
+create_ctest( system_windows_on_apc_known           coroutine_system )
+create_ctest( system_windows_on_apc_self            coroutine_system )
+create_ctest( system_windows_on_thread_pool         coroutine_system )
+create_ctest( system_windows_event_wait_one         coroutine_system )
+create_ctest( system_windows_event_wait_multiple    coroutine_system )

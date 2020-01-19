@@ -1,91 +1,52 @@
-﻿//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
+﻿/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
+#include <atomic>
+#include <cassert>
+#include <iostream>
+
+#include <gsl/gsl>
+
 #include <coroutine/return.h>
-#include <coroutine/thread.h>
+#include <coroutine/windows.h>
 
-#include <sstream>
-
-#include "test.h"
 using namespace std;
 using namespace coro;
 
-auto procedure_call_on_known_thread(HANDLE thread, DWORD tid, HANDLE finished)
-    -> forget_frame {
-    co_await procedure_call_on{thread};
-
-    _require_(tid == GetCurrentThreadId());
-    SetEvent(finished);
+auto procedure_call_on_known_thread(HANDLE thread, HANDLE event) -> frame_t {
+    co_await continue_on_apc{thread};
+    if (SetEvent(event) == FALSE)
+        cerr << system_category().message(GetLastError()) << endl;
 }
 
-void print_debug(const char* label, DWORD ec, size_t line) {
-    std::stringstream sout{};
-    sout << line << '\t' << label << '\t' << ec << endl;
-    _println_(sout.str().c_str());
-}
-
-DWORD __stdcall stay_alertible(LPVOID) {
-    DWORD retcode{};
-    // give enough timeout in case of timeout (test on CI may run slow...)
-    for (auto i = 0; i < 5; ++i) {
-        retcode = SleepEx(1000, true);
-        if (retcode == 0) // timeout
-            continue;
-        break;
-    }
-    print_debug("SleepEx", retcode, __LINE__);
-    return retcode;
-}
-
-auto win32_procedure_call_on_known_thread() {
-    HANDLE handles[2]{};
-    HANDLE& worker = handles[0]; // 0: worker thread
-    HANDLE& event = handles[1];  // 1: event for the coroutine
-
-    event = CreateEvent(nullptr, false, false, nullptr);
-    _require_(event != INVALID_HANDLE_VALUE);
-
-    DWORD tid{};
-    worker = CreateThread(nullptr, 0, stay_alertible, nullptr, 0, &tid);
-    _require_(worker != INVALID_HANDLE_VALUE);
-
+DWORD wait_in_sleep(LPVOID) {
     SleepEx(1000, true);
-    procedure_call_on_known_thread(worker, tid, event);
+    return GetLastError();
+}
 
+int main(int, char*[]) {
+    HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+    assert(event != INVALID_HANDLE_VALUE);
+    auto on_return_1 = gsl::finally([event]() { CloseHandle(event); });
+
+    DWORD worker_id{};
+    HANDLE worker = CreateThread(nullptr, 0, //
+                                 wait_in_sleep, nullptr, 0, &worker_id);
+    assert(worker != 0);
+    auto on_return_2 = gsl::finally([worker]() { CloseHandle(worker); });
+    SleepEx(500, true);
+
+    procedure_call_on_known_thread(worker, event);
+
+    HANDLE handles[2] = {event, worker};
     auto ec = WaitForMultipleObjectsEx(2, handles, TRUE, INFINITE, true);
-    print_debug("WaitForMultipleObjectsEx", ec, __LINE__);
     // expect the wait is cancelled by APC (WAIT_IO_COMPLETION)
-    _require_(ec == WAIT_OBJECT_0 || ec == WAIT_IO_COMPLETION, //
-              __FILE__, __LINE__);
-    CloseHandle(event);
+    assert(ec == WAIT_OBJECT_0 || ec == WAIT_IO_COMPLETION);
 
     DWORD retcode{};
     GetExitCodeThread(worker, &retcode);
-    print_debug("GetExitCodeThread", retcode, __LINE__);
-    CloseHandle(worker);
     // we used QueueUserAPC so the return can be 'elapsed' milliseconds
     // allow zero for the timeout
-    _require_(retcode >= 0, __FILE__, __LINE__);
-
+    assert(retcode >= 0);
     return EXIT_SUCCESS;
 }
-
-#if defined(CMAKE_TEST)
-int main(int, char*[]) {
-    return win32_procedure_call_on_known_thread();
-}
-
-#elif __has_include(<CppUnitTest.h>)
-#include <CppUnitTest.h>
-
-template <typename T>
-using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
-
-class coro_win32_procedure_call_on_known
-    : public TestClass<coro_win32_procedure_call_on_known> {
-    TEST_METHOD(test_win32_procedure_call_on_known) {
-        win32_procedure_call_on_known_thread();
-    }
-};
-#endif

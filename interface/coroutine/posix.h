@@ -5,8 +5,8 @@
  * @copyright CC BY 4.0
  */
 #pragma once
-#ifndef COROUTINE_AWAITABLE_EVENT_H
-#define COROUTINE_AWAITABLE_EVENT_H
+#ifndef COROUTINE_SYSTEM_WRAPPER_H
+#define COROUTINE_SYSTEM_WRAPPER_H
 
 #include <coroutine/frame.h>
 
@@ -74,4 +74,4 @@ auto signaled_event_tasks() noexcept(false)
 
 } // namespace coro
 #endif
-#endif // COROUTINE_AWAITABLE_EVENT_H
+#endif // COROUTINE_SYSTEM_WRAPPER_H

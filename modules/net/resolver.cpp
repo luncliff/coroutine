@@ -1,5 +1,5 @@
 /**
- * @author github.com/luncliff <luncliff@gmail.com>
+ * @author github.com/luncliff (luncliff@gmail.com)
  */
 #include <coroutine/net.h>
 

@@ -5,8 +5,8 @@
  * @copyright CC BY 4.0
  */
 #pragma once
-#ifndef COROUTINE_AWAITABLE_EVENT_H
-#define COROUTINE_AWAITABLE_EVENT_H
+#ifndef COROUTINE_SYSTEM_WRAPPER_H
+#define COROUTINE_SYSTEM_WRAPPER_H
 
 #include <coroutine/frame.h>
 
@@ -88,12 +88,20 @@ class set_or_cancel final {
 /**
  * @brief Move into the win32 thread pool and continue the routine
  * @ingroup Windows
+ * @see CreateThreadpoolWork
+ * @see SubmitThreadpoolWork
+ * @see CloseThreadpoolWork
  */
 class continue_on_thread_pool final {
-    /** @see CreateThreadpoolWork */
+    /**
+     * @see CloseThreadpoolWork
+     */
     static void __stdcall resume_on_thread_pool(PTP_CALLBACK_INSTANCE, PVOID,
                                                 PTP_WORK);
-
+    /**
+     * @see CreateThreadpoolWork
+     * @see SubmitThreadpoolWork
+     */
     uint32_t create_and_submit_work(coroutine_handle<void>) noexcept;
 
   public:
@@ -119,11 +127,16 @@ class continue_on_thread_pool final {
 /**
  * @brief Move into the designated thread's APC queue and continue the routine
  * @ingroup Windows
+ * @see QueueUserAPC
+ * @see OpenThread
  */
 class continue_on_apc final {
-    /** @see QueueUserAPC */
     static void __stdcall resume_on_apc(ULONG_PTR);
 
+    /**
+     * @see QueueUserAPC
+     * @return uint32_t error code from `QueueUserAPC` function
+     */
     uint32_t queue_user_apc(coroutine_handle<void>) noexcept;
 
   public:
@@ -158,4 +171,4 @@ class continue_on_apc final {
 
 } // namespace coro
 
-#endif // COROUTINE_AWAITABLE_EVENT_H
+#endif // COROUTINE_SYSTEM_WRAPPER_H

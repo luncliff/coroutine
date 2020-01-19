@@ -1,5 +1,5 @@
 /**
- * @author github.com/luncliff <luncliff@gmail.com>
+ * @author github.com/luncliff (luncliff@gmail.com)
  * @brief Get a string representation from the `sockaddr_in` object
  */
 #include <coroutine/net.h>
