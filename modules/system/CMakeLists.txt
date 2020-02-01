@@ -12,7 +12,6 @@ add_library(coroutine_system
 set_target_properties(coroutine_system
 PROPERTIES
     CXX_STANDARD    17
-    PUBLIC_HEADER   "${MODULE_INTERFACE_DIR}/coroutine/${CMAKE_SYSTEM_NAME}.h"
     WINDOWS_EXPORT_ALL_SYMBOLS  true
 )
 
