@@ -1,11 +1,8 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include <coroutine/event.h>
-#include <coroutine/return.h>
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
+#include <coroutine/unix.h>
 
-#include <atomic>
 using namespace std;
 using namespace coro;
 
@@ -15,7 +12,7 @@ auto wait_for_multiple_times(auto_reset_event& e, atomic<uint32_t>& counter)
         co_await e;
 }
 
-auto concrt_event_multiple_wait_on_event_test() {
+int main(int, char*[]) {
     auto_reset_event e1{};
     atomic<uint32_t> counter{};
 
@@ -36,9 +33,3 @@ auto concrt_event_multiple_wait_on_event_test() {
 
     return EXIT_SUCCESS;
 }
-
-#if !__has_include(<CppUnitTest.h>)
-int main(int, char*[]) {
-    return concrt_event_multiple_wait_on_event_test();
-}
-#endif
