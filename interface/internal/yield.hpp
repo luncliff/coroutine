@@ -75,7 +75,9 @@ class enumerable {
             // enumerable will create coroutine handle from the address
             return this;
         }
-
+        void unhandled_exception() noexcept(false) {
+            throw;
+        }
         // `co_yield` expression. for reference
         auto yield_value(reference ref) noexcept {
             current = std::addressof(ref);

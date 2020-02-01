@@ -1,10 +1,10 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include <coroutine/net.h>
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
+#include <chrono>
 
-#include "kernel_queue.h"
+#include <coroutine/darwin.h>
+#include <coroutine/net.h>
 
 static_assert(sizeof(ssize_t) <= sizeof(int64_t));
 using namespace std;
@@ -12,25 +12,35 @@ using namespace std::chrono;
 
 namespace coro {
 
-kernel_queue_t kq{};
+kqueue_owner netkq{};
 
-auto enumerate_net_tasks(nanoseconds timeout) noexcept(false)
-    -> coro::enumerable<io_task_t> {
-    timespec ts{};
-    const auto sec = duration_cast<seconds>(timeout);
-    ts.tv_sec = sec.count();
-    ts.tv_nsec = (timeout - sec).count();
+using net_callback_t = void (*)(void* ctx, coroutine_handle<void> coro);
 
-    for (kevent64_s& ev : kq.wait(ts)) {
-        auto& work = *reinterpret_cast<io_work_t*>(ev.udata);
-        // need to pass error information from
-        // kevent to io_work
-        co_yield work.task;
+void poll_net_tasks(const timespec& wait_time, //
+                    net_callback_t callback, void* ctx) noexcept(false) {
+
+    constexpr auto buf_size = 30u;
+    auto buf = make_unique<kevent64_s[]>(buf_size);
+
+    const auto count = netkq.events(wait_time, {buf.get(), buf_size});
+    for (auto i = count; i < count; ++i) {
+        auto* work = reinterpret_cast<io_work_t*>(buf[i].udata);
+        callback(ctx, work->task);
     }
 }
-void wait_net_tasks(coro::enumerable<io_task_t>& tasks,
-                    std::chrono::nanoseconds timeout) noexcept(false) {
-    tasks = enumerate_net_tasks(timeout);
+
+void resume_net_task(void*, coroutine_handle<void> coro) noexcept(false) {
+    return coro.resume();
+}
+
+void poll_net_tasks(uint64_t nano) noexcept(false) {
+    auto timeout = nanoseconds{nano};
+    const auto sec = duration_cast<seconds>(timeout);
+    const timespec wait_time{
+        .tv_sec = sec.count(),
+        .tv_nsec = (timeout - sec).count(),
+    };
+    return poll_net_tasks(wait_time, resume_net_task, nullptr);
 }
 
 bool io_work_t::ready() const noexcept {
@@ -69,7 +79,7 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, io_buffer_t buffer,
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
-void io_send_to::suspend(io_task_t rh) noexcept(false) {
+void io_send_to::suspend(coroutine_handle<void> rh) noexcept(false) {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
     task = rh;
 
@@ -82,7 +92,7 @@ void io_send_to::suspend(io_task_t rh) noexcept(false) {
     req.data = 0;
     req.udata = reinterpret_cast<uint64_t>(static_cast<io_work_t*>(this));
 
-    kq.change(req);
+    netkq.change(req);
 }
 
 int64_t io_send_to::resume() noexcept {
@@ -115,7 +125,7 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buffer,
     return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
-void io_recv_from::suspend(io_task_t rh) noexcept(false) {
+void io_recv_from::suspend(coroutine_handle<void> rh) noexcept(false) {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
 
     task = rh;
@@ -132,7 +142,7 @@ void io_recv_from::suspend(io_task_t rh) noexcept(false) {
     // receiving some values from `wait_io_tasks`
     req.udata = reinterpret_cast<uint64_t>(static_cast<io_work_t*>(this));
 
-    kq.change(req);
+    netkq.change(req);
 }
 
 int64_t io_recv_from::resume() noexcept {
@@ -157,7 +167,7 @@ auto send_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
     return *reinterpret_cast<io_send*>(addressof(work));
 }
 
-void io_send::suspend(io_task_t rh) noexcept(false) {
+void io_send::suspend(coroutine_handle<void> rh) noexcept(false) {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
     task = rh;
 
@@ -170,7 +180,7 @@ void io_send::suspend(io_task_t rh) noexcept(false) {
     req.data = 0;
     req.udata = reinterpret_cast<uint64_t>(static_cast<io_work_t*>(this));
 
-    kq.change(req);
+    netkq.change(req);
 }
 
 int64_t io_send::resume() noexcept {
@@ -193,7 +203,7 @@ auto recv_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
     return *reinterpret_cast<io_recv*>(addressof(work));
 }
 
-void io_recv::suspend(io_task_t rh) noexcept(false) {
+void io_recv::suspend(coroutine_handle<void> rh) noexcept(false) {
     static_assert(sizeof(void*) <= sizeof(uint64_t));
 
     task = rh;
@@ -206,7 +216,7 @@ void io_recv::suspend(io_task_t rh) noexcept(false) {
     req.data = 0;
     req.udata = reinterpret_cast<uint64_t>(static_cast<io_work_t*>(this));
 
-    kq.change(req);
+    netkq.change(req);
 }
 
 int64_t io_recv::resume() noexcept {

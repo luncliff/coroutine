@@ -49,7 +49,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
 endif()
 add_subdirectory(modules/portable)
 add_subdirectory(modules/system)    # coroutine_system
-# add_subdirectory(modules/net)       # coroutine_net
+add_subdirectory(modules/net)       # coroutine_net
 
 #
 # export declared cmake targets

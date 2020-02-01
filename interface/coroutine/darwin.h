@@ -55,7 +55,7 @@ class kqueue_owner final {
 
     /**
      * @brief fetch all events for the given kqeueue descriptor
-     * @param ts 
+     * @param wait_time 
      * @param list 
      * @return ptrdiff_t 
      * @see kevent64
@@ -66,7 +66,7 @@ class kqueue_owner final {
      * 
      * Timeout is not an error for this function
      */
-    ptrdiff_t events(const timespec& ts,
+    ptrdiff_t events(const timespec& wait_time,
                      gsl::span<kevent64_s> list) noexcept(false);
 
   public:
@@ -76,7 +76,8 @@ class kqueue_owner final {
      * @see change
      * 
      * There is no guarantee of reusage of returned awaiter object
-     * When it is awaited, `req.udata` is set from `coroutine_handle<void>`
+     * When it is awaited, and `req.udata` is null(0),
+     * the value is set to `coroutine_handle<void>`
      * 
      * ```cpp
      * auto read_async(kqueue_owner& kq, uint64_t fd) -> frame_t {
@@ -102,7 +103,8 @@ class kqueue_owner final {
 
           public:
             void await_suspend(coroutine_handle<void> coro) noexcept(false) {
-                req.udata = reinterpret_cast<uint64_t>(coro.address());
+                if (req.udata == 0)
+                    req.udata = reinterpret_cast<uint64_t>(coro.address());
                 return kq.change(req);
             }
         };

@@ -24,6 +24,7 @@ PUBLIC
 target_link_libraries(coroutine_net
 PUBLIC
     coroutine_portable
+    coroutine_system
 PRIVATE
     ${CMAKE_DL_LIBS}
 )
