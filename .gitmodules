@@ -5,3 +5,9 @@
 [submodule "docs"]
 	path = docs
 	url = https://github.com/luncliff/coroutine.wiki
+[submodule "external/latch"]
+	path = external/latch
+	url = https://github.com/luncliff/latch
+[submodule "external/sockets"]
+	path = external/sockets
+	url = https://github.com/luncliff/ssf

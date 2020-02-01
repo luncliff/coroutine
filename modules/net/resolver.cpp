@@ -2,6 +2,7 @@
  * @author github.com/luncliff (luncliff@gmail.com)
  */
 #include <coroutine/net.h>
+#include <internal/yield.hpp>
 
 using namespace std;
 namespace coro {
@@ -28,7 +29,7 @@ uint32_t get_name(const sockaddr_in6& addr, //
                          flags);
 }
 
-auto get_address(addrinfo* list) noexcept -> generator<sockaddr*> {
+auto get_address(addrinfo* list) noexcept -> enumerable<sockaddr*> {
     auto on_return = gsl::finally([list]() noexcept {
         // RAII clean up for the assigned addrinfo
         ::freeaddrinfo(list);
@@ -39,7 +40,7 @@ auto get_address(addrinfo* list) noexcept -> generator<sockaddr*> {
 }
 
 auto get_address(addrinfo* list, sockaddr_in addr) noexcept
-    -> generator<sockaddr_in> {
+    -> enumerable<sockaddr_in> {
     for (sockaddr* item : get_address(list)) {
         const auto* ptr = reinterpret_cast<sockaddr_in*>(item);
         addr = *ptr;
@@ -48,7 +49,7 @@ auto get_address(addrinfo* list, sockaddr_in addr) noexcept
 }
 
 auto get_address(addrinfo* list, sockaddr_in6 addr) noexcept
-    -> generator<sockaddr_in6> {
+    -> enumerable<sockaddr_in6> {
     for (sockaddr* item : get_address(list)) {
         const auto* ptr = reinterpret_cast<sockaddr_in6*>(item);
         addr = *ptr;
@@ -58,26 +59,36 @@ auto get_address(addrinfo* list, sockaddr_in6 addr) noexcept
 
 uint32_t get_address(const addrinfo& hint, //
                      gsl::czstring<> host, gsl::czstring<> serv,
-                     generator<sockaddr_in>& g) noexcept {
+                     gsl::span<sockaddr_in> output) noexcept {
     addrinfo* list = nullptr;
     if (const auto ec = ::getaddrinfo(host, serv, //
                                       &hint, &list))
         // return std::system_error{ec, system_category(), ::gai_strerror(ec)};
         return ec;
 
-    g = get_address(list, sockaddr_in{});
+    auto i = 0u;
+    for (auto addr : get_address(list, sockaddr_in{})) {
+        output[i++] = addr;
+        if (i == output.size())
+            break;
+    }
     return 0;
 }
 
 uint32_t get_address(const addrinfo& hint, //
                      gsl::czstring<> host, gsl::czstring<> serv,
-                     generator<sockaddr_in6>& g) noexcept {
+                     gsl::span<sockaddr_in6> output) noexcept {
     addrinfo* list = nullptr;
     if (const auto ec = ::getaddrinfo(host, serv, //
                                       &hint, &list))
         return ec;
 
-    g = get_address(list, sockaddr_in6{});
+    auto i = 0u;
+    for (auto addr : get_address(list, sockaddr_in6{})) {
+        output[i++] = addr;
+        if (i == output.size())
+            break;
+    }
     return 0;
 }
 

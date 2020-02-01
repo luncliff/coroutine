@@ -7,10 +7,7 @@
 #pragma once
 #ifndef COROUTINE_NET_IO_H
 #define COROUTINE_NET_IO_H
-
 #include <coroutine/return.h>
-
-#include <experimental/generator>
 #include <gsl/gsl>
 
 /**
@@ -317,18 +314,31 @@ auto send_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
 auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_recv&;
 
+#if defined(__APPLE__) || defined(__UNIX__)
+
+/**
+ * @brief Poll internal I/O works and invoke user callback
+ * @param nano timeout in nanoseconds 
+ * @ingroup NetWork
+ */
+void poll_net_tasks(uint64_t nano) noexcept(false);
+
+#endif
+
 /**
  * @brief Thin wrapper of `getaddrinfo` for IPv4
  * @ingroup NetResolve
  * @param hint 
  * @param host 
  * @param serv 
- * @param g 
+ * @param output
  * @return uint32_t Error code from the `getaddrinfo` that can be the argument of `gai_strerror`
+ * @see getaddrinfo
+ * @see gai_strerror
  */
 uint32_t get_address(const addrinfo& hint, //
                      gsl::czstring<> host, gsl::czstring<> serv,
-                     generator<sockaddr_in>& g) noexcept;
+                     gsl::span<sockaddr_in> output) noexcept;
 
 /**
  * @brief Thin wrapper of `getaddrinfo` for IPv6
@@ -336,12 +346,14 @@ uint32_t get_address(const addrinfo& hint, //
  * @param hint 
  * @param host 
  * @param serv 
- * @param g 
+ * @param output
  * @return uint32_t Error code from the `getaddrinfo` that can be the argument of `gai_strerror`
+ * @see getaddrinfo
+ * @see gai_strerror
  */
 uint32_t get_address(const addrinfo& hint, //
                      gsl::czstring<> host, gsl::czstring<> serv,
-                     generator<sockaddr_in6>& g) noexcept;
+                     gsl::span<sockaddr_in6> output) noexcept;
 
 /**
  * @brief Thin wrapper of `getnameinfo`
