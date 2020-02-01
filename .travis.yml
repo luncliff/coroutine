@@ -53,6 +53,7 @@ script:
     -DBUILD_SHARED_LIBS=True
     -DCMAKE_BUILD_TYPE=Debug
     -DUSE_PORTABLE_HEADER=True
+    -DBUILD_TESTING=True
   - cmake --build . --config debug
   - cmake --build . --target install
   - ctest --output-on-failure

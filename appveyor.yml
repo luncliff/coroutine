@@ -43,7 +43,7 @@ before_build:
   - ps: if($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2019"){ $env:GENERATOR="Visual Studio 16 2019" }
 
 build_script:
-  - ps: cmake . -G "$env:GENERATOR" -A x64 -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH"
+  - ps: cmake . -G "$env:GENERATOR" -A x64 -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_TESTING=ON
   - ps: cmake --build . --config $env:CONFIGURATION
   - ps: cmake --build . --target install
 
