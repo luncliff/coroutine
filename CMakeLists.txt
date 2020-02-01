@@ -12,11 +12,10 @@
 #   Working
 #       - GCC   + Linux     (Ninja, Unix Makefiles)
 #
-#   Variables
-#       - TEST_DISABLED : Explicitly disables building tests
+#   Options
+#       - BUILD_TESTING
 #
 cmake_minimum_required(VERSION 3.12) # C++ 20
-
 project(coroutine 
         LANGUAGES CXX 
         VERSION 1.5.0
@@ -49,13 +48,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
     set(USE_PORTABLE_HEADER true)
 endif()
 add_subdirectory(modules/portable)
-
-if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
-    # WIP: perform test with the portable headers
-else()
-    add_subdirectory(modules/system)    # coroutine_system
-    add_subdirectory(modules/net)       # coroutine_net
-endif()
+add_subdirectory(modules/system)    # coroutine_system
+# add_subdirectory(modules/net)       # coroutine_net
 
 #
 # export declared cmake targets

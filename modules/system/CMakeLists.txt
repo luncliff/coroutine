@@ -88,14 +88,12 @@ if(WIN32)
 elseif(APPLE)
     target_sources(coroutine_system
     PRIVATE
-        kernel_queue.h
-        kernel_queue.cpp
+        kqueue.cpp
     )
 elseif(UNIX) # actually we can't sure it's a linux here ...
     target_sources(coroutine_system
     PRIVATE
-        event_poll.h
-        event_poll.cpp
+        kqueue.cpp
     )
     if(ANDROID)
         target_link_libraries(coroutine_system

@@ -48,6 +48,7 @@ create_ctest( return_frame_not_subroutine       coroutine_portable )
 #
 #   <coroutine/net.h>
 #
+if(TARGET coroutine_net)
 create_ctest( net_get_name_ip4 coroutine_net )
 create_ctest( net_get_name_ip6 coroutine_net )
 # create_ctest( net_socket_tcp_echo coroutine_net )
@@ -59,11 +60,13 @@ create_ctest( net_get_address_tcp6_listen_text     coroutine_net )
 create_ctest( net_get_address_tcp6_listen_numeric  coroutine_net )
 create_ctest( net_get_address_udp6_unspecified     coroutine_net )
 create_ctest( net_get_address_udp6_v4mapped        coroutine_net )
+endif()
 
 #
 #   <coroutine/windows.h>
-#   <coroutine/posix.h>
 #
+if(TARGET coroutine_system)
+if(WIN32)
 create_ctest( system_windows_event_set              coroutine_system )
 create_ctest( system_windows_event_cancel           coroutine_system )
 create_ctest( system_windows_on_apc_known           coroutine_system )
@@ -71,3 +74,8 @@ create_ctest( system_windows_on_apc_self            coroutine_system )
 create_ctest( system_windows_on_thread_pool         coroutine_system )
 create_ctest( system_windows_event_wait_one         coroutine_system )
 create_ctest( system_windows_event_wait_multiple    coroutine_system )
+elseif(APPLE)
+elseif(UNIX)
+elseif(LINUX)
+endif()
+endif()

@@ -1,30 +1,24 @@
 ﻿/**
- * @file event_windows.h
- * @brief Awaitable type over system's event object
+ * @file windows.h
+ * @brief Awaitable types over system API
  * @author github.com/luncliff (luncliff@gmail.com)
  * @copyright CC BY 4.0
  */
 #pragma once
 #ifndef COROUTINE_SYSTEM_WRAPPER_H
 #define COROUTINE_SYSTEM_WRAPPER_H
+#if __has_include(<Windows.h>)
+#include <Windows.h>
+#else
+#error "expect Windows platform for this file"
+#endif
 
 #include <coroutine/frame.h>
-
 #include <system_error>
-
-#include <Windows.h>
-
-/**
- * @defgroup Event
- * Helper types to apply `co_await` for event objects.
- * 
- * For Windows, the implementation uses Win32 thread pool.
- * For Linux, it uses Epoll.
- * For Darwin, it uses Kqueue.
- */
 
 /**
  * @defgroup Windows
+ * Most of the implementation use Win32 thread pool.
  */
 
 namespace coro {
@@ -33,7 +27,6 @@ using namespace std::experimental;
 
 /**
  * @brief Awaitable event type over Win32 thread pool
- * @ingroup Event
  * @ingroup Windows
  * 
  * Its object can be `co_await`ed only once.
