@@ -1,7 +1,6 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
 
 // clang-format off
 #include <Windows.h>
@@ -121,6 +120,40 @@ auto continue_on_apc::queue_user_apc(coroutine_handle<void> coro) noexcept
     if (QueueUserAPC(resume_on_apc, this->thread, param) == 0)
         return GetLastError();
     return S_OK;
+}
+
+/**
+ * @brief Standard lockable with win32 criticial section
+ */
+class section final : CRITICAL_SECTION {
+    section(const section&) = delete;
+    section(section&&) = delete;
+    section& operator=(const section&) = delete;
+    section& operator=(section&&) = delete;
+
+  public:
+    section() noexcept(false);
+    ~section() noexcept;
+
+    bool try_lock() noexcept;
+    void lock() noexcept(false);
+    void unlock() noexcept(false);
+};
+
+section::section() noexcept(false) {
+    InitializeCriticalSectionAndSpinCount(this, 0600);
+}
+section::~section() noexcept {
+    DeleteCriticalSection(this);
+}
+bool section::try_lock() noexcept {
+    return TryEnterCriticalSection(this);
+}
+void section::lock() noexcept(false) {
+    EnterCriticalSection(this);
+}
+void section::unlock() noexcept(false) {
+    LeaveCriticalSection(this);
 }
 
 } // namespace coro

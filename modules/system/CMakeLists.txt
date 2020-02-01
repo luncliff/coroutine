@@ -1,10 +1,12 @@
 #
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
+string(TOLOWER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME)
+
 add_library(coroutine_system
-    ${MODULE_INTERFACE_DIR}/coroutine/${CMAKE_SYSTEM_NAME}.h
+    ${MODULE_INTERFACE_DIR}/coroutine/${SYSTEM_NAME}.h
     libmain.cpp
-    ${CMAKE_SYSTEM_NAME}.cpp
+    ${SYSTEM_NAME}.cpp
 )
 
 set_target_properties(coroutine_system

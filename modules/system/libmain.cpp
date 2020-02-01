@@ -1,4 +1,6 @@
-
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
 #ifdef _WIN32
 #define PROLOGUE
 #define EPILOGUE

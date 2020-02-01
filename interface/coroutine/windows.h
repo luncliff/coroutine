@@ -1,6 +1,5 @@
 ﻿/**
  * @file windows.h
- * @brief Awaitable types over system API
  * @author github.com/luncliff (luncliff@gmail.com)
  * @copyright CC BY 4.0
  */

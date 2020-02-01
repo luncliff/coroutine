@@ -91,5 +91,9 @@ endif()
 
 enable_testing()
 
-# add_subdirectory(modules/concrt)    # concurrency helper for test codes
+# helper for test codes
+set(BUILD_TESTING OFF)
+add_subdirectory(external/latch)    
+add_subdirectory(external/sockets)
+
 add_subdirectory(test)
