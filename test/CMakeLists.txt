@@ -40,6 +40,17 @@ function(create_ctest TEST_NAME)
 endfunction()
 
 #
+#   <internal/yield.hpp>
+#
+create_ctest( enumerable_accumulate     coroutine_portable )
+create_ctest( enumerable_iterator       coroutine_portable )
+create_ctest( enumerable_max_element    coroutine_portable )
+create_ctest( enumerable_move           coroutine_portable )
+create_ctest( enumerable_yield_never    coroutine_portable )
+create_ctest( enumerable_yield_once     coroutine_portable )
+create_ctest( enumerable_yield_rvalue   coroutine_portable )
+
+#
 #   <coroutine/frame.h>
 #   <coroutine/return.h>
 #
