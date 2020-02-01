@@ -1,9 +1,7 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
 #include <cassert>
-
 #include <coroutine/return.h>
 #include <gsl/gsl>
 
@@ -21,7 +19,7 @@ auto save_current_handle_to_frame(int& status) -> frame_t {
     status += 1;
 }
 
-int main(int, char* []) {
+int main(int, char*[]) {
     int status = 0;
     coroutine_handle<void> coro = save_current_handle_to_frame(status);
     assert(status == 1);

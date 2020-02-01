@@ -1,7 +1,6 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
 #include <cassert>
 #include <coroutine/return.h>
 
@@ -13,7 +12,7 @@ auto invoke_and_forget_frame() -> coro::frame_t {
     co_return;
 };
 
-int main(int, char* []) {
+int main(int, char*[]) {
     invoke_and_forget_frame();
     return 0;
 }
