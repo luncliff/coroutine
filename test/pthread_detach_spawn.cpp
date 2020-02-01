@@ -1,15 +1,13 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include <coroutine/thread.h>
-
-#include "test.h"
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
+#include <coroutine/pthread.h>
+#include <coroutine/return.h>
 #include <future>
-using namespace std;
+
 using namespace coro;
 
-auto multiple_spawn_coroutine(promise<void>& p, const pthread_attr_t* attr)
+auto multiple_spawn_coroutine(std::promise<void>& p, const pthread_attr_t* attr)
     -> pthread_detacher_t {
     try {
         co_await attr;
@@ -21,9 +19,8 @@ auto multiple_spawn_coroutine(promise<void>& p, const pthread_attr_t* attr)
     }
 }
 
-auto pthread_detacher_throws_multiple_spawn() {
-
-    promise<void> report{};
+int main(int, char*[]) {
+    std::promise<void> report{};
     {
         // detacher uses `pthread_detach` in its destructor.
         auto detacher = multiple_spawn_coroutine(report, nullptr);
@@ -40,10 +37,3 @@ auto pthread_detacher_throws_multiple_spawn() {
         return EXIT_SUCCESS;
     }
 }
-
-#if defined(CMAKE_TEST)
-int main(int, char* []) {
-    return pthread_detacher_throws_multiple_spawn();
-}
-
-#endif

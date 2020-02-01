@@ -1,10 +1,9 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include <coroutine/thread.h>
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
+#include <coroutine/pthread.h>
+#include <coroutine/return.h>
 
-#include "test.h"
 using namespace std;
 using namespace coro;
 
@@ -15,7 +14,7 @@ auto spawn_and_join(pthread_t& tid, const pthread_attr_t* attr)
     co_return;
 }
 
-auto pthread_joiner_waits_for_join() {
+int main(int, char*[]) {
     printf("before spawn: %zu \n", pthread_self());
 
     pthread_t tid{};
@@ -40,10 +39,3 @@ auto pthread_joiner_waits_for_join() {
 
     return EXIT_SUCCESS;
 }
-
-#if defined(CMAKE_TEST)
-int main(int, char* []) {
-    return pthread_joiner_waits_for_join();
-}
-
-#endif

@@ -1,12 +1,11 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include <coroutine/thread.h>
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
+#include <coroutine/pthread.h>
+#include <coroutine/return.h>
 
-#include "test.h"
-using namespace std;
 using namespace coro;
+using namespace std;
 
 auto multiple_spawn_coroutine(atomic_bool& throwed, const pthread_attr_t* attr)
     -> pthread_joiner_t {
@@ -18,7 +17,7 @@ auto multiple_spawn_coroutine(atomic_bool& throwed, const pthread_attr_t* attr)
     }
 }
 
-auto pthread_joiner_throws_multiple_spawn() {
+int main(int, char*[]) {
     atomic_bool throwed = false;
     {
         // ensure join before test
@@ -29,10 +28,3 @@ auto pthread_joiner_throws_multiple_spawn() {
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }
-
-#if defined(CMAKE_TEST)
-int main(int, char* []) {
-    return pthread_joiner_throws_multiple_spawn();
-}
-
-#endif

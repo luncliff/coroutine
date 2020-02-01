@@ -14,10 +14,12 @@ function(create_ctest TEST_NAME)
     PRIVATE
         ${GSL_INCLUDE_DIR}
     )
+    # all arguments after TEST_NAME 
+    # should be library (or CMake target) name
     foreach(idx RANGE 1 ${ARGC})
         target_link_libraries(${TEST_NAME}
         PRIVATE
-            ${ARGV${idx}}
+            ${ARGV${idx}} 
         )
     endforeach()
 
@@ -38,6 +40,8 @@ function(create_ctest TEST_NAME)
         )
     endif()
 endfunction()
+
+create_ctest( article_russian_roulette  coroutine_portable )
 
 #
 #   <internal/yield.hpp>
@@ -78,20 +82,31 @@ endif()
 
 #
 #   <coroutine/windows.h>
+#   <coroutine/unix.h>, <coroutine/darwin.h>
+#   <coroutine/pthread.h>
 #
 if(TARGET coroutine_system)
 if(WIN32)
-create_ctest( windows_event_set              coroutine_system )
-create_ctest( windows_event_cancel           coroutine_system )
-create_ctest( windows_event_wait_one         coroutine_system )
-create_ctest( windows_event_wait_multiple    coroutine_system )
-create_ctest( windows_on_apc_known           coroutine_system )
-create_ctest( windows_on_apc_self            coroutine_system )
-create_ctest( windows_on_thread_pool         coroutine_system )
+create_ctest( windows_event_set             coroutine_system )
+create_ctest( windows_event_cancel          coroutine_system )
+create_ctest( windows_event_wait_one        coroutine_system )
+create_ctest( windows_event_wait_multiple   coroutine_system )
+create_ctest( windows_on_apc_known          coroutine_system )
+create_ctest( windows_on_apc_self           coroutine_system )
+create_ctest( windows_on_thread_pool        coroutine_system )
+elseif(UNIX)
+create_ctest( pthread_detach_no_spawn       coroutine_system )
+create_ctest( pthread_detach_spawn          coroutine_system )
+create_ctest( pthread_join_no_spawn         coroutine_system )
+create_ctest( pthread_join_spawn_1          coroutine_system )
+create_ctest( pthread_join_spawn_2          coroutine_system )
 endif()
+
 if(UNIX)
 create_ctest( unix_kqueue_single_thread  coroutine_system )
 endif()
+
 if(LINUX)
 endif()
+
 endif()

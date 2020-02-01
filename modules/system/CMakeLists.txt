@@ -37,46 +37,6 @@ if(NOT BUILD_SHARED_LIBS)
     )
 endif()
 
-if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
-    if(WIN32)
-        target_compile_options(coroutine_system
-        PUBLIC
-            /std:c++latest
-            -fms-compatibility -Xclang -fcoroutines-ts
-        )
-        # in this case, we always use portable header
-        set_target_properties(coroutine_system
-        PROPERTIES
-            PUBLIC_COMPILE_DEFINITIONS "USE_PORTABLE_COROUTINE_HANDLE;_RESUMABLE_FUNCTIONS_SUPPORTED"
-        )
-        
-    elseif(UNIX OR APPLE)
-        target_compile_options(coroutine_system
-        PUBLIC
-            -std=c++2a -stdlib=libc++
-            -fcoroutines-ts
-        )
-    endif()
-
-elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
-    target_compile_options(coroutine_system
-    PUBLIC
-        -std=gnu++2a
-        -fcoroutines -fconcepts # -fno-exceptions
-    )
-
-elseif(MSVC)
-    set_target_properties(coroutine_system
-    PROPERTIES
-        INTERFACE_LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
-    )
-    target_compile_options(coroutine_system
-    PUBLIC
-        /std:c++latest /await
-    )
-
-endif()
-
 if(WIN32)
     target_compile_definitions(coroutine_system
     PRIVATE
@@ -90,11 +50,18 @@ elseif(APPLE)
     target_sources(coroutine_system
     PRIVATE
         kqueue.cpp
+        pthread.cpp
     )
-elseif(UNIX) # actually we can't sure it's a linux here ...
+    target_link_libraries(coroutine_system
+    PUBLIC
+        pthread
+    )
+
+else() # actually we can't sure it's a linux here ...
     target_sources(coroutine_system
     PRIVATE
         kqueue.cpp
+        pthread.cpp
     )
     if(ANDROID)
         target_link_libraries(coroutine_system
@@ -104,7 +71,7 @@ elseif(UNIX) # actually we can't sure it's a linux here ...
     else()
         target_link_libraries(coroutine_system
         PUBLIC
-            rt
+            rt pthread
         )
     endif()
 endif()
