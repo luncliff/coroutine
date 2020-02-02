@@ -82,7 +82,7 @@ endif()
 
 #
 #   <coroutine/windows.h>
-#   <coroutine/unix.h>, <coroutine/darwin.h>
+#   <coroutine/unix.h>, <coroutine/linux.h>
 #   <coroutine/pthread.h>
 #
 if(TARGET coroutine_system)
@@ -94,19 +94,23 @@ create_ctest( windows_event_wait_multiple   coroutine_system )
 create_ctest( windows_on_apc_known          coroutine_system )
 create_ctest( windows_on_apc_self           coroutine_system )
 create_ctest( windows_on_thread_pool        coroutine_system )
+
 elseif(UNIX)
 create_ctest( pthread_detach_no_spawn       coroutine_system )
-create_ctest( pthread_detach_spawn          coroutine_system )
+# create_ctest( pthread_detach_spawn          coroutine_system )
 create_ctest( pthread_join_no_spawn         coroutine_system )
 create_ctest( pthread_join_spawn_1          coroutine_system )
 create_ctest( pthread_join_spawn_2          coroutine_system )
+
 endif()
 
-if(UNIX)
+if(CMAKE_SYSTEM_NAME MATCHES Linux)
+create_ctest( linux_event_no_wait       coroutine_system )
+create_ctest( linux_event_wait          coroutine_system )
+create_ctest( linux_event_signal        coroutine_system )
+
+elseif(UNIX)
 create_ctest( unix_kqueue_single_thread  coroutine_system )
-endif()
 
-if(LINUX)
 endif()
-
 endif()

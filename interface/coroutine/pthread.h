@@ -1,5 +1,5 @@
 ﻿/**
- * @file pthread.h
+ * @file coroutine/pthread.h
  * @author github.com/luncliff (luncliff@gmail.com)
  * @copyright CC BY 4.0
  */
@@ -14,7 +14,7 @@
 #include <coroutine/frame.h>
 
 /**
- * @defgroup Thread
+ * @defgroup POSIX
  * Helpers to apply `co_await` for thread object/operations
  */
 
@@ -24,7 +24,7 @@ using namespace std::experimental;
 
 /**
  * @brief Creates a new POSIX Thread and resume the given coroutine handle on it
- * @ingroup Thread
+ * @ingroup POSIX
  */
 class pthread_spawner_t {
     /**
@@ -60,6 +60,7 @@ class pthread_spawner_t {
  * @ingroup Thread
  * @see pthread_create
  * @see pthread_attr_t
+ * @ingroup POSIX
  * 
  * The type wraps `pthread_create` function. 
  * After spawn, it contains thread id of the brand-new thread.
@@ -102,7 +103,7 @@ class pthread_spawn_promise {
 
 /**
  * @brief A proxy to `pthread_spawn_promise`
- * @ingroup Thread
+ * @ingroup POSIX
  * 
  * The type must ensure the promise contains a valid `pthread_t` when it is constructed.
  */
@@ -127,7 +128,7 @@ class pthread_knower_t {
 
 /**
  * @brief Special return type that wraps `pthread_join`
- * @ingroup Thread
+ * @ingroup POSIX
  * @see pthread_join
  */
 class pthread_joiner_t final : public pthread_knower_t {
@@ -165,7 +166,7 @@ class pthread_joiner_t final : public pthread_knower_t {
 
 /**
  * @brief Special return type that wraps `pthread_detach`
- * @ingroup Thread
+ * @ingroup POSIX
  */
 class pthread_detacher_t final : public pthread_knower_t {
   public:

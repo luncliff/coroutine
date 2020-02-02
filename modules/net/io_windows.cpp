@@ -1,9 +1,8 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include <coroutine/net.h>
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
 #include <cassert>
+#include <coroutine/net.h>
 
 using namespace std;
 using namespace gsl;

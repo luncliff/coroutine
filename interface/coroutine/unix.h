@@ -1,5 +1,5 @@
 ﻿/**
- * @file unix.h
+ * @file coroutine/unix.h
  * @author github.com/luncliff (luncliff@gmail.com)
  * @copyright CC BY 4.0
  */
@@ -13,12 +13,17 @@
 #include <gsl/gsl>
 #include <sys/event.h> // for BSD kqueue
 
+/**
+ * @defgroup BSD
+ */
+
 namespace coro {
 using namespace std;
 using namespace std::experimental;
 
 /**
  * @brief RAII wrapping for kqueue file descriptor
+ * @ingroup BSD
  */
 class kqueue_owner final {
     int64_t kqfd;

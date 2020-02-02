@@ -2,9 +2,13 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 string(TOLOWER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME)
+if(SYSTEM_NAME MATCHES android)
+    set(SYSTEM_NAME linux)
+elseif(SYSTEM_NAME MATCHES ios)
+    set(SYSTEM_NAME darwin)
+endif()
 
 add_library(coroutine_system
-    ${MODULE_INTERFACE_DIR}/coroutine/${SYSTEM_NAME}.h
     libmain.cpp
     ${SYSTEM_NAME}.cpp
 )
@@ -54,13 +58,12 @@ elseif(APPLE)
     )
     target_link_libraries(coroutine_system
     PUBLIC
-        pthread
+        pthread c++
     )
 
-else() # actually we can't sure it's a linux here ...
+elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
     target_sources(coroutine_system
     PRIVATE
-        kqueue.cpp
         pthread.cpp
     )
     if(ANDROID)

@@ -1,16 +1,54 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include <coroutine/event.h>
-#include <system_error>
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
+#include <coroutine/linux.h>
 
-#include "event_poll.h"
+#include <fcntl.h>
+#include <sys/eventfd.h>
+#include <unistd.h>
+
+using namespace std;
 
 namespace coro {
 
-// signaled event list. it's badly named to prevent possible collision
-event_poll_t selist{};
+epoll_owner::epoll_owner() noexcept(false)
+    : epfd{epoll_create1(EPOLL_CLOEXEC)} {
+    if (epfd < 0)
+        throw system_error{errno, system_category(), "epoll_create1"};
+}
+epoll_owner::~epoll_owner() noexcept {
+    close(epfd);
+}
+
+void epoll_owner::try_add(uint64_t fd, epoll_event& req) noexcept(false) {
+    int op = EPOLL_CTL_ADD, ec = 0;
+TRY_OP:
+    ec = epoll_ctl(epfd, op, fd, &req);
+    if (ec == 0)
+        return;
+    if (errno == EEXIST) {
+        op = EPOLL_CTL_MOD; // already exists. try with modification
+        goto TRY_OP;
+    }
+
+    throw system_error{errno, system_category(),
+                       "epoll_ctl(EPOLL_CTL_ADD|EPOLL_CTL_MODE)"};
+}
+
+void epoll_owner::remove(uint64_t fd) {
+    epoll_event req{}; // just prevent non-null input
+    const auto ec = epoll_ctl(epfd, EPOLL_CTL_DEL, fd, &req);
+    if (ec != 0)
+        throw system_error{errno, system_category(),
+                           "epoll_ctl(EPOLL_CTL_DEL)"};
+}
+ptrdiff_t epoll_owner::wait(uint32_t wait_ms,
+                            gsl::span<epoll_event> output) noexcept(false) {
+    auto count = epoll_wait(epfd, output.data(), output.size(), wait_ms);
+    if (count == -1)
+        throw system_error{errno, system_category(), "epoll_wait"};
+    return count;
+}
 
 //
 //  We are going to combine file descriptor and state bit
@@ -32,9 +70,11 @@ constexpr uint64_t emask = 1ULL << 63;
 bool is_signaled(uint64_t state) noexcept {
     return emask & state; // msb is 1?
 }
+
 int64_t get_eventfd(uint64_t state) noexcept {
     return static_cast<int64_t>(~emask & state);
 }
+
 void notify_event(int64_t efd) noexcept(false) {
     // signal the eventfd...
     //  the message can be any value
@@ -49,75 +89,45 @@ void consume_event(int64_t efd) noexcept(false) {
         throw system_error{errno, system_category(), "read"};
 }
 
-auto_reset_event::auto_reset_event() noexcept(false) : state{} {
+event::event() noexcept(false) : state{} {
     const auto fd = ::eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
     if (fd == -1)
         throw system_error{errno, system_category(), "eventfd"};
 
     this->state = fd; // start with unsignaled state
 }
-auto_reset_event::~auto_reset_event() noexcept {
+event::~event() noexcept {
     // if already closed, fd == 0
     if (auto fd = get_eventfd(state))
         close(fd);
 }
 
-bool auto_reset_event::is_ready() const noexcept {
+uint64_t event::fd() const noexcept {
+    return get_eventfd(state);
+}
+
+bool event::is_set() const noexcept {
     return is_signaled(state);
 }
 
-void auto_reset_event::set() noexcept(false) {
+void event::set() noexcept(false) {
     // already signaled. nothing to do...
     if (is_signaled(state))
         // !!! under the race condition, this check is not safe !!!
         return;
 
     auto fd = get_eventfd(state);
-    notify_event(fd);                             // if it didn't throwed
+    notify_event(fd);                          // if it didn't throwed
     state = emask | static_cast<uint64_t>(fd); //  it's signaled state from now
 }
 
-void auto_reset_event::reset() noexcept(false) {
+void event::reset() noexcept(false) {
     const auto fd = get_eventfd(state);
     // if already signaled. nothing to do...
     if (is_signaled(state))
         consume_event(fd);
     // make unsignaled state
     this->state = static_cast<uint64_t>(fd);
-}
-
-// Reference
-//  https://github.com/grpc/grpc/blob/master/src/core/lib/iomgr/is_epollexclusive_available.cc
-void auto_reset_event::on_suspend(coroutine_handle<void> t) noexcept(false) {
-    // just care if there was `write` for the eventfd
-    //  when it happens, coroutine handle will be forwarded by epoll
-    epoll_event req{};
-    req.events = EPOLLET | EPOLLIN | EPOLLONESHOT;
-    req.data.ptr = t.address();
-
-    // throws if `epoll_ctl` fails
-    selist.try_add(get_eventfd(state), req);
-}
-
-auto signaled_event_tasks() noexcept(false)
-    -> coro::enumerable<coroutine_handle<void>> {
-    coroutine_handle<void> t{};
-
-    // notice that the timeout is zero
-    for (auto e : selist.wait(0)) {
-
-        // see also: `notify_event`, `auto_reset_event::on_suspend`
-        // we don't care about the internal counter.
-        //  just receive the coroutine handle
-        t = coroutine_handle<void>::from_address(e.data.ptr);
-        // ensure we can resume it.
-        if (t.done())
-            // todo: check only for debug mode?
-            throw runtime_error{"coroutine_handle<void> is already done state"};
-
-        co_yield t;
-    }
-    co_return;
 }
 
 } // namespace coro
