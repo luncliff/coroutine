@@ -48,4 +48,6 @@ build_script:
   - ps: cmake --build . --target install
 
 test_script:
-  - ps: Write-Output $(ctest --output-on-failure)
+  - ps: |
+      $env:PATH="$env:INSTALL_PATH;$env:PATH"
+      Write-Output $(ctest --output-on-failure)

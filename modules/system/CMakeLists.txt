@@ -57,10 +57,9 @@ elseif(APPLE)
         pthread
     )
 
-else() # actually we can't sure it's a linux here ...
+elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
     target_sources(coroutine_system
     PRIVATE
-        kqueue.cpp
         pthread.cpp
     )
     if(ANDROID)

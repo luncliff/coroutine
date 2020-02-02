@@ -314,7 +314,7 @@ auto send_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
 auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_recv&;
 
-#if defined(__APPLE__) || defined(__UNIX__)
+#if defined(__APPLE__) || defined(__UNIX__) || defined(__linux__)
 
 /**
  * @brief Poll internal I/O works and invoke user callback

@@ -36,8 +36,8 @@ do
 done
 
 mkdir -p llvm-build && pushd llvm-build
-cmake -D LLVM_ENABLE_PROJECTS="libcxx;libcxxabi" \
-      -D CMAKE_INSTALL_PREFIX="${install_prefix}" \
+cmake -DLLVM_ENABLE_PROJECTS="libcxx;libcxxabi" \
+      -DCMAKE_INSTALL_PREFIX="${install_prefix}" \
       ../llvm
 
 # too many logs. make silent ...

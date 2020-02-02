@@ -13,12 +13,17 @@
 #include <gsl/gsl>
 #include <sys/event.h> // for BSD kqueue
 
+/**
+ * @defgroup System
+ */
+
 namespace coro {
 using namespace std;
 using namespace std::experimental;
 
 /**
  * @brief RAII wrapping for kqueue file descriptor
+ * @ingroup System
  */
 class kqueue_owner final {
     int64_t kqfd;
