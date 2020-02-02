@@ -2,14 +2,13 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(coroutine_net
-    ${MODULE_INTERFACE_DIR}/coroutine/net.h
+    # ${MODULE_INTERFACE_DIR}/coroutine/net.h
     resolver.cpp
 )
 
 set_target_properties(coroutine_net
 PROPERTIES
     CXX_STANDARD    17
-    # PUBLIC_HEADER   "${MODULE_INTERFACE_DIR}/coroutine/net.h"
     WINDOWS_EXPORT_ALL_SYMBOLS  true
 )
 

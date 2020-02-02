@@ -9,7 +9,6 @@ elseif(SYSTEM_NAME MATCHES ios)
 endif()
 
 add_library(coroutine_system
-    ${MODULE_INTERFACE_DIR}/coroutine/${SYSTEM_NAME}.h
     libmain.cpp
     ${SYSTEM_NAME}.cpp
 )
