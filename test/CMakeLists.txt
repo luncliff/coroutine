@@ -106,7 +106,7 @@ endif()
 
 if(CMAKE_SYSTEM_NAME MATCHES Linux)
 create_ctest( linux_event_no_wait       coroutine_system )
-# create_ctest( linux_event_wait          coroutine_system )
+create_ctest( linux_event_wait          coroutine_system )
 create_ctest( linux_event_signal        coroutine_system )
 
 elseif(UNIX)

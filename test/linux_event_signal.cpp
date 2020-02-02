@@ -12,7 +12,7 @@ auto mark_after_resume(epoll_owner& ep, event& event, //
     resumed = true;
 }
 
-int main(int, char*[]) {
+int main(int, char* []) {
     epoll_owner ep{};
     event e1{};
     bool resumed = false;

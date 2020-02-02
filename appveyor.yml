@@ -49,5 +49,5 @@ build_script:
 
 test_script:
   - ps: |
-      $env:PATH="$env:INSTALL_PATH;$env:PATH"
+      $env:PATH="$env:INSTALL_PATH/bin;$env:PATH"
       Write-Output $(ctest --output-on-failure)
