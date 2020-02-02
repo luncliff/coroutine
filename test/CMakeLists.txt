@@ -82,7 +82,7 @@ endif()
 
 #
 #   <coroutine/windows.h>
-#   <coroutine/unix.h>, <coroutine/darwin.h>
+#   <coroutine/unix.h>, <coroutine/linux.h>
 #   <coroutine/pthread.h>
 #
 if(TARGET coroutine_system)

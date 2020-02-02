@@ -63,9 +63,7 @@ uint32_t get_address(const addrinfo& hint, //
     addrinfo* list = nullptr;
     if (const auto ec = ::getaddrinfo(host, serv, //
                                       &hint, &list))
-        // return std::system_error{ec, system_category(), ::gai_strerror(ec)};
-        return ec;
-
+        return ec; // std::system_error{ec, system_category(), ::gai_strerror(ec)};
     auto i = 0u;
     for (auto addr : get_address(list, sockaddr_in{})) {
         output[i++] = addr;
@@ -82,7 +80,6 @@ uint32_t get_address(const addrinfo& hint, //
     if (const auto ec = ::getaddrinfo(host, serv, //
                                       &hint, &list))
         return ec;
-
     auto i = 0u;
     for (auto addr : get_address(list, sockaddr_in6{})) {
         output[i++] = addr;

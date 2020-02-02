@@ -1,5 +1,5 @@
 /**
- * @file linux.h
+ * @file coroutine/linux.h
  * @author github.com/luncliff (luncliff@gmail.com)
  * @copyright CC BY 4.0
  */
@@ -14,7 +14,7 @@
 #include <sys/epoll.h> // for Linux epoll
 
 /**
- * @defgroup System
+ * @defgroup Linux
  */
 
 namespace coro {
@@ -23,7 +23,7 @@ using namespace std::experimental;
 
 /**
  * @brief RAII wrapping for epoll file descriptor
- * @ingroup System
+ * @ingroup Linux
  */
 class epoll_owner final {
     int64_t epfd;
@@ -118,7 +118,7 @@ class epoll_owner final {
 /**
  * @brief RAII + stateful `eventfd`
  * @see https://github.com/grpc/grpc/blob/master/src/core/lib/iomgr/is_epollexclusive_available.cc
- * @ingroup System
+ * @ingroup Linux
  * 
  * If the object is signaled(`set`), 
  * the bound `epoll_owner` will yield suspended coroutine through `epoll_event`'s user data.
@@ -149,7 +149,7 @@ class event final {
  * @param efd event
  * @see event
  * @return awaitable struct for the binding
- * @ingroup System
+ * @ingroup Linux
  */
 auto wait_in(epoll_owner& ep, event& efd) {
     class awaiter : epoll_event {

@@ -9,7 +9,7 @@ add_library(coroutine_net
 set_target_properties(coroutine_net
 PROPERTIES
     CXX_STANDARD    17
-    PUBLIC_HEADER   "${MODULE_INTERFACE_DIR}/coroutine/net.h"
+    # PUBLIC_HEADER   "${MODULE_INTERFACE_DIR}/coroutine/net.h"
     WINDOWS_EXPORT_ALL_SYMBOLS  true
 )
 
@@ -97,6 +97,9 @@ elseif(UNIX) # actually we can't sure it's a linux here ...
     )
 endif()
 
+install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/net.h
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
+)
 install(TARGETS         coroutine_net
         EXPORT          coroutine-config
         INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/include

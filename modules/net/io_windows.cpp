@@ -4,7 +4,6 @@
 #include <cassert>
 #include <coroutine/net.h>
 
-
 using namespace std;
 using namespace gsl;
 
