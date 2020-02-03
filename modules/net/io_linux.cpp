@@ -1,10 +1,10 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include <coroutine/net.h>
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
+#include <chrono>
 
-#include "event_poll.h"
+#include <coroutine/linux.h>
+#include <coroutine/net.h>
 
 static_assert(sizeof(ssize_t) <= sizeof(int64_t));
 using namespace std;
@@ -12,21 +12,23 @@ using namespace std::chrono;
 
 namespace coro {
 
-event_poll_t inbound{}, outbound{};
+epoll_owner iep{}, oep{}; // inbound, outbound
 
-auto enumerate_net_tasks(nanoseconds timeout) noexcept(false)
-    -> coro::enumerable<io_task_t> {
-    const int half_time = duration_cast<milliseconds>(timeout).count() / 2;
-    io_task_t task{};
-
-    for (auto event : inbound.wait(half_time))
-        co_yield task = io_task_t::from_address(event.data.ptr);
-    for (auto event : outbound.wait(half_time))
-        co_yield task = io_task_t::from_address(event.data.ptr);
-}
-void wait_net_tasks(coro::enumerable<io_task_t>& tasks,
-                    std::chrono::nanoseconds timeout) noexcept(false) {
-    tasks = enumerate_net_tasks(timeout);
+void poll_net_tasks(uint64_t nano) noexcept(false) {
+    const auto half_time = duration_cast<milliseconds>(nanoseconds{nano} / 2);
+    // event buffer for this poll
+    constexpr auto buf_sz = 30u;
+    auto buf = make_unique<epoll_event[]>(buf_sz);
+    // resume inbound coroutines
+    auto count = iep.wait(half_time.count(), {buf.get(), buf_sz});
+    for (auto i = 0u; i < count; ++i)
+        if (auto coro = coroutine_handle<void>::from_address(buf[i].data.ptr))
+            coro.resume();
+    // resume outbound coroutines
+    count = oep.wait(half_time.count(), {buf.get(), buf_sz});
+    for (auto i = 0u; i < count; ++i)
+        if (auto coro = coroutine_handle<void>::from_address(buf[i].data.ptr))
+            coro.resume();
 }
 
 bool io_work_t::ready() const noexcept {
@@ -35,7 +37,6 @@ bool io_work_t::ready() const noexcept {
     // going to suspend
     if (fcntl(sd, F_GETFL, 0) & O_NONBLOCK)
         return false;
-
     // not configured. return true
     // and bypass to the blocking I/O
     return true;
@@ -44,8 +45,6 @@ bool io_work_t::ready() const noexcept {
 uint32_t io_work_t::error() const noexcept {
     return gsl::narrow_cast<uint32_t>(this->internal);
 }
-
-// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
 auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buffer,
              io_work_t& work) noexcept(false) -> io_send_to& {
@@ -65,16 +64,16 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, io_buffer_t buffer,
     return *reinterpret_cast<io_send_to*>(addressof(work));
 }
 
-void io_send_to::suspend(io_task_t rh) noexcept(false) {
+void io_send_to::suspend(coroutine_handle<void> coro) noexcept(false) {
     auto sd = this->handle;
     auto& errc = this->internal;
     errc = 0;
 
     epoll_event req{};
     req.events = EPOLLOUT | EPOLLONESHOT | EPOLLET;
-    req.data.ptr = rh.address();
+    req.data.ptr = coro.address();
 
-    outbound.try_add(sd, req); // throws if epoll_ctl fails
+    oep.try_add(sd, req); // throws if epoll_ctl fails
 }
 
 int64_t io_send_to::resume() noexcept {
@@ -88,8 +87,6 @@ int64_t io_send_to::resume() noexcept {
     errc = sz < 0 ? errno : 0;
     return sz;
 }
-
-// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
 auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buffer,
                io_work_t& work) noexcept(false) -> io_recv_from& {
@@ -109,16 +106,16 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buffer,
     return *reinterpret_cast<io_recv_from*>(addressof(work));
 }
 
-void io_recv_from::suspend(io_task_t rh) noexcept(false) {
+void io_recv_from::suspend(coroutine_handle<void> coro) noexcept(false) {
     auto sd = this->handle;
     auto& errc = this->internal;
     errc = 0;
 
     epoll_event req{};
     req.events = EPOLLIN | EPOLLONESHOT | EPOLLET;
-    req.data.ptr = rh.address();
+    req.data.ptr = coro.address();
 
-    inbound.try_add(sd, req); // throws if epoll_ctl fails
+    iep.try_add(sd, req); // throws if epoll_ctl fails
 }
 
 int64_t io_recv_from::resume() noexcept {
@@ -133,8 +130,6 @@ int64_t io_recv_from::resume() noexcept {
     return sz;
 }
 
-// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-
 auto send_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_send& {
     static_assert(sizeof(socklen_t) == sizeof(uint32_t));
@@ -144,16 +139,16 @@ auto send_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
     return *reinterpret_cast<io_send*>(addressof(work));
 }
 
-void io_send::suspend(io_task_t rh) noexcept(false) {
+void io_send::suspend(coroutine_handle<void> coro) noexcept(false) {
     auto sd = this->handle;
     auto& errc = this->internal;
     errc = 0;
 
     epoll_event req{};
     req.events = EPOLLOUT | EPOLLONESHOT | EPOLLET;
-    req.data.ptr = rh.address();
+    req.data.ptr = coro.address();
 
-    outbound.try_add(sd, req); // throws if epoll_ctl fails
+    oep.try_add(sd, req); // throws if epoll_ctl fails
 }
 
 int64_t io_send::resume() noexcept {
@@ -166,8 +161,6 @@ int64_t io_send::resume() noexcept {
     return sz;
 }
 
-// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-
 auto recv_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_recv& {
     static_assert(sizeof(socklen_t) == sizeof(uint32_t));
@@ -177,16 +170,16 @@ auto recv_stream(uint64_t sd, io_buffer_t buffer, uint32_t flag,
     return *reinterpret_cast<io_recv*>(addressof(work));
 }
 
-void io_recv::suspend(io_task_t rh) noexcept(false) {
+void io_recv::suspend(coroutine_handle<void> coro) noexcept(false) {
     auto sd = this->handle;
     auto& errc = this->internal;
     errc = 0;
 
     epoll_event req{};
     req.events = EPOLLIN | EPOLLONESHOT | EPOLLET;
-    req.data.ptr = rh.address();
+    req.data.ptr = coro.address();
 
-    inbound.try_add(sd, req);
+    iep.try_add(sd, req);
 }
 
 int64_t io_recv::resume() noexcept {

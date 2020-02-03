@@ -13,6 +13,11 @@
 
 #include <coroutine/frame.h>
 
+/**
+ * @defgroup Return
+ * Types for easier coroutine promise/return type definition.
+ */
+
 namespace coro {
 #if __has_include(<coroutine>) // C++ 20
 using namespace std;
@@ -21,58 +26,101 @@ using namespace std;
 using namespace std::experimental;
 #endif
 
+/**
+ * @ingroup Return
+ */
 class promise_nn {
   public:
-    auto initial_suspend() noexcept {
-        return suspend_never{}; // no suspend after invoke
+    /**
+     * @brief no suspend after invoke
+     * @return suspend_never 
+     */
+    suspend_never initial_suspend() noexcept {
+        return {};
     }
-    auto final_suspend() noexcept {
-        return suspend_never{}; // no suspend after return
-    }
-};
-
-class promise_na {
-  public:
-    auto initial_suspend() noexcept {
-        return suspend_never{}; // no suspend after invoke
-    }
-    auto final_suspend() noexcept {
-        return suspend_always{}; // suspend after return
-    }
-};
-
-class promise_an {
-  public:
-    auto initial_suspend() noexcept {
-        return suspend_always{}; // suspend after invoke
-    }
-    auto final_suspend() noexcept {
-        return suspend_never{}; // no suspend after return
-    }
-};
-
-class promise_aa {
-  public:
-    auto initial_suspend() noexcept {
-        return suspend_always{}; // suspend after invoke
-    }
-    auto final_suspend() noexcept {
-        return suspend_always{}; // suspend after return
+    /**
+     * @brief destroy coroutine frame after return
+     * @return suspend_never 
+     */
+    suspend_never final_suspend() noexcept {
+        return {};
     }
 };
 
 /**
- * @brief A type to acquire `coroutine_handle<void>` from anonymous
- * coroutine's return
+ * @ingroup Return
+ */
+class promise_na {
+  public:
+    /**
+     * @brief no suspend after invoke
+     * @return suspend_never 
+     */
+    suspend_never initial_suspend() noexcept {
+        return {};
+    }
+    /**
+     * @brief suspend after return
+     * @return suspend_always 
+     */
+    suspend_always final_suspend() noexcept {
+        return {};
+    }
+};
+
+/**
+ * @ingroup Return
+ */
+class promise_an {
+  public:
+    /**
+     * @brief suspend after invoke
+     * @return suspend_always 
+     */
+    suspend_always initial_suspend() noexcept {
+        return {};
+    }
+    /**
+     * @brief destroy coroutine frame after return
+     * @return suspend_never 
+     */
+    suspend_never final_suspend() noexcept {
+        return {};
+    }
+};
+
+/**
+ * @ingroup Return
+ */
+class promise_aa {
+  public:
+    /**
+     * @brief suspend after invoke
+     * @return suspend_always 
+     */
+    suspend_always initial_suspend() noexcept {
+        return {};
+    }
+    /**
+     * @brief suspend after return
+     * @return suspend_always 
+     */
+    suspend_always final_suspend() noexcept {
+        return {};
+    }
+};
+
+/**
+ * @brief A type to acquire `coroutine_handle<void>` from anonymous coroutine's return
+ * @ingroup Return
  * @see coroutine_handle<void>
  */
 class frame_t final : public coroutine_handle<void> {
   public:
-    class promise_type final : public coro::promise_aa {
+    class promise_type final : public coro::promise_na {
       public:
         /**
-         * @brief The coroutine with the `frame_t` will do nothing for exception
-         * handling
+         * @brief The `frame_t` will do nothing for exception handling
          */
         void unhandled_exception() noexcept(false) {
             throw;
@@ -82,7 +130,11 @@ class frame_t final : public coroutine_handle<void> {
          */
         void return_void() noexcept {
         }
-        auto get_return_object() noexcept {
+        /**
+         * @brief Acquire `coroutine_handle<void>` from current promise and return it
+         * @return frame_t 
+         */
+        frame_t get_return_object() noexcept {
             frame_t frame{};
             coroutine_handle<void>& ref = frame;
             ref = coroutine_handle<promise_type>::from_promise(*this);

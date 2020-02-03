@@ -2,10 +2,9 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(coroutine_net
-    ${MODULE_INTERFACE_DIR}/coroutine/net.h
+    # ${MODULE_INTERFACE_DIR}/coroutine/net.h
     resolver.cpp
 )
-add_library(coro::net ALIAS coroutine_net)
 
 set_target_properties(coroutine_net
 PROPERTIES
@@ -14,65 +13,66 @@ PROPERTIES
 )
 
 target_include_directories(coroutine_net
-PUBLIC
+PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+PUBLIC
+    $<BUILD_INTERFACE:${MODULE_INTERFACE_DIR}>
+    $<BUILD_INTERFACE:${GSL_INCLUDE_DIR}>
 )
 
 target_link_libraries(coroutine_net
 PUBLIC
-    coro::event
+    coroutine_portable
+    coroutine_system
 PRIVATE
     ${CMAKE_DL_LIBS}
 )
 
-if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(coroutine_net
-    PUBLIC
-        FORCE_STATIC_LINK
-    )
-endif()
+# if(NOT BUILD_SHARED_LIBS)
+#     target_compile_definitions(coroutine_net
+#     PUBLIC
+#         FORCE_STATIC_LINK
+#     )
+# endif()
 
-if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
-
-    target_compile_options(coroutine_net
-    PRIVATE
-        -Wall
-        -Wno-unused-private-field
-        -Wno-unused-function
-        -Wno-c++98-compat
-        -Wno-reserved-id-macro
-        -Wno-missing-prototypes
-        -ferror-limit=5
-    )
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
     if(WIN32)
-        if(BUILD_SHARED_LIBS)
-            target_compile_definitions(coroutine_net
-            PRIVATE
-                _WINDLL
-            )
-        endif()
-    elseif(UNIX)
         target_compile_options(coroutine_net
         PUBLIC
-            -fPIC
-        PRIVATE
-            -fno-rtti -fvisibility=hidden
+            /std:c++latest
+            -fms-compatibility -Xclang -fcoroutines-ts
+        )
+        # in this case, we always use portable header
+        set_target_properties(coroutine_net
+        PROPERTIES
+            PUBLIC_COMPILE_DEFINITIONS "USE_PORTABLE_COROUTINE_HANDLE;_RESUMABLE_FUNCTIONS_SUPPORTED"
+        )
+        
+    elseif(UNIX OR APPLE)
+        target_compile_options(coroutine_net
+        PUBLIC
+            -std=c++2a -stdlib=libc++
+            -fcoroutines-ts
         )
     endif()
-elseif(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+
+elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     target_compile_options(coroutine_net
     PUBLIC
-        -fPIC
-    PRIVATE
-        -Wall -Wno-unknown-pragmas
-        -fno-rtti -fvisibility=hidden
-        # -fno-exceptions
+        -std=gnu++2a
+        -fcoroutines -fconcepts # -fno-exceptions
     )
+
 elseif(MSVC)
-    target_compile_options(coroutine_net
-    PRIVATE
-        /W4
+    set_target_properties(coroutine_net
+    PROPERTIES
+        INTERFACE_LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
     )
+    target_compile_options(coroutine_net
+    PUBLIC
+        /std:c++latest /await
+    )
+
 endif()
 
 if(WIN32)
@@ -95,27 +95,13 @@ elseif(UNIX) # actually we can't sure it's a linux here ...
         io_linux.cpp
     )
 endif()
-if(NOT MSVC)
-    if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-        # code coverage option can lead to compiler crash
-        # list(APPEND CMAKE_CXX_FLAGS "--coverage")
-        target_compile_options(coroutine_event
-        PRIVATE
-            -g -O0
-        )
-    else()
-        target_compile_options(coroutine_event
-        PRIVATE
-            -O3
-        )
-    endif()
-endif()
 
 install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/net.h
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
 )
 install(TARGETS         coroutine_net
         EXPORT          coroutine-config
+        INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/include
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
