@@ -39,16 +39,15 @@ using namespace std::experimental;
  */
 class set_or_cancel final {
     /** @brief object for wait register/unregister */
-    void* hobject;
+    HANDLE hobject;
 
+  public:
+    explicit set_or_cancel(HANDLE target) noexcept(false);
+    ~set_or_cancel() noexcept = default;
     set_or_cancel(const set_or_cancel&) = delete;
     set_or_cancel(set_or_cancel&&) = delete;
     set_or_cancel& operator=(const set_or_cancel&) = delete;
     set_or_cancel& operator=(set_or_cancel&&) = delete;
-
-  public:
-    explicit set_or_cancel(void* target) noexcept(false);
-    ~set_or_cancel() noexcept;
 
   private:
     /**

@@ -20,18 +20,23 @@ int main(int, char*[]) {
     HANDLE e = CreateEventEx(nullptr, nullptr, //
                              CREATE_EVENT_MANUAL_RESET, EVENT_ALL_ACCESS);
     assert(e != NULL);
-    auto on_return = gsl::finally([e]() { CloseHandle(e); });
+    auto on_return_1 = gsl::finally([e]() { CloseHandle(e); });
 
     ResetEvent(e);
     set_or_cancel evt{e};
     atomic_flag flag = ATOMIC_FLAG_INIT;
 
-    wait_an_event(evt, flag);
-    evt.unregister(); // cancel
+    auto frame = wait_an_event(evt, flag);
+    auto on_return_2 = gsl::finally([&frame]() { frame.destroy(); });
+    // cancel by unregister
+    if (auto ec = evt.unregister()) {
+        cerr << system_category().message(ec) << endl;
+        return __LINE__;
+    }
 
-    SleepEx(30, true); // give time to windows threads
-    assert(flag.test_and_set() == false);
-    return EXIT_SUCCESS;
+    // give time to windows threads
+    SleepEx(300, true);
+    return flag.test_and_set() == true ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
 auto wait_an_event(set_or_cancel& evt, atomic_flag& flag) -> frame_t {
