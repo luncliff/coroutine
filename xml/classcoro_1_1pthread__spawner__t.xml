@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classcoro_1_1pthread__spawner__t" kind="class" language="C++" prot="public">
+    <compoundname>coro::pthread_spawner_t</compoundname>
+    <includes refid="pthread_8h" local="no">pthread.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcoro_1_1pthread__spawner__t_1a119b581b5698d6ca4e2f0ddcf15d3879" prot="private" static="no" mutable="no">
+        <type>pthread_t *const</type>
+        <definition>pthread_t* const coro::pthread_spawner_t::tid</definition>
+        <argsstring></argsstring>
+        <name>tid</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="54" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcoro_1_1pthread__spawner__t_1ac32403f8e855248a85e755f8281c9063" prot="private" static="no" mutable="no">
+        <type>const pthread_attr_t *const</type>
+        <definition>const pthread_attr_t* const coro::pthread_spawner_t::attr</definition>
+        <argsstring></argsstring>
+        <name>attr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="55" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcoro_1_1pthread__spawner__t_1a7585dddc4f38de3cfe260072417bf031" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::pthread_spawner_t::resume_on_pthread</definition>
+        <argsstring>(coroutine_handle&lt; void &gt; coro) noexcept(false)</argsstring>
+        <name>resume_on_pthread</name>
+        <param>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>coro</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>pthread_create </para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coro</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="34" column="1" bodyfile="modules/system/pthread.cpp" bodystart="17" bodyend="22"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classcoro_1_1pthread__spawner__t_1a47e728424d660adf0f7fb20c0a43689b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * coro::pthread_spawner_t::pthread_resume</definition>
+        <argsstring>(void *ptr) noexcept(false)</argsstring>
+        <name>pthread_resume</name>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="35" column="1" bodyfile="modules/system/pthread.cpp" bodystart="8" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1pthread__spawner__t_1a4ee741fb2766f25431d126f1cfeb7885" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool coro::pthread_spawner_t::await_ready</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>await_ready</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="38" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__spawner__t_1acf585fcfa935b93cb986e0b80d50b40d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void coro::pthread_spawner_t::await_resume</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>await_resume</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="41" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="41" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__spawner__t_1a8b97fcba3db84ca8d0a40ccf0365b866" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::pthread_spawner_t::await_suspend</definition>
+        <argsstring>(coroutine_handle&lt; void &gt; coro) noexcept(false)</argsstring>
+        <name>await_suspend</name>
+        <param>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>coro</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="43" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__spawner__t_1a306dbbd45c626e96d0a462471bb7b598" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_spawner_t::pthread_spawner_t</definition>
+        <argsstring>(pthread_t *_tid, const pthread_attr_t *_attr)</argsstring>
+        <name>pthread_spawner_t</name>
+        <param>
+          <type>pthread_t *</type>
+          <declname>_tid</declname>
+        </param>
+        <param>
+          <type>const pthread_attr_t *</type>
+          <declname>_attr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="48" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__spawner__t_1a1e11f1731604c4d4584d1a870c6810a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_spawner_t::~pthread_spawner_t</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~pthread_spawner_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="51" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Creates a new POSIX Thread and resume the given coroutine handle on it. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/pthread.h" line="29" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="29" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1pthread__spawner__t_1ac32403f8e855248a85e755f8281c9063" prot="private" virt="non-virtual"><scope>coro::pthread_spawner_t</scope><name>attr</name></member>
+      <member refid="classcoro_1_1pthread__spawner__t_1a4ee741fb2766f25431d126f1cfeb7885" prot="public" virt="non-virtual"><scope>coro::pthread_spawner_t</scope><name>await_ready</name></member>
+      <member refid="classcoro_1_1pthread__spawner__t_1acf585fcfa935b93cb986e0b80d50b40d" prot="public" virt="non-virtual"><scope>coro::pthread_spawner_t</scope><name>await_resume</name></member>
+      <member refid="classcoro_1_1pthread__spawner__t_1a8b97fcba3db84ca8d0a40ccf0365b866" prot="public" virt="non-virtual"><scope>coro::pthread_spawner_t</scope><name>await_suspend</name></member>
+      <member refid="classcoro_1_1pthread__spawner__t_1a47e728424d660adf0f7fb20c0a43689b" prot="private" virt="non-virtual"><scope>coro::pthread_spawner_t</scope><name>pthread_resume</name></member>
+      <member refid="classcoro_1_1pthread__spawner__t_1a306dbbd45c626e96d0a462471bb7b598" prot="public" virt="non-virtual"><scope>coro::pthread_spawner_t</scope><name>pthread_spawner_t</name></member>
+      <member refid="classcoro_1_1pthread__spawner__t_1a7585dddc4f38de3cfe260072417bf031" prot="private" virt="non-virtual"><scope>coro::pthread_spawner_t</scope><name>resume_on_pthread</name></member>
+      <member refid="classcoro_1_1pthread__spawner__t_1a119b581b5698d6ca4e2f0ddcf15d3879" prot="private" virt="non-virtual"><scope>coro::pthread_spawner_t</scope><name>tid</name></member>
+      <member refid="classcoro_1_1pthread__spawner__t_1a1e11f1731604c4d4584d1a870c6810a8" prot="public" virt="non-virtual"><scope>coro::pthread_spawner_t</scope><name>~pthread_spawner_t</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

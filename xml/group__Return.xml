@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="group__Return" kind="group">
+    <compoundname>Return</compoundname>
+    <title>Return</title>
+    <innerclass refid="classcoro_1_1promise__nn" prot="public">coro::promise_nn</innerclass>
+    <innerclass refid="classcoro_1_1promise__na" prot="public">coro::promise_na</innerclass>
+    <innerclass refid="classcoro_1_1promise__an" prot="public">coro::promise_an</innerclass>
+    <innerclass refid="classcoro_1_1promise__aa" prot="public">coro::promise_aa</innerclass>
+    <innerclass refid="classcoro_1_1frame__t" prot="public">coro::frame_t</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Types for easier coroutine promise/return type definition. </para>    </detaileddescription>
+  </compounddef>
+</doxygen>

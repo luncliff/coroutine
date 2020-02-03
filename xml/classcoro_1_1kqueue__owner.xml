@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classcoro_1_1kqueue__owner" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::kqueue_owner</compoundname>
+    <includes refid="unix_8h" local="no">unix.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcoro_1_1kqueue__owner_1a55ece6a7097da60f3f404bffcb6c6ea1" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t coro::kqueue_owner::kqfd</definition>
+        <argsstring></argsstring>
+        <name>kqfd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/unix.h" line="29" column="1" bodyfile="interface/coroutine/unix.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1kqueue__owner_1ad10972af514d58a9281bb582309e8f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::kqueue_owner::kqueue_owner</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>kqueue_owner</name>
+        <briefdescription>
+<para>create a fd with <computeroutput>kqueue</computeroutput>. Throw if the function fails. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>kqeueue </para></simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/unix.h" line="37" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="10" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1kqueue__owner_1a3258d491f1ca307d04fcee5a86afb5c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::kqueue_owner::~kqueue_owner</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~kqueue_owner</name>
+        <briefdescription>
+<para>close the current kqueue file descriptor </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/unix.h" line="41" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="14" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1kqueue__owner_1ac333e577487ba730c11eedef2d98b7a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::kqueue_owner::kqueue_owner</definition>
+        <argsstring>(const kqueue_owner &amp;)=delete</argsstring>
+        <name>kqueue_owner</name>
+        <param>
+          <type>const <ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/unix.h" line="42" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1kqueue__owner_1afdf6feb6968115750e9e6e67bbea2b9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::kqueue_owner::kqueue_owner</definition>
+        <argsstring>(kqueue_owner &amp;&amp;)=delete</argsstring>
+        <name>kqueue_owner</name>
+        <param>
+          <type><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/unix.h" line="43" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1kqueue__owner_1a33144db610e6bd5271b216c1f382929a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref> &amp;</type>
+        <definition>kqueue_owner&amp; coro::kqueue_owner::operator=</definition>
+        <argsstring>(const kqueue_owner &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/unix.h" line="44" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1kqueue__owner_1af52d8e10a7b4204657caa702d457e9f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref> &amp;</type>
+        <definition>kqueue_owner&amp; coro::kqueue_owner::operator=</definition>
+        <argsstring>(kqueue_owner &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/unix.h" line="45" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1kqueue__owner_1a46a9fe17102de32beb90777d4f17d1f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::kqueue_owner::change</definition>
+        <argsstring>(kevent64_s &amp;req) noexcept(false)</argsstring>
+        <name>change</name>
+        <param>
+          <type>kevent64_s &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>bind the event to kqueue </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para>kevent64 </para></simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The function is named <computeroutput>change</computeroutput> because the given argument is used for &apos;change list&apos; fo <computeroutput>kqueue64</computeroutput> </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/unix.h" line="57" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="18" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1kqueue__owner_1aa7584b447fcb9a7382516302b9fadbb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ptrdiff_t</type>
+        <definition>ptrdiff_t coro::kqueue_owner::events</definition>
+        <argsstring>(const timespec &amp;wait_time, gsl::span&lt; kevent64_s &gt; list) noexcept(false)</argsstring>
+        <name>events</name>
+        <param>
+          <type>const timespec &amp;</type>
+          <declname>wait_time</declname>
+        </param>
+        <param>
+          <type>gsl::span&lt; kevent64_s &gt;</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>fetch all events for the given kqeueue descriptor </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wait_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>ptrdiff_t </para></simplesect>
+<simplesect kind="see"><para>kevent64 </para></simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The function is named <computeroutput>events</computeroutput> because the given argument is used for &apos;event list&apos; fo <computeroutput>kqueue64</computeroutput></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+Timeout is not an error for this function </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/unix.h" line="72" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="25" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1kqueue__owner_1a85b1325589038239515769ec24226c06" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::kqueue_owner::submit</definition>
+        <argsstring>(kevent64_s &amp;req) noexcept</argsstring>
+        <name>submit</name>
+        <param>
+          <type>kevent64_s &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>return temporary awaitable object for given event </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input for <computeroutput>change</computeroutput> operation </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ref refid="classcoro_1_1kqueue__owner_1a46a9fe17102de32beb90777d4f17d1f7" kindref="member">change</ref></para></simplesect>
+There is no guarantee of reusage of returned awaiter object When it is awaited, and <computeroutput>req.udata</computeroutput> is null(0), the value is set to <computeroutput>coroutine_handle&lt;void&gt;</computeroutput></para><para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>read_async(<ref refid="classcoro_1_1kqueue__owner_1ad10972af514d58a9281bb582309e8f93" kindref="member">kqueue_owner</ref>&amp;<sp/>kq,<sp/>uint64_t<sp/>fd)<sp/>-&gt;<sp/>frame_t<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>kevent64_s<sp/>req{.ident<sp/>=<sp/>fd,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.filter<sp/>=<sp/>EVFILT_READ,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.flags<sp/>=<sp/>EV_ADD<sp/>|<sp/>EV_ENABLE<sp/>|<sp/>EV_ONESHOT};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>co_await<sp/>kq.submit(req);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>co_await<sp/>kq.submit(req);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/unix.h" line="97" column="1" bodyfile="interface/coroutine/unix.h" bodystart="97" bodyend="115"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>RAII wrapping for kqueue file descriptor. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/unix.h" line="28" column="1" bodyfile="interface/coroutine/unix.h" bodystart="28" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1kqueue__owner_1a46a9fe17102de32beb90777d4f17d1f7" prot="public" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>change</name></member>
+      <member refid="classcoro_1_1kqueue__owner_1aa7584b447fcb9a7382516302b9fadbb8" prot="public" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>events</name></member>
+      <member refid="classcoro_1_1kqueue__owner_1a55ece6a7097da60f3f404bffcb6c6ea1" prot="private" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>kqfd</name></member>
+      <member refid="classcoro_1_1kqueue__owner_1ad10972af514d58a9281bb582309e8f93" prot="public" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>kqueue_owner</name></member>
+      <member refid="classcoro_1_1kqueue__owner_1ac333e577487ba730c11eedef2d98b7a8" prot="public" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>kqueue_owner</name></member>
+      <member refid="classcoro_1_1kqueue__owner_1afdf6feb6968115750e9e6e67bbea2b9a" prot="public" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>kqueue_owner</name></member>
+      <member refid="classcoro_1_1kqueue__owner_1a33144db610e6bd5271b216c1f382929a" prot="public" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1kqueue__owner_1af52d8e10a7b4204657caa702d457e9f4" prot="public" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1kqueue__owner_1a85b1325589038239515769ec24226c06" prot="public" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>submit</name></member>
+      <member refid="classcoro_1_1kqueue__owner_1a3258d491f1ca307d04fcee5a86afb5c6" prot="public" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>~kqueue_owner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

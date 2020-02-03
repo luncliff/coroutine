@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -484,75 +496,80 @@
 <p>This inheritance list is sorted roughly, but not completely, alphabetically:</p>
 <ul>
 <li><strong>class</strong> <a href="../classcoro_1_1internal_1_1list/"><strong>coro::internal::list</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1continue__on__apc/"><strong>coro::continue_on_apc</strong></a> <em>Move into the designated thread's APC queue and continue the routine.</em> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1continue__on__thread__pool/"><strong>coro::continue_on_thread_pool</strong></a> <em>Move into the win32 thread pool and continue the routine.</em> </li>
 <li><strong>class</strong> <a href="../classcoro_1_1enumerable/"><strong>coro::enumerable</strong></a> </li>
 <li><strong>class</strong> <a href="../classcoro_1_1enumerable_1_1iterator/"><strong>coro::enumerable::iterator</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1promise__aa/"><strong>coro::promise_aa</strong></a>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1enumerable_1_1promise__type/"><strong>coro::enumerable::promise_type</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1epoll__owner/"><strong>coro::epoll_owner</strong></a> <em>RAII wrapping for epoll file descriptor.</em> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1event/"><strong>coro::event</strong></a> <em>RAII + stateful</em> <code>eventfd</code> __</li>
 <li><strong>class</strong> <a href="../classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4/"><strong>std::experimental::coroutine_handle&lt; void &gt;</strong></a>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1frame__t/"><strong>coro::frame_t</strong></a> <em>A type to acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from anonymous coroutine's return.</em></li>
 <li><strong>class</strong> <a href="../classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4/"><strong>std::experimental::coroutine_handle&lt; noop_coroutine_promise &gt;</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1promise__aa/"><strong>coro::promise_aa</strong></a>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1promise__na/"><strong>coro::promise_na</strong></a>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1frame__t_1_1promise__type/"><strong>coro::frame_t::promise_type</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1kqueue__owner/"><strong>coro::kqueue_owner</strong></a> <em>RAII wrapping for kqueue file descriptor.</em> </li>
 <li><strong>class</strong> <a href="../classcoro_1_1reader/"><strong>coro::reader</strong></a>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1peeker/"><strong>coro::peeker</strong></a> </li>
 <li><strong>class</strong> <a href="../classcoro_1_1promise__an/"><strong>coro::promise_an</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1promise__na/"><strong>coro::promise_na</strong></a> </li>
 <li><strong>class</strong> <a href="../classcoro_1_1promise__nn/"><strong>coro::promise_nn</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__knower__t/"><strong>coro::pthread_knower_t</strong></a> <em>A proxy to</em> <code>pthread_spawn_promise</code> <em>The type must ensure the promise contains a valid</em> <code>pthread_t</code> <em>when it is constructed.</em>  </li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__detacher__t/"><strong>coro::pthread_detacher_t</strong></a> <em>Special return type that wraps</em> <code>pthread_detach</code> __</li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__joiner__t/"><strong>coro::pthread_joiner_t</strong></a> <em>Special return type that wraps</em> <code>pthread_join</code> __</li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__spawn__promise/"><strong>coro::pthread_spawn_promise</strong></a> <em>allows</em> <code>pthread_attr_t*</code> <em>for</em><code>co_await</code> <em>operator</em>  </li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__detacher__t_1_1promise__type/"><strong>coro::pthread_detacher_t::promise_type</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__joiner__t_1_1promise__type/"><strong>coro::pthread_joiner_t::promise_type</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__spawner__t/"><strong>coro::pthread_spawner_t</strong></a> <em>Creates a new POSIX Thread and resume the given coroutine handle on it.</em> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1set__or__cancel/"><strong>coro::set_or_cancel</strong></a> <em>Awaitable event type over Win32 thread pool</em>  <em>Its object can be</em> <code>co_await</code> <em>ed only once. The purpose of such design is to encourage use of short functions rather than containing multiple objects in the function's body.</em></li>
 <li><strong>class</strong> <a href="../classcoro_1_1writer/"><strong>coro::writer</strong></a> </li>
 <li><strong>class</strong> <a href="../classstd_1_1experimental_1_1coroutine__handle/"><strong>std::experimental::coroutine_handle</strong></a> </li>
 <li><strong>class</strong> <a href="../classstd_1_1experimental_1_1suspend__always/"><strong>std::experimental::suspend_always</strong></a> </li>
 <li><strong>class</strong> <a href="../classstd_1_1experimental_1_1suspend__never/"><strong>std::experimental::suspend_never</strong></a> </li>
-<li><strong>struct</strong> <a href="../structCustomPtr/"><strong>CustomPtr</strong></a> </li>
-<li><strong>struct</strong> <a href="../structMyBase/"><strong>MyBase</strong></a>   </li>
-<li><strong>struct</strong> <a href="../structMyDerived/"><strong>MyDerived</strong></a> </li>
-<li><strong>struct</strong> <a href="../structNonCopyableNonMovable/"><strong>NonCopyableNonMovable</strong></a> </li>
-<li><strong>struct</strong> <a href="../structRefCounted/"><strong>RefCounted</strong></a> </li>
-<li><strong>struct</strong> <a href="../structUnrelated/"><strong>Unrelated</strong></a> </li>
 <li><strong>struct</strong> <a href="../structclang__frame__prefix/"><strong>clang_frame_prefix</strong></a> </li>
 <li><strong>struct</strong> <a href="../structcoro_1_1bypass__lock/"><strong>coro::bypass_lock</strong></a> </li>
-<li><strong>struct</strong> <a href="../structcoro_1_1darwin__event/"><strong>coro::darwin_event</strong></a> </li>
-<li><strong>struct</strong> <a href="../structcoro_1_1event__poll__t/"><strong>coro::event_poll_t</strong></a> </li>
-<li><strong>struct</strong> <a href="../structcoro_1_1kernel__queue__t/"><strong>coro::kernel_queue_t</strong></a> </li>
 <li><strong>struct</strong> <a href="../structgcc__frame__prefix/"><strong>gcc_frame_prefix</strong></a> </li>
 <li><strong>struct</strong> <a href="../structmsvc__frame__prefix/"><strong>msvc_frame_prefix</strong></a> </li>
 <li><strong>struct</strong> <a href="../structstd_1_1experimental_1_1coroutine__traits/"><strong>std::experimental::coroutine_traits</strong></a> </li>
 <li><strong>struct</strong> <a href="../structstd_1_1experimental_1_1noop__coroutine__promise/"><strong>std::experimental::noop_coroutine_promise</strong></a> </li>
-<li><strong>class</strong> <strong>promise_manual_control</strong>  </li>
-<li><strong>class</strong> <a href="../classcoro_1_1enumerable_1_1promise__type/"><strong>coro::enumerable::promise_type</strong></a> </li>
 <li><strong>class</strong> <strong>io_control_block</strong>  </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a>   <ul>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>coro::io_recv</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>coro::io_recv_from</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>coro::io_send</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>coro::io_send_to</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a> <em>A struct to describe "1 I/O request" to system API.</em>  <em>When I/O request is submitted, an I/O task becomes 1 coroutine handle.</em>   <ul>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>coro::io_recv</strong></a> <em>Awaitable type to perform</em> <code>recv</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>coro::io_recv_from</strong></a> <em>Awaitable type to perform</em> <code>recvfrom</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>coro::io_send</strong></a> <em>Awaitable type to perform</em> <code>send</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>coro::io_send_to</strong></a> <em>Awaitable type to perform</em> <code>sendto</code> <em>I/O request.</em></li>
 </ul>
 </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a>   <ul>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>coro::io_recv</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>coro::io_recv_from</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>coro::io_send</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>coro::io_send_to</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a> <em>A struct to describe "1 I/O request" to system API.</em>  <em>When I/O request is submitted, an I/O task becomes 1 coroutine handle.</em>   <ul>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>coro::io_recv</strong></a> <em>Awaitable type to perform</em> <code>recv</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>coro::io_recv_from</strong></a> <em>Awaitable type to perform</em> <code>recvfrom</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>coro::io_send</strong></a> <em>Awaitable type to perform</em> <code>send</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>coro::io_send_to</strong></a> <em>Awaitable type to perform</em> <code>sendto</code> <em>I/O request.</em></li>
 </ul>
 </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a>   <ul>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>coro::io_recv</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>coro::io_recv_from</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>coro::io_send</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>coro::io_send_to</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a> <em>A struct to describe "1 I/O request" to system API.</em>  <em>When I/O request is submitted, an I/O task becomes 1 coroutine handle.</em>   <ul>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>coro::io_recv</strong></a> <em>Awaitable type to perform</em> <code>recv</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>coro::io_recv_from</strong></a> <em>Awaitable type to perform</em> <code>recvfrom</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>coro::io_send</strong></a> <em>Awaitable type to perform</em> <code>send</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>coro::io_send_to</strong></a> <em>Awaitable type to perform</em> <code>sendto</code> <em>I/O request.</em></li>
 </ul>
 </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a>   <ul>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>coro::io_recv</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>coro::io_recv_from</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>coro::io_send</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>coro::io_send_to</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a> <em>A struct to describe "1 I/O request" to system API.</em>  <em>When I/O request is submitted, an I/O task becomes 1 coroutine handle.</em>   <ul>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>coro::io_recv</strong></a> <em>Awaitable type to perform</em> <code>recv</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>coro::io_recv_from</strong></a> <em>Awaitable type to perform</em> <code>recvfrom</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>coro::io_send</strong></a> <em>Awaitable type to perform</em> <code>send</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>coro::io_send_to</strong></a> <em>Awaitable type to perform</em> <code>sendto</code> <em>I/O request.</em></li>
 </ul>
 </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a>   <ul>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>coro::io_recv</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>coro::io_recv_from</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>coro::io_send</strong></a> </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>coro::io_send_to</strong></a> </li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a> <em>A struct to describe "1 I/O request" to system API.</em>  <em>When I/O request is submitted, an I/O task becomes 1 coroutine handle.</em>   <ul>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>coro::io_recv</strong></a> <em>Awaitable type to perform</em> <code>recv</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>coro::io_recv_from</strong></a> <em>Awaitable type to perform</em> <code>recvfrom</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>coro::io_send</strong></a> <em>Awaitable type to perform</em> <code>send</code> <em>I/O request.</em></li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>coro::io_send_to</strong></a> <em>Awaitable type to perform</em> <code>sendto</code> <em>I/O request.</em></li>
 </ul>
 </li>
+<li><strong>class</strong> <strong>CRITICAL_SECTION</strong>  </li>
+<li><strong>class</strong> <a href="../classcoro_1_1section/"><strong>coro::section</strong></a> <em>Standard lockable with win32 criticial section.</em> </li>
 </ul>
                 
                   

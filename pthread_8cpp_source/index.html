@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -481,17 +493,13 @@
                 
                 
                 <h1 id="file-pthreadcpp">File pthread.cpp<a class="headerlink" href="#file-pthreadcpp" title="Permanent link">&para;</a></h1>
-<p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_e05d7e2b1ecd646af5bb94391405f3b5/"><strong>modules</strong></a> <strong>&gt;</strong> <a href="../dir_cfce773df20e130ee7436b64bcb4a019/"><strong>thread</strong></a> <strong>&gt;</strong> <a href="../pthread_8cpp/"><strong>pthread.cpp</strong></a></p>
+<p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_e05d7e2b1ecd646af5bb94391405f3b5/"><strong>modules</strong></a> <strong>&gt;</strong> <a href="../dir_826aeabe2439c2b66ff3bb7c0dad7853/"><strong>system</strong></a> <strong>&gt;</strong> <a href="../pthread_8cpp/"><strong>pthread.cpp</strong></a></p>
 <p><a href="../pthread_8cpp/">Go to the documentation of this file.</a> </p>
-<div class="codehilite"><pre><span></span><span class="c1">//</span>
-<span class="c1">//  Author  : github.com/luncliff (luncliff@gmail.com)</span>
-<span class="c1">//  License : CC BY 4.0</span>
-<span class="c1">//</span>
-<span class="cp">#include</span> <span class="cpf">&lt;coroutine/thread.h&gt;</span><span class="cp"></span>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;coroutine/pthread.h&gt;</span><span class="cp"></span>
 
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
 
-<span class="kt">void</span><span class="o">*</span> <span class="n">coroutine_pthread_resume</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">ptr</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">void</span><span class="o">*</span> <span class="n">pthread_spawner_t</span><span class="o">::</span><span class="n">pthread_resume</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">ptr</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// assume we will receive an address of the coroutine frame</span>
     <span class="k">auto</span> <span class="n">task</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">task</span><span class="p">.</span><span class="n">done</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
@@ -502,8 +510,8 @@
 
 <span class="kt">void</span> <span class="n">pthread_spawner_t</span><span class="o">::</span><span class="n">resume_on_pthread</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rh</span><span class="p">)</span> <span class="c1">//</span>
     <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">pthread_create</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">,</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">attr</span><span class="p">,</span>
-                                 <span class="n">coroutine_pthread_resume</span><span class="p">,</span> <span class="n">rh</span><span class="p">.</span><span class="n">address</span><span class="p">()))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">pthread_create</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">,</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">attr</span><span class="p">,</span> <span class="c1">//</span>
+                                 <span class="n">pthread_resume</span><span class="p">,</span> <span class="n">rh</span><span class="p">.</span><span class="n">address</span><span class="p">()))</span>
         <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">ec</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;pthread_create&quot;</span><span class="p">};</span>
 <span class="p">}</span>
 
@@ -542,6 +550,54 @@
     <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">pthread_detach</span><span class="p">(</span><span class="n">tid</span><span class="p">))</span> <span class="p">{</span>
         <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">ec</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;pthread_join&quot;</span><span class="p">};</span>
     <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">section</span> <span class="k">final</span> <span class="p">{</span>
+  <span class="k">private</span><span class="o">:</span>
+    <span class="n">pthread_rwlock_t</span> <span class="n">rwlock</span><span class="p">;</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">section</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="o">~</span><span class="n">section</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="n">section</span><span class="p">(</span><span class="k">const</span> <span class="n">section</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="n">section</span><span class="p">(</span><span class="n">section</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="n">section</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">section</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="n">section</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">section</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+
+    <span class="kt">bool</span> <span class="nf">try_lock</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">lock</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="kt">void</span> <span class="nf">unlock</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="n">section</span><span class="o">::</span><span class="n">section</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">:</span> <span class="n">rwlock</span><span class="p">{}</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">pthread_rwlock_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rwlock</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">))</span>
+        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">ec</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;pthread_rwlock_init&quot;</span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="n">section</span><span class="o">::~</span><span class="n">section</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">pthread_rwlock_destroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rwlock</span><span class="p">))</span>
+            <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">ec</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;pthread_rwlock_destroy&quot;</span><span class="p">};</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">system_error</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">());</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(...)</span> <span class="p">{</span>
+        <span class="n">perror</span><span class="p">(</span><span class="s">&quot;Unknown exception in section dtor&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">bool</span> <span class="n">section</span><span class="o">::</span><span class="n">try_lock</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">pthread_rwlock_trywrlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rwlock</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">ec</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">section</span><span class="o">::</span><span class="n">lock</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">pthread_rwlock_wrlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rwlock</span><span class="p">))</span>
+        <span class="c1">// EINVAL ?</span>
+        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">ec</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;pthread_rwlock_wrlock&quot;</span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">section</span><span class="o">::</span><span class="n">unlock</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">pthread_rwlock_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rwlock</span><span class="p">))</span>
+        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">ec</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;pthread_rwlock_unlock&quot;</span><span class="p">};</span>
 <span class="p">}</span>
 
 <span class="p">}</span> <span class="c1">// namespace coro</span>

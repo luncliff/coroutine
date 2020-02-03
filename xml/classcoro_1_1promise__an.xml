@@ -2,42 +2,45 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classcoro_1_1promise__an" kind="class" language="C++" prot="public">
     <compoundname>coro::promise_an</compoundname>
+    <includes refid="return_8h" local="no">return.h</includes>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classcoro_1_1promise__an_1acacbb83d6a3799d9ae76d18f87628b8e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>auto</type>
-        <definition>auto coro::promise_an::initial_suspend</definition>
+      <memberdef kind="function" id="classcoro_1_1promise__an_1aa86e2ba1ac1bcd563b72aead99e46154" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref></type>
+        <definition>suspend_always coro::promise_an::initial_suspend</definition>
         <argsstring>() noexcept</argsstring>
         <name>initial_suspend</name>
         <briefdescription>
-        </briefdescription>
+<para>suspend after invoke </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><simplesect kind="return"><para>suspend_always </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="46" column="1" bodyfile="interface/coroutine/return.h" bodystart="46" bodyend="48"/>
+        <location file="interface/coroutine/return.h" line="80" column="1" bodyfile="interface/coroutine/return.h" bodystart="80" bodyend="82"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1promise__an_1afd4d9795a86d6abcd02fb939ee246eec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>auto</type>
-        <definition>auto coro::promise_an::final_suspend</definition>
+      <memberdef kind="function" id="classcoro_1_1promise__an_1a53cad2f133187506cf0023d6971d0535" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref></type>
+        <definition>suspend_never coro::promise_an::final_suspend</definition>
         <argsstring>() noexcept</argsstring>
         <name>final_suspend</name>
         <briefdescription>
-        </briefdescription>
+<para>destroy coroutine frame after return </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><simplesect kind="return"><para>suspend_never </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="49" column="1" bodyfile="interface/coroutine/return.h" bodystart="49" bodyend="51"/>
+        <location file="interface/coroutine/return.h" line="87" column="1" bodyfile="interface/coroutine/return.h" bodystart="87" bodyend="89"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/return.h" line="44" column="1" bodyfile="interface/coroutine/return.h" bodystart="44" bodyend="52"/>
+    <location file="interface/coroutine/return.h" line="74" column="1" bodyfile="interface/coroutine/return.h" bodystart="74" bodyend="90"/>
     <listofallmembers>
-      <member refid="classcoro_1_1promise__an_1afd4d9795a86d6abcd02fb939ee246eec" prot="public" virt="non-virtual"><scope>coro::promise_an</scope><name>final_suspend</name></member>
-      <member refid="classcoro_1_1promise__an_1acacbb83d6a3799d9ae76d18f87628b8e" prot="public" virt="non-virtual"><scope>coro::promise_an</scope><name>initial_suspend</name></member>
+      <member refid="classcoro_1_1promise__an_1a53cad2f133187506cf0023d6971d0535" prot="public" virt="non-virtual"><scope>coro::promise_an</scope><name>final_suspend</name></member>
+      <member refid="classcoro_1_1promise__an_1aa86e2ba1ac1bcd563b72aead99e46154" prot="public" virt="non-virtual"><scope>coro::promise_an</scope><name>initial_suspend</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

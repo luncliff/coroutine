@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="dir_826aeabe2439c2b66ff3bb7c0dad7853" kind="dir">
+    <compoundname>modules/system</compoundname>
+    <innerfile refid="darwin_8cpp">darwin.cpp</innerfile>
+    <innerfile refid="kqueue_8cpp">kqueue.cpp</innerfile>
+    <innerfile refid="libmain_8cpp">libmain.cpp</innerfile>
+    <innerfile refid="linux_8cpp">linux.cpp</innerfile>
+    <innerfile refid="pthread_8cpp">pthread.cpp</innerfile>
+    <innerfile refid="windows_8cpp">windows.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="modules/system/"/>
+  </compounddef>
+</doxygen>

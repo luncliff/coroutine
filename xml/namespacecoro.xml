@@ -4,110 +4,67 @@
     <compoundname>coro</compoundname>
     <innerclass refid="structcoro_1_1bypass__lock" prot="public">coro::bypass_lock</innerclass>
     <innerclass refid="classcoro_1_1channel" prot="public">coro::channel</innerclass>
-    <innerclass refid="structcoro_1_1darwin__event" prot="public">coro::darwin_event</innerclass>
+    <innerclass refid="classcoro_1_1continue__on__apc" prot="public">coro::continue_on_apc</innerclass>
+    <innerclass refid="classcoro_1_1continue__on__thread__pool" prot="public">coro::continue_on_thread_pool</innerclass>
     <innerclass refid="classcoro_1_1enumerable" prot="public">coro::enumerable</innerclass>
-    <innerclass refid="structcoro_1_1event__poll__t" prot="public">coro::event_poll_t</innerclass>
+    <innerclass refid="classcoro_1_1epoll__owner" prot="public">coro::epoll_owner</innerclass>
+    <innerclass refid="classcoro_1_1event" prot="public">coro::event</innerclass>
     <innerclass refid="classcoro_1_1frame__t" prot="public">coro::frame_t</innerclass>
     <innerclass refid="classcoro_1_1io__recv" prot="public">coro::io_recv</innerclass>
     <innerclass refid="classcoro_1_1io__recv__from" prot="public">coro::io_recv_from</innerclass>
     <innerclass refid="classcoro_1_1io__send" prot="public">coro::io_send</innerclass>
     <innerclass refid="classcoro_1_1io__send__to" prot="public">coro::io_send_to</innerclass>
     <innerclass refid="classcoro_1_1io__work__t" prot="public">coro::io_work_t</innerclass>
-    <innerclass refid="structcoro_1_1kernel__queue__t" prot="public">coro::kernel_queue_t</innerclass>
+    <innerclass refid="classcoro_1_1kqueue__owner" prot="public">coro::kqueue_owner</innerclass>
     <innerclass refid="classcoro_1_1peeker" prot="public">coro::peeker</innerclass>
     <innerclass refid="classcoro_1_1promise__aa" prot="public">coro::promise_aa</innerclass>
     <innerclass refid="classcoro_1_1promise__an" prot="public">coro::promise_an</innerclass>
     <innerclass refid="classcoro_1_1promise__na" prot="public">coro::promise_na</innerclass>
     <innerclass refid="classcoro_1_1promise__nn" prot="public">coro::promise_nn</innerclass>
+    <innerclass refid="classcoro_1_1pthread__detacher__t" prot="public">coro::pthread_detacher_t</innerclass>
+    <innerclass refid="classcoro_1_1pthread__joiner__t" prot="public">coro::pthread_joiner_t</innerclass>
+    <innerclass refid="classcoro_1_1pthread__knower__t" prot="public">coro::pthread_knower_t</innerclass>
+    <innerclass refid="classcoro_1_1pthread__spawn__promise" prot="public">coro::pthread_spawn_promise</innerclass>
+    <innerclass refid="classcoro_1_1pthread__spawner__t" prot="public">coro::pthread_spawner_t</innerclass>
     <innerclass refid="classcoro_1_1reader" prot="public">coro::reader</innerclass>
+    <innerclass refid="classcoro_1_1section" prot="public">coro::section</innerclass>
+    <innerclass refid="classcoro_1_1set__or__cancel" prot="public">coro::set_or_cancel</innerclass>
     <innerclass refid="classcoro_1_1writer" prot="public">coro::writer</innerclass>
     <innernamespace refid="namespacecoro_1_1internal">coro::internal</innernamespace>
       <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="net_8h_1a6b4d8b23b13890de7209b4439dbe7675" prot="public" static="no">
-        <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
-        <definition>using coro::io_task_t = typedef coroutine_handle&lt;void&gt;</definition>
-        <argsstring></argsstring>
-        <name>io_task_t</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="77" column="1" bodyfile="interface/coroutine/net.h" bodystart="77" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="typedef" id="net_8h_1a60d36260824423f894ffd077f8487663" prot="public" static="no">
+      <memberdef kind="typedef" id="group__NetWork_1ga60d36260824423f894ffd077f8487663" prot="public" static="no">
         <type>gsl::span&lt; std::byte &gt;</type>
         <definition>using coro::io_buffer_t = typedef gsl::span&lt;std::byte&gt;</definition>
         <argsstring></argsstring>
         <name>io_buffer_t</name>
         <briefdescription>
-        </briefdescription>
+<para>This is simply a view to storage. Be aware that it doesn&apos;t have ownership. </para>        </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="80" column="1" bodyfile="interface/coroutine/net.h" bodystart="80" bodyend="-1"/>
+        <location file="interface/coroutine/net.h" line="72" column="1" bodyfile="interface/coroutine/net.h" bodystart="72" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="net_8h_1a44f82ebeab85dfbf50907561b7138f96" prot="public" static="no">
-        <type>gsl::zstring&lt; NI_MAXHOST &gt;</type>
-        <definition>using coro::zstring_host = typedef gsl::zstring&lt;NI_MAXHOST&gt;</definition>
+      <memberdef kind="typedef" id="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" prot="public" static="no">
+        <type>void(*)(void *ctx, <ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt; coro)</type>
+        <definition>using coro::net_callback_t = typedef void (*)(void* ctx, coroutine_handle&lt;void&gt; coro)</definition>
         <argsstring></argsstring>
-        <name>zstring_host</name>
+        <name>net_callback_t</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="255" column="1" bodyfile="interface/coroutine/net.h" bodystart="255" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="typedef" id="net_8h_1aff0c0d5fbac8e056e123047db7e4d910" prot="public" static="no">
-        <type>gsl::zstring&lt; NI_MAXSERV &gt;</type>
-        <definition>using coro::zstring_serv = typedef gsl::zstring&lt;NI_MAXSERV&gt;</definition>
-        <argsstring></argsstring>
-        <name>zstring_serv</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="256" column="1" bodyfile="interface/coroutine/net.h" bodystart="256" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="typedef" id="net_8h_1a1260ec24e0b0f434cf361324ac7cfc2e" prot="public" static="no">
-        <type>gsl::czstring&lt; NI_MAXHOST &gt;</type>
-        <definition>using coro::czstring_host = typedef gsl::czstring&lt;NI_MAXHOST&gt;</definition>
-        <argsstring></argsstring>
-        <name>czstring_host</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="257" column="1" bodyfile="interface/coroutine/net.h" bodystart="257" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="typedef" id="net_8h_1abc8f3c225ad8497a18f0aec987abe9c1" prot="public" static="no">
-        <type>gsl::czstring&lt; NI_MAXSERV &gt;</type>
-        <definition>using coro::czstring_serv = typedef gsl::czstring&lt;NI_MAXSERV&gt;</definition>
-        <argsstring></argsstring>
-        <name>czstring_serv</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="258" column="1" bodyfile="interface/coroutine/net.h" bodystart="258" bodyend="-1"/>
+        <location file="modules/net/io_darwin.cpp" line="17" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="17" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
-      <memberdef kind="variable" id="event__darwin_8cpp_1ad6a5976b6cc5817f51cc89dbe3e00656" prot="public" static="no" mutable="no">
-        <type><ref refid="structcoro_1_1kernel__queue__t" kindref="compound">kernel_queue_t</ref></type>
-        <definition>event_poll_t coro::selist</definition>
+      <memberdef kind="variable" id="namespacecoro_1a8c609d3792ba6a72e94e0f88aca23589" prot="public" static="no" mutable="no">
+        <type><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref></type>
+        <definition>kqueue_owner coro::netkq</definition>
         <argsstring></argsstring>
-        <name>selist</name>
+        <name>netkq</name>
         <initializer>{}</initializer>
         <briefdescription>
         </briefdescription>
@@ -115,9 +72,37 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="21" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="21" bodyend="-1"/>
+        <location file="modules/net/io_darwin.cpp" line="15" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="15" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="event__linux_8cpp_1a75c5634f13d403665ca66b9e5df22caf" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="namespacecoro_1a364142b18eb0724cabbf3a942c65ce92" prot="public" static="no" mutable="no">
+        <type><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref></type>
+        <definition>epoll_owner coro::iep</definition>
+        <argsstring></argsstring>
+        <name>iep</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="modules/net/io_linux.cpp" line="15" column="1" bodyfile="modules/net/io_linux.cpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacecoro_1a85afa8adbfd008d91e74fd5e0716e924" prot="public" static="no" mutable="no">
+        <type><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref></type>
+        <definition>epoll_owner coro::oep</definition>
+        <argsstring></argsstring>
+        <name>oep</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="modules/net/io_linux.cpp" line="15" column="1" bodyfile="modules/net/io_linux.cpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacecoro_1a75c5634f13d403665ca66b9e5df22caf" prot="public" static="no" mutable="no">
         <type>constexpr uint64_t</type>
         <definition>constexpr uint64_t coro::emask</definition>
         <argsstring></argsstring>
@@ -129,53 +114,647 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_linux.cpp" line="27" column="1" bodyfile="modules/event/event_linux.cpp" bodystart="27" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="io__darwin_8cpp_1a30ea8f15ccae5713ed6aac8207804a76" prot="public" static="no" mutable="no">
-        <type><ref refid="structcoro_1_1kernel__queue__t" kindref="compound">kernel_queue_t</ref></type>
-        <definition>kernel_queue_t coro::kq</definition>
-        <argsstring></argsstring>
-        <name>kq</name>
-        <initializer>{}</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/net/io_darwin.cpp" line="15" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="15" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="io__linux_8cpp_1a88274bb060b5d19a9d0984d609fa8587" prot="public" static="no" mutable="no">
-        <type><ref refid="structcoro_1_1event__poll__t" kindref="compound">event_poll_t</ref></type>
-        <definition>event_poll_t coro::inbound</definition>
-        <argsstring></argsstring>
-        <name>inbound</name>
-        <initializer>{}</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/net/io_linux.cpp" line="15" column="1" bodyfile="modules/net/io_linux.cpp" bodystart="15" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="io__linux_8cpp_1a3a33676583ef092ce05d6aeed2c81b32" prot="public" static="no" mutable="no">
-        <type><ref refid="structcoro_1_1event__poll__t" kindref="compound">event_poll_t</ref></type>
-        <definition>event_poll_t coro::outbound</definition>
-        <argsstring></argsstring>
-        <name>outbound</name>
-        <initializer>{}</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/net/io_linux.cpp" line="15" column="1" bodyfile="modules/net/io_linux.cpp" bodystart="15" bodyend="-1"/>
+        <location file="modules/system/linux.cpp" line="65" column="1" bodyfile="modules/system/linux.cpp" bodystart="65" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="channel_8hpp_1a63d87ae8cd27ef6af053b2012e14b8bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::wait_in</definition>
+        <argsstring>(epoll_owner &amp;ep, event &amp;efd)</argsstring>
+        <name>wait_in</name>
+        <param>
+          <type><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref> &amp;</type>
+          <declname>ep</declname>
+        </param>
+        <param>
+          <type><ref refid="classcoro_1_1event" kindref="compound">event</ref> &amp;</type>
+          <declname>efd</declname>
+        </param>
+        <briefdescription>
+<para>Bind the given <computeroutput>event</computeroutput>(<computeroutput>eventfd</computeroutput>) to <computeroutput><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref></computeroutput>(Epoll) </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref> </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>efd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>event </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ref refid="classcoro_1_1event" kindref="compound">event</ref> </para></simplesect>
+<simplesect kind="return"><para>awaitable struct for the binding </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+<para>Prepares one-time registration</para><para>Wait for <computeroutput>write</computeroutput> to given <computeroutput>eventfd</computeroutput></para><para>Reset the given event object when resumed</para>        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="154" column="1" bodyfile="interface/coroutine/linux.h" bodystart="154" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1ga31d5a4a545024c3c24e6f5204537307b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::send_to</definition>
+        <argsstring>(uint64_t sd, const sockaddr_in &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_send_to &amp;</argsstring>
+        <name>send_to</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type>const sockaddr_in &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref></type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="254" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="62" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::send_to</definition>
+        <argsstring>(uint64_t sd, const sockaddr_in6 &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_send_to &amp;</argsstring>
+        <name>send_to</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type>const sockaddr_in6 &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref></type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="266" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="71" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1gace516cdc1f8b51596ba7a406190182eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::recv_from</definition>
+        <argsstring>(uint64_t sd, sockaddr_in &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_recv_from &amp;</argsstring>
+        <name>recv_from</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type>sockaddr_in &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref></type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="278" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="107" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::recv_from</definition>
+        <argsstring>(uint64_t sd, sockaddr_in6 &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_recv_from &amp;</argsstring>
+        <name>recv_from</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type>sockaddr_in6 &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref></type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="290" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="115" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1gac94bb59884293c451906c8cffe825a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::send_stream</definition>
+        <argsstring>(uint64_t sd, io_buffer_t buf, uint32_t flag, io_work_t &amp;work) noexcept(false) -&gt; io_send &amp;</argsstring>
+        <name>send_stream</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref></type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>flag</declname>
+        </param>
+        <param>
+          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__send" kindref="compound">io_send</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__send" kindref="compound">io_send</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="302" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="155" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1ga60c53387a2e976df4742620055666796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::recv_stream</definition>
+        <argsstring>(uint64_t sd, io_buffer_t buf, uint32_t flag, io_work_t &amp;work) noexcept(false) -&gt; io_recv &amp;</argsstring>
+        <name>recv_stream</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref></type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>flag</declname>
+        </param>
+        <param>
+          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__recv" kindref="compound">io_recv</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__recv" kindref="compound">io_recv</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="314" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="189" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetResolve_1gadc07999d236df3e984d42b37cbf56693" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t coro::get_address</definition>
+        <argsstring>(const addrinfo &amp;hint, gsl::czstring&lt;&gt; host, gsl::czstring&lt;&gt; serv, gsl::span&lt; sockaddr_in &gt; output) noexcept</argsstring>
+        <name>get_address</name>
+        <param>
+          <type>const addrinfo &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <param>
+          <type>gsl::czstring&lt;&gt;</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>gsl::czstring&lt;&gt;</type>
+          <declname>serv</declname>
+        </param>
+        <param>
+          <type>gsl::span&lt; sockaddr_in &gt;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Thin wrapper of <computeroutput>getaddrinfo</computeroutput> for IPv4. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>serv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Error code from the <computeroutput>getaddrinfo</computeroutput> that can be the argument of <computeroutput>gai_strerror</computeroutput> </para></simplesect>
+<simplesect kind="see"><para>getaddrinfo </para></simplesect>
+<simplesect kind="see"><para>gai_strerror </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="339" column="1" bodyfile="modules/net/resolver.cpp" bodystart="60" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t coro::get_address</definition>
+        <argsstring>(const addrinfo &amp;hint, gsl::czstring&lt;&gt; host, gsl::czstring&lt;&gt; serv, gsl::span&lt; sockaddr_in6 &gt; output) noexcept</argsstring>
+        <name>get_address</name>
+        <param>
+          <type>const addrinfo &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <param>
+          <type>gsl::czstring&lt;&gt;</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>gsl::czstring&lt;&gt;</type>
+          <declname>serv</declname>
+        </param>
+        <param>
+          <type>gsl::span&lt; sockaddr_in6 &gt;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Thin wrapper of <computeroutput>getaddrinfo</computeroutput> for IPv6. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>serv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Error code from the <computeroutput>getaddrinfo</computeroutput> that can be the argument of <computeroutput>gai_strerror</computeroutput> </para></simplesect>
+<simplesect kind="see"><para>getaddrinfo </para></simplesect>
+<simplesect kind="see"><para>gai_strerror </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="354" column="1" bodyfile="modules/net/resolver.cpp" bodystart="76" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t coro::get_name</definition>
+        <argsstring>(const sockaddr_in &amp;addr, gsl::zstring&lt; NI_MAXHOST &gt; name, gsl::zstring&lt; NI_MAXSERV &gt; serv, int32_t flags=NI_NUMERICHOST|NI_NUMERICSERV) noexcept</argsstring>
+        <name>get_name</name>
+        <param>
+          <type>const sockaddr_in &amp;</type>
+          <declname>addr</declname>
+        </param>
+        <param>
+          <type>gsl::zstring&lt; NI_MAXHOST &gt;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>gsl::zstring&lt; NI_MAXSERV &gt;</type>
+          <declname>serv</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>flags</declname>
+          <defval>NI_NUMERICHOST|NI_NUMERICSERV</defval>
+        </param>
+        <briefdescription>
+<para>Thin wrapper of <computeroutput>getnameinfo</computeroutput> </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>serv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>can be <computeroutput>nullptr</computeroutput> </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t EAI_AGAIN ... </para></simplesect>
+<simplesect kind="see"><para>getnameinfo </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="368" column="1" bodyfile="modules/net/resolver.cpp" bodystart="11" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t coro::get_name</definition>
+        <argsstring>(const sockaddr_in6 &amp;addr, gsl::zstring&lt; NI_MAXHOST &gt; name, gsl::zstring&lt; NI_MAXSERV &gt; serv, int32_t flags=NI_NUMERICHOST|NI_NUMERICSERV) noexcept</argsstring>
+        <name>get_name</name>
+        <param>
+          <type>const sockaddr_in6 &amp;</type>
+          <declname>addr</declname>
+        </param>
+        <param>
+          <type>gsl::zstring&lt; NI_MAXHOST &gt;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>gsl::zstring&lt; NI_MAXSERV &gt;</type>
+          <declname>serv</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>flags</declname>
+          <defval>NI_NUMERICHOST|NI_NUMERICSERV</defval>
+        </param>
+        <briefdescription>
+<para>Thin wrapper of <computeroutput>getnameinfo</computeroutput> </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>serv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>can be <computeroutput>nullptr</computeroutput> </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t EAI_AGAIN ... </para></simplesect>
+<simplesect kind="see"><para>getnameinfo </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="382" column="1" bodyfile="modules/net/resolver.cpp" bodystart="22" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecoro_1a63d87ae8cd27ef6af053b2012e14b8bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename T</type>
@@ -205,9 +784,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="378" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="378" bodyend="386"/>
+        <location file="interface/internal/channel.hpp" line="378" column="1" bodyfile="interface/internal/channel.hpp" bodystart="378" bodyend="386"/>
       </memberdef>
-      <memberdef kind="function" id="channel_8hpp_1afed570d52b7e624ce887594a76fa2a38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="namespacecoro_1afed570d52b7e624ce887594a76fa2a38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename...</type>
@@ -243,499 +822,44 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="390" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="390" bodyend="393"/>
+        <location file="interface/internal/channel.hpp" line="390" column="1" bodyfile="interface/internal/channel.hpp" bodystart="390" bodyend="393"/>
       </memberdef>
-      <memberdef kind="function" id="net_8h_1a31d5a4a545024c3c24e6f5204537307b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ auto</type>
-        <definition>auto coro::send_to</definition>
-        <argsstring>(uint64_t sd, const sockaddr_in &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_send_to &amp;</argsstring>
-        <name>send_to</name>
-        <param>
-          <type>uint64_t</type>
-          <declname>sd</declname>
-        </param>
-        <param>
-          <type>const sockaddr_in &amp;</type>
-          <declname>remote</declname>
-        </param>
-        <param>
-          <type>io_buffer_t</type>
-          <declname>buf</declname>
-        </param>
-        <param>
-          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
-          <declname>work</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="193" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="54" bodyend="61"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1ae85ec53584de7c5275cf85e7913316eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ auto</type>
-        <definition>auto coro::send_to</definition>
-        <argsstring>(uint64_t sd, const sockaddr_in6 &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_send_to &amp;</argsstring>
-        <name>send_to</name>
-        <param>
-          <type>uint64_t</type>
-          <declname>sd</declname>
-        </param>
-        <param>
-          <type>const sockaddr_in6 &amp;</type>
-          <declname>remote</declname>
-        </param>
-        <param>
-          <type>io_buffer_t</type>
-          <declname>buf</declname>
-        </param>
-        <param>
-          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
-          <declname>work</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="200" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="63" bodyend="70"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1ace516cdc1f8b51596ba7a406190182eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ auto</type>
-        <definition>auto coro::recv_from</definition>
-        <argsstring>(uint64_t sd, sockaddr_in &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_recv_from &amp;</argsstring>
-        <name>recv_from</name>
-        <param>
-          <type>uint64_t</type>
-          <declname>sd</declname>
-        </param>
-        <param>
-          <type>sockaddr_in &amp;</type>
-          <declname>remote</declname>
-        </param>
-        <param>
-          <type>io_buffer_t</type>
-          <declname>buf</declname>
-        </param>
-        <param>
-          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
-          <declname>work</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="207" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="101" bodyend="108"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1a1e1a2ad32443f868826212a73ce0027e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ auto</type>
-        <definition>auto coro::recv_from</definition>
-        <argsstring>(uint64_t sd, sockaddr_in6 &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_recv_from &amp;</argsstring>
-        <name>recv_from</name>
-        <param>
-          <type>uint64_t</type>
-          <declname>sd</declname>
-        </param>
-        <param>
-          <type>sockaddr_in6 &amp;</type>
-          <declname>remote</declname>
-        </param>
-        <param>
-          <type>io_buffer_t</type>
-          <declname>buf</declname>
-        </param>
-        <param>
-          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
-          <declname>work</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="214" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="109" bodyend="116"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1ac94bb59884293c451906c8cffe825a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ auto</type>
-        <definition>auto coro::send_stream</definition>
-        <argsstring>(uint64_t sd, io_buffer_t buf, uint32_t flag, io_work_t &amp;work) noexcept(false) -&gt; io_send &amp;</argsstring>
-        <name>send_stream</name>
-        <param>
-          <type>uint64_t</type>
-          <declname>sd</declname>
-        </param>
-        <param>
-          <type>io_buffer_t</type>
-          <declname>buf</declname>
-        </param>
-        <param>
-          <type>uint32_t</type>
-          <declname>flag</declname>
-        </param>
-        <param>
-          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
-          <declname>work</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="221" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="151" bodyend="158"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1a60c53387a2e976df4742620055666796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ auto</type>
-        <definition>auto coro::recv_stream</definition>
-        <argsstring>(uint64_t sd, io_buffer_t buf, uint32_t flag, io_work_t &amp;work) noexcept(false) -&gt; io_recv &amp;</argsstring>
-        <name>recv_stream</name>
-        <param>
-          <type>uint64_t</type>
-          <declname>sd</declname>
-        </param>
-        <param>
-          <type>io_buffer_t</type>
-          <declname>buf</declname>
-        </param>
-        <param>
-          <type>uint32_t</type>
-          <declname>flag</declname>
-        </param>
-        <param>
-          <type><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref> &amp;</type>
-          <declname>work</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="228" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="187" bodyend="194"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1af3bc33fbcf57637a812334cabe8e4e19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ void</type>
-        <definition>void coro::wait_net_tasks</definition>
-        <argsstring>(enumerable&lt; io_task_t &gt; &amp;tasks, chrono::nanoseconds timeout) noexcept(false)</argsstring>
-        <name>wait_net_tasks</name>
-        <param>
-          <type><ref refid="classcoro_1_1enumerable" kindref="compound">enumerable</ref>&lt; <ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">io_task_t</ref> &gt; &amp;</type>
-          <declname>tasks</declname>
-        </param>
-        <param>
-          <type>chrono::nanoseconds</type>
-          <declname>timeout</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="242" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="11" bodyend="18"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1abb2d455ad4df2f4fc43d516803892c1d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>auto</type>
-        <definition>auto coro::wait_net_tasks</definition>
-        <argsstring>(chrono::nanoseconds timeout) noexcept(false)</argsstring>
-        <name>wait_net_tasks</name>
-        <param>
-          <type>chrono::nanoseconds</type>
-          <declname>timeout</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="245" column="1" bodyfile="interface/coroutine/net.h" bodystart="245" bodyend="249"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1a0b503261a300525ba16f8b4e576e17a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ int32_t</type>
-        <definition>int32_t coro::resolve</definition>
-        <argsstring>(enumerable&lt; sockaddr &gt; &amp;g, const addrinfo &amp;hint, czstring_host name, czstring_serv serv) noexcept</argsstring>
-        <name>resolve</name>
-        <param>
-          <type><ref refid="classcoro_1_1enumerable" kindref="compound">enumerable</ref>&lt; sockaddr &gt; &amp;</type>
-          <declname>g</declname>
-        </param>
-        <param>
-          <type>const addrinfo &amp;</type>
-          <declname>hint</declname>
-        </param>
-        <param>
-          <type>czstring_host</type>
-          <declname>name</declname>
-        </param>
-        <param>
-          <type>czstring_serv</type>
-          <declname>serv</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="263" column="1" bodyfile="modules/net/resolver.cpp" bodystart="48" bodyend="57"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1aefb3480ba01b81ab77676f8e4b7ffbb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ auto</type>
-        <definition>auto coro::resolve_error</definition>
-        <argsstring>(int32_t ec) noexcept-&gt; std::system_error</argsstring>
-        <name>resolve_error</name>
-        <param>
-          <type>int32_t</type>
-          <declname>ec</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="268" column="1" bodyfile="modules/net/resolver.cpp" bodystart="31" bodyend="33"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1af8bb73fbd0e46818d3c79530cfd73955" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>auto</type>
-        <definition>auto coro::resolve</definition>
-        <argsstring>(const addrinfo &amp;hint, czstring_host name, czstring_serv serv) noexcept(false) -&gt; enumerable&lt; sockaddr &gt;</argsstring>
-        <name>resolve</name>
-        <param>
-          <type>const addrinfo &amp;</type>
-          <declname>hint</declname>
-        </param>
-        <param>
-          <type>czstring_host</type>
-          <declname>name</declname>
-        </param>
-        <param>
-          <type>czstring_serv</type>
-          <declname>serv</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="270" column="1" bodyfile="interface/coroutine/net.h" bodystart="270" bodyend="278"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1a31de141f201ee316e7e7647de235464a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ int32_t</type>
-        <definition>int32_t coro::get_name</definition>
-        <argsstring>(const sockaddr_in &amp;addr, zstring_host name, zstring_serv serv, int32_t flags=NI_NUMERICHOST|NI_NUMERICSERV) noexcept</argsstring>
-        <name>get_name</name>
-        <param>
-          <type>const sockaddr_in &amp;</type>
-          <declname>addr</declname>
-        </param>
-        <param>
-          <type>zstring_host</type>
-          <declname>name</declname>
-        </param>
-        <param>
-          <type>zstring_serv</type>
-          <declname>serv</declname>
-        </param>
-        <param>
-          <type>int32_t</type>
-          <declname>flags</declname>
-          <defval>NI_NUMERICHOST|NI_NUMERICSERV</defval>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="282" column="1" bodyfile="modules/net/resolver.cpp" bodystart="12" bodyend="19"/>
-      </memberdef>
-      <memberdef kind="function" id="net_8h_1ae745b9fdc387085a5bb2383b74ccb504" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ int32_t</type>
-        <definition>int32_t coro::get_name</definition>
-        <argsstring>(const sockaddr_in6 &amp;addr, zstring_host name, zstring_serv serv, int32_t flags=NI_NUMERICHOST|NI_NUMERICSERV) noexcept</argsstring>
-        <name>get_name</name>
-        <param>
-          <type>const sockaddr_in6 &amp;</type>
-          <declname>addr</declname>
-        </param>
-        <param>
-          <type>zstring_host</type>
-          <declname>name</declname>
-        </param>
-        <param>
-          <type>zstring_serv</type>
-          <declname>serv</declname>
-        </param>
-        <param>
-          <type>int32_t</type>
-          <declname>flags</declname>
-          <defval>NI_NUMERICHOST|NI_NUMERICSERV</defval>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/net.h" line="285" column="1" bodyfile="modules/net/resolver.cpp" bodystart="22" bodyend="29"/>
-      </memberdef>
-      <memberdef kind="function" id="event__darwin_8cpp_1ae4278bba193c8757395fac4edd151ac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int32_t</type>
-        <definition>int32_t coro::render_temp_name</definition>
-        <argsstring>(char *buffer) noexcept</argsstring>
-        <name>render_temp_name</name>
-        <param>
-          <type>char *</type>
-          <declname>buffer</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="23" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="23" bodyend="37"/>
-      </memberdef>
-      <memberdef kind="function" id="event__darwin_8cpp_1a002c8a54c3d9439523eccfa8afe255ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>auto</type>
-        <definition>auto coro::signaled_event_tasks</definition>
-        <argsstring>() noexcept(false) -&gt; coro::enumerable&lt; coroutine_handle&lt; void &gt;&gt;</argsstring>
-        <name>signaled_event_tasks</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/event/event_darwin.cpp" line="147" column="1" bodyfile="modules/event/event_darwin.cpp" bodystart="147" bodyend="164"/>
-      </memberdef>
-      <memberdef kind="function" id="event__linux_8cpp_1a0a4a5a45cda53ed181fbff64a604c50a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool coro::is_signaled</definition>
-        <argsstring>(uint64_t state) noexcept</argsstring>
-        <name>is_signaled</name>
-        <param>
-          <type>uint64_t</type>
-          <declname>state</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/event/event_linux.cpp" line="32" column="1" bodyfile="modules/event/event_linux.cpp" bodystart="32" bodyend="34"/>
-      </memberdef>
-      <memberdef kind="function" id="event__linux_8cpp_1a8d123c193bac1913ca11cad209b6d864" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int64_t</type>
-        <definition>int64_t coro::get_eventfd</definition>
-        <argsstring>(uint64_t state) noexcept</argsstring>
-        <name>get_eventfd</name>
-        <param>
-          <type>uint64_t</type>
-          <declname>state</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/event/event_linux.cpp" line="35" column="1" bodyfile="modules/event/event_linux.cpp" bodystart="35" bodyend="37"/>
-      </memberdef>
-      <memberdef kind="function" id="event__linux_8cpp_1a757aac3d45727d3745a96138ddf5a8c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void coro::notify_event</definition>
-        <argsstring>(int64_t efd) noexcept(false)</argsstring>
-        <name>notify_event</name>
+        <definition>void coro::poll_net_tasks</definition>
+        <argsstring>(const timespec &amp;wait_time, net_callback_t callback, void *ctx) noexcept(false)</argsstring>
+        <name>poll_net_tasks</name>
         <param>
-          <type>int64_t</type>
-          <declname>efd</declname>
+          <type>const timespec &amp;</type>
+          <declname>wait_time</declname>
         </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/event/event_linux.cpp" line="38" column="1" bodyfile="modules/event/event_linux.cpp" bodystart="38" bodyend="45"/>
-      </memberdef>
-      <memberdef kind="function" id="event__linux_8cpp_1a93e9b38a4a7badcb102632a09861318d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void coro::consume_event</definition>
-        <argsstring>(int64_t efd) noexcept(false)</argsstring>
-        <name>consume_event</name>
         <param>
-          <type>int64_t</type>
-          <declname>efd</declname>
+          <type><ref refid="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" kindref="member">net_callback_t</ref></type>
+          <declname>callback</declname>
         </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/event/event_linux.cpp" line="47" column="1" bodyfile="modules/event/event_linux.cpp" bodystart="47" bodyend="50"/>
-      </memberdef>
-      <memberdef kind="function" id="event__windows_8cpp_1ad914c5dce636be63612e7b92de9bb423" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void __stdcall</type>
-        <definition>void __stdcall coro::wait_on_thread_pool</definition>
-        <argsstring>(PVOID ctx, BOOLEAN timedout)</argsstring>
-        <name>wait_on_thread_pool</name>
         <param>
-          <type>PVOID</type>
+          <type>void *</type>
           <declname>ctx</declname>
         </param>
-        <param>
-          <type>BOOLEAN</type>
-          <declname>timedout</declname>
-        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/event/event_windows.cpp" line="30" column="1" bodyfile="modules/event/event_windows.cpp" bodystart="30" bodyend="36"/>
+        <location file="modules/net/io_darwin.cpp" line="19" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="19" bodyend="30"/>
       </memberdef>
-      <memberdef kind="function" id="io__darwin_8cpp_1ac06ea9f65e669a1940fb1d282a54b9d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>auto</type>
-        <definition>auto coro::enumerate_net_tasks</definition>
-        <argsstring>(nanoseconds timeout) noexcept(false) -&gt; coro::enumerable&lt; io_task_t &gt;</argsstring>
-        <name>enumerate_net_tasks</name>
-        <param>
-          <type>nanoseconds</type>
-          <declname>timeout</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/net/io_darwin.cpp" line="17" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="17" bodyend="30"/>
-      </memberdef>
-      <memberdef kind="function" id="io__darwin_8cpp_1a1ac4ab805036bed4e7d2e1cc4d4ce64d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="namespacecoro_1a0260f9ba0f9c3c2abe90513e1f9ebbb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void coro::wait_net_tasks</definition>
-        <argsstring>(coro::enumerable&lt; io_task_t &gt; &amp;tasks, std::chrono::nanoseconds timeout) noexcept(false)</argsstring>
-        <name>wait_net_tasks</name>
+        <definition>void coro::resume_net_task</definition>
+        <argsstring>(void *, coroutine_handle&lt; void &gt; coro) noexcept(false)</argsstring>
+        <name>resume_net_task</name>
         <param>
-          <type><ref refid="classcoro_1_1enumerable" kindref="compound">coro::enumerable</ref>&lt; <ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">io_task_t</ref> &gt; &amp;</type>
-          <declname>tasks</declname>
+          <type>void *</type>
         </param>
         <param>
-          <type>std::chrono::nanoseconds</type>
-          <declname>timeout</declname>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>coro</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -743,9 +867,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_darwin.cpp" line="31" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="31" bodyend="34"/>
+        <location file="modules/net/io_darwin.cpp" line="32" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="32" bodyend="34"/>
       </memberdef>
-      <memberdef kind="function" id="io__windows_8cpp_1a556b102db93c6e7cf8864b28308036e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="namespacecoro_1a022830c9178aa1a201f95abd2026d35f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::poll_net_tasks</definition>
+        <argsstring>(uint64_t nano) noexcept(false)</argsstring>
+        <name>poll_net_tasks</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>nano</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="modules/net/io_darwin.cpp" line="36" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="36" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecoro_1a556b102db93c6e7cf8864b28308036e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool coro::is_async_pending</definition>
         <argsstring>(int ec) noexcept</argsstring>
@@ -760,13 +901,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_windows.cpp" line="20" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="20" bodyend="30"/>
+        <location file="modules/net/io_windows.cpp" line="21" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="21" bodyend="31"/>
       </memberdef>
-      <memberdef kind="function" id="io__windows_8cpp_1a235ed77379aa523e6a1c7596601e7129" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="namespacecoro_1affafc280af2137eafd6000149dc01334" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void CALLBACK</type>
-        <definition>void CALLBACK coro::onWorkDone</definition>
+        <definition>void CALLBACK coro::on_io_done</definition>
         <argsstring>(DWORD errc, DWORD sz, LPWSAOVERLAPPED pover, DWORD flags) noexcept</argsstring>
-        <name>onWorkDone</name>
+        <name>on_io_done</name>
         <param>
           <type>DWORD</type>
           <declname>errc</declname>
@@ -789,9 +930,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_windows.cpp" line="34" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="34" bodyend="46"/>
+        <location file="modules/net/io_windows.cpp" line="35" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="35" bodyend="47"/>
       </memberdef>
-      <memberdef kind="function" id="io__windows_8cpp_1aaa874db68805b8dd64c59b7727648a17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="namespacecoro_1aaa874db68805b8dd64c59b7727648a17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
         <definition>uint32_t coro::get_io_error</definition>
         <argsstring>(const OVERLAPPED *target) noexcept</argsstring>
@@ -806,9 +947,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_windows.cpp" line="52" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="52" bodyend="55"/>
+        <location file="modules/net/io_windows.cpp" line="53" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="53" bodyend="55"/>
       </memberdef>
-      <memberdef kind="function" id="io__windows_8cpp_1afdc260d04de2933c90bdc26d9bd09768" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="namespacecoro_1afdc260d04de2933c90bdc26d9bd09768" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int64_t</type>
         <definition>int64_t coro::get_io_length</definition>
         <argsstring>(const OVERLAPPED *target) noexcept</argsstring>
@@ -825,13 +966,13 @@
         </inbodydescription>
         <location file="modules/net/io_windows.cpp" line="57" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="57" bodyend="59"/>
       </memberdef>
-      <memberdef kind="function" id="io__windows_8cpp_1a382624f87cab31808c4bb1565cef08c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="namespacecoro_1afc690d3107e22a73fe91d15c30d52d58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
         <definition>auto coro::zero_overlapped</definition>
-        <argsstring>(gsl::not_null&lt; io_control_block * &gt; work) noexcept-&gt; gsl::not_null&lt; io_control_block * &gt;</argsstring>
+        <argsstring>(io_control_block *work) noexcept-&gt; io_control_block *</argsstring>
         <name>zero_overlapped</name>
         <param>
-          <type>gsl::not_null&lt; io_control_block * &gt;</type>
+          <type>io_control_block *</type>
           <declname>work</declname>
         </param>
         <briefdescription>
@@ -840,9 +981,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_windows.cpp" line="67" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="67" bodyend="73"/>
+        <location file="modules/net/io_windows.cpp" line="67" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="67" bodyend="70"/>
       </memberdef>
-      <memberdef kind="function" id="io__windows_8cpp_1aeebb761b70e474419a62f56419402531" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="namespacecoro_1aeebb761b70e474419a62f56419402531" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>coro::GSL_SUPPRESS</definition>
         <argsstring>(f.4) auto make_wsa_buf(io_buffer_t v) noexcept-&gt; WSABUF</argsstring>
@@ -857,15 +998,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_windows.cpp" line="76" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="76" bodyend="82"/>
+        <location file="modules/net/io_windows.cpp" line="73" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="73" bodyend="79"/>
       </memberdef>
-      <memberdef kind="function" id="resolver_8cpp_1a92c9a83d182f38fe315384a5eff8b731" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="namespacecoro_1a6b125cc7a08921bd28b759c52a5889b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
-        <definition>auto coro::enumerate_addrinfo</definition>
-        <argsstring>(gsl::not_null&lt; addrinfo * &gt; list) noexcept-&gt; enumerable&lt; sockaddr &gt;</argsstring>
-        <name>enumerate_addrinfo</name>
+        <definition>auto coro::get_address</definition>
+        <argsstring>(addrinfo *list) noexcept-&gt; enumerable&lt; sockaddr * &gt;</argsstring>
+        <name>get_address</name>
         <param>
-          <type>gsl::not_null&lt; addrinfo * &gt;</type>
+          <type>addrinfo *</type>
           <declname>list</declname>
         </param>
         <briefdescription>
@@ -874,33 +1015,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/resolver.cpp" line="35" column="1" bodyfile="modules/net/resolver.cpp" bodystart="35" bodyend="46"/>
+        <location file="modules/net/resolver.cpp" line="32" column="1" bodyfile="modules/net/resolver.cpp" bodystart="32" bodyend="40"/>
       </memberdef>
-      <memberdef kind="function" id="pthread_8cpp_1ace94a5be399e660811ba950ba1686cdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void *</type>
-        <definition>void* coro::coroutine_pthread_resume</definition>
-        <argsstring>(void *ptr) noexcept(false)</argsstring>
-        <name>coroutine_pthread_resume</name>
-        <param>
-          <type>void *</type>
-          <declname>ptr</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/thread/pthread.cpp" line="9" column="1" bodyfile="modules/thread/pthread.cpp" bodystart="9" bodyend="16"/>
-      </memberdef>
-      <memberdef kind="function" id="win32__thread__pool_8cpp_1af6f7397c971ca11e32a5de076f5a2abf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="namespacecoro_1a9f15e22ff13bed5b17201e7a014d9ea9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
-        <definition>auto coro::get_threads_of</definition>
-        <argsstring>(DWORD pid) noexcept(false) -&gt; enumerable&lt; DWORD &gt;</argsstring>
-        <name>get_threads_of</name>
+        <definition>auto coro::get_address</definition>
+        <argsstring>(addrinfo *list, sockaddr_in addr) noexcept-&gt; enumerable&lt; sockaddr_in &gt;</argsstring>
+        <name>get_address</name>
         <param>
-          <type>DWORD</type>
-          <declname>pid</declname>
+          <type>addrinfo *</type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type>sockaddr_in</type>
+          <declname>addr</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -908,13 +1036,124 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/thread/win32_thread_pool.cpp" line="16" column="1" bodyfile="modules/thread/win32_thread_pool.cpp" bodystart="16" bodyend="34"/>
+        <location file="modules/net/resolver.cpp" line="42" column="1" bodyfile="modules/net/resolver.cpp" bodystart="42" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecoro_1ae7c90a14ac066a5fb7a13aed2945091a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::get_address</definition>
+        <argsstring>(addrinfo *list, sockaddr_in6 addr) noexcept-&gt; enumerable&lt; sockaddr_in6 &gt;</argsstring>
+        <name>get_address</name>
+        <param>
+          <type>addrinfo *</type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type>sockaddr_in6</type>
+          <declname>addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="modules/net/resolver.cpp" line="51" column="1" bodyfile="modules/net/resolver.cpp" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecoro_1a0a4a5a45cda53ed181fbff64a604c50a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool coro::is_signaled</definition>
+        <argsstring>(uint64_t state) noexcept</argsstring>
+        <name>is_signaled</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="modules/system/linux.cpp" line="70" column="1" bodyfile="modules/system/linux.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecoro_1a8d123c193bac1913ca11cad209b6d864" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t coro::get_eventfd</definition>
+        <argsstring>(uint64_t state) noexcept</argsstring>
+        <name>get_eventfd</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="modules/system/linux.cpp" line="74" column="1" bodyfile="modules/system/linux.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecoro_1a757aac3d45727d3745a96138ddf5a8c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::notify_event</definition>
+        <argsstring>(int64_t efd) noexcept(false)</argsstring>
+        <name>notify_event</name>
+        <param>
+          <type>int64_t</type>
+          <declname>efd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="modules/system/linux.cpp" line="78" column="1" bodyfile="modules/system/linux.cpp" bodystart="78" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecoro_1a93e9b38a4a7badcb102632a09861318d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::consume_event</definition>
+        <argsstring>(int64_t efd) noexcept(false)</argsstring>
+        <name>consume_event</name>
+        <param>
+          <type>int64_t</type>
+          <declname>efd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="modules/system/linux.cpp" line="87" column="1" bodyfile="modules/system/linux.cpp" bodystart="87" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecoro_1ad9c56049f2089b9473d8ac9bc06e2a6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void __stdcall</type>
+        <definition>void __stdcall coro::wait_event_on_thread_pool</definition>
+        <argsstring>(PVOID ctx, BOOLEAN timedout)</argsstring>
+        <name>wait_event_on_thread_pool</name>
+        <param>
+          <type>PVOID</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>BOOLEAN</type>
+          <declname>timedout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="modules/system/windows.cpp" line="31" column="1" bodyfile="modules/system/windows.cpp" bodystart="31" bodyend="36"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
-    </detaileddescription>
-    <location file="interface/coroutine/channel.hpp" line="25" column="1"/>
+<para><simplesect kind="author"><para>github.com/luncliff (<ulink url="mailto:luncliff@gmail.com">luncliff@gmail.com</ulink>) </para></simplesect>
+</para>    </detaileddescription>
+    <location file="interface/coroutine/linux.h" line="20" column="1"/>
   </compounddef>
 </doxygen>

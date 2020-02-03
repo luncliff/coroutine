@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="group__Linux" kind="group">
+    <compoundname>Linux</compoundname>
+    <title>Linux</title>
+    <innerclass refid="classcoro_1_1epoll__owner" prot="public">coro::epoll_owner</innerclass>
+    <innerclass refid="classcoro_1_1event" prot="public">coro::event</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::wait_in</definition>
+        <argsstring>(epoll_owner &amp;ep, event &amp;efd)</argsstring>
+        <name>wait_in</name>
+        <param>
+          <type>epoll_owner &amp;</type>
+          <declname>ep</declname>
+        </param>
+        <param>
+          <type>event &amp;</type>
+          <declname>efd</declname>
+        </param>
+        <briefdescription>
+<para>Bind the given <computeroutput>event</computeroutput>(<computeroutput>eventfd</computeroutput>) to <computeroutput><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref></computeroutput>(Epoll) </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref> </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>efd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>event </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ref refid="classcoro_1_1event" kindref="compound">event</ref> </para></simplesect>
+<simplesect kind="return"><para>awaitable struct for the binding </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+<para>Prepares one-time registration</para><para>Wait for <computeroutput>write</computeroutput> to given <computeroutput>eventfd</computeroutput></para><para>Reset the given event object when resumed</para>        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="154" column="1" bodyfile="interface/coroutine/linux.h" bodystart="154" bodyend="186"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -500,54 +512,54 @@
 
 <span class="k">class</span> <span class="nc">promise_nn</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
-    <span class="k">auto</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">suspend_never</span><span class="p">{};</span> <span class="c1">// no suspend after invoke</span>
+    <span class="n">suspend_never</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{};</span>
     <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">suspend_never</span><span class="p">{};</span> <span class="c1">// no suspend after return</span>
+    <span class="n">suspend_never</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{};</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">promise_na</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
-    <span class="k">auto</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">suspend_never</span><span class="p">{};</span> <span class="c1">// no suspend after invoke</span>
+    <span class="n">suspend_never</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{};</span>
     <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">suspend_always</span><span class="p">{};</span> <span class="c1">// suspend after return</span>
+    <span class="n">suspend_always</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{};</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">promise_an</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
-    <span class="k">auto</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">suspend_always</span><span class="p">{};</span> <span class="c1">// suspend after invoke</span>
+    <span class="n">suspend_always</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{};</span>
     <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">suspend_never</span><span class="p">{};</span> <span class="c1">// no suspend after return</span>
+    <span class="n">suspend_never</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{};</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">promise_aa</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
-    <span class="k">auto</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">suspend_always</span><span class="p">{};</span> <span class="c1">// suspend after invoke</span>
+    <span class="n">suspend_always</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{};</span>
     <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">suspend_always</span><span class="p">{};</span> <span class="c1">// suspend after return</span>
+    <span class="n">suspend_always</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{};</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
 <span class="k">class</span> <span class="nc">frame_t</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
-    <span class="k">class</span> <span class="nc">promise_type</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coro</span><span class="o">::</span><span class="n">promise_aa</span> <span class="p">{</span>
+    <span class="k">class</span> <span class="nc">promise_type</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coro</span><span class="o">::</span><span class="n">promise_na</span> <span class="p">{</span>
       <span class="k">public</span><span class="o">:</span>
         <span class="kt">void</span> <span class="n">unhandled_exception</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">throw</span><span class="p">;</span>
         <span class="p">}</span>
         <span class="kt">void</span> <span class="n">return_void</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="p">}</span>
-        <span class="k">auto</span> <span class="n">get_return_object</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="n">frame_t</span> <span class="n">get_return_object</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
             <span class="n">frame_t</span> <span class="n">frame</span><span class="p">{};</span>
             <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;&amp;</span> <span class="n">ref</span> <span class="o">=</span> <span class="n">frame</span><span class="p">;</span>
             <span class="n">ref</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;::</span><span class="n">from_promise</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>

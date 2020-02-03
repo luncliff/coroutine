@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="linux_8cpp" kind="file" language="C++">
+    <compoundname>linux.cpp</compoundname>
+    <includes refid="linux_8h" local="no">coroutine/linux.h</includes>
+    <includes local="no">fcntl.h</includes>
+    <includes local="no">sys/eventfd.h</includes>
+    <includes local="no">unistd.h</includes>
+    <incdepgraph>
+      <node id="370">
+        <label>coroutine/frame.h</label>
+        <link refid="frame_8h"/>
+        <childnode refid="371" relation="include">
+        </childnode>
+        <childnode refid="372" relation="include">
+        </childnode>
+        <childnode refid="373" relation="include">
+        </childnode>
+      </node>
+      <node id="372">
+        <label>cstdint</label>
+      </node>
+      <node id="376">
+        <label>fcntl.h</label>
+      </node>
+      <node id="374">
+        <label>gsl/gsl</label>
+      </node>
+      <node id="368">
+        <label>modules/system/linux.cpp</label>
+        <link refid="linux.cpp"/>
+        <childnode refid="369" relation="include">
+        </childnode>
+        <childnode refid="376" relation="include">
+        </childnode>
+        <childnode refid="377" relation="include">
+        </childnode>
+        <childnode refid="378" relation="include">
+        </childnode>
+      </node>
+      <node id="378">
+        <label>unistd.h</label>
+      </node>
+      <node id="377">
+        <label>sys/eventfd.h</label>
+      </node>
+      <node id="371">
+        <label>cstddef</label>
+      </node>
+      <node id="369">
+        <label>coroutine/linux.h</label>
+        <link refid="linux_8h"/>
+        <childnode refid="370" relation="include">
+        </childnode>
+        <childnode refid="374" relation="include">
+        </childnode>
+        <childnode refid="375" relation="include">
+        </childnode>
+      </node>
+      <node id="373">
+        <label>type_traits</label>
+      </node>
+      <node id="375">
+        <label>sys/epoll.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacecoro">coro</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="4"><highlight class="preprocessor">#include<sp/>&lt;<ref refid="linux_8h" kindref="compound">coroutine/linux.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fcntl.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/eventfd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal">epoll_owner::epoll_owner()<sp/>noexcept(false)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>epfd{epoll_create1(EPOLL_CLOEXEC)}<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(epfd<sp/>&lt;<sp/>0)</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{errno,<sp/>system_category(),<sp/></highlight><highlight class="stringliteral">&quot;epoll_create1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">epoll_owner::~epoll_owner()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>close(epfd);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>epoll_owner::try_add(uint64_t<sp/>fd,<sp/>epoll_event&amp;<sp/>req)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>op<sp/>=<sp/>EPOLL_CTL_ADD,<sp/>ec<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">TRY_OP:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>ec<sp/>=<sp/>epoll_ctl(epfd,<sp/>op,<sp/>fd,<sp/>&amp;req);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ec<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(errno<sp/>==<sp/>EEXIST)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>op<sp/>=<sp/>EPOLL_CTL_MOD;<sp/></highlight><highlight class="comment">//<sp/>already<sp/>exists.<sp/>try<sp/>with<sp/>modification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>TRY_OP;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{errno,<sp/>system_category(),</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;epoll_ctl(EPOLL_CTL_ADD|EPOLL_CTL_MODE)&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>epoll_owner::remove(uint64_t<sp/>fd)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>epoll_event<sp/>req{};<sp/></highlight><highlight class="comment">//<sp/>just<sp/>prevent<sp/>non-null<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ec<sp/>=<sp/>epoll_ctl(epfd,<sp/>EPOLL_CTL_DEL,<sp/>fd,<sp/>&amp;req);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ec<sp/>!=<sp/>0)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{errno,<sp/>system_category(),</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;epoll_ctl(EPOLL_CTL_DEL)&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">ptrdiff_t<sp/>epoll_owner::wait(uint32_t<sp/>wait_ms,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::span&lt;epoll_event&gt;<sp/>output)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>epoll_wait(epfd,<sp/>output.data(),<sp/>output.size(),<sp/>wait_ms);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(count<sp/>==<sp/>-1)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{errno,<sp/>system_category(),<sp/></highlight><highlight class="stringliteral">&quot;epoll_wait&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>We<sp/>are<sp/>going<sp/>to<sp/>combine<sp/>file<sp/>descriptor<sp/>and<sp/>state<sp/>bit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>On<sp/>x86<sp/>system,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>this<sp/>won&apos;t<sp/>matter<sp/>since<sp/>`int`<sp/>is<sp/>32<sp/>bit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>we<sp/>can<sp/>safely<sp/>use<sp/>msb<sp/>for<sp/>state<sp/>indicator.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>On<sp/>x64<sp/>system,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>this<sp/>might<sp/>be<sp/>a<sp/>hazardous<sp/>since<sp/>the<sp/>value<sp/>of<sp/>`eventfd`<sp/>can<sp/>be<sp/>corrupted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>**Normally**<sp/>descriptor<sp/>in<sp/>Linux<sp/>system<sp/>grows<sp/>from<sp/>3,<sp/>so<sp/>it<sp/>is<sp/>highly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>possible<sp/>to<sp/>reach<sp/>system<sp/>limitation<sp/>before<sp/>the<sp/>value<sp/>consumes<sp/>all<sp/>63<sp/>bit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">constexpr<sp/>uint64_t<sp/><ref refid="namespacecoro_1a75c5634f13d403665ca66b9e5df22caf" kindref="member">emask</ref><sp/>=<sp/>1ULL<sp/>&lt;&lt;<sp/>63;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>the<sp/>msb(most<sp/>significant<sp/>bit)<sp/>will<sp/>be<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1<sp/>if<sp/>the<sp/>fd<sp/>is<sp/>signaled,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>0<sp/>on<sp/>the<sp/>other<sp/>case</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a0a4a5a45cda53ed181fbff64a604c50a" kindref="member">is_signaled</ref>(uint64_t<sp/>state)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>emask<sp/>&amp;<sp/>state;<sp/></highlight><highlight class="comment">//<sp/>msb<sp/>is<sp/>1?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">int64_t<sp/><ref refid="namespacecoro_1a8d123c193bac1913ca11cad209b6d864" kindref="member">get_eventfd</ref>(uint64_t<sp/>state)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(~emask<sp/>&amp;<sp/>state);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a757aac3d45727d3745a96138ddf5a8c2" kindref="member">notify_event</ref>(int64_t<sp/>efd)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>signal<sp/>the<sp/>eventfd...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>the<sp/>message<sp/>can<sp/>be<sp/>any<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>since<sp/>the<sp/>purpose<sp/>of<sp/>it<sp/>is<sp/>to<sp/>trigger<sp/>the<sp/>epoll</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>we<sp/>won&apos;t<sp/>care<sp/>about<sp/>the<sp/>internal<sp/>counter<sp/>of<sp/>the<sp/>eventfd</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(write(efd,<sp/>&amp;efd,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(efd))<sp/>==<sp/>-1)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{errno,<sp/>system_category(),<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a93e9b38a4a7badcb102632a09861318d" kindref="member">consume_event</ref>(int64_t<sp/>efd)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(read(efd,<sp/>&amp;efd,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(efd))<sp/>==<sp/>-1)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{errno,<sp/>system_category(),<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">event::event()<sp/>noexcept(false)<sp/>:<sp/>state{}<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fd<sp/>=<sp/>::eventfd(0,<sp/>EFD_NONBLOCK<sp/>|<sp/>EFD_CLOEXEC);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fd<sp/>==<sp/>-1)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{errno,<sp/>system_category(),<sp/></highlight><highlight class="stringliteral">&quot;eventfd&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;state<sp/>=<sp/>fd;<sp/></highlight><highlight class="comment">//<sp/>start<sp/>with<sp/>unsignaled<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">event::~event()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>already<sp/>closed,<sp/>fd<sp/>==<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fd<sp/>=<sp/><ref refid="namespacecoro_1a8d123c193bac1913ca11cad209b6d864" kindref="member">get_eventfd</ref>(state))</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>close(fd);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">uint64_t<sp/>event::fd()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a8d123c193bac1913ca11cad209b6d864" kindref="member">get_eventfd</ref>(state);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>event::is_set()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a0a4a5a45cda53ed181fbff64a604c50a" kindref="member">is_signaled</ref>(state);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>event::set()<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>already<sp/>signaled.<sp/>nothing<sp/>to<sp/>do...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacecoro_1a0a4a5a45cda53ed181fbff64a604c50a" kindref="member">is_signaled</ref>(state))</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>!!!<sp/>under<sp/>the<sp/>race<sp/>condition,<sp/>this<sp/>check<sp/>is<sp/>not<sp/>safe<sp/>!!!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fd<sp/>=<sp/><ref refid="namespacecoro_1a8d123c193bac1913ca11cad209b6d864" kindref="member">get_eventfd</ref>(state);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacecoro_1a757aac3d45727d3745a96138ddf5a8c2" kindref="member">notify_event</ref>(fd);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>it<sp/>didn&apos;t<sp/>throwed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>state<sp/>=<sp/>emask<sp/>|<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fd);<sp/></highlight><highlight class="comment">//<sp/><sp/>it&apos;s<sp/>signaled<sp/>state<sp/>from<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>event::reset()<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fd<sp/>=<sp/><ref refid="namespacecoro_1a8d123c193bac1913ca11cad209b6d864" kindref="member">get_eventfd</ref>(state);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>already<sp/>signaled.<sp/>nothing<sp/>to<sp/>do...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacecoro_1a0a4a5a45cda53ed181fbff64a604c50a" kindref="member">is_signaled</ref>(state))</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacecoro_1a93e9b38a4a7badcb102632a09861318d" kindref="member">consume_event</ref>(fd);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>make<sp/>unsignaled<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;state<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fd);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coro</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="modules/system/linux.cpp"/>
+  </compounddef>
+</doxygen>

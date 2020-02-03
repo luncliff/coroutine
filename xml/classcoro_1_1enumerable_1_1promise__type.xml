@@ -2,7 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classcoro_1_1enumerable_1_1promise__type" kind="class" language="C++" prot="public" final="yes">
     <compoundname>coro::enumerable::promise_type</compoundname>
-    <basecompoundref prot="public" virt="non-virtual">promise_manual_control</basecompoundref>
+    <basecompoundref refid="classcoro_1_1promise__aa" prot="public" virt="non-virtual">coro::promise_aa</basecompoundref>
+    <includes refid="yield_8hpp" local="no">yield.hpp</includes>
       <sectiondef kind="friend">
       <memberdef kind="friend" id="classcoro_1_1enumerable_1_1promise__type_1a67171474c4da6cc8efe0c7fafefd2b2d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>friend class</type>
@@ -15,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="68" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="68" bodyend="-1"/>
+        <location file="interface/internal/yield.hpp" line="67" column="1" bodyfile="interface/internal/yield.hpp" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="friend" id="classcoro_1_1enumerable_1_1promise__type_1ad8220d50c77d15ee61635c1d0fc0f6ce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>friend class</type>
@@ -28,12 +29,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="69" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="69" bodyend="-1"/>
+        <location file="interface/internal/yield.hpp" line="68" column="1" bodyfile="interface/internal/yield.hpp" bodystart="68" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classcoro_1_1enumerable_1_1promise__type_1a8f51915e09459e0f24aed367b85ed530" prot="private" static="no" mutable="no">
-        <type>pointer</type>
+        <type><ref refid="classcoro_1_1enumerable_1ad8ece9f0764780703e11f080bdbae36b" kindref="member">pointer</ref></type>
         <definition>pointer coro::enumerable&lt; T &gt;::promise_type::current</definition>
         <argsstring></argsstring>
         <name>current</name>
@@ -44,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="71" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="71" bodyend="-1"/>
+        <location file="interface/internal/yield.hpp" line="70" column="1" bodyfile="interface/internal/yield.hpp" bodystart="70" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -59,7 +60,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="74" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="74" bodyend="77"/>
+        <location file="interface/internal/yield.hpp" line="73" column="1" bodyfile="interface/internal/yield.hpp" bodystart="73" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1enumerable_1_1promise__type_1a087c5d6ce511815670d11f761ed89d9d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::enumerable&lt; T &gt;::promise_type::unhandled_exception</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>unhandled_exception</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/internal/yield.hpp" line="77" column="1" bodyfile="interface/internal/yield.hpp" bodystart="77" bodyend="79"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1_1promise__type_1a2a417b44f5048389ac628f891a851a28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>auto</type>
@@ -67,7 +81,7 @@
         <argsstring>(reference ref) noexcept</argsstring>
         <name>yield_value</name>
         <param>
-          <type>reference</type>
+          <type><ref refid="classcoro_1_1enumerable_1ac45ca85d84312664b0d976c637e8a34a" kindref="member">reference</ref></type>
           <declname>ref</declname>
         </param>
         <briefdescription>
@@ -76,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="80" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="80" bodyend="83"/>
+        <location file="interface/internal/yield.hpp" line="81" column="1" bodyfile="interface/internal/yield.hpp" bodystart="81" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1_1promise__type_1aea5f74fe3a0de6660ffedd99382626f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>auto</type>
@@ -84,7 +98,7 @@
         <argsstring>(value_type &amp;&amp;v) noexcept</argsstring>
         <name>yield_value</name>
         <param>
-          <type>value_type &amp;&amp;</type>
+          <type><ref refid="classcoro_1_1enumerable_1a30cfb124d4d187b8d7d857932f269785" kindref="member">value_type</ref> &amp;&amp;</type>
           <declname>v</declname>
         </param>
         <briefdescription>
@@ -93,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="85" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="85" bodyend="87"/>
+        <location file="interface/internal/yield.hpp" line="86" column="1" bodyfile="interface/internal/yield.hpp" bodystart="86" bodyend="88"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1_1promise__type_1a24f0cdb9f39fff8bea46089495dabbcf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -106,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="89" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="89" bodyend="92"/>
+        <location file="interface/internal/yield.hpp" line="90" column="1" bodyfile="interface/internal/yield.hpp" bodystart="90" bodyend="93"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -114,34 +128,39 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="255">
+      <node id="282">
         <label>coro::enumerable&lt; T &gt;::promise_type</label>
         <link refid="classcoro_1_1enumerable_1_1promise__type"/>
-        <childnode refid="256" relation="public-inheritance">
+        <childnode refid="283" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="256">
-        <label>promise_manual_control</label>
+      <node id="283">
+        <label>coro::promise_aa</label>
+        <link refid="classcoro_1_1promise__aa"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="257">
+      <node id="284">
         <label>coro::enumerable&lt; T &gt;::promise_type</label>
         <link refid="classcoro_1_1enumerable_1_1promise__type"/>
-        <childnode refid="258" relation="public-inheritance">
+        <childnode refid="285" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="258">
-        <label>promise_manual_control</label>
+      <node id="285">
+        <label>coro::promise_aa</label>
+        <link refid="classcoro_1_1promise__aa"/>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/yield.hpp" line="67" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="67" bodyend="93"/>
+    <location file="interface/internal/yield.hpp" line="66" column="1" bodyfile="interface/internal/yield.hpp" bodystart="66" bodyend="94"/>
     <listofallmembers>
       <member refid="classcoro_1_1enumerable_1_1promise__type_1a8f51915e09459e0f24aed367b85ed530" prot="private" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>current</name></member>
       <member refid="classcoro_1_1enumerable_1_1promise__type_1ad8220d50c77d15ee61635c1d0fc0f6ce" prot="private" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>enumerable</name></member>
+      <member refid="classcoro_1_1promise__aa_1ae2704bdaace12103bb6c42fe229a36b9" prot="public" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>final_suspend</name></member>
       <member refid="classcoro_1_1enumerable_1_1promise__type_1a1aa33df61f957a21f7f7f0bb31490ea7" prot="public" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>get_return_object</name></member>
+      <member refid="classcoro_1_1promise__aa_1a0f73ef270974608b4c8206ef7a4dd195" prot="public" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>initial_suspend</name></member>
       <member refid="classcoro_1_1enumerable_1_1promise__type_1a67171474c4da6cc8efe0c7fafefd2b2d" prot="private" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>iterator</name></member>
       <member refid="classcoro_1_1enumerable_1_1promise__type_1a24f0cdb9f39fff8bea46089495dabbcf" prot="public" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>return_void</name></member>
+      <member refid="classcoro_1_1enumerable_1_1promise__type_1a087c5d6ce511815670d11f761ed89d9d" prot="public" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>unhandled_exception</name></member>
       <member refid="classcoro_1_1enumerable_1_1promise__type_1a2a417b44f5048389ac628f891a851a28" prot="public" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>yield_value</name></member>
       <member refid="classcoro_1_1enumerable_1_1promise__type_1aea5f74fe3a0de6660ffedd99382626f5" prot="public" virt="non-virtual"><scope>coro::enumerable::promise_type</scope><name>yield_value</name></member>
     </listofallmembers>

@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -481,16 +493,9 @@
                 
                 
                 <h1 id="file-yieldhpp">File yield.hpp<a class="headerlink" href="#file-yieldhpp" title="Permanent link">&para;</a></h1>
-<p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_9b61234ab8cba81e3caae75634773f62/"><strong>coroutine</strong></a> <strong>&gt;</strong> <a href="../yield_8hpp/"><strong>yield.hpp</strong></a></p>
+<p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_b31d54d5631803016a26f28213a41162/"><strong>interface</strong></a> <strong>&gt;</strong> <a href="../dir_1a14cfa05288f960dad150e6e316c4bb/"><strong>internal</strong></a> <strong>&gt;</strong> <a href="../yield_8hpp/"><strong>yield.hpp</strong></a></p>
 <p><a href="../yield_8hpp/">Go to the documentation of this file.</a> </p>
-<div class="codehilite"><pre><span></span><span class="c1">//</span>
-<span class="c1">//  Author  : github.com/luncliff (luncliff@gmail.com)</span>
-<span class="c1">//  License : CC BY 4.0</span>
-<span class="c1">//</span>
-<span class="c1">//  Note</span>
-<span class="c1">//      `enumerable` is simply a copy of `generator` in VC++</span>
-<span class="c1">//</span>
-<span class="cp">#ifndef COROUTINE_YIELD_HPP</span>
+<div class="codehilite"><pre><span></span><span class="cp">#ifndef COROUTINE_YIELD_HPP</span>
 <span class="cp">#define COROUTINE_YIELD_HPP</span>
 
 <span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
@@ -549,7 +554,7 @@
     <span class="p">}</span>
 
   <span class="k">public</span><span class="o">:</span>
-    <span class="k">class</span> <span class="nc">promise_type</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">promise_manual_control</span> <span class="p">{</span>
+    <span class="k">class</span> <span class="nc">promise_type</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">promise_aa</span> <span class="p">{</span>
         <span class="k">friend</span> <span class="k">class</span> <span class="nc">iterator</span><span class="p">;</span>
         <span class="k">friend</span> <span class="k">class</span> <span class="nc">enumerable</span><span class="p">;</span>
 
@@ -560,7 +565,9 @@
             <span class="c1">// enumerable will create coroutine handle from the address</span>
             <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
         <span class="p">}</span>
-
+        <span class="kt">void</span> <span class="n">unhandled_exception</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span><span class="p">;</span>
+        <span class="p">}</span>
         <span class="c1">// `co_yield` expression. for reference</span>
         <span class="k">auto</span> <span class="n">yield_value</span><span class="p">(</span><span class="n">reference</span> <span class="n">ref</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
             <span class="n">current</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">addressof</span><span class="p">(</span><span class="n">ref</span><span class="p">);</span>

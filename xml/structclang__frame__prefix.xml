@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="structclang__frame__prefix" kind="struct" language="C++" prot="public" final="yes">
     <compoundname>clang_frame_prefix</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
       <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="structclang__frame__prefix_1ac88fe15fe5c099df2eee940bf5508d34" prot="public" static="no" mutable="no">
         <type>procedure_t</type>

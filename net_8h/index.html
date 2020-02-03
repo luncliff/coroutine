@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -491,26 +503,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#macro-definition-documentation" class="md-nav__link">
-    Macro Definition Documentation
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#define-coroutine95net95io95h" class="md-nav__link">
-    define COROUTINE_NET_IO_H
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
       
       
       
@@ -533,10 +525,10 @@
                 <h1 id="file-neth">File net.h<a class="headerlink" href="#file-neth" title="Permanent link">&para;</a></h1>
 <p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_9b61234ab8cba81e3caae75634773f62/"><strong>coroutine</strong></a> <strong>&gt;</strong> <a href="./"><strong>net.h</strong></a></p>
 <p><a href="../net_8h_source/">Go to the source code of this file.</a></p>
+<p><em>Async I/O operation support with system socket functions.</em> <a href="#detailed-description">More...</a></p>
 <ul>
-<li><code>#include &lt;chrono&gt;</code></li>
+<li><code>#include &lt;coroutine/return.h&gt;</code></li>
 <li><code>#include &lt;gsl/gsl&gt;</code></li>
-<li><code>#include &lt;coroutine/yield.hpp&gt;</code></li>
 </ul>
 <h2 id="namespaces">Namespaces<a class="headerlink" href="#namespaces" title="Permanent link">&para;</a></h2>
 <table>
@@ -564,23 +556,23 @@
 <tbody>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1io__recv/"><strong>io_recv</strong></a> <br></td>
+<td align="left"><a href="../classcoro_1_1io__recv/"><strong>io_recv</strong></a> <br><em>Awaitable type to perform</em> <code>recv</code> <em>I/O request.</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1io__recv__from/"><strong>io_recv_from</strong></a> <br></td>
+<td align="left"><a href="../classcoro_1_1io__recv__from/"><strong>io_recv_from</strong></a> <br><em>Awaitable type to perform</em> <code>recvfrom</code> <em>I/O request.</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1io__send/"><strong>io_send</strong></a> <br></td>
+<td align="left"><a href="../classcoro_1_1io__send/"><strong>io_send</strong></a> <br><em>Awaitable type to perform</em> <code>send</code> <em>I/O request.</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1io__send__to/"><strong>io_send_to</strong></a> <br></td>
+<td align="left"><a href="../classcoro_1_1io__send__to/"><strong>io_send_to</strong></a> <br><em>Awaitable type to perform</em> <code>sendto</code> <em>I/O request.</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> <br></td>
+<td align="left"><a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> <br><em>A struct to describe "1 I/O request" to system API.</em>  <em>When I/O request is submitted, an I/O task becomes 1 coroutine handle.</em></td>
 </tr>
 </tbody>
 </table>
@@ -599,6 +591,11 @@
 </tr>
 </tbody>
 </table>
+<h1 id="detailed-description">Detailed Description<a class="headerlink" href="#detailed-description" title="Permanent link">&para;</a></h1>
+<p><strong>Author:</strong></p>
+<p>github.com/luncliff (<a href="mailto:luncliff@gmail.com">luncliff@gmail.com</a>) </p>
+<p><strong>Copyright:</strong></p>
+<p>CC BY 4.0 </p>
 <h2 id="macro-definition-documentation">Macro Definition Documentation<a class="headerlink" href="#macro-definition-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="define-coroutine95net95io95h">define COROUTINE_NET_IO_H<a class="headerlink" href="#define-coroutine95net95io95h" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><span class="cp">#define COROUTINE_NET_IO_H </span>

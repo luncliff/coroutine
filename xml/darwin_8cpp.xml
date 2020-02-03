@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="darwin_8cpp" kind="file" language="C++">
+    <compoundname>darwin.cpp</compoundname>
+    <includes refid="frame_8h" local="no">coroutine/frame.h</includes>
+    <includes refid="unix_8h" local="no">coroutine/unix.h</includes>
+    <includes refid="return_8h" local="no">coroutine/return.h</includes>
+    <includes refid="yield_8hpp" local="yes">internal/yield.hpp</includes>
+    <incdepgraph>
+      <node id="344">
+        <label>coroutine/frame.h</label>
+        <link refid="frame_8h"/>
+        <childnode refid="345" relation="include">
+        </childnode>
+        <childnode refid="346" relation="include">
+        </childnode>
+        <childnode refid="347" relation="include">
+        </childnode>
+      </node>
+      <node id="353">
+        <label>iterator</label>
+      </node>
+      <node id="346">
+        <label>cstdint</label>
+      </node>
+      <node id="343">
+        <label>modules/system/darwin.cpp</label>
+        <link refid="darwin.cpp"/>
+        <childnode refid="344" relation="include">
+        </childnode>
+        <childnode refid="348" relation="include">
+        </childnode>
+        <childnode refid="351" relation="include">
+        </childnode>
+        <childnode refid="352" relation="include">
+        </childnode>
+      </node>
+      <node id="351">
+        <label>coroutine/return.h</label>
+        <link refid="return_8h"/>
+        <childnode refid="347" relation="include">
+        </childnode>
+        <childnode refid="344" relation="include">
+        </childnode>
+      </node>
+      <node id="349">
+        <label>gsl/gsl</label>
+      </node>
+      <node id="352">
+        <label>internal/yield.hpp</label>
+        <link refid="yield_8hpp"/>
+        <childnode refid="351" relation="include">
+        </childnode>
+        <childnode refid="353" relation="include">
+        </childnode>
+      </node>
+      <node id="348">
+        <label>coroutine/unix.h</label>
+        <link refid="unix_8h"/>
+        <childnode refid="344" relation="include">
+        </childnode>
+        <childnode refid="349" relation="include">
+        </childnode>
+        <childnode refid="350" relation="include">
+        </childnode>
+      </node>
+      <node id="345">
+        <label>cstddef</label>
+      </node>
+      <node id="350">
+        <label>sys/event.h</label>
+      </node>
+      <node id="347">
+        <label>type_traits</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="6"><highlight class="comment">//<sp/>expect<sp/>the<sp/>following<sp/>headers<sp/>are<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>clang-format<sp/>off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="frame_8h" kindref="compound">coroutine/frame.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="unix_8h" kindref="compound">coroutine/unix.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="return_8h" kindref="compound">coroutine/return.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="yield_8hpp" kindref="compound">internal/yield.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>clang-format<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__clang__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>we<sp/>must<sp/>error<sp/>for<sp/>the<sp/>compilation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>however,<sp/>this<sp/>section<sp/>will<sp/>be<sp/>left<sp/>blank</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>to<sp/>allow<sp/>possible<sp/>a<sp/>clang-compatible<sp/>one</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in-use<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal">static_assert(__has_builtin(<ref refid="frame_8h_1acb7f973f4e6ad1693c30280e369d927b" kindref="member">__builtin_coro_done</ref>));</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">static_assert(__has_builtin(<ref refid="frame_8h_1a689025ba7111862b86b178803894cb99" kindref="member">__builtin_coro_resume</ref>));</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">static_assert(__has_builtin(<ref refid="frame_8h_1a2f56e6ded0ef72ae52ad3b71e829e9fd" kindref="member">__builtin_coro_destroy</ref>));</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_promise));</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>known<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_size));</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_frame));</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_free));</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_id));</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_begin));</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_end));</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_suspend));</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_param));</highlight></codeline>
+    </programlisting>
+    <location file="modules/system/darwin.cpp"/>
+  </compounddef>
+</doxygen>

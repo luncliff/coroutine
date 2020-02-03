@@ -3,36 +3,46 @@
   <compounddef id="classcoro_1_1io__recv__from" kind="class" language="C++" prot="public" final="yes">
     <compoundname>coro::io_recv_from</compoundname>
     <basecompoundref refid="classcoro_1_1io__work__t" prot="public" virt="non-virtual">coro::io_work_t</basecompoundref>
+    <includes refid="net_8h" local="no">net.h</includes>
       <sectiondef kind="private-func">
-      <memberdef kind="function" id="classcoro_1_1io__recv__from_1ab73393041da916db01b942b8ea078ee9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ void</type>
+      <memberdef kind="function" id="classcoro_1_1io__recv__from_1a4f5e4ec66b84cc7c0557dd8cd9d7ff9f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
         <definition>void coro::io_recv_from::suspend</definition>
-        <argsstring>(io_task_t t) noexcept(false)</argsstring>
+        <argsstring>(coroutine_handle&lt; void &gt; t) noexcept(false)</argsstring>
         <name>suspend</name>
         <param>
-          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">io_task_t</ref></type>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
           <declname>t</declname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>makes an I/O request with given context(<computeroutput>coroutine_handle&lt;void&gt;</computeroutput>) </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="125" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="118" bodyend="136"/>
+        <location file="interface/coroutine/net.h" line="151" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="124" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1io__recv__from_1a16a50489b0622744eeae8de9a44c02cc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ int64_t</type>
+        <type>int64_t</type>
         <definition>int64_t coro::io_recv_from::resume</definition>
         <argsstring>() noexcept</argsstring>
         <name>resume</name>
         <briefdescription>
-        </briefdescription>
+<para>Fetch I/O result/error. </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><simplesect kind="return"><para>int64_t return of <computeroutput>recvfrom</computeroutput> This function must be used through <computeroutput>co_await</computeroutput>. Multiple invoke of this will lead to malfunction. </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="129" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="138" bodyend="147"/>
+        <location file="interface/coroutine/net.h" line="158" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="144" bodyend="153"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -47,28 +57,36 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="132" column="1" bodyfile="interface/coroutine/net.h" bodystart="132" bodyend="134"/>
+        <location file="interface/coroutine/net.h" line="161" column="1" bodyfile="interface/coroutine/net.h" bodystart="161" bodyend="163"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1io__recv__from_1a0ff36c529666c24309dd381ec57877c5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1io__recv__from_1addb17cbc7a4762fa86988a2242136882" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
         <definition>void coro::io_recv_from::await_suspend</definition>
-        <argsstring>(io_task_t t) noexcept(false)</argsstring>
+        <argsstring>(coroutine_handle&lt; void &gt; t) noexcept(false)</argsstring>
         <name>await_suspend</name>
         <param>
-          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">io_task_t</ref></type>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
           <declname>t</declname>
         </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="135" column="1" bodyfile="interface/coroutine/net.h" bodystart="135" bodyend="137"/>
+        <location file="interface/coroutine/net.h" line="167" column="1" bodyfile="interface/coroutine/net.h" bodystart="167" bodyend="169"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1io__recv__from_1ae3c876707a1c994492281b3002b9d475" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>auto</type>
-        <definition>auto coro::io_recv_from::await_resume</definition>
+      <memberdef kind="function" id="classcoro_1_1io__recv__from_1a1f457126fa1663eb7f8c322efc0a701f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t coro::io_recv_from::await_resume</definition>
         <argsstring>() noexcept</argsstring>
         <name>await_resume</name>
         <briefdescription>
@@ -77,65 +95,67 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="138" column="1" bodyfile="interface/coroutine/net.h" bodystart="138" bodyend="140"/>
+        <location file="interface/coroutine/net.h" line="170" column="1" bodyfile="interface/coroutine/net.h" bodystart="170" bodyend="172"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-    </briefdescription>
+<para>Awaitable type to perform <computeroutput>recvfrom</computeroutput> I/O request. </para>    </briefdescription>
     <detaileddescription>
-    </detaileddescription>
+<para><simplesect kind="see"><para>recvfrom </para></simplesect>
+<simplesect kind="see"><para>WSARecvFrom </para></simplesect>
+</para>    </detaileddescription>
     <inheritancegraph>
-      <node id="185">
+      <node id="212">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="186" relation="public-inheritance">
+        <childnode refid="213" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="186">
+      <node id="213">
         <label>io_control_block</label>
       </node>
-      <node id="184">
+      <node id="211">
         <label>coro::io_recv_from</label>
         <link refid="classcoro_1_1io__recv__from"/>
-        <childnode refid="185" relation="public-inheritance">
+        <childnode refid="212" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="188">
+      <node id="215">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="189" relation="public-inheritance">
+        <childnode refid="216" relation="public-inheritance">
         </childnode>
-        <childnode refid="190" relation="usage">
+        <childnode refid="217" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="189">
+      <node id="216">
         <label>io_control_block</label>
       </node>
-      <node id="190">
+      <node id="217">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="187">
+      <node id="214">
         <label>coro::io_recv_from</label>
         <link refid="classcoro_1_1io__recv__from"/>
-        <childnode refid="188" relation="public-inheritance">
+        <childnode refid="215" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/net.h" line="122" column="1" bodyfile="interface/coroutine/net.h" bodystart="122" bodyend="141"/>
+    <location file="interface/coroutine/net.h" line="145" column="1" bodyfile="interface/coroutine/net.h" bodystart="145" bodyend="173"/>
     <listofallmembers>
       <member refid="classcoro_1_1io__recv__from_1a4df83e51e7d93acfc657995da090014a" prot="public" virt="non-virtual"><scope>coro::io_recv_from</scope><name>await_ready</name></member>
-      <member refid="classcoro_1_1io__recv__from_1ae3c876707a1c994492281b3002b9d475" prot="public" virt="non-virtual"><scope>coro::io_recv_from</scope><name>await_resume</name></member>
-      <member refid="classcoro_1_1io__recv__from_1a0ff36c529666c24309dd381ec57877c5" prot="public" virt="non-virtual"><scope>coro::io_recv_from</scope><name>await_suspend</name></member>
+      <member refid="classcoro_1_1io__recv__from_1a1f457126fa1663eb7f8c322efc0a701f" prot="public" virt="non-virtual"><scope>coro::io_recv_from</scope><name>await_resume</name></member>
+      <member refid="classcoro_1_1io__recv__from_1addb17cbc7a4762fa86988a2242136882" prot="public" virt="non-virtual"><scope>coro::io_recv_from</scope><name>await_suspend</name></member>
       <member refid="classcoro_1_1io__work__t_1aa2108f1c95a93873abf686f496f9f719" prot="public" virt="non-virtual"><scope>coro::io_recv_from</scope><name>buffer</name></member>
       <member refid="classcoro_1_1io__work__t_1aefde12bcce0b60f06c1a4f168a830142" prot="public" virt="non-virtual"><scope>coro::io_recv_from</scope><name>error</name></member>
       <member refid="classcoro_1_1io__work__t_1ad2abca547f53bd91caa112e3ea78271c" prot="protected" virt="non-virtual"><scope>coro::io_recv_from</scope><name>ready</name></member>
       <member refid="classcoro_1_1io__recv__from_1a16a50489b0622744eeae8de9a44c02cc" prot="private" virt="non-virtual"><scope>coro::io_recv_from</scope><name>resume</name></member>
-      <member refid="classcoro_1_1io__recv__from_1ab73393041da916db01b942b8ea078ee9" prot="private" virt="non-virtual"><scope>coro::io_recv_from</scope><name>suspend</name></member>
-      <member refid="classcoro_1_1io__work__t_1a02fa31185cce555001f410383b6d57f6" prot="public" virt="non-virtual"><scope>coro::io_recv_from</scope><name>task</name></member>
+      <member refid="classcoro_1_1io__recv__from_1a4f5e4ec66b84cc7c0557dd8cd9d7ff9f" prot="private" virt="non-virtual"><scope>coro::io_recv_from</scope><name>suspend</name></member>
+      <member refid="classcoro_1_1io__work__t_1a4dd4bfa76a21f67ffc954759d1de320e" prot="public" virt="non-virtual"><scope>coro::io_recv_from</scope><name>task</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

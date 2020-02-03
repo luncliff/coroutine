@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="dir_1a14cfa05288f960dad150e6e316c4bb" kind="dir">
+    <compoundname>interface/internal</compoundname>
+    <innerfile refid="channel_8hpp">channel.hpp</innerfile>
+    <innerfile refid="yield_8hpp">yield.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/internal/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classcoro_1_1epoll__owner" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::epoll_owner</compoundname>
+    <includes refid="linux_8h" local="no">linux.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcoro_1_1epoll__owner_1a9c861ec74010169d0f17b90e842662fe" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t coro::epoll_owner::epfd</definition>
+        <argsstring></argsstring>
+        <name>epfd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="29" column="1" bodyfile="interface/coroutine/linux.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1epoll__owner_1af896fc8b647b56733a7442ec3ecf2823" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::epoll_owner::epoll_owner</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>epoll_owner</name>
+        <briefdescription>
+<para>create a fd with <computeroutput>epoll</computeroutput>. Throw if the function fails. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>kqeueue </para></simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="37" column="1" bodyfile="modules/system/linux.cpp" bodystart="14" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1epoll__owner_1aa79b3b95a42f358ee5371a9e49940c2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::epoll_owner::~epoll_owner</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~epoll_owner</name>
+        <briefdescription>
+<para>close the current epoll file descriptor </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="41" column="1" bodyfile="modules/system/linux.cpp" bodystart="19" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1epoll__owner_1ace7bd8a1e220b42d134f6e1787571205" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::epoll_owner::epoll_owner</definition>
+        <argsstring>(const epoll_owner &amp;)=delete</argsstring>
+        <name>epoll_owner</name>
+        <param>
+          <type>const <ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="42" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1epoll__owner_1a67aefcb858ebd9b290410fb4c0675ac2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::epoll_owner::epoll_owner</definition>
+        <argsstring>(epoll_owner &amp;&amp;)=delete</argsstring>
+        <name>epoll_owner</name>
+        <param>
+          <type><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="43" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1epoll__owner_1afe84e5cde9fed10798ddc40aa778d17a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref> &amp;</type>
+        <definition>epoll_owner&amp; coro::epoll_owner::operator=</definition>
+        <argsstring>(const epoll_owner &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="44" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1epoll__owner_1aa687a1df93f38dfe75ebeddb21e26f67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref> &amp;</type>
+        <definition>epoll_owner&amp; coro::epoll_owner::operator=</definition>
+        <argsstring>(epoll_owner &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="45" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1epoll__owner_1a013b22663c37c41b1ebc50f5af374dc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::epoll_owner::try_add</definition>
+        <argsstring>(uint64_t fd, epoll_event &amp;req) noexcept(false)</argsstring>
+        <name>try_add</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>epoll_event &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>bind the fd to epoll </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para>epoll_ctl </para></simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="55" column="1" bodyfile="modules/system/linux.cpp" bodystart="23" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1epoll__owner_1a199d0fa519d3300ed9998ac4090c16fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::epoll_owner::remove</definition>
+        <argsstring>(uint64_t fd)</argsstring>
+        <name>remove</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>unbind the fd to epoll </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para>epoll_ctl </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="62" column="1" bodyfile="modules/system/linux.cpp" bodystart="38" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1epoll__owner_1a1b956b95ed34ffed8c3932686b06e642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ptrdiff_t</type>
+        <definition>ptrdiff_t coro::epoll_owner::wait</definition>
+        <argsstring>(uint32_t wait_ms, gsl::span&lt; epoll_event &gt; list) noexcept(false)</argsstring>
+        <name>wait</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>wait_ms</declname>
+        </param>
+        <param>
+          <type>gsl::span&lt; epoll_event &gt;</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>fetch all events for the given kqeueue descriptor </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wait_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>millisecond to wait </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>ptrdiff_t </para></simplesect>
+<simplesect kind="see"><para>epoll_wait </para></simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout is not an error for this function </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="74" column="1" bodyfile="modules/system/linux.cpp" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1epoll__owner_1a9f82dbafdc400b3daa9a253399eb83b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::epoll_owner::submit</definition>
+        <argsstring>(int64_t fd, epoll_event &amp;req) noexcept</argsstring>
+        <name>submit</name>
+        <param>
+          <type>int64_t</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>epoll_event &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>return temporary awaitable object for given event </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input for <computeroutput>change</computeroutput> operation </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para>change</para></simplesect>
+There is no guarantee of reusage of returned awaiter object When it is awaited, and <computeroutput>req.udata</computeroutput> is null(0), the value is set to <computeroutput>coroutine_handle&lt;void&gt;</computeroutput></para><para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>edge_in_async(<ref refid="classcoro_1_1epoll__owner_1af896fc8b647b56733a7442ec3ecf2823" kindref="member">epoll_owner</ref>&amp;<sp/>ep,<sp/>int64_t<sp/>fd)<sp/>-&gt;<sp/>frame_t<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>epoll_event<sp/>req{};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>req.events<sp/>=<sp/>EPOLLET<sp/>|<sp/>EPOLLIN<sp/>|<sp/>EPOLLONESHOT;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>req.data.ptr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>co_await<sp/>ep.submit(fd,<sp/>req);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/linux.h" line="96" column="1" bodyfile="interface/coroutine/linux.h" bodystart="96" bodyend="115"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>RAII wrapping for epoll file descriptor. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/linux.h" line="28" column="1" bodyfile="interface/coroutine/linux.h" bodystart="28" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1epoll__owner_1a9c861ec74010169d0f17b90e842662fe" prot="private" virt="non-virtual"><scope>coro::epoll_owner</scope><name>epfd</name></member>
+      <member refid="classcoro_1_1epoll__owner_1af896fc8b647b56733a7442ec3ecf2823" prot="public" virt="non-virtual"><scope>coro::epoll_owner</scope><name>epoll_owner</name></member>
+      <member refid="classcoro_1_1epoll__owner_1ace7bd8a1e220b42d134f6e1787571205" prot="public" virt="non-virtual"><scope>coro::epoll_owner</scope><name>epoll_owner</name></member>
+      <member refid="classcoro_1_1epoll__owner_1a67aefcb858ebd9b290410fb4c0675ac2" prot="public" virt="non-virtual"><scope>coro::epoll_owner</scope><name>epoll_owner</name></member>
+      <member refid="classcoro_1_1epoll__owner_1afe84e5cde9fed10798ddc40aa778d17a" prot="public" virt="non-virtual"><scope>coro::epoll_owner</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1epoll__owner_1aa687a1df93f38dfe75ebeddb21e26f67" prot="public" virt="non-virtual"><scope>coro::epoll_owner</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1epoll__owner_1a199d0fa519d3300ed9998ac4090c16fe" prot="public" virt="non-virtual"><scope>coro::epoll_owner</scope><name>remove</name></member>
+      <member refid="classcoro_1_1epoll__owner_1a9f82dbafdc400b3daa9a253399eb83b6" prot="public" virt="non-virtual"><scope>coro::epoll_owner</scope><name>submit</name></member>
+      <member refid="classcoro_1_1epoll__owner_1a013b22663c37c41b1ebc50f5af374dc9" prot="public" virt="non-virtual"><scope>coro::epoll_owner</scope><name>try_add</name></member>
+      <member refid="classcoro_1_1epoll__owner_1a1b956b95ed34ffed8c3932686b06e642" prot="public" virt="non-virtual"><scope>coro::epoll_owner</scope><name>wait</name></member>
+      <member refid="classcoro_1_1epoll__owner_1aa79b3b95a42f358ee5371a9e49940c2e" prot="public" virt="non-virtual"><scope>coro::epoll_owner</scope><name>~epoll_owner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

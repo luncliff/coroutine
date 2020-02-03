@@ -2,13 +2,12 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classcoro_1_1enumerable" kind="class" language="C++" prot="public">
     <compoundname>coro::enumerable</compoundname>
+    <includes refid="yield_8hpp" local="no">yield.hpp</includes>
     <innerclass refid="classcoro_1_1enumerable_1_1iterator" prot="public">coro::enumerable::iterator</innerclass>
     <innerclass refid="classcoro_1_1enumerable_1_1promise__type" prot="public">coro::enumerable::promise_type</innerclass>
     <templateparamlist>
       <param>
-        <type>typename</type>
-        <declname>T</declname>
-        <defname>T</defname>
+        <type>typename T</type>
       </param>
     </templateparamlist>
       <sectiondef kind="public-type">
@@ -23,10 +22,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="24" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="24" bodyend="-1"/>
+        <location file="interface/internal/yield.hpp" line="23" column="1" bodyfile="interface/internal/yield.hpp" bodystart="23" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1enumerable_1ac45ca85d84312664b0d976c637e8a34a" prot="public" static="no">
-        <type>value_type &amp;</type>
+        <type><ref refid="classcoro_1_1enumerable_1a30cfb124d4d187b8d7d857932f269785" kindref="member">value_type</ref> &amp;</type>
         <definition>using coro::enumerable&lt; T &gt;::reference =  value_type&amp;</definition>
         <argsstring></argsstring>
         <name>reference</name>
@@ -36,10 +35,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="25" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="25" bodyend="-1"/>
+        <location file="interface/internal/yield.hpp" line="24" column="1" bodyfile="interface/internal/yield.hpp" bodystart="24" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1enumerable_1ad8ece9f0764780703e11f080bdbae36b" prot="public" static="no">
-        <type>value_type *</type>
+        <type><ref refid="classcoro_1_1enumerable_1a30cfb124d4d187b8d7d857932f269785" kindref="member">value_type</ref> *</type>
         <definition>using coro::enumerable&lt; T &gt;::pointer =  value_type*</definition>
         <argsstring></argsstring>
         <name>pointer</name>
@@ -49,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="26" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="26" bodyend="-1"/>
+        <location file="interface/internal/yield.hpp" line="25" column="1" bodyfile="interface/internal/yield.hpp" bodystart="25" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -65,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="29" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="29" bodyend="-1"/>
+        <location file="interface/internal/yield.hpp" line="28" column="1" bodyfile="interface/internal/yield.hpp" bodystart="28" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -83,7 +82,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="32" column="1"/>
+        <location file="interface/internal/yield.hpp" line="31" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1a4a385bc06b572c9476ec7b91e79db8b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1enumerable" kindref="compound">enumerable</ref> &amp;</type>
@@ -99,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="33" column="1"/>
+        <location file="interface/internal/yield.hpp" line="32" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1a6a0ff35826bbaced326701e6d4aed045" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -116,7 +115,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="34" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="34" bodyend="36"/>
+        <location file="interface/internal/yield.hpp" line="33" column="1" bodyfile="interface/internal/yield.hpp" bodystart="33" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1a47b8cd22b91323ee98e94b9c5d11dfaf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classcoro_1_1enumerable" kindref="compound">enumerable</ref> &amp;</type>
@@ -133,7 +132,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="37" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="37" bodyend="40"/>
+        <location file="interface/internal/yield.hpp" line="36" column="1" bodyfile="interface/internal/yield.hpp" bodystart="36" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1a6d9e3781bbf372cc2c4482d185b7dc60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -146,7 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="41" column="1"/>
+        <location file="interface/internal/yield.hpp" line="40" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1a3a008f9b70a6d821fe0bdacaa3c0943d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -163,7 +162,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="42" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="42" bodyend="44"/>
+        <location file="interface/internal/yield.hpp" line="41" column="1" bodyfile="interface/internal/yield.hpp" bodystart="41" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1a9495bee88e88b78fa1ccbbcf85ca690f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -176,7 +175,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="45" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="45" bodyend="50"/>
+        <location file="interface/internal/yield.hpp" line="44" column="1" bodyfile="interface/internal/yield.hpp" bodystart="44" bodyend="49"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1a2f71945bdd5fd04560a5ea038bbebc6e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classcoro_1_1enumerable_1_1iterator" kindref="compound">iterator</ref></type>
@@ -189,7 +188,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="53" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="53" bodyend="61"/>
+        <location file="interface/internal/yield.hpp" line="52" column="1" bodyfile="interface/internal/yield.hpp" bodystart="52" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1a58e555626deca84947207278b8e58821" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classcoro_1_1enumerable_1_1iterator" kindref="compound">iterator</ref></type>
@@ -202,14 +201,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="62" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="62" bodyend="64"/>
+        <location file="interface/internal/yield.hpp" line="61" column="1" bodyfile="interface/internal/yield.hpp" bodystart="61" bodyend="63"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/yield.hpp" line="19" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="19" bodyend="140"/>
+    <location file="interface/internal/yield.hpp" line="18" column="1" bodyfile="interface/internal/yield.hpp" bodystart="18" bodyend="141"/>
     <listofallmembers>
       <member refid="classcoro_1_1enumerable_1a2f71945bdd5fd04560a5ea038bbebc6e" prot="public" virt="non-virtual"><scope>coro::enumerable</scope><name>begin</name></member>
       <member refid="classcoro_1_1enumerable_1a3b3e93b586710a54d49004bb84256c64" prot="private" virt="non-virtual"><scope>coro::enumerable</scope><name>coro</name></member>

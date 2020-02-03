@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classstd_1_1experimental_1_1coroutine__handle" kind="class" language="C++" prot="public">
     <compoundname>std::experimental::coroutine_handle</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
     <templateparamlist>
       <param>
         <type>typename</type>
@@ -26,7 +27,7 @@
       </sectiondef>
       <sectiondef kind="private-static-func">
       <memberdef kind="function" id="classstd_1_1experimental_1_1coroutine__handle_1ae82bd2ef38ef317c7cea3c5e645b17c6" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>promise_type *</type>
+        <type><ref refid="classstd_1_1experimental_1_1coroutine__handle_1aa6d09ecbb759391a485814cbcf29c9a6" kindref="member">promise_type</ref> *</type>
         <definition>static promise_type* std::experimental::coroutine_handle&lt; PromiseType &gt;::from_frame</definition>
         <argsstring>(prefix_t addr) noexcept</argsstring>
         <name>from_frame</name>
@@ -111,7 +112,7 @@
         <argsstring>(promise_type &amp;prom) noexcept</argsstring>
         <name>from_promise</name>
         <param>
-          <type>promise_type &amp;</type>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle_1aa6d09ecbb759391a485814cbcf29c9a6" kindref="member">promise_type</ref> &amp;</type>
           <declname>prom</declname>
         </param>
         <briefdescription>

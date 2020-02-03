@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classcoro_1_1writer" kind="class" language="C++" prot="public">
     <compoundname>coro::writer</compoundname>
+    <includes refid="channel_8hpp" local="no">channel.hpp</includes>
     <templateparamlist>
       <param>
         <type>typename T</type>
@@ -22,7 +23,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="178" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="178" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="178" column="1" bodyfile="interface/internal/channel.hpp" bodystart="178" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1writer_1a87b7ebec65b5cef8f18e6da25df85b55" prot="public" static="no">
         <type>T *</type>
@@ -35,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="179" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="179" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="179" column="1" bodyfile="interface/internal/channel.hpp" bodystart="179" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1writer_1a3867e2d574331dcd00677e5d76753ff3" prot="public" static="no">
         <type>T &amp;</type>
@@ -48,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="180" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="180" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="180" column="1" bodyfile="interface/internal/channel.hpp" bodystart="180" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1writer_1aaac6b126da8fa44633751b40c55330ca" prot="public" static="no">
         <type><ref refid="classcoro_1_1channel" kindref="compound">channel</ref>&lt; T, M &gt;</type>
@@ -61,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="181" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="181" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="181" column="1" bodyfile="interface/internal/channel.hpp" bodystart="181" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-type">
@@ -76,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="184" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="184" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="184" column="1" bodyfile="interface/internal/channel.hpp" bodystart="184" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1writer_1aacd602260e12522642546bea9e377e3e" prot="private" static="no">
         <type>typename <ref refid="classcoro_1_1internal_1_1list" kindref="compound">channel_type::reader_list</ref></type>
@@ -89,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="185" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="185" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="185" column="1" bodyfile="interface/internal/channel.hpp" bodystart="185" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1writer_1a69e9bd24c5fa8b9931ae9f44c58d6380" prot="private" static="no">
         <type>typename <ref refid="classcoro_1_1internal_1_1list" kindref="compound">channel_type::writer_list</ref></type>
@@ -102,7 +103,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="186" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="186" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="186" column="1" bodyfile="interface/internal/channel.hpp" bodystart="186" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1writer_1aeab6543e8593e54eab874f0fb43b38b8" prot="private" static="no">
         <type>typename channel_type::peeker</type>
@@ -115,7 +116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="187" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="187" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="187" column="1" bodyfile="interface/internal/channel.hpp" bodystart="187" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -130,7 +131,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="189" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="189" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="189" column="1" bodyfile="interface/internal/channel.hpp" bodystart="189" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcoro_1_1writer_1a34939eee56f83ab56fa584f98fc77f7d" prot="private" static="no" mutable="no">
         <type>friend</type>
@@ -143,7 +144,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="190" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="190" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="190" column="1" bodyfile="interface/internal/channel.hpp" bodystart="190" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcoro_1_1writer_1a43e45096f541010057a744562c1adaff" prot="private" static="no" mutable="no">
         <type>friend</type>
@@ -156,7 +157,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="191" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="191" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="191" column="1" bodyfile="interface/internal/channel.hpp" bodystart="191" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcoro_1_1writer_1a6b76600ab6882160b35fb9d269a893d1" prot="private" static="no" mutable="no">
         <type>friend</type>
@@ -169,10 +170,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="192" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="192" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="192" column="1" bodyfile="interface/internal/channel.hpp" bodystart="192" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcoro_1_1writer_1a1ec0b9edda27a39fec61e220a9142a4f" prot="private" static="no" mutable="yes">
-        <type>pointer</type>
+        <type><ref refid="classcoro_1_1writer_1a87b7ebec65b5cef8f18e6da25df85b55" kindref="member">pointer</ref></type>
         <definition>pointer coro::writer&lt; T, M &gt;::ptr</definition>
         <argsstring></argsstring>
         <name>ptr</name>
@@ -182,7 +183,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="195" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="195" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="195" column="1" bodyfile="interface/internal/channel.hpp" bodystart="195" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcoro_1_1writer_1a662092bf81a6cdba86e6d2f89a6efb1b" prot="private" static="no" mutable="yes">
         <type>void *</type>
@@ -195,7 +196,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="196" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="196" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="196" column="1" bodyfile="interface/internal/channel.hpp" bodystart="196" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcoro_1_1writer_1a1229619b9bd1e7d783eda7854da45c95" prot="private" static="no" mutable="no">
         <type>union coro::writer::@2</type>
@@ -208,7 +209,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="200" column="1"/>
+        <location file="interface/internal/channel.hpp" line="200" column="1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-attrib">
@@ -224,10 +225,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="198" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="198" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="198" column="1" bodyfile="interface/internal/channel.hpp" bodystart="198" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcoro_1_1writer_1a5cc450d133f78b97efa779b10fa5f8af" prot="public" static="no" mutable="no">
-        <type><ref refid="classcoro_1_1channel" kindref="compound">channel_type</ref> *</type>
+        <type><ref refid="classcoro_1_1writer_1aaac6b126da8fa44633751b40c55330ca" kindref="member">channel_type</ref> *</type>
         <definition>channel_type* coro::writer&lt; T, M &gt;::chan</definition>
         <argsstring></argsstring>
         <name>chan</name>
@@ -237,7 +238,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="199" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="199" bodyend="-1"/>
+        <location file="interface/internal/channel.hpp" line="199" column="1" bodyfile="interface/internal/channel.hpp" bodystart="199" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -247,11 +248,11 @@
         <argsstring>(channel_type &amp;ch, pointer pv) noexcept(false)</argsstring>
         <name>writer</name>
         <param>
-          <type><ref refid="classcoro_1_1channel" kindref="compound">channel_type</ref> &amp;</type>
+          <type><ref refid="classcoro_1_1writer_1aaac6b126da8fa44633751b40c55330ca" kindref="member">channel_type</ref> &amp;</type>
           <declname>ch</declname>
         </param>
         <param>
-          <type>pointer</type>
+          <type><ref refid="classcoro_1_1writer_1a87b7ebec65b5cef8f18e6da25df85b55" kindref="member">pointer</ref></type>
           <declname>pv</declname>
         </param>
         <briefdescription>
@@ -260,7 +261,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="203" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="203" bodyend="205"/>
+        <location file="interface/internal/channel.hpp" line="203" column="1" bodyfile="interface/internal/channel.hpp" bodystart="203" bodyend="205"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1writer_1a1db8ee64cd1794707775ea24ca067145" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -276,7 +277,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="206" column="1"/>
+        <location file="interface/internal/channel.hpp" line="206" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1writer_1a2c53beee252e5d061b350238edabec3e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1writer" kindref="compound">writer</ref> &amp;</type>
@@ -292,7 +293,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="207" column="1"/>
+        <location file="interface/internal/channel.hpp" line="207" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1writer_1ace8034b192d5a9203d57888a6b9aff5e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -308,7 +309,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="208" column="1"/>
+        <location file="interface/internal/channel.hpp" line="208" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1writer_1a0339e9a6a61c3b402ea7241741c15e57" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1writer" kindref="compound">writer</ref> &amp;</type>
@@ -324,7 +325,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="209" column="1"/>
+        <location file="interface/internal/channel.hpp" line="209" column="1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -339,7 +340,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="212" column="1"/>
+        <location file="interface/internal/channel.hpp" line="212" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1writer_1a3653f78cfec14b72b4b7d399faf5a353" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -352,7 +353,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="215" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="215" bodyend="228"/>
+        <location file="interface/internal/channel.hpp" line="215" column="1" bodyfile="interface/internal/channel.hpp" bodystart="215" bodyend="228"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1writer_1a2ea9de7ab0feb35e876eeac2bd586704" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -369,7 +370,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="229" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="229" bodyend="238"/>
+        <location file="interface/internal/channel.hpp" line="229" column="1" bodyfile="interface/internal/channel.hpp" bodystart="229" bodyend="238"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1writer_1a44318a41cddbfe6cd1819deeb17cb7bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -382,7 +383,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="239" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="239" bodyend="248"/>
+        <location file="interface/internal/channel.hpp" line="239" column="1" bodyfile="interface/internal/channel.hpp" bodystart="239" bodyend="248"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -390,34 +391,34 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="279">
+      <node id="329">
         <label>coro::channel&lt; T, M &gt;</label>
         <link refid="classcoro_1_1channel"/>
-        <childnode refid="280" relation="private-inheritance">
+        <childnode refid="330" relation="private-inheritance">
         </childnode>
-        <childnode refid="281" relation="private-inheritance">
+        <childnode refid="331" relation="private-inheritance">
         </childnode>
       </node>
-      <node id="278">
+      <node id="328">
         <label>coro::writer&lt; T, M &gt;</label>
         <link refid="classcoro_1_1writer"/>
-        <childnode refid="278" relation="usage">
+        <childnode refid="328" relation="usage">
           <edgelabel>next</edgelabel>
         </childnode>
-        <childnode refid="279" relation="usage">
+        <childnode refid="329" relation="usage">
           <edgelabel>chan</edgelabel>
         </childnode>
       </node>
-      <node id="281">
+      <node id="331">
         <label>coro::internal::list&lt; writer&lt; T, M &gt; &gt;</label>
         <link refid="classcoro_1_1internal_1_1list"/>
       </node>
-      <node id="280">
+      <node id="330">
         <label>coro::internal::list&lt; reader&lt; T, M &gt; &gt;</label>
         <link refid="classcoro_1_1internal_1_1list"/>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/channel.hpp" line="88" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="88" bodyend="-1"/>
+    <location file="interface/internal/channel.hpp" line="88" column="1" bodyfile="interface/internal/channel.hpp" bodystart="88" bodyend="-1"/>
     <listofallmembers>
       <member refid="classcoro_1_1writer_1a3653f78cfec14b72b4b7d399faf5a353" prot="public" virt="non-virtual"><scope>coro::writer</scope><name>await_ready</name></member>
       <member refid="classcoro_1_1writer_1a44318a41cddbfe6cd1819deeb17cb7bb" prot="public" virt="non-virtual"><scope>coro::writer</scope><name>await_resume</name></member>

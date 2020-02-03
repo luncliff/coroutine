@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -478,6 +490,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#public-functions-inherited-from-coropromise_aa" class="md-nav__link">
+    Public Functions inherited from coro::promise_aa
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#public-functions-documentation" class="md-nav__link">
     Public Functions Documentation
   </a>
@@ -495,6 +514,13 @@
           <li class="md-nav__item">
   <a href="#function-return95void" class="md-nav__link">
     function return_void
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-unhandled95exception" class="md-nav__link">
+    function unhandled_exception
   </a>
   
 </li>
@@ -539,7 +565,10 @@
                 
                 <h1 id="class-coroenumerablepromise95type">Class coro::enumerable::promise_type<a class="headerlink" href="#class-coroenumerablepromise95type" title="Permanent link">&para;</a></h1>
 <p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacecoro/"><strong>coro</strong></a> <strong>&gt;</strong> <a href="../classcoro_1_1enumerable/"><strong>enumerable</strong></a> <strong>&gt;</strong> <a href="./"><strong>promise_type</strong></a></p>
-<p>Inherits the following classes: promise_manual_control</p>
+<ul>
+<li><code>#include &lt;yield.hpp&gt;</code></li>
+</ul>
+<p>Inherits the following classes: <a href="../classcoro_1_1promise__aa/">coro::promise_aa</a></p>
 <h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -558,12 +587,36 @@
 <td align="left"><a href="./#function-return-void"><strong>return_void</strong></a> () noexcept<br></td>
 </tr>
 <tr>
-<td align="right">auto</td>
-<td align="left"><a href="./#function-yield-value-12"><strong>yield_value</strong></a> (reference ref) noexcept<br></td>
+<td align="right">void</td>
+<td align="left"><a href="./#function-unhandled-exception"><strong>unhandled_exception</strong></a> () noexcept<br></td>
 </tr>
 <tr>
 <td align="right">auto</td>
-<td align="left"><a href="./#function-yield-value-22"><strong>yield_value</strong></a> (value_type &amp;&amp; v) noexcept<br></td>
+<td align="left"><a href="./#function-yield-value-12"><strong>yield_value</strong></a> (<a href="../classcoro_1_1enumerable/#typedef-reference"><strong>reference</strong></a> ref) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">auto</td>
+<td align="left"><a href="./#function-yield-value-22"><strong>yield_value</strong></a> (<a href="../classcoro_1_1enumerable/#typedef-value-type"><strong>value_type</strong></a> &amp;&amp; v) noexcept<br></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-inherited-from-coropromise_aa">Public Functions inherited from coro::promise_aa<a class="headerlink" href="#public-functions-inherited-from-coropromise_aa" title="Permanent link">&para;</a></h2>
+<p>See <a href="../classcoro_1_1promise__aa/">coro::promise_aa</a></p>
+<table>
+<thead>
+<tr>
+<th align="right">Type</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right"><a href="../classstd_1_1experimental_1_1suspend__always/"><strong>suspend_always</strong></a></td>
+<td align="left"><a href="../classcoro_1_1promise__aa/#function-final-suspend"><strong>final_suspend</strong></a> () noexcept<br><em>suspend after return</em></td>
+</tr>
+<tr>
+<td align="right"><a href="../classstd_1_1experimental_1_1suspend__always/"><strong>suspend_always</strong></a></td>
+<td align="left"><a href="../classcoro_1_1promise__aa/#function-initial-suspend"><strong>initial_suspend</strong></a> () noexcept<br><em>suspend after invoke</em></td>
 </tr>
 </tbody>
 </table>
@@ -575,6 +628,11 @@
 
 <h3 id="function-return95void">function return_void<a class="headerlink" href="#function-return95void" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><span class="kr">inline</span> <span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">return_void</span> <span class="p">()</span> <span class="k">noexcept</span>
+</pre></div>
+
+
+<h3 id="function-unhandled95exception">function unhandled_exception<a class="headerlink" href="#function-unhandled95exception" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="kr">inline</span> <span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">unhandled_exception</span> <span class="p">()</span> <span class="k">noexcept</span>
 </pre></div>
 
 
@@ -593,7 +651,7 @@
 
 
 <hr />
-<p>The documentation for this class was generated from the following file <code>interface/coroutine/yield.hpp</code></p>
+<p>The documentation for this class was generated from the following file <code>interface/internal/yield.hpp</code></p>
                 
                   
                 

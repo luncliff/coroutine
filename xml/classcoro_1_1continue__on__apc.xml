@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classcoro_1_1continue__on__apc" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::continue_on_apc</compoundname>
+    <includes refid="windows_8h" local="no">windows.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcoro_1_1continue__on__apc_1ae9ae7d5c7394552475d7f45c9e96f169" prot="private" static="no" mutable="no">
+        <type>HANDLE</type>
+        <definition>HANDLE coro::continue_on_apc::thread</definition>
+        <argsstring></argsstring>
+        <name>thread</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="161" column="1" bodyfile="interface/coroutine/windows.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classcoro_1_1continue__on__apc_1a1b7638e8ceb82a5d1415eaf903577e77" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void __stdcall</type>
+        <definition>void coro::continue_on_apc::resume_on_apc</definition>
+        <argsstring>(ULONG_PTR)</argsstring>
+        <name>resume_on_apc</name>
+        <param>
+          <type>ULONG_PTR</type>
+          <defname>param</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="126" column="1" bodyfile="modules/system/windows.cpp" bodystart="109" bodyend="113"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcoro_1_1continue__on__apc_1a2b40f67ae0d189395633d07bd861c881" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>auto coro::continue_on_apc::queue_user_apc</definition>
+        <argsstring>(coroutine_handle&lt; void &gt;) noexcept</argsstring>
+        <name>queue_user_apc</name>
+        <param>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <defname>coro</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>QueueUserAPC </para></simplesect>
+<simplesect kind="return"><para>uint32_t error code from <computeroutput>QueueUserAPC</computeroutput> function </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="132" column="1" bodyfile="modules/system/windows.cpp" bodystart="116" bodyend="123"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1continue__on__apc_1ac411e4ff971369b32a8236e053b6ae55" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool coro::continue_on_apc::await_ready</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>await_ready</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="135" column="1" bodyfile="interface/coroutine/windows.h" bodystart="135" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1continue__on__apc_1a019729d426146f32789c9525e70b1224" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void coro::continue_on_apc::await_resume</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>await_resume</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="138" column="1" bodyfile="interface/coroutine/windows.h" bodystart="138" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1continue__on__apc_1a4a9014be117a81d5b8534501e58d2d8d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::continue_on_apc::await_suspend</definition>
+        <argsstring>(coroutine_handle&lt; void &gt; coro) noexcept(false)</argsstring>
+        <name>await_suspend</name>
+        <param>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>coro</declname>
+        </param>
+        <briefdescription>
+<para>Try to submit the coroutine to the thread&apos;s APC queue. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coro</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="146" column="1" bodyfile="interface/coroutine/windows.h" bodystart="146" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1continue__on__apc_1abd15aa633ddddbc1b0c24fab8bb33171" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>coro::continue_on_apc::continue_on_apc</definition>
+        <argsstring>(HANDLE hThread) noexcept</argsstring>
+        <name>continue_on_apc</name>
+        <param>
+          <type>HANDLE</type>
+          <declname>hThread</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hThread</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target thread&apos;s handle </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para>OpenThread </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="157" column="1" bodyfile="interface/coroutine/windows.h" bodystart="157" bodyend="158"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Move into the designated thread&apos;s APC queue and continue the routine. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="see"><para>QueueUserAPC </para></simplesect>
+<simplesect kind="see"><para>OpenThread </para></simplesect>
+</para>    </detaileddescription>
+    <location file="interface/coroutine/windows.h" line="125" column="1" bodyfile="interface/coroutine/windows.h" bodystart="125" bodyend="162"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1continue__on__apc_1ac411e4ff971369b32a8236e053b6ae55" prot="public" virt="non-virtual"><scope>coro::continue_on_apc</scope><name>await_ready</name></member>
+      <member refid="classcoro_1_1continue__on__apc_1a019729d426146f32789c9525e70b1224" prot="public" virt="non-virtual"><scope>coro::continue_on_apc</scope><name>await_resume</name></member>
+      <member refid="classcoro_1_1continue__on__apc_1a4a9014be117a81d5b8534501e58d2d8d" prot="public" virt="non-virtual"><scope>coro::continue_on_apc</scope><name>await_suspend</name></member>
+      <member refid="classcoro_1_1continue__on__apc_1abd15aa633ddddbc1b0c24fab8bb33171" prot="public" virt="non-virtual"><scope>coro::continue_on_apc</scope><name>continue_on_apc</name></member>
+      <member refid="classcoro_1_1continue__on__apc_1a2b40f67ae0d189395633d07bd861c881" prot="private" virt="non-virtual"><scope>coro::continue_on_apc</scope><name>queue_user_apc</name></member>
+      <member refid="classcoro_1_1continue__on__apc_1a1b7638e8ceb82a5d1415eaf903577e77" prot="private" virt="non-virtual"><scope>coro::continue_on_apc</scope><name>resume_on_apc</name></member>
+      <member refid="classcoro_1_1continue__on__apc_1ae9ae7d5c7394552475d7f45c9e96f169" prot="private" virt="non-virtual"><scope>coro::continue_on_apc</scope><name>thread</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

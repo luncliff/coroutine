@@ -2,10 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="dir_e05d7e2b1ecd646af5bb94391405f3b5" kind="dir">
     <compoundname>modules</compoundname>
-    <innerdir refid="dir_efd85e361fabb3b869a38eac7e59b342">modules/concrt</innerdir>
-    <innerdir refid="dir_4f62ca89e6e2b2dab0d5f15908e4b9e4">modules/event</innerdir>
     <innerdir refid="dir_923c80758d00fd62f29a99e232049d19">modules/net</innerdir>
-    <innerdir refid="dir_cfce773df20e130ee7436b64bcb4a019">modules/thread</innerdir>
+    <innerdir refid="dir_826aeabe2439c2b66ff3bb7c0dad7853">modules/system</innerdir>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

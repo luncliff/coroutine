@@ -4,52 +4,88 @@
     <compoundname>return.h</compoundname>
     <includes local="no">type_traits</includes>
     <includes refid="frame_8h" local="no">coroutine/frame.h</includes>
-    <includedby refid="yield_8hpp" local="no">interface/coroutine/yield.hpp</includedby>
+    <includedby refid="net_8h" local="no">interface/coroutine/net.h</includedby>
+    <includedby refid="yield_8hpp" local="no">interface/internal/yield.hpp</includedby>
+    <includedby refid="darwin_8cpp" local="no">modules/system/darwin.cpp</includedby>
     <incdepgraph>
-      <node id="157">
+      <node id="254">
         <label>coroutine/frame.h</label>
-        <link refid="frame_8h_source"/>
-        <childnode refid="158" relation="include">
+        <link refid="frame_8h"/>
+        <childnode refid="255" relation="include">
         </childnode>
-        <childnode refid="159" relation="include">
+        <childnode refid="256" relation="include">
         </childnode>
-        <childnode refid="156" relation="include">
+        <childnode refid="253" relation="include">
         </childnode>
       </node>
-      <node id="159">
+      <node id="256">
         <label>cstdint</label>
       </node>
-      <node id="155">
+      <node id="252">
         <label>interface/coroutine/return.h</label>
         <link refid="return.h"/>
-        <childnode refid="156" relation="include">
+        <childnode refid="253" relation="include">
         </childnode>
-        <childnode refid="157" relation="include">
+        <childnode refid="254" relation="include">
         </childnode>
       </node>
-      <node id="158">
+      <node id="255">
         <label>cstddef</label>
       </node>
-      <node id="156">
+      <node id="253">
         <label>type_traits</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="161">
-        <label>interface/coroutine/yield.hpp</label>
-        <link refid="yield_8hpp_source"/>
-        <childnode refid="162" relation="include">
+      <node id="262">
+        <label>modules/net/resolver.cpp</label>
+        <link refid="resolver_8cpp"/>
+      </node>
+      <node id="258">
+        <label>interface/coroutine/net.h</label>
+        <link refid="net_8h"/>
+        <childnode refid="259" relation="include">
+        </childnode>
+        <childnode refid="260" relation="include">
+        </childnode>
+        <childnode refid="261" relation="include">
+        </childnode>
+        <childnode refid="262" relation="include">
         </childnode>
       </node>
-      <node id="162">
-        <label>interface/coroutine/net.h</label>
-        <link refid="net_8h_source"/>
+      <node id="260">
+        <label>modules/net/io_linux.cpp</label>
+        <link refid="io__linux_8cpp"/>
       </node>
-      <node id="160">
+      <node id="264">
+        <label>modules/system/darwin.cpp</label>
+        <link refid="darwin_8cpp"/>
+      </node>
+      <node id="257">
         <label>interface/coroutine/return.h</label>
         <link refid="return.h"/>
-        <childnode refid="161" relation="include">
+        <childnode refid="258" relation="include">
         </childnode>
+        <childnode refid="263" relation="include">
+        </childnode>
+        <childnode refid="264" relation="include">
+        </childnode>
+      </node>
+      <node id="263">
+        <label>interface/internal/yield.hpp</label>
+        <link refid="yield_8hpp"/>
+        <childnode refid="262" relation="include">
+        </childnode>
+        <childnode refid="264" relation="include">
+        </childnode>
+      </node>
+      <node id="259">
+        <label>modules/net/io_darwin.cpp</label>
+        <link refid="io__darwin_8cpp"/>
+      </node>
+      <node id="261">
+        <label>modules/net/io_windows.cpp</label>
+        <link refid="io__windows_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classcoro_1_1promise__nn" prot="public">coro::promise_nn</innerclass>
@@ -81,103 +117,103 @@
 <codeline lineno="1"></codeline>
 <codeline lineno="9"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>COROUTINE_PROMISE_AND_RETURN_TYPES_H</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>COROUTINE_PROMISE_AND_RETURN_TYPES_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11" refid="return_8h_1abc53f6443c5b7b19f6a4dd81fb55f755" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>COROUTINE_PROMISE_AND_RETURN_TYPES_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;coroutine/frame.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="frame_8h" kindref="compound">coroutine/frame.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="15"><highlight class="normal"></highlight></codeline>
-<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>__has_include(&lt;coroutine&gt;)<sp/>//<sp/>C++<sp/>20</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>__has_include(&lt;experimental/coroutine&gt;)<sp/>//<sp/>C++<sp/>17</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1experimental" kindref="compound">std::experimental</ref>;</highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight></codeline>
-<codeline lineno="24" refid="classcoro_1_1promise__nn" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1promise__nn" kindref="compound">promise_nn</ref><sp/>{</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>initial_suspend()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref>{};<sp/></highlight><highlight class="comment">//<sp/>no<sp/>suspend<sp/>after<sp/>invoke</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>final_suspend()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref>{};<sp/></highlight><highlight class="comment">//<sp/>no<sp/>suspend<sp/>after<sp/>return</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34" refid="classcoro_1_1promise__na" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1promise__na" kindref="compound">promise_na</ref><sp/>{</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>initial_suspend()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref>{};<sp/></highlight><highlight class="comment">//<sp/>no<sp/>suspend<sp/>after<sp/>invoke</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>final_suspend()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref>{};<sp/></highlight><highlight class="comment">//<sp/>suspend<sp/>after<sp/>return</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight></codeline>
-<codeline lineno="44" refid="classcoro_1_1promise__an" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1promise__an" kindref="compound">promise_an</ref><sp/>{</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>initial_suspend()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref>{};<sp/></highlight><highlight class="comment">//<sp/>suspend<sp/>after<sp/>invoke</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>final_suspend()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref>{};<sp/></highlight><highlight class="comment">//<sp/>no<sp/>suspend<sp/>after<sp/>return</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight></codeline>
-<codeline lineno="54" refid="classcoro_1_1promise__aa" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1promise__aa" kindref="compound">promise_aa</ref><sp/>{</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>initial_suspend()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref>{};<sp/></highlight><highlight class="comment">//<sp/>suspend<sp/>after<sp/>invoke</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>final_suspend()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref>{};<sp/></highlight><highlight class="comment">//<sp/>suspend<sp/>after<sp/>return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>__has_include(&lt;coroutine&gt;)<sp/>//<sp/>C++<sp/>20</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>__has_include(&lt;experimental/coroutine&gt;)<sp/>//<sp/>C++<sp/>17</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1experimental" kindref="compound">std::experimental</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classcoro_1_1promise__nn" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1promise__nn" kindref="compound">promise_nn</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38" refid="classcoro_1_1promise__nn_1ae4078639d15f8c8b52c47c0326ad96ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref><sp/><ref refid="classcoro_1_1promise__nn_1ae4078639d15f8c8b52c47c0326ad96ee" kindref="member">initial_suspend</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45" refid="classcoro_1_1promise__nn_1ae3f283f0874d0395783973e835e8c536" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref><sp/><ref refid="classcoro_1_1promise__nn_1ae3f283f0874d0395783973e835e8c536" kindref="member">final_suspend</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="classcoro_1_1promise__na" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1promise__na" kindref="compound">promise_na</ref><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59" refid="classcoro_1_1promise__na_1a8ef0f7bd7b8b834de1eb85dcb723e674" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref><sp/><ref refid="classcoro_1_1promise__na_1a8ef0f7bd7b8b834de1eb85dcb723e674" kindref="member">initial_suspend</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight></codeline>
-<codeline lineno="69" refid="classcoro_1_1frame__t" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1frame__t" kindref="compound">frame_t</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt;void&gt;<sp/>{</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="71" refid="classcoro_1_1frame__t_1_1promise__type" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1frame__t_1_1promise__type" kindref="compound">promise_type</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1promise__aa" kindref="compound">coro::promise_aa</ref><sp/>{</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="77" refid="classcoro_1_1frame__t_1_1promise__type_1a63d10c951414b16b7ff45a574e3094a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1frame__t_1_1promise__type_1a63d10c951414b16b7ff45a574e3094a9" kindref="member">unhandled_exception</ref>()<sp/>noexcept(false)<sp/>{</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="83" refid="classcoro_1_1frame__t_1_1promise__type_1a9644f5c45cb2843a4458eaf25a0ebe74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1frame__t_1_1promise__type_1a9644f5c45cb2843a4458eaf25a0ebe74" kindref="member">return_void</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_return_object()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1frame__t" kindref="compound">frame_t</ref><sp/>frame{};</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref>&amp;<sp/>ref<sp/>=<sp/>frame;</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ref<sp/>=<sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle&lt;promise_type&gt;::from_promise</ref>(*</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>frame;</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"></highlight></codeline>
-<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__cpp_concepts)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>R<sp/>=<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;</highlight></codeline>
-<codeline lineno="96"><highlight class="normal">concept<sp/>awaitable<sp/>=<sp/>requires(T<sp/>a,<sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>h)<sp/>{</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>a.await_ready()<sp/>}</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;bool;</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>a.await_suspend(h)<sp/>}</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;void;</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>a.await_resume()<sp/>}</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;R;</highlight></codeline>
-<codeline lineno="103"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"></highlight></codeline>
-<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>P&gt;</highlight></codeline>
-<codeline lineno="106"><highlight class="normal">concept<sp/>promise_requirement_basic<sp/>=<sp/>requires(P<sp/>p)<sp/>{</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>p.initial_suspend()<sp/>}</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;awaitable;</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>p.final_suspend()<sp/>}</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;awaitable;</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>p.unhandled_exception()<sp/>}</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;void;</highlight></codeline>
-<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="116"><highlight class="normal"></highlight></codeline>
-<codeline lineno="117"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coro</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>COROUTINE_PROMISE_AND_RETURN_TYPES_H</highlight></codeline>
+<codeline lineno="66" refid="classcoro_1_1promise__na_1af07e52a11070442615475901fbbb21e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref><sp/><ref refid="classcoro_1_1promise__na_1af07e52a11070442615475901fbbb21e2" kindref="member">final_suspend</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classcoro_1_1promise__an" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1promise__an" kindref="compound">promise_an</ref><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80" refid="classcoro_1_1promise__an_1aa86e2ba1ac1bcd563b72aead99e46154" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref><sp/><ref refid="classcoro_1_1promise__an_1aa86e2ba1ac1bcd563b72aead99e46154" kindref="member">initial_suspend</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87" refid="classcoro_1_1promise__an_1a53cad2f133187506cf0023d6971d0535" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref><sp/><ref refid="classcoro_1_1promise__an_1a53cad2f133187506cf0023d6971d0535" kindref="member">final_suspend</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classcoro_1_1promise__aa" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1promise__aa" kindref="compound">promise_aa</ref><sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="101" refid="classcoro_1_1promise__aa_1a0f73ef270974608b4c8206ef7a4dd195" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref><sp/><ref refid="classcoro_1_1promise__aa_1a0f73ef270974608b4c8206ef7a4dd195" kindref="member">initial_suspend</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108" refid="classcoro_1_1promise__aa_1ae2704bdaace12103bb6c42fe229a36b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref><sp/><ref refid="classcoro_1_1promise__aa_1ae2704bdaace12103bb6c42fe229a36b9" kindref="member">final_suspend</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classcoro_1_1frame__t" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1frame__t" kindref="compound">frame_t</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt;void&gt;<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="120" refid="classcoro_1_1frame__t_1_1promise__type" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1frame__t_1_1promise__type" kindref="compound">promise_type</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1promise__na" kindref="compound">coro::promise_na</ref><sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="125" refid="classcoro_1_1frame__t_1_1promise__type_1a63d10c951414b16b7ff45a574e3094a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1frame__t_1_1promise__type_1a63d10c951414b16b7ff45a574e3094a9" kindref="member">unhandled_exception</ref>()<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131" refid="classcoro_1_1frame__t_1_1promise__type_1a9644f5c45cb2843a4458eaf25a0ebe74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1frame__t_1_1promise__type_1a9644f5c45cb2843a4458eaf25a0ebe74" kindref="member">return_void</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137" refid="classcoro_1_1frame__t_1_1promise__type_1a22b9498b1294c08cd04a0e90db979c85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1frame__t" kindref="compound">frame_t</ref><sp/><ref refid="classcoro_1_1frame__t_1_1promise__type_1a22b9498b1294c08cd04a0e90db979c85" kindref="member">get_return_object</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1frame__t" kindref="compound">frame_t</ref><sp/>frame{};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref>&amp;<sp/>ref<sp/>=<sp/>frame;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ref<sp/>=<sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_1a9a25f06db61142e7be4f6418b04de246" kindref="member">coroutine_handle&lt;promise_type&gt;::from_promise</ref>(*</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>frame;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__cpp_concepts)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>R<sp/>=<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">concept<sp/>awaitable<sp/>=<sp/>requires(T<sp/>a,<sp/><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>h)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>a.await_ready()<sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;bool;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>a.await_suspend(h)<sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;void;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>a.await_resume()<sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;R;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>P&gt;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">concept<sp/>promise_requirement_basic<sp/>=<sp/>requires(P<sp/>p)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>p.initial_suspend()<sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;awaitable;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>p.final_suspend()<sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;awaitable;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>p.unhandled_exception()<sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;void;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>COROUTINE_PROMISE_AND_RETURN_TYPES_H</highlight></codeline>
     </programlisting>
     <location file="interface/coroutine/return.h"/>
   </compounddef>

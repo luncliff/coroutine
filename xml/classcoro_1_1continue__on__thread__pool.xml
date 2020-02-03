@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classcoro_1_1continue__on__thread__pool" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::continue_on_thread_pool</compoundname>
+    <includes refid="windows_8h" local="no">windows.h</includes>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classcoro_1_1continue__on__thread__pool_1a77775b4b465fb5df44e90a7d7e65540c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void __stdcall</type>
+        <definition>void coro::continue_on_thread_pool::resume_on_thread_pool</definition>
+        <argsstring>(PTP_CALLBACK_INSTANCE, PVOID, PTP_WORK)</argsstring>
+        <name>resume_on_thread_pool</name>
+        <param>
+          <type>PTP_CALLBACK_INSTANCE</type>
+        </param>
+        <param>
+          <type>PVOID</type>
+          <defname>ctx</defname>
+        </param>
+        <param>
+          <type>PTP_WORK</type>
+          <defname>work</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>CloseThreadpoolWork </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="91" column="1" bodyfile="modules/system/windows.cpp" bodystart="85" bodyend="92"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcoro_1_1continue__on__thread__pool_1af4e83dcdf512550a7e2fef589c502000" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>auto coro::continue_on_thread_pool::create_and_submit_work</definition>
+        <argsstring>(coroutine_handle&lt; void &gt;) noexcept</argsstring>
+        <name>create_and_submit_work</name>
+        <param>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <defname>coro</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>CreateThreadpoolWork </para></simplesect>
+<simplesect kind="see"><para>SubmitThreadpoolWork </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="97" column="1" bodyfile="modules/system/windows.cpp" bodystart="94" bodyend="106"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1continue__on__thread__pool_1ae8cf2ca512bd90e276622d3fab30c1de" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool coro::continue_on_thread_pool::await_ready</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>await_ready</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="100" column="1" bodyfile="interface/coroutine/windows.h" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1continue__on__thread__pool_1a46d15a2c1c5d282edb3171288b368b1b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void coro::continue_on_thread_pool::await_resume</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>await_resume</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="103" column="1" bodyfile="interface/coroutine/windows.h" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1continue__on__thread__pool_1ab1e6995c97b189e8e5eab3dab9e97067" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::continue_on_thread_pool::await_suspend</definition>
+        <argsstring>(coroutine_handle&lt; void &gt; coro) noexcept(false)</argsstring>
+        <name>await_suspend</name>
+        <param>
+          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>coro</declname>
+        </param>
+        <briefdescription>
+<para>Try to submit the coroutine to thread pool. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coro</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="112" column="1" bodyfile="interface/coroutine/windows.h" bodystart="112" bodyend="116"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Move into the win32 thread pool and continue the routine. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="see"><para>CreateThreadpoolWork </para></simplesect>
+<simplesect kind="see"><para>SubmitThreadpoolWork </para></simplesect>
+<simplesect kind="see"><para>CloseThreadpoolWork </para></simplesect>
+</para>    </detaileddescription>
+    <location file="interface/coroutine/windows.h" line="87" column="1" bodyfile="interface/coroutine/windows.h" bodystart="87" bodyend="117"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1continue__on__thread__pool_1ae8cf2ca512bd90e276622d3fab30c1de" prot="public" virt="non-virtual"><scope>coro::continue_on_thread_pool</scope><name>await_ready</name></member>
+      <member refid="classcoro_1_1continue__on__thread__pool_1a46d15a2c1c5d282edb3171288b368b1b" prot="public" virt="non-virtual"><scope>coro::continue_on_thread_pool</scope><name>await_resume</name></member>
+      <member refid="classcoro_1_1continue__on__thread__pool_1ab1e6995c97b189e8e5eab3dab9e97067" prot="public" virt="non-virtual"><scope>coro::continue_on_thread_pool</scope><name>await_suspend</name></member>
+      <member refid="classcoro_1_1continue__on__thread__pool_1af4e83dcdf512550a7e2fef589c502000" prot="private" virt="non-virtual"><scope>coro::continue_on_thread_pool</scope><name>create_and_submit_work</name></member>
+      <member refid="classcoro_1_1continue__on__thread__pool_1a77775b4b465fb5df44e90a7d7e65540c" prot="private" virt="non-virtual"><scope>coro::continue_on_thread_pool</scope><name>resume_on_thread_pool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

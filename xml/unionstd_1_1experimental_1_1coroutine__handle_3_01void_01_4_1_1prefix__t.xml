@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t" kind="union" language="C++" prot="public">
     <compoundname>std::experimental::coroutine_handle&lt; void &gt;::prefix_t</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
       <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a4b616f3a365c765231b47e6fdfa6f5d4" prot="public" static="no" mutable="no">
         <type>void *</type>
@@ -62,28 +63,28 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="244">
+      <node id="262">
         <label>gcc_frame_prefix</label>
         <link refid="structgcc__frame__prefix"/>
       </node>
-      <node id="243">
+      <node id="261">
         <label>clang_frame_prefix</label>
         <link refid="structclang__frame__prefix"/>
       </node>
-      <node id="245">
+      <node id="263">
         <label>msvc_frame_prefix</label>
         <link refid="structmsvc__frame__prefix"/>
       </node>
-      <node id="242">
+      <node id="260">
         <label>std::experimental::coroutine_handle&lt; void &gt;::prefix_t</label>
         <link refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t"/>
-        <childnode refid="243" relation="usage">
+        <childnode refid="261" relation="usage">
           <edgelabel>c</edgelabel>
         </childnode>
-        <childnode refid="244" relation="usage">
+        <childnode refid="262" relation="usage">
           <edgelabel>g</edgelabel>
         </childnode>
-        <childnode refid="245" relation="usage">
+        <childnode refid="263" relation="usage">
           <edgelabel>m</edgelabel>
         </childnode>
       </node>

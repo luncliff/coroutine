@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="structstd_1_1experimental_1_1noop__coroutine__promise" kind="struct" language="C++" prot="public">
     <compoundname>std::experimental::noop_coroutine_promise</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

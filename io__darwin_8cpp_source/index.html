@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -483,13 +495,10 @@
                 <h1 id="file-io95darwincpp">File io_darwin.cpp<a class="headerlink" href="#file-io95darwincpp" title="Permanent link">&para;</a></h1>
 <p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_e05d7e2b1ecd646af5bb94391405f3b5/"><strong>modules</strong></a> <strong>&gt;</strong> <a href="../dir_923c80758d00fd62f29a99e232049d19/"><strong>net</strong></a> <strong>&gt;</strong> <a href="../io__darwin_8cpp/"><strong>io_darwin.cpp</strong></a></p>
 <p><a href="../io__darwin_8cpp/">Go to the documentation of this file.</a> </p>
-<div class="codehilite"><pre><span></span><span class="c1">//</span>
-<span class="c1">//  Author  : github.com/luncliff (luncliff@gmail.com)</span>
-<span class="c1">//  License : CC BY 4.0</span>
-<span class="c1">//</span>
-<span class="cp">#include</span> <span class="cpf">&lt;coroutine/net.h&gt;</span><span class="cp"></span>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
 
-<span class="cp">#include</span> <span class="cpf">&quot;kernel_queue.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;coroutine/net.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;coroutine/unix.h&gt;</span><span class="cp"></span>
 
 <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">ssize_t</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int64_t</span><span class="p">));</span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
@@ -497,25 +506,35 @@
 
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
 
-<span class="n">kernel_queue_t</span> <span class="n">kq</span><span class="p">{};</span>
+<span class="n">kqueue_owner</span> <span class="n">netkq</span><span class="p">{};</span>
 
-<span class="k">auto</span> <span class="nf">enumerate_net_tasks</span><span class="p">(</span><span class="n">nanoseconds</span> <span class="n">timeout</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
-    <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">io_task_t</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="n">timespec</span> <span class="n">ts</span><span class="p">{};</span>
-    <span class="k">const</span> <span class="k">auto</span> <span class="n">sec</span> <span class="o">=</span> <span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">seconds</span><span class="o">&gt;</span><span class="p">(</span><span class="n">timeout</span><span class="p">);</span>
-    <span class="n">ts</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="n">sec</span><span class="p">.</span><span class="n">count</span><span class="p">();</span>
-    <span class="n">ts</span><span class="p">.</span><span class="n">tv_nsec</span> <span class="o">=</span> <span class="p">(</span><span class="n">timeout</span> <span class="o">-</span> <span class="n">sec</span><span class="p">).</span><span class="n">count</span><span class="p">();</span>
+<span class="k">using</span> <span class="n">net_callback_t</span> <span class="o">=</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">);</span>
 
-    <span class="k">for</span> <span class="p">(</span><span class="n">kevent64_s</span><span class="o">&amp;</span> <span class="nl">ev</span> <span class="p">:</span> <span class="n">kq</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">ts</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">work</span> <span class="o">=</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_work_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">ev</span><span class="p">.</span><span class="n">udata</span><span class="p">);</span>
-        <span class="c1">// need to pass error information from</span>
-        <span class="c1">// kevent to io_work</span>
-        <span class="n">co_yield</span> <span class="n">work</span><span class="p">.</span><span class="n">task</span><span class="p">;</span>
+<span class="kt">void</span> <span class="nf">poll_net_tasks</span><span class="p">(</span><span class="k">const</span> <span class="n">timespec</span><span class="o">&amp;</span> <span class="n">wait_time</span><span class="p">,</span> <span class="c1">//</span>
+                    <span class="n">net_callback_t</span> <span class="n">callback</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">ctx</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">buf_size</span> <span class="o">=</span> <span class="mi">30u</span><span class="p">;</span>
+    <span class="k">auto</span> <span class="n">buf</span> <span class="o">=</span> <span class="n">make_unique</span><span class="o">&lt;</span><span class="n">kevent64_s</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="n">buf_size</span><span class="p">);</span>
+
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">count</span> <span class="o">=</span> <span class="n">netkq</span><span class="p">.</span><span class="n">events</span><span class="p">(</span><span class="n">wait_time</span><span class="p">,</span> <span class="p">{</span><span class="n">buf</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">buf_size</span><span class="p">});</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span><span class="o">*</span> <span class="n">work</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_work_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">udata</span><span class="p">);</span>
+        <span class="n">callback</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">work</span><span class="o">-&gt;</span><span class="n">task</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
-<span class="kt">void</span> <span class="nf">wait_net_tasks</span><span class="p">(</span><span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">io_task_t</span><span class="o">&gt;&amp;</span> <span class="n">tasks</span><span class="p">,</span>
-                    <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">nanoseconds</span> <span class="n">timeout</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">tasks</span> <span class="o">=</span> <span class="n">enumerate_net_tasks</span><span class="p">(</span><span class="n">timeout</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">resume_net_task</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">,</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">poll_net_tasks</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">nano</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">timeout</span> <span class="o">=</span> <span class="n">nanoseconds</span><span class="p">{</span><span class="n">nano</span><span class="p">};</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">sec</span> <span class="o">=</span> <span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">seconds</span><span class="o">&gt;</span><span class="p">(</span><span class="n">timeout</span><span class="p">);</span>
+    <span class="k">const</span> <span class="n">timespec</span> <span class="n">wait_time</span><span class="p">{</span>
+        <span class="p">.</span><span class="n">tv_sec</span> <span class="o">=</span> <span class="n">sec</span><span class="p">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="p">.</span><span class="n">tv_nsec</span> <span class="o">=</span> <span class="p">(</span><span class="n">timeout</span> <span class="o">-</span> <span class="n">sec</span><span class="p">).</span><span class="n">count</span><span class="p">(),</span>
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="n">poll_net_tasks</span><span class="p">(</span><span class="n">wait_time</span><span class="p">,</span> <span class="n">resume_net_task</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kt">bool</span> <span class="n">io_work_t</span><span class="o">::</span><span class="n">ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
@@ -533,8 +552,6 @@
 <span class="kt">uint32_t</span> <span class="n">io_work_t</span><span class="o">::</span><span class="n">error</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="k">return</span> <span class="n">gsl</span><span class="o">::</span><span class="n">narrow_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">internal</span><span class="p">);</span>
 <span class="p">}</span>
-
-<span class="c1">// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----</span>
 
 <span class="k">auto</span> <span class="n">send_to</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buffer</span><span class="p">,</span>
              <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_send_to</span><span class="o">&amp;</span> <span class="p">{</span>
@@ -554,7 +571,7 @@
     <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_send_to</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">addressof</span><span class="p">(</span><span class="n">work</span><span class="p">));</span>
 <span class="p">}</span>
 
-<span class="kt">void</span> <span class="n">io_send_to</span><span class="o">::</span><span class="n">suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="n">io_send_to</span><span class="o">::</span><span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">));</span>
     <span class="n">task</span> <span class="o">=</span> <span class="n">rh</span><span class="p">;</span>
 
@@ -567,7 +584,7 @@
     <span class="n">req</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="n">req</span><span class="p">.</span><span class="n">udata</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">io_work_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
 
-    <span class="n">kq</span><span class="p">.</span><span class="n">change</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
+    <span class="n">netkq</span><span class="p">.</span><span class="n">change</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kt">int64_t</span> <span class="n">io_send_to</span><span class="o">::</span><span class="n">resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
@@ -580,8 +597,6 @@
     <span class="n">errc</span> <span class="o">=</span> <span class="n">sz</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="nl">errno</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">sz</span><span class="p">;</span>
 <span class="p">}</span>
-
-<span class="c1">// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----</span>
 
 <span class="k">auto</span> <span class="n">recv_from</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buffer</span><span class="p">,</span>
                <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_recv_from</span><span class="o">&amp;</span> <span class="p">{</span>
@@ -600,7 +615,7 @@
     <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_recv_from</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">addressof</span><span class="p">(</span><span class="n">work</span><span class="p">));</span>
 <span class="p">}</span>
 
-<span class="kt">void</span> <span class="n">io_recv_from</span><span class="o">::</span><span class="n">suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="n">io_recv_from</span><span class="o">::</span><span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">));</span>
 
     <span class="n">task</span> <span class="o">=</span> <span class="n">rh</span><span class="p">;</span>
@@ -617,7 +632,7 @@
     <span class="c1">// receiving some values from `wait_io_tasks`</span>
     <span class="n">req</span><span class="p">.</span><span class="n">udata</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">io_work_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
 
-    <span class="n">kq</span><span class="p">.</span><span class="n">change</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
+    <span class="n">netkq</span><span class="p">.</span><span class="n">change</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kt">int64_t</span> <span class="n">io_recv_from</span><span class="o">::</span><span class="n">resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
@@ -631,8 +646,6 @@
     <span class="k">return</span> <span class="n">sz</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="c1">// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----</span>
-
 <span class="k">auto</span> <span class="n">send_stream</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buffer</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span>
                  <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_send</span><span class="o">&amp;</span> <span class="p">{</span>
     <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">socklen_t</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">));</span>
@@ -642,7 +655,7 @@
     <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_send</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">addressof</span><span class="p">(</span><span class="n">work</span><span class="p">));</span>
 <span class="p">}</span>
 
-<span class="kt">void</span> <span class="n">io_send</span><span class="o">::</span><span class="n">suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="n">io_send</span><span class="o">::</span><span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">));</span>
     <span class="n">task</span> <span class="o">=</span> <span class="n">rh</span><span class="p">;</span>
 
@@ -655,7 +668,7 @@
     <span class="n">req</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="n">req</span><span class="p">.</span><span class="n">udata</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">io_work_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
 
-    <span class="n">kq</span><span class="p">.</span><span class="n">change</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
+    <span class="n">netkq</span><span class="p">.</span><span class="n">change</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kt">int64_t</span> <span class="n">io_send</span><span class="o">::</span><span class="n">resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
@@ -667,8 +680,6 @@
     <span class="k">return</span> <span class="n">sz</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="c1">// ---- ---- ---- ---- ---- ---- ---- ---- ---- ----</span>
-
 <span class="k">auto</span> <span class="n">recv_stream</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buffer</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span>
                  <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_recv</span><span class="o">&amp;</span> <span class="p">{</span>
     <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">socklen_t</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">));</span>
@@ -678,7 +689,7 @@
     <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_recv</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">addressof</span><span class="p">(</span><span class="n">work</span><span class="p">));</span>
 <span class="p">}</span>
 
-<span class="kt">void</span> <span class="n">io_recv</span><span class="o">::</span><span class="n">suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="n">io_recv</span><span class="o">::</span><span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">));</span>
 
     <span class="n">task</span> <span class="o">=</span> <span class="n">rh</span><span class="p">;</span>
@@ -691,7 +702,7 @@
     <span class="n">req</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="n">req</span><span class="p">.</span><span class="n">udata</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">io_work_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
 
-    <span class="n">kq</span><span class="p">.</span><span class="n">change</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
+    <span class="n">netkq</span><span class="p">.</span><span class="n">change</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kt">int64_t</span> <span class="n">io_recv</span><span class="o">::</span><span class="n">resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>

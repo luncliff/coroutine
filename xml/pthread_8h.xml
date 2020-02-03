@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="pthread_8h" kind="file" language="C++">
+    <compoundname>pthread.h</compoundname>
+    <includes refid="pthread_8h" local="no">pthread.h</includes>
+    <includes local="no">system_error</includes>
+    <includes refid="frame_8h" local="no">coroutine/frame.h</includes>
+    <includedby refid="pthread_8h" local="no">interface/coroutine/pthread.h</includedby>
+    <includedby refid="pthread_8cpp" local="no">modules/system/pthread.cpp</includedby>
+    <incdepgraph>
+      <node id="245">
+        <label>system_error</label>
+      </node>
+      <node id="246">
+        <label>coroutine/frame.h</label>
+        <link refid="frame_8h"/>
+        <childnode refid="247" relation="include">
+        </childnode>
+        <childnode refid="248" relation="include">
+        </childnode>
+        <childnode refid="249" relation="include">
+        </childnode>
+      </node>
+      <node id="248">
+        <label>cstdint</label>
+      </node>
+      <node id="244">
+        <label>interface/coroutine/pthread.h</label>
+        <link refid="pthread.h"/>
+        <childnode refid="244" relation="include">
+        </childnode>
+        <childnode refid="245" relation="include">
+        </childnode>
+        <childnode refid="246" relation="include">
+        </childnode>
+      </node>
+      <node id="247">
+        <label>cstddef</label>
+      </node>
+      <node id="249">
+        <label>type_traits</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="251">
+        <label>modules/system/pthread.cpp</label>
+        <link refid="pthread_8cpp"/>
+      </node>
+      <node id="250">
+        <label>interface/coroutine/pthread.h</label>
+        <link refid="pthread.h"/>
+        <childnode refid="250" relation="include">
+        </childnode>
+        <childnode refid="251" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classcoro_1_1pthread__spawner__t" prot="public">coro::pthread_spawner_t</innerclass>
+    <innerclass refid="classcoro_1_1pthread__spawn__promise" prot="public">coro::pthread_spawn_promise</innerclass>
+    <innerclass refid="classcoro_1_1pthread__knower__t" prot="public">coro::pthread_knower_t</innerclass>
+    <innerclass refid="classcoro_1_1pthread__joiner__t" prot="public">coro::pthread_joiner_t</innerclass>
+    <innerclass refid="classcoro_1_1pthread__joiner__t_1_1promise__type" prot="public">coro::pthread_joiner_t::promise_type</innerclass>
+    <innerclass refid="classcoro_1_1pthread__detacher__t" prot="public">coro::pthread_detacher_t</innerclass>
+    <innerclass refid="classcoro_1_1pthread__detacher__t_1_1promise__type" prot="public">coro::pthread_detacher_t::promise_type</innerclass>
+    <innernamespace refid="namespacecoro">coro</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>github.com/luncliff (<ulink url="mailto:luncliff@gmail.com">luncliff@gmail.com</ulink>) </para></simplesect>
+<simplesect kind="copyright"><para>CC BY 4.0 </para></simplesect>
+</para>    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="6"><highlight class="preprocessor">#ifndef<sp/>COROUTINE_PTHREAD_UTILITY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>COROUTINE_PTHREAD_UTILITY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>not<sp/>__has_include(&lt;pthread.h&gt;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#error<sp/>&quot;expect<sp/>&lt;pthread.h&gt;<sp/>for<sp/>this<sp/>file&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="pthread_8h" kindref="compound">pthread.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;system_error&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="frame_8h" kindref="compound">coroutine/frame.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1experimental" kindref="compound">std::experimental</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classcoro_1_1pthread__spawner__t" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1pthread__spawner__t" kindref="compound">pthread_spawner_t</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>resume_on_pthread(<ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>pthread_resume(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38" refid="classcoro_1_1pthread__spawner__t_1a4ee741fb2766f25431d126f1cfeb7885" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__spawner__t_1a4ee741fb2766f25431d126f1cfeb7885" kindref="member">await_ready</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41" refid="classcoro_1_1pthread__spawner__t_1acf585fcfa935b93cb986e0b80d50b40d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__spawner__t_1acf585fcfa935b93cb986e0b80d50b40d" kindref="member">await_resume</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43" refid="classcoro_1_1pthread__spawner__t_1a8b97fcba3db84ca8d0a40ccf0365b866" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__spawner__t_1a8b97fcba3db84ca8d0a40ccf0365b866" kindref="member">await_suspend</ref>(<ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>coro)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resume_on_pthread(coro);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48" refid="classcoro_1_1pthread__spawner__t_1a306dbbd45c626e96d0a462471bb7b598" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1pthread__spawner__t_1a306dbbd45c626e96d0a462471bb7b598" kindref="member">pthread_spawner_t</ref>(pthread_t*<sp/>_tid,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>pthread_attr_t*<sp/>_attr)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>tid{_tid},<sp/>attr{_attr}<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classcoro_1_1pthread__spawner__t" kindref="compound">pthread_spawner_t</ref>()<sp/>noexcept<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>pthread_t*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tid;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>pthread_attr_t*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>attr;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="classcoro_1_1pthread__spawn__promise" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1pthread__spawn__promise" kindref="compound">pthread_spawn_promise</ref><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70" refid="classcoro_1_1pthread__spawn__promise_1ab97d78b547d3e294c41777520054dc49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>pthread_t<sp/>tid{};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73" refid="classcoro_1_1pthread__spawn__promise_1aba3cf3b57dd677f91a70d810ba5cb586" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__spawn__promise_1aba3cf3b57dd677f91a70d810ba5cb586" kindref="member">initial_suspend</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref>{};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77" refid="classcoro_1_1pthread__spawn__promise_1a376471c18a55b430110ee8cd4e7c5b05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__spawn__promise_1a376471c18a55b430110ee8cd4e7c5b05" kindref="member">unhandled_exception</ref>()<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classcoro_1_1pthread__spawn__promise_1a0001ebb427fe3da1857b36bb3b483eb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__spawn__promise_1a0001ebb427fe3da1857b36bb3b483eb0" kindref="member">await_transform</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>pthread_attr_t*<sp/>attr)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tid)<sp/></highlight><highlight class="comment">//<sp/>already<sp/>created.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>logic_error{</highlight><highlight class="stringliteral">&quot;pthread&apos;s<sp/>spawn<sp/>must<sp/>be<sp/>used<sp/>once&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>provide<sp/>the<sp/>address<sp/>at<sp/>this<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__spawner__t" kindref="compound">pthread_spawner_t</ref>{addressof(this-&gt;tid),<sp/>attr};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91" refid="classcoro_1_1pthread__spawn__promise_1a3b8bf1c50daa6f9a8dd7e21d9ce264ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__spawn__promise_1a3b8bf1c50daa6f9a8dd7e21d9ce264ef" kindref="member">await_transform</ref>(pthread_attr_t*<sp/>attr)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>await_transform(static_cast&lt;const<sp/>pthread_attr_t*&gt;(attr));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Awaitable&gt;</highlight></codeline>
+<codeline lineno="99" refid="classcoro_1_1pthread__spawn__promise_1a0d23e2a68f2715d37f2621788869cc2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>decltype(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">)<sp/>await_transform(Awaitable&amp;&amp;<sp/>a)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::forward&lt;Awaitable&amp;&amp;&gt;(a);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classcoro_1_1pthread__knower__t" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1pthread__knower__t" kindref="compound">pthread_knower_t</ref><sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116" refid="classcoro_1_1pthread__knower__t_1aaba88045030e8d395299c27a24b99ba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>pthread_t()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>promise-&gt;tid;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121" refid="classcoro_1_1pthread__knower__t_1a02ec12b031636ecd0eba2c8ebf99614a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__knower__t_1a02ec12b031636ecd0eba2c8ebf99614a" kindref="member">pthread_knower_t</ref>(<ref refid="classcoro_1_1pthread__spawn__promise" kindref="compound">pthread_spawn_promise</ref>*<sp/>_promise)<sp/>noexcept</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>promise{_promise}<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="126" refid="classcoro_1_1pthread__knower__t_1a9bdae50f877e7c639c28507f28eb1492" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1pthread__spawn__promise" kindref="compound">pthread_spawn_promise</ref>*<sp/><ref refid="classcoro_1_1pthread__knower__t_1a9bdae50f877e7c639c28507f28eb1492" kindref="member">promise</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classcoro_1_1pthread__joiner__t" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1pthread__joiner__t" kindref="compound">pthread_joiner_t</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__knower__t" kindref="compound">pthread_knower_t</ref><sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="136" refid="classcoro_1_1pthread__joiner__t_1_1promise__type" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1pthread__joiner__t_1_1promise__type" kindref="compound">promise_type</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__spawn__promise" kindref="compound">pthread_spawn_promise</ref><sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="138" refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1a948b398eb5589a9d4cfa0d22c4544fe9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1a948b398eb5589a9d4cfa0d22c4544fe9" kindref="member">final_suspend</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref>{};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141" refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1abd3d2a4ded1ea6fe0cf6d9ab9bff3306" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1abd3d2a4ded1ea6fe0cf6d9ab9bff3306" kindref="member">return_void</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>we<sp/>already<sp/>returns<sp/>coroutine&apos;s<sp/>frame.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>`co_return`<sp/>can&apos;t<sp/>have<sp/>its<sp/>operand</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145" refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1af5d8fac1c1c2a4f8aa3806186428753d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1af5d8fac1c1c2a4f8aa3806186428753d" kindref="member">get_return_object</ref>()<sp/>noexcept<sp/>-&gt;<sp/><ref refid="classcoro_1_1pthread__joiner__t_1_1promise__type" kindref="compound">promise_type</ref>*<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>try_join()<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="158" refid="classcoro_1_1pthread__joiner__t_1a235a4421bdaa89879cdf4fad0626a42a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1pthread__joiner__t_1a235a4421bdaa89879cdf4fad0626a42a" kindref="member">~pthread_joiner_t</ref>()<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;try_join();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1pthread__joiner__t" kindref="compound">pthread_joiner_t</ref>(<ref refid="classcoro_1_1pthread__joiner__t_1_1promise__type" kindref="compound">promise_type</ref>*<sp/>p)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classcoro_1_1pthread__detacher__t" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1pthread__detacher__t" kindref="compound">pthread_detacher_t</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__knower__t" kindref="compound">pthread_knower_t</ref><sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="173" refid="classcoro_1_1pthread__detacher__t_1_1promise__type" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1pthread__detacher__t_1_1promise__type" kindref="compound">promise_type</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__spawn__promise" kindref="compound">pthread_spawn_promise</ref><sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>detacher<sp/>doesn&apos;t<sp/>care<sp/>about<sp/>the<sp/>coroutine<sp/>frame&apos;s<sp/>life<sp/>cycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>it<sp/>does<sp/>nothing<sp/>after<sp/>`co_return`</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a21362c44504730ced0857f6e7b7a21fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a21362c44504730ced0857f6e7b7a21fa" kindref="member">final_suspend</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref>{};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180" refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a23ab51d7e94692dd6fac80ab844c88b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a23ab51d7e94692dd6fac80ab844c88b6" kindref="member">return_void</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182" refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a69a7c92cd0cc08125ef3ebd06ebff109" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a69a7c92cd0cc08125ef3ebd06ebff109" kindref="member">get_return_object</ref>()<sp/>noexcept<sp/>-&gt;<sp/><ref refid="classcoro_1_1pthread__detacher__t_1_1promise__type" kindref="compound">promise_type</ref>*<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>try_detach()<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="195" refid="classcoro_1_1pthread__detacher__t_1a9beacbbbc15bd05e2fdde191f3c1a269" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1pthread__detacher__t_1a9beacbbbc15bd05e2fdde191f3c1a269" kindref="member">~pthread_detacher_t</ref>()<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;try_detach();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1pthread__detacher__t" kindref="compound">pthread_detacher_t</ref>(<ref refid="classcoro_1_1pthread__detacher__t_1_1promise__type" kindref="compound">promise_type</ref>*<sp/>p)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>COROUTINE_PTHREAD_UTILITY_H</highlight></codeline>
+    </programlisting>
+    <location file="interface/coroutine/pthread.h"/>
+  </compounddef>
+</doxygen>

@@ -7,10 +7,11 @@
     <derivedcompoundref refid="classcoro_1_1io__recv__from" prot="public" virt="non-virtual">coro::io_recv_from</derivedcompoundref>
     <derivedcompoundref refid="classcoro_1_1io__send" prot="public" virt="non-virtual">coro::io_send</derivedcompoundref>
     <derivedcompoundref refid="classcoro_1_1io__send__to" prot="public" virt="non-virtual">coro::io_send_to</derivedcompoundref>
+    <includes refid="net_8h" local="no">net.h</includes>
       <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="classcoro_1_1io__work__t_1a02fa31185cce555001f410383b6d57f6" prot="public" static="no" mutable="no">
-        <type><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">io_task_t</ref></type>
-        <definition>io_task_t coro::io_work_t::task</definition>
+      <memberdef kind="variable" id="classcoro_1_1io__work__t_1a4dd4bfa76a21f67ffc954759d1de320e" prot="public" static="no" mutable="no">
+        <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+        <definition>coroutine_handle&lt;void&gt; coro::io_work_t::task</definition>
         <argsstring></argsstring>
         <name>task</name>
         <initializer>{}</initializer>
@@ -20,10 +21,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="86" column="1" bodyfile="interface/coroutine/net.h" bodystart="86" bodyend="-1"/>
+        <location file="interface/coroutine/net.h" line="82" column="1" bodyfile="interface/coroutine/net.h" bodystart="82" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcoro_1_1io__work__t_1aa2108f1c95a93873abf686f496f9f719" prot="public" static="no" mutable="no">
-        <type>io_buffer_t</type>
+        <type><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref></type>
         <definition>io_buffer_t coro::io_work_t::buffer</definition>
         <argsstring></argsstring>
         <name>buffer</name>
@@ -34,102 +35,106 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="87" column="1" bodyfile="interface/coroutine/net.h" bodystart="87" bodyend="-1"/>
+        <location file="interface/coroutine/net.h" line="83" column="1" bodyfile="interface/coroutine/net.h" bodystart="83" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
       <memberdef kind="function" id="classcoro_1_1io__work__t_1ad2abca547f53bd91caa112e3ea78271c" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ bool</type>
+        <type>bool</type>
         <definition>bool coro::io_work_t::ready</definition>
         <argsstring>() const noexcept</argsstring>
         <name>ready</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><simplesect kind="see"><para>await_ready </para></simplesect>
+<simplesect kind="return"><para>true The given socket can be use for non-blocking operations </para></simplesect>
+<simplesect kind="return"><para>false For Windows, the return is always <computeroutput>false</computeroutput> </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="90" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="36" bodyend="46"/>
+        <location file="interface/coroutine/net.h" line="91" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="46" bodyend="56"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
       <memberdef kind="function" id="classcoro_1_1io__work__t_1aefde12bcce0b60f06c1a4f168a830142" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>_INTERFACE_ uint32_t</type>
+        <type>uint32_t</type>
         <definition>uint32_t coro::io_work_t::error</definition>
         <argsstring>() const noexcept</argsstring>
         <name>error</name>
         <briefdescription>
-        </briefdescription>
+<para>Multiple retrieving won&apos;t be a matter. </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><simplesect kind="return"><para>uint32_t error code from the system </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="94" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="48" bodyend="50"/>
+        <location file="interface/coroutine/net.h" line="98" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="58" bodyend="60"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-    </briefdescription>
+<para>A struct to describe &quot;1 I/O request&quot; to system API.</para><para>When I/O request is submitted, an I/O task becomes 1 coroutine handle. </para>    </briefdescription>
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="205">
+      <node id="232">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="206" relation="public-inheritance">
+        <childnode refid="233" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="207">
+      <node id="234">
         <label>coro::io_recv</label>
         <link refid="classcoro_1_1io__recv"/>
-        <childnode refid="205" relation="public-inheritance">
+        <childnode refid="232" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="206">
+      <node id="233">
         <label>io_control_block</label>
       </node>
-      <node id="208">
+      <node id="235">
         <label>coro::io_recv_from</label>
         <link refid="classcoro_1_1io__recv__from"/>
-        <childnode refid="205" relation="public-inheritance">
+        <childnode refid="232" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="209">
+      <node id="236">
         <label>coro::io_send</label>
         <link refid="classcoro_1_1io__send"/>
-        <childnode refid="205" relation="public-inheritance">
+        <childnode refid="232" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="210">
+      <node id="237">
         <label>coro::io_send_to</label>
         <link refid="classcoro_1_1io__send__to"/>
-        <childnode refid="205" relation="public-inheritance">
+        <childnode refid="232" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="211">
+      <node id="238">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="212" relation="public-inheritance">
+        <childnode refid="239" relation="public-inheritance">
         </childnode>
-        <childnode refid="213" relation="usage">
+        <childnode refid="240" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="212">
+      <node id="239">
         <label>io_control_block</label>
       </node>
-      <node id="213">
+      <node id="240">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/net.h" line="84" column="1" bodyfile="interface/coroutine/net.h" bodystart="84" bodyend="95"/>
+    <location file="interface/coroutine/net.h" line="80" column="1" bodyfile="interface/coroutine/net.h" bodystart="80" bodyend="99"/>
     <listofallmembers>
       <member refid="classcoro_1_1io__work__t_1aa2108f1c95a93873abf686f496f9f719" prot="public" virt="non-virtual"><scope>coro::io_work_t</scope><name>buffer</name></member>
       <member refid="classcoro_1_1io__work__t_1aefde12bcce0b60f06c1a4f168a830142" prot="public" virt="non-virtual"><scope>coro::io_work_t</scope><name>error</name></member>
       <member refid="classcoro_1_1io__work__t_1ad2abca547f53bd91caa112e3ea78271c" prot="protected" virt="non-virtual"><scope>coro::io_work_t</scope><name>ready</name></member>
-      <member refid="classcoro_1_1io__work__t_1a02fa31185cce555001f410383b6d57f6" prot="public" virt="non-virtual"><scope>coro::io_work_t</scope><name>task</name></member>
+      <member refid="classcoro_1_1io__work__t_1a4dd4bfa76a21f67ffc954759d1de320e" prot="public" virt="non-virtual"><scope>coro::io_work_t</scope><name>task</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

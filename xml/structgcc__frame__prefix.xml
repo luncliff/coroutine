@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="structgcc__frame__prefix" kind="struct" language="C++" prot="public" final="yes">
     <compoundname>gcc_frame_prefix</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
       <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="structgcc__frame__prefix_1a01460f12131e646420ffa43942466704" prot="public" static="no" mutable="no">
         <type>void *</type>

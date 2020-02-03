@@ -6,6 +6,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="external/guideline/tests/algorithm_tests.cpp" line="31" column="1"/>
+    <location file="modules/net/io_windows.cpp" line="8" column="1"/>
   </compounddef>
 </doxygen>

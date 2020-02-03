@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classcoro_1_1pthread__joiner__t_1_1promise__type" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::pthread_joiner_t::promise_type</compoundname>
+    <basecompoundref refid="classcoro_1_1pthread__spawn__promise" prot="public" virt="non-virtual">coro::pthread_spawn_promise</basecompoundref>
+    <includes refid="pthread_8h" local="no">pthread.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1pthread__joiner__t_1_1promise__type_1a948b398eb5589a9d4cfa0d22c4544fe9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::pthread_joiner_t::promise_type::final_suspend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>final_suspend</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="138" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__joiner__t_1_1promise__type_1abd3d2a4ded1ea6fe0cf6d9ab9bff3306" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::pthread_joiner_t::promise_type::return_void</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>return_void</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="141" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="141" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__joiner__t_1_1promise__type_1af5d8fac1c1c2a4f8aa3806186428753d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::pthread_joiner_t::promise_type::get_return_object</definition>
+        <argsstring>() noexcept-&gt; promise_type *</argsstring>
+        <name>get_return_object</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="145" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="145" bodyend="147"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="279">
+        <label>coro::pthread_spawn_promise</label>
+        <link refid="classcoro_1_1pthread__spawn__promise"/>
+      </node>
+      <node id="278">
+        <label>coro::pthread_joiner_t::promise_type</label>
+        <link refid="classcoro_1_1pthread__joiner__t_1_1promise__type"/>
+        <childnode refid="279" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="281">
+        <label>coro::pthread_spawn_promise</label>
+        <link refid="classcoro_1_1pthread__spawn__promise"/>
+      </node>
+      <node id="280">
+        <label>coro::pthread_joiner_t::promise_type</label>
+        <link refid="classcoro_1_1pthread__joiner__t_1_1promise__type"/>
+        <childnode refid="281" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/pthread.h" line="136" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="136" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a0001ebb427fe3da1857b36bb3b483eb0" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t::promise_type</scope><name>await_transform</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a3b8bf1c50daa6f9a8dd7e21d9ce264ef" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t::promise_type</scope><name>await_transform</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a0d23e2a68f2715d37f2621788869cc2f" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t::promise_type</scope><name>await_transform</name></member>
+      <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1a948b398eb5589a9d4cfa0d22c4544fe9" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t::promise_type</scope><name>final_suspend</name></member>
+      <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1af5d8fac1c1c2a4f8aa3806186428753d" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t::promise_type</scope><name>get_return_object</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1aba3cf3b57dd677f91a70d810ba5cb586" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t::promise_type</scope><name>initial_suspend</name></member>
+      <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1abd3d2a4ded1ea6fe0cf6d9ab9bff3306" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t::promise_type</scope><name>return_void</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1ab97d78b547d3e294c41777520054dc49" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t::promise_type</scope><name>tid</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a376471c18a55b430110ee8cd4e7c5b05" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t::promise_type</scope><name>unhandled_exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

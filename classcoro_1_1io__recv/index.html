@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -498,40 +510,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#public-functions-documentation" class="md-nav__link">
-    Public Functions Documentation
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#function-await95ready" class="md-nav__link">
-    function await_ready
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-await95resume" class="md-nav__link">
-    function await_resume
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-await95suspend" class="md-nav__link">
-    function await_suspend
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
       
       
       
@@ -553,6 +531,10 @@
                 
                 <h1 id="class-coroio95recv">Class coro::io_recv<a class="headerlink" href="#class-coroio95recv" title="Permanent link">&para;</a></h1>
 <p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacecoro/"><strong>coro</strong></a> <strong>&gt;</strong> <a href="./"><strong>io_recv</strong></a></p>
+<p><em>Awaitable type to perform</em> <code>recv</code> <em>I/O request.</em><a href="#detailed-description">More...</a></p>
+<ul>
+<li><code>#include &lt;net.h&gt;</code></li>
+</ul>
 <p>Inherits the following classes: <a href="../classcoro_1_1io__work__t/">coro::io_work_t</a></p>
 <h2 id="public-attributes-inherited-from-coroio_work_t">Public Attributes inherited from coro::io_work_t<a class="headerlink" href="#public-attributes-inherited-from-coroio_work_t" title="Permanent link">&para;</a></h2>
 <p>See <a href="../classcoro_1_1io__work__t/">coro::io_work_t</a></p>
@@ -565,11 +547,11 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">io_buffer_t</td>
+<td align="right"><a href="../namespacecoro/#typedef-io-buffer-t"><strong>io_buffer_t</strong></a></td>
 <td align="left"><a href="../classcoro_1_1io__work__t/#variable-buffer"><strong>buffer</strong></a>   = {}<br></td>
 </tr>
 <tr>
-<td align="right"><a href="../classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4/"><strong>io_task_t</strong></a></td>
+<td align="right"><a href="../classstd_1_1experimental_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt;</td>
 <td align="left"><a href="../classcoro_1_1io__work__t/#variable-task"><strong>task</strong></a>   = {}<br></td>
 </tr>
 </tbody>
@@ -588,12 +570,12 @@
 <td align="left"><a href="./#function-await-ready"><strong>await_ready</strong></a> () noexcept const<br></td>
 </tr>
 <tr>
-<td align="right">auto</td>
+<td align="right">int64_t</td>
 <td align="left"><a href="./#function-await-resume"><strong>await_resume</strong></a> () noexcept<br></td>
 </tr>
 <tr>
 <td align="right">void</td>
-<td align="left"><a href="./#function-await-suspend"><strong>await_suspend</strong></a> (<a href="../classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4/"><strong>io_task_t</strong></a> t) noexcept<br></td>
+<td align="left"><a href="./#function-await-suspend"><strong>await_suspend</strong></a> (<a href="../classstd_1_1experimental_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; t) noexcept<br></td>
 </tr>
 </tbody>
 </table>
@@ -608,8 +590,8 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">_INTERFACE_ uint32_t</td>
-<td align="left"><a href="../classcoro_1_1io__work__t/#function-error"><strong>error</strong></a> () noexcept const<br></td>
+<td align="right">uint32_t</td>
+<td align="left"><a href="../classcoro_1_1io__work__t/#function-error"><strong>error</strong></a> () noexcept const<br><em>Multiple retrieving won't be a matter.</em></td>
 </tr>
 </tbody>
 </table>
@@ -624,11 +606,14 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">_INTERFACE_ bool</td>
+<td align="right">bool</td>
 <td align="left"><a href="../classcoro_1_1io__work__t/#function-ready"><strong>ready</strong></a> () noexcept const<br></td>
 </tr>
 </tbody>
 </table>
+<h1 id="detailed-description">Detailed Description<a class="headerlink" href="#detailed-description" title="Permanent link">&para;</a></h1>
+<p><strong>See also:</strong> recv </p>
+<p><strong>See also:</strong> WSARecv </p>
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="function-await95ready">function await_ready<a class="headerlink" href="#function-await95ready" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><span class="kr">inline</span> <span class="kt">bool</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_recv</span><span class="o">::</span><span class="n">await_ready</span> <span class="p">()</span> <span class="k">noexcept</span> <span class="k">const</span>
@@ -636,13 +621,13 @@
 
 
 <h3 id="function-await95resume">function await_resume<a class="headerlink" href="#function-await95resume" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><span class="kr">inline</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_recv</span><span class="o">::</span><span class="n">await_resume</span> <span class="p">()</span> <span class="k">noexcept</span>
+<div class="codehilite"><pre><span></span><span class="kr">inline</span> <span class="kt">int64_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_recv</span><span class="o">::</span><span class="n">await_resume</span> <span class="p">()</span> <span class="k">noexcept</span>
 </pre></div>
 
 
 <h3 id="function-await95suspend">function await_suspend<a class="headerlink" href="#function-await95suspend" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><span class="kr">inline</span> <span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_recv</span><span class="o">::</span><span class="n">await_suspend</span> <span class="p">(</span>
-    <span class="n">io_task_t</span> <span class="n">t</span>
+    <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">t</span>
 <span class="p">)</span> <span class="k">noexcept</span>
 </pre></div>
 

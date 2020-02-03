@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classstd_1_1experimental_1_1suspend__never" kind="class" language="C++" prot="public">
     <compoundname>std::experimental::suspend_never</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
       <sectiondef kind="public-func">
       <memberdef kind="function" id="classstd_1_1experimental_1_1suspend__never_1af3ad1c874a9bd3160fee7da2d45ef86c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>constexpr bool</type>

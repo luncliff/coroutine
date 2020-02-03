@@ -32,6 +32,22 @@
     <member refid="structclang__frame__prefix_1ac88fe15fe5c099df2eee940bf5508d34" kind="variable"><name>factivate</name></member>
     <member refid="structclang__frame__prefix_1ac186ff88db512f9a862b5584d6b93944" kind="variable"><name>fdestroy</name></member>
   </compound>
+  <compound refid="classcoro_1_1continue__on__apc" kind="class"><name>coro::continue_on_apc</name>
+    <member refid="classcoro_1_1continue__on__apc_1ae9ae7d5c7394552475d7f45c9e96f169" kind="variable"><name>thread</name></member>
+    <member refid="classcoro_1_1continue__on__apc_1a1b7638e8ceb82a5d1415eaf903577e77" kind="function"><name>resume_on_apc</name></member>
+    <member refid="classcoro_1_1continue__on__apc_1a2b40f67ae0d189395633d07bd861c881" kind="function"><name>queue_user_apc</name></member>
+    <member refid="classcoro_1_1continue__on__apc_1ac411e4ff971369b32a8236e053b6ae55" kind="function"><name>await_ready</name></member>
+    <member refid="classcoro_1_1continue__on__apc_1a019729d426146f32789c9525e70b1224" kind="function"><name>await_resume</name></member>
+    <member refid="classcoro_1_1continue__on__apc_1a4a9014be117a81d5b8534501e58d2d8d" kind="function"><name>await_suspend</name></member>
+    <member refid="classcoro_1_1continue__on__apc_1abd15aa633ddddbc1b0c24fab8bb33171" kind="function"><name>continue_on_apc</name></member>
+  </compound>
+  <compound refid="classcoro_1_1continue__on__thread__pool" kind="class"><name>coro::continue_on_thread_pool</name>
+    <member refid="classcoro_1_1continue__on__thread__pool_1a77775b4b465fb5df44e90a7d7e65540c" kind="function"><name>resume_on_thread_pool</name></member>
+    <member refid="classcoro_1_1continue__on__thread__pool_1af4e83dcdf512550a7e2fef589c502000" kind="function"><name>create_and_submit_work</name></member>
+    <member refid="classcoro_1_1continue__on__thread__pool_1ae8cf2ca512bd90e276622d3fab30c1de" kind="function"><name>await_ready</name></member>
+    <member refid="classcoro_1_1continue__on__thread__pool_1a46d15a2c1c5d282edb3171288b368b1b" kind="function"><name>await_resume</name></member>
+    <member refid="classcoro_1_1continue__on__thread__pool_1ab1e6995c97b189e8e5eab3dab9e97067" kind="function"><name>await_suspend</name></member>
+  </compound>
   <compound refid="classstd_1_1experimental_1_1coroutine__handle" kind="class"><name>std::experimental::coroutine_handle</name>
     <member refid="classstd_1_1experimental_1_1coroutine__handle_1aa6d09ecbb759391a485814cbcf29c9a6" kind="typedef"><name>promise_type</name></member>
     <member refid="classstd_1_1experimental_1_1coroutine__handle_1ae82bd2ef38ef317c7cea3c5e645b17c6" kind="function"><name>from_frame</name></member>
@@ -72,27 +88,6 @@
   <compound refid="structstd_1_1experimental_1_1coroutine__traits" kind="struct"><name>std::experimental::coroutine_traits</name>
     <member refid="structstd_1_1experimental_1_1coroutine__traits_1a89b8abe24d6a2e8636d2bb7e026b4196" kind="typedef"><name>promise_type</name></member>
   </compound>
-  <compound refid="structCustomPtr" kind="struct"><name>CustomPtr</name>
-    <member refid="structCustomPtr_1a3d7cbc9f1a2ba51a9c2fb819acb8955c" kind="variable"><name>p_</name></member>
-    <member refid="structCustomPtr_1a33d9b42cfaf6cc6bd38ec9516d084672" kind="function"><name>CustomPtr</name></member>
-    <member refid="structCustomPtr_1a59b18afa7900e0483b598a88cd2d3e20" kind="function"><name>operator T *</name></member>
-    <member refid="structCustomPtr_1ad00e95e12ae956228b9d75ee88dcdf5a" kind="function"><name>operator!=</name></member>
-  </compound>
-  <compound refid="structcoro_1_1darwin__event" kind="struct"><name>coro::darwin_event</name>
-    <member refid="structcoro_1_1darwin__event_1a08bd6dc782c5db0185316089486bea63" kind="variable"><name>sd</name></member>
-    <member refid="structcoro_1_1darwin__event_1a989575fd12cf8495abc4e4441299f3bf" kind="variable"><name>msg</name></member>
-    <member refid="structcoro_1_1darwin__event_1abf7193f39a3660124f1d6974fa5539b8" kind="variable"><name>local</name></member>
-    <member refid="structcoro_1_1darwin__event_1af87c11ec878c47498e9707a573bd0c39" kind="function"><name>darwin_event</name></member>
-    <member refid="structcoro_1_1darwin__event_1aed99ebaa09a02d6d5cf9f716875079ea" kind="function"><name>darwin_event</name></member>
-    <member refid="structcoro_1_1darwin__event_1aea6a7d08824e5cd08d973f4554a1d98b" kind="function"><name>operator=</name></member>
-    <member refid="structcoro_1_1darwin__event_1a89a11a1d459c747809f9e6f06ccccbe3" kind="function"><name>operator=</name></member>
-    <member refid="structcoro_1_1darwin__event_1ae1e458a4f316ebd3abf3851844a4365d" kind="function"><name>darwin_event</name></member>
-    <member refid="structcoro_1_1darwin__event_1ae71db021e0061b98efb9d6ea2ce4750d" kind="function"><name>~darwin_event</name></member>
-    <member refid="structcoro_1_1darwin__event_1a7a191c3c18effe427db95e42379030bb" kind="function"><name>close</name></member>
-    <member refid="structcoro_1_1darwin__event_1addcd4aec871202d80960888051480673" kind="function"><name>is_signaled</name></member>
-    <member refid="structcoro_1_1darwin__event_1a996aaa4d5b926815e29b89c701c35d69" kind="function"><name>signal</name></member>
-    <member refid="structcoro_1_1darwin__event_1a8ce5332f69892056812bd204a2ee6580" kind="function"><name>reset</name></member>
-  </compound>
   <compound refid="classcoro_1_1enumerable" kind="class"><name>coro::enumerable</name>
     <member refid="classcoro_1_1enumerable_1a30cfb124d4d187b8d7d857932f269785" kind="typedef"><name>value_type</name></member>
     <member refid="classcoro_1_1enumerable_1ac45ca85d84312664b0d976c637e8a34a" kind="typedef"><name>reference</name></member>
@@ -108,15 +103,31 @@
     <member refid="classcoro_1_1enumerable_1a2f71945bdd5fd04560a5ea038bbebc6e" kind="function"><name>begin</name></member>
     <member refid="classcoro_1_1enumerable_1a58e555626deca84947207278b8e58821" kind="function"><name>end</name></member>
   </compound>
-  <compound refid="structcoro_1_1event__poll__t" kind="struct"><name>coro::event_poll_t</name>
-    <member refid="structcoro_1_1event__poll__t_1a445a28935dd1cbe9854ea2b68a2f2bfc" kind="variable"><name>epfd</name></member>
-    <member refid="structcoro_1_1event__poll__t_1a023cf75931814423442b9af0bcaea90f" kind="variable"><name>capacity</name></member>
-    <member refid="structcoro_1_1event__poll__t_1aa77b37ba0babe3c139b621ae5ee7bce5" kind="variable"><name>events</name></member>
-    <member refid="structcoro_1_1event__poll__t_1a072ac63ba622c7e98caeed6694d2e968" kind="function"><name>event_poll_t</name></member>
-    <member refid="structcoro_1_1event__poll__t_1a07f57b3b6edb836e03bd29d0d90adb0c" kind="function"><name>~event_poll_t</name></member>
-    <member refid="structcoro_1_1event__poll__t_1af3a35a047a844fa726d486794a4e8404" kind="function"><name>try_add</name></member>
-    <member refid="structcoro_1_1event__poll__t_1a85b549884413bd37740515c78f86bdb1" kind="function"><name>remove</name></member>
-    <member refid="structcoro_1_1event__poll__t_1a4c56de3d7d1762001a79b0586a093828" kind="function"><name>wait</name></member>
+  <compound refid="classcoro_1_1epoll__owner" kind="class"><name>coro::epoll_owner</name>
+    <member refid="classcoro_1_1epoll__owner_1a9c861ec74010169d0f17b90e842662fe" kind="variable"><name>epfd</name></member>
+    <member refid="classcoro_1_1epoll__owner_1af896fc8b647b56733a7442ec3ecf2823" kind="function"><name>epoll_owner</name></member>
+    <member refid="classcoro_1_1epoll__owner_1aa79b3b95a42f358ee5371a9e49940c2e" kind="function"><name>~epoll_owner</name></member>
+    <member refid="classcoro_1_1epoll__owner_1ace7bd8a1e220b42d134f6e1787571205" kind="function"><name>epoll_owner</name></member>
+    <member refid="classcoro_1_1epoll__owner_1a67aefcb858ebd9b290410fb4c0675ac2" kind="function"><name>epoll_owner</name></member>
+    <member refid="classcoro_1_1epoll__owner_1afe84e5cde9fed10798ddc40aa778d17a" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1epoll__owner_1aa687a1df93f38dfe75ebeddb21e26f67" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1epoll__owner_1a013b22663c37c41b1ebc50f5af374dc9" kind="function"><name>try_add</name></member>
+    <member refid="classcoro_1_1epoll__owner_1a199d0fa519d3300ed9998ac4090c16fe" kind="function"><name>remove</name></member>
+    <member refid="classcoro_1_1epoll__owner_1a1b956b95ed34ffed8c3932686b06e642" kind="function"><name>wait</name></member>
+    <member refid="classcoro_1_1epoll__owner_1a9f82dbafdc400b3daa9a253399eb83b6" kind="function"><name>submit</name></member>
+  </compound>
+  <compound refid="classcoro_1_1event" kind="class"><name>coro::event</name>
+    <member refid="classcoro_1_1event_1a9cd15202457632cfbd8f0e67ea994d3f" kind="variable"><name>state</name></member>
+    <member refid="classcoro_1_1event_1a6fc21592c13d569140e55e16dbd66291" kind="function"><name>event</name></member>
+    <member refid="classcoro_1_1event_1a70e278450035be6ed12b4a224a3efad7" kind="function"><name>~event</name></member>
+    <member refid="classcoro_1_1event_1ad71c57b012bdc18f9e6dc7b7893fa206" kind="function"><name>event</name></member>
+    <member refid="classcoro_1_1event_1a077f435933732cdb57e5ced5bd1e16e1" kind="function"><name>event</name></member>
+    <member refid="classcoro_1_1event_1a993ded5e0fd78e5c43a0d6190f990a7a" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1event_1a4475e32746954c7281b7612c20b9e54e" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1event_1ae0980a005dba5b12fd7ce3125bc1cd33" kind="function"><name>fd</name></member>
+    <member refid="classcoro_1_1event_1a125dc66eb62083c7b42b279a2dbf399f" kind="function"><name>is_set</name></member>
+    <member refid="classcoro_1_1event_1a4ac8eb8ea7cfc21a8be5bc35c1b4dcc1" kind="function"><name>set</name></member>
+    <member refid="classcoro_1_1event_1ae835aa2aa771ae07ff6d0caba147a1d8" kind="function"><name>reset</name></member>
   </compound>
   <compound refid="classcoro_1_1frame__t" kind="class"><name>coro::frame_t</name>
   </compound>
@@ -125,35 +136,35 @@
     <member refid="structgcc__frame__prefix_1a46a6c9f8fb7368987107043fe06bbfa1" kind="variable"><name>_unknown2</name></member>
   </compound>
   <compound refid="classcoro_1_1io__recv" kind="class"><name>coro::io_recv</name>
-    <member refid="classcoro_1_1io__recv_1ab8b6be50916faaa038b5863597e0a2fb" kind="function"><name>suspend</name></member>
+    <member refid="classcoro_1_1io__recv_1ad23ab79a70711925a02fe7d8eb4aae68" kind="function"><name>suspend</name></member>
     <member refid="classcoro_1_1io__recv_1a19890610fceadf4dc82e2bc2bb7f31aa" kind="function"><name>resume</name></member>
     <member refid="classcoro_1_1io__recv_1acbe69a0ee11a0ad650a27dae19fbae17" kind="function"><name>await_ready</name></member>
-    <member refid="classcoro_1_1io__recv_1ac711ae83f2404db4afd77394c8d6cb73" kind="function"><name>await_suspend</name></member>
-    <member refid="classcoro_1_1io__recv_1ad68c357b43c562b6286d5385e76d15e9" kind="function"><name>await_resume</name></member>
+    <member refid="classcoro_1_1io__recv_1af3d6fd62e9cc0e51db565c111769d7f3" kind="function"><name>await_suspend</name></member>
+    <member refid="classcoro_1_1io__recv_1a009e06ff7800d9ede9e3ac8e6b7d0861" kind="function"><name>await_resume</name></member>
   </compound>
   <compound refid="classcoro_1_1io__recv__from" kind="class"><name>coro::io_recv_from</name>
-    <member refid="classcoro_1_1io__recv__from_1ab73393041da916db01b942b8ea078ee9" kind="function"><name>suspend</name></member>
+    <member refid="classcoro_1_1io__recv__from_1a4f5e4ec66b84cc7c0557dd8cd9d7ff9f" kind="function"><name>suspend</name></member>
     <member refid="classcoro_1_1io__recv__from_1a16a50489b0622744eeae8de9a44c02cc" kind="function"><name>resume</name></member>
     <member refid="classcoro_1_1io__recv__from_1a4df83e51e7d93acfc657995da090014a" kind="function"><name>await_ready</name></member>
-    <member refid="classcoro_1_1io__recv__from_1a0ff36c529666c24309dd381ec57877c5" kind="function"><name>await_suspend</name></member>
-    <member refid="classcoro_1_1io__recv__from_1ae3c876707a1c994492281b3002b9d475" kind="function"><name>await_resume</name></member>
+    <member refid="classcoro_1_1io__recv__from_1addb17cbc7a4762fa86988a2242136882" kind="function"><name>await_suspend</name></member>
+    <member refid="classcoro_1_1io__recv__from_1a1f457126fa1663eb7f8c322efc0a701f" kind="function"><name>await_resume</name></member>
   </compound>
   <compound refid="classcoro_1_1io__send" kind="class"><name>coro::io_send</name>
-    <member refid="classcoro_1_1io__send_1a392e117e3305ad67475e56019e1f6e57" kind="function"><name>suspend</name></member>
+    <member refid="classcoro_1_1io__send_1a42fb4f43c1fb8ce07a80e0045ffa8a89" kind="function"><name>suspend</name></member>
     <member refid="classcoro_1_1io__send_1af51eef7c408de66e4dec3fde45e742d4" kind="function"><name>resume</name></member>
     <member refid="classcoro_1_1io__send_1a413c95b112794ebb557b6574703b13b4" kind="function"><name>await_ready</name></member>
-    <member refid="classcoro_1_1io__send_1ad68fefedcd10e36d9d95a00a98ec1192" kind="function"><name>await_suspend</name></member>
-    <member refid="classcoro_1_1io__send_1ab503e60a4b453a09fb0589054f06764e" kind="function"><name>await_resume</name></member>
+    <member refid="classcoro_1_1io__send_1a22645cbac6eea58bc59c8571d5a2162d" kind="function"><name>await_suspend</name></member>
+    <member refid="classcoro_1_1io__send_1aed3b15b47eba71a5476c8b70e9be2423" kind="function"><name>await_resume</name></member>
   </compound>
   <compound refid="classcoro_1_1io__send__to" kind="class"><name>coro::io_send_to</name>
-    <member refid="classcoro_1_1io__send__to_1a76072671f5aee40521bb906a16dad02f" kind="function"><name>suspend</name></member>
+    <member refid="classcoro_1_1io__send__to_1a56c5a35f6608fad2ac490900f45c56b6" kind="function"><name>suspend</name></member>
     <member refid="classcoro_1_1io__send__to_1ae3e83d398f7673a4a1bb253eb022822a" kind="function"><name>resume</name></member>
     <member refid="classcoro_1_1io__send__to_1af8fa0d72e893de5ca95a2683c113c39c" kind="function"><name>await_ready</name></member>
-    <member refid="classcoro_1_1io__send__to_1a6f9055428dfe92496ff52a83c8ecd51d" kind="function"><name>await_suspend</name></member>
-    <member refid="classcoro_1_1io__send__to_1aa42fd8c2600ce7233ced36991b88990f" kind="function"><name>await_resume</name></member>
+    <member refid="classcoro_1_1io__send__to_1ab679c092e208d40a2fc1f59e7d904861" kind="function"><name>await_suspend</name></member>
+    <member refid="classcoro_1_1io__send__to_1a04349caf971062352ff0427412907a1d" kind="function"><name>await_resume</name></member>
   </compound>
   <compound refid="classcoro_1_1io__work__t" kind="class"><name>coro::io_work_t</name>
-    <member refid="classcoro_1_1io__work__t_1a02fa31185cce555001f410383b6d57f6" kind="variable"><name>task</name></member>
+    <member refid="classcoro_1_1io__work__t_1a4dd4bfa76a21f67ffc954759d1de320e" kind="variable"><name>task</name></member>
     <member refid="classcoro_1_1io__work__t_1aa2108f1c95a93873abf686f496f9f719" kind="variable"><name>buffer</name></member>
     <member refid="classcoro_1_1io__work__t_1ad2abca547f53bd91caa112e3ea78271c" kind="function"><name>ready</name></member>
     <member refid="classcoro_1_1io__work__t_1aefde12bcce0b60f06c1a4f168a830142" kind="function"><name>error</name></member>
@@ -174,14 +185,17 @@
     <member refid="classcoro_1_1enumerable_1_1iterator_1aaf71a5eb9a60c16be402ec6133f4e6b4" kind="function"><name>operator==</name></member>
     <member refid="classcoro_1_1enumerable_1_1iterator_1a0b22c7943420f3c94181dc92b203e28e" kind="function"><name>operator!=</name></member>
   </compound>
-  <compound refid="structcoro_1_1kernel__queue__t" kind="struct"><name>coro::kernel_queue_t</name>
-    <member refid="structcoro_1_1kernel__queue__t_1a2143dbf525a9489b2c5f700fdeb02225" kind="variable"><name>kqfd</name></member>
-    <member refid="structcoro_1_1kernel__queue__t_1a86c9a79ba84d781a6cbea96bddd858aa" kind="variable"><name>capacity</name></member>
-    <member refid="structcoro_1_1kernel__queue__t_1af369f71fc30aae8d9e57f7cbfc7f9eed" kind="variable"><name>events</name></member>
-    <member refid="structcoro_1_1kernel__queue__t_1a8cdc1634edf5514a1ad6ee6a30d8bd6e" kind="function"><name>kernel_queue_t</name></member>
-    <member refid="structcoro_1_1kernel__queue__t_1a666b44f8ff0ff2f1a4a2b0b542012643" kind="function"><name>~kernel_queue_t</name></member>
-    <member refid="structcoro_1_1kernel__queue__t_1a519dfb985be65d7b745c3855df136b15" kind="function"><name>change</name></member>
-    <member refid="structcoro_1_1kernel__queue__t_1a8c9635ceb7924f6fd703a9fb4d93a27c" kind="function"><name>wait</name></member>
+  <compound refid="classcoro_1_1kqueue__owner" kind="class"><name>coro::kqueue_owner</name>
+    <member refid="classcoro_1_1kqueue__owner_1a55ece6a7097da60f3f404bffcb6c6ea1" kind="variable"><name>kqfd</name></member>
+    <member refid="classcoro_1_1kqueue__owner_1ad10972af514d58a9281bb582309e8f93" kind="function"><name>kqueue_owner</name></member>
+    <member refid="classcoro_1_1kqueue__owner_1a3258d491f1ca307d04fcee5a86afb5c6" kind="function"><name>~kqueue_owner</name></member>
+    <member refid="classcoro_1_1kqueue__owner_1ac333e577487ba730c11eedef2d98b7a8" kind="function"><name>kqueue_owner</name></member>
+    <member refid="classcoro_1_1kqueue__owner_1afdf6feb6968115750e9e6e67bbea2b9a" kind="function"><name>kqueue_owner</name></member>
+    <member refid="classcoro_1_1kqueue__owner_1a33144db610e6bd5271b216c1f382929a" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1kqueue__owner_1af52d8e10a7b4204657caa702d457e9f4" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1kqueue__owner_1a46a9fe17102de32beb90777d4f17d1f7" kind="function"><name>change</name></member>
+    <member refid="classcoro_1_1kqueue__owner_1aa7584b447fcb9a7382516302b9fadbb8" kind="function"><name>events</name></member>
+    <member refid="classcoro_1_1kqueue__owner_1a85b1325589038239515769ec24226c06" kind="function"><name>submit</name></member>
   </compound>
   <compound refid="classcoro_1_1internal_1_1list" kind="class"><name>coro::internal::list</name>
     <member refid="classcoro_1_1internal_1_1list_1a061ceef2fe69ef25c0c4df87b45c8208" kind="typedef"><name>node_type</name></member>
@@ -196,17 +210,6 @@
     <member refid="structmsvc__frame__prefix_1a63e7a285d705ec63b36132af19e8a7fe" kind="variable"><name>factivate</name></member>
     <member refid="structmsvc__frame__prefix_1a86df18eaa75a15b102d1e8920870d2ff" kind="variable"><name>index</name></member>
     <member refid="structmsvc__frame__prefix_1aa24c497b63b9d2069c178cb07091409c" kind="variable"><name>flag</name></member>
-  </compound>
-  <compound refid="structMyBase" kind="struct"><name>MyBase</name>
-  </compound>
-  <compound refid="structMyDerived" kind="struct"><name>MyDerived</name>
-  </compound>
-  <compound refid="structNonCopyableNonMovable" kind="struct"><name>NonCopyableNonMovable</name>
-    <member refid="structNonCopyableNonMovable_1ac6158be93fae560d3eb76866e999b43c" kind="function"><name>NonCopyableNonMovable</name></member>
-    <member refid="structNonCopyableNonMovable_1ae703e4b57bc2b31c5a1a595ce1522393" kind="function"><name>NonCopyableNonMovable</name></member>
-    <member refid="structNonCopyableNonMovable_1af20f4599a87549a42f725047a934b5a8" kind="function"><name>operator=</name></member>
-    <member refid="structNonCopyableNonMovable_1a59843becd2600f24c94c50479f01ffcf" kind="function"><name>NonCopyableNonMovable</name></member>
-    <member refid="structNonCopyableNonMovable_1a2e1af14022b8a268721bed0e3f7391c4" kind="function"><name>operator=</name></member>
   </compound>
   <compound refid="structstd_1_1experimental_1_1noop__coroutine__promise" kind="struct"><name>std::experimental::noop_coroutine_promise</name>
   </compound>
@@ -231,26 +234,37 @@
     <member refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a0091bb9e7db56bd8cd21c5ff12e516d6" kind="variable"><name>g</name></member>
   </compound>
   <compound refid="classcoro_1_1promise__aa" kind="class"><name>coro::promise_aa</name>
-    <member refid="classcoro_1_1promise__aa_1a04a18d03868c5a49f8e37a5b8cf7ab42" kind="function"><name>initial_suspend</name></member>
-    <member refid="classcoro_1_1promise__aa_1aa15c4ca4ee5060f3d992fd3bd6a03af3" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1promise__aa_1a0f73ef270974608b4c8206ef7a4dd195" kind="function"><name>initial_suspend</name></member>
+    <member refid="classcoro_1_1promise__aa_1ae2704bdaace12103bb6c42fe229a36b9" kind="function"><name>final_suspend</name></member>
   </compound>
   <compound refid="classcoro_1_1promise__an" kind="class"><name>coro::promise_an</name>
-    <member refid="classcoro_1_1promise__an_1acacbb83d6a3799d9ae76d18f87628b8e" kind="function"><name>initial_suspend</name></member>
-    <member refid="classcoro_1_1promise__an_1afd4d9795a86d6abcd02fb939ee246eec" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1promise__an_1aa86e2ba1ac1bcd563b72aead99e46154" kind="function"><name>initial_suspend</name></member>
+    <member refid="classcoro_1_1promise__an_1a53cad2f133187506cf0023d6971d0535" kind="function"><name>final_suspend</name></member>
   </compound>
   <compound refid="classcoro_1_1promise__na" kind="class"><name>coro::promise_na</name>
-    <member refid="classcoro_1_1promise__na_1a5bc778313ed51a44485cd8c3a853a125" kind="function"><name>initial_suspend</name></member>
-    <member refid="classcoro_1_1promise__na_1a0da584edd17745f82294528d359b6380" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1promise__na_1a8ef0f7bd7b8b834de1eb85dcb723e674" kind="function"><name>initial_suspend</name></member>
+    <member refid="classcoro_1_1promise__na_1af07e52a11070442615475901fbbb21e2" kind="function"><name>final_suspend</name></member>
   </compound>
   <compound refid="classcoro_1_1promise__nn" kind="class"><name>coro::promise_nn</name>
-    <member refid="classcoro_1_1promise__nn_1a23c328fd1aacc2448ee29bde8e95ccfb" kind="function"><name>initial_suspend</name></member>
-    <member refid="classcoro_1_1promise__nn_1ae6590423b6711f78db1c0519fb999f12" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1promise__nn_1ae4078639d15f8c8b52c47c0326ad96ee" kind="function"><name>initial_suspend</name></member>
+    <member refid="classcoro_1_1promise__nn_1ae3f283f0874d0395783973e835e8c536" kind="function"><name>final_suspend</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__detacher__t_1_1promise__type" kind="class"><name>coro::pthread_detacher_t::promise_type</name>
+    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a21362c44504730ced0857f6e7b7a21fa" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a23ab51d7e94692dd6fac80ab844c88b6" kind="function"><name>return_void</name></member>
+    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a69a7c92cd0cc08125ef3ebd06ebff109" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__joiner__t_1_1promise__type" kind="class"><name>coro::pthread_joiner_t::promise_type</name>
+    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1a948b398eb5589a9d4cfa0d22c4544fe9" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1abd3d2a4ded1ea6fe0cf6d9ab9bff3306" kind="function"><name>return_void</name></member>
+    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1af5d8fac1c1c2a4f8aa3806186428753d" kind="function"><name>get_return_object</name></member>
   </compound>
   <compound refid="classcoro_1_1enumerable_1_1promise__type" kind="class"><name>coro::enumerable::promise_type</name>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a67171474c4da6cc8efe0c7fafefd2b2d" kind="friend"><name>iterator</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1ad8220d50c77d15ee61635c1d0fc0f6ce" kind="friend"><name>enumerable</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a8f51915e09459e0f24aed367b85ed530" kind="variable"><name>current</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a1aa33df61f957a21f7f7f0bb31490ea7" kind="function"><name>get_return_object</name></member>
+    <member refid="classcoro_1_1enumerable_1_1promise__type_1a087c5d6ce511815670d11f761ed89d9d" kind="function"><name>unhandled_exception</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a2a417b44f5048389ac628f891a851a28" kind="function"><name>yield_value</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1aea5f74fe3a0de6660ffedd99382626f5" kind="function"><name>yield_value</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a24f0cdb9f39fff8bea46089495dabbcf" kind="function"><name>return_void</name></member>
@@ -258,7 +272,41 @@
   <compound refid="classcoro_1_1frame__t_1_1promise__type" kind="class"><name>coro::frame_t::promise_type</name>
     <member refid="classcoro_1_1frame__t_1_1promise__type_1a63d10c951414b16b7ff45a574e3094a9" kind="function"><name>unhandled_exception</name></member>
     <member refid="classcoro_1_1frame__t_1_1promise__type_1a9644f5c45cb2843a4458eaf25a0ebe74" kind="function"><name>return_void</name></member>
-    <member refid="classcoro_1_1frame__t_1_1promise__type_1a7c07fbbb36644bc2a76bca7b9248e038" kind="function"><name>get_return_object</name></member>
+    <member refid="classcoro_1_1frame__t_1_1promise__type_1a22b9498b1294c08cd04a0e90db979c85" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__detacher__t" kind="class"><name>coro::pthread_detacher_t</name>
+    <member refid="classcoro_1_1pthread__detacher__t_1a63f3731204515d60ab4ae40c89061503" kind="function"><name>try_detach</name></member>
+    <member refid="classcoro_1_1pthread__detacher__t_1a9beacbbbc15bd05e2fdde191f3c1a269" kind="function"><name>~pthread_detacher_t</name></member>
+    <member refid="classcoro_1_1pthread__detacher__t_1a85640f0f5d742681d0c3d3fae3746898" kind="function"><name>pthread_detacher_t</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__joiner__t" kind="class"><name>coro::pthread_joiner_t</name>
+    <member refid="classcoro_1_1pthread__joiner__t_1af966aa5b062a89941d015ae207e143e9" kind="function"><name>try_join</name></member>
+    <member refid="classcoro_1_1pthread__joiner__t_1a235a4421bdaa89879cdf4fad0626a42a" kind="function"><name>~pthread_joiner_t</name></member>
+    <member refid="classcoro_1_1pthread__joiner__t_1ad9e4c69a571734a9a3c9a08b2b4fe7cb" kind="function"><name>pthread_joiner_t</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__knower__t" kind="class"><name>coro::pthread_knower_t</name>
+    <member refid="classcoro_1_1pthread__knower__t_1a9bdae50f877e7c639c28507f28eb1492" kind="variable"><name>promise</name></member>
+    <member refid="classcoro_1_1pthread__knower__t_1aaba88045030e8d395299c27a24b99ba2" kind="function"><name>operator pthread_t</name></member>
+    <member refid="classcoro_1_1pthread__knower__t_1a02ec12b031636ecd0eba2c8ebf99614a" kind="function"><name>pthread_knower_t</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__spawn__promise" kind="class"><name>coro::pthread_spawn_promise</name>
+    <member refid="classcoro_1_1pthread__spawn__promise_1ab97d78b547d3e294c41777520054dc49" kind="variable"><name>tid</name></member>
+    <member refid="classcoro_1_1pthread__spawn__promise_1aba3cf3b57dd677f91a70d810ba5cb586" kind="function"><name>initial_suspend</name></member>
+    <member refid="classcoro_1_1pthread__spawn__promise_1a376471c18a55b430110ee8cd4e7c5b05" kind="function"><name>unhandled_exception</name></member>
+    <member refid="classcoro_1_1pthread__spawn__promise_1a0001ebb427fe3da1857b36bb3b483eb0" kind="function"><name>await_transform</name></member>
+    <member refid="classcoro_1_1pthread__spawn__promise_1a3b8bf1c50daa6f9a8dd7e21d9ce264ef" kind="function"><name>await_transform</name></member>
+    <member refid="classcoro_1_1pthread__spawn__promise_1a0d23e2a68f2715d37f2621788869cc2f" kind="function"><name>await_transform</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__spawner__t" kind="class"><name>coro::pthread_spawner_t</name>
+    <member refid="classcoro_1_1pthread__spawner__t_1a119b581b5698d6ca4e2f0ddcf15d3879" kind="variable"><name>tid</name></member>
+    <member refid="classcoro_1_1pthread__spawner__t_1ac32403f8e855248a85e755f8281c9063" kind="variable"><name>attr</name></member>
+    <member refid="classcoro_1_1pthread__spawner__t_1a7585dddc4f38de3cfe260072417bf031" kind="function"><name>resume_on_pthread</name></member>
+    <member refid="classcoro_1_1pthread__spawner__t_1a47e728424d660adf0f7fb20c0a43689b" kind="function"><name>pthread_resume</name></member>
+    <member refid="classcoro_1_1pthread__spawner__t_1a4ee741fb2766f25431d126f1cfeb7885" kind="function"><name>await_ready</name></member>
+    <member refid="classcoro_1_1pthread__spawner__t_1acf585fcfa935b93cb986e0b80d50b40d" kind="function"><name>await_resume</name></member>
+    <member refid="classcoro_1_1pthread__spawner__t_1a8b97fcba3db84ca8d0a40ccf0365b866" kind="function"><name>await_suspend</name></member>
+    <member refid="classcoro_1_1pthread__spawner__t_1a306dbbd45c626e96d0a462471bb7b598" kind="function"><name>pthread_spawner_t</name></member>
+    <member refid="classcoro_1_1pthread__spawner__t_1a1e11f1731604c4d4584d1a870c6810a8" kind="function"><name>~pthread_spawner_t</name></member>
   </compound>
   <compound refid="classcoro_1_1reader" kind="class"><name>coro::reader</name>
     <member refid="classcoro_1_1reader_1a031220219d34ddc1df48fcbe5efad363" kind="typedef"><name>value_type</name></member>
@@ -288,10 +336,40 @@
     <member refid="classcoro_1_1reader_1acb83e8badffecbd9215745c594a11f66" kind="function"><name>await_suspend</name></member>
     <member refid="classcoro_1_1reader_1aa2dc7ae346429d572c59f97fb97586c2" kind="function"><name>await_resume</name></member>
   </compound>
-  <compound refid="structRefCounted" kind="struct"><name>RefCounted</name>
-    <member refid="structRefCounted_1a5486e2d0954f6462a8619cabfaf8fb27" kind="variable"><name>p_</name></member>
-    <member refid="structRefCounted_1a8bf5bb3a0224a47321f037c7fd67dd7e" kind="function"><name>RefCounted</name></member>
-    <member refid="structRefCounted_1a80059c52865724ef71265a1fc3a7baca" kind="function"><name>operator T *</name></member>
+  <compound refid="classcoro_1_1section" kind="class"><name>coro::section</name>
+    <member refid="classcoro_1_1section_1a54751b7c80db3e018d49dcf673c1354c" kind="variable"><name>rwlock</name></member>
+    <member refid="classcoro_1_1section_1a2b1a5f49c5bb3c3f1975bfe3ed010821" kind="function"><name>section</name></member>
+    <member refid="classcoro_1_1section_1a1a19bc8d5aa50e721a871e52c7e8a554" kind="function"><name>~section</name></member>
+    <member refid="classcoro_1_1section_1ab3d9f0753243ad9e7f2c09d3799b53b5" kind="function"><name>section</name></member>
+    <member refid="classcoro_1_1section_1af80fc9f0cb9ee65280e3b5697c8ba4dc" kind="function"><name>section</name></member>
+    <member refid="classcoro_1_1section_1aa31e1f13dcbc351797a6973d34e5a4db" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1section_1a7e8f7446da42e13aeca9aa051de207bd" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1section_1aa87d23fc56fbffff2d16fbdff3bb1ca6" kind="function"><name>try_lock</name></member>
+    <member refid="classcoro_1_1section_1ae87c2669f33f76891f0ae9193295907b" kind="function"><name>lock</name></member>
+    <member refid="classcoro_1_1section_1ac416fc79c4d4f27856d20f9cb90c7773" kind="function"><name>unlock</name></member>
+    <member refid="classcoro_1_1section_1a2b1a5f49c5bb3c3f1975bfe3ed010821" kind="function"><name>section</name></member>
+    <member refid="classcoro_1_1section_1a1a19bc8d5aa50e721a871e52c7e8a554" kind="function"><name>~section</name></member>
+    <member refid="classcoro_1_1section_1aa87d23fc56fbffff2d16fbdff3bb1ca6" kind="function"><name>try_lock</name></member>
+    <member refid="classcoro_1_1section_1ae87c2669f33f76891f0ae9193295907b" kind="function"><name>lock</name></member>
+    <member refid="classcoro_1_1section_1ac416fc79c4d4f27856d20f9cb90c7773" kind="function"><name>unlock</name></member>
+    <member refid="classcoro_1_1section_1ab3d9f0753243ad9e7f2c09d3799b53b5" kind="function"><name>section</name></member>
+    <member refid="classcoro_1_1section_1af80fc9f0cb9ee65280e3b5697c8ba4dc" kind="function"><name>section</name></member>
+    <member refid="classcoro_1_1section_1aa31e1f13dcbc351797a6973d34e5a4db" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1section_1a7e8f7446da42e13aeca9aa051de207bd" kind="function"><name>operator=</name></member>
+  </compound>
+  <compound refid="classcoro_1_1set__or__cancel" kind="class"><name>coro::set_or_cancel</name>
+    <member refid="classcoro_1_1set__or__cancel_1aa906040216dbce2482c49e3abedebabc" kind="variable"><name>hobject</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a56616f78a2cfba0971d958a9a042f9eb" kind="function"><name>set_or_cancel</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a8b4b9e51e565aa420ae28323b06cc6c8" kind="function"><name>set_or_cancel</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a696137603ff3cb5c0558321a8e2412d4" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a2e77ef5654ae6141dab1faf67affe674" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a7ee98f7fe618104dc5ff2ccce7f5273c" kind="function"><name>suspend</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a19a92a3cc43a7b11011125df594369a9" kind="function"><name>set_or_cancel</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a351fc31b4ac912ea48092cc727b83238" kind="function"><name>~set_or_cancel</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1ad5f73e27cfa2c17f5025906efb7f55c2" kind="function"><name>unregister</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1af088d0a91ef5fc0042155b52bf917313" kind="function"><name>await_ready</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a3c53cc7da30ac727f1b8c77335036398" kind="function"><name>await_suspend</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a862b4373192426e0ca4d313a32f24266" kind="function"><name>await_resume</name></member>
   </compound>
   <compound refid="classstd_1_1experimental_1_1suspend__always" kind="class"><name>std::experimental::suspend_always</name>
     <member refid="classstd_1_1experimental_1_1suspend__always_1aac17bbdbc141b9c3dbee8469804fc1dc" kind="function"><name>await_ready</name></member>
@@ -302,8 +380,6 @@
     <member refid="classstd_1_1experimental_1_1suspend__never_1af3ad1c874a9bd3160fee7da2d45ef86c" kind="function"><name>await_ready</name></member>
     <member refid="classstd_1_1experimental_1_1suspend__never_1a7754430540e2b8a0a7513ad57e44a0a7" kind="function"><name>await_resume</name></member>
     <member refid="classstd_1_1experimental_1_1suspend__never_1a0064e54a38e05222f0dd2395229d3afd" kind="function"><name>await_suspend</name></member>
-  </compound>
-  <compound refid="structUnrelated" kind="struct"><name>Unrelated</name>
   </compound>
   <compound refid="classcoro_1_1writer" kind="class"><name>coro::writer</name>
     <member refid="classcoro_1_1writer_1a1452c1b29a1eb95e8d71053b42b200f2" kind="typedef"><name>value_type</name></member>
@@ -333,68 +409,46 @@
     <member refid="classcoro_1_1writer_1a2ea9de7ab0feb35e876eeac2bd586704" kind="function"><name>await_suspend</name></member>
     <member refid="classcoro_1_1writer_1a44318a41cddbfe6cd1819deeb17cb7bb" kind="function"><name>await_resume</name></member>
   </compound>
-  <compound refid="namespace_0D10" kind="namespace"><name>@10</name>
-  </compound>
-  <compound refid="namespace_0D12" kind="namespace"><name>@12</name>
-  </compound>
-  <compound refid="namespace_0D3" kind="namespace"><name>@3</name>
-  </compound>
-  <compound refid="namespace_0D4" kind="namespace"><name>@4</name>
-  </compound>
-  <compound refid="namespace_0D5" kind="namespace"><name>@5</name>
-  </compound>
   <compound refid="namespacecoro" kind="namespace"><name>coro</name>
-    <member refid="net_8h_1a6b4d8b23b13890de7209b4439dbe7675" kind="typedef"><name>io_task_t</name></member>
-    <member refid="net_8h_1a60d36260824423f894ffd077f8487663" kind="typedef"><name>io_buffer_t</name></member>
-    <member refid="net_8h_1a44f82ebeab85dfbf50907561b7138f96" kind="typedef"><name>zstring_host</name></member>
-    <member refid="net_8h_1aff0c0d5fbac8e056e123047db7e4d910" kind="typedef"><name>zstring_serv</name></member>
-    <member refid="net_8h_1a1260ec24e0b0f434cf361324ac7cfc2e" kind="typedef"><name>czstring_host</name></member>
-    <member refid="net_8h_1abc8f3c225ad8497a18f0aec987abe9c1" kind="typedef"><name>czstring_serv</name></member>
-    <member refid="event__darwin_8cpp_1ad6a5976b6cc5817f51cc89dbe3e00656" kind="variable"><name>selist</name></member>
-    <member refid="event__linux_8cpp_1a75c5634f13d403665ca66b9e5df22caf" kind="variable"><name>emask</name></member>
-    <member refid="io__darwin_8cpp_1a30ea8f15ccae5713ed6aac8207804a76" kind="variable"><name>kq</name></member>
-    <member refid="io__linux_8cpp_1a88274bb060b5d19a9d0984d609fa8587" kind="variable"><name>inbound</name></member>
-    <member refid="io__linux_8cpp_1a3a33676583ef092ce05d6aeed2c81b32" kind="variable"><name>outbound</name></member>
-    <member refid="channel_8hpp_1a63d87ae8cd27ef6af053b2012e14b8bc" kind="function"><name>select</name></member>
-    <member refid="channel_8hpp_1afed570d52b7e624ce887594a76fa2a38" kind="function"><name>select</name></member>
-    <member refid="net_8h_1a31d5a4a545024c3c24e6f5204537307b" kind="function"><name>send_to</name></member>
-    <member refid="net_8h_1ae85ec53584de7c5275cf85e7913316eb" kind="function"><name>send_to</name></member>
-    <member refid="net_8h_1ace516cdc1f8b51596ba7a406190182eb" kind="function"><name>recv_from</name></member>
-    <member refid="net_8h_1a1e1a2ad32443f868826212a73ce0027e" kind="function"><name>recv_from</name></member>
-    <member refid="net_8h_1ac94bb59884293c451906c8cffe825a14" kind="function"><name>send_stream</name></member>
-    <member refid="net_8h_1a60c53387a2e976df4742620055666796" kind="function"><name>recv_stream</name></member>
-    <member refid="net_8h_1af3bc33fbcf57637a812334cabe8e4e19" kind="function"><name>wait_net_tasks</name></member>
-    <member refid="net_8h_1abb2d455ad4df2f4fc43d516803892c1d" kind="function"><name>wait_net_tasks</name></member>
-    <member refid="net_8h_1a0b503261a300525ba16f8b4e576e17a5" kind="function"><name>resolve</name></member>
-    <member refid="net_8h_1aefb3480ba01b81ab77676f8e4b7ffbb2" kind="function"><name>resolve_error</name></member>
-    <member refid="net_8h_1af8bb73fbd0e46818d3c79530cfd73955" kind="function"><name>resolve</name></member>
-    <member refid="net_8h_1a31de141f201ee316e7e7647de235464a" kind="function"><name>get_name</name></member>
-    <member refid="net_8h_1ae745b9fdc387085a5bb2383b74ccb504" kind="function"><name>get_name</name></member>
-    <member refid="event__darwin_8cpp_1ae4278bba193c8757395fac4edd151ac5" kind="function"><name>render_temp_name</name></member>
-    <member refid="event__darwin_8cpp_1a002c8a54c3d9439523eccfa8afe255ad" kind="function"><name>signaled_event_tasks</name></member>
-    <member refid="event__linux_8cpp_1a0a4a5a45cda53ed181fbff64a604c50a" kind="function"><name>is_signaled</name></member>
-    <member refid="event__linux_8cpp_1a8d123c193bac1913ca11cad209b6d864" kind="function"><name>get_eventfd</name></member>
-    <member refid="event__linux_8cpp_1a757aac3d45727d3745a96138ddf5a8c2" kind="function"><name>notify_event</name></member>
-    <member refid="event__linux_8cpp_1a93e9b38a4a7badcb102632a09861318d" kind="function"><name>consume_event</name></member>
-    <member refid="event__windows_8cpp_1ad914c5dce636be63612e7b92de9bb423" kind="function"><name>wait_on_thread_pool</name></member>
-    <member refid="io__darwin_8cpp_1ac06ea9f65e669a1940fb1d282a54b9d6" kind="function"><name>enumerate_net_tasks</name></member>
-    <member refid="io__darwin_8cpp_1a1ac4ab805036bed4e7d2e1cc4d4ce64d" kind="function"><name>wait_net_tasks</name></member>
-    <member refid="io__windows_8cpp_1a556b102db93c6e7cf8864b28308036e2" kind="function"><name>is_async_pending</name></member>
-    <member refid="io__windows_8cpp_1a235ed77379aa523e6a1c7596601e7129" kind="function"><name>onWorkDone</name></member>
-    <member refid="io__windows_8cpp_1aaa874db68805b8dd64c59b7727648a17" kind="function"><name>get_io_error</name></member>
-    <member refid="io__windows_8cpp_1afdc260d04de2933c90bdc26d9bd09768" kind="function"><name>get_io_length</name></member>
-    <member refid="io__windows_8cpp_1a382624f87cab31808c4bb1565cef08c4" kind="function"><name>zero_overlapped</name></member>
-    <member refid="io__windows_8cpp_1aeebb761b70e474419a62f56419402531" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="resolver_8cpp_1a92c9a83d182f38fe315384a5eff8b731" kind="function"><name>enumerate_addrinfo</name></member>
-    <member refid="pthread_8cpp_1ace94a5be399e660811ba950ba1686cdc" kind="function"><name>coroutine_pthread_resume</name></member>
-    <member refid="win32__thread__pool_8cpp_1af6f7397c971ca11e32a5de076f5a2abf" kind="function"><name>get_threads_of</name></member>
+    <member refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kind="typedef"><name>io_buffer_t</name></member>
+    <member refid="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" kind="typedef"><name>net_callback_t</name></member>
+    <member refid="namespacecoro_1a8c609d3792ba6a72e94e0f88aca23589" kind="variable"><name>netkq</name></member>
+    <member refid="namespacecoro_1a364142b18eb0724cabbf3a942c65ce92" kind="variable"><name>iep</name></member>
+    <member refid="namespacecoro_1a85afa8adbfd008d91e74fd5e0716e924" kind="variable"><name>oep</name></member>
+    <member refid="namespacecoro_1a75c5634f13d403665ca66b9e5df22caf" kind="variable"><name>emask</name></member>
+    <member refid="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" kind="function"><name>wait_in</name></member>
+    <member refid="group__NetWork_1ga31d5a4a545024c3c24e6f5204537307b" kind="function"><name>send_to</name></member>
+    <member refid="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" kind="function"><name>send_to</name></member>
+    <member refid="group__NetWork_1gace516cdc1f8b51596ba7a406190182eb" kind="function"><name>recv_from</name></member>
+    <member refid="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" kind="function"><name>recv_from</name></member>
+    <member refid="group__NetWork_1gac94bb59884293c451906c8cffe825a14" kind="function"><name>send_stream</name></member>
+    <member refid="group__NetWork_1ga60c53387a2e976df4742620055666796" kind="function"><name>recv_stream</name></member>
+    <member refid="group__NetResolve_1gadc07999d236df3e984d42b37cbf56693" kind="function"><name>get_address</name></member>
+    <member refid="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kind="function"><name>get_address</name></member>
+    <member refid="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" kind="function"><name>get_name</name></member>
+    <member refid="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" kind="function"><name>get_name</name></member>
+    <member refid="namespacecoro_1a63d87ae8cd27ef6af053b2012e14b8bc" kind="function"><name>select</name></member>
+    <member refid="namespacecoro_1afed570d52b7e624ce887594a76fa2a38" kind="function"><name>select</name></member>
+    <member refid="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" kind="function"><name>poll_net_tasks</name></member>
+    <member refid="namespacecoro_1a0260f9ba0f9c3c2abe90513e1f9ebbb4" kind="function"><name>resume_net_task</name></member>
+    <member refid="namespacecoro_1a022830c9178aa1a201f95abd2026d35f" kind="function"><name>poll_net_tasks</name></member>
+    <member refid="namespacecoro_1a556b102db93c6e7cf8864b28308036e2" kind="function"><name>is_async_pending</name></member>
+    <member refid="namespacecoro_1affafc280af2137eafd6000149dc01334" kind="function"><name>on_io_done</name></member>
+    <member refid="namespacecoro_1aaa874db68805b8dd64c59b7727648a17" kind="function"><name>get_io_error</name></member>
+    <member refid="namespacecoro_1afdc260d04de2933c90bdc26d9bd09768" kind="function"><name>get_io_length</name></member>
+    <member refid="namespacecoro_1afc690d3107e22a73fe91d15c30d52d58" kind="function"><name>zero_overlapped</name></member>
+    <member refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kind="function"><name>GSL_SUPPRESS</name></member>
+    <member refid="namespacecoro_1a6b125cc7a08921bd28b759c52a5889b8" kind="function"><name>get_address</name></member>
+    <member refid="namespacecoro_1a9f15e22ff13bed5b17201e7a014d9ea9" kind="function"><name>get_address</name></member>
+    <member refid="namespacecoro_1ae7c90a14ac066a5fb7a13aed2945091a" kind="function"><name>get_address</name></member>
+    <member refid="namespacecoro_1a0a4a5a45cda53ed181fbff64a604c50a" kind="function"><name>is_signaled</name></member>
+    <member refid="namespacecoro_1a8d123c193bac1913ca11cad209b6d864" kind="function"><name>get_eventfd</name></member>
+    <member refid="namespacecoro_1a757aac3d45727d3745a96138ddf5a8c2" kind="function"><name>notify_event</name></member>
+    <member refid="namespacecoro_1a93e9b38a4a7badcb102632a09861318d" kind="function"><name>consume_event</name></member>
+    <member refid="namespacecoro_1ad9c56049f2089b9473d8ac9bc06e2a6f" kind="function"><name>wait_event_on_thread_pool</name></member>
   </compound>
   <compound refid="namespacecoro_1_1internal" kind="namespace"><name>coro::internal</name>
-    <member refid="channel_8hpp_1a5477a9df5dbe696d741b9a7dd064ff49" kind="function"><name>poison</name></member>
-  </compound>
-  <compound refid="namespacegeneric" kind="namespace"><name>generic</name>
-    <member refid="string__span__tests_8cpp_1a99ee50625b21980f8d6935763acf7d29" kind="variable"><name>n</name></member>
-    <member refid="string__span__tests_8cpp_1a4b1e5a22dc78463ecdedbd41cc2987cf" kind="function"><name>GSL_SUPPRESS</name></member>
+    <member refid="namespacecoro_1_1internal_1a5477a9df5dbe696d741b9a7dd064ff49" kind="function"><name>poison</name></member>
   </compound>
   <compound refid="namespacegsl" kind="namespace"><name>gsl</name>
   </compound>
@@ -403,153 +457,14 @@
   <compound refid="namespacestd_1_1chrono" kind="namespace"><name>std::chrono</name>
   </compound>
   <compound refid="namespacestd_1_1experimental" kind="namespace"><name>std::experimental</name>
-    <member refid="frame_8h_1a332c317fca5dac180c997a4f8410ac75" kind="typedef"><name>noop_coroutine_handle</name></member>
-    <member refid="frame_8h_1af678c6b41c5d772b10ebb87546b5ad4b" kind="function"><name>operator==</name></member>
-    <member refid="frame_8h_1ae298174d1290f8634172802b05fe8557" kind="function"><name>operator!=</name></member>
-    <member refid="frame_8h_1ac2f9247ca4d893b694562afd12c9ace1" kind="function"><name>operator&lt;</name></member>
-    <member refid="frame_8h_1a4c559297e30ec354ed1d38670efa7a9d" kind="function"><name>operator&gt;</name></member>
-    <member refid="frame_8h_1a6d55bc3fb1700c4f6ed95c24ba7e91bb" kind="function"><name>operator&lt;=</name></member>
-    <member refid="frame_8h_1a279287d45bcdbc54be630cefcc73d854" kind="function"><name>operator&gt;=</name></member>
-    <member refid="frame_8h_1a6fb7945da7b9ad20181e92a97e44ae7f" kind="function"><name>noop_coroutine</name></member>
-  </compound>
-  <compound refid="algorithm__tests_8cpp" kind="file"><name>algorithm_tests.cpp</name>
-    <member refid="algorithm__tests_8cpp_1aad0dd059f1216c0e076e8f3d97c987a3" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="algorithm__tests_8cpp_1a68bd597b4492656d4aec8283aa904133" kind="function"><name>TEST_CASE</name></member>
-  </compound>
-  <compound refid="assertion__tests_8cpp" kind="file"><name>assertion_tests.cpp</name>
-    <member refid="assertion__tests_8cpp_1a8e3b2439899749d38beb932c3aab2998" kind="function"><name>f</name></member>
-    <member refid="assertion__tests_8cpp_1a8dab04b1c74bb98c5117be5b812c3710" kind="function"><name>TEST_CASE</name></member>
-    <member refid="assertion__tests_8cpp_1a667f037b6bdb80e39f54d2d1b1da331b" kind="function"><name>g</name></member>
-    <member refid="assertion__tests_8cpp_1a87b834f169e5b7e63910d684380c4e0b" kind="function"><name>TEST_CASE</name></member>
-  </compound>
-  <compound refid="at__tests_8cpp" kind="file"><name>at_tests.cpp</name>
-    <member refid="at__tests_8cpp_1a80edd118b2ca8654117a5b9ddf82d668" kind="function"><name>GSL_SUPPRESS</name></member>
-  </compound>
-  <compound refid="bounds__tests_8cpp" kind="file"><name>bounds_tests.cpp</name>
-    <member refid="bounds__tests_8cpp_1a3b3ba3057481bfd6950087c970056273" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="bounds__tests_8cpp_1ae28092549fd6cb9628e38890460220b9" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="bounds__tests_8cpp_1a8bd0c9f058d6fc59c41846b8279b7114" kind="function"><name>GSL_SUPPRESS</name></member>
-  </compound>
-  <compound refid="byte__tests_8cpp" kind="file"><name>byte_tests.cpp</name>
-  </compound>
-  <compound refid="multi__span__tests_8cpp" kind="file"><name>multi_span_tests.cpp</name>
-    <member refid="multi__span__tests_8cpp_1abebb816f1b612415d9f6e74155b4db41" kind="variable"><name>dynamic_range</name></member>
-    <member refid="multi__span__tests_8cpp_1a1bff93dd001169f2a8c69cdef6d35570" kind="variable"><name>av</name></member>
-    <member refid="multi__span__tests_8cpp_1a472cdc205b97d5d3c43a0e11382f102f" kind="variable"><name>section</name></member>
-    <member refid="multi__span__tests_8cpp_1acaef05d42ce41d3186c4b1feba8eca25" kind="variable"><name>check_sum</name></member>
-    <member refid="multi__span__tests_8cpp_1a7d8d9c0a66c20e841bb2894d5720234b" kind="variable"><name>sum</name></member>
-    <member refid="multi__span__tests_8cpp_1ab8d482251fc00894fbf9bf81e19151c5" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="multi__span__tests_8cpp_1a4afdaee03195e64e88df28bfd62f5ff8" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="multi__span__tests_8cpp_1a5090eda1779be2761fb64ad76935b20d" kind="function"><name>fn</name></member>
-    <member refid="multi__span__tests_8cpp_1ad457f7e3eb7acc4e77c6aa5f63123f32" kind="function"><name>TEST_CASE</name></member>
-    <member refid="multi__span__tests_8cpp_1aada66b770c8a7dc53674345cf26a19e0" kind="function"><name>overloaded_func</name></member>
-    <member refid="multi__span__tests_8cpp_1acbb7bd6148f437c576a7e2558168a6a0" kind="function"><name>overloaded_func</name></member>
-    <member refid="multi__span__tests_8cpp_1a6289c2d0134aec05dace413d02d60d15" kind="function"><name>fixed_func</name></member>
-    <member refid="multi__span__tests_8cpp_1a80867e9275f0c96331905581ff7d3961" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="multi__span__tests_8cpp_1a4017ca1df99b36b33515bbb965008788" kind="function"><name>CHECK</name></member>
-    <member refid="multi__span__tests_8cpp_1a148949ac6f9b0e68aff5a8308e54d936" kind="function"><name>for</name></member>
-    <member refid="multi__span__tests_8cpp_1a572d07051297237446f23c0f2d90eb31" kind="function"><name>CHECK</name></member>
-    <member refid="multi__span__tests_8cpp_1a8663bccfa5cb54d3de7f86d97dcb275d" kind="function"><name>CHECK</name></member>
-    <member refid="multi__span__tests_8cpp_1a58e0a20d81947e65d0ab47d13f5ac7b7" kind="function"><name>for</name></member>
-    <member refid="multi__span__tests_8cpp_1af91dcc498ca50969cc3124f44e850d10" kind="function"><name>CHECK</name></member>
-    <member refid="multi__span__tests_8cpp_1a219b7b4412198f779ea187e3b39af5ae" kind="function"><name>for</name></member>
-  </compound>
-  <compound refid="no__exception__ensure__tests_8cpp" kind="file"><name>no_exception_ensure_tests.cpp</name>
-    <member refid="no__exception__ensure__tests_8cpp_1acc45b46d9a1370848749beaee2b64db3" kind="function"><name>operator_subscript_no_throw</name></member>
-    <member refid="no__exception__ensure__tests_8cpp_1a5b48515c97b543baa61ea7dba266920f" kind="function"><name>test_terminate</name></member>
-    <member refid="no__exception__ensure__tests_8cpp_1a5db1049dcd956f2f8cf495479e5cd77c" kind="function"><name>setup_termination_handler</name></member>
-    <member refid="no__exception__ensure__tests_8cpp_1aebb4bc46e316a8d7c5ee6d7cdb2ec570" kind="function"><name>main</name></member>
-  </compound>
-  <compound refid="no__exception__throw__tests_8cpp" kind="file"><name>no_exception_throw_tests.cpp</name>
-    <member refid="no__exception__throw__tests_8cpp_1aafda201a867336df58275159b1d592f6" kind="function"><name>narrow_no_throw</name></member>
-    <member refid="no__exception__throw__tests_8cpp_1a5b48515c97b543baa61ea7dba266920f" kind="function"><name>test_terminate</name></member>
-    <member refid="no__exception__throw__tests_8cpp_1a5db1049dcd956f2f8cf495479e5cd77c" kind="function"><name>setup_termination_handler</name></member>
-    <member refid="no__exception__throw__tests_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" kind="function"><name>main</name></member>
-  </compound>
-  <compound refid="notnull__tests_8cpp" kind="file"><name>notnull_tests.cpp</name>
-    <member refid="notnull__tests_8cpp_1aa37326db75c33d444162d85302d8d046" kind="function"><name>operator==</name></member>
-    <member refid="notnull__tests_8cpp_1a16d10810ae939fb5a6d2101159f32907" kind="function"><name>operator!=</name></member>
-    <member refid="notnull__tests_8cpp_1a55195d9899904156110d9dc39d5e27dd" kind="function"><name>operator&lt;</name></member>
-    <member refid="notnull__tests_8cpp_1a70931789dc12612b5b1bd395abe1b1d6" kind="function"><name>operator&gt;</name></member>
-    <member refid="notnull__tests_8cpp_1a1d76a90aa314067b630eec54a0c34388" kind="function"><name>operator&lt;=</name></member>
-    <member refid="notnull__tests_8cpp_1a55adec7612b02339a738a95222076982" kind="function"><name>operator&gt;=</name></member>
-    <member refid="notnull__tests_8cpp_1a5e4ea132eef3b989e59447c3f69f1609" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="notnull__tests_8cpp_1ad3874b2f424c1a88065c84ccea176bfd" kind="function"><name>return_pointer</name></member>
-    <member refid="notnull__tests_8cpp_1a8666fc02e1bcda05f78658533e5f0f23" kind="function"><name>return_pointer_const</name></member>
-    <member refid="notnull__tests_8cpp_1aa26d82772660b2b12727ddc027d6a050" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="notnull__tests_8cpp_1a96b49ca4ca7466e295f5cba876f47e34" kind="function"><name>TEST_CASE</name></member>
-    <member refid="notnull__tests_8cpp_1a81ef4bc1016e0cb6be1328915c4c85a6" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="notnull__tests_8cpp_1aa182f9d7ea0576abb9911b0e8760216c" kind="function"><name>TEST_CASE</name></member>
-    <member refid="notnull__tests_8cpp_1a1eb4f3a8f8fce4e516892d52d9e84fd4" kind="function"><name>TEST_CASE</name></member>
-    <member refid="notnull__tests_8cpp_1a35272a2da09ecced260aa2816d92a272" kind="function"><name>TEST_CASE</name></member>
-    <member refid="notnull__tests_8cpp_1a338f1a6d45fb9cdcbc767356a3a66907" kind="function"><name>TEST_CASE</name></member>
-  </compound>
-  <compound refid="owner__tests_8cpp" kind="file"><name>owner_tests.cpp</name>
-    <member refid="owner__tests_8cpp_1ad5e346dfae4cb6d313840645094240d2" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="owner__tests_8cpp_1a03249bb40fe225a628357a06c84be6e7" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="owner__tests_8cpp_1aaaa07b2839734194578a898449654520" kind="function"><name>TEST_CASE</name></member>
-  </compound>
-  <compound refid="span__tests_8cpp" kind="file"><name>span_tests.cpp</name>
-    <member refid="span__tests_8cpp_1ab8d482251fc00894fbf9bf81e19151c5" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="span__tests_8cpp_1ad137658bf0598b975a80e1aa2d3e4b13" kind="function"><name>TEST_CASE</name></member>
-    <member refid="span__tests_8cpp_1a60403b3f93263a2aff721aea75d710ac" kind="function"><name>TEST_CASE</name></member>
-  </compound>
-  <compound refid="strict__notnull__tests_8cpp" kind="file"><name>strict_notnull_tests.cpp</name>
-    <member refid="strict__notnull__tests_8cpp_1a5e4ea132eef3b989e59447c3f69f1609" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="strict__notnull__tests_8cpp_1ad3874b2f424c1a88065c84ccea176bfd" kind="function"><name>return_pointer</name></member>
-    <member refid="strict__notnull__tests_8cpp_1a8666fc02e1bcda05f78658533e5f0f23" kind="function"><name>return_pointer_const</name></member>
-    <member refid="strict__notnull__tests_8cpp_1ab39ba78c2feed16b5f02b02cca45b35d" kind="function"><name>GSL_SUPPRESS</name></member>
-  </compound>
-  <compound refid="strided__span__tests_8cpp" kind="file"><name>strided_span_tests.cpp</name>
-    <member refid="strided__span__tests_8cpp_1a1bff93dd001169f2a8c69cdef6d35570" kind="variable"><name>av</name></member>
-    <member refid="strided__span__tests_8cpp_1abd85c2070160672d8f9ae58a7b98e2b9" kind="variable"><name>bounds</name></member>
-    <member refid="strided__span__tests_8cpp_1ae40354a1051342eb5a9db005715dcfa9" kind="variable"><name>idx</name></member>
-    <member refid="strided__span__tests_8cpp_1abebb816f1b612415d9f6e74155b4db41" kind="variable"><name>dynamic_range</name></member>
-    <member refid="strided__span__tests_8cpp_1a3b6996a985dd29521083047be6139165" kind="variable"><name>section</name></member>
-    <member refid="strided__span__tests_8cpp_1acb559820d9ca11295b4500f179ef6392" kind="variable"><name>i</name></member>
-    <member refid="strided__span__tests_8cpp_1a0ddce587e9b840dedd2a3e5899685d8d" kind="function"><name>TEST_CASE</name></member>
-    <member refid="strided__span__tests_8cpp_1ac09b7c631df16725813203851bb9ae34" kind="function"><name>TEST_CASE</name></member>
-    <member refid="strided__span__tests_8cpp_1afdc55acb2e0776ae7dbd3b316236fe2d" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="strided__span__tests_8cpp_1a3761275e447960c3d95397bbf0c1d190" kind="function"><name>av</name></member>
-    <member refid="strided__span__tests_8cpp_1a22cfee31c9663e304a7edaba6d461239" kind="function"><name>CHECK</name></member>
-    <member refid="strided__span__tests_8cpp_1a1aaf96f3948e89a7dfa288b2dbbac567" kind="function"><name>CHECK</name></member>
-    <member refid="strided__span__tests_8cpp_1a624c1640611e2b3a6d080665e00a2edd" kind="function"><name>for</name></member>
-    <member refid="strided__span__tests_8cpp_1a90f139dbe41ff68071356298a45586c3" kind="function"><name>for</name></member>
-    <member refid="strided__span__tests_8cpp_1a81535d501c5f5a7dc216014dd8725916" kind="function"><name>for</name></member>
-    <member refid="strided__span__tests_8cpp_1aa2645a7f498360ce8079484bf4f00b95" kind="function"><name>GSL_SUPPRESS</name></member>
-  </compound>
-  <compound refid="string__span__tests_8cpp" kind="file"><name>string_span_tests.cpp</name>
-    <member refid="string__span__tests_8cpp_1af3fdd7e01b24fd7b988c49a467c2ee64" kind="function"><name>GSL_SUPPRESS</name></member>
-    <member refid="string__span__tests_8cpp_1a50a236006d7edf3596b8b578086dcc86" kind="function"><name>move_wrapper</name></member>
-    <member refid="string__span__tests_8cpp_1a5c02d45e74f8336ae640d4edd656a27c" kind="function"><name>create</name></member>
-    <member refid="string__span__tests_8cpp_1ad719cfbb95114264e8a7b91d8ddf7416" kind="function"><name>use</name></member>
-    <member refid="string__span__tests_8cpp_1a1b49ab98f0ef4530b72fcfcc28a6a1bc" kind="function"><name>TEST_CASE</name></member>
-    <member refid="string__span__tests_8cpp_1a867cc6014e46d137030390df29088db2" kind="function"><name>TEST_CASE</name></member>
-    <member refid="string__span__tests_8cpp_1a61d8fb3d112af0b1f4b48d042a88038b" kind="function"><name>CreateTempName</name></member>
-    <member refid="string__span__tests_8cpp_1a57500b6766be4fd8e29011632597d1c9" kind="function"><name>CreateTempNameW</name></member>
-    <member refid="string__span__tests_8cpp_1aa20ba2875349cbff29d4119d95c3c729" kind="function"><name>CreateTempNameU16</name></member>
-    <member refid="string__span__tests_8cpp_1a3a3f8c41ec7c46682700202d367e2199" kind="function"><name>CreateTempNameU32</name></member>
-    <member refid="string__span__tests_8cpp_1a559b64edfb9295bbda422eb01a2fb04e" kind="function"><name>TEST_CASE</name></member>
-  </compound>
-  <compound refid="test_8cpp" kind="file"><name>test.cpp</name>
-    <member refid="test_8cpp_1a656eb5868e824d59f489f910db438420" kind="define"><name>CATCH_CONFIG_MAIN</name></member>
-  </compound>
-  <compound refid="utils__tests_8cpp" kind="file"><name>utils_tests.cpp</name>
-    <member refid="utils__tests_8cpp_1a37d972ae0b47b9099e30983131d31916" kind="variable"><name>j</name></member>
-    <member refid="utils__tests_8cpp_1a09faf1fdd4e9bc1788a7e1fda88b1667" kind="function"><name>TEST_CASE</name></member>
-    <member refid="utils__tests_8cpp_1a117dab43b33c533bba053d08592b6530" kind="function"><name>f</name></member>
-    <member refid="utils__tests_8cpp_1ad9db1bfb808106ecd51f8994d921da17" kind="function"><name>TEST_CASE</name></member>
-    <member refid="utils__tests_8cpp_1aa5a7a80cb29e4760b8c075d50967b4a9" kind="function"><name>TEST_CASE</name></member>
-    <member refid="utils__tests_8cpp_1a13e494c3f0259107ad07adf9e60d1d70" kind="function"><name>TEST_CASE</name></member>
-    <member refid="utils__tests_8cpp_1a89db5465c8320ec25b0e6401c052b871" kind="function"><name>g</name></member>
-    <member refid="utils__tests_8cpp_1acf647eefdbacbcf0be41da326eb92acc" kind="function"><name>TEST_CASE</name></member>
-    <member refid="utils__tests_8cpp_1a02c15ea716350e4ea2dbd780352120ff" kind="function"><name>GSL_SUPPRESS</name></member>
-  </compound>
-  <compound refid="channel_8hpp" kind="file"><name>channel.hpp</name>
-    <member refid="channel_8hpp_1a488e1dd7966781c626c4daa43789ab9f" kind="define"><name>LUNCLIFF_COROUTINE_CHANNEL_HPP</name></member>
-  </compound>
-  <compound refid="event_8h" kind="file"><name>event.h</name>
-    <member refid="event_8h_1a356c594771f99ac5d0662cd54702741b" kind="define"><name>COROUTINE_AWAITABLE_EVENT_H</name></member>
+    <member refid="namespacestd_1_1experimental_1a332c317fca5dac180c997a4f8410ac75" kind="typedef"><name>noop_coroutine_handle</name></member>
+    <member refid="namespacestd_1_1experimental_1af678c6b41c5d772b10ebb87546b5ad4b" kind="function"><name>operator==</name></member>
+    <member refid="namespacestd_1_1experimental_1ae298174d1290f8634172802b05fe8557" kind="function"><name>operator!=</name></member>
+    <member refid="namespacestd_1_1experimental_1ac2f9247ca4d893b694562afd12c9ace1" kind="function"><name>operator&lt;</name></member>
+    <member refid="namespacestd_1_1experimental_1a4c559297e30ec354ed1d38670efa7a9d" kind="function"><name>operator&gt;</name></member>
+    <member refid="namespacestd_1_1experimental_1a6d55bc3fb1700c4f6ed95c24ba7e91bb" kind="function"><name>operator&lt;=</name></member>
+    <member refid="namespacestd_1_1experimental_1a279287d45bcdbc54be630cefcc73d854" kind="function"><name>operator&gt;=</name></member>
+    <member refid="namespacestd_1_1experimental_1a6fb7945da7b9ad20181e92a97e44ae7f" kind="function"><name>noop_coroutine</name></member>
   </compound>
   <compound refid="frame_8h" kind="file"><name>frame.h</name>
     <member refid="frame_8h_1ad21192f1cad5b1c02e73ef554b796312" kind="define"><name>COROUTINE_PORTABLE_FRAME_H</name></member>
@@ -562,54 +477,25 @@
     <member refid="frame_8h_1a689025ba7111862b86b178803894cb99" kind="function"><name>__builtin_coro_resume</name></member>
     <member refid="frame_8h_1a2f56e6ded0ef72ae52ad3b71e829e9fd" kind="function"><name>__builtin_coro_destroy</name></member>
   </compound>
+  <compound refid="linux_8h" kind="file"><name>linux.h</name>
+  </compound>
   <compound refid="net_8h" kind="file"><name>net.h</name>
     <member refid="net_8h_1a07b439132c0db62a43c0e1bbd48b7faa" kind="define"><name>COROUTINE_NET_IO_H</name></member>
+  </compound>
+  <compound refid="pthread_8h" kind="file"><name>pthread.h</name>
   </compound>
   <compound refid="return_8h" kind="file"><name>return.h</name>
     <member refid="return_8h_1abc53f6443c5b7b19f6a4dd81fb55f755" kind="define"><name>COROUTINE_PROMISE_AND_RETURN_TYPES_H</name></member>
   </compound>
-  <compound refid="thread_8h" kind="file"><name>thread.h</name>
-    <member refid="thread_8h_1a842cb332a6e4dd29b76c61d4770b0af2" kind="define"><name>COROUTINE_THREAD_UTILITY_H</name></member>
+  <compound refid="unix_8h" kind="file"><name>unix.h</name>
+  </compound>
+  <compound refid="windows_8h" kind="file"><name>windows.h</name>
+    <member refid="windows_8h_1abf27100e9fe7a1e426eebe989737f93b" kind="define"><name>COROUTINE_SYSTEM_WRAPPER_H</name></member>
+  </compound>
+  <compound refid="channel_8hpp" kind="file"><name>channel.hpp</name>
+    <member refid="channel_8hpp_1a488e1dd7966781c626c4daa43789ab9f" kind="define"><name>LUNCLIFF_COROUTINE_CHANNEL_HPP</name></member>
   </compound>
   <compound refid="yield_8hpp" kind="file"><name>yield.hpp</name>
-  </compound>
-  <compound refid="concurrency__helper_8h" kind="file"><name>concurrency_helper.h</name>
-    <member refid="concurrency__helper_8h_1a82252627bcbb83e819e3ae1b49f508e2" kind="define"><name>CONCURRENCY_HELPER_H</name></member>
-  </compound>
-  <compound refid="latch__pthread_8cpp" kind="file"><name>latch_pthread.cpp</name>
-    <member refid="latch__pthread_8cpp_1a02e043f4cf18d9dbe8d44c6aed535116" kind="function"><name>setup_mutex_attr</name></member>
-  </compound>
-  <compound refid="latch__win32_8cpp" kind="file"><name>latch_win32.cpp</name>
-  </compound>
-  <compound refid="section__pthread_8cpp" kind="file"><name>section_pthread.cpp</name>
-    <member refid="section__pthread_8cpp_1a8c65bf2760ac41f410ee8d0712943923" kind="define"><name>LIB_PROLOGUE</name></member>
-    <member refid="section__pthread_8cpp_1af7a15bd7edfd99ff275b1445a893fe43" kind="define"><name>LIB_EPILOGUE</name></member>
-  </compound>
-  <compound refid="section__win32_8cpp" kind="file"><name>section_win32.cpp</name>
-  </compound>
-  <compound refid="event__darwin_8cpp" kind="file"><name>event_darwin.cpp</name>
-  </compound>
-  <compound refid="event__linux_8cpp" kind="file"><name>event_linux.cpp</name>
-  </compound>
-  <compound refid="event__poll_8cpp" kind="file"><name>event_poll.cpp</name>
-  </compound>
-  <compound refid="event__poll_8h" kind="file"><name>event_poll.h</name>
-    <member refid="event__poll_8h_1afb5a4deae51b517e35525a12ce37e402" kind="define"><name>LINUX_EVENT_POLL_API_WRAPPER_H</name></member>
-  </compound>
-  <compound refid="event__windows_8cpp" kind="file"><name>event_windows.cpp</name>
-  </compound>
-  <compound refid="kernel__queue_8cpp" kind="file"><name>kernel_queue.cpp</name>
-  </compound>
-  <compound refid="kernel__queue_8h" kind="file"><name>kernel_queue.h</name>
-    <member refid="kernel__queue_8h_1a58b2c0eff00da89c3830ee1648b7786b" kind="define"><name>DARWIN_KERNEL_QUEUE_API_WRAPPER_H</name></member>
-  </compound>
-  <compound refid="event_2libmain_8cpp" kind="file"><name>libmain.cpp</name>
-    <member refid="event_2libmain_8cpp_1a59f8a4119207355f67b920d35ec6cc8e" kind="define"><name>PROLOGUE</name></member>
-    <member refid="event_2libmain_8cpp_1a56cb52b3cd5105abe50e056271d2cfed" kind="define"><name>EPILOGUE</name></member>
-  </compound>
-  <compound refid="thread_2libmain_8cpp" kind="file"><name>libmain.cpp</name>
-    <member refid="thread_2libmain_8cpp_1a59f8a4119207355f67b920d35ec6cc8e" kind="define"><name>PROLOGUE</name></member>
-    <member refid="thread_2libmain_8cpp_1a56cb52b3cd5105abe50e056271d2cfed" kind="define"><name>EPILOGUE</name></member>
   </compound>
   <compound refid="io__darwin_8cpp" kind="file"><name>io_darwin.cpp</name>
   </compound>
@@ -619,28 +505,56 @@
   </compound>
   <compound refid="resolver_8cpp" kind="file"><name>resolver.cpp</name>
   </compound>
+  <compound refid="darwin_8cpp" kind="file"><name>darwin.cpp</name>
+  </compound>
+  <compound refid="kqueue_8cpp" kind="file"><name>kqueue.cpp</name>
+  </compound>
+  <compound refid="libmain_8cpp" kind="file"><name>libmain.cpp</name>
+    <member refid="libmain_8cpp_1a59f8a4119207355f67b920d35ec6cc8e" kind="define"><name>PROLOGUE</name></member>
+    <member refid="libmain_8cpp_1a56cb52b3cd5105abe50e056271d2cfed" kind="define"><name>EPILOGUE</name></member>
+  </compound>
+  <compound refid="linux_8cpp" kind="file"><name>linux.cpp</name>
+  </compound>
   <compound refid="pthread_8cpp" kind="file"><name>pthread.cpp</name>
   </compound>
-  <compound refid="win32__thread__pool_8cpp" kind="file"><name>win32_thread_pool.cpp</name>
+  <compound refid="windows_8cpp" kind="file"><name>windows.cpp</name>
   </compound>
-  <compound refid="dir_efd85e361fabb3b869a38eac7e59b342" kind="dir"><name>modules/concrt</name>
+  <compound refid="group__Linux" kind="group"><name>Linux</name>
+    <member refid="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" kind="function"><name>wait_in</name></member>
+  </compound>
+  <compound refid="group__NetWork" kind="group"><name>NetWork</name>
+    <member refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kind="typedef"><name>io_buffer_t</name></member>
+    <member refid="group__NetWork_1ga31d5a4a545024c3c24e6f5204537307b" kind="function"><name>send_to</name></member>
+    <member refid="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" kind="function"><name>send_to</name></member>
+    <member refid="group__NetWork_1gace516cdc1f8b51596ba7a406190182eb" kind="function"><name>recv_from</name></member>
+    <member refid="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" kind="function"><name>recv_from</name></member>
+    <member refid="group__NetWork_1gac94bb59884293c451906c8cffe825a14" kind="function"><name>send_stream</name></member>
+    <member refid="group__NetWork_1ga60c53387a2e976df4742620055666796" kind="function"><name>recv_stream</name></member>
+  </compound>
+  <compound refid="group__NetResolve" kind="group"><name>NetResolve</name>
+    <member refid="group__NetResolve_1gadc07999d236df3e984d42b37cbf56693" kind="function"><name>get_address</name></member>
+    <member refid="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kind="function"><name>get_address</name></member>
+    <member refid="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" kind="function"><name>get_name</name></member>
+    <member refid="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" kind="function"><name>get_name</name></member>
+  </compound>
+  <compound refid="group__POSIX" kind="group"><name>POSIX</name>
+  </compound>
+  <compound refid="group__Return" kind="group"><name>Return</name>
+  </compound>
+  <compound refid="group__BSD" kind="group"><name>BSD</name>
+  </compound>
+  <compound refid="group__Windows" kind="group"><name>Windows</name>
   </compound>
   <compound refid="dir_9b61234ab8cba81e3caae75634773f62" kind="dir"><name>interface/coroutine</name>
   </compound>
-  <compound refid="dir_4f62ca89e6e2b2dab0d5f15908e4b9e4" kind="dir"><name>modules/event</name>
-  </compound>
-  <compound refid="dir_397d9aeee4af8edecac90968d93b57df" kind="dir"><name>external</name>
-  </compound>
-  <compound refid="dir_898e359a3b1c0c35c95190e719ce85a7" kind="dir"><name>external/guideline</name>
-  </compound>
   <compound refid="dir_b31d54d5631803016a26f28213a41162" kind="dir"><name>interface</name>
+  </compound>
+  <compound refid="dir_1a14cfa05288f960dad150e6e316c4bb" kind="dir"><name>interface/internal</name>
   </compound>
   <compound refid="dir_e05d7e2b1ecd646af5bb94391405f3b5" kind="dir"><name>modules</name>
   </compound>
   <compound refid="dir_923c80758d00fd62f29a99e232049d19" kind="dir"><name>modules/net</name>
   </compound>
-  <compound refid="dir_b599469a9c8999c9a06fd818dc911b93" kind="dir"><name>external/guideline/tests</name>
-  </compound>
-  <compound refid="dir_cfce773df20e130ee7436b64bcb4a019" kind="dir"><name>modules/thread</name>
+  <compound refid="dir_826aeabe2439c2b66ff3bb7c0dad7853" kind="dir"><name>modules/system</name>
   </compound>
 </doxygenindex>

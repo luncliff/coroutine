@@ -3,68 +3,63 @@
   <compounddef id="resolver_8cpp" kind="file" language="C++">
     <compoundname>resolver.cpp</compoundname>
     <includes refid="net_8h" local="no">coroutine/net.h</includes>
-    <includes local="no">gsl/gsl</includes>
+    <includes refid="yield_8hpp" local="no">internal/yield.hpp</includes>
     <incdepgraph>
-      <node id="334">
+      <node id="332">
         <label>modules/net/resolver.cpp</label>
         <link refid="resolver.cpp"/>
-        <childnode refid="335" relation="include">
-        </childnode>
-        <childnode refid="337" relation="include">
-        </childnode>
-      </node>
-      <node id="338">
-        <label>coroutine/yield.hpp</label>
-        <link refid="yield_8hpp_source"/>
-        <childnode refid="339" relation="include">
-        </childnode>
-        <childnode refid="344" relation="include">
-        </childnode>
-      </node>
-      <node id="341">
-        <label>coroutine/frame.h</label>
-        <link refid="frame_8h_source"/>
-        <childnode refid="342" relation="include">
-        </childnode>
-        <childnode refid="343" relation="include">
+        <childnode refid="333" relation="include">
         </childnode>
         <childnode refid="340" relation="include">
         </childnode>
       </node>
-      <node id="344">
-        <label>iterator</label>
-      </node>
-      <node id="343">
-        <label>cstdint</label>
-      </node>
-      <node id="335">
-        <label>coroutine/net.h</label>
-        <link refid="net_8h_source"/>
-        <childnode refid="336" relation="include">
-        </childnode>
+      <node id="336">
+        <label>coroutine/frame.h</label>
+        <link refid="frame_8h"/>
         <childnode refid="337" relation="include">
         </childnode>
         <childnode refid="338" relation="include">
         </childnode>
+        <childnode refid="335" relation="include">
+        </childnode>
       </node>
-      <node id="339">
+      <node id="341">
+        <label>iterator</label>
+      </node>
+      <node id="338">
+        <label>cstdint</label>
+      </node>
+      <node id="333">
+        <label>coroutine/net.h</label>
+        <link refid="net_8h"/>
+        <childnode refid="334" relation="include">
+        </childnode>
+        <childnode refid="339" relation="include">
+        </childnode>
+      </node>
+      <node id="334">
         <label>coroutine/return.h</label>
         <link refid="return_8h"/>
-        <childnode refid="340" relation="include">
+        <childnode refid="335" relation="include">
+        </childnode>
+        <childnode refid="336" relation="include">
+        </childnode>
+      </node>
+      <node id="339">
+        <label>gsl/gsl</label>
+      </node>
+      <node id="340">
+        <label>internal/yield.hpp</label>
+        <link refid="yield_8hpp"/>
+        <childnode refid="334" relation="include">
         </childnode>
         <childnode refid="341" relation="include">
         </childnode>
       </node>
       <node id="337">
-        <label>gsl/gsl</label>
-      </node>
-      <node id="342">
         <label>cstddef</label>
       </node>
-      <node id="336">
-        <label>chrono</label>
-      </node>
-      <node id="340">
+      <node id="335">
         <label>type_traits</label>
       </node>
     </incdepgraph>
@@ -74,19 +69,17 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Author<sp/><sp/>:<sp/>github.com/luncliff<sp/>(luncliff@gmail.com)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>License<sp/>:<sp/>CC<sp/>BY<sp/>4.0</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;coroutine/net.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gsl/gsl&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal">GSL_SUPPRESS(type<sp/>.1)</highlight></codeline>
-<codeline lineno="12"><highlight class="normal">int32_t<sp/>get_name(const<sp/>sockaddr_in&amp;<sp/>addr,<sp/>zstring_host<sp/>name,<sp/>zstring_serv<sp/>serv,</highlight></codeline>
-<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>flags)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="1"></codeline>
+<codeline lineno="4"><highlight class="preprocessor">#include<sp/>&lt;<ref refid="net_8h" kindref="compound">coroutine/net.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="yield_8hpp" kindref="compound">internal/yield.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">uint32_t<sp/><ref refid="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" kindref="member">get_name</ref>(const<sp/>sockaddr_in&amp;<sp/>addr,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacegsl" kindref="compound">gsl</ref>::zstring&lt;NI_MAXHOST&gt;<sp/>name,<sp/><ref refid="namespacegsl" kindref="compound">gsl</ref>::zstring&lt;NI_MAXSERV&gt;<sp/>serv,</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>flags)<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">sockaddr*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(addr));</highlight></codeline>
 <codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>::getnameinfo(ptr,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(sockaddr_in),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name,<sp/>NI_MAXHOST,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
@@ -94,45 +87,78 @@
 <codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>flags);</highlight></codeline>
 <codeline lineno="19"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal">GSL_SUPPRESS(type<sp/>.1)</highlight></codeline>
-<codeline lineno="22"><highlight class="normal">int32_t<sp/>get_name(const<sp/>sockaddr_in6&amp;<sp/>addr,<sp/>zstring_host<sp/>name,<sp/>zstring_serv<sp/>serv,</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>flags)<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">sockaddr*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(addr));</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>::getnameinfo(ptr,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(sockaddr_in6),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name,<sp/>NI_MAXHOST,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>serv,<sp/>(serv<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>?<sp/>0<sp/>:<sp/>NI_MAXSERV,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>flags);</highlight></codeline>
-<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolve_error(int32_t<sp/>ec)<sp/>noexcept<sp/>-&gt;<sp/>system_error<sp/>{</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::system_error{ec,<sp/>system_category(),<sp/>::gai_strerror(ec)};</highlight></codeline>
-<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>enumerate_addrinfo(gsl::not_null&lt;addrinfo*&gt;<sp/>list)<sp/>noexcept</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<sp/>enumerable&lt;sockaddr&gt;<sp/>{</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAII<sp/>clean<sp/>up<sp/>for<sp/>the<sp/>assigned<sp/>addrinfo</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>holder<sp/>guarantees<sp/>clean<sp/>up</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>when<sp/>the<sp/>generator<sp/>is<sp/>destroyed</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>d1<sp/>=<sp/>gsl::finally([list]()<sp/>noexcept<sp/>{<sp/>::freeaddrinfo(list);<sp/>});</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">uint32_t<sp/><ref refid="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" kindref="member">get_name</ref>(const<sp/>sockaddr_in6&amp;<sp/>addr,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacegsl" kindref="compound">gsl</ref>::zstring&lt;NI_MAXHOST&gt;<sp/>name,<sp/><ref refid="namespacegsl" kindref="compound">gsl</ref>::zstring&lt;NI_MAXSERV&gt;<sp/>serv,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>flags)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keyword">const<sp/></highlight><highlight class="normal">sockaddr*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(addr));</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>::getnameinfo(ptr,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(sockaddr_in6),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name,<sp/>NI_MAXHOST,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>serv,<sp/>(serv<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>?<sp/>0<sp/>:<sp/>NI_MAXSERV,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>flags);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1ae7c90a14ac066a5fb7a13aed2945091a" kindref="member">get_address</ref>(addrinfo*<sp/>list)<sp/>noexcept<sp/>-&gt;<sp/>enumerable&lt;sockaddr*&gt;<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>on_return<sp/>=<sp/>gsl::finally([list]()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RAII<sp/>clean<sp/>up<sp/>for<sp/>the<sp/>assigned<sp/>addrinfo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::freeaddrinfo(list);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(addrinfo*<sp/>it<sp/>=<sp/>list;<sp/>it<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>it<sp/>=<sp/>it-&gt;ai_next)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>co_yield<sp/>it-&gt;ai_addr;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="41"><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(addrinfo*<sp/>it<sp/>=<sp/>list;<sp/>it<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>it<sp/>=<sp/>it-&gt;ai_next)<sp/>{</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it-&gt;ai_addr)</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>co_yield*(it-&gt;ai_addr);</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal">int32_t<sp/>resolve(enumerable&lt;sockaddr&gt;&amp;<sp/>g,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>addrinfo&amp;<sp/>hint,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>czstring_host<sp/>name,<sp/>czstring_serv<sp/>serv)<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>addrinfo*<sp/>list<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ec<sp/>=<sp/>::getaddrinfo(name,<sp/>serv,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addressof(hint),<sp/>addressof(list)))</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ec;</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>g<sp/>=<sp/>enumerate_addrinfo(gsl::make_not_null(list));</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
-<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1ae7c90a14ac066a5fb7a13aed2945091a" kindref="member">get_address</ref>(addrinfo*<sp/>list,<sp/>sockaddr_in<sp/>addr)<sp/>noexcept</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<sp/>enumerable&lt;sockaddr_in&gt;<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(sockaddr*<sp/>item<sp/>:<sp/><ref refid="namespacecoro_1ae7c90a14ac066a5fb7a13aed2945091a" kindref="member">get_address</ref>(list))<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">sockaddr_in*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(item);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addr<sp/>=<sp/>*ptr;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>co_yield<sp/>addr;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1ae7c90a14ac066a5fb7a13aed2945091a" kindref="member">get_address</ref>(addrinfo*<sp/>list,<sp/>sockaddr_in6<sp/>addr)<sp/>noexcept</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<sp/>enumerable&lt;sockaddr_in6&gt;<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(sockaddr*<sp/>item<sp/>:<sp/><ref refid="namespacecoro_1ae7c90a14ac066a5fb7a13aed2945091a" kindref="member">get_address</ref>(list))<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">sockaddr_in6*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(item);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addr<sp/>=<sp/>*ptr;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>co_yield<sp/>addr;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">uint32_t<sp/><ref refid="namespacecoro_1ae7c90a14ac066a5fb7a13aed2945091a" kindref="member">get_address</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>addrinfo&amp;<sp/>hint,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::czstring&lt;&gt;<sp/>host,<sp/>gsl::czstring&lt;&gt;<sp/>serv,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::span&lt;sockaddr_in&gt;<sp/>output)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>addrinfo*<sp/>list<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ec<sp/>=<sp/>::getaddrinfo(host,<sp/>serv,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;hint,<sp/>&amp;list))</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ec;<sp/></highlight><highlight class="comment">//<sp/>std::system_error{ec,<sp/>system_category(),<sp/>::gai_strerror(ec)};</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addr<sp/>:<sp/><ref refid="namespacecoro_1ae7c90a14ac066a5fb7a13aed2945091a" kindref="member">get_address</ref>(list,<sp/>sockaddr_in{}))<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output[i++]<sp/>=<sp/>addr;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>==<sp/>output.size())</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">uint32_t<sp/><ref refid="namespacecoro_1ae7c90a14ac066a5fb7a13aed2945091a" kindref="member">get_address</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>addrinfo&amp;<sp/>hint,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::czstring&lt;&gt;<sp/>host,<sp/>gsl::czstring&lt;&gt;<sp/>serv,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::span&lt;sockaddr_in6&gt;<sp/>output)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>addrinfo*<sp/>list<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ec<sp/>=<sp/>::getaddrinfo(host,<sp/>serv,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;hint,<sp/>&amp;list))</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ec;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>addr<sp/>:<sp/><ref refid="namespacecoro_1ae7c90a14ac066a5fb7a13aed2945091a" kindref="member">get_address</ref>(list,<sp/>sockaddr_in6{}))<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output[i++]<sp/>=<sp/>addr;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>==<sp/>output.size())</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coro</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="modules/net/resolver.cpp"/>
   </compounddef>

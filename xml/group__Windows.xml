@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="group__Windows" kind="group">
+    <compoundname>Windows</compoundname>
+    <title>Windows</title>
+    <innerclass refid="classcoro_1_1set__or__cancel" prot="public">coro::set_or_cancel</innerclass>
+    <innerclass refid="classcoro_1_1continue__on__thread__pool" prot="public">coro::continue_on_thread_pool</innerclass>
+    <innerclass refid="classcoro_1_1continue__on__apc" prot="public">coro::continue_on_apc</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Most of the implementation use Win32 thread pool. </para>    </detaileddescription>
+  </compounddef>
+</doxygen>

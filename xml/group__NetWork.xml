@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="group__NetWork" kind="group">
+    <compoundname>NetWork</compoundname>
+    <title>NetWork</title>
+    <innerclass refid="classcoro_1_1io__work__t" prot="public">coro::io_work_t</innerclass>
+    <innerclass refid="classcoro_1_1io__send__to" prot="public">coro::io_send_to</innerclass>
+    <innerclass refid="classcoro_1_1io__recv__from" prot="public">coro::io_recv_from</innerclass>
+    <innerclass refid="classcoro_1_1io__send" prot="public">coro::io_send</innerclass>
+    <innerclass refid="classcoro_1_1io__recv" prot="public">coro::io_recv</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__NetWork_1ga60d36260824423f894ffd077f8487663" prot="public" static="no">
+        <type>gsl::span&lt; std::byte &gt;</type>
+        <definition>using coro::io_buffer_t = typedef gsl::span&lt;std::byte&gt;</definition>
+        <argsstring></argsstring>
+        <name>io_buffer_t</name>
+        <briefdescription>
+<para>This is simply a view to storage. Be aware that it doesn&apos;t have ownership. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="72" column="1" bodyfile="interface/coroutine/net.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__NetWork_1ga31d5a4a545024c3c24e6f5204537307b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::send_to</definition>
+        <argsstring>(uint64_t sd, const sockaddr_in &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_send_to &amp;</argsstring>
+        <name>send_to</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type>const sockaddr_in &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type>io_buffer_t</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>io_work_t &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="254" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="62" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::send_to</definition>
+        <argsstring>(uint64_t sd, const sockaddr_in6 &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_send_to &amp;</argsstring>
+        <name>send_to</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type>const sockaddr_in6 &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type>io_buffer_t</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>io_work_t &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="266" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="71" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1gace516cdc1f8b51596ba7a406190182eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::recv_from</definition>
+        <argsstring>(uint64_t sd, sockaddr_in &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_recv_from &amp;</argsstring>
+        <name>recv_from</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type>sockaddr_in &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type>io_buffer_t</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>io_work_t &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="278" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="107" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::recv_from</definition>
+        <argsstring>(uint64_t sd, sockaddr_in6 &amp;remote, io_buffer_t buf, io_work_t &amp;work) noexcept(false) -&gt; io_recv_from &amp;</argsstring>
+        <name>recv_from</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type>sockaddr_in6 &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type>io_buffer_t</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>io_work_t &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="290" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="115" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1gac94bb59884293c451906c8cffe825a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::send_stream</definition>
+        <argsstring>(uint64_t sd, io_buffer_t buf, uint32_t flag, io_work_t &amp;work) noexcept(false) -&gt; io_send &amp;</argsstring>
+        <name>send_stream</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type>io_buffer_t</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>flag</declname>
+        </param>
+        <param>
+          <type>io_work_t &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__send" kindref="compound">io_send</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__send" kindref="compound">io_send</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="302" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="155" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1ga60c53387a2e976df4742620055666796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::recv_stream</definition>
+        <argsstring>(uint64_t sd, io_buffer_t buf, uint32_t flag, io_work_t &amp;work) noexcept(false) -&gt; io_recv &amp;</argsstring>
+        <name>recv_stream</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>sd</declname>
+        </param>
+        <param>
+          <type>io_buffer_t</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>flag</declname>
+        </param>
+        <param>
+          <type>io_work_t &amp;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs <computeroutput><ref refid="classcoro_1_1io__recv" kindref="compound">io_recv</ref></computeroutput> awaitable with the given parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcoro_1_1io__recv" kindref="compound">io_recv</ref>&amp; </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="314" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="189" bodyend="196"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Helper types to apply <computeroutput>co_await</computeroutput> for socket operations </para>    </detaileddescription>
+  </compounddef>
+</doxygen>

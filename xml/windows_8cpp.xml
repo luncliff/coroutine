@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="windows_8cpp" kind="file" language="C++">
+    <compoundname>windows.cpp</compoundname>
+    <includes local="no">Windows.h</includes>
+    <includes local="no">TlHelp32.h</includes>
+    <includes local="no">threadpoolapiset.h</includes>
+    <includes local="no">synchapi.h</includes>
+    <includes refid="windows_8h" local="no">coroutine/windows.h</includes>
+    <includes local="no">gsl/gsl</includes>
+    <includes local="no">cassert</includes>
+    <includes local="no">system_error</includes>
+    <incdepgraph>
+      <node id="398">
+        <label>system_error</label>
+      </node>
+      <node id="394">
+        <label>coroutine/frame.h</label>
+        <link refid="frame_8h"/>
+        <childnode refid="395" relation="include">
+        </childnode>
+        <childnode refid="396" relation="include">
+        </childnode>
+        <childnode refid="397" relation="include">
+        </childnode>
+      </node>
+      <node id="396">
+        <label>cstdint</label>
+      </node>
+      <node id="389">
+        <label>Windows.h</label>
+      </node>
+      <node id="400">
+        <label>cassert</label>
+      </node>
+      <node id="399">
+        <label>gsl/gsl</label>
+      </node>
+      <node id="392">
+        <label>synchapi.h</label>
+      </node>
+      <node id="390">
+        <label>TlHelp32.h</label>
+      </node>
+      <node id="391">
+        <label>threadpoolapiset.h</label>
+      </node>
+      <node id="395">
+        <label>cstddef</label>
+      </node>
+      <node id="397">
+        <label>type_traits</label>
+      </node>
+      <node id="388">
+        <label>modules/system/windows.cpp</label>
+        <link refid="windows.cpp"/>
+        <childnode refid="389" relation="include">
+        </childnode>
+        <childnode refid="390" relation="include">
+        </childnode>
+        <childnode refid="391" relation="include">
+        </childnode>
+        <childnode refid="392" relation="include">
+        </childnode>
+        <childnode refid="393" relation="include">
+        </childnode>
+        <childnode refid="399" relation="include">
+        </childnode>
+        <childnode refid="400" relation="include">
+        </childnode>
+        <childnode refid="398" relation="include">
+        </childnode>
+      </node>
+      <node id="393">
+        <label>coroutine/windows.h</label>
+        <link refid="windows_8h"/>
+        <childnode refid="394" relation="include">
+        </childnode>
+        <childnode refid="398" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classcoro_1_1section" prot="public">coro::section</innerclass>
+    <innernamespace refid="namespacecoro">coro</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="5"><highlight class="comment">//<sp/>clang-format<sp/>off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;Windows.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;TlHelp32.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;threadpoolapiset.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;synchapi.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Windows<sp/>Concurrency<sp/>Runtime&apos;s<sp/>event<sp/>is<sp/>not<sp/>alertible.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//#include<sp/>&lt;concrt.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>clang-format<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="windows_8h" kindref="compound">coroutine/windows.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gsl/gsl&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cassert&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;system_error&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacegsl" kindref="compound">gsl</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">static_assert(is_move_assignable_v&lt;set_or_cancel&gt;<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">static_assert(is_move_constructible_v&lt;set_or_cancel&gt;<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">static_assert(is_copy_assignable_v&lt;set_or_cancel&gt;<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">static_assert(is_copy_constructible_v&lt;set_or_cancel&gt;<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(con<sp/>.4)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">void<sp/>__stdcall<sp/><ref refid="namespacecoro_1ad9c56049f2089b9473d8ac9bc06e2a6f" kindref="member">wait_event_on_thread_pool</ref>(PVOID<sp/>ctx,<sp/>BOOLEAN<sp/>timedout)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>UNREFERENCED_PARAMETER(timedout);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>=<sp/>coroutine_handle&lt;void&gt;::from_address(ctx);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>assert(<ref refid="namespacecoro" kindref="compound">coro</ref>.done()<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>.resume();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">set_or_cancel::set_or_cancel(HANDLE<sp/>target_event)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>hobject{target_event}<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>wait<sp/>object<sp/>is<sp/>used<sp/>as<sp/>a<sp/>storage<sp/>for<sp/>the<sp/>event<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>until<sp/>it<sp/>is<sp/>going<sp/>to<sp/>suspend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">set_or_cancel::~set_or_cancel()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>UnregisterWait(hobject);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_or_cancel::unregister()<sp/>noexcept<sp/>-&gt;<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>UnregisterWait(hobject);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ec<sp/>=<sp/>GetLastError();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ec<sp/>==<sp/>ERROR_IO_PENDING)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>this<sp/>is<sp/>expected<sp/>since<sp/>we<sp/>are<sp/>using<sp/>INFINITE<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NO_ERROR;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ec;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>set_or_cancel::suspend(coroutine_handle&lt;void&gt;<sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>since<sp/>this<sp/>point,<sp/>wo<sp/>becomes<sp/>a<sp/>handle<sp/>for<sp/>the<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>this<sp/>is<sp/>one-shot<sp/>event.<sp/>so<sp/>use<sp/>infinite<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(RegisterWaitForSingleObject(addressof(hobject),<sp/>hobject,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacecoro_1ad9c56049f2089b9473d8ac9bc06e2a6f" kindref="member">wait_event_on_thread_pool</ref>,<sp/><ref refid="namespacecoro" kindref="compound">coro</ref>.address(),</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>INFINITE,<sp/>WT_EXECUTEONLYONCE)<sp/>==<sp/>FALSE)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{gsl::narrow_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;(GetLastError()),</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>system_category(),<sp/></highlight><highlight class="stringliteral">&quot;RegisterWaitForSingleObject&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>auto<sp/>get_threads_of(DWORD<sp/>pid)<sp/>noexcept(false)<sp/>-&gt;<sp/>enumerable&lt;DWORD&gt;<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>//<sp/>for<sp/>current<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>auto<sp/>snapshot<sp/>=<sp/>CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD,<sp/>0);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>if<sp/>(snapshot<sp/>==<sp/>INVALID_HANDLE_VALUE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>co_return;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>auto<sp/>on_return<sp/>=<sp/>gsl::finally([=]()<sp/>noexcept<sp/>{<sp/>CloseHandle(snapshot);<sp/>});</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>THREADENTRY32<sp/>entry{};</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>entry.dwSize<sp/>=<sp/>sizeof(THREADENTRY32);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>for<sp/>(Thread32First(snapshot,<sp/>&amp;entry);<sp/>Thread32Next(snapshot,<sp/>&amp;entry);)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>filter<sp/>other<sp/>process&apos;s<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(entry.th32OwnerProcessID<sp/>!=<sp/>pid)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>co_yield<sp/>entry.th32ThreadID;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.dwSize<sp/>=<sp/>sizeof(THREADENTRY32);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(con<sp/>.4)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">void<sp/>continue_on_thread_pool::resume_on_thread_pool(PTP_CALLBACK_INSTANCE,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PVOID<sp/>ctx,<sp/>PTP_WORK<sp/>work)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>=<sp/>coroutine_handle&lt;void&gt;::from_address(ctx))</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="namespacecoro" kindref="compound">coro</ref>.done()<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>.resume();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>::CloseThreadpoolWork(work);<sp/></highlight><highlight class="comment">//<sp/>one-time<sp/>work<sp/>item</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>continue_on_thread_pool::create_and_submit_work(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>coroutine_handle&lt;void&gt;<sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept<sp/>-&gt;<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>just<sp/>make<sp/>sure<sp/>no<sp/>data<sp/>loss<sp/>in<sp/>`static_cast`</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint32_t)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(DWORD));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>work<sp/>=<sp/>::CreateThreadpoolWork(resume_on_thread_pool,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>.address(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(work<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>GetLastError();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>SubmitThreadpoolWork(work);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>S_OK;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">void<sp/>continue_on_apc::resume_on_apc(ULONG_PTR<sp/>param)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(param);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>=<sp/>coroutine_handle&lt;void&gt;::from_address(ptr))</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>.resume();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">auto<sp/>continue_on_apc::queue_user_apc(coroutine_handle&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>param<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">ULONG_PTR</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacecoro" kindref="compound">coro</ref>.address());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(QueueUserAPC(resume_on_apc,<sp/>this-&gt;thread,<sp/>param)<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>GetLastError();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>S_OK;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="keyword">class<sp/></highlight><highlight class="normal">section<sp/>final<sp/>:<sp/>CRITICAL_SECTION<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>section(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>section&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>section(section&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>section&amp;<sp/>operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>section&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>section&amp;<sp/>operator=(section&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>section()<sp/>noexcept(false);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>~section()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>try_lock()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>lock()<sp/>noexcept(false);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>unlock()<sp/>noexcept(false);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal">section::section()<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>InitializeCriticalSectionAndSpinCount(</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>0600);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">section::~section()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>DeleteCriticalSection(</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>section::try_lock()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TryEnterCriticalSection(</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>section::lock()<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EnterCriticalSection(</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>section::unlock()<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>LeaveCriticalSection(</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coro</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="modules/system/windows.cpp"/>
+  </compounddef>
+</doxygen>

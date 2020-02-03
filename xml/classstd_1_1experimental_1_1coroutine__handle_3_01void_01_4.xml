@@ -4,6 +4,7 @@
     <compoundname>std::experimental::coroutine_handle&lt; void &gt;</compoundname>
     <derivedcompoundref refid="classcoro_1_1frame__t" prot="public" virt="non-virtual">coro::frame_t</derivedcompoundref>
     <derivedcompoundref refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4" prot="public" virt="non-virtual">std::experimental::coroutine_handle&lt; noop_coroutine_promise &gt;</derivedcompoundref>
+    <includes refid="frame_8h" local="no">frame.h</includes>
     <innerclass refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t" prot="public">std::experimental::coroutine_handle&lt; void &gt;::prefix_t</innerclass>
     <templateparamlist>
     </templateparamlist>
@@ -237,20 +238,20 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="159">
+      <node id="188">
         <label>std::experimental::coroutine_handle&lt; noop_coroutine_promise &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4"/>
-        <childnode refid="157" relation="public-inheritance">
+        <childnode refid="186" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="157">
+      <node id="186">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="158">
+      <node id="187">
         <label>coro::frame_t</label>
         <link refid="classcoro_1_1frame__t"/>
-        <childnode refid="157" relation="public-inheritance">
+        <childnode refid="186" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>

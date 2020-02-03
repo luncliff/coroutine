@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classcoro_1_1pthread__spawn__promise" kind="class" language="C++" prot="public">
+    <compoundname>coro::pthread_spawn_promise</compoundname>
+    <derivedcompoundref refid="classcoro_1_1pthread__detacher__t_1_1promise__type" prot="public" virt="non-virtual">coro::pthread_detacher_t::promise_type</derivedcompoundref>
+    <derivedcompoundref refid="classcoro_1_1pthread__joiner__t_1_1promise__type" prot="public" virt="non-virtual">coro::pthread_joiner_t::promise_type</derivedcompoundref>
+    <includes refid="pthread_8h" local="no">pthread.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classcoro_1_1pthread__spawn__promise_1ab97d78b547d3e294c41777520054dc49" prot="public" static="no" mutable="no">
+        <type>pthread_t</type>
+        <definition>pthread_t coro::pthread_spawn_promise::tid</definition>
+        <argsstring></argsstring>
+        <name>tid</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="70" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1pthread__spawn__promise_1aba3cf3b57dd677f91a70d810ba5cb586" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::pthread_spawn_promise::initial_suspend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>initial_suspend</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="73" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__spawn__promise_1a376471c18a55b430110ee8cd4e7c5b05" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::pthread_spawn_promise::unhandled_exception</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>unhandled_exception</name>
+        <briefdescription>
+<para>the activator is responsible for the exception handling </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="77" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__spawn__promise_1a0001ebb427fe3da1857b36bb3b483eb0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::pthread_spawn_promise::await_transform</definition>
+        <argsstring>(const pthread_attr_t *attr) noexcept(false)</argsstring>
+        <name>await_transform</name>
+        <param>
+          <type>const pthread_attr_t *</type>
+          <declname>attr</declname>
+        </param>
+        <briefdescription>
+<para>co_await for <computeroutput>pthread_attr_t</computeroutput> </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="84" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="84" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__spawn__promise_1a3b8bf1c50daa6f9a8dd7e21d9ce264ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::pthread_spawn_promise::await_transform</definition>
+        <argsstring>(pthread_attr_t *attr) noexcept(false)</argsstring>
+        <name>await_transform</name>
+        <param>
+          <type>pthread_attr_t *</type>
+          <declname>attr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="91" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="91" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__spawn__promise_1a0d23e2a68f2715d37f2621788869cc2f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Awaitable</type>
+          </param>
+        </templateparamlist>
+        <type>decltype(auto)</type>
+        <definition>decltype(auto) coro::pthread_spawn_promise::await_transform</definition>
+        <argsstring>(Awaitable &amp;&amp;a) noexcept</argsstring>
+        <name>await_transform</name>
+        <param>
+          <type>Awaitable &amp;&amp;</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+<para>general co_await </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="99" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="99" bodyend="101"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>allows <computeroutput>pthread_attr_t*</computeroutput> for <computeroutput>co_await</computeroutput> operator </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="see"><para>pthread_create </para></simplesect>
+<simplesect kind="see"><para>pthread_attr_t</para></simplesect>
+The type wraps <computeroutput>pthread_create</computeroutput> function. After spawn, it contains thread id of the brand-new thread. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="306">
+        <label>coro::pthread_detacher_t::promise_type</label>
+        <link refid="classcoro_1_1pthread__detacher__t_1_1promise__type"/>
+        <childnode refid="305" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="305">
+        <label>coro::pthread_spawn_promise</label>
+        <link refid="classcoro_1_1pthread__spawn__promise"/>
+      </node>
+      <node id="307">
+        <label>coro::pthread_joiner_t::promise_type</label>
+        <link refid="classcoro_1_1pthread__joiner__t_1_1promise__type"/>
+        <childnode refid="305" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="interface/coroutine/pthread.h" line="68" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="68" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a0001ebb427fe3da1857b36bb3b483eb0" prot="public" virt="non-virtual"><scope>coro::pthread_spawn_promise</scope><name>await_transform</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a3b8bf1c50daa6f9a8dd7e21d9ce264ef" prot="public" virt="non-virtual"><scope>coro::pthread_spawn_promise</scope><name>await_transform</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a0d23e2a68f2715d37f2621788869cc2f" prot="public" virt="non-virtual"><scope>coro::pthread_spawn_promise</scope><name>await_transform</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1aba3cf3b57dd677f91a70d810ba5cb586" prot="public" virt="non-virtual"><scope>coro::pthread_spawn_promise</scope><name>initial_suspend</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1ab97d78b547d3e294c41777520054dc49" prot="public" virt="non-virtual"><scope>coro::pthread_spawn_promise</scope><name>tid</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a376471c18a55b430110ee8cd4e7c5b05" prot="public" virt="non-virtual"><scope>coro::pthread_spawn_promise</scope><name>unhandled_exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

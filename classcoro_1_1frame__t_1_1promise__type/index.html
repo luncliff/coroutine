@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -478,8 +490,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#public-functions-inherited-from-coropromise_aa" class="md-nav__link">
-    Public Functions inherited from coro::promise_aa
+  <a href="#public-functions-inherited-from-coropromise_na" class="md-nav__link">
+    Public Functions inherited from coro::promise_na
   </a>
   
 </li>
@@ -539,7 +551,10 @@
                 
                 <h1 id="class-coroframe95tpromise95type">Class coro::frame_t::promise_type<a class="headerlink" href="#class-coroframe95tpromise95type" title="Permanent link">&para;</a></h1>
 <p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacecoro/"><strong>coro</strong></a> <strong>&gt;</strong> <a href="../classcoro_1_1frame__t/"><strong>frame_t</strong></a> <strong>&gt;</strong> <a href="./"><strong>promise_type</strong></a></p>
-<p>Inherits the following classes: <a href="../classcoro_1_1promise__aa/">coro::promise_aa</a></p>
+<ul>
+<li><code>#include &lt;return.h&gt;</code></li>
+</ul>
+<p>Inherits the following classes: <a href="../classcoro_1_1promise__na/">coro::promise_na</a></p>
 <h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -550,8 +565,8 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">auto</td>
-<td align="left"><a href="./#function-get-return-object"><strong>get_return_object</strong></a> () noexcept<br></td>
+<td align="right"><a href="../classcoro_1_1frame__t/"><strong>frame_t</strong></a></td>
+<td align="left"><a href="./#function-get-return-object"><strong>get_return_object</strong></a> () noexcept<br><em>Acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from current promise and return it.</em></td>
 </tr>
 <tr>
 <td align="right">void</td>
@@ -559,12 +574,12 @@
 </tr>
 <tr>
 <td align="right">void</td>
-<td align="left"><a href="./#function-unhandled-exception"><strong>unhandled_exception</strong></a> () noexcept<br><em>The coroutine with the</em> <code>frame_t</code> <em>will do nothing for exception handling.</em></td>
+<td align="left"><a href="./#function-unhandled-exception"><strong>unhandled_exception</strong></a> () noexcept<br><em>The</em> <code>frame_t</code> <em>will do nothing for exception handling.</em></td>
 </tr>
 </tbody>
 </table>
-<h2 id="public-functions-inherited-from-coropromise_aa">Public Functions inherited from coro::promise_aa<a class="headerlink" href="#public-functions-inherited-from-coropromise_aa" title="Permanent link">&para;</a></h2>
-<p>See <a href="../classcoro_1_1promise__aa/">coro::promise_aa</a></p>
+<h2 id="public-functions-inherited-from-coropromise_na">Public Functions inherited from coro::promise_na<a class="headerlink" href="#public-functions-inherited-from-coropromise_na" title="Permanent link">&para;</a></h2>
+<p>See <a href="../classcoro_1_1promise__na/">coro::promise_na</a></p>
 <table>
 <thead>
 <tr>
@@ -574,21 +589,23 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">auto</td>
-<td align="left"><a href="../classcoro_1_1promise__aa/#function-final-suspend"><strong>final_suspend</strong></a> () noexcept<br></td>
+<td align="right"><a href="../classstd_1_1experimental_1_1suspend__always/"><strong>suspend_always</strong></a></td>
+<td align="left"><a href="../classcoro_1_1promise__na/#function-final-suspend"><strong>final_suspend</strong></a> () noexcept<br><em>suspend after return</em></td>
 </tr>
 <tr>
-<td align="right">auto</td>
-<td align="left"><a href="../classcoro_1_1promise__aa/#function-initial-suspend"><strong>initial_suspend</strong></a> () noexcept<br></td>
+<td align="right"><a href="../classstd_1_1experimental_1_1suspend__never/"><strong>suspend_never</strong></a></td>
+<td align="left"><a href="../classcoro_1_1promise__na/#function-initial-suspend"><strong>initial_suspend</strong></a> () noexcept<br><em>no suspend after invoke</em></td>
 </tr>
 </tbody>
 </table>
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="function-get95return95object">function get_return_object<a class="headerlink" href="#function-get95return95object" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><span class="kr">inline</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">frame_t</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">get_return_object</span> <span class="p">()</span> <span class="k">noexcept</span>
+<div class="codehilite"><pre><span></span><span class="kr">inline</span> <span class="n">frame_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">frame_t</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">get_return_object</span> <span class="p">()</span> <span class="k">noexcept</span>
 </pre></div>
 
 
+<p><strong>Returns:</strong></p>
+<p><a href="../classcoro_1_1frame__t/"><strong>frame_t</strong></a> </p>
 <h3 id="function-return95void">function return_void<a class="headerlink" href="#function-return95void" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><span class="kr">inline</span> <span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">frame_t</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">return_void</span> <span class="p">()</span> <span class="k">noexcept</span>
 </pre></div>

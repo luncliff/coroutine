@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -483,28 +495,19 @@
                 <h1 id="class-list">Class List<a class="headerlink" href="#class-list" title="Permanent link">&para;</a></h1>
 <p>Here are the classes, structs, unions and interfaces with brief descriptions:</p>
 <ul>
-<li><strong>namespace</strong> <a href="../namespace_0D10/"><strong>@10</strong></a> </li>
-<li><strong>namespace</strong> <a href="../namespace_0D12/"><strong>@12</strong></a> </li>
-<li><strong>namespace</strong> <a href="../namespace_0D3/"><strong>@3</strong></a> </li>
-<li><strong>namespace</strong> <a href="../namespace_0D4/"><strong>@4</strong></a> </li>
-<li><strong>namespace</strong> <a href="../namespace_0D5/"><strong>@5</strong></a> </li>
-<li><strong>struct</strong> <a href="../structCustomPtr/"><strong>CustomPtr</strong></a>   </li>
-<li><strong>struct</strong> <a href="../structMyBase/"><strong>MyBase</strong></a> </li>
-<li><strong>struct</strong> <a href="../structMyDerived/"><strong>MyDerived</strong></a> </li>
-<li><strong>struct</strong> <a href="../structNonCopyableNonMovable/"><strong>NonCopyableNonMovable</strong></a>   </li>
-<li><strong>struct</strong> <a href="../structRefCounted/"><strong>RefCounted</strong></a>   </li>
-<li><strong>struct</strong> <a href="../structUnrelated/"><strong>Unrelated</strong></a> </li>
 <li><strong>struct</strong> <a href="../structclang__frame__prefix/"><strong>clang_frame_prefix</strong></a>   </li>
 <li><strong>namespace</strong> <a href="../namespacecoro/"><strong>coro</strong></a>   </li>
 <li><strong>struct</strong> <a href="../structcoro_1_1bypass__lock/"><strong>bypass_lock</strong></a>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1channel/"><strong>channel</strong></a>   </li>
-<li><strong>struct</strong> <a href="../structcoro_1_1darwin__event/"><strong>darwin_event</strong></a>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1continue__on__apc/"><strong>continue_on_apc</strong></a> <em>Move into the designated thread's APC queue and continue the routine.</em>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1continue__on__thread__pool/"><strong>continue_on_thread_pool</strong></a> <em>Move into the win32 thread pool and continue the routine.</em>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1enumerable/"><strong>enumerable</strong></a>   <ul>
 <li><strong>class</strong> <a href="../classcoro_1_1enumerable_1_1iterator/"><strong>iterator</strong></a>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1enumerable_1_1promise__type/"><strong>promise_type</strong></a>   </li>
 </ul>
 </li>
-<li><strong>struct</strong> <a href="../structcoro_1_1event__poll__t/"><strong>event_poll_t</strong></a>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1epoll__owner/"><strong>epoll_owner</strong></a> <em>RAII wrapping for epoll file descriptor.</em>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1event/"><strong>event</strong></a> <em>RAII + stateful</em> <code>eventfd</code> __  </li>
 <li><strong>class</strong> <a href="../classcoro_1_1frame__t/"><strong>frame_t</strong></a> <em>A type to acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from anonymous coroutine's return.</em>  <ul>
 <li><strong>class</strong> <a href="../classcoro_1_1frame__t_1_1promise__type/"><strong>promise_type</strong></a>   </li>
 </ul>
@@ -513,21 +516,33 @@
 <li><strong>class</strong> <a href="../classcoro_1_1internal_1_1list/"><strong>list</strong></a>   </li>
 </ul>
 </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>io_recv</strong></a>   </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>io_recv_from</strong></a>   </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>io_send</strong></a>   </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>io_send_to</strong></a>   </li>
-<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a>   </li>
-<li><strong>struct</strong> <a href="../structcoro_1_1kernel__queue__t/"><strong>kernel_queue_t</strong></a>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv/"><strong>io_recv</strong></a> <em>Awaitable type to perform</em> <code>recv</code> <em>I/O request.</em>  </li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__recv__from/"><strong>io_recv_from</strong></a> <em>Awaitable type to perform</em> <code>recvfrom</code> <em>I/O request.</em>  </li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send/"><strong>io_send</strong></a> <em>Awaitable type to perform</em> <code>send</code> <em>I/O request.</em>  </li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>io_send_to</strong></a> <em>Awaitable type to perform</em> <code>sendto</code> <em>I/O request.</em>  </li>
+<li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> <em>A struct to describe "1 I/O request" to system API.</em>  <em>When I/O request is submitted, an I/O task becomes 1 coroutine handle.</em>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1kqueue__owner/"><strong>kqueue_owner</strong></a> <em>RAII wrapping for kqueue file descriptor.</em>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1peeker/"><strong>peeker</strong></a>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1promise__aa/"><strong>promise_aa</strong></a>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1promise__an/"><strong>promise_an</strong></a>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1promise__na/"><strong>promise_na</strong></a>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1promise__nn/"><strong>promise_nn</strong></a>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__detacher__t/"><strong>pthread_detacher_t</strong></a> <em>Special return type that wraps</em> <code>pthread_detach</code> __  <ul>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__detacher__t_1_1promise__type/"><strong>promise_type</strong></a>   </li>
+</ul>
+</li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__joiner__t/"><strong>pthread_joiner_t</strong></a> <em>Special return type that wraps</em> <code>pthread_join</code> __  <ul>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__joiner__t_1_1promise__type/"><strong>promise_type</strong></a>   </li>
+</ul>
+</li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__knower__t/"><strong>pthread_knower_t</strong></a> <em>A proxy to</em> <code>pthread_spawn_promise</code> <em>The type must ensure the promise contains a valid</em> <code>pthread_t</code> <em>when it is constructed.</em>  </li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__spawn__promise/"><strong>pthread_spawn_promise</strong></a> <em>allows</em> <code>pthread_attr_t*</code> <em>for</em><code>co_await</code> <em>operator</em>  </li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__spawner__t/"><strong>pthread_spawner_t</strong></a> <em>Creates a new POSIX Thread and resume the given coroutine handle on it.</em>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1reader/"><strong>reader</strong></a>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1section/"><strong>section</strong></a> <em>Standard lockable with win32 criticial section.</em>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1set__or__cancel/"><strong>set_or_cancel</strong></a> <em>Awaitable event type over Win32 thread pool</em>  <em>Its object can be</em> <code>co_await</code> <em>ed only once. The purpose of such design is to encourage use of short functions rather than containing multiple objects in the function's body.</em>  </li>
 <li><strong>class</strong> <a href="../classcoro_1_1writer/"><strong>writer</strong></a>   </li>
 <li><strong>struct</strong> <a href="../structgcc__frame__prefix/"><strong>gcc_frame_prefix</strong></a>   </li>
-<li><strong>namespace</strong> <a href="../namespacegeneric/"><strong>generic</strong></a>   </li>
 <li><strong>namespace</strong> <a href="../namespacegsl/"><strong>gsl</strong></a> </li>
 <li><strong>struct</strong> <a href="../structmsvc__frame__prefix/"><strong>msvc_frame_prefix</strong></a>   </li>
 <li><strong>namespace</strong> <a href="../namespacestd/"><strong>std</strong></a>   </li>

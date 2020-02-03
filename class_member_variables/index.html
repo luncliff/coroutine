@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -471,6 +483,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#a" class="md-nav__link">
+    a
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#b" class="md-nav__link">
     b
   </a>
@@ -515,13 +534,6 @@
         <li class="md-nav__item">
   <a href="#k" class="md-nav__link">
     k
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#l" class="md-nav__link">
-    l
   </a>
   
 </li>
@@ -616,6 +628,10 @@
                 
                 
                 <h1 id="class-member-variables">Class Member Variables<a class="headerlink" href="#class-member-variables" title="Permanent link">&para;</a></h1>
+<h2 id="a">a<a class="headerlink" href="#a" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>attr</strong> (<a href="../classcoro_1_1pthread__spawner__t/"><strong>coro::pthread_spawner_t</strong></a>)</li>
+</ul>
 <h2 id="b">b<a class="headerlink" href="#b" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>buffer</strong> (<a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a>)</li>
@@ -624,14 +640,12 @@
 <ul>
 <li><strong>coro</strong> (<a href="../classcoro_1_1enumerable/"><strong>coro::enumerable</strong></a>, <a href="../classcoro_1_1enumerable_1_1iterator/"><strong>coro::enumerable::iterator</strong></a>)</li>
 <li><strong>current</strong> (<a href="../classcoro_1_1enumerable_1_1promise__type/"><strong>coro::enumerable::promise_type</strong></a>)</li>
-<li><strong>capacity</strong> (<a href="../structcoro_1_1event__poll__t/"><strong>coro::event_poll_t</strong></a>, <a href="../structcoro_1_1kernel__queue__t/"><strong>coro::kernel_queue_t</strong></a>)</li>
 <li><strong>chan</strong> (<a href="../classcoro_1_1reader/"><strong>coro::reader</strong></a>, <a href="../classcoro_1_1writer/"><strong>coro::writer</strong></a>)</li>
 <li><strong>channel_type</strong> (<a href="../classcoro_1_1reader/"><strong>coro::reader</strong></a>, <a href="../classcoro_1_1writer/"><strong>coro::writer</strong></a>)</li>
 </ul>
 <h2 id="e">e<a class="headerlink" href="#e" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>epfd</strong> (<a href="../structcoro_1_1event__poll__t/"><strong>coro::event_poll_t</strong></a>)</li>
-<li><strong>events</strong> (<a href="../structcoro_1_1event__poll__t/"><strong>coro::event_poll_t</strong></a>, <a href="../structcoro_1_1kernel__queue__t/"><strong>coro::kernel_queue_t</strong></a>)</li>
+<li><strong>epfd</strong> (<a href="../classcoro_1_1epoll__owner/"><strong>coro::epoll_owner</strong></a>)</li>
 </ul>
 <h2 id="f">f<a class="headerlink" href="#f" title="Permanent link">&para;</a></h2>
 <ul>
@@ -643,6 +657,7 @@
 <h2 id="h">h<a class="headerlink" href="#h" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>head</strong> (<a href="../classcoro_1_1internal_1_1list/"><strong>coro::internal::list</strong></a>)</li>
+<li><strong>hobject</strong> (<a href="../classcoro_1_1set__or__cancel/"><strong>coro::set_or_cancel</strong></a>)</li>
 </ul>
 <h2 id="i">i<a class="headerlink" href="#i" title="Permanent link">&para;</a></h2>
 <ul>
@@ -650,16 +665,11 @@
 </ul>
 <h2 id="k">k<a class="headerlink" href="#k" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>kqfd</strong> (<a href="../structcoro_1_1kernel__queue__t/"><strong>coro::kernel_queue_t</strong></a>)</li>
-</ul>
-<h2 id="l">l<a class="headerlink" href="#l" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>local</strong> (<a href="../structcoro_1_1darwin__event/"><strong>coro::darwin_event</strong></a>)</li>
+<li><strong>kqfd</strong> (<a href="../classcoro_1_1kqueue__owner/"><strong>coro::kqueue_owner</strong></a>)</li>
 </ul>
 <h2 id="m">m<a class="headerlink" href="#m" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>mtx</strong> (<a href="../classcoro_1_1channel/"><strong>coro::channel</strong></a>)</li>
-<li><strong>msg</strong> (<a href="../structcoro_1_1darwin__event/"><strong>coro::darwin_event</strong></a>)</li>
 </ul>
 <h2 id="n">n<a class="headerlink" href="#n" title="Permanent link">&para;</a></h2>
 <ul>
@@ -667,8 +677,8 @@
 </ul>
 <h2 id="p">p<a class="headerlink" href="#p" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>p_</strong> (<a href="../structCustomPtr/"><strong>CustomPtr</strong></a>, <a href="../structRefCounted/"><strong>RefCounted</strong></a>)</li>
 <li><strong>peeker</strong> (<a href="../classcoro_1_1channel/"><strong>coro::channel</strong></a>, <a href="../classcoro_1_1reader/"><strong>coro::reader</strong></a>, <a href="../classcoro_1_1writer/"><strong>coro::writer</strong></a>)</li>
+<li><strong>promise</strong> (<a href="../classcoro_1_1pthread__knower__t/"><strong>coro::pthread_knower_t</strong></a>)</li>
 <li><strong>ptr</strong> (<a href="../classcoro_1_1reader/"><strong>coro::reader</strong></a>, <a href="../classcoro_1_1writer/"><strong>coro::writer</strong></a>)</li>
 <li><strong>prefix</strong> (<a href="../classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4/"><strong>std::experimental::coroutine_handle&lt; void &gt;</strong></a>)</li>
 </ul>
@@ -676,15 +686,18 @@
 <ul>
 <li><strong>reader</strong> (<a href="../classcoro_1_1channel/"><strong>coro::channel</strong></a>, <a href="../classcoro_1_1writer/"><strong>coro::writer</strong></a>)</li>
 <li><strong>reader_list</strong> (<a href="../classcoro_1_1reader/"><strong>coro::reader</strong></a>)</li>
+<li><strong>rwlock</strong> (<a href="../classcoro_1_1section/"><strong>coro::section</strong></a>)</li>
 </ul>
 <h2 id="s">s<a class="headerlink" href="#s" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>sd</strong> (<a href="../structcoro_1_1darwin__event/"><strong>coro::darwin_event</strong></a>)</li>
+<li><strong>state</strong> (<a href="../classcoro_1_1event/"><strong>coro::event</strong></a>)</li>
 </ul>
 <h2 id="t">t<a class="headerlink" href="#t" title="Permanent link">&para;</a></h2>
 <ul>
+<li><strong>thread</strong> (<a href="../classcoro_1_1continue__on__apc/"><strong>coro::continue_on_apc</strong></a>)</li>
 <li><strong>tail</strong> (<a href="../classcoro_1_1internal_1_1list/"><strong>coro::internal::list</strong></a>)</li>
 <li><strong>task</strong> (<a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a>)</li>
+<li><strong>tid</strong> (<a href="../classcoro_1_1pthread__spawn__promise/"><strong>coro::pthread_spawn_promise</strong></a>, <a href="../classcoro_1_1pthread__spawner__t/"><strong>coro::pthread_spawner_t</strong></a>)</li>
 </ul>
 <h2 id="v">v<a class="headerlink" href="#v" title="Permanent link">&para;</a></h2>
 <ul>

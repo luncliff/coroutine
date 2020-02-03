@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -579,6 +591,10 @@
                 
                 <h1 id="class-coroio95work95t">Class coro::io_work_t<a class="headerlink" href="#class-coroio95work95t" title="Permanent link">&para;</a></h1>
 <p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacecoro/"><strong>coro</strong></a> <strong>&gt;</strong> <a href="./"><strong>io_work_t</strong></a></p>
+<p><em>A struct to describe "1 I/O request" to system API.</em>  <em>When I/O request is submitted, an I/O task becomes 1 coroutine handle.</em> </p>
+<ul>
+<li><code>#include &lt;net.h&gt;</code></li>
+</ul>
 <p>Inherits the following classes: io_control_block</p>
 <p>Inherited by the following classes: <a href="../classcoro_1_1io__recv/">coro::io_recv</a>,  <a href="../classcoro_1_1io__recv__from/">coro::io_recv_from</a>,  <a href="../classcoro_1_1io__send/">coro::io_send</a>,  <a href="../classcoro_1_1io__send__to/">coro::io_send_to</a></p>
 <h2 id="public-attributes">Public Attributes<a class="headerlink" href="#public-attributes" title="Permanent link">&para;</a></h2>
@@ -591,11 +607,11 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">io_buffer_t</td>
+<td align="right"><a href="../namespacecoro/#typedef-io-buffer-t"><strong>io_buffer_t</strong></a></td>
 <td align="left"><a href="./#variable-buffer"><strong>buffer</strong></a>   = {}<br></td>
 </tr>
 <tr>
-<td align="right"><a href="../classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4/"><strong>io_task_t</strong></a></td>
+<td align="right"><a href="../classstd_1_1experimental_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt;</td>
 <td align="left"><a href="./#variable-task"><strong>task</strong></a>   = {}<br></td>
 </tr>
 </tbody>
@@ -610,8 +626,8 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">_INTERFACE_ uint32_t</td>
-<td align="left"><a href="./#function-error"><strong>error</strong></a> () noexcept const<br></td>
+<td align="right">uint32_t</td>
+<td align="left"><a href="./#function-error"><strong>error</strong></a> () noexcept const<br><em>Multiple retrieving won't be a matter.</em></td>
 </tr>
 </tbody>
 </table>
@@ -625,7 +641,7 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">_INTERFACE_ bool</td>
+<td align="right">bool</td>
 <td align="left"><a href="./#function-ready"><strong>ready</strong></a> () noexcept const<br></td>
 </tr>
 </tbody>
@@ -637,22 +653,29 @@
 
 
 <h3 id="variable-task">variable task<a class="headerlink" href="#variable-task" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><span class="n">io_task_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_work_t</span><span class="o">::</span><span class="n">task</span><span class="p">;</span>
+<div class="codehilite"><pre><span></span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_work_t</span><span class="o">::</span><span class="n">task</span><span class="p">;</span>
 </pre></div>
 
 
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="function-error">function error<a class="headerlink" href="#function-error" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="kt">uint32_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_work_t</span><span class="o">::</span><span class="n">error</span> <span class="p">()</span> <span class="k">noexcept</span> <span class="k">const</span>
+<div class="codehilite"><pre><span></span><span class="kt">uint32_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_work_t</span><span class="o">::</span><span class="n">error</span> <span class="p">()</span> <span class="k">noexcept</span> <span class="k">const</span>
 </pre></div>
 
 
+<p><strong>Returns:</strong></p>
+<p>uint32_t error code from the system </p>
 <h2 id="protected-functions-documentation">Protected Functions Documentation<a class="headerlink" href="#protected-functions-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="function-ready">function ready<a class="headerlink" href="#function-ready" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><span class="n">_INTERFACE_</span> <span class="kt">bool</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_work_t</span><span class="o">::</span><span class="n">ready</span> <span class="p">()</span> <span class="k">noexcept</span> <span class="k">const</span>
+<div class="codehilite"><pre><span></span><span class="kt">bool</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_work_t</span><span class="o">::</span><span class="n">ready</span> <span class="p">()</span> <span class="k">noexcept</span> <span class="k">const</span>
 </pre></div>
 
 
+<p><strong>See also:</strong> await_ready </p>
+<p><strong>Returns:</strong></p>
+<p>true The given socket can be use for non-blocking operations </p>
+<p><strong>Returns:</strong></p>
+<p>false For Windows, the return is always <code>false</code> </p>
 <hr />
 <p>The documentation for this class was generated from the following file <code>interface/coroutine/net.h</code></p>
                 

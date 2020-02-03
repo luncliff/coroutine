@@ -31,12 +31,13 @@ FILE_PATTERNS          = *.c \
                          *.ifc
 
 RECURSIVE              = YES
+EXTRACT_ALL            = YES
 
 EXCLUDE                = test \
                          build \
                          install \
+                         external \
                          docs/xml
-
 EXCLUDE_PATTERNS        = */*.md
 
 EXAMPLE_PATH           = examples

@@ -403,6 +403,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../namespaces/" title="Namespaces" class="md-nav__link">
       Namespaces
     </a>
@@ -483,49 +495,21 @@
                 <h1 id="file-neth">File net.h<a class="headerlink" href="#file-neth" title="Permanent link">&para;</a></h1>
 <p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_9b61234ab8cba81e3caae75634773f62/"><strong>coroutine</strong></a> <strong>&gt;</strong> <a href="../net_8h/"><strong>net.h</strong></a></p>
 <p><a href="../net_8h/">Go to the documentation of this file.</a> </p>
-<div class="codehilite"><pre><span></span><span class="c1">//</span>
-<span class="c1">//  Author  : github.com/luncliff (luncliff@gmail.com)</span>
-<span class="c1">//  License : CC BY 4.0</span>
-<span class="c1">//</span>
-<span class="c1">//  Note</span>
-<span class="c1">//      Async I/O operation support for socket</span>
-<span class="c1">//</span>
-<span class="cp">#pragma once</span>
-<span class="c1">// clang-format off</span>
-<span class="cp">#if defined(FORCE_STATIC_LINK)</span>
-<span class="cp">#   define _INTERFACE_</span>
-<span class="cp">#   define _HIDDEN_</span>
-<span class="cp">#elif defined(_MSC_VER) </span><span class="c1">// MSVC or clang-cl</span>
-<span class="cp">#   define _HIDDEN_</span>
-<span class="cp">#   ifdef _WINDLL</span>
-<span class="cp">#       define _INTERFACE_ __declspec(dllexport)</span>
-<span class="cp">#   else</span>
-<span class="cp">#       define _INTERFACE_ __declspec(dllimport)</span>
-<span class="cp">#   endif</span>
-<span class="cp">#elif defined(__GNUC__) || defined(__clang__)</span>
-<span class="cp">#   define _INTERFACE_ __attribute__((visibility(&quot;default&quot;)))</span>
-<span class="cp">#   define _HIDDEN_ __attribute__((visibility(&quot;hidden&quot;)))</span>
-<span class="cp">#else</span>
-<span class="cp">#   error &quot;unexpected linking configuration&quot;</span>
-<span class="cp">#endif</span>
-<span class="c1">// clang-format on</span>
-
+<div class="codehilite"><pre><span></span><span class="cp">#pragma once</span>
 <span class="cp">#ifndef COROUTINE_NET_IO_H</span>
 <span class="cp">#define COROUTINE_NET_IO_H</span>
-
-<span class="cp">#include</span> <span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;gsl/gsl&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;coroutine/yield.hpp&gt;</span><span class="cp"></span>
 
 <span class="cp">#if __has_include(&lt;WinSock2.h&gt;) </span><span class="c1">// use winsock</span>
 <span class="cp">#include</span> <span class="cpf">&lt;WS2tcpip.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;WinSock2.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;ws2def.h&gt;</span><span class="cp"></span>
 
-<span class="k">using</span> <span class="n">io_control_block</span> <span class="o">=</span> <span class="n">OVERLAPPED</span><span class="p">;</span>
-
 <span class="k">static</span> <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">is_winsock</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 <span class="k">static</span> <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">is_netinet</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+
+<span class="k">using</span> <span class="n">io_control_block</span> <span class="o">=</span> <span class="n">OVERLAPPED</span><span class="p">;</span>
 
 <span class="cp">#elif __has_include(&lt;netinet/in.h&gt;) </span><span class="c1">// use netinet</span>
 <span class="cp">#include</span> <span class="cpf">&lt;fcntl.h&gt;</span><span class="cp"></span>
@@ -535,7 +519,9 @@
 <span class="cp">#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp"></span>
 
-<span class="c1">// Follow the definition of Windows `OVERLAPPED`</span>
+<span class="k">static</span> <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">is_winsock</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">is_netinet</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
 <span class="k">struct</span> <span class="n">io_control_block</span> <span class="p">{</span>
     <span class="kt">uint64_t</span> <span class="n">internal</span><span class="p">;</span>      <span class="c1">// uint32_t errc, int32_t flag</span>
     <span class="kt">uint64_t</span> <span class="n">internal_high</span><span class="p">;</span> <span class="c1">// int64_t len, socklen_t addrlen</span>
@@ -549,226 +535,140 @@
     <span class="kt">int64_t</span> <span class="n">handle</span><span class="p">;</span> <span class="c1">// int64_t sd;</span>
 <span class="p">};</span>
 
-<span class="k">static</span> <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">is_winsock</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-<span class="k">static</span> <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">is_netinet</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-
 <span class="cp">#endif </span><span class="c1">// winsock || netinet</span>
 
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
 
-<span class="c1">//  1 I/O task == 1 coroutine function</span>
-<span class="k">using</span> <span class="n">io_task_t</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">;</span>
-
-<span class="c1">//  This is simply a view to storage. Be aware that it doesn&#39;t have ownership</span>
 <span class="k">using</span> <span class="n">io_buffer_t</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">byte</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_buffer_t</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
 
-<span class="c1">//  A struct to describe &quot;1 I/O request&quot; to system API</span>
 <span class="k">class</span> <span class="nc">io_work_t</span> <span class="o">:</span> <span class="k">public</span> <span class="n">io_control_block</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
-    <span class="n">io_task_t</span> <span class="n">task</span><span class="p">{};</span>
+    <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">task</span><span class="p">{};</span>
     <span class="n">io_buffer_t</span> <span class="n">buffer</span><span class="p">{};</span>
 
   <span class="k">protected</span><span class="o">:</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">bool</span> <span class="n">ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
 
   <span class="k">public</span><span class="o">:</span>
-    <span class="c1">// Multiple retrieving won&#39;t be a matter</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">uint32_t</span> <span class="n">error</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">error</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
 <span class="p">};</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_work_t</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">56</span><span class="p">);</span>
 
-<span class="c1">//  Type to perform `sendto` I/O request</span>
 <span class="k">class</span> <span class="nc">io_send_to</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">io_work_t</span> <span class="p">{</span>
   <span class="k">private</span><span class="o">:</span>
-    <span class="c1">// This function must be used through `co_await`</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="n">suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-    <span class="c1">// This function must be used through `co_await`</span>
-    <span class="c1">// Unlike inherited `error` function, multiple invoke of this will</span>
-    <span class="c1">// lead to malfunction.</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">int64_t</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="kt">int64_t</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
 
   <span class="k">public</span><span class="o">:</span>
     <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">ready</span><span class="p">();</span>
     <span class="p">}</span>
-    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">suspend</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="kt">int64_t</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">resume</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_send_to</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">io_work_t</span><span class="p">));</span>
 
-<span class="c1">//  Type to perform `recvfrom` I/O request</span>
 <span class="k">class</span> <span class="nc">io_recv_from</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">io_work_t</span> <span class="p">{</span>
   <span class="k">private</span><span class="o">:</span>
-    <span class="c1">// This function must be used through `co_await`</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="n">suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-    <span class="c1">// This function must be used through `co_await`</span>
-    <span class="c1">// Unlike inherited `error` function, multiple invoke of this will</span>
-    <span class="c1">// lead to malfunction.</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">int64_t</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="kt">int64_t</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
 
   <span class="k">public</span><span class="o">:</span>
     <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">ready</span><span class="p">();</span>
     <span class="p">}</span>
-    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">suspend</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="kt">int64_t</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">resume</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_recv_from</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">io_work_t</span><span class="p">));</span>
 
-<span class="c1">//  Type to perform `send` I/O request</span>
 <span class="k">class</span> <span class="nc">io_send</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">io_work_t</span> <span class="p">{</span>
   <span class="k">private</span><span class="o">:</span>
-    <span class="c1">// This function must be used through `co_await`</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="n">suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-    <span class="c1">// This function must be used through `co_await`</span>
-    <span class="c1">// Unlike inherited `error` function, multiple invoke of this will</span>
-    <span class="c1">// lead to malfunction.</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">int64_t</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="kt">int64_t</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
 
   <span class="k">public</span><span class="o">:</span>
     <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">ready</span><span class="p">();</span>
     <span class="p">}</span>
-    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">suspend</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="kt">int64_t</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">resume</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_send</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">io_work_t</span><span class="p">));</span>
 
-<span class="c1">//  Type to perform `recv` I/O request</span>
 <span class="k">class</span> <span class="nc">io_recv</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">io_work_t</span> <span class="p">{</span>
   <span class="k">private</span><span class="o">:</span>
-    <span class="c1">// This function must be used through `co_await`</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="n">suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-    <span class="c1">// This function must be used through `co_await`</span>
-    <span class="c1">// Unlike inherited `error` function, multiple invoke of this will</span>
-    <span class="c1">// lead to malfunction.</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">int64_t</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+
+    <span class="kt">int64_t</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
 
   <span class="k">public</span><span class="o">:</span>
     <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">ready</span><span class="p">();</span>
     <span class="p">}</span>
-    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">io_task_t</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">suspend</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="kt">int64_t</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">resume</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_recv</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">io_work_t</span><span class="p">));</span>
 
-<span class="c1">//  Constructs awaitable `io_send_to` object with the given parameters</span>
-<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">_INTERFACE_</span>                                     <span class="c1">//</span>
-    <span class="k">auto</span>                                                      <span class="c1">//</span>
-    <span class="n">send_to</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span>           <span class="c1">//</span>
-            <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="c1">//</span>
-    <span class="o">-&gt;</span> <span class="n">io_send_to</span><span class="o">&amp;</span><span class="p">;</span>
+<span class="k">auto</span> <span class="nf">send_to</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
+             <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_send_to</span><span class="o">&amp;</span><span class="p">;</span>
 
-<span class="c1">//  Constructs awaitable `io_send_to` object with the given parameters</span>
-<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">_INTERFACE_</span>                                             <span class="c1">//</span>
-    <span class="k">auto</span>                                                              <span class="c1">//</span>
-    <span class="n">send_to</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="c1">//</span>
-            <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>                          <span class="c1">//</span>
-    <span class="o">-&gt;</span> <span class="n">io_send_to</span><span class="o">&amp;</span><span class="p">;</span>
+<span class="k">auto</span> <span class="nf">send_to</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="k">const</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
+             <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_send_to</span><span class="o">&amp;</span><span class="p">;</span>
 
-<span class="c1">//  Constructs awaitable `io_recv_from` object with the given parameters</span>
-<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">_INTERFACE_</span>                                        <span class="c1">//</span>
-    <span class="k">auto</span>                                                         <span class="c1">//</span>
-    <span class="n">recv_from</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="c1">//</span>
-              <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>                   <span class="c1">//</span>
-    <span class="o">-&gt;</span> <span class="n">io_recv_from</span><span class="o">&amp;</span><span class="p">;</span>
+<span class="k">auto</span> <span class="nf">recv_from</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
+               <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_recv_from</span><span class="o">&amp;</span><span class="p">;</span>
 
-<span class="c1">//  Constructs awaitable `io_recv_from` object with the given parameters</span>
-<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">_INTERFACE_</span>                                         <span class="c1">//</span>
-    <span class="k">auto</span>                                                          <span class="c1">//</span>
-    <span class="n">recv_from</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="c1">//</span>
-              <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>                    <span class="c1">//</span>
-    <span class="o">-&gt;</span> <span class="n">io_recv_from</span><span class="o">&amp;</span><span class="p">;</span>
+<span class="k">auto</span> <span class="nf">recv_from</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
+               <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_recv_from</span><span class="o">&amp;</span><span class="p">;</span>
 
-<span class="c1">//  Constructs awaitable `io_send` object with the given parameters</span>
-<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">_INTERFACE_</span>                                    <span class="c1">//</span>
-    <span class="k">auto</span>                                                     <span class="c1">//</span>
-    <span class="n">send_stream</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span> <span class="c1">//</span>
-                <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>             <span class="c1">//</span>
-    <span class="o">-&gt;</span> <span class="n">io_send</span><span class="o">&amp;</span><span class="p">;</span>
+<span class="k">auto</span> <span class="nf">send_stream</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span>
+                 <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_send</span><span class="o">&amp;</span><span class="p">;</span>
 
-<span class="c1">//  Constructs awaitable `io_recv` object with the given parameters</span>
-<span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">_INTERFACE_</span>                                    <span class="c1">//</span>
-    <span class="k">auto</span>                                                     <span class="c1">//</span>
-    <span class="n">recv_stream</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span> <span class="c1">//</span>
-                <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>             <span class="c1">//</span>
-    <span class="o">-&gt;</span> <span class="n">io_recv</span><span class="o">&amp;</span><span class="p">;</span>
+<span class="k">auto</span> <span class="nf">recv_stream</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span>
+                 <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_recv</span><span class="o">&amp;</span><span class="p">;</span>
 
-<span class="c1">//  This function is for non-Windows platform.</span>
-<span class="c1">//  Over Windows api, it always yields **nothing**.</span>
-<span class="c1">//</span>
-<span class="c1">//  Its caller must continue the loop without break</span>
-<span class="c1">//  so there is no leak of the I/O events</span>
-<span class="c1">//</span>
-<span class="c1">//  Also, the library doesn&#39;t guarantee all coroutines(i/o tasks) will be</span>
-<span class="c1">//  fetched at once. Therefore it is strongly recommended for user to have</span>
-<span class="c1">//  another method to detect that watching I/O coroutines are returned.</span>
-<span class="n">_INTERFACE_</span>
-<span class="kt">void</span> <span class="nf">wait_net_tasks</span><span class="p">(</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">io_task_t</span><span class="o">&gt;&amp;</span> <span class="n">tasks</span><span class="p">,</span>
-                    <span class="n">chrono</span><span class="o">::</span><span class="n">nanoseconds</span> <span class="n">timeout</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="cp">#if defined(__APPLE__) || defined(__UNIX__) || defined(__linux__)</span>
 
-<span class="kr">inline</span> <span class="k">auto</span> <span class="nf">wait_net_tasks</span><span class="p">(</span><span class="n">chrono</span><span class="o">::</span><span class="n">nanoseconds</span> <span class="n">timeout</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">enumerable</span><span class="o">&lt;</span><span class="n">io_task_t</span><span class="o">&gt;</span> <span class="n">tasks</span><span class="p">{};</span>
-    <span class="n">wait_net_tasks</span><span class="p">(</span><span class="n">tasks</span><span class="p">,</span> <span class="n">timeout</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">tasks</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">poll_net_tasks</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">nano</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
 
-<span class="c1">//</span>
-<span class="c1">//  Name resolution utilities</span>
-<span class="c1">//</span>
+<span class="cp">#endif</span>
 
-<span class="k">using</span> <span class="n">zstring_host</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span><span class="n">NI_MAXHOST</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="k">using</span> <span class="n">zstring_serv</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span><span class="n">NI_MAXSERV</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="k">using</span> <span class="n">czstring_host</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;</span><span class="n">NI_MAXHOST</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="k">using</span> <span class="n">czstring_serv</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;</span><span class="n">NI_MAXSERV</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="kt">uint32_t</span> <span class="nf">get_address</span><span class="p">(</span><span class="k">const</span> <span class="n">addrinfo</span><span class="o">&amp;</span> <span class="n">hint</span><span class="p">,</span> <span class="c1">//</span>
+                     <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;&gt;</span> <span class="n">host</span><span class="p">,</span> <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;&gt;</span> <span class="n">serv</span><span class="p">,</span>
+                     <span class="n">gsl</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">sockaddr_in</span><span class="o">&gt;</span> <span class="n">output</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 
-<span class="c1">//  Combination of `getaddrinfo` functions</span>
-<span class="c1">//  If there is an error, the enumerable is untouched</span>
-<span class="n">_INTERFACE_</span>
-<span class="kt">int32_t</span> <span class="nf">resolve</span><span class="p">(</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">sockaddr</span><span class="o">&gt;&amp;</span> <span class="n">g</span><span class="p">,</span> <span class="k">const</span> <span class="n">addrinfo</span><span class="o">&amp;</span> <span class="n">hint</span><span class="p">,</span> <span class="c1">//</span>
-                <span class="n">czstring_host</span> <span class="n">name</span><span class="p">,</span> <span class="n">czstring_serv</span> <span class="n">serv</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="kt">uint32_t</span> <span class="nf">get_address</span><span class="p">(</span><span class="k">const</span> <span class="n">addrinfo</span><span class="o">&amp;</span> <span class="n">hint</span><span class="p">,</span> <span class="c1">//</span>
+                     <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;&gt;</span> <span class="n">host</span><span class="p">,</span> <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;&gt;</span> <span class="n">serv</span><span class="p">,</span>
+                     <span class="n">gsl</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">sockaddr_in6</span><span class="o">&gt;</span> <span class="n">output</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 
-<span class="c1">// construct system_error using `gai_strerror` function</span>
-<span class="n">_INTERFACE_</span>
-<span class="k">auto</span> <span class="nf">resolve_error</span><span class="p">(</span><span class="kt">int32_t</span> <span class="n">ec</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">-&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">system_error</span><span class="p">;</span>
+<span class="kt">uint32_t</span> <span class="nf">get_name</span><span class="p">(</span><span class="k">const</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">addr</span><span class="p">,</span> <span class="c1">//</span>
+                  <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span><span class="n">NI_MAXHOST</span><span class="o">&gt;</span> <span class="n">name</span><span class="p">,</span> <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span><span class="n">NI_MAXSERV</span><span class="o">&gt;</span> <span class="n">serv</span><span class="p">,</span>
+                  <span class="kt">int32_t</span> <span class="n">flags</span> <span class="o">=</span> <span class="n">NI_NUMERICHOST</span> <span class="o">|</span> <span class="n">NI_NUMERICSERV</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 
-<span class="kr">inline</span> <span class="k">auto</span> <span class="nf">resolve</span><span class="p">(</span><span class="k">const</span> <span class="n">addrinfo</span><span class="o">&amp;</span> <span class="n">hint</span><span class="p">,</span> <span class="c1">//</span>
-                    <span class="n">czstring_host</span> <span class="n">name</span><span class="p">,</span> <span class="n">czstring_serv</span> <span class="n">serv</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
-    <span class="o">-&gt;</span> <span class="n">enumerable</span><span class="o">&lt;</span><span class="n">sockaddr</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="n">enumerable</span><span class="o">&lt;</span><span class="n">sockaddr</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">{};</span>
-    <span class="k">if</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">hint</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">serv</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">throw</span> <span class="n">resolve_error</span><span class="p">(</span><span class="n">ec</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">g</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">//  Thin wrapper of `getnameinfo`. Parameter &#39;serv&#39; can be nullptr.</span>
-<span class="n">_INTERFACE_</span>
-<span class="kt">int32_t</span> <span class="nf">get_name</span><span class="p">(</span><span class="k">const</span> <span class="n">sockaddr_in</span><span class="o">&amp;</span> <span class="n">addr</span><span class="p">,</span> <span class="n">zstring_host</span> <span class="n">name</span><span class="p">,</span> <span class="n">zstring_serv</span> <span class="n">serv</span><span class="p">,</span>
-                 <span class="kt">int32_t</span> <span class="n">flags</span> <span class="o">=</span> <span class="n">NI_NUMERICHOST</span> <span class="o">|</span> <span class="n">NI_NUMERICSERV</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="n">_INTERFACE_</span>
-<span class="kt">int32_t</span> <span class="nf">get_name</span><span class="p">(</span><span class="k">const</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">addr</span><span class="p">,</span> <span class="n">zstring_host</span> <span class="n">name</span><span class="p">,</span> <span class="n">zstring_serv</span> <span class="n">serv</span><span class="p">,</span>
-                 <span class="kt">int32_t</span> <span class="n">flags</span> <span class="o">=</span> <span class="n">NI_NUMERICHOST</span> <span class="o">|</span> <span class="n">NI_NUMERICSERV</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="kt">uint32_t</span> <span class="nf">get_name</span><span class="p">(</span><span class="k">const</span> <span class="n">sockaddr_in6</span><span class="o">&amp;</span> <span class="n">addr</span><span class="p">,</span> <span class="c1">//</span>
+                  <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span><span class="n">NI_MAXHOST</span><span class="o">&gt;</span> <span class="n">name</span><span class="p">,</span> <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span><span class="n">NI_MAXSERV</span><span class="o">&gt;</span> <span class="n">serv</span><span class="p">,</span>
+                  <span class="kt">int32_t</span> <span class="n">flags</span> <span class="o">=</span> <span class="n">NI_NUMERICHOST</span> <span class="o">|</span> <span class="n">NI_NUMERICSERV</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 
 <span class="p">}</span> <span class="c1">// namespace coro</span>
 

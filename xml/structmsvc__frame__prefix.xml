@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="structmsvc__frame__prefix" kind="struct" language="C++" prot="public" final="yes">
     <compoundname>msvc_frame_prefix</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
       <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="structmsvc__frame__prefix_1a63e7a285d705ec63b36132af19e8a7fe" prot="public" static="no" mutable="no">
         <type>procedure_t</type>
