@@ -82,7 +82,7 @@ class kqueue_owner final {
      * When it is awaited, and `req.udata` is null(0),
      * the value is set to `coroutine_handle<void>`
      * 
-     * ```cpp
+     * @code
      * auto read_async(kqueue_owner& kq, uint64_t fd) -> frame_t {
      *     kevent64_s req{.ident = fd,
      *                    .filter = EVFILT_READ,
@@ -92,7 +92,7 @@ class kqueue_owner final {
      *     co_await kq.submit(req);
      *     // ...
      * }
-     * ```
+     * @endcode
      */
     [[nodiscard]] auto submit(kevent64_s& req) noexcept {
         class awaiter final : public suspend_always {

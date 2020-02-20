@@ -1,10 +1,9 @@
-﻿//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//  Note
-//      Coroutine based channel
-//      This is a simplified form of channel in The Go Language
-//
+﻿/**
+ * @file coroutine/channel.hpp
+ * @author github.com/luncliff (luncliff@gmail.com)
+ * @copyright CC BY 4.0
+ * @brief Coroutine based channel. This is a simplified form of the channel in The Go Language
+ */
 #pragma once
 #ifndef LUNCLIFF_COROUTINE_CHANNEL_HPP
 #define LUNCLIFF_COROUTINE_CHANNEL_HPP
@@ -26,56 +25,65 @@ namespace coro {
 using namespace std;
 using namespace std::experimental;
 
-// Lockable without lock operation.
+/**
+ * @brief Lockable without lock operation
+ * @details `channel` uses lockable whenever read/write is requested.
+ * If its object is used without race condition, such lock operation can be skipped.
+ * Use this **bypass** lockable for such cases.
+ */
 struct bypass_lock final {
     constexpr bool try_lock() noexcept {
         return true;
     }
+    /** @brief Do nothing since this is 'bypass' lock */
     constexpr void lock() noexcept {
-        // do nothing since this is 'bypass' lock
     }
+    /** @brief Do nothing since it didn't locked something */
     constexpr void unlock() noexcept {
-        // it is not locked
     }
 };
 
 namespace internal {
 
-// A non-null address that leads access violation
-static inline void* poison() noexcept(false) {
+/**
+ * @brief Returns a non-null address that leads access violation
+ * @details Notice that `reinterpret_cast` is not constexpr for some compiler.
+ * @return void* non-null address
+ */
+static void* poison() noexcept(false) {
     return reinterpret_cast<void*>(0xFADE'038C'BCFA'9E64);
 }
 
-// Linked list without allocation
+/**
+ * @brief Linked list without allocation
+ * @tparam T Type of the node. Its member must have `next` pointer
+ */
 template <typename T>
 class list {
-    using node_type = T;
-
-    node_type* head{};
-    node_type* tail{};
-
-  public:
-    list() noexcept = default;
+    T* head{};
+    T* tail{};
 
   public:
     bool is_empty() const noexcept(false) {
         return head == nullptr;
     }
-    void push(node_type* node) noexcept(false) {
+    void push(T* node) noexcept(false) {
         if (tail) {
             tail->next = node;
             tail = node;
         } else
             head = tail = node;
     }
-    auto pop() noexcept(false) -> node_type* {
-        node_type* node = head;
+    /**
+     * @return T* The return can be `nullptr`
+     */
+    auto pop() noexcept(false) -> T* {
+        T* node = head;
         if (head == tail) // empty or 1
             head = tail = nullptr;
         else // 2 or more
             head = head->next;
-
-        return node; // this can be nullptr
+        return node;
     }
 };
 } // namespace internal
@@ -89,7 +97,12 @@ class writer;
 template <typename T, typename M>
 class peeker;
 
-// Awaitable for channel's read operation
+/**
+ * @brief Awaitable for `channel`'s read operation
+ * 
+ * @tparam T Element type
+ * @tparam M mutex
+ */
 template <typename T, typename M>
 class reader {
   public:
@@ -110,11 +123,11 @@ class reader {
     friend reader_list;
 
   protected:
-    mutable pointer ptr; // Address of value
-    mutable void* frame; // Resumeable Handle
+    mutable pointer ptr; /// Address of value
+    mutable void* frame; /// Resumeable Handle
     union {
-        reader* next = nullptr; // Next reader in channel
-        channel_type* chan;     // Channel to push this reader
+        reader* next = nullptr; /// Next reader in channel
+        channel_type* chan;     /// Channel to push this reader
     };
 
   private:
@@ -171,7 +184,12 @@ class reader {
     }
 };
 
-// Awaitable for channel's write operation
+/**
+ * @brief Awaitable for `channel`'s write operation
+ * 
+ * @tparam T Element type
+ * @tparam M mutex
+ */
 template <typename T, typename M>
 class writer final {
   public:
@@ -192,11 +210,11 @@ class writer final {
     friend writer_list;
 
   private:
-    mutable pointer ptr; // Address of value
-    mutable void* frame; // Resumeable Handle
+    mutable pointer ptr; /// Address of value
+    mutable void* frame; /// Resumeable Handle
     union {
-        writer* next = nullptr; // Next writer in channel
-        channel_type* chan;     // Channel to push this writer
+        writer* next = nullptr; /// Next writer in channel
+        channel_type* chan;     /// Channel to push this writer
     };
 
   private:
@@ -248,7 +266,12 @@ class writer final {
     }
 };
 
-// Coroutine based channel. User have to provide appropriate lockable
+/**
+ * @brief Coroutine based channel. User have to provide appropriate lockable
+ * 
+ * @tparam T Element type
+ * @tparam M Type of the mutex(lockable) for its member
+ */
 template <typename T, typename M>
 class channel final : internal::list<reader<T, M>>,
                       internal::list<writer<T, M>> {
@@ -285,37 +308,42 @@ class channel final : internal::list<reader<T, M>>,
     channel() noexcept(false) : reader_list{}, writer_list{}, mtx{} {
         // initialized 2 linked list and given mutex
     }
-    ~channel() noexcept(false) // channel can't provide exception guarantee...
-    {
+
+    /**
+     * @brief Resume all attached coroutine read/write operations
+     * @details Channel can't provide exception guarantee 
+     * since the destruction contains coroutines' resume
+     */
+    ~channel() noexcept(false) {
+        void* closing = internal::poison();
         writer_list& writers = *this;
         reader_list& readers = *this;
-        //
-        // If the channel is raced hardly, some coroutines can be
-        //  enqueued into list just after this destructor unlocks mutex.
-        //
-        // Unfortunately, this can't be detected at once since
-        //  we have 2 list (readers/writers) in the channel.
-        //
-        // Current implementation allows checking repeatedly to reduce the
-        //  probability of such interleaving.
-        // Increase the repeat count below if the situation occurs.
-        // But notice that it is NOT zero.
-        //
-        size_t repeat = 1; // author experienced 5'000+ for hazard usage
+        /**
+         * If the channel is raced hardly, some coroutines can be
+         *  enqueued into list just after this destructor unlocks mutex.
+         *
+         * Unfortunately, this can't be detected at once since
+         *  we have 2 list (readers/writers) in the channel.
+         *
+         * Current implementation allows checking repeatedly to reduce the
+         * probability of such interleaving.
+         * Increase the repeat count below if the situation occurs.
+         * But notice that it is NOT zero.
+         */
+        size_t repeat = 1; // even 5'000+ can be unsafe for hazard usage ...
         while (repeat--) {
             unique_lock lck{mtx};
-
             while (writers.is_empty() == false) {
                 writer* w = writers.pop();
                 auto coro = coroutine_handle<void>::from_address(w->frame);
-                w->frame = internal::poison();
+                w->frame = closing;
 
                 coro.resume();
             }
             while (readers.is_empty() == false) {
                 reader* r = readers.pop();
                 auto coro = coroutine_handle<void>::from_address(r->frame);
-                r->frame = internal::poison();
+                r->frame = closing;
 
                 coro.resume();
             }
@@ -331,7 +359,13 @@ class channel final : internal::list<reader<T, M>>,
     }
 };
 
-// Extension of channel reader for subroutines
+/**
+ * @brief Extension of `channel` reader for subroutines
+ * 
+ * @tparam T Element type
+ * @tparam M mutex
+ * @see reader
+ */
 template <typename T, typename M>
 class peeker final : protected reader<T, M> {
     using value_type = T;
@@ -373,7 +407,15 @@ class peeker final : protected reader<T, M> {
     }
 };
 
-//  If the channel is readable, acquire the value and the function.
+/**
+ * @brief If the channel is readable, acquire the value and invoke the function
+ * 
+ * @tparam T 
+ * @tparam M 
+ * @tparam Fn 
+ * @param ch 
+ * @param fn 
+ */
 template <typename T, typename M, typename Fn>
 void select(channel<T, M>& ch, Fn&& fn) noexcept(false) {
     static_assert(sizeof(reader<T, M>) == sizeof(peeker<T, M>));
@@ -385,7 +427,16 @@ void select(channel<T, M>& ch, Fn&& fn) noexcept(false) {
         fn(storage);        // invoke the function
 }
 
-//  Invoke `select` for each pairs (channel + function)
+/**
+ * @brief Invoke `select` for each pairs (channel + function)
+ * 
+ * @tparam Args 
+ * @tparam ChanType 
+ * @tparam FuncType 
+ * @param ch 
+ * @param fn 
+ * @param args 
+ */
 template <typename... Args, typename ChanType, typename FuncType>
 void select(ChanType& ch, FuncType&& fn, Args&&... args) noexcept(false) {
     select(ch, forward<FuncType&&>(fn));     // evaluate
