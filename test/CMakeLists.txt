@@ -118,14 +118,18 @@ endif()
 
 
 #
-#   <internal/yield.hpp>
+#   <internal/channel.hpp>
 #
+create_ctest( channel_close_read            coroutine_system )
+create_ctest( channel_close_write           coroutine_system )
 create_ctest( channel_ownership_consumer    coroutine_system )
 create_ctest( channel_ownership_producer    coroutine_system )
-create_ctest( channel_close_read            coroutine_system )
 create_ctest( channel_read_write_mutex      coroutine_system )
 create_ctest( channel_read_write_nolock     coroutine_system )
-create_ctest( channel_close_write           coroutine_system )
 create_ctest( channel_write_read_mutex      coroutine_system )
 create_ctest( channel_write_read_nolock     coroutine_system )
-# create_ctest( channel_race_no_leak          coroutine_system )
+create_ctest( channel_select_empty          coroutine_system )
+create_ctest( channel_select_type           coroutine_system )
+if(WIN32)
+create_ctest( channel_race_condition        coroutine_system latch )
+endif()
