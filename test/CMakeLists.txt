@@ -29,6 +29,10 @@ function(create_ctest TEST_NAME)
         CMAKE_TEST _DEBUG
     )
     if(WIN32)
+        target_compile_definitions(${TEST_NAME}
+        PRIVATE
+            WIN32_LEAN_AND_MEAN NOMINMAX
+        )
     elseif(APPLE)
         target_link_libraries(${TEST_NAME}
         PRIVATE
