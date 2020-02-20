@@ -3,6 +3,7 @@
  */
 #undef NDEBUG
 #include <cassert>
+#include <cstdint>
 #include <cstdio>
 #include <initializer_list>
 
