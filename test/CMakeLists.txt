@@ -4,8 +4,9 @@ cmake_minimum_required(VERSION 3.12)
 function(create_ctest TEST_NAME)
     # create a test exe with the given name ...
     add_executable(${TEST_NAME} ${TEST_NAME}.cpp)
-    add_test(${TEST_NAME} ${TEST_NAME})
-    
+    add_test(NAME ${TEST_NAME} 
+             COMMAND ${TEST_NAME})
+
     set_target_properties(${TEST_NAME}
     PROPERTIES
         CXX_STANDARD 20
@@ -25,9 +26,13 @@ function(create_ctest TEST_NAME)
 
     target_compile_definitions(${TEST_NAME}
     PRIVATE
-        CMAKE_TEST
+        CMAKE_TEST _DEBUG
     )
     if(WIN32)
+        target_compile_definitions(${TEST_NAME}
+        PRIVATE
+            WIN32_LEAN_AND_MEAN NOMINMAX
+        )
     elseif(APPLE)
         target_link_libraries(${TEST_NAME}
         PRIVATE
@@ -114,3 +119,22 @@ create_ctest( unix_kqueue_single_thread  coroutine_system )
 
 endif()
 endif()
+
+
+#
+#   <internal/channel.hpp>
+#
+create_ctest( channel_close_read            coroutine_system )
+create_ctest( channel_close_write           coroutine_system )
+create_ctest( channel_ownership_consumer    coroutine_system )
+create_ctest( channel_ownership_producer    coroutine_system )
+create_ctest( channel_read_write_mutex      coroutine_system )
+create_ctest( channel_read_write_nolock     coroutine_system )
+create_ctest( channel_write_read_mutex      coroutine_system )
+create_ctest( channel_write_read_nolock     coroutine_system )
+create_ctest( channel_select_empty          coroutine_system )
+create_ctest( channel_select_type           coroutine_system )
+if(WIN32)
+create_ctest( channel_race_condition        coroutine_system latch )
+endif()
+create_ctest( channel_sample_wrap           coroutine_system latch )
