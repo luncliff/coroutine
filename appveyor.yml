@@ -50,4 +50,4 @@ build_script:
 test_script:
   - ps: |
       $env:PATH="$env:INSTALL_PATH/bin;$env:PATH"
-      ctest --output-on-failure
+      ctest --output-on-failure -C $env:CONFIGURATION
