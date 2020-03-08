@@ -66,8 +66,8 @@ Utility types are in the following headers
 ```
 
 Generator is named `coro::enumerable` here.
-For now you can see various description for the concept in C++ conference talks in Youtube, or some resources in the [MattPD's collection](https://gist.github.com/MattPD/9b55db49537a90545a90447392ad3aeb).
-If you are curious with the concept, reference [the kirkshoop's repo](https://github.com/kirkshoop/await).
+
+For now you can see various description for the concept in C++ conference talks in Youtube.  
 If you want better implementation, visit the https://github.com/Quuxplusone/coro
 
 ```c++
@@ -90,8 +90,11 @@ It may not a necessary feature since there are so much of the channel implementa
 
 Simply clone and initialize submodules recursively :)
 
-```
-git submodule update --init --recursive
+```bash
+git clone https://github.com/luncliff/coroutine;
+pushd coroutine
+  git submodule update --init --recursive;
+popd
 ```
 
 ### Build
