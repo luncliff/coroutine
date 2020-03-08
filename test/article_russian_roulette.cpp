@@ -7,10 +7,9 @@
 
 #include <gsl/gsl>
 
-#include <coroutine/frame.h>
+#include <coroutine/return.h>
 
 using namespace std;
-using namespace std::experimental;
 
 class promise_manual_control {
   public:
@@ -134,7 +133,7 @@ auto russian_roulette(revolver_t& revolver, gsl::span<user_behavior_t> users) {
     }
 }
 
-int main(int, char* []) {
+int main(int, char*[]) {
     // select some chamber with the users
     array<user_behavior_t, 6> users{};
     revolver_t revolver{select_chamber(),

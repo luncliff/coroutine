@@ -57,9 +57,6 @@ extern "C" {
 size_t _coro_resume(void*);
 void _coro_destroy(void*);
 //size_t _coro_done(void*);
-#pragma intrinsic(_coro_resume)
-#pragma intrinsic(_coro_destroy)
-//#pragma intrinsic(_coro_done)
 }
 //
 // intrinsic: Clang/GCC
@@ -71,6 +68,8 @@ void __builtin_coro_destroy(void*);
 // void* __builtin_coro_promise(void* ptr, int align, bool p);
 }
 
+bool _coro_finished(_Portable_coro_prefix* _Handle);
+
 #if defined(__clang__)
 static constexpr auto is_clang = true;
 static constexpr auto is_msvc = !is_clang;
@@ -81,6 +80,14 @@ struct _Portable_coro_prefix final : public _Clang_frame_prefix {};
 static constexpr auto is_msvc = true;
 static constexpr auto is_clang = !is_msvc;
 
+#pragma intrinsic(_coro_resume)
+#pragma intrinsic(_coro_destroy)
+#pragma intrinsic(_coro_done)
+
+inline bool _coro_finished(_Portable_coro_prefix* _Handle) {
+    return _Handle->_Index == 0;
+}
+
 struct _Portable_coro_prefix final : public _Msvc_frame_prefix {};
 
 #elif defined(__GNUC__)
@@ -90,7 +97,7 @@ struct _Portable_coro_prefix final : public _Msvc_frame_prefix {};
 // replacement of the `_coro_done`
 bool _Portable_coro_done(_Portable_coro_prefix* _Handle) {
     if constexpr (is_msvc) {
-        return _Handle->_Index == 0;
+        return _coro_finished(_Handle);
     } else if constexpr (is_clang) {
         return __builtin_coro_done(_Handle);
     }
@@ -152,10 +159,11 @@ _Portable_coro_prefix* _Portable_coro_from_promise(void* _PromAddr,
 
 bool foo() {
     std::coroutine_handle<void> lhs{};
-    return lhs <= std::noop_coroutine();
+    return lhs <= std::experimental::noop_coroutine();
 }
 bool bar() {
-    if (auto lhs = std::coroutine_handle<void>::from_address(bar)) {
+    void* ptr = nullptr;
+    if (auto lhs = std::coroutine_handle<void>::from_address(ptr)) {
         lhs.resume();
         return lhs.done();
     }

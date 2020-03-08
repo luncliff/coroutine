@@ -21,8 +21,6 @@
  */
 
 namespace coro {
-using namespace std;
-using namespace std::experimental;
 
 /**
  * @brief Awaitable event type over Win32 thread pool

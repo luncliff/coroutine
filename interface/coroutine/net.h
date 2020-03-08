@@ -65,8 +65,6 @@ struct io_control_block {
 #endif // winsock || netinet
 
 namespace coro {
-using namespace std;
-using namespace std::experimental;
 
 /**
  * @brief This is simply a view to storage. Be aware that it doesn't have ownership

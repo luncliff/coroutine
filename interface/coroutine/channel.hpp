@@ -10,27 +10,21 @@
 #define LUNCLIFF_COROUTINE_CHANNEL_HPP
 #include <mutex>
 #include <tuple>
-#if __has_include(<coroutine>) // C++ 20
-#include <coroutine>
-namespace coro {
-using namespace std;
 
-#elif __has_include(<coroutine/frame.h>)
+#if __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
 namespace coro {
-using namespace std;
-using namespace std::experimental;
+using std::coroutine_handle;
+using std::suspend_always;
+using std::suspend_never;
 
-#elif __has_include(<experimental/coroutine>) // C++ 17
+#elif __has_include(<experimental/coroutine>)
 #include <experimental/coroutine>
 namespace coro {
-using namespace std;
-using namespace std::experimental;
+using std::experimental::coroutine_handle;
 
 #else
-#error "expect header <experimental/coroutine> or <coroutine/frame.h>"
-namespace coro {
-
+#error "requires header <experimental/coroutine> or <coroutine/frame.h>"
 #endif
 
 /**
@@ -167,7 +161,7 @@ class channel_reader {
 
   protected:
     explicit channel_reader(channel_type& ch) noexcept(false)
-        : ptr{}, frame{nullptr}, chan{addressof(ch)} {
+        : ptr{}, frame{nullptr}, chan{std::addressof(ch)} {
     }
     channel_reader(const channel_reader&) noexcept = delete;
     channel_reader& operator=(const channel_reader&) noexcept = delete;
@@ -193,8 +187,8 @@ class channel_reader {
 
         writer* w = chan->writer_list::pop();
         // exchange address & resumeable_handle
-        swap(this->ptr, w->ptr);
-        swap(this->frame, w->frame);
+        std::swap(this->ptr, w->ptr);
+        std::swap(this->frame, w->frame);
 
         chan->mtx.unlock();
         return true;
@@ -220,17 +214,17 @@ class channel_reader {
      * 
      * @return tuple<value_type, bool> 
      */
-    auto await_resume() noexcept(false) -> tuple<value_type, bool> {
-        auto t = make_tuple(value_type{}, false);
+    auto await_resume() noexcept(false) -> std::tuple<value_type, bool> {
+        auto t = std::make_tuple(value_type{}, false);
         // frame holds poision if the channel is under destruction
         if (this->frame == internal::poison())
             return t;
         // the resume operation can destroy the other coroutine
         // store before resume
-        get<0>(t) = move(*ptr);
+        std::get<0>(t) = std::move(*ptr);
         if (auto coro = coroutine_handle<void>::from_address(frame))
             coro.resume();
-        get<1>(t) = true;
+        std::get<1>(t) = true;
         return t;
     }
 };
@@ -281,7 +275,7 @@ class channel_writer {
 
   private:
     explicit channel_writer(channel_type& ch, pointer pv) noexcept(false)
-        : ptr{pv}, frame{nullptr}, chan{addressof(ch)} {
+        : ptr{pv}, frame{nullptr}, chan{std::addressof(ch)} {
     }
     channel_writer(const channel_writer&) noexcept = delete;
     channel_writer& operator=(const channel_writer&) noexcept = delete;
@@ -307,8 +301,8 @@ class channel_writer {
 
         reader* r = chan->reader_list::pop();
         // exchange address & resumeable_handle
-        swap(this->ptr, r->ptr);
-        swap(this->frame, r->frame);
+        std::swap(this->ptr, r->ptr);
+        std::swap(this->frame, r->frame);
 
         chan->mtx.unlock();
         return true;
@@ -357,7 +351,7 @@ class channel_writer {
 template <typename T, typename M>
 class channel final : internal::list<channel_reader<T, M>>,
                       internal::list<channel_writer<T, M>> {
-    static_assert(is_reference<T>::value == false,
+    static_assert(std::is_reference<T>::value == false,
                   "reference type can't be channel's value_type.");
 
   public:
@@ -415,7 +409,7 @@ class channel final : internal::list<channel_reader<T, M>>,
         // even 5'000+ can be unsafe for hazard usage ...
         size_t repeat = 1;
         do {
-            unique_lock lck{mtx};
+            std::unique_lock lck{mtx};
             while (writers.is_empty() == false) {
                 writer* w = writers.pop();
                 auto coro = coroutine_handle<void>::from_address(w->frame);
@@ -441,7 +435,7 @@ class channel final : internal::list<channel_reader<T, M>>,
      * @return channel_writer
      */
     decltype(auto) write(reference ref) noexcept(false) {
-        return channel_writer{*this, addressof(ref)};
+        return channel_writer{*this, std::addressof(ref)};
     }
     /**
      * @brief construct a new reader which references this channel
@@ -484,11 +478,11 @@ class channel_peeker final : protected channel_reader<T, M> {
      * the implementation will use scoped locking
      */
     void peek() const noexcept(false) {
-        unique_lock lck{this->chan->mtx};
+        std::unique_lock lck{this->chan->mtx};
         if (this->chan->writer_list::is_empty() == false) {
             writer* w = this->chan->writer_list::pop();
-            swap(this->ptr, w->ptr);
-            swap(this->frame, w->frame);
+            std::swap(this->ptr, w->ptr);
+            std::swap(this->frame, w->frame);
         }
     }
     /**
@@ -512,7 +506,7 @@ class channel_peeker final : protected channel_reader<T, M> {
         // if there was a writer, take its value
         if (this->ptr == nullptr)
             return false;
-        storage = move(*this->ptr);
+        storage = std::move(*this->ptr);
         // resume writer coroutine
         if (auto coro = coroutine_handle<void>::from_address(this->frame))
             coro.resume();
@@ -544,6 +538,7 @@ void select(channel<T, M>& ch, Fn&& fn) noexcept(false) {
  */
 template <typename... Args, typename Ch, typename Fn>
 void select(Ch& ch, Fn&& fn, Args&&... args) noexcept(false) {
+    using namespace std;
     select(ch, forward<Fn&&>(fn));           // evaluate
     return select(forward<Args&&>(args)...); // try next pair
 }

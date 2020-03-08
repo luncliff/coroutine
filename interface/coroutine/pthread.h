@@ -11,7 +11,7 @@
 #include <pthread.h>
 #include <system_error>
 
-#include <coroutine/frame.h>
+#include <coroutine/return.h>
 
 /**
  * @defgroup POSIX
@@ -19,8 +19,6 @@
  */
 
 namespace coro {
-using namespace std;
-using namespace std::experimental;
 
 /**
  * @brief Creates a new POSIX Thread and resume the given coroutine handle on it
@@ -83,10 +81,10 @@ class pthread_spawn_promise {
      */
     auto await_transform(const pthread_attr_t* attr) noexcept(false) {
         if (tid) // already created.
-            throw logic_error{"pthread's spawn must be used once"};
+            throw std::logic_error{"pthread's spawn must be used once"};
 
         // provide the address at this point
-        return pthread_spawner_t{addressof(this->tid), attr};
+        return pthread_spawner_t{&this->tid, attr};
     }
     inline auto await_transform(pthread_attr_t* attr) noexcept(false) {
         return await_transform(static_cast<const pthread_attr_t*>(attr));

@@ -17,18 +17,16 @@
 #if __has_include(<yvals_core.h>)
 #include <yvals_core.h>
 #endif
-
 #if _STL_COMPILER_PREPROCESSOR
 #include <memory>
 #include <new>
-#if _HAS_EXCEPTIONS
-#include <exception>
-#endif // _HAS_EXCEPTIONS
 #endif // _STL_COMPILER_PREPROCESSOR
-
 #include <cstddef>
 #include <cstdint>
 #include <type_traits>
+
+#include <exception>  // std::current_exception
+#include <functional> // std::hash
 
 #if !defined(__cpp_coroutines)
 // ...
@@ -48,6 +46,9 @@ void* _Portable_coro_get_promise(_Portable_coro_prefix* _Handle,
                                  ptrdiff_t _PromSize);
 
 namespace std {
+
+// there is no way but to define in `std::experimental` since compilers are checking it
+namespace experimental {
 
 // 17.12.3, coroutine handle
 template <typename _PromiseT = void>
@@ -160,24 +161,6 @@ constexpr bool operator>=(const coroutine_handle<void> _Left,
     return !(_Left < _Right);
 }
 
-template <class T>
-struct hash;
-
-// 17.12.3.7, hash support
-template <class _PromiseT>
-struct hash<coroutine_handle<_PromiseT>> {
-    // deprecated in C++17
-    using argument_type = coroutine_handle<_PromiseT>;
-    // deprecated in C++17
-    using result_type = size_t;
-
-    [[nodiscard]] //
-    result_type
-    operator()(argument_type const& _Handle) const noexcept {
-        return hash<void*>()(_Handle.address());
-    }
-};
-
 // 17.12.4, no-op coroutines
 struct noop_coroutine_promise {};
 
@@ -205,9 +188,12 @@ struct coroutine_handle<noop_coroutine_promise>
     }
     constexpr void destroy() const noexcept {
     }
+
+#if defined(_MSC_VER)
     // 17.12.4.2.4, address
     // C3615: cannot result in a constant expression
     constexpr void* address() const noexcept {
+        /// @todo: work safely for _Portable_ functions
         return (noop_coroutine_promise*)(UINTPTR_MAX - 0x170704);
     }
     // 17.12.4.2.3, promise access
@@ -216,17 +202,43 @@ struct coroutine_handle<noop_coroutine_promise>
     }
 
   private:
-    friend noop_coroutine_handle noop_coroutine() noexcept;
-
     coroutine_handle() noexcept
         : coroutine_handle<void>{from_address(&this->promise())} {
         // A noop_coroutine_handle's ptr is always a non-null pointer
     }
+
+#elif defined(__clang__)
+#if __has_builtin(__builtin_coro_noop)
+    /**
+     * @see libcxx release_90 include/experimental/coroutine
+     */
+    noop_coroutine_promise& promise() const noexcept {
+        void* _Prom =
+            __builtin_coro_promise(__builtin_coro_noop(), //
+                                   alignof(noop_coroutine_promise), false);
+        return *(noop_coroutine_promise*)(_Prom);
+    }
+
+  private:
+    coroutine_handle() noexcept
+        : coroutine_handle<void>{from_address(__builtin_coro_noop())} {
+    }
+#else
+#error "requires higher clang version to use __builtin_coro_noop"
+#endif
+#endif
+  private:
+    friend noop_coroutine_handle noop_coroutine() noexcept;
 };
 
 inline noop_coroutine_handle noop_coroutine() noexcept {
     return {};
 }
+} // namespace experimental
+
+// STRUCT TEMPLATE coroutine_traits
+template <typename P>
+using coroutine_handle = experimental::coroutine_handle<P>;
 
 // 17.12.5, trivial awaitables
 
@@ -310,6 +322,20 @@ struct _Resumable_helper_traits {
 // STRUCT TEMPLATE coroutine_traits
 template <typename R, typename... _Ts>
 using coroutine_traits = experimental::coroutine_traits<R, _Ts...>;
+
+// 17.12.3.7, hash support
+template <typename P>
+struct hash<coroutine_handle<P>> {
+    // deprecated in C++17
+    using argument_type = coroutine_handle<P>;
+    // deprecated in C++17
+    using result_type = size_t;
+    [[nodiscard]] //
+    result_type
+    operator()(argument_type const& _Handle) const noexcept {
+        return hash<void*>()(_Handle.address());
+    }
+};
 
 } // namespace std
 

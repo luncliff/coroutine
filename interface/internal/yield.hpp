@@ -6,14 +6,18 @@
  */
 #ifndef COROUTINE_YIELD_HPP
 #define COROUTINE_YIELD_HPP
-
 #include <coroutine/return.h>
 #include <iterator>
 
 namespace coro {
-using namespace std::experimental;
 
-// <experimental/generator> from the VC++
+/**
+ * @brief C++ Coroutines Generator
+ * 
+ * @tparam T Type of the element
+ * @see N4402
+ * @see <experimental/generator> from the VC++
+ */
 template <typename T>
 class enumerable {
   public:

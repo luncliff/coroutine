@@ -18,8 +18,6 @@
  */
 
 namespace coro {
-using namespace std;
-using namespace std::experimental;
 
 /**
  * @brief RAII wrapping for epoll file descriptor
