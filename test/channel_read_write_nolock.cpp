@@ -1,18 +1,18 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include <coroutine/channel.hpp>
-#include <coroutine/return.h>
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
+#undef NDEBUG
+#include <cassert>
 
-#include "test.h"
+#include <coroutine/channel.hpp>
+#include <coroutine/return.h> // includes `coroutine_traits<void, ...>`
+
 using namespace std;
 using namespace coro;
 
 using channel_without_lock_t = channel<int>;
 
-template <typename E, typename L>
-auto write_to(channel<E, L>& ch, E value, bool ok = false) -> forget_frame {
+auto write_to(channel_without_lock_t& ch, int value, bool ok = false) -> void {
     ok = co_await ch.write(value);
     if (ok == false)
         // !!!!!
@@ -21,48 +21,27 @@ auto write_to(channel<E, L>& ch, E value, bool ok = false) -> forget_frame {
         // the symbol and its memory location alive
         // !!!!!
         value += 1;
-    _require_(ok);
+    assert(ok);
 }
 
-template <typename E, typename L>
-auto read_from(channel<E, L>& ch, E& value, bool ok = false) -> forget_frame {
-
-    tie(value, ok) = co_await ch.read();
-    _require_(ok);
+auto read_from(channel_without_lock_t& ch, int& ref, bool ok = false) -> void {
+    tie(ref, ok) = co_await ch.read();
+    assert(ok);
 }
 
-auto coro_channel_read_before_write_test() {
+int main(int, char*[]) {
     const auto list = {1, 2, 3};
     channel_without_lock_t ch{};
     int storage = 0;
 
     for (auto i : list) {
-        read_from(ch, storage);  // Reader coroutine will suspend
-        _require_(storage != i); // so no read occurs
+        read_from(ch, storage); // Reader coroutine will suspend
+        assert(storage != i);   // so no read occurs
     }
     for (auto i : list) {
-        write_to(ch, i);         // writer will send a value
-        _require_(storage == i); // stored value is same with sent value
+        write_to(ch, i);      // writer will send a value
+        assert(storage == i); // stored value is same with sent value
     }
 
     return EXIT_SUCCESS;
 }
-
-#if defined(CMAKE_TEST)
-int main(int, char*[]) {
-    return coro_channel_read_before_write_test();
-}
-
-#elif __has_include(<CppUnitTest.h>)
-#include <CppUnitTest.h>
-
-template <typename T>
-using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
-
-class coro_channel_read_before_write
-    : public TestClass<coro_channel_read_before_write> {
-    TEST_METHOD(test_coro_channel_read_before_write) {
-        coro_channel_read_before_write_test();
-    }
-};
-#endif

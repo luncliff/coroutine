@@ -65,12 +65,13 @@ endif()
 
 install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/frame.h
                 ${MODULE_INTERFACE_DIR}/coroutine/return.h
+                ${MODULE_INTERFACE_DIR}/coroutine/channel.hpp
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
 )
 install(TARGETS         coroutine_portable
         EXPORT          coroutine-config
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-        INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+        RUNTIME     DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+        LIBRARY     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+        ARCHIVE     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+        INCLUDES    DESTINATION ${CMAKE_INSTALL_PREFIX}/include
 )

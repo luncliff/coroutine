@@ -21,7 +21,7 @@ source="https://github.com/Kitware/CMake/releases/download"
 
 # download & extract in /tmp to keep working directory clean
 uri="${source}/v${version}/${dirname}.tar.gz"
-wget -O /tmp/cmake3.tar.gz ${uri} 
+wget -q -O /tmp/cmake3.tar.gz ${uri} 
 
 pushd /tmp
 tar -x -f cmake3.tar.gz

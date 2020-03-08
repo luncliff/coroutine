@@ -1,36 +1,35 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-#include <coroutine/channel.hpp>
-#include <coroutine/return.h>
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ */
+#undef NDEBUG
+#include <cassert>
 
-#include "test.h"
+#include <coroutine/channel.hpp>
+#include <coroutine/return.h> // includes `coroutine_traits<void, ...>`
 
 using namespace std;
 using namespace coro;
 
 constexpr int bye = 0;
 
-auto producer(channel<int>& ch) -> forget_frame {
-
+auto producer(channel<int>& ch) -> void {
     for (int msg : {1, 2, 3, bye}) {
         auto ok = co_await ch.write(msg);
         // ok == true: we sent a value
-        _require_(ok, __FILE__, __LINE__);
+        assert(ok);
     }
-    _println_("producer loop exit");
+    puts("producer loop exit");
 
     // we know that we sent the `bye`,
     // but will send again to check `ok` becomes `false`
     int msg = -1;
     auto ok = co_await ch.write(msg);
     // ok == false: channel is going to be destroyed (no effect for read/write)
-    _require_(ok == false, __FILE__, __LINE__);
-    _println_("channel destruction detected");
+    assert(ok == false);
+    puts("channel destruction detected");
 }
 
-auto consumer_owner() -> forget_frame {
+auto consumer_owner() -> void {
     channel<int> ch{};
     producer(ch); // start a producer routine
 
@@ -39,35 +38,14 @@ auto consumer_owner() -> forget_frame {
          tie(msg, ok) = co_await ch.read()) {
         // ok == true: we sent a value
         if (msg == bye) {
-            _println_("consumer loop exit");
+            puts("consumer loop exit");
             break;
         }
     }
-    _println_("consumer_owner is going to return");
+    puts("consumer_owner is going to return");
 }
 
-auto coro_channel_ownership_consumer_test() {
+int main(int, char*[]) {
     consumer_owner();
     return EXIT_SUCCESS;
 }
-
-#if defined(CMAKE_TEST)
-int main(int, char* []) {
-    return coro_channel_ownership_consumer_test();
-}
-
-#elif __has_include(<CppUnitTest.h>)
-#include <CppUnitTest.h>
-
-template <typename T>
-using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
-
-class coro_channel_ownership_consumer
-    : public TestClass<coro_channel_ownership_consumer> {
-
-    TEST_METHOD(test_coro_channel_ownership_consumer) {
-        coro_channel_ownership_consumer_test();
-    }
-};
-
-#endif

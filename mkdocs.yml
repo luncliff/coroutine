@@ -1,36 +1,31 @@
 #
 # Any suggestion for this file will be welcomed :)
 #
-
 site_name: luncliff/coroutine
 site_description: "C++ 20 Coroutines in Action."
-site_author: Park Dong Ha
-site_url: https://luncliff.github.io/coroutine/Home
+site_author: Park DongHa
+site_url: https://luncliff.github.io/coroutine
 
 repo_name: luncliff/coroutine
 repo_url: http://github.com/luncliff/coroutine
 
 copyright: "CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/deed"
-  
+
 nav:
-  - Home: Home.md
   - PPT:
       - C++ Korea 5th Seminar: ppt/Exploring-the-Cpp-Coroutine.md
-
   - Articles:
-    - Archive(Old posts):
-        - Exploring MSVC Coroutine: articles/exploring-msvc-coroutine.md
-    - Awaitable event using the coroutine, epoll and eventfd: articles/awaitable-event.md
-    - Designing the coroutine channel: articles/designing-the-channel.md
-    - Combining C++ coroutines and `pthread_create`: articles/combining-coroutines-and-pthread_create.md
-    - Russian Roulette and C++ Coroutines: articles/russian-roulette.md
-
+      - Exploring MSVC Coroutine: articles/exploring-msvc-coroutine.md
+      - Awaitable event using the coroutine, epoll and eventfd: articles/awaitable-event.md
+      - Designing the coroutine channel: articles/designing-the-channel.md
+      - Combining C++ coroutines and `pthread_create`: articles/combining-coroutines-and-pthread_create.md
+      - Russian Roulette and C++ Coroutines: articles/russian-roulette.md
   - Code:
-    - Groups: modules.md
-    - Namespaces: namespaces.md
-    - Functions: functions.md
-    - Classes: classes.md
-    - Files: files.md
+      - Groups: modules.md
+      - Namespaces: namespaces.md
+      - Functions: functions.md
+      - Classes: classes.md
+      - Files: files.md
 
 markdown_extensions:
   - admonition

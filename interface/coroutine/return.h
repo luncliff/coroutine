@@ -3,8 +3,7 @@
  * @author github.com/luncliff (luncliff@gmail.com)
  * @brief Utility to define return types for coroutine
  * @copyright CC BY 4.0
- * @link
- * https://devblogs.microsoft.com/cppblog/c20-concepts-are-here-in-visual-studio-2019-version-16-3/
+ * @link https://devblogs.microsoft.com/cppblog/c20-concepts-are-here-in-visual-studio-2019-version-16-3/
  */
 #pragma once
 #ifndef COROUTINE_PROMISE_AND_RETURN_TYPES_H
@@ -28,6 +27,7 @@ using namespace std::experimental;
 
 /**
  * @ingroup Return
+ * @note `suspend_never`(initial) + `suspend_never`(final)
  */
 class promise_nn {
   public:
@@ -49,6 +49,7 @@ class promise_nn {
 
 /**
  * @ingroup Return
+ * @note `suspend_never`(initial) + `suspend_always`(final)
  */
 class promise_na {
   public:
@@ -70,6 +71,7 @@ class promise_na {
 
 /**
  * @ingroup Return
+ * @note `suspend_always`(initial) + `suspend_never`(final)
  */
 class promise_an {
   public:
@@ -91,6 +93,7 @@ class promise_an {
 
 /**
  * @ingroup Return
+ * @note `suspend_always`(initial) + `suspend_always`(final)
  */
 class promise_aa {
   public:
@@ -117,7 +120,10 @@ class promise_aa {
  */
 class frame_t final : public coroutine_handle<void> {
   public:
-    class promise_type final : public coro::promise_na {
+    /**
+     * @brief Acquire `coroutine_handle<void>` from current object and expose it through `get_return_object`
+     */
+    class promise_type final : public promise_na {
       public:
         /**
          * @brief The `frame_t` will do nothing for exception handling
@@ -167,5 +173,45 @@ concept promise_requirement_basic = requires(P p) {
 #endif
 
 } // namespace coro
+
+namespace std {
+namespace experimental {
+
+/**
+ * @brief Allow `void` return of the coroutine
+ * 
+ * @tparam P input parameter types of the coroutine's signature
+ */
+template <typename... P>
+struct coroutine_traits<void, P...> {
+    struct promise_type final {
+        suspend_never initial_suspend() noexcept {
+            return {};
+        }
+        suspend_never final_suspend() noexcept {
+            return {};
+        }
+        void unhandled_exception() noexcept(false) {
+            throw;
+        }
+        /**
+         * @brief Since this is template specialization for `void`, the return type is fixed to `void`
+         */
+        void return_void() noexcept {
+        }
+        /**
+         * @brief Since this is template specialization for `void`, the return type is fixed to `void`
+         */
+        void get_return_object() noexcept {
+        }
+    };
+};
+
+} // namespace experimental
+
+template <typename Ret, typename... Param>
+using coroutine_traits = std::experimental::coroutine_traits<Ret, Param...>;
+
+} // namespace std
 
 #endif // COROUTINE_PROMISE_AND_RETURN_TYPES_H
