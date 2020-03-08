@@ -72,6 +72,33 @@ elseif(MSVC)
 
 endif()
 
+if(WIN32)
+    target_link_libraries(coroutine_portable
+    PUBLIC
+        kernel32 ${CMAKE_DL_LIBS}
+    )
+
+elseif(UNIX OR APPLE)
+    target_link_libraries(coroutine_portable
+    PUBLIC
+        c++
+    )
+
+elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
+    if(ANDROID)
+        target_link_libraries(coroutine_portable
+        PUBLIC
+            ${ANDROID_STL}
+        )
+    else()
+        target_link_libraries(coroutine_portable
+        PUBLIC
+            stdc++
+        )
+    endif()
+
+endif()
+
 install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/frame.h
                 ${MODULE_INTERFACE_DIR}/coroutine/return.h
                 ${MODULE_INTERFACE_DIR}/coroutine/channel.hpp

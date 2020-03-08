@@ -5,10 +5,11 @@
  */
 #ifndef COROUTINE_PTHREAD_UTILITY_H
 #define COROUTINE_PTHREAD_UTILITY_H
-#if not __has_include(<pthread.h>)
+#if __has_include(<pthread.h>)
+#include <pthread.h>
+#else
 #error "expect <pthread.h> for this file"
 #endif
-#include <pthread.h>
 #include <system_error>
 
 #include <coroutine/return.h>

@@ -5,13 +5,13 @@
  */
 #ifndef COROUTINE_SYSTEM_WRAPPER_H
 #define COROUTINE_SYSTEM_WRAPPER_H
-#if not(defined(__linux__))
+#if !(defined(__linux__))
 #error "expect Linux platform for this file"
 #endif
-
-#include <coroutine/frame.h>
-#include <gsl/gsl>
 #include <sys/epoll.h> // for Linux epoll
+
+#include <coroutine/return.h>
+#include <gsl/gsl>
 
 /**
  * @defgroup Linux

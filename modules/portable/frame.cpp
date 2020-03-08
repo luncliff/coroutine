@@ -84,11 +84,11 @@ static constexpr auto is_clang = !is_msvc;
 #pragma intrinsic(_coro_destroy)
 #pragma intrinsic(_coro_done)
 
+struct _Portable_coro_prefix final : public _Msvc_frame_prefix {};
+
 inline bool _coro_finished(_Portable_coro_prefix* _Handle) {
     return _Handle->_Index == 0;
 }
-
-struct _Portable_coro_prefix final : public _Msvc_frame_prefix {};
 
 #elif defined(__GNUC__)
 

@@ -11,9 +11,9 @@
 #else
 #error "expect Windows platform for this file"
 #endif
-
-#include <coroutine/frame.h>
 #include <system_error>
+
+#include <coroutine/return.h>
 
 /**
  * @defgroup Windows
@@ -108,8 +108,9 @@ class continue_on_thread_pool final {
      */
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         if (const auto ec = create_and_submit_work(coro))
-            throw system_error{static_cast<int>(ec), system_category(),
-                               "CreateThreadpoolWork"};
+            throw std::system_error{static_cast<int>(ec),
+                                    std::system_category(),
+                                    "CreateThreadpoolWork"};
     }
 };
 
@@ -142,8 +143,8 @@ class continue_on_apc final {
      */
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         if (const auto ec = queue_user_apc(coro))
-            throw system_error{static_cast<int>(ec), system_category(),
-                               "QueueUserAPC"};
+            throw std::system_error{static_cast<int>(ec),
+                                    std::system_category(), "QueueUserAPC"};
     }
 
   public:

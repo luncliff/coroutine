@@ -189,25 +189,7 @@ struct coroutine_handle<noop_coroutine_promise>
     constexpr void destroy() const noexcept {
     }
 
-#if defined(_MSC_VER)
-    // 17.12.4.2.4, address
-    // C3615: cannot result in a constant expression
-    constexpr void* address() const noexcept {
-        /// @todo: work safely for _Portable_ functions
-        return (noop_coroutine_promise*)(UINTPTR_MAX - 0x170704);
-    }
-    // 17.12.4.2.3, promise access
-    noop_coroutine_promise& promise() const noexcept {
-        return *(noop_coroutine_promise*)(this->address());
-    }
-
-  private:
-    coroutine_handle() noexcept
-        : coroutine_handle<void>{from_address(&this->promise())} {
-        // A noop_coroutine_handle's ptr is always a non-null pointer
-    }
-
-#elif defined(__clang__)
+#if defined(__clang__)
 #if __has_builtin(__builtin_coro_noop)
     /**
      * @see libcxx release_90 include/experimental/coroutine
@@ -226,7 +208,25 @@ struct coroutine_handle<noop_coroutine_promise>
 #else
 #error "requires higher clang version to use __builtin_coro_noop"
 #endif
+#elif defined(_MSC_VER)
+    // 17.12.4.2.4, address
+    // C3615: cannot result in a constant expression
+    constexpr void* address() const noexcept {
+        /// @todo: work safely for _Portable_ functions
+        return (noop_coroutine_promise*)(UINTPTR_MAX - 0x170704);
+    }
+    // 17.12.4.2.3, promise access
+    noop_coroutine_promise& promise() const noexcept {
+        return *(noop_coroutine_promise*)(this->address());
+    }
+
+  private:
+    coroutine_handle() noexcept
+        : coroutine_handle<void>{from_address(&this->promise())} {
+        // A noop_coroutine_handle's ptr is always a non-null pointer
+    }
 #endif
+
   private:
     friend noop_coroutine_handle noop_coroutine() noexcept;
 };
