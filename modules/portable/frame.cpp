@@ -92,6 +92,10 @@ inline bool _coro_finished(_Portable_coro_prefix* _Handle) {
 
 #elif defined(__GNUC__)
 
+extern "C" {
+bool __builtin_coro_is_suspended(void*);
+}
+
 #endif // __clang__ || _MSC_VER
 
 // replacement of the `_coro_done`

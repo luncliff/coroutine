@@ -47,21 +47,6 @@ if(WIN32)
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
     )
 
-elseif(UNIX OR APPLE)
-    target_sources(coroutine_system
-    PRIVATE
-        kqueue.cpp
-        pthread.cpp
-    )
-    target_link_libraries(coroutine_system
-    PUBLIC
-        pthread c++
-    )
-    install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/unix.h
-                    ${MODULE_INTERFACE_DIR}/coroutine/pthread.h
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
-    )
-
 elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
     target_sources(coroutine_system
     PRIVATE
@@ -79,6 +64,21 @@ elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
         )
     endif()
     install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/linux.h
+                    ${MODULE_INTERFACE_DIR}/coroutine/pthread.h
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
+    )
+
+elseif(UNIX OR APPLE)
+    target_sources(coroutine_system
+    PRIVATE
+        kqueue.cpp
+        pthread.cpp
+    )
+    target_link_libraries(coroutine_system
+    PUBLIC
+        pthread c++
+    )
+    install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/unix.h
                     ${MODULE_INTERFACE_DIR}/coroutine/pthread.h
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
     )

@@ -78,12 +78,6 @@ if(WIN32)
         kernel32 ${CMAKE_DL_LIBS}
     )
 
-elseif(UNIX OR APPLE)
-    target_link_libraries(coroutine_portable
-    PUBLIC
-        c++
-    )
-
 elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
     if(ANDROID)
         target_link_libraries(coroutine_portable
@@ -96,6 +90,12 @@ elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
             stdc++
         )
     endif()
+
+elseif(UNIX OR APPLE)
+    target_link_libraries(coroutine_portable
+    PUBLIC
+        c++
+    )
 
 endif()
 

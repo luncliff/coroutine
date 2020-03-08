@@ -40,8 +40,8 @@ bool _Portable_coro_done(_Portable_coro_prefix* _Handle);
 void _Portable_coro_resume(_Portable_coro_prefix* _Handle);
 void _Portable_coro_destroy(_Portable_coro_prefix* _Handle);
 
-_Portable_coro_prefix* _Portable_coro_from_promise(void* _PromAddr,
-                                                   ptrdiff_t _PromSize);
+auto _Portable_coro_from_promise(void* _PromAddr, ptrdiff_t _PromSize)
+    -> _Portable_coro_prefix*;
 void* _Portable_coro_get_promise(_Portable_coro_prefix* _Handle,
                                  ptrdiff_t _PromSize);
 

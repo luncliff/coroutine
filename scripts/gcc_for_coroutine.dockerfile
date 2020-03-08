@@ -14,10 +14,10 @@ RUN apt update -qq && apt install -y -qq --fix-missing --no-install-recommends \
     build-essential pkg-config \
     ca-certificates software-properties-common \
     subversion gzip bzip2 \
-    g++-7 curl tree m4 flex
+    git g++-8 curl tree m4 flex
 
 # prepare the gcc's source code (coroutine branch)
-RUN svn checkout --quiet svn://gcc.gnu.org/svn/gcc/branches/c++-coroutines /gcc
+RUN git clone --depth=1 git://gcc.gnu.org/git/gcc.git /gcc
 
 # install prerequisites. of course, the script will do it
 WORKDIR /gcc
@@ -36,4 +36,4 @@ RUN /gcc/configure --enable-languages=c,c++ \
 RUN make --quiet -j4 > build.log && make install
 
 # check the result. notice the version !
-RUN which gcc-10 && gcc-10 --version
+RUN which gcc-10 && gcc-10 --version && gcc --help

@@ -1,9 +1,12 @@
 /**
  * @author github.com/luncliff (luncliff@gmail.com)
  */
+#include <array>
+
 #include <coroutine/linux.h>
 #include <coroutine/return.h>
 
+using namespace std;
 using namespace coro;
 
 auto mark_after_resume(epoll_owner& ep, event& event, //
@@ -12,7 +15,7 @@ auto mark_after_resume(epoll_owner& ep, event& event, //
     resumed = true;
 }
 
-int main(int, char* []) {
+int main(int, char*[]) {
     epoll_owner ep{};
     event e1{};
     bool resumed = false;
