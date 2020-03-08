@@ -34,6 +34,17 @@ PRIVATE
     ${CMAKE_DL_LIBS}
 )
 
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+    # ...
+
+elseif(MSVC)
+    target_compile_options(coroutine_system
+    PRIVATE
+        /JMC-
+    )
+
+endif()
+
 if(WIN32)
     target_compile_definitions(coroutine_system
     PRIVATE

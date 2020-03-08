@@ -2,7 +2,7 @@
  * @author github.com/luncliff (luncliff@gmail.com)
  */
 #include <coroutine/net.h>
-#include <internal/yield.hpp>
+#include <coroutine/yield.hpp>
 
 using namespace std;
 namespace coro {

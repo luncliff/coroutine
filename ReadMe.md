@@ -4,7 +4,7 @@ C++ 20 Coroutines in Action
 
 [![Build Status](https://dev.azure.com/luncliff/personal/_apis/build/status/luncliff.coroutine?branchName=master)](https://dev.azure.com/luncliff/personal/_build/latest?definitionId=27&branchName=master)
 [![Build status](https://ci.appveyor.com/api/projects/status/vpjssf4g6cv4a4ys/branch/master?svg=true)](https://ci.appveyor.com/project/luncliff/coroutine/branch/master)
-[![Build Status](https://travis-ci.org/luncliff/coroutine.svg?branch=dev%2F1.5)](https://travis-ci.org/luncliff/coroutine)
+[![Build Status](https://travis-ci.org/luncliff/coroutine.svg?branch=master)](https://travis-ci.org/luncliff/coroutine)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/38aa16f6d7e046898af3835918c0cd5e)](https://app.codacy.com/app/luncliff/coroutine?utm_source=github.com&utm_medium=referral&utm_content=luncliff/coroutine&utm_campaign=Badge_Grade_Dashboard)
 [![](https://sonarcloud.io/api/project_badges/measure?project=luncliff_coroutine&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=luncliff_coroutine)
 [![](https://sonarcloud.io/api/project_badges/measure?project=luncliff_coroutine&metric=ncloc)](https://sonarcloud.io/dashboard?id=luncliff_coroutine)
@@ -107,10 +107,10 @@ Create an issue if you think another configuration is required.
   * Ubuntu 16.04 + Clang 8
   * Mac OS X + AppleClang 11
   * Windows + Clang-cl (LLVM 8.0.1)
-* [`.travis.yml`](./.travis.yml)
+* [Travis CI](./.travis.yml)
   * Mac OS X + AppleClang
   * Ubuntu 16.04 + Clang 7
-* [`appveyor.yml`](./appveyor.yml)
+* [AppVeyor](./appveyor.yml)
   * Visual Studio 2017 / 2019
   * VC++ & Clang-cl : [LLVM chocolatey package](https://chocolatey.org/packages/llvm)
 * [Works on my machine :D](https://github.com/nikku/works-on-my-machine)

@@ -42,7 +42,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
         PUBLIC
             USE_PORTABLE_COROUTINE_HANDLE
             _RESUMABLE_FUNCTIONS_SUPPORTED
-            _EXPERIMENTAL_RESUMABLE_
+            # _EXPERIMENTAL_RESUMABLE_
         )
 
     elseif(UNIX OR APPLE)
@@ -68,6 +68,8 @@ elseif(MSVC)
     target_compile_options(coroutine_portable
     PUBLIC
         /std:c++latest /await
+    PRIVATE
+        /JMC-
     )
 
 endif()
@@ -102,6 +104,7 @@ endif()
 install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/frame.h
                 ${MODULE_INTERFACE_DIR}/coroutine/return.h
                 ${MODULE_INTERFACE_DIR}/coroutine/channel.hpp
+                ${MODULE_INTERFACE_DIR}/coroutine/yield.hpp
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
 )
 install(TARGETS         coroutine_portable

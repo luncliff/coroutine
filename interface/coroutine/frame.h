@@ -32,18 +32,18 @@
 // ...
 #endif
 
-struct _Portable_coro_prefix;
+struct portable_coro_prefix;
 
 // Alternative of `_coro_done` of msvc for this library.
 // It is renamed to avoid redefinition
-bool _Portable_coro_done(_Portable_coro_prefix* _Handle);
-void _Portable_coro_resume(_Portable_coro_prefix* _Handle);
-void _Portable_coro_destroy(_Portable_coro_prefix* _Handle);
+bool portable_coro_done(portable_coro_prefix* _Handle);
+void portable_coro_resume(portable_coro_prefix* _Handle);
+void portable_coro_destroy(portable_coro_prefix* _Handle);
 
-auto _Portable_coro_from_promise(void* _PromAddr, ptrdiff_t _PromSize)
-    -> _Portable_coro_prefix*;
-void* _Portable_coro_get_promise(_Portable_coro_prefix* _Handle,
-                                 ptrdiff_t _PromSize);
+auto portable_coro_from_promise(void* _PromAddr, ptrdiff_t _PromSize)
+    -> portable_coro_prefix*;
+void* portable_coro_get_promise(portable_coro_prefix* _Handle,
+                                ptrdiff_t _PromSize);
 
 namespace std {
 
@@ -74,7 +74,7 @@ struct coroutine_handle<void> {
     // 17.12.3.2, import
     static /*constexpr*/ coroutine_handle from_address(void* _Addr) {
         coroutine_handle _Result{};
-        _Result._Ptr = reinterpret_cast<_Portable_coro_prefix*>(_Addr);
+        _Result._Ptr = reinterpret_cast<portable_coro_prefix*>(_Addr);
         return _Result;
     }
     // 17.12.3.3, observers
@@ -82,21 +82,21 @@ struct coroutine_handle<void> {
         return _Ptr != nullptr;
     }
     bool done() const {
-        return _Portable_coro_done(_Ptr);
+        return portable_coro_done(_Ptr);
     }
     // 17.12.3.4, resumption
     void resume() const {
-        return _Portable_coro_resume(_Ptr);
+        return portable_coro_resume(_Ptr);
     }
     void operator()() const {
-        return _Portable_coro_resume(_Ptr);
+        return portable_coro_resume(_Ptr);
     }
     void destroy() const {
-        return _Portable_coro_destroy(_Ptr);
+        return portable_coro_destroy(_Ptr);
     }
 
   protected: // this is `private` in the standard
-    _Portable_coro_prefix* _Ptr;
+    portable_coro_prefix* _Ptr;
 };
 
 template <typename _PromiseT>
@@ -105,7 +105,7 @@ struct coroutine_handle : public coroutine_handle<void> {
     using coroutine_handle<void>::coroutine_handle;
 
     static coroutine_handle from_promise(_PromiseT& _Prom) {
-        auto* _Addr = _Portable_coro_from_promise(&_Prom, sizeof(_PromiseT));
+        auto* _Addr = portable_coro_from_promise(&_Prom, sizeof(_PromiseT));
         return coroutine_handle::from_address(_Addr);
     }
     // 17.12.3.1, reset
@@ -116,14 +116,14 @@ struct coroutine_handle : public coroutine_handle<void> {
     // 17.12.3.2, export/import
     static /*constexpr*/ coroutine_handle from_address(void* _Addr) {
         coroutine_handle _Result{};
-        _Result._Ptr = reinterpret_cast<_Portable_coro_prefix*>(_Addr);
+        _Result._Ptr = reinterpret_cast<portable_coro_prefix*>(_Addr);
         return _Result;
     }
     // 17.12.3.5, promise access
     _PromiseT& promise() const {
         auto* _Prefix =
-            reinterpret_cast<_Portable_coro_prefix*>(this->address());
-        void* _Addr = _Portable_coro_get_promise(_Prefix, sizeof(_PromiseT));
+            reinterpret_cast<portable_coro_prefix*>(this->address());
+        void* _Addr = portable_coro_get_promise(_Prefix, sizeof(_PromiseT));
         _PromiseT* _Prom = reinterpret_cast<_PromiseT*>(_Addr);
         return *_Prom;
     }
@@ -212,7 +212,7 @@ struct coroutine_handle<noop_coroutine_promise>
     // 17.12.4.2.4, address
     // C3615: cannot result in a constant expression
     constexpr void* address() const noexcept {
-        /// @todo: work safely for _Portable_ functions
+        /// @todo: work safely for portable_ functions
         return (noop_coroutine_promise*)(UINTPTR_MAX - 0x170704);
     }
     // 17.12.4.2.3, promise access
@@ -269,18 +269,21 @@ class suspend_always {
 namespace experimental {
 
 template <class _Ret, class = void>
-struct _Coroutine_traits_sfinae {};
+struct coro_traits_sfinae {};
 
 template <class _Ret>
-struct _Coroutine_traits_sfinae<_Ret, void_t<typename _Ret::promise_type>> {
+struct coro_traits_sfinae<_Ret, void_t<typename _Ret::promise_type>> {
     using promise_type = typename _Ret::promise_type;
 };
 
 template <typename _Ret, typename... _Ts>
-struct coroutine_traits : _Coroutine_traits_sfinae<_Ret> {};
+struct coroutine_traits : coro_traits_sfinae<_Ret> {};
+
+#if defined(__clang__)
+#elif defined(_MSC_VER)
 
 // _Resumable_helper_traits class isolates front-end from public surface naming changes
-
+// The original code is in <experimental/resumable>
 template <typename _Ret, typename... _Ts>
 struct _Resumable_helper_traits {
     using _Traits = coroutine_traits<_Ret, _Ts...>;
@@ -315,6 +318,8 @@ struct _Resumable_helper_traits {
     }
 };
 
+#endif
+
 } // namespace experimental
 
 // 17.12.2, coroutine traits
@@ -331,8 +336,8 @@ struct hash<coroutine_handle<P>> {
     // deprecated in C++17
     using result_type = size_t;
     [[nodiscard]] //
-    result_type
-    operator()(argument_type const& _Handle) const noexcept {
+        result_type
+        operator()(argument_type const& _Handle) const noexcept {
         return hash<void*>()(_Handle.address());
     }
 };

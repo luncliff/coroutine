@@ -8,7 +8,7 @@
 #include <coroutine/return.h>
 #include <coroutine/unix.h>
 
-#include "internal/yield.hpp"
+#include <coroutine/yield.hpp>
 
 #if defined(__clang__)
 #else

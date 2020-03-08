@@ -71,6 +71,8 @@ elseif(MSVC)
     target_compile_options(coroutine_net
     PUBLIC
         /std:c++latest /await
+    PRIVATE
+        /JMC-
     )
 
 endif()

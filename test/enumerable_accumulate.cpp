@@ -5,7 +5,7 @@
 #include <cassert>
 #include <numeric>
 
-#include "internal/yield.hpp"
+#include <coroutine/yield.hpp>
 
 using namespace std;
 using namespace coro;

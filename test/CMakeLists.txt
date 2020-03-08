@@ -53,7 +53,7 @@ endfunction()
 create_ctest( article_russian_roulette  coroutine_portable )
 
 #
-#   <internal/yield.hpp>
+#   <coroutine/yield.hpp>
 #
 create_ctest( enumerable_accumulate     coroutine_portable )
 create_ctest( enumerable_iterator       coroutine_portable )

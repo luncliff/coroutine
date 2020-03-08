@@ -4,7 +4,6 @@
 #   https://github.com/matusnovak/doxybook
 #   https://github.com/matusnovak/doxybook2/
 #
-markdown>=3.2
-doxybook
+doxybook==3.1.4 
 mkdocs
 mkdocs-material
