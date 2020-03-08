@@ -14,7 +14,7 @@ RUN apt update -qq && apt install -y -qq --fix-missing --no-install-recommends \
     build-essential pkg-config \
     ca-certificates software-properties-common \
     subversion gzip bzip2 \
-    git g++-8 curl tree m4 flex
+    git g++-8 curl tree m4 flex file
 
 # prepare the gcc's source code (coroutine branch)
 RUN git clone --depth=1 git://gcc.gnu.org/git/gcc.git /gcc
