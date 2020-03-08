@@ -10,20 +10,26 @@
 #define COROUTINE_PROMISE_AND_RETURN_TYPES_H
 #include <type_traits>
 
+#if __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
+namespace coro {
+using std::coroutine_handle;
+using std::suspend_always;
+using std::suspend_never;
+
+#elif __has_include(<experimental/coroutine>)
+#include <experimental/coroutine>
+namespace coro {
+using std::experimental::coroutine_handle;
+
+#else
+#error "requires header <experimental/coroutine> or <coroutine/frame.h>"
+#endif
 
 /**
  * @defgroup Return
  * Types for easier coroutine promise/return type definition.
  */
-
-namespace coro {
-#if __has_include(<coroutine>) // C++ 20
-using namespace std;
-#elif __has_include(<experimental/coroutine>) // C++ 17
-using namespace std;
-using namespace std::experimental;
-#endif
 
 /**
  * @ingroup Return

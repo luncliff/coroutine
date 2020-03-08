@@ -1,6 +1,7 @@
 /**
  * @author github.com/luncliff (luncliff@gmail.com)
  */
+
 #undef NDEBUG
 #include <cassert>
 #include <cstdint>
@@ -60,9 +61,9 @@ opaque_t* start_messaging(void* ctx, callback_t on_message) {
         return nullptr;
 
     // attach a receiver coroutine to the channel
-    [ch](void* context, callback_t callback) mutable -> void {
+    [](channel_t* ch, void* context, callback_t callback) -> void {
         puts("start receiving ...");
-        while (true) {
+        while (ch) { // always true
             auto [msg, ok] = co_await ch->read();
             if (ok == false) {
                 puts("stopped ...");
@@ -72,7 +73,7 @@ opaque_t* start_messaging(void* ctx, callback_t on_message) {
             puts("received");
             context = callback(context, msg);
         }
-    }(ctx, on_message);
+    }(ch, ctx, on_message);
     return reinterpret_cast<opaque_t*>(ch);
 }
 
@@ -86,7 +87,7 @@ void send_message(opaque_t* ptr, message_t m) {
     [](channel_t* ch, message_t msg) mutable -> void {
         // msg will be 'moved' to reader coroutine. so it must be `mutable`
         if (co_await ch->write(msg) == false)
-            ; // the channel is going to destruct ...
+            puts("can't send anymore"); // the channel is going to destruct ...
         puts("sent");
     }(reinterpret_cast<channel_t*>(ptr), std::move(m));
 }

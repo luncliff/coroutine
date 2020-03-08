@@ -4,6 +4,7 @@
 #include <coroutine/pthread.h>
 
 namespace coro {
+using namespace std;
 
 void* pthread_spawner_t::pthread_resume(void* ptr) noexcept(false) {
     // assume we will receive an address of the coroutine frame

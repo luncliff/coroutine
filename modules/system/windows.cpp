@@ -40,9 +40,6 @@ set_or_cancel::set_or_cancel(HANDLE target_event) noexcept(false)
     // wait object is used as a storage for the event handle
     // until it is going to suspend
 }
-set_or_cancel::~set_or_cancel() noexcept {
-    UnregisterWait(hobject);
-}
 
 auto set_or_cancel::unregister() noexcept -> uint32_t {
     UnregisterWait(hobject);

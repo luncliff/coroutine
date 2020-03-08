@@ -1,3 +1,7 @@
+#
+# See Also
+#   - https://github.com/iains/gcc-cxx-coroutines/tree/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines
+#
 cmake_minimum_required(VERSION 3.12)
 
 # create_ctest( ... )
@@ -26,7 +30,7 @@ function(create_ctest TEST_NAME)
 
     target_compile_definitions(${TEST_NAME}
     PRIVATE
-        CMAKE_TEST _DEBUG
+        CMAKE_TEST # NDEBUG
     )
     if(WIN32)
         target_compile_definitions(${TEST_NAME}
@@ -122,7 +126,7 @@ endif()
 
 
 #
-#   <internal/channel.hpp>
+#   <coroutine/channel.hpp>
 #
 create_ctest( channel_close_read            coroutine_system )
 create_ctest( channel_close_write           coroutine_system )

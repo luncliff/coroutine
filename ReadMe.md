@@ -124,16 +124,18 @@ AppVeyor & Travis CI build shows the execution of them.
 
 ### Import
 
-#### CMake
+#### CMake 3.12+
 
 Expect there is a higher CMake project which uses this library.
 
 The library export 3 targets.
+
 * coroutine_portable
   * `<coroutine/frame.h>`
   * `<coroutine/return.h>`
   * `<coroutine/channel.hpp>`
 * coroutine_system
+  * requires: coroutine_portable
   * `<coroutine/windows.h>`
   * `<coroutine/linux.h>`
   * `<coroutine/unix.h>`
@@ -143,13 +145,13 @@ The library export 3 targets.
   * `<coroutine/net.h>`
 
 ```cmake
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.12)
 # ...
 add_subdirectory(coroutine)
 # ...
 target_link_libraries(main
 PUBLIC
-    coroutine_portable  # header-only
+    coroutine_portable
     coroutine_system
     coroutine_net
 )

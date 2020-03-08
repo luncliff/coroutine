@@ -1,6 +1,8 @@
 /**
  * @author github.com/luncliff (luncliff@gmail.com)
  */
+#include <array>
+
 #include <coroutine/linux.h>
 #include <coroutine/return.h>
 
@@ -25,7 +27,7 @@ void resume_signaled_tasks(epoll_owner& ep) {
     });
 }
 
-int main(int, char* []) {
+int main(int, char*[]) {
     epoll_owner ep{};
     event e1{};
 

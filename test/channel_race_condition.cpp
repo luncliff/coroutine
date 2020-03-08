@@ -1,6 +1,7 @@
 /**
  * @author github.com/luncliff (luncliff@gmail.com)
  */
+
 #undef NDEBUG
 #include <cassert>
 #include <mutex>
@@ -49,7 +50,6 @@ int main(int, char*[]) {
     // Wait for all coroutines...
     // !!! user should ensure there is no race for destroying channel !!!
     group.wait();
-
     // for same read/write operation,
     //  channel guarantees all reader/writer will be executed.
     assert(failure == 0);

@@ -5,21 +5,20 @@
  */
 #ifndef COROUTINE_SYSTEM_WRAPPER_H
 #define COROUTINE_SYSTEM_WRAPPER_H
-#if not(defined(unix) or defined(__APPLE__) or defined(__FreeBSD__))
+#if !(defined(unix) || defined(__APPLE__) || defined(__FreeBSD__))
 #error "expect UNIX platform for this file"
 #endif
-
-#include <coroutine/frame.h>
-#include <gsl/gsl>
 #include <sys/event.h> // for BSD kqueue
+
+#include <gsl/gsl>
+
+#include <coroutine/return.h>
 
 /**
  * @defgroup BSD
  */
 
 namespace coro {
-using namespace std;
-using namespace std::experimental;
 
 /**
  * @brief RAII wrapping for kqueue file descriptor

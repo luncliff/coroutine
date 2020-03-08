@@ -34,13 +34,6 @@ PRIVATE
     ${CMAKE_DL_LIBS}
 )
 
-if(NOT BUILD_SHARED_LIBS)
-    target_compile_definitions(coroutine_system
-    PUBLIC
-        FORCE_STATIC_LINK
-    )
-endif()
-
 if(WIN32)
     target_compile_definitions(coroutine_system
     PRIVATE
@@ -50,15 +43,8 @@ if(WIN32)
     PUBLIC
         kernel32
     )
-elseif(APPLE)
-    target_sources(coroutine_system
-    PRIVATE
-        kqueue.cpp
-        pthread.cpp
-    )
-    target_link_libraries(coroutine_system
-    PUBLIC
-        pthread c++
+    install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/windows.h
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
     )
 
 elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
@@ -77,6 +63,26 @@ elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
             rt pthread
         )
     endif()
+    install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/linux.h
+                    ${MODULE_INTERFACE_DIR}/coroutine/pthread.h
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
+    )
+
+elseif(UNIX OR APPLE)
+    target_sources(coroutine_system
+    PRIVATE
+        kqueue.cpp
+        pthread.cpp
+    )
+    target_link_libraries(coroutine_system
+    PUBLIC
+        pthread c++
+    )
+    install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/unix.h
+                    ${MODULE_INTERFACE_DIR}/coroutine/pthread.h
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
+    )
+
 endif()
 
 install(TARGETS         coroutine_system

@@ -11,9 +11,9 @@
 #else
 #error "expect Windows platform for this file"
 #endif
-
-#include <coroutine/frame.h>
 #include <system_error>
+
+#include <coroutine/return.h>
 
 /**
  * @defgroup Windows
@@ -21,8 +21,6 @@
  */
 
 namespace coro {
-using namespace std;
-using namespace std::experimental;
 
 /**
  * @brief Awaitable event type over Win32 thread pool
@@ -39,16 +37,15 @@ using namespace std::experimental;
  */
 class set_or_cancel final {
     /** @brief object for wait register/unregister */
-    void* hobject;
+    HANDLE hobject;
 
+  public:
+    explicit set_or_cancel(HANDLE target) noexcept(false);
+    ~set_or_cancel() noexcept = default;
     set_or_cancel(const set_or_cancel&) = delete;
     set_or_cancel(set_or_cancel&&) = delete;
     set_or_cancel& operator=(const set_or_cancel&) = delete;
     set_or_cancel& operator=(set_or_cancel&&) = delete;
-
-  public:
-    explicit set_or_cancel(void* target) noexcept(false);
-    ~set_or_cancel() noexcept;
 
   private:
     /**
@@ -111,8 +108,9 @@ class continue_on_thread_pool final {
      */
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         if (const auto ec = create_and_submit_work(coro))
-            throw system_error{static_cast<int>(ec), system_category(),
-                               "CreateThreadpoolWork"};
+            throw std::system_error{static_cast<int>(ec),
+                                    std::system_category(),
+                                    "CreateThreadpoolWork"};
     }
 };
 
@@ -145,8 +143,8 @@ class continue_on_apc final {
      */
     void await_suspend(coroutine_handle<void> coro) noexcept(false) {
         if (const auto ec = queue_user_apc(coro))
-            throw system_error{static_cast<int>(ec), system_category(),
-                               "QueueUserAPC"};
+            throw std::system_error{static_cast<int>(ec),
+                                    std::system_category(), "QueueUserAPC"};
     }
 
   public:

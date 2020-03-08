@@ -25,6 +25,8 @@
 #include <WinSock2.h>
 #include <ws2def.h>
 
+/** @brief indicates current import: using Windows Socket API? */
+/** @brief indicates current import: using <netinet/*.h>? */
 static constexpr bool is_winsock = true;
 static constexpr bool is_netinet = false;
 
@@ -45,6 +47,7 @@ static constexpr bool is_netinet = true;
  * @brief Follow the definition of Windows `OVERLAPPED`
  * @see https://docs.microsoft.com/en-us/windows/win32/sync/synchronization-and-overlapped-input-and-output
  * @see https://docs.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-overlapped
+ * @ingroup NetWork
  */
 struct io_control_block {
     uint64_t internal;      // uint32_t errc, int32_t flag
@@ -62,8 +65,6 @@ struct io_control_block {
 #endif // winsock || netinet
 
 namespace coro {
-using namespace std;
-using namespace std::experimental;
 
 /**
  * @brief This is simply a view to storage. Be aware that it doesn't have ownership
