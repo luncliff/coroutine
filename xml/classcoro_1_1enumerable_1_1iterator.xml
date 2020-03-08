@@ -214,14 +214,14 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="243">
+      <node id="267">
         <label>std::experimental::coroutine_handle&lt; coro::enumerable::promise_type &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle"/>
       </node>
-      <node id="242">
+      <node id="266">
         <label>coro::enumerable&lt; T &gt;::iterator</label>
         <link refid="classcoro_1_1enumerable_1_1iterator"/>
-        <childnode refid="243" relation="usage">
+        <childnode refid="267" relation="usage">
           <edgelabel>coro</edgelabel>
         </childnode>
       </node>

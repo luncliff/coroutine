@@ -6,6 +6,7 @@
     <innerclass refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4" prot="public">std::experimental::coroutine_handle&lt; noop_coroutine_promise &gt;</innerclass>
     <innerclass refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" prot="public">std::experimental::coroutine_handle&lt; void &gt;</innerclass>
     <innerclass refid="structstd_1_1experimental_1_1coroutine__traits" prot="public">std::experimental::coroutine_traits</innerclass>
+    <innerclass refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4" prot="public">std::experimental::coroutine_traits&lt; void, P... &gt;</innerclass>
     <innerclass refid="structstd_1_1experimental_1_1noop__coroutine__promise" prot="public">std::experimental::noop_coroutine_promise</innerclass>
     <innerclass refid="classstd_1_1experimental_1_1suspend__always" prot="public">std::experimental::suspend_always</innerclass>
     <innerclass refid="classstd_1_1experimental_1_1suspend__never" prot="public">std::experimental::suspend_never</innerclass>

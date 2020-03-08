@@ -1,63 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/Home/</loc>
-     <lastmod>2020-02-03</lastmod>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
+     <loc>https://luncliff.github.io/coroutine/modules/</loc>
+     <lastmod>2020-03-08</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/ppt/Exploring-the-Cpp-Coroutine/</loc>
-     <lastmod>2020-02-03</lastmod>
+    </url><url>
+     <loc>https://luncliff.github.io/coroutine/namespaces/</loc>
+     <lastmod>2020-03-08</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/articles/exploring-msvc-coroutine/</loc>
-     <lastmod>2020-02-03</lastmod>
+    </url><url>
+     <loc>https://luncliff.github.io/coroutine/functions/</loc>
+     <lastmod>2020-03-08</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/articles/awaitable-event/</loc>
-     <lastmod>2020-02-03</lastmod>
+    </url><url>
+     <loc>https://luncliff.github.io/coroutine/classes/</loc>
+     <lastmod>2020-03-08</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/articles/designing-the-channel/</loc>
-     <lastmod>2020-02-03</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/articles/combining-coroutines-and-pthread_create/</loc>
-     <lastmod>2020-02-03</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/articles/russian-roulette/</loc>
-     <lastmod>2020-02-03</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/modules/</loc>
-     <lastmod>2020-02-03</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/namespaces/</loc>
-     <lastmod>2020-02-03</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/functions/</loc>
-     <lastmod>2020-02-03</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/classes/</loc>
-     <lastmod>2020-02-03</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    <url>
-     <loc>https://luncliff.github.io/coroutine/Home/files/</loc>
-     <lastmod>2020-02-03</lastmod>
+    </url><url>
+     <loc>https://luncliff.github.io/coroutine/files/</loc>
+     <lastmod>2020-03-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

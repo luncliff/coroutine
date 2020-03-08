@@ -77,54 +77,54 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="232">
+      <node id="256">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="233" relation="public-inheritance">
+        <childnode refid="257" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="234">
+      <node id="258">
         <label>coro::io_recv</label>
         <link refid="classcoro_1_1io__recv"/>
-        <childnode refid="232" relation="public-inheritance">
+        <childnode refid="256" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="233">
+      <node id="257">
         <label>io_control_block</label>
       </node>
-      <node id="235">
+      <node id="259">
         <label>coro::io_recv_from</label>
         <link refid="classcoro_1_1io__recv__from"/>
-        <childnode refid="232" relation="public-inheritance">
+        <childnode refid="256" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="236">
+      <node id="260">
         <label>coro::io_send</label>
         <link refid="classcoro_1_1io__send"/>
-        <childnode refid="232" relation="public-inheritance">
+        <childnode refid="256" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="237">
+      <node id="261">
         <label>coro::io_send_to</label>
         <link refid="classcoro_1_1io__send__to"/>
-        <childnode refid="232" relation="public-inheritance">
+        <childnode refid="256" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="238">
+      <node id="262">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="239" relation="public-inheritance">
+        <childnode refid="263" relation="public-inheritance">
         </childnode>
-        <childnode refid="240" relation="usage">
+        <childnode refid="264" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="239">
+      <node id="263">
         <label>io_control_block</label>
       </node>
-      <node id="240">
+      <node id="264">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>

@@ -17,7 +17,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="59" column="1" bodyfile="interface/coroutine/return.h" bodystart="59" bodyend="61"/>
+        <location file="interface/coroutine/return.h" line="60" column="1" bodyfile="interface/coroutine/return.h" bodystart="60" bodyend="62"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1promise__na_1af07e52a11070442615475901fbbb21e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref></type>
@@ -31,26 +31,27 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="66" column="1" bodyfile="interface/coroutine/return.h" bodystart="66" bodyend="68"/>
+        <location file="interface/coroutine/return.h" line="67" column="1" bodyfile="interface/coroutine/return.h" bodystart="67" bodyend="69"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
-    </detaileddescription>
+<para><simplesect kind="note"><para><computeroutput>suspend_never</computeroutput>(initial) + <computeroutput>suspend_always</computeroutput>(final) </para></simplesect>
+</para>    </detaileddescription>
     <inheritancegraph>
-      <node id="270">
+      <node id="287">
         <label>coro::frame_t::promise_type</label>
         <link refid="classcoro_1_1frame__t_1_1promise__type"/>
-        <childnode refid="269" relation="public-inheritance">
+        <childnode refid="286" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="269">
+      <node id="286">
         <label>coro::promise_na</label>
         <link refid="classcoro_1_1promise__na"/>
       </node>
     </inheritancegraph>
-    <location file="interface/coroutine/return.h" line="53" column="1" bodyfile="interface/coroutine/return.h" bodystart="53" bodyend="69"/>
+    <location file="interface/coroutine/return.h" line="54" column="1" bodyfile="interface/coroutine/return.h" bodystart="54" bodyend="70"/>
     <listofallmembers>
       <member refid="classcoro_1_1promise__na_1af07e52a11070442615475901fbbb21e2" prot="public" virt="non-virtual"><scope>coro::promise_na</scope><name>final_suspend</name></member>
       <member refid="classcoro_1_1promise__na_1a8ef0f7bd7b8b834de1eb85dcb723e674" prot="public" virt="non-virtual"><scope>coro::promise_na</scope><name>initial_suspend</name></member>

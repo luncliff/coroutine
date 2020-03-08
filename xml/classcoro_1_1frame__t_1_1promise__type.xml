@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="125" column="1" bodyfile="interface/coroutine/return.h" bodystart="125" bodyend="127"/>
+        <location file="interface/coroutine/return.h" line="131" column="1" bodyfile="interface/coroutine/return.h" bodystart="131" bodyend="133"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1frame__t_1_1promise__type_1a9644f5c45cb2843a4458eaf25a0ebe74" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="131" column="1" bodyfile="interface/coroutine/return.h" bodystart="131" bodyend="132"/>
+        <location file="interface/coroutine/return.h" line="137" column="1" bodyfile="interface/coroutine/return.h" bodystart="137" bodyend="138"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1frame__t_1_1promise__type_1a22b9498b1294c08cd04a0e90db979c85" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classcoro_1_1frame__t" kindref="compound">frame_t</ref></type>
@@ -43,38 +43,38 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="137" column="1" bodyfile="interface/coroutine/return.h" bodystart="137" bodyend="142"/>
+        <location file="interface/coroutine/return.h" line="143" column="1" bodyfile="interface/coroutine/return.h" bodystart="143" bodyend="148"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-    </briefdescription>
+<para>Acquire <computeroutput>coroutine_handle&lt;void&gt;</computeroutput> from current object and expose it through <computeroutput>get_return_object</computeroutput> </para>    </briefdescription>
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="286">
+      <node id="305">
         <label>coro::frame_t::promise_type</label>
         <link refid="classcoro_1_1frame__t_1_1promise__type"/>
-        <childnode refid="287" relation="public-inheritance">
+        <childnode refid="306" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="287">
+      <node id="306">
         <label>coro::promise_na</label>
         <link refid="classcoro_1_1promise__na"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="288">
+      <node id="307">
         <label>coro::frame_t::promise_type</label>
         <link refid="classcoro_1_1frame__t_1_1promise__type"/>
-        <childnode refid="289" relation="public-inheritance">
+        <childnode refid="308" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="289">
+      <node id="308">
         <label>coro::promise_na</label>
         <link refid="classcoro_1_1promise__na"/>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/return.h" line="120" column="1" bodyfile="interface/coroutine/return.h" bodystart="120" bodyend="143"/>
+    <location file="interface/coroutine/return.h" line="126" column="1" bodyfile="interface/coroutine/return.h" bodystart="126" bodyend="149"/>
     <listofallmembers>
       <member refid="classcoro_1_1promise__na_1af07e52a11070442615475901fbbb21e2" prot="public" virt="non-virtual"><scope>coro::frame_t::promise_type</scope><name>final_suspend</name></member>
       <member refid="classcoro_1_1frame__t_1_1promise__type_1a22b9498b1294c08cd04a0e90db979c85" prot="public" virt="non-virtual"><scope>coro::frame_t::promise_type</scope><name>get_return_object</name></member>

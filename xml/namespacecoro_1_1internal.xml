@@ -4,24 +4,26 @@
     <compoundname>coro::internal</compoundname>
     <innerclass refid="classcoro_1_1internal_1_1list" prot="public">coro::internal::list</innerclass>
       <sectiondef kind="func">
-      <memberdef kind="function" id="namespacecoro_1_1internal_1a5477a9df5dbe696d741b9a7dd064ff49" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="group__channel_1ga5477a9df5dbe696d741b9a7dd064ff49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void *</type>
         <definition>static void* coro::internal::poison</definition>
         <argsstring>() noexcept(false)</argsstring>
         <name>poison</name>
         <briefdescription>
-        </briefdescription>
+<para>Returns a non-null address that leads access violation. </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><simplesect kind="note"><para>Notice that <computeroutput>reinterpret_cast</computeroutput> is not constexpr for some compiler. </para></simplesect>
+<simplesect kind="return"><para>void* non-null address </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/internal/channel.hpp" line="45" column="1" bodyfile="interface/internal/channel.hpp" bodystart="45" bodyend="47"/>
+        <location file="interface/coroutine/channel.hpp" line="79" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="79" bodyend="81"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/internal/channel.hpp" line="42" column="1"/>
+    <location file="interface/coroutine/channel.hpp" line="71" column="1"/>
   </compounddef>
 </doxygen>

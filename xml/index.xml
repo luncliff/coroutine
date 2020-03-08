@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.11">
-  <compound refid="structcoro_1_1bypass__lock" kind="struct"><name>coro::bypass_lock</name>
-    <member refid="structcoro_1_1bypass__lock_1a9069d6262eb50d8ea8b113e6cbc09575" kind="function"><name>try_lock</name></member>
-    <member refid="structcoro_1_1bypass__lock_1a7fc833c99d35b41e2798feb347b1d951" kind="function"><name>lock</name></member>
-    <member refid="structcoro_1_1bypass__lock_1ad1c3d95e2b4f1fa4612b8bdaf103cff1" kind="function"><name>unlock</name></member>
+  <compound refid="structcoro_1_1bypass__mutex" kind="struct"><name>coro::bypass_mutex</name>
+    <member refid="structcoro_1_1bypass__mutex_1a87ef240ce3119aeee66e41c28eab427e" kind="function"><name>try_lock</name></member>
+    <member refid="structcoro_1_1bypass__mutex_1ace47e8964e754a7ca33b86d0a60617c0" kind="function"><name>lock</name></member>
+    <member refid="structcoro_1_1bypass__mutex_1a024012e3d4291d6b8ba82563aea41577" kind="function"><name>unlock</name></member>
   </compound>
   <compound refid="classcoro_1_1channel" kind="class"><name>coro::channel</name>
     <member refid="classcoro_1_1channel_1a9ec75050c355ffb2b024714a7ab431a4" kind="typedef"><name>value_type</name></member>
     <member refid="classcoro_1_1channel_1aa39036482a7cbe5948361f05cb90f08e" kind="typedef"><name>pointer</name></member>
     <member refid="classcoro_1_1channel_1a237892aa34ea2f74b81f2357a35a9d39" kind="typedef"><name>reference</name></member>
     <member refid="classcoro_1_1channel_1a4c5a25ab02b09adfca500dad9847e614" kind="typedef"><name>mutex_type</name></member>
-    <member refid="classcoro_1_1channel_1a0e0862b379c2e73a0cf13180107970d9" kind="typedef"><name>reader</name></member>
+    <member refid="classcoro_1_1channel_1a1c2cf057eb04bb92865c72ea622d95c8" kind="typedef"><name>reader</name></member>
     <member refid="classcoro_1_1channel_1aed049c9040cfa7902a7fb9de70108c95" kind="typedef"><name>reader_list</name></member>
-    <member refid="classcoro_1_1channel_1a8eaecd733c3cf16999f79d9ab4b09161" kind="typedef"><name>writer</name></member>
+    <member refid="classcoro_1_1channel_1a562db6acaf720f829ca5d9c2ab07eed5" kind="typedef"><name>writer</name></member>
     <member refid="classcoro_1_1channel_1ad3a8386d74fd125feb5b415fb63d3cbe" kind="typedef"><name>writer_list</name></member>
-    <member refid="classcoro_1_1channel_1ae0e11e13d1766a334d33d8c7f559c8d9" kind="typedef"><name>peeker</name></member>
+    <member refid="classcoro_1_1channel_1ad2fee5f994fb76e10b9041f5f9f2cb4c" kind="typedef"><name>peeker</name></member>
     <member refid="classcoro_1_1channel_1ab7a630a2afa7580a6dd2231930dd7f3c" kind="variable"><name>reader</name></member>
     <member refid="classcoro_1_1channel_1a041271ea7d37ead351ca38af51d56794" kind="variable"><name>writer</name></member>
     <member refid="classcoro_1_1channel_1abb4d8d26d937b9baf21a1a06fe9e0c97" kind="variable"><name>peeker</name></member>
@@ -27,6 +27,71 @@
     <member refid="classcoro_1_1channel_1adb12b67c3ed3050bf108583e495d240e" kind="function"><name>~channel</name></member>
     <member refid="classcoro_1_1channel_1a1cbff064b82e41767691003a7c1a64d1" kind="function"><name>write</name></member>
     <member refid="classcoro_1_1channel_1a899183f59f63289060c79d4c6f57cd52" kind="function"><name>read</name></member>
+  </compound>
+  <compound refid="classcoro_1_1channel__peeker" kind="class"><name>coro::channel_peeker</name>
+    <member refid="classcoro_1_1channel__peeker_1a98f77c342ae2992cb80badbfff25197f" kind="typedef"><name>channel_type</name></member>
+    <member refid="classcoro_1_1channel__peeker_1ad36c07a8b15283362397c7c547d640ba" kind="typedef"><name>writer</name></member>
+    <member refid="classcoro_1_1channel__peeker_1ad402ee4dc53003072cd99b124126e94c" kind="function"><name>channel_peeker</name></member>
+    <member refid="classcoro_1_1channel__peeker_1ad1b68345510d3628e15000ed444d4813" kind="function"><name>channel_peeker</name></member>
+    <member refid="classcoro_1_1channel__peeker_1aa27c77c8b45000ee664aa49031cc0d77" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1channel__peeker_1a383823e76523e4493bf5ed9d8a5fd47a" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1channel__peeker_1ad4e5fab722d296ac91651df7d9293caf" kind="function"><name>channel_peeker</name></member>
+    <member refid="classcoro_1_1channel__peeker_1a3b9789ea5b3a5d558f9f0205efde1aef" kind="function"><name>peek</name></member>
+    <member refid="classcoro_1_1channel__peeker_1a305575c2b3457fb6b442f48b1408f5e3" kind="function"><name>acquire</name></member>
+  </compound>
+  <compound refid="classcoro_1_1channel__reader" kind="class"><name>coro::channel_reader</name>
+    <member refid="classcoro_1_1channel__reader_1a937fa1456bd4d80a400cf410f8cea030" kind="typedef"><name>value_type</name></member>
+    <member refid="classcoro_1_1channel__reader_1a372275133511e4b2ae4977dc67c22274" kind="typedef"><name>pointer</name></member>
+    <member refid="classcoro_1_1channel__reader_1a005ff737d751cda5823af9cb613a871a" kind="typedef"><name>reference</name></member>
+    <member refid="classcoro_1_1channel__reader_1aa592732c802a92906e200adc2ba8bcba" kind="typedef"><name>channel_type</name></member>
+    <member refid="classcoro_1_1channel__reader_1a07d062a7d7b5bd4e65bdf9803ea9594c" kind="typedef"><name>reader_list</name></member>
+    <member refid="classcoro_1_1channel__reader_1af73ad06d214b45d0391936ede4bc38dd" kind="typedef"><name>writer</name></member>
+    <member refid="classcoro_1_1channel__reader_1af19e994ef091fb8c93a7b896746ed403" kind="typedef"><name>writer_list</name></member>
+    <member refid="classcoro_1_1channel__reader_1a3116377d4f32ecbd0a0a295e2746b9f7" kind="variable"><name>channel_type</name></member>
+    <member refid="classcoro_1_1channel__reader_1aa63ba5328f968b1f0be81cde864a8800" kind="variable"><name>writer</name></member>
+    <member refid="classcoro_1_1channel__reader_1a39a3c698b114efdf25532c2ac031a02c" kind="variable"><name>reader_list</name></member>
+    <member refid="classcoro_1_1channel__reader_1a15741659d93d48d28f4ed26fc45513a8" kind="variable"><name>ptr</name></member>
+    <member refid="classcoro_1_1channel__reader_1a300b60a97532389bceab817d09d5522c" kind="variable"><name>frame</name></member>
+    <member refid="classcoro_1_1channel__reader_1afb07fe069d5ba635c3de001f713280a1" kind="variable"><name>@1</name></member>
+    <member refid="classcoro_1_1channel__reader_1a2809591c073db48e8b1ffbb6adac2bf8" kind="variable"><name>next</name></member>
+    <member refid="classcoro_1_1channel__reader_1ac5d3756c7226efb3070f1db4172ce35c" kind="variable"><name>chan</name></member>
+    <member refid="classcoro_1_1channel__reader_1a506b55e6bbc889d79a99fd452f598d5e" kind="function"><name>channel_reader</name></member>
+    <member refid="classcoro_1_1channel__reader_1a294f81d573ebcbd866c608c2baee3608" kind="function"><name>channel_reader</name></member>
+    <member refid="classcoro_1_1channel__reader_1a166581d49783fe586f0a6af732d7805b" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1channel__reader_1ad02b4463e39c26ffd08e166734670518" kind="function"><name>channel_reader</name></member>
+    <member refid="classcoro_1_1channel__reader_1a9ddb9899bee9fc1410d82c0f3d309647" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1channel__reader_1ab9d43851cdddf607e64b8e7d80b30753" kind="function"><name>~channel_reader</name></member>
+    <member refid="classcoro_1_1channel__reader_1a299128f7762dc27ce31013b2b6c34331" kind="function"><name>await_ready</name></member>
+    <member refid="classcoro_1_1channel__reader_1a249a03cfe455e9c4faa3b11a68d9b27b" kind="function"><name>await_suspend</name></member>
+    <member refid="classcoro_1_1channel__reader_1af0ee9c32a559f30fa733089334b57f63" kind="function"><name>await_resume</name></member>
+  </compound>
+  <compound refid="classcoro_1_1channel__writer" kind="class"><name>coro::channel_writer</name>
+    <member refid="classcoro_1_1channel__writer_1a15b7c725e12e5d57158afefc4ac1af08" kind="typedef"><name>value_type</name></member>
+    <member refid="classcoro_1_1channel__writer_1a2e601eaf0113e0bd943a0a009a808d01" kind="typedef"><name>pointer</name></member>
+    <member refid="classcoro_1_1channel__writer_1ac03207a219b23b1dc233a7e5c785b29d" kind="typedef"><name>reference</name></member>
+    <member refid="classcoro_1_1channel__writer_1a23e19ff14d2a6e5512221637c9306de8" kind="typedef"><name>channel_type</name></member>
+    <member refid="classcoro_1_1channel__writer_1a5da6013661ca9ccc4690b2588e25edc0" kind="typedef"><name>reader</name></member>
+    <member refid="classcoro_1_1channel__writer_1a452eabd9962ae4af8efb4d1269b539d7" kind="typedef"><name>reader_list</name></member>
+    <member refid="classcoro_1_1channel__writer_1a6141b886ddc77f1e5cd669d3ca1bd7e8" kind="typedef"><name>writer_list</name></member>
+    <member refid="classcoro_1_1channel__writer_1ad9b0723cda6dbd8432092f1638f8dd7d" kind="typedef"><name>peeker</name></member>
+    <member refid="classcoro_1_1channel__writer_1a4935160a0bafdb4d0dbc6a742fb1463f" kind="variable"><name>channel_type</name></member>
+    <member refid="classcoro_1_1channel__writer_1a28287c8d2908c9eb1b60f5b2024bb4e7" kind="variable"><name>reader</name></member>
+    <member refid="classcoro_1_1channel__writer_1a8ee534dcf9331a8d5a22ab67e51a6d51" kind="variable"><name>writer_list</name></member>
+    <member refid="classcoro_1_1channel__writer_1ad49091d95fc4a54ebc4a7a5542c180a0" kind="variable"><name>peeker</name></member>
+    <member refid="classcoro_1_1channel__writer_1a121e573aebdcafc82dfe8950b039f388" kind="variable"><name>ptr</name></member>
+    <member refid="classcoro_1_1channel__writer_1ad45f262e721b0eec0b11f8e203d25f9b" kind="variable"><name>frame</name></member>
+    <member refid="classcoro_1_1channel__writer_1a059a874e1fecb3843569b2ed6343ed6d" kind="variable"><name>@3</name></member>
+    <member refid="classcoro_1_1channel__writer_1a80ea8e6ab70df9b56383772707a48314" kind="variable"><name>next</name></member>
+    <member refid="classcoro_1_1channel__writer_1a224b7856ee06abc31b6a3e2338554abc" kind="variable"><name>chan</name></member>
+    <member refid="classcoro_1_1channel__writer_1a0cd5001d1ec9e7501a5157418ae5b3d3" kind="function"><name>channel_writer</name></member>
+    <member refid="classcoro_1_1channel__writer_1a26ea9623c33550cdde6cb9db12dd38ce" kind="function"><name>channel_writer</name></member>
+    <member refid="classcoro_1_1channel__writer_1a23df97d1b8105b79070cc4d2e9d5f153" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1channel__writer_1a589ef19c0b52b6b2f83b2fc253bf8e5a" kind="function"><name>channel_writer</name></member>
+    <member refid="classcoro_1_1channel__writer_1a5370b9f5c384a751d412d511c0aa8eed" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1channel__writer_1abaeb41fae9d599ed34d6809c342c82ee" kind="function"><name>~channel_writer</name></member>
+    <member refid="classcoro_1_1channel__writer_1a9f96ddb07846c281dd69118bbcd29fdd" kind="function"><name>await_ready</name></member>
+    <member refid="classcoro_1_1channel__writer_1a87bb591154da900264707a54fffa5bd8" kind="function"><name>await_suspend</name></member>
+    <member refid="classcoro_1_1channel__writer_1a2ed36a301759bf2c63d02d95156bac32" kind="function"><name>await_resume</name></member>
   </compound>
   <compound refid="structclang__frame__prefix" kind="struct"><name>clang_frame_prefix</name>
     <member refid="structclang__frame__prefix_1ac88fe15fe5c099df2eee940bf5508d34" kind="variable"><name>factivate</name></member>
@@ -87,6 +152,8 @@
   </compound>
   <compound refid="structstd_1_1experimental_1_1coroutine__traits" kind="struct"><name>std::experimental::coroutine_traits</name>
     <member refid="structstd_1_1experimental_1_1coroutine__traits_1a89b8abe24d6a2e8636d2bb7e026b4196" kind="typedef"><name>promise_type</name></member>
+  </compound>
+  <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4" kind="struct"><name>std::experimental::coroutine_traits&lt; void, P... &gt;</name>
   </compound>
   <compound refid="classcoro_1_1enumerable" kind="class"><name>coro::enumerable</name>
     <member refid="classcoro_1_1enumerable_1a30cfb124d4d187b8d7d857932f269785" kind="typedef"><name>value_type</name></member>
@@ -198,13 +265,11 @@
     <member refid="classcoro_1_1kqueue__owner_1a85b1325589038239515769ec24226c06" kind="function"><name>submit</name></member>
   </compound>
   <compound refid="classcoro_1_1internal_1_1list" kind="class"><name>coro::internal::list</name>
-    <member refid="classcoro_1_1internal_1_1list_1a061ceef2fe69ef25c0c4df87b45c8208" kind="typedef"><name>node_type</name></member>
-    <member refid="classcoro_1_1internal_1_1list_1a2ca495f6971e6feb2c449e04622b808c" kind="variable"><name>head</name></member>
-    <member refid="classcoro_1_1internal_1_1list_1acb9db1cc6d01c661081ac66744f6dc9e" kind="variable"><name>tail</name></member>
-    <member refid="classcoro_1_1internal_1_1list_1aad45a4bcb56ac78354e0190ec10d910d" kind="function"><name>list</name></member>
+    <member refid="classcoro_1_1internal_1_1list_1afdc62099df932f6b176ef9f3621c5ce0" kind="variable"><name>head</name></member>
+    <member refid="classcoro_1_1internal_1_1list_1a121a1e69c05d157329cdc88428fa0c76" kind="variable"><name>tail</name></member>
     <member refid="classcoro_1_1internal_1_1list_1a04a7df7b349952b290c8a1bc393c278e" kind="function"><name>is_empty</name></member>
-    <member refid="classcoro_1_1internal_1_1list_1a8b415c8d52c36078cbb68671c1c51983" kind="function"><name>push</name></member>
-    <member refid="classcoro_1_1internal_1_1list_1a54a7b1bcebc30b311d7388781de59ae6" kind="function"><name>pop</name></member>
+    <member refid="classcoro_1_1internal_1_1list_1ace49b504493b9dbf41ae5616e6c43d53" kind="function"><name>push</name></member>
+    <member refid="classcoro_1_1internal_1_1list_1a0a84874a8a54b2e1c7145f7332983dc8" kind="function"><name>pop</name></member>
   </compound>
   <compound refid="structmsvc__frame__prefix" kind="struct"><name>msvc_frame_prefix</name>
     <member refid="structmsvc__frame__prefix_1a63e7a285d705ec63b36132af19e8a7fe" kind="variable"><name>factivate</name></member>
@@ -212,20 +277,6 @@
     <member refid="structmsvc__frame__prefix_1aa24c497b63b9d2069c178cb07091409c" kind="variable"><name>flag</name></member>
   </compound>
   <compound refid="structstd_1_1experimental_1_1noop__coroutine__promise" kind="struct"><name>std::experimental::noop_coroutine_promise</name>
-  </compound>
-  <compound refid="classcoro_1_1peeker" kind="class"><name>coro::peeker</name>
-    <member refid="classcoro_1_1peeker_1a57d7d66ba911b49e7e8143d5ee3a8ecd" kind="typedef"><name>value_type</name></member>
-    <member refid="classcoro_1_1peeker_1af40b2c507a7811bf7b4cb39fd51f5cff" kind="typedef"><name>channel_type</name></member>
-    <member refid="classcoro_1_1peeker_1a1b5939a4c375fd221a9b69a476ee76c7" kind="typedef"><name>reader</name></member>
-    <member refid="classcoro_1_1peeker_1a2f401d6d7d49fc161d8dee0d32377e7a" kind="typedef"><name>writer</name></member>
-    <member refid="classcoro_1_1peeker_1a553cf225a304e1830bd751763b931846" kind="function"><name>peeker</name></member>
-    <member refid="classcoro_1_1peeker_1a9506af829a3679cee7d640863273b6a5" kind="function"><name>peeker</name></member>
-    <member refid="classcoro_1_1peeker_1aa4365123e514fd0e862880de04309663" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1peeker_1a30fee19e4abfe6c6c02426c8fffb9271" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1peeker_1a771cc447fded1e7e7a00713616dafa9c" kind="function"><name>peeker</name></member>
-    <member refid="classcoro_1_1peeker_1a64be2881d163164ab17ce97c6b1c8cce" kind="function"><name>~peeker</name></member>
-    <member refid="classcoro_1_1peeker_1a1304d55086488f0ee1c788a4fb4ea5ff" kind="function"><name>peek</name></member>
-    <member refid="classcoro_1_1peeker_1a8d57ce07ece2c6b0b70272e7654fbdf2" kind="function"><name>acquire</name></member>
   </compound>
   <compound refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t" kind="union"><name>std::experimental::coroutine_handle&lt; void &gt;::prefix_t</name>
     <member refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a4b616f3a365c765231b47e6fdfa6f5d4" kind="variable"><name>v</name></member>
@@ -249,16 +300,6 @@
     <member refid="classcoro_1_1promise__nn_1ae4078639d15f8c8b52c47c0326ad96ee" kind="function"><name>initial_suspend</name></member>
     <member refid="classcoro_1_1promise__nn_1ae3f283f0874d0395783973e835e8c536" kind="function"><name>final_suspend</name></member>
   </compound>
-  <compound refid="classcoro_1_1pthread__detacher__t_1_1promise__type" kind="class"><name>coro::pthread_detacher_t::promise_type</name>
-    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a21362c44504730ced0857f6e7b7a21fa" kind="function"><name>final_suspend</name></member>
-    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a23ab51d7e94692dd6fac80ab844c88b6" kind="function"><name>return_void</name></member>
-    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a69a7c92cd0cc08125ef3ebd06ebff109" kind="function"><name>get_return_object</name></member>
-  </compound>
-  <compound refid="classcoro_1_1pthread__joiner__t_1_1promise__type" kind="class"><name>coro::pthread_joiner_t::promise_type</name>
-    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1a948b398eb5589a9d4cfa0d22c4544fe9" kind="function"><name>final_suspend</name></member>
-    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1abd3d2a4ded1ea6fe0cf6d9ab9bff3306" kind="function"><name>return_void</name></member>
-    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1af5d8fac1c1c2a4f8aa3806186428753d" kind="function"><name>get_return_object</name></member>
-  </compound>
   <compound refid="classcoro_1_1enumerable_1_1promise__type" kind="class"><name>coro::enumerable::promise_type</name>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a67171474c4da6cc8efe0c7fafefd2b2d" kind="friend"><name>iterator</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1ad8220d50c77d15ee61635c1d0fc0f6ce" kind="friend"><name>enumerable</name></member>
@@ -268,6 +309,23 @@
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a2a417b44f5048389ac628f891a851a28" kind="function"><name>yield_value</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1aea5f74fe3a0de6660ffedd99382626f5" kind="function"><name>yield_value</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a24f0cdb9f39fff8bea46089495dabbcf" kind="function"><name>return_void</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__joiner__t_1_1promise__type" kind="class"><name>coro::pthread_joiner_t::promise_type</name>
+    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1a948b398eb5589a9d4cfa0d22c4544fe9" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1abd3d2a4ded1ea6fe0cf6d9ab9bff3306" kind="function"><name>return_void</name></member>
+    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1af5d8fac1c1c2a4f8aa3806186428753d" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__detacher__t_1_1promise__type" kind="class"><name>coro::pthread_detacher_t::promise_type</name>
+    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a21362c44504730ced0857f6e7b7a21fa" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a23ab51d7e94692dd6fac80ab844c88b6" kind="function"><name>return_void</name></member>
+    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a69a7c92cd0cc08125ef3ebd06ebff109" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type" kind="struct"><name>std::experimental::coroutine_traits&lt; void, P... &gt;::promise_type</name>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1a826583f86a52f48546382f03e36346c5" kind="function"><name>initial_suspend</name></member>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1a6fe81d301e84ea0b01163c98a86590e5" kind="function"><name>final_suspend</name></member>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1a50b8db675add487b7f01bb5010e3340a" kind="function"><name>unhandled_exception</name></member>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1acde97e9dda8acde94022d87715c4c572" kind="function"><name>return_void</name></member>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1a10e8c0a22fee7cf2b293e93414a00cd3" kind="function"><name>get_return_object</name></member>
   </compound>
   <compound refid="classcoro_1_1frame__t_1_1promise__type" kind="class"><name>coro::frame_t::promise_type</name>
     <member refid="classcoro_1_1frame__t_1_1promise__type_1a63d10c951414b16b7ff45a574e3094a9" kind="function"><name>unhandled_exception</name></member>
@@ -307,34 +365,6 @@
     <member refid="classcoro_1_1pthread__spawner__t_1a8b97fcba3db84ca8d0a40ccf0365b866" kind="function"><name>await_suspend</name></member>
     <member refid="classcoro_1_1pthread__spawner__t_1a306dbbd45c626e96d0a462471bb7b598" kind="function"><name>pthread_spawner_t</name></member>
     <member refid="classcoro_1_1pthread__spawner__t_1a1e11f1731604c4d4584d1a870c6810a8" kind="function"><name>~pthread_spawner_t</name></member>
-  </compound>
-  <compound refid="classcoro_1_1reader" kind="class"><name>coro::reader</name>
-    <member refid="classcoro_1_1reader_1a031220219d34ddc1df48fcbe5efad363" kind="typedef"><name>value_type</name></member>
-    <member refid="classcoro_1_1reader_1acd8881ae5b17ec16826220a8f3fa237f" kind="typedef"><name>pointer</name></member>
-    <member refid="classcoro_1_1reader_1aa9666cb4f200c1d8f3b1adefabe8e3af" kind="typedef"><name>reference</name></member>
-    <member refid="classcoro_1_1reader_1ad21ae130126cb22c4c5c171d9a7b3cb5" kind="typedef"><name>channel_type</name></member>
-    <member refid="classcoro_1_1reader_1a2e6284dca2eec1e034fb4b55568067c4" kind="typedef"><name>reader_list</name></member>
-    <member refid="classcoro_1_1reader_1a6a0d1b5ddd233705155dd21927b92bb7" kind="typedef"><name>writer</name></member>
-    <member refid="classcoro_1_1reader_1aafd80b13347159192fb790ae3cd089a3" kind="typedef"><name>writer_list</name></member>
-    <member refid="classcoro_1_1reader_1a8c39767a3c3c57b969c016ec9ce20bca" kind="typedef"><name>peeker</name></member>
-    <member refid="classcoro_1_1reader_1a4e032566ad5bc415b334c9d8ee751fe0" kind="variable"><name>channel_type</name></member>
-    <member refid="classcoro_1_1reader_1a979aeb6bb7a05b293d7c0f2be5e593da" kind="variable"><name>writer</name></member>
-    <member refid="classcoro_1_1reader_1aabe8338de913a700b4564f7669742bac" kind="variable"><name>peeker</name></member>
-    <member refid="classcoro_1_1reader_1a6fd01e4fe5f1d001407da3044e91567b" kind="variable"><name>reader_list</name></member>
-    <member refid="classcoro_1_1reader_1abc345cb74a2c6aad5cf745f72eefc9bf" kind="variable"><name>ptr</name></member>
-    <member refid="classcoro_1_1reader_1a53a6215061696949c6886bd6562cae6c" kind="variable"><name>frame</name></member>
-    <member refid="classcoro_1_1reader_1a71fc5a6acf35a699ca53bf4319ae4f18" kind="variable"><name>@1</name></member>
-    <member refid="classcoro_1_1reader_1a0a7bfde7c407c41e974a6c7d1aa0731c" kind="variable"><name>next</name></member>
-    <member refid="classcoro_1_1reader_1aeb7739792237a83d4aae85442ff586df" kind="variable"><name>chan</name></member>
-    <member refid="classcoro_1_1reader_1af25e5a882a32f0372730503846f4d659" kind="function"><name>reader</name></member>
-    <member refid="classcoro_1_1reader_1af3cf79a8bb27f87b7443f84a01658481" kind="function"><name>reader</name></member>
-    <member refid="classcoro_1_1reader_1a779d9a94b930a0ecb179b9417f1c8094" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1reader_1a123f39616e92d1ecfbb0f1946f40c090" kind="function"><name>reader</name></member>
-    <member refid="classcoro_1_1reader_1aadf1875d650b60912e74bba29a753c44" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1reader_1a84ff1854d66d31a598ab1ad1a6236d49" kind="function"><name>~reader</name></member>
-    <member refid="classcoro_1_1reader_1a37746d4fb8b585a2da6fb4669d0f2c57" kind="function"><name>await_ready</name></member>
-    <member refid="classcoro_1_1reader_1acb83e8badffecbd9215745c594a11f66" kind="function"><name>await_suspend</name></member>
-    <member refid="classcoro_1_1reader_1aa2dc7ae346429d572c59f97fb97586c2" kind="function"><name>await_resume</name></member>
   </compound>
   <compound refid="classcoro_1_1section" kind="class"><name>coro::section</name>
     <member refid="classcoro_1_1section_1a54751b7c80db3e018d49dcf673c1354c" kind="variable"><name>rwlock</name></member>
@@ -381,34 +411,6 @@
     <member refid="classstd_1_1experimental_1_1suspend__never_1a7754430540e2b8a0a7513ad57e44a0a7" kind="function"><name>await_resume</name></member>
     <member refid="classstd_1_1experimental_1_1suspend__never_1a0064e54a38e05222f0dd2395229d3afd" kind="function"><name>await_suspend</name></member>
   </compound>
-  <compound refid="classcoro_1_1writer" kind="class"><name>coro::writer</name>
-    <member refid="classcoro_1_1writer_1a1452c1b29a1eb95e8d71053b42b200f2" kind="typedef"><name>value_type</name></member>
-    <member refid="classcoro_1_1writer_1a87b7ebec65b5cef8f18e6da25df85b55" kind="typedef"><name>pointer</name></member>
-    <member refid="classcoro_1_1writer_1a3867e2d574331dcd00677e5d76753ff3" kind="typedef"><name>reference</name></member>
-    <member refid="classcoro_1_1writer_1aaac6b126da8fa44633751b40c55330ca" kind="typedef"><name>channel_type</name></member>
-    <member refid="classcoro_1_1writer_1abaad06dca871f0ff54a6c24d77865019" kind="typedef"><name>reader</name></member>
-    <member refid="classcoro_1_1writer_1aacd602260e12522642546bea9e377e3e" kind="typedef"><name>reader_list</name></member>
-    <member refid="classcoro_1_1writer_1a69e9bd24c5fa8b9931ae9f44c58d6380" kind="typedef"><name>writer_list</name></member>
-    <member refid="classcoro_1_1writer_1aeab6543e8593e54eab874f0fb43b38b8" kind="typedef"><name>peeker</name></member>
-    <member refid="classcoro_1_1writer_1af8ee2dfd19efa2515e04bd8621d5f681" kind="variable"><name>channel_type</name></member>
-    <member refid="classcoro_1_1writer_1a34939eee56f83ab56fa584f98fc77f7d" kind="variable"><name>reader</name></member>
-    <member refid="classcoro_1_1writer_1a43e45096f541010057a744562c1adaff" kind="variable"><name>peeker</name></member>
-    <member refid="classcoro_1_1writer_1a6b76600ab6882160b35fb9d269a893d1" kind="variable"><name>writer_list</name></member>
-    <member refid="classcoro_1_1writer_1a1ec0b9edda27a39fec61e220a9142a4f" kind="variable"><name>ptr</name></member>
-    <member refid="classcoro_1_1writer_1a662092bf81a6cdba86e6d2f89a6efb1b" kind="variable"><name>frame</name></member>
-    <member refid="classcoro_1_1writer_1a1229619b9bd1e7d783eda7854da45c95" kind="variable"><name>@3</name></member>
-    <member refid="classcoro_1_1writer_1a02b38f65413b711a7ace87f0f589cdcd" kind="variable"><name>next</name></member>
-    <member refid="classcoro_1_1writer_1a5cc450d133f78b97efa779b10fa5f8af" kind="variable"><name>chan</name></member>
-    <member refid="classcoro_1_1writer_1a53cc2e64877336b6bd91d101e8042751" kind="function"><name>writer</name></member>
-    <member refid="classcoro_1_1writer_1a1db8ee64cd1794707775ea24ca067145" kind="function"><name>writer</name></member>
-    <member refid="classcoro_1_1writer_1a2c53beee252e5d061b350238edabec3e" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1writer_1ace8034b192d5a9203d57888a6b9aff5e" kind="function"><name>writer</name></member>
-    <member refid="classcoro_1_1writer_1a0339e9a6a61c3b402ea7241741c15e57" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1writer_1abe5624b807ae3d1cf4cc8bf31a5d02c1" kind="function"><name>~writer</name></member>
-    <member refid="classcoro_1_1writer_1a3653f78cfec14b72b4b7d399faf5a353" kind="function"><name>await_ready</name></member>
-    <member refid="classcoro_1_1writer_1a2ea9de7ab0feb35e876eeac2bd586704" kind="function"><name>await_suspend</name></member>
-    <member refid="classcoro_1_1writer_1a44318a41cddbfe6cd1819deeb17cb7bb" kind="function"><name>await_resume</name></member>
-  </compound>
   <compound refid="namespacecoro" kind="namespace"><name>coro</name>
     <member refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kind="typedef"><name>io_buffer_t</name></member>
     <member refid="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" kind="typedef"><name>net_callback_t</name></member>
@@ -416,6 +418,8 @@
     <member refid="namespacecoro_1a364142b18eb0724cabbf3a942c65ce92" kind="variable"><name>iep</name></member>
     <member refid="namespacecoro_1a85afa8adbfd008d91e74fd5e0716e924" kind="variable"><name>oep</name></member>
     <member refid="namespacecoro_1a75c5634f13d403665ca66b9e5df22caf" kind="variable"><name>emask</name></member>
+    <member refid="group__channel_1ga63d87ae8cd27ef6af053b2012e14b8bc" kind="function"><name>select</name></member>
+    <member refid="group__channel_1ga7c63c8dde53d11f6c245acbbe82ab12e" kind="function"><name>select</name></member>
     <member refid="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" kind="function"><name>wait_in</name></member>
     <member refid="group__NetWork_1ga31d5a4a545024c3c24e6f5204537307b" kind="function"><name>send_to</name></member>
     <member refid="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" kind="function"><name>send_to</name></member>
@@ -427,8 +431,6 @@
     <member refid="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kind="function"><name>get_address</name></member>
     <member refid="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" kind="function"><name>get_name</name></member>
     <member refid="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" kind="function"><name>get_name</name></member>
-    <member refid="namespacecoro_1a63d87ae8cd27ef6af053b2012e14b8bc" kind="function"><name>select</name></member>
-    <member refid="namespacecoro_1afed570d52b7e624ce887594a76fa2a38" kind="function"><name>select</name></member>
     <member refid="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" kind="function"><name>poll_net_tasks</name></member>
     <member refid="namespacecoro_1a0260f9ba0f9c3c2abe90513e1f9ebbb4" kind="function"><name>resume_net_task</name></member>
     <member refid="namespacecoro_1a022830c9178aa1a201f95abd2026d35f" kind="function"><name>poll_net_tasks</name></member>
@@ -448,11 +450,12 @@
     <member refid="namespacecoro_1ad9c56049f2089b9473d8ac9bc06e2a6f" kind="function"><name>wait_event_on_thread_pool</name></member>
   </compound>
   <compound refid="namespacecoro_1_1internal" kind="namespace"><name>coro::internal</name>
-    <member refid="namespacecoro_1_1internal_1a5477a9df5dbe696d741b9a7dd064ff49" kind="function"><name>poison</name></member>
+    <member refid="group__channel_1ga5477a9df5dbe696d741b9a7dd064ff49" kind="function"><name>poison</name></member>
   </compound>
   <compound refid="namespacegsl" kind="namespace"><name>gsl</name>
   </compound>
   <compound refid="namespacestd" kind="namespace"><name>std</name>
+    <member refid="namespacestd_1a6b868b9d1542641a1fc432863d8c91d2" kind="typedef"><name>coroutine_traits</name></member>
   </compound>
   <compound refid="namespacestd_1_1chrono" kind="namespace"><name>std::chrono</name>
   </compound>
@@ -465,6 +468,9 @@
     <member refid="namespacestd_1_1experimental_1a6d55bc3fb1700c4f6ed95c24ba7e91bb" kind="function"><name>operator&lt;=</name></member>
     <member refid="namespacestd_1_1experimental_1a279287d45bcdbc54be630cefcc73d854" kind="function"><name>operator&gt;=</name></member>
     <member refid="namespacestd_1_1experimental_1a6fb7945da7b9ad20181e92a97e44ae7f" kind="function"><name>noop_coroutine</name></member>
+  </compound>
+  <compound refid="channel_8hpp" kind="file"><name>channel.hpp</name>
+    <member refid="channel_8hpp_1a488e1dd7966781c626c4daa43789ab9f" kind="define"><name>LUNCLIFF_COROUTINE_CHANNEL_HPP</name></member>
   </compound>
   <compound refid="frame_8h" kind="file"><name>frame.h</name>
     <member refid="frame_8h_1ad21192f1cad5b1c02e73ef554b796312" kind="define"><name>COROUTINE_PORTABLE_FRAME_H</name></member>
@@ -492,9 +498,6 @@
   <compound refid="windows_8h" kind="file"><name>windows.h</name>
     <member refid="windows_8h_1abf27100e9fe7a1e426eebe989737f93b" kind="define"><name>COROUTINE_SYSTEM_WRAPPER_H</name></member>
   </compound>
-  <compound refid="channel_8hpp" kind="file"><name>channel.hpp</name>
-    <member refid="channel_8hpp_1a488e1dd7966781c626c4daa43789ab9f" kind="define"><name>LUNCLIFF_COROUTINE_CHANNEL_HPP</name></member>
-  </compound>
   <compound refid="yield_8hpp" kind="file"><name>yield.hpp</name>
   </compound>
   <compound refid="io__darwin_8cpp" kind="file"><name>io_darwin.cpp</name>
@@ -518,6 +521,11 @@
   <compound refid="pthread_8cpp" kind="file"><name>pthread.cpp</name>
   </compound>
   <compound refid="windows_8cpp" kind="file"><name>windows.cpp</name>
+  </compound>
+  <compound refid="group__channel" kind="group"><name>channel</name>
+    <member refid="group__channel_1ga5477a9df5dbe696d741b9a7dd064ff49" kind="function"><name>poison</name></member>
+    <member refid="group__channel_1ga63d87ae8cd27ef6af053b2012e14b8bc" kind="function"><name>select</name></member>
+    <member refid="group__channel_1ga7c63c8dde53d11f6c245acbbe82ab12e" kind="function"><name>select</name></member>
   </compound>
   <compound refid="group__Linux" kind="group"><name>Linux</name>
     <member refid="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" kind="function"><name>wait_in</name></member>

@@ -2,8 +2,11 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="namespacecoro" kind="namespace" language="C++">
     <compoundname>coro</compoundname>
-    <innerclass refid="structcoro_1_1bypass__lock" prot="public">coro::bypass_lock</innerclass>
+    <innerclass refid="structcoro_1_1bypass__mutex" prot="public">coro::bypass_mutex</innerclass>
     <innerclass refid="classcoro_1_1channel" prot="public">coro::channel</innerclass>
+    <innerclass refid="classcoro_1_1channel__peeker" prot="public">coro::channel_peeker</innerclass>
+    <innerclass refid="classcoro_1_1channel__reader" prot="public">coro::channel_reader</innerclass>
+    <innerclass refid="classcoro_1_1channel__writer" prot="public">coro::channel_writer</innerclass>
     <innerclass refid="classcoro_1_1continue__on__apc" prot="public">coro::continue_on_apc</innerclass>
     <innerclass refid="classcoro_1_1continue__on__thread__pool" prot="public">coro::continue_on_thread_pool</innerclass>
     <innerclass refid="classcoro_1_1enumerable" prot="public">coro::enumerable</innerclass>
@@ -16,7 +19,6 @@
     <innerclass refid="classcoro_1_1io__send__to" prot="public">coro::io_send_to</innerclass>
     <innerclass refid="classcoro_1_1io__work__t" prot="public">coro::io_work_t</innerclass>
     <innerclass refid="classcoro_1_1kqueue__owner" prot="public">coro::kqueue_owner</innerclass>
-    <innerclass refid="classcoro_1_1peeker" prot="public">coro::peeker</innerclass>
     <innerclass refid="classcoro_1_1promise__aa" prot="public">coro::promise_aa</innerclass>
     <innerclass refid="classcoro_1_1promise__an" prot="public">coro::promise_an</innerclass>
     <innerclass refid="classcoro_1_1promise__na" prot="public">coro::promise_na</innerclass>
@@ -26,10 +28,8 @@
     <innerclass refid="classcoro_1_1pthread__knower__t" prot="public">coro::pthread_knower_t</innerclass>
     <innerclass refid="classcoro_1_1pthread__spawn__promise" prot="public">coro::pthread_spawn_promise</innerclass>
     <innerclass refid="classcoro_1_1pthread__spawner__t" prot="public">coro::pthread_spawner_t</innerclass>
-    <innerclass refid="classcoro_1_1reader" prot="public">coro::reader</innerclass>
     <innerclass refid="classcoro_1_1section" prot="public">coro::section</innerclass>
     <innerclass refid="classcoro_1_1set__or__cancel" prot="public">coro::set_or_cancel</innerclass>
-    <innerclass refid="classcoro_1_1writer" prot="public">coro::writer</innerclass>
     <innernamespace refid="namespacecoro_1_1internal">coro::internal</innernamespace>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="group__NetWork_1ga60d36260824423f894ffd077f8487663" prot="public" static="no">
@@ -118,6 +118,80 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
+      <memberdef kind="function" id="group__channel_1ga63d87ae8cd27ef6af053b2012e14b8bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename M</type>
+          </param>
+          <param>
+            <type>typename Fn</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void coro::select</definition>
+        <argsstring>(channel&lt; T, M &gt; &amp;ch, Fn &amp;&amp;fn) noexcept(false)</argsstring>
+        <name>select</name>
+        <param>
+          <type><ref refid="classcoro_1_1channel" kindref="compound">channel</ref>&lt; T, M &gt; &amp;</type>
+          <declname>ch</declname>
+        </param>
+        <param>
+          <type>Fn &amp;&amp;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>If the channel is readable, acquire the value and invoke the function</para></simplesect>
+<simplesect kind="see"><para><ref refid="classcoro_1_1channel__peeker" kindref="compound">channel_peeker</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="530" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="530" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="group__channel_1ga7c63c8dde53d11f6c245acbbe82ab12e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+          <param>
+            <type>typename Ch</type>
+          </param>
+          <param>
+            <type>typename Fn</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void coro::select</definition>
+        <argsstring>(Ch &amp;ch, Fn &amp;&amp;fn, Args &amp;&amp;...args) noexcept(false)</argsstring>
+        <name>select</name>
+        <param>
+          <type>Ch &amp;</type>
+          <declname>ch</declname>
+        </param>
+        <param>
+          <type>Fn &amp;&amp;</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>For each pair, peeks a channel and invoke the function with the value if the peek was successful.</para></simplesect>
+<simplesect kind="see"><para>test/channel_select_type.cpp </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="546" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="546" bodyend="549"/>
+      </memberdef>
       <memberdef kind="function" id="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
         <definition>auto coro::wait_in</definition>
@@ -754,76 +828,6 @@
         </inbodydescription>
         <location file="interface/coroutine/net.h" line="382" column="1" bodyfile="modules/net/resolver.cpp" bodystart="22" bodyend="30"/>
       </memberdef>
-      <memberdef kind="function" id="namespacecoro_1a63d87ae8cd27ef6af053b2012e14b8bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <templateparamlist>
-          <param>
-            <type>typename T</type>
-          </param>
-          <param>
-            <type>typename M</type>
-          </param>
-          <param>
-            <type>typename Fn</type>
-          </param>
-        </templateparamlist>
-        <type>void</type>
-        <definition>void coro::select</definition>
-        <argsstring>(channel&lt; T, M &gt; &amp;ch, Fn &amp;&amp;fn) noexcept(false)</argsstring>
-        <name>select</name>
-        <param>
-          <type><ref refid="classcoro_1_1channel" kindref="compound">channel</ref>&lt; T, M &gt; &amp;</type>
-          <declname>ch</declname>
-        </param>
-        <param>
-          <type>Fn &amp;&amp;</type>
-          <declname>fn</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/internal/channel.hpp" line="378" column="1" bodyfile="interface/internal/channel.hpp" bodystart="378" bodyend="386"/>
-      </memberdef>
-      <memberdef kind="function" id="namespacecoro_1afed570d52b7e624ce887594a76fa2a38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <templateparamlist>
-          <param>
-            <type>typename...</type>
-            <declname>Args</declname>
-            <defname>Args</defname>
-          </param>
-          <param>
-            <type>typename ChanType</type>
-          </param>
-          <param>
-            <type>typename FuncType</type>
-          </param>
-        </templateparamlist>
-        <type>void</type>
-        <definition>void coro::select</definition>
-        <argsstring>(ChanType &amp;ch, FuncType &amp;&amp;fn, Args &amp;&amp;...args) noexcept(false)</argsstring>
-        <name>select</name>
-        <param>
-          <type>ChanType &amp;</type>
-          <declname>ch</declname>
-        </param>
-        <param>
-          <type>FuncType &amp;&amp;</type>
-          <declname>fn</declname>
-        </param>
-        <param>
-          <type>Args &amp;&amp;...</type>
-          <declname>args</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/internal/channel.hpp" line="390" column="1" bodyfile="interface/internal/channel.hpp" bodystart="390" bodyend="393"/>
-      </memberdef>
       <memberdef kind="function" id="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void coro::poll_net_tasks</definition>
@@ -1154,6 +1158,6 @@
     <detaileddescription>
 <para><simplesect kind="author"><para>github.com/luncliff (<ulink url="mailto:luncliff@gmail.com">luncliff@gmail.com</ulink>) </para></simplesect>
 </para>    </detaileddescription>
-    <location file="interface/coroutine/linux.h" line="20" column="1"/>
+    <location file="interface/coroutine/channel.hpp" line="32" column="1"/>
   </compounddef>
 </doxygen>

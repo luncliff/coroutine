@@ -97,43 +97,43 @@
 <simplesect kind="see"><para>WSASend </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="219">
+      <node id="243">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="220" relation="public-inheritance">
+        <childnode refid="244" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="220">
+      <node id="244">
         <label>io_control_block</label>
       </node>
-      <node id="218">
+      <node id="242">
         <label>coro::io_send</label>
         <link refid="classcoro_1_1io__send"/>
-        <childnode refid="219" relation="public-inheritance">
+        <childnode refid="243" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="222">
+      <node id="246">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="223" relation="public-inheritance">
+        <childnode refid="247" relation="public-inheritance">
         </childnode>
-        <childnode refid="224" relation="usage">
+        <childnode refid="248" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="223">
+      <node id="247">
         <label>io_control_block</label>
       </node>
-      <node id="224">
+      <node id="248">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="221">
+      <node id="245">
         <label>coro::io_send</label>
         <link refid="classcoro_1_1io__send"/>
-        <childnode refid="222" relation="public-inheritance">
+        <childnode refid="246" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

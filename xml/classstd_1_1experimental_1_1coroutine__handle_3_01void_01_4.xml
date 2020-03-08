@@ -238,20 +238,20 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="188">
+      <node id="210">
         <label>std::experimental::coroutine_handle&lt; noop_coroutine_promise &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4"/>
-        <childnode refid="186" relation="public-inheritance">
+        <childnode refid="208" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="186">
+      <node id="208">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="187">
+      <node id="209">
         <label>coro::frame_t</label>
         <link refid="classcoro_1_1frame__t"/>
-        <childnode refid="186" relation="public-inheritance">
+        <childnode refid="208" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>

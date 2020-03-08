@@ -128,25 +128,25 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="282">
+      <node id="291">
         <label>coro::enumerable&lt; T &gt;::promise_type</label>
         <link refid="classcoro_1_1enumerable_1_1promise__type"/>
-        <childnode refid="283" relation="public-inheritance">
+        <childnode refid="292" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="283">
+      <node id="292">
         <label>coro::promise_aa</label>
         <link refid="classcoro_1_1promise__aa"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="284">
+      <node id="293">
         <label>coro::enumerable&lt; T &gt;::promise_type</label>
         <link refid="classcoro_1_1enumerable_1_1promise__type"/>
-        <childnode refid="285" relation="public-inheritance">
+        <childnode refid="294" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="285">
+      <node id="294">
         <label>coro::promise_aa</label>
         <link refid="classcoro_1_1promise__aa"/>
       </node>

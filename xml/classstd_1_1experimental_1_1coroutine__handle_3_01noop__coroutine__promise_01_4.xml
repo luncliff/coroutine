@@ -133,25 +133,25 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="182">
+      <node id="204">
         <label>std::experimental::coroutine_handle&lt; noop_coroutine_promise &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4"/>
-        <childnode refid="183" relation="public-inheritance">
+        <childnode refid="205" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="183">
+      <node id="205">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="184">
+      <node id="206">
         <label>std::experimental::coroutine_handle&lt; noop_coroutine_promise &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4"/>
-        <childnode refid="185" relation="public-inheritance">
+        <childnode refid="207" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="185">
+      <node id="207">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>

@@ -75,33 +75,33 @@
 <para><simplesect kind="see"><para>pthread_join </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="296">
+      <node id="315">
         <label>coro::pthread_knower_t</label>
         <link refid="classcoro_1_1pthread__knower__t"/>
       </node>
-      <node id="295">
+      <node id="314">
         <label>coro::pthread_joiner_t</label>
         <link refid="classcoro_1_1pthread__joiner__t"/>
-        <childnode refid="296" relation="public-inheritance">
+        <childnode refid="315" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="299">
+      <node id="318">
         <label>coro::pthread_spawn_promise</label>
         <link refid="classcoro_1_1pthread__spawn__promise"/>
       </node>
-      <node id="298">
+      <node id="317">
         <label>coro::pthread_knower_t</label>
         <link refid="classcoro_1_1pthread__knower__t"/>
-        <childnode refid="299" relation="usage">
+        <childnode refid="318" relation="usage">
           <edgelabel>promise</edgelabel>
         </childnode>
       </node>
-      <node id="297">
+      <node id="316">
         <label>coro::pthread_joiner_t</label>
         <link refid="classcoro_1_1pthread__joiner__t"/>
-        <childnode refid="298" relation="public-inheritance">
+        <childnode refid="317" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

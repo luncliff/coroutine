@@ -11,30 +11,30 @@
 <para><simplesect kind="see"><para><ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a2d93acbaf2756143278d58623e972ef7" kindref="member">coroutine_handle&lt;void&gt;</ref> </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="199">
+      <node id="223">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="198">
+      <node id="222">
         <label>coro::frame_t</label>
         <link refid="classcoro_1_1frame__t"/>
-        <childnode refid="199" relation="public-inheritance">
+        <childnode refid="223" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="201">
+      <node id="225">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="200">
+      <node id="224">
         <label>coro::frame_t</label>
         <link refid="classcoro_1_1frame__t"/>
-        <childnode refid="201" relation="public-inheritance">
+        <childnode refid="225" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/return.h" line="118" column="1" bodyfile="interface/coroutine/return.h" bodystart="118" bodyend="144"/>
+    <location file="interface/coroutine/return.h" line="121" column="1" bodyfile="interface/coroutine/return.h" bodystart="121" bodyend="150"/>
     <listofallmembers>
       <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a91b3e76af53b029da67649a99a7efdd5" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>address</name></member>
       <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a2d93acbaf2756143278d58623e972ef7" prot="public" virt="non-virtual"><scope>coro::frame_t</scope><name>coroutine_handle</name></member>

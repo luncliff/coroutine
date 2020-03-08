@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::experimental::coroutine_traits&lt; void, P... &gt;</compoundname>
+    <includes refid="return_8h" local="no">return.h</includes>
+    <innerclass refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type" prot="public">std::experimental::coroutine_traits&lt; void, P... &gt;::promise_type</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename...</type>
+        <declname>P</declname>
+        <defname>P</defname>
+      </param>
+    </templateparamlist>
+    <briefdescription>
+<para>Allow <computeroutput>void</computeroutput> return of the coroutine. </para>    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>P</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input parameter types of the coroutine&apos;s signature </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>    </detaileddescription>
+    <location file="interface/coroutine/return.h" line="186" column="1" bodyfile="interface/coroutine/return.h" bodystart="186" bodyend="208"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

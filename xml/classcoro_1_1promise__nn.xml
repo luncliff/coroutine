@@ -36,7 +36,8 @@
     <briefdescription>
     </briefdescription>
     <detaileddescription>
-    </detaileddescription>
+<para><simplesect kind="note"><para><computeroutput>suspend_never</computeroutput>(initial) + <computeroutput>suspend_never</computeroutput>(final) </para></simplesect>
+</para>    </detaileddescription>
     <location file="interface/coroutine/return.h" line="32" column="1" bodyfile="interface/coroutine/return.h" bodystart="32" bodyend="48"/>
     <listofallmembers>
       <member refid="classcoro_1_1promise__nn_1ae3f283f0874d0395783973e835e8c536" prot="public" virt="non-virtual"><scope>coro::promise_nn</scope><name>final_suspend</name></member>

@@ -1,12 +1,8 @@
 # Doxyfile 1.8.16
 
-#---------------------------------------------------------------------------
-# Project related configuration options
-#---------------------------------------------------------------------------
-
-PROJECT_NAME           = "ssf"
-PROJECT_NUMBER         = "1.0"
-PROJECT_BRIEF          = "Minimal C++ code snippet to build something"
+PROJECT_NAME           = "luncliff/coroutine"
+PROJECT_NUMBER         = "1.5"
+PROJECT_BRIEF          = "C++ 20 Coroutines in Action"
 
 OUTPUT_LANGUAGE        = Korean-en
 

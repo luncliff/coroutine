@@ -219,14 +219,14 @@ Timeout is not an error for this function </para>        </detaileddescription>
 </parameteritem>
 </parameterlist>
 <simplesect kind="see"><para><ref refid="classcoro_1_1kqueue__owner_1a46a9fe17102de32beb90777d4f17d1f7" kindref="member">change</ref></para></simplesect>
-There is no guarantee of reusage of returned awaiter object When it is awaited, and <computeroutput>req.udata</computeroutput> is null(0), the value is set to <computeroutput>coroutine_handle&lt;void&gt;</computeroutput></para><para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>read_async(<ref refid="classcoro_1_1kqueue__owner_1ad10972af514d58a9281bb582309e8f93" kindref="member">kqueue_owner</ref>&amp;<sp/>kq,<sp/>uint64_t<sp/>fd)<sp/>-&gt;<sp/>frame_t<sp/>{</highlight></codeline>
+There is no guarantee of reusage of returned awaiter object When it is awaited, and <computeroutput>req.udata</computeroutput> is null(0), the value is set to <computeroutput>coroutine_handle&lt;void&gt;</computeroutput></para><para><programlisting><codeline><highlight class="normal">auto<sp/>read_async(kqueue_owner&amp;<sp/>kq,<sp/>uint64_t<sp/>fd)<sp/>-&gt;<sp/>frame_t<sp/>{</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>kevent64_s<sp/>req{.ident<sp/>=<sp/>fd,</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.filter<sp/>=<sp/>EVFILT_READ,</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.flags<sp/>=<sp/>EV_ADD<sp/>|<sp/>EV_ENABLE<sp/>|<sp/>EV_ONESHOT};</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>co_await<sp/>kq.submit(req);</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>...</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>co_await<sp/>kq.submit(req);</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>...</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 </programlisting> </para>        </detaileddescription>
         <inbodydescription>

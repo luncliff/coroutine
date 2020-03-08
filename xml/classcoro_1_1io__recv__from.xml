@@ -105,43 +105,43 @@
 <simplesect kind="see"><para>WSARecvFrom </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="212">
+      <node id="236">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="213" relation="public-inheritance">
+        <childnode refid="237" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="213">
+      <node id="237">
         <label>io_control_block</label>
       </node>
-      <node id="211">
+      <node id="235">
         <label>coro::io_recv_from</label>
         <link refid="classcoro_1_1io__recv__from"/>
-        <childnode refid="212" relation="public-inheritance">
+        <childnode refid="236" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="215">
+      <node id="239">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="216" relation="public-inheritance">
+        <childnode refid="240" relation="public-inheritance">
         </childnode>
-        <childnode refid="217" relation="usage">
+        <childnode refid="241" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="216">
+      <node id="240">
         <label>io_control_block</label>
       </node>
-      <node id="217">
+      <node id="241">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="214">
+      <node id="238">
         <label>coro::io_recv_from</label>
         <link refid="classcoro_1_1io__recv__from"/>
-        <childnode refid="215" relation="public-inheritance">
+        <childnode refid="239" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

@@ -16,7 +16,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="80" column="1" bodyfile="interface/coroutine/return.h" bodystart="80" bodyend="82"/>
+        <location file="interface/coroutine/return.h" line="82" column="1" bodyfile="interface/coroutine/return.h" bodystart="82" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1promise__an_1a53cad2f133187506cf0023d6971d0535" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classstd_1_1experimental_1_1suspend__never" kindref="compound">suspend_never</ref></type>
@@ -30,14 +30,15 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="87" column="1" bodyfile="interface/coroutine/return.h" bodystart="87" bodyend="89"/>
+        <location file="interface/coroutine/return.h" line="89" column="1" bodyfile="interface/coroutine/return.h" bodystart="89" bodyend="91"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
-    </detaileddescription>
-    <location file="interface/coroutine/return.h" line="74" column="1" bodyfile="interface/coroutine/return.h" bodystart="74" bodyend="90"/>
+<para><simplesect kind="note"><para><computeroutput>suspend_always</computeroutput>(initial) + <computeroutput>suspend_never</computeroutput>(final) </para></simplesect>
+</para>    </detaileddescription>
+    <location file="interface/coroutine/return.h" line="76" column="1" bodyfile="interface/coroutine/return.h" bodystart="76" bodyend="92"/>
     <listofallmembers>
       <member refid="classcoro_1_1promise__an_1a53cad2f133187506cf0023d6971d0535" prot="public" virt="non-virtual"><scope>coro::promise_an</scope><name>final_suspend</name></member>
       <member refid="classcoro_1_1promise__an_1aa86e2ba1ac1bcd563b72aead99e46154" prot="public" virt="non-virtual"><scope>coro::promise_an</scope><name>initial_suspend</name></member>

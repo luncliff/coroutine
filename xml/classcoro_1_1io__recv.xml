@@ -97,42 +97,42 @@
 <simplesect kind="see"><para>WSARecv </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="205">
+      <node id="229">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="206" relation="public-inheritance">
+        <childnode refid="230" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="204">
+      <node id="228">
         <label>coro::io_recv</label>
         <link refid="classcoro_1_1io__recv"/>
-        <childnode refid="205" relation="public-inheritance">
+        <childnode refid="229" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="206">
+      <node id="230">
         <label>io_control_block</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="208">
+      <node id="232">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="209" relation="public-inheritance">
+        <childnode refid="233" relation="public-inheritance">
         </childnode>
-        <childnode refid="210" relation="usage">
+        <childnode refid="234" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="207">
+      <node id="231">
         <label>coro::io_recv</label>
         <link refid="classcoro_1_1io__recv"/>
-        <childnode refid="208" relation="public-inheritance">
+        <childnode refid="232" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="209">
+      <node id="233">
         <label>io_control_block</label>
       </node>
-      <node id="210">
+      <node id="234">
         <label>std::experimental::coroutine_handle&lt; void &gt;</label>
         <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
       </node>
