@@ -1,13 +1,9 @@
 
-#include "internal/frame.h"
+#include "coroutine/frame.h"
 
 namespace std {
 
 static_assert(sizeof(coroutine_handle<void>) == sizeof(void*));
-
-noop_coroutine_handle noop_coroutine() noexcept {
-    return {};
-}
 
 } // namespace std
 
@@ -22,12 +18,31 @@ constexpr ptrdiff_t _Make_aligned_size(size_t _TypeSize) {
     return (_TypeSize + _Align_req_v - 1u) & ~(_Align_req_v - 1u);
 }
 
+// - Note
+//      Clang coroutine frame's prefix
+// - Layout
+//      +------------------+------------+---+--------------------+
+//      | Frame Prefix(16) | Promise(?) | ? | Local variables(?) |
+//      +------------------+------------+---+--------------------+
 struct _Clang_frame_prefix {
     _Procedure _Factivate;
     _Procedure _Fdestroy;
 };
 static_assert(_Aligned_size_v<_Clang_frame_prefix> == 16);
 
+// - Note
+//      GCC coroutine frame's prefix
+// - Layout
+//      Unknown
+using _Gcc_frame_prefix = _Clang_frame_prefix;
+
+// - Note
+//      MSVC coroutine frame's prefix
+//      Reference <experimental/resumable> for the detail
+// - Layout
+//      +------------+------------------+--------------------+
+//      | Promise(?) | Frame Prefix(16) | Local variables(?) |
+//      +------------+------------------+--------------------+
 struct _Msvc_frame_prefix {
     _Procedure _Factivate;
     uint16_t _Index;
@@ -35,20 +50,26 @@ struct _Msvc_frame_prefix {
 };
 static_assert(_Aligned_size_v<_Msvc_frame_prefix> == 16);
 
-extern "C" size_t _coro_resume(void*);
-extern "C" void _coro_destroy(void*);
-extern "C" size_t _coro_done(void*);
+//
+// intrinsic: MSVC
+//
+extern "C" {
+size_t _coro_resume(void*);
+void _coro_destroy(void*);
+//size_t _coro_done(void*);
 #pragma intrinsic(_coro_resume)
 #pragma intrinsic(_coro_destroy)
-#pragma intrinsic(_coro_done)
-
-extern "C" bool __builtin_coro_done(void*);
-extern "C" void __builtin_coro_resume(void*);
-extern "C" void __builtin_coro_destroy(void*);
+//#pragma intrinsic(_coro_done)
+}
+//
+// intrinsic: Clang/GCC
+//
+extern "C" {
+bool __builtin_coro_done(void*);
+void __builtin_coro_resume(void*);
+void __builtin_coro_destroy(void*);
 // void* __builtin_coro_promise(void* ptr, int align, bool p);
-
-// replacement of the `_coro_done`
-bool _coro_finished(_Portable_coro_prefix*) noexcept;
+}
 
 #if defined(__clang__)
 static constexpr auto is_clang = true;
@@ -62,16 +83,18 @@ static constexpr auto is_clang = !is_msvc;
 
 struct _Portable_coro_prefix final : public _Msvc_frame_prefix {};
 
+#elif defined(__GNUC__)
+
 #endif // __clang__ || _MSC_VER
 
+// replacement of the `_coro_done`
 bool _Portable_coro_done(_Portable_coro_prefix* _Handle) {
     if constexpr (is_msvc) {
-        return _coro_finished(_Handle);
+        return _Handle->_Index == 0;
     } else if constexpr (is_clang) {
         return __builtin_coro_done(_Handle);
-    } else {
-        return false; // follow `noop_coroutine`
     }
+    return false; // follow `noop_coroutine`
 }
 
 void _Portable_coro_resume(_Portable_coro_prefix* _Handle) {
@@ -127,20 +150,14 @@ _Portable_coro_prefix* _Portable_coro_from_promise(void* _PromAddr,
     return reinterpret_cast<_Portable_coro_prefix*>(_Handle);
 }
 
-#if defined(__clang__)
-
-bool _coro_finished(_Portable_coro_prefix* _Handle) noexcept {
-    auto* _Ptr = reinterpret_cast<clang_frame_prefix*>(_Handle);
-    return __builtin_coro_done(_Ptr);
+bool foo() {
+    std::coroutine_handle<void> lhs{};
+    return lhs <= std::noop_coroutine();
 }
-
-#elif defined(_MSC_VER)
-
-// replacement of the `_coro_done`
-bool _coro_finished(_Portable_coro_prefix* _Handle) noexcept {
-    // expect: coroutine == suspended
-    // expect: coroutine != destroyed
-    return _Handle->_Index == 0;
+bool bar() {
+    if (auto lhs = std::coroutine_handle<void>::from_address(bar)) {
+        lhs.resume();
+        return lhs.done();
+    }
+    return false;
 }
-
-#endif // __clang__ || _MSC_VER

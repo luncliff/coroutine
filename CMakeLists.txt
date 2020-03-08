@@ -59,7 +59,6 @@ add_subdirectory(modules/net)       # coroutine_net
 # just merge all contents into the file 'coroutine-config.cmake'
 #
 install(EXPORT      coroutine-config
-        # NAMESPACE   coro::
         DESTINATION ${CMAKE_INSTALL_PREFIX}/share/coroutine
 )
 
