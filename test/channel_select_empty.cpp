@@ -4,7 +4,7 @@
 #undef NDEBUG
 #include <cassert>
 
-#include "internal/channel.hpp"
+#include <coroutine/channel.hpp>
 #include <coroutine/return.h> // includes `coroutine_traits<void, ...>`
 
 using namespace std;

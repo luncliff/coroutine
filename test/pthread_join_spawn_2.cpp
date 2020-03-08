@@ -15,7 +15,7 @@ auto spawn_and_join(pthread_t& tid, const pthread_attr_t* attr)
 }
 
 int main(int, char*[]) {
-    printf("before spawn: %zu \n", pthread_self());
+    printf("before spawn: %llx \n", (uint64_t)pthread_self());
 
     pthread_t tid{};
     {
@@ -23,7 +23,7 @@ int main(int, char*[]) {
         auto joiner = spawn_and_join(tid, nullptr);
     }
     // the new thread's id must be visible at this moment
-    printf("after join: %zu \n", tid);
+    printf("after join: %llx \n", (uint64_t)tid);
 
     if (tid == pthread_t{})
         return __LINE__;

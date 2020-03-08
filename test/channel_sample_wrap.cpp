@@ -5,6 +5,7 @@
 #include <cassert>
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <initializer_list>
 
 using namespace std;
@@ -42,13 +43,13 @@ int main(int, char*[]) {
         assert(target == m);      // must have changed the memory location
     }
     stop_messaging(session);
-    return EXIT_SUCCESS;
+    return 0;
 }
 
 //
 //  The implementation uses coroutine
 //
-#include "internal/channel.hpp"
+#include <coroutine/channel.hpp>
 #include <coroutine/return.h> // includes `coroutine_traits<void, ...>`
 
 using channel_t = coro::channel<message_t>;

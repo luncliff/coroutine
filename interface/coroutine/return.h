@@ -3,8 +3,7 @@
  * @author github.com/luncliff (luncliff@gmail.com)
  * @brief Utility to define return types for coroutine
  * @copyright CC BY 4.0
- * @link
- * https://devblogs.microsoft.com/cppblog/c20-concepts-are-here-in-visual-studio-2019-version-16-3/
+ * @link https://devblogs.microsoft.com/cppblog/c20-concepts-are-here-in-visual-studio-2019-version-16-3/
  */
 #pragma once
 #ifndef COROUTINE_PROMISE_AND_RETURN_TYPES_H
@@ -28,7 +27,7 @@ using namespace std::experimental;
 
 /**
  * @ingroup Return
- * @details `suspend_never`(initial) + `suspend_never`(final)
+ * @note `suspend_never`(initial) + `suspend_never`(final)
  */
 class promise_nn {
   public:
@@ -50,7 +49,7 @@ class promise_nn {
 
 /**
  * @ingroup Return
- * @details `suspend_never`(initial) + `suspend_always`(final)
+ * @note `suspend_never`(initial) + `suspend_always`(final)
  */
 class promise_na {
   public:
@@ -72,7 +71,7 @@ class promise_na {
 
 /**
  * @ingroup Return
- * @details `suspend_always`(initial) + `suspend_never`(final)
+ * @note `suspend_always`(initial) + `suspend_never`(final)
  */
 class promise_an {
   public:
@@ -94,7 +93,7 @@ class promise_an {
 
 /**
  * @ingroup Return
- * @details `suspend_always`(initial) + `suspend_always`(final)
+ * @note `suspend_always`(initial) + `suspend_always`(final)
  */
 class promise_aa {
   public:
