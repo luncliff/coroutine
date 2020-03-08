@@ -1,17 +1,18 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
-//  Note
-//      Header to adjust the difference of coroutine frame between compilers
-//
-//  Reference
-//      <experimental/resumable> from Microsoft VC++ (since 2017 Feb.)
-//      <experimental/coroutine> from LLVM libcxx (since 6.0)
-//      https://github.com/iains/gcc-cxx-coroutines
-//
+/**
+ * @file coroutine/frame.h
+ * @author github.com/luncliff (luncliff@gmail.com)
+ * @brief Header to adjust the difference of coroutine frame between compilers
+ * 
+ * @copyright CC BY 4.0
+ * @see <experimental/resumable> from Microsoft VC++ (since 2017 Feb.)
+ * @see <experimental/coroutine> from LLVM libcxx (since 6.0)
+ * @see https://github.com/iains/gcc-cxx-coroutines/tree/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines
+ * 
+ */
 #pragma once
-
+// #if !defined(__cpp_coroutines)
+// // ...
+// #endif
 #include <cstddef>
 #include <cstdint>
 
@@ -79,7 +80,6 @@ static constexpr auto is_gcc = true;
 static constexpr auto is_msvc = !is_gcc;
 static constexpr auto is_clang = !is_gcc;
 
-// gcc-10 failes when __cdecl is used. declare it without convention
 using procedure_t = void (*)(void*);
 
 #else

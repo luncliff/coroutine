@@ -124,7 +124,7 @@ AppVeyor & Travis CI build shows the execution of them.
 
 ### Import
 
-#### CMake
+#### CMake 3.12+
 
 Expect there is a higher CMake project which uses this library.
 
@@ -143,7 +143,7 @@ The library export 3 targets.
   * `<coroutine/net.h>`
 
 ```cmake
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.12)
 # ...
 add_subdirectory(coroutine)
 # ...
