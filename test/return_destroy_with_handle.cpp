@@ -1,9 +1,11 @@
 /**
  * @author github.com/luncliff (luncliff@gmail.com)
  */
+#undef NDEBUG
 #include <cassert>
-#include <coroutine/return.h>
 #include <gsl/gsl>
+
+#include <coroutine/return.h>
 
 using namespace std;
 using namespace coro;

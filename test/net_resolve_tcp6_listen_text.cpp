@@ -2,8 +2,10 @@
  * @author github.com/luncliff (luncliff@gmail.com)
  * @brief get a list of address for IPv6, TCP listen, with text `serv`
  */
+#undef NDEBUG
 #include <array>
 #include <cassert>
+
 #include <coroutine/net.h>
 
 using namespace std;

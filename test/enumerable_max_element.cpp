@@ -1,6 +1,7 @@
 ﻿/**
  * @author github.com/luncliff (luncliff@gmail.com)
  */
+#undef NDEBUG
 #include <array>
 #include <cassert>
 

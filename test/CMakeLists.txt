@@ -30,7 +30,7 @@ function(create_ctest TEST_NAME)
 
     target_compile_definitions(${TEST_NAME}
     PRIVATE
-        CMAKE_TEST _DEBUG
+        CMAKE_TEST # NDEBUG
     )
     if(WIN32)
         target_compile_definitions(${TEST_NAME}
