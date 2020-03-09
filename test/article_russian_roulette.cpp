@@ -10,7 +10,6 @@
 #include <coroutine/return.h>
 
 using namespace std;
-using namespace std::experimental;
 
 class promise_manual_control {
   public:

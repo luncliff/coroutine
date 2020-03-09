@@ -46,8 +46,6 @@ void* portable_coro_get_promise(portable_coro_prefix* _Handle,
                                 ptrdiff_t _PromSize);
 
 namespace std {
-// there is no way but to define in `std::experimental` since compilers are checking it
-namespace experimental {
 
 // 17.12.3, coroutine handle
 template <typename _PromiseT = void>
@@ -270,11 +268,19 @@ struct coro_traits_sfinae<_Ret, void_t<typename _Ret::promise_type>> {
     using promise_type = typename _Ret::promise_type;
 };
 
+// there is no way but to define in `std::experimental` since compilers are checking it
+namespace experimental {
+
 // STRUCT TEMPLATE coroutine_traits
 template <typename _Ret, typename... _Ts>
 struct coroutine_traits : coro_traits_sfinae<_Ret> {};
 
 #if defined(__clang__)
+
+// clang: std::experimental::coroutine_handle must be a class template
+template <typename P>
+struct coroutine_handle : public std::coroutine_handle<P> {};
+
 #elif defined(_MSC_VER)
 
 // _Resumable_helper_traits class isolates front-end from public surface naming changes
@@ -317,11 +323,15 @@ struct _Resumable_helper_traits {
 
 } // namespace experimental
 
+// STRUCT TEMPLATE coroutine_traits
+template <typename Ret, typename... Param>
+using coroutine_traits = std::experimental::coroutine_traits<Ret, Param...>;
+
 // 17.12.3.7, hash support
 template <typename P>
-struct hash<experimental::coroutine_handle<P>> {
+struct hash<coroutine_handle<P>> {
     // deprecated in C++17
-    using argument_type = experimental::coroutine_handle<P>;
+    using argument_type = coroutine_handle<P>;
     // deprecated in C++17
     using result_type = size_t;
     [[nodiscard]] //
