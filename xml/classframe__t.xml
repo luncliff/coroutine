@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classframe__t" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>frame_t</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">coroutine_handle&lt; void &gt;</basecompoundref>
+    <includes refid="return_8h" local="no">return.h</includes>
+    <innerclass refid="classframe__t_1_1promise__type" prot="public">frame_t::promise_type</innerclass>
+    <briefdescription>
+<para>A type to acquire <computeroutput>coroutine_handle&lt;void&gt;</computeroutput> from anonymous coroutine&apos;s return. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="see"><para>coroutine_handle&lt;void&gt; </para></simplesect>
+</para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="228">
+        <label>coroutine_handle&lt; void &gt;</label>
+      </node>
+      <node id="227">
+        <label>frame_t</label>
+        <link refid="classframe__t"/>
+        <childnode refid="228" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="230">
+        <label>coroutine_handle&lt; void &gt;</label>
+      </node>
+      <node id="229">
+        <label>frame_t</label>
+        <link refid="classframe__t"/>
+        <childnode refid="230" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/return.h" line="129" column="1" bodyfile="interface/coroutine/return.h" bodystart="129" bodyend="158"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

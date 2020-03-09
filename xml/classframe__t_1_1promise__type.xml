@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classframe__t_1_1promise__type" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>frame_t::promise_type</compoundname>
+    <basecompoundref refid="classpromise__na" prot="public" virt="non-virtual">promise_na</basecompoundref>
+    <includes refid="return_8h" local="no">return.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classframe__t_1_1promise__type_1ac5ed5b7beba5d8b80a1c4714997669ad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void frame_t::promise_type::unhandled_exception</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>unhandled_exception</name>
+        <briefdescription>
+<para>The <computeroutput><ref refid="classframe__t" kindref="compound">frame_t</ref></computeroutput> will do nothing for exception handling. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="139" column="1" bodyfile="interface/coroutine/return.h" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classframe__t_1_1promise__type_1a6d877a5a5c67c606434803818b20c96a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void frame_t::promise_type::return_void</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>return_void</name>
+        <briefdescription>
+<para>this is a <computeroutput>void</computeroutput> return for the coroutines </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="145" column="1" bodyfile="interface/coroutine/return.h" bodystart="145" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classframe__t_1_1promise__type_1a02e7a0008289f4e8ff7a491d699a74f0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classframe__t" kindref="compound">frame_t</ref></type>
+        <definition>frame_t frame_t::promise_type::get_return_object</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_return_object</name>
+        <briefdescription>
+<para>Acquire <computeroutput>coroutine_handle&lt;void&gt;</computeroutput> from current promise and return it. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classframe__t" kindref="compound">frame_t</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="151" column="1" bodyfile="interface/coroutine/return.h" bodystart="151" bodyend="156"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Acquire <computeroutput>coroutine_handle&lt;void&gt;</computeroutput> from current object and expose it through <computeroutput>get_return_object</computeroutput> </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="297">
+        <label>frame_t::promise_type</label>
+        <link refid="classframe__t_1_1promise__type"/>
+        <childnode refid="298" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="298">
+        <label>promise_na</label>
+        <link refid="classpromise__na"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="299">
+        <label>frame_t::promise_type</label>
+        <link refid="classframe__t_1_1promise__type"/>
+        <childnode refid="300" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="300">
+        <label>promise_na</label>
+        <link refid="classpromise__na"/>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/return.h" line="134" column="1" bodyfile="interface/coroutine/return.h" bodystart="134" bodyend="157"/>
+    <listofallmembers>
+      <member refid="classpromise__na_1abce5e5bf2da45ee5ef37b57c98a0978d" prot="public" virt="non-virtual"><scope>frame_t::promise_type</scope><name>final_suspend</name></member>
+      <member refid="classframe__t_1_1promise__type_1a02e7a0008289f4e8ff7a491d699a74f0" prot="public" virt="non-virtual"><scope>frame_t::promise_type</scope><name>get_return_object</name></member>
+      <member refid="classpromise__na_1a91148abe4003519303cb8d09135e602c" prot="public" virt="non-virtual"><scope>frame_t::promise_type</scope><name>initial_suspend</name></member>
+      <member refid="classframe__t_1_1promise__type_1a6d877a5a5c67c606434803818b20c96a" prot="public" virt="non-virtual"><scope>frame_t::promise_type</scope><name>return_void</name></member>
+      <member refid="classframe__t_1_1promise__type_1ac5ed5b7beba5d8b80a1c4714997669ad" prot="public" virt="non-virtual"><scope>frame_t::promise_type</scope><name>unhandled_exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="54" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="54" bodyend="-1"/>
+        <location file="interface/coroutine/pthread.h" line="53" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcoro_1_1pthread__spawner__t_1ac32403f8e855248a85e755f8281c9063" prot="private" static="no" mutable="no">
         <type>const pthread_attr_t *const</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="55" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="55" bodyend="-1"/>
+        <location file="interface/coroutine/pthread.h" line="54" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="54" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -38,7 +38,7 @@
         <argsstring>(coroutine_handle&lt; void &gt; coro) noexcept(false)</argsstring>
         <name>resume_on_pthread</name>
         <param>
-          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
           <declname>coro</declname>
         </param>
         <briefdescription>
@@ -56,7 +56,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="34" column="1" bodyfile="modules/system/pthread.cpp" bodystart="17" bodyend="22"/>
+        <location file="interface/coroutine/pthread.h" line="33" column="1" bodyfile="modules/system/pthread.cpp" bodystart="18" bodyend="23"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="35" column="1" bodyfile="modules/system/pthread.cpp" bodystart="8" bodyend="15"/>
+        <location file="interface/coroutine/pthread.h" line="34" column="1" bodyfile="modules/system/pthread.cpp" bodystart="9" bodyend="16"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -90,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="38" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="38" bodyend="40"/>
+        <location file="interface/coroutine/pthread.h" line="37" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="37" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1pthread__spawner__t_1acf585fcfa935b93cb986e0b80d50b40d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>constexpr void</type>
@@ -103,7 +103,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="41" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="41" bodyend="42"/>
+        <location file="interface/coroutine/pthread.h" line="40" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="40" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1pthread__spawner__t_1a8b97fcba3db84ca8d0a40ccf0365b866" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -111,7 +111,7 @@
         <argsstring>(coroutine_handle&lt; void &gt; coro) noexcept(false)</argsstring>
         <name>await_suspend</name>
         <param>
-          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
           <declname>coro</declname>
         </param>
         <briefdescription>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="43" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="43" bodyend="45"/>
+        <location file="interface/coroutine/pthread.h" line="42" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="42" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1pthread__spawner__t_1a306dbbd45c626e96d0a462471bb7b598" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -141,7 +141,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="48" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="48" bodyend="50"/>
+        <location file="interface/coroutine/pthread.h" line="47" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="47" bodyend="49"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1pthread__spawner__t_1a1e11f1731604c4d4584d1a870c6810a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -154,14 +154,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="51" column="1"/>
+        <location file="interface/coroutine/pthread.h" line="50" column="1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Creates a new POSIX Thread and resume the given coroutine handle on it. </para>    </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/pthread.h" line="29" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="29" bodyend="56"/>
+    <location file="interface/coroutine/pthread.h" line="28" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="28" bodyend="55"/>
     <listofallmembers>
       <member refid="classcoro_1_1pthread__spawner__t_1ac32403f8e855248a85e755f8281c9063" prot="private" virt="non-virtual"><scope>coro::pthread_spawner_t</scope><name>attr</name></member>
       <member refid="classcoro_1_1pthread__spawner__t_1a4ee741fb2766f25431d126f1cfeb7885" prot="public" virt="non-virtual"><scope>coro::pthread_spawner_t</scope><name>await_ready</name></member>

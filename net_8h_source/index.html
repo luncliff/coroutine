@@ -502,8 +502,6 @@
 <span class="cp">#endif </span><span class="c1">// winsock || netinet</span>
 
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
 
 <span class="k">using</span> <span class="n">io_buffer_t</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">byte</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">io_buffer_t</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>

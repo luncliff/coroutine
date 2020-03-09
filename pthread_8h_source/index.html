@@ -461,17 +461,16 @@
 <p><a href="../pthread_8h/">Go to the documentation of this file.</a> </p>
 <div class="codehilite"><pre><span></span><code><span class="cp">#ifndef COROUTINE_PTHREAD_UTILITY_H</span>
 <span class="cp">#define COROUTINE_PTHREAD_UTILITY_H</span>
-<span class="cp">#if not __has_include(&lt;pthread.h&gt;)</span>
+<span class="cp">#if __has_include(&lt;pthread.h&gt;)</span>
+<span class="cp">#include</span> <span class="cpf">&lt;pthread.h&gt;</span><span class="cp"></span>
+<span class="cp">#else</span>
 <span class="cp">#error &quot;expect &lt;pthread.h&gt; for this file&quot;</span>
 <span class="cp">#endif</span>
-<span class="cp">#include</span> <span class="cpf">&lt;pthread.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;system_error&gt;</span><span class="cp"></span>
 
-<span class="cp">#include</span> <span class="cpf">&lt;coroutine/frame.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
 
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
 
 <span class="k">class</span> <span class="nc">pthread_spawner_t</span> <span class="p">{</span>
     <span class="kt">void</span> <span class="n">resume_on_pthread</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
@@ -512,10 +511,10 @@
 
     <span class="k">auto</span> <span class="n">await_transform</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_attr_t</span><span class="o">*</span> <span class="n">attr</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">tid</span><span class="p">)</span> <span class="c1">// already created.</span>
-            <span class="k">throw</span> <span class="n">logic_error</span><span class="p">{</span><span class="s">&quot;pthread&#39;s spawn must be used once&quot;</span><span class="p">};</span>
+            <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">logic_error</span><span class="p">{</span><span class="s">&quot;pthread&#39;s spawn must be used once&quot;</span><span class="p">};</span>
 
         <span class="c1">// provide the address at this point</span>
-        <span class="k">return</span> <span class="n">pthread_spawner_t</span><span class="p">{</span><span class="n">addressof</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">),</span> <span class="n">attr</span><span class="p">};</span>
+        <span class="k">return</span> <span class="n">pthread_spawner_t</span><span class="p">{</span><span class="o">&amp;</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">,</span> <span class="n">attr</span><span class="p">};</span>
     <span class="p">}</span>
     <span class="kr">inline</span> <span class="k">auto</span> <span class="n">await_transform</span><span class="p">(</span><span class="n">pthread_attr_t</span><span class="o">*</span> <span class="n">attr</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">await_transform</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">pthread_attr_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">attr</span><span class="p">));</span>

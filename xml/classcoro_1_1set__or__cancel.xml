@@ -4,9 +4,9 @@
     <compoundname>coro::set_or_cancel</compoundname>
     <includes refid="windows_8h" local="no">windows.h</includes>
       <sectiondef kind="private-attrib">
-      <memberdef kind="variable" id="classcoro_1_1set__or__cancel_1aa906040216dbce2482c49e3abedebabc" prot="private" static="no" mutable="no">
-        <type>void *</type>
-        <definition>void* coro::set_or_cancel::hobject</definition>
+      <memberdef kind="variable" id="classcoro_1_1set__or__cancel_1a4a94535cb979fd6c574c51b8c57fe37b" prot="private" static="no" mutable="no">
+        <type>HANDLE</type>
+        <definition>HANDLE coro::set_or_cancel::hobject</definition>
         <argsstring></argsstring>
         <name>hobject</name>
         <briefdescription>
@@ -15,18 +15,32 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="42" column="1" bodyfile="interface/coroutine/windows.h" bodystart="42" bodyend="-1"/>
+        <location file="interface/coroutine/windows.h" line="40" column="1" bodyfile="interface/coroutine/windows.h" bodystart="40" bodyend="-1"/>
       </memberdef>
       </sectiondef>
-      <sectiondef kind="private-func">
-      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a56616f78a2cfba0971d958a9a042f9eb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a5f2fe30cccc6e8b9a0a529d62da6257a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>coro::set_or_cancel::set_or_cancel</definition>
-        <argsstring>(const set_or_cancel &amp;)=delete</argsstring>
+        <argsstring>(HANDLE target) noexcept(false)</argsstring>
         <name>set_or_cancel</name>
         <param>
-          <type>const <ref refid="classcoro_1_1set__or__cancel" kindref="compound">set_or_cancel</ref> &amp;</type>
+          <type>HANDLE</type>
+          <declname>target</declname>
         </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="43" column="1" bodyfile="modules/system/windows.cpp" bodystart="38" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1abe6b34b7536c2600da59df1aa10e8aed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::set_or_cancel::~set_or_cancel</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~set_or_cancel</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -35,13 +49,13 @@
         </inbodydescription>
         <location file="interface/coroutine/windows.h" line="44" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a8b4b9e51e565aa420ae28323b06cc6c8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a56616f78a2cfba0971d958a9a042f9eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>coro::set_or_cancel::set_or_cancel</definition>
-        <argsstring>(set_or_cancel &amp;&amp;)=delete</argsstring>
+        <argsstring>(const set_or_cancel &amp;)=delete</argsstring>
         <name>set_or_cancel</name>
         <param>
-          <type><ref refid="classcoro_1_1set__or__cancel" kindref="compound">set_or_cancel</ref> &amp;&amp;</type>
+          <type>const <ref refid="classcoro_1_1set__or__cancel" kindref="compound">set_or_cancel</ref> &amp;</type>
         </param>
         <briefdescription>
         </briefdescription>
@@ -51,7 +65,23 @@
         </inbodydescription>
         <location file="interface/coroutine/windows.h" line="45" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a696137603ff3cb5c0558321a8e2412d4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a8b4b9e51e565aa420ae28323b06cc6c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::set_or_cancel::set_or_cancel</definition>
+        <argsstring>(set_or_cancel &amp;&amp;)=delete</argsstring>
+        <name>set_or_cancel</name>
+        <param>
+          <type><ref refid="classcoro_1_1set__or__cancel" kindref="compound">set_or_cancel</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="46" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a696137603ff3cb5c0558321a8e2412d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1set__or__cancel" kindref="compound">set_or_cancel</ref> &amp;</type>
         <definition>set_or_cancel&amp; coro::set_or_cancel::operator=</definition>
         <argsstring>(const set_or_cancel &amp;)=delete</argsstring>
@@ -65,9 +95,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="46" column="1"/>
+        <location file="interface/coroutine/windows.h" line="47" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a2e77ef5654ae6141dab1faf67affe674" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a2e77ef5654ae6141dab1faf67affe674" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1set__or__cancel" kindref="compound">set_or_cancel</ref> &amp;</type>
         <definition>set_or_cancel&amp; coro::set_or_cancel::operator=</definition>
         <argsstring>(set_or_cancel &amp;&amp;)=delete</argsstring>
@@ -81,57 +111,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="47" column="1"/>
-      </memberdef>
-      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a7ee98f7fe618104dc5ff2ccce7f5273c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void coro::set_or_cancel::suspend</definition>
-        <argsstring>(coroutine_handle&lt; void &gt;) noexcept(false)</argsstring>
-        <name>suspend</name>
-        <param>
-          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
-          <defname>coro</defname>
-        </param>
-        <briefdescription>
-<para>Resume the coroutine in the thread pool to wait for the event object. </para>        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="see"><para><ulink url="https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-registerwaitforsingleobject">https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-registerwaitforsingleobject</ulink> </para></simplesect>
-<xrefsect id="todo_1_todo000001"><xreftitle>Todo</xreftitle><xrefdescription><para>can we use <computeroutput>WT_EXECUTEINWAITTHREAD</computeroutput> for this type? </para></xrefdescription></xrefsect></para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="59" column="1" bodyfile="modules/system/windows.cpp" bodystart="57" bodyend="66"/>
-      </memberdef>
-      </sectiondef>
-      <sectiondef kind="public-func">
-      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a19a92a3cc43a7b11011125df594369a9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
-        <type></type>
-        <definition>coro::set_or_cancel::set_or_cancel</definition>
-        <argsstring>(void *target) noexcept(false)</argsstring>
-        <name>set_or_cancel</name>
-        <param>
-          <type>void *</type>
-          <declname>target</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="50" column="1"/>
-      </memberdef>
-      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a351fc31b4ac912ea48092cc727b83238" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type></type>
-        <definition>coro::set_or_cancel::~set_or_cancel</definition>
-        <argsstring>() noexcept</argsstring>
-        <name>~set_or_cancel</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="51" column="1" bodyfile="modules/system/windows.cpp" bodystart="43" bodyend="45"/>
+        <location file="interface/coroutine/windows.h" line="48" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1set__or__cancel_1ad5f73e27cfa2c17f5025906efb7f55c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -146,7 +126,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="67" column="1" bodyfile="modules/system/windows.cpp" bodystart="47" bodyend="55"/>
+        <location file="interface/coroutine/windows.h" line="64" column="1" bodyfile="modules/system/windows.cpp" bodystart="44" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1set__or__cancel_1af088d0a91ef5fc0042155b52bf917313" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>constexpr bool</type>
@@ -159,7 +139,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="69" column="1" bodyfile="interface/coroutine/windows.h" bodystart="69" bodyend="71"/>
+        <location file="interface/coroutine/windows.h" line="66" column="1" bodyfile="interface/coroutine/windows.h" bodystart="66" bodyend="68"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a3c53cc7da30ac727f1b8c77335036398" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -167,7 +147,7 @@
         <argsstring>(coroutine_handle&lt; void &gt; coro) noexcept(false)</argsstring>
         <name>await_suspend</name>
         <param>
-          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
           <declname>coro</declname>
         </param>
         <briefdescription>
@@ -176,7 +156,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="72" column="1" bodyfile="interface/coroutine/windows.h" bodystart="72" bodyend="74"/>
+        <location file="interface/coroutine/windows.h" line="69" column="1" bodyfile="interface/coroutine/windows.h" bodystart="69" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a862b4373192426e0ca4d313a32f24266" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>uint32_t</type>
@@ -189,27 +169,47 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="75" column="1" bodyfile="interface/coroutine/windows.h" bodystart="75" bodyend="77"/>
+        <location file="interface/coroutine/windows.h" line="72" column="1" bodyfile="interface/coroutine/windows.h" bodystart="72" bodyend="74"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcoro_1_1set__or__cancel_1a7ee98f7fe618104dc5ff2ccce7f5273c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::set_or_cancel::suspend</definition>
+        <argsstring>(coroutine_handle&lt; void &gt;) noexcept(false)</argsstring>
+        <name>suspend</name>
+        <param>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <defname>coro</defname>
+        </param>
+        <briefdescription>
+<para>Resume the coroutine in the thread pool to wait for the event object. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para><ulink url="https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-registerwaitforsingleobject">https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-registerwaitforsingleobject</ulink> </para></simplesect>
+<xrefsect id="todo_1_todo000002"><xreftitle>Todo</xreftitle><xrefdescription><para>can we use <computeroutput>WT_EXECUTEINWAITTHREAD</computeroutput> for this type? </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/windows.h" line="56" column="1" bodyfile="modules/system/windows.cpp" bodystart="54" bodyend="63"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Awaitable event type over Win32 thread pool</para><para>Its object can be <computeroutput>co_await</computeroutput>ed only once. The purpose of such design is to encourage use of short functions rather than containing multiple objects in the function&apos;s body. </para>    </briefdescription>
     <detaileddescription>
 <para>It uses INFINITE wait. So its user must sure one of <computeroutput>SetEvent(hEvent)</computeroutput> or <computeroutput>sc.unregister()</computeroutput> happens after <computeroutput>co_await</computeroutput>. </para>    </detaileddescription>
-    <location file="interface/coroutine/windows.h" line="40" column="1" bodyfile="interface/coroutine/windows.h" bodystart="40" bodyend="78"/>
+    <location file="interface/coroutine/windows.h" line="38" column="1" bodyfile="interface/coroutine/windows.h" bodystart="38" bodyend="75"/>
     <listofallmembers>
       <member refid="classcoro_1_1set__or__cancel_1af088d0a91ef5fc0042155b52bf917313" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>await_ready</name></member>
       <member refid="classcoro_1_1set__or__cancel_1a862b4373192426e0ca4d313a32f24266" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>await_resume</name></member>
       <member refid="classcoro_1_1set__or__cancel_1a3c53cc7da30ac727f1b8c77335036398" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>await_suspend</name></member>
-      <member refid="classcoro_1_1set__or__cancel_1aa906040216dbce2482c49e3abedebabc" prot="private" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>hobject</name></member>
-      <member refid="classcoro_1_1set__or__cancel_1a696137603ff3cb5c0558321a8e2412d4" prot="private" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>operator=</name></member>
-      <member refid="classcoro_1_1set__or__cancel_1a2e77ef5654ae6141dab1faf67affe674" prot="private" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>operator=</name></member>
-      <member refid="classcoro_1_1set__or__cancel_1a56616f78a2cfba0971d958a9a042f9eb" prot="private" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>set_or_cancel</name></member>
-      <member refid="classcoro_1_1set__or__cancel_1a8b4b9e51e565aa420ae28323b06cc6c8" prot="private" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>set_or_cancel</name></member>
-      <member refid="classcoro_1_1set__or__cancel_1a19a92a3cc43a7b11011125df594369a9" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>set_or_cancel</name></member>
+      <member refid="classcoro_1_1set__or__cancel_1a4a94535cb979fd6c574c51b8c57fe37b" prot="private" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>hobject</name></member>
+      <member refid="classcoro_1_1set__or__cancel_1a696137603ff3cb5c0558321a8e2412d4" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1set__or__cancel_1a2e77ef5654ae6141dab1faf67affe674" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1set__or__cancel_1a5f2fe30cccc6e8b9a0a529d62da6257a" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>set_or_cancel</name></member>
+      <member refid="classcoro_1_1set__or__cancel_1a56616f78a2cfba0971d958a9a042f9eb" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>set_or_cancel</name></member>
+      <member refid="classcoro_1_1set__or__cancel_1a8b4b9e51e565aa420ae28323b06cc6c8" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>set_or_cancel</name></member>
       <member refid="classcoro_1_1set__or__cancel_1a7ee98f7fe618104dc5ff2ccce7f5273c" prot="private" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>suspend</name></member>
       <member refid="classcoro_1_1set__or__cancel_1ad5f73e27cfa2c17f5025906efb7f55c2" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>unregister</name></member>
-      <member refid="classcoro_1_1set__or__cancel_1a351fc31b4ac912ea48092cc727b83238" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>~set_or_cancel</name></member>
+      <member refid="classcoro_1_1set__or__cancel_1abe6b34b7536c2600da59df1aa10e8aed" prot="public" virt="non-virtual"><scope>coro::set_or_cancel</scope><name>~set_or_cancel</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

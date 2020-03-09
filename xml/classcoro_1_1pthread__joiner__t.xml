@@ -26,7 +26,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="155" column="1" bodyfile="modules/system/pthread.cpp" bodystart="30" bodyend="43"/>
+        <location file="interface/coroutine/pthread.h" line="154" column="1" bodyfile="modules/system/pthread.cpp" bodystart="31" bodyend="44"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="158" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="158" bodyend="160"/>
+        <location file="interface/coroutine/pthread.h" line="157" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="157" bodyend="159"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1pthread__joiner__t_1ad9e4c69a571734a9a3c9a08b2b4fe7cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -66,7 +66,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="164" column="1" bodyfile="modules/system/pthread.cpp" bodystart="24" bodyend="28"/>
+        <location file="interface/coroutine/pthread.h" line="163" column="1" bodyfile="modules/system/pthread.cpp" bodystart="25" bodyend="29"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -105,7 +105,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/pthread.h" line="134" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="134" bodyend="165"/>
+    <location file="interface/coroutine/pthread.h" line="133" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="133" bodyend="164"/>
     <listofallmembers>
       <member refid="classcoro_1_1pthread__knower__t_1aaba88045030e8d395299c27a24b99ba2" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t</scope><name>operator pthread_t</name></member>
       <member refid="classcoro_1_1pthread__knower__t_1a9bdae50f877e7c639c28507f28eb1492" prot="protected" virt="non-virtual"><scope>coro::pthread_joiner_t</scope><name>promise</name></member>

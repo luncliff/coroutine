@@ -462,6 +462,7 @@
 <div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;coroutine/pthread.h&gt;</span><span class="cp"></span>
 
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 
 <span class="kt">void</span><span class="o">*</span> <span class="n">pthread_spawner_t</span><span class="o">::</span><span class="n">pthread_resume</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">ptr</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// assume we will receive an address of the coroutine frame</span>

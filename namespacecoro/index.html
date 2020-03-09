@@ -447,13 +447,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#namespaces" class="md-nav__link">
-    Namespaces
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#classes" class="md-nav__link">
     Classes
   </a>
@@ -503,21 +496,6 @@
                 <h1 id="namespace-coro">Namespace coro<a class="headerlink" href="#namespace-coro" title="Permanent link">&para;</a></h1>
 <p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="./"><strong>coro</strong></a></p>
 <p><a href="#detailed-description">More...</a></p>
-<h2 id="namespaces">Namespaces<a class="headerlink" href="#namespaces" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th align="right">Type</th>
-<th align="left">Name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="right">namespace</td>
-<td align="left"><a href="../namespacecoro_1_1internal/"><strong>internal</strong></a> <br></td>
-</tr>
-</tbody>
-</table>
 <h2 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -528,26 +506,6 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">struct</td>
-<td align="left"><a href="../structcoro_1_1bypass__mutex/"><strong>bypass_mutex</strong></a> <br><em>Lockable without lock operation.</em></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1channel/"><strong>channel</strong></a> &lt;T, M&gt;<br><em>C++ Coroutines based channel.</em></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1channel__peeker/"><strong>channel_peeker</strong></a> &lt;typename T, typename M&gt;<br><em>Extension of</em> <code>channel_reader</code> <em>for subroutines.</em></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1channel__reader/"><strong>channel_reader</strong></a> &lt;typename T, typename M&gt;<br><em>Awaitable type for</em> <code>channel</code> <em>'s read operation. It moves the value from writer coroutine's frame to reader coroutine's frame.</em></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1channel__writer/"><strong>channel_writer</strong></a> &lt;typename T, typename M&gt;<br><em>Awaitable for</em> <code>channel</code> <em>'s write operation. It exposes a reference to the value for</em><code>channel_reader</code> <em>.</em></td>
-</tr>
-<tr>
 <td align="right">class</td>
 <td align="left"><a href="../classcoro_1_1continue__on__apc/"><strong>continue_on_apc</strong></a> <br><em>Move into the designated thread's APC queue and continue the routine.</em></td>
 </tr>
@@ -557,7 +515,7 @@
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1enumerable/"><strong>enumerable</strong></a> &lt;typename T&gt;<br></td>
+<td align="left"><a href="../classcoro_1_1enumerable/"><strong>enumerable</strong></a> &lt;typename T&gt;<br><em>C++ Coroutines Generator.</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
@@ -566,10 +524,6 @@
 <tr>
 <td align="right">class</td>
 <td align="left"><a href="../classcoro_1_1event/"><strong>event</strong></a> <br><em>RAII + stateful</em> <code>eventfd</code> __</td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1frame__t/"><strong>frame_t</strong></a> <br><em>A type to acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from anonymous coroutine's return.</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
@@ -594,22 +548,6 @@
 <tr>
 <td align="right">class</td>
 <td align="left"><a href="../classcoro_1_1kqueue__owner/"><strong>kqueue_owner</strong></a> <br><em>RAII wrapping for kqueue file descriptor.</em></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1promise__aa/"><strong>promise_aa</strong></a> <br></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1promise__an/"><strong>promise_an</strong></a> <br></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1promise__na/"><strong>promise_na</strong></a> <br></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1promise__nn/"><strong>promise_nn</strong></a> <br></td>
 </tr>
 <tr>
 <td align="right">class</td>
@@ -655,7 +593,7 @@
 <td align="left"><a href="./#typedef-io-buffer-t"><strong>io_buffer_t</strong></a>  <br><em>This is simply a view to storage. Be aware that it doesn't have ownership.</em></td>
 </tr>
 <tr>
-<td align="right">typedef void(*)(void *ctx, <a href="../classstd_1_1experimental_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; coro)</td>
+<td align="right">typedef void(*)(void *ctx, <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; coro)</td>
 <td align="left"><a href="./#typedef-net-callback-t"><strong>net_callback_t</strong></a>  <br></td>
 </tr>
 </tbody>
@@ -782,15 +720,7 @@
 </tr>
 <tr>
 <td align="right">void</td>
-<td align="left"><a href="./#function-resume-net-task"><strong>resume_net_task</strong></a> (void *, <a href="../classstd_1_1experimental_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; coro) noexcept<br></td>
-</tr>
-<tr>
-<td align="right">void</td>
-<td align="left"><a href="./#function-select"><strong>select</strong></a> (<a href="../classcoro_1_1channel/"><strong>channel</strong></a>&lt; T, M &gt; &amp; ch, Fn &amp;&amp; fn) noexcept<br></td>
-</tr>
-<tr>
-<td align="right">void</td>
-<td align="left"><a href="./#function-select"><strong>select</strong></a> (Ch &amp; ch, Fn &amp;&amp; fn, Args &amp;&amp;... args) noexcept<br></td>
+<td align="left"><a href="./#function-resume-net-task"><strong>resume_net_task</strong></a> (void *, <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; coro) noexcept<br></td>
 </tr>
 <tr>
 <td align="right">auto</td>
@@ -1106,31 +1036,6 @@
 </code></pre></div>
 
 
-<h3 id="function-select">function select<a class="headerlink" href="#function-select" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span> <span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span> <span class="k">typename</span> <span class="n">M</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Fn</span> <span class="k">typename</span> <span class="n">Fn</span><span class="o">&gt;</span>
-<span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">select</span> <span class="p">(</span>
-    <span class="n">channel</span> <span class="o">&lt;</span> <span class="n">T</span><span class="p">,</span> <span class="n">M</span> <span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">ch</span><span class="p">,</span>
-    <span class="n">Fn</span> <span class="o">&amp;&amp;</span> <span class="n">fn</span>
-<span class="p">)</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<p><strong>Note:</strong></p>
-<p>If the channel is readable, acquire the value and invoke the function</p>
-<p><strong>See also:</strong> <a href="../classcoro_1_1channel__peeker/"><strong>channel_peeker</strong></a> </p>
-<h3 id="function-select_1">function select<a class="headerlink" href="#function-select_1" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Ch</span> <span class="k">typename</span> <span class="n">Ch</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Fn</span> <span class="k">typename</span> <span class="n">Fn</span><span class="o">&gt;</span>
-<span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">select</span> <span class="p">(</span>
-    <span class="n">Ch</span> <span class="o">&amp;</span> <span class="n">ch</span><span class="p">,</span>
-    <span class="n">Fn</span> <span class="o">&amp;&amp;</span> <span class="n">fn</span><span class="p">,</span>
-    <span class="n">Args</span> <span class="o">&amp;&amp;</span><span class="p">...</span> <span class="n">args</span>
-<span class="p">)</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<p><strong>Note:</strong></p>
-<p>For each pair, peeks a channel and invoke the function with the value if the peek was successful.</p>
-<p><strong>See also:</strong> test/channel_select_type.cpp </p>
 <h3 id="function-send_stream">function send_stream<a class="headerlink" href="#function-send_stream" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">send_stream</span> <span class="p">(</span>
     <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
@@ -1220,7 +1125,7 @@
 
 
 <hr />
-<p>The documentation for this class was generated from the following file <code>interface/coroutine/channel.hpp</code></p>
+<p>The documentation for this class was generated from the following file <code>interface/coroutine/linux.h</code></p>
                 
                   
                 

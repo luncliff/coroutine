@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classinternal_1_1list" kind="class" language="C++" prot="public">
+    <compoundname>internal::list</compoundname>
+    <includes refid="channel_8hpp" local="no">channel.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename</type>
+        <declname>T</declname>
+        <defname>T</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classinternal_1_1list_1ab3022808ff39d010f8d7414e78dfae43" prot="private" static="no" mutable="no">
+        <type>T *</type>
+        <definition>T* internal::list&lt; T &gt;::head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="85" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classinternal_1_1list_1ad96687aa534157909ddf8d4bb6b3cef4" prot="private" static="no" mutable="no">
+        <type>T *</type>
+        <definition>T* internal::list&lt; T &gt;::tail</definition>
+        <argsstring></argsstring>
+        <name>tail</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="86" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classinternal_1_1list_1ac846e27cfb9646e8f5de0d0a5c48d742" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool internal::list&lt; T &gt;::is_empty</definition>
+        <argsstring>() const noexcept(false)</argsstring>
+        <name>is_empty</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="89" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classinternal_1_1list_1a06db9566686875fbb1824d1700e8a3c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void internal::list&lt; T &gt;::push</definition>
+        <argsstring>(T *node) noexcept(false)</argsstring>
+        <name>push</name>
+        <param>
+          <type>T *</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="92" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="92" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classinternal_1_1list_1a7b39507e869c5cfa3abf7376878abae1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto internal::list&lt; T &gt;::pop</definition>
+        <argsstring>() noexcept(false) -&gt; T *</argsstring>
+        <name>pop</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>T* The return can be <computeroutput>nullptr</computeroutput> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="102" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="102" bodyend="109"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Linked list without allocation. </para>    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of the node. Its member must have <computeroutput>next</computeroutput> pointer </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>    </detaileddescription>
+    <location file="interface/coroutine/channel.hpp" line="84" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="84" bodyend="110"/>
+    <listofallmembers>
+      <member refid="classinternal_1_1list_1ab3022808ff39d010f8d7414e78dfae43" prot="private" virt="non-virtual"><scope>internal::list</scope><name>head</name></member>
+      <member refid="classinternal_1_1list_1ac846e27cfb9646e8f5de0d0a5c48d742" prot="public" virt="non-virtual"><scope>internal::list</scope><name>is_empty</name></member>
+      <member refid="classinternal_1_1list_1a7b39507e869c5cfa3abf7376878abae1" prot="public" virt="non-virtual"><scope>internal::list</scope><name>pop</name></member>
+      <member refid="classinternal_1_1list_1a06db9566686875fbb1824d1700e8a3c2" prot="public" virt="non-virtual"><scope>internal::list</scope><name>push</name></member>
+      <member refid="classinternal_1_1list_1ad96687aa534157909ddf8d4bb6b3cef4" prot="private" virt="non-virtual"><scope>internal::list</scope><name>tail</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

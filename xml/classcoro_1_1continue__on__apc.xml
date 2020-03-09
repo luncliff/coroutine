@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="161" column="1" bodyfile="interface/coroutine/windows.h" bodystart="161" bodyend="-1"/>
+        <location file="interface/coroutine/windows.h" line="159" column="1" bodyfile="interface/coroutine/windows.h" bodystart="159" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="126" column="1" bodyfile="modules/system/windows.cpp" bodystart="109" bodyend="113"/>
+        <location file="interface/coroutine/windows.h" line="124" column="1" bodyfile="modules/system/windows.cpp" bodystart="106" bodyend="110"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -44,7 +44,7 @@
         <argsstring>(coroutine_handle&lt; void &gt;) noexcept</argsstring>
         <name>queue_user_apc</name>
         <param>
-          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
           <defname>coro</defname>
         </param>
         <briefdescription>
@@ -55,7 +55,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="132" column="1" bodyfile="modules/system/windows.cpp" bodystart="116" bodyend="123"/>
+        <location file="interface/coroutine/windows.h" line="130" column="1" bodyfile="modules/system/windows.cpp" bodystart="113" bodyend="120"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -70,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="135" column="1" bodyfile="interface/coroutine/windows.h" bodystart="135" bodyend="137"/>
+        <location file="interface/coroutine/windows.h" line="133" column="1" bodyfile="interface/coroutine/windows.h" bodystart="133" bodyend="135"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1continue__on__apc_1a019729d426146f32789c9525e70b1224" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>constexpr void</type>
@@ -83,7 +83,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="138" column="1" bodyfile="interface/coroutine/windows.h" bodystart="138" bodyend="139"/>
+        <location file="interface/coroutine/windows.h" line="136" column="1" bodyfile="interface/coroutine/windows.h" bodystart="136" bodyend="137"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1continue__on__apc_1a4a9014be117a81d5b8534501e58d2d8d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -91,7 +91,7 @@
         <argsstring>(coroutine_handle&lt; void &gt; coro) noexcept(false)</argsstring>
         <name>await_suspend</name>
         <param>
-          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
           <declname>coro</declname>
         </param>
         <briefdescription>
@@ -116,7 +116,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="146" column="1" bodyfile="interface/coroutine/windows.h" bodystart="146" bodyend="150"/>
+        <location file="interface/coroutine/windows.h" line="144" column="1" bodyfile="interface/coroutine/windows.h" bodystart="144" bodyend="148"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1continue__on__apc_1abd15aa633ddddbc1b0c24fab8bb33171" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
@@ -142,7 +142,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="157" column="1" bodyfile="interface/coroutine/windows.h" bodystart="157" bodyend="158"/>
+        <location file="interface/coroutine/windows.h" line="155" column="1" bodyfile="interface/coroutine/windows.h" bodystart="155" bodyend="156"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -151,7 +151,7 @@
 <para><simplesect kind="see"><para>QueueUserAPC </para></simplesect>
 <simplesect kind="see"><para>OpenThread </para></simplesect>
 </para>    </detaileddescription>
-    <location file="interface/coroutine/windows.h" line="125" column="1" bodyfile="interface/coroutine/windows.h" bodystart="125" bodyend="162"/>
+    <location file="interface/coroutine/windows.h" line="123" column="1" bodyfile="interface/coroutine/windows.h" bodystart="123" bodyend="160"/>
     <listofallmembers>
       <member refid="classcoro_1_1continue__on__apc_1ac411e4ff971369b32a8236e053b6ae55" prot="public" virt="non-virtual"><scope>coro::continue_on_apc</scope><name>await_ready</name></member>
       <member refid="classcoro_1_1continue__on__apc_1a019729d426146f32789c9525e70b1224" prot="public" virt="non-virtual"><scope>coro::continue_on_apc</scope><name>await_resume</name></member>

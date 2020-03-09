@@ -11,7 +11,7 @@
         <argsstring>(coroutine_handle&lt; void &gt; t) noexcept(false)</argsstring>
         <name>suspend</name>
         <param>
-          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
           <declname>t</declname>
         </param>
         <briefdescription>
@@ -28,7 +28,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="222" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="198" bodyend="212"/>
+        <location file="interface/coroutine/net.h" line="223" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="198" bodyend="212"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1io__recv_1a19890610fceadf4dc82e2bc2bb7f31aa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int64_t</type>
@@ -42,7 +42,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="230" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="214" bodyend="221"/>
+        <location file="interface/coroutine/net.h" line="231" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="214" bodyend="221"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -57,7 +57,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="233" column="1" bodyfile="interface/coroutine/net.h" bodystart="233" bodyend="235"/>
+        <location file="interface/coroutine/net.h" line="234" column="1" bodyfile="interface/coroutine/net.h" bodystart="234" bodyend="236"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1io__recv_1af3d6fd62e9cc0e51db565c111769d7f3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -65,7 +65,7 @@
         <argsstring>(coroutine_handle&lt; void &gt; t) noexcept(false)</argsstring>
         <name>await_suspend</name>
         <param>
-          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
           <declname>t</declname>
         </param>
         <briefdescription>
@@ -74,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="236" column="1" bodyfile="interface/coroutine/net.h" bodystart="236" bodyend="238"/>
+        <location file="interface/coroutine/net.h" line="237" column="1" bodyfile="interface/coroutine/net.h" bodystart="237" bodyend="239"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1io__recv_1a009e06ff7800d9ede9e3ac8e6b7d0861" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>int64_t</type>
@@ -87,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="239" column="1" bodyfile="interface/coroutine/net.h" bodystart="239" bodyend="241"/>
+        <location file="interface/coroutine/net.h" line="240" column="1" bodyfile="interface/coroutine/net.h" bodystart="240" bodyend="242"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -97,47 +97,47 @@
 <simplesect kind="see"><para>WSARecv </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="229">
+      <node id="234">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="230" relation="public-inheritance">
+        <childnode refid="235" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="228">
+      <node id="233">
         <label>coro::io_recv</label>
         <link refid="classcoro_1_1io__recv"/>
-        <childnode refid="229" relation="public-inheritance">
+        <childnode refid="234" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="230">
+      <node id="235">
         <label>io_control_block</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="232">
+      <node id="239">
+        <label>std::coroutine_handle&lt; void &gt;</label>
+        <link refid="structstd_1_1coroutine__handle_3_01void_01_4"/>
+      </node>
+      <node id="237">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="233" relation="public-inheritance">
+        <childnode refid="238" relation="public-inheritance">
         </childnode>
-        <childnode refid="234" relation="usage">
+        <childnode refid="239" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="231">
+      <node id="236">
         <label>coro::io_recv</label>
         <link refid="classcoro_1_1io__recv"/>
-        <childnode refid="232" relation="public-inheritance">
+        <childnode refid="237" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="233">
+      <node id="238">
         <label>io_control_block</label>
       </node>
-      <node id="234">
-        <label>std::experimental::coroutine_handle&lt; void &gt;</label>
-        <link refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4"/>
-      </node>
     </collaborationgraph>
-    <location file="interface/coroutine/net.h" line="216" column="1" bodyfile="interface/coroutine/net.h" bodystart="216" bodyend="242"/>
+    <location file="interface/coroutine/net.h" line="217" column="1" bodyfile="interface/coroutine/net.h" bodystart="217" bodyend="243"/>
     <listofallmembers>
       <member refid="classcoro_1_1io__recv_1acbe69a0ee11a0ad650a27dae19fbae17" prot="public" virt="non-virtual"><scope>coro::io_recv</scope><name>await_ready</name></member>
       <member refid="classcoro_1_1io__recv_1a009e06ff7800d9ede9e3ac8e6b7d0861" prot="public" virt="non-virtual"><scope>coro::io_recv</scope><name>await_resume</name></member>

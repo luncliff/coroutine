@@ -461,17 +461,15 @@
 <p><a href="../linux_8h/">Go to the documentation of this file.</a> </p>
 <div class="codehilite"><pre><span></span><code><span class="cp">#ifndef COROUTINE_SYSTEM_WRAPPER_H</span>
 <span class="cp">#define COROUTINE_SYSTEM_WRAPPER_H</span>
-<span class="cp">#if not(defined(__linux__))</span>
+<span class="cp">#if !(defined(__linux__))</span>
 <span class="cp">#error &quot;expect Linux platform for this file&quot;</span>
 <span class="cp">#endif</span>
-
-<span class="cp">#include</span> <span class="cpf">&lt;coroutine/frame.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;gsl/gsl&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;sys/epoll.h&gt; // for Linux epoll</span><span class="cp"></span>
 
+<span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;gsl/gsl&gt;</span><span class="cp"></span>
+
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
 
 <span class="k">class</span> <span class="nc">epoll_owner</span> <span class="k">final</span> <span class="p">{</span>
     <span class="kt">int64_t</span> <span class="n">epfd</span><span class="p">;</span>

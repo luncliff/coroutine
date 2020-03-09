@@ -464,27 +464,23 @@
 <span class="cp">#define LUNCLIFF_COROUTINE_CHANNEL_HPP</span>
 <span class="cp">#include</span> <span class="cpf">&lt;mutex&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;tuple&gt;</span><span class="cp"></span>
-<span class="cp">#if __has_include(&lt;coroutine&gt;) </span><span class="c1">// C++ 20</span>
-<span class="cp">#include</span> <span class="cpf">&lt;coroutine&gt;</span><span class="cp"></span>
-<span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 
-<span class="cp">#elif __has_include(&lt;coroutine/frame.h&gt;)</span>
+<span class="cp">#if __has_include(&lt;coroutine/frame.h&gt;)</span>
 <span class="cp">#include</span> <span class="cpf">&lt;coroutine/frame.h&gt;</span><span class="cp"></span>
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">coroutine_handle</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">suspend_always</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">suspend_never</span><span class="p">;</span>
 
-<span class="cp">#elif __has_include(&lt;experimental/coroutine&gt;) </span><span class="c1">// C++ 17</span>
+<span class="cp">#elif __has_include(&lt;experimental/coroutine&gt;)</span>
 <span class="cp">#include</span> <span class="cpf">&lt;experimental/coroutine&gt;</span><span class="cp"></span>
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_handle</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">suspend_always</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">suspend_never</span><span class="p">;</span>
 
 <span class="cp">#else</span>
-<span class="cp">#error &quot;expect header &lt;experimental/coroutine&gt; or &lt;coroutine/frame.h&gt;&quot;</span>
-<span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
-
+<span class="cp">#error &quot;requires header &lt;experimental/coroutine&gt; or &lt;coroutine/frame.h&gt;&quot;</span>
 <span class="cp">#endif</span>
 
 <span class="k">struct</span> <span class="n">bypass_mutex</span> <span class="k">final</span> <span class="p">{</span>
@@ -566,7 +562,7 @@
 
   <span class="k">protected</span><span class="o">:</span>
     <span class="k">explicit</span> <span class="n">channel_reader</span><span class="p">(</span><span class="n">channel_type</span><span class="o">&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
-        <span class="o">:</span> <span class="n">ptr</span><span class="p">{},</span> <span class="n">frame</span><span class="p">{</span><span class="k">nullptr</span><span class="p">},</span> <span class="n">chan</span><span class="p">{</span><span class="n">addressof</span><span class="p">(</span><span class="n">ch</span><span class="p">)}</span> <span class="p">{</span>
+        <span class="o">:</span> <span class="n">ptr</span><span class="p">{},</span> <span class="n">frame</span><span class="p">{</span><span class="k">nullptr</span><span class="p">},</span> <span class="n">chan</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">addressof</span><span class="p">(</span><span class="n">ch</span><span class="p">)}</span> <span class="p">{</span>
     <span class="p">}</span>
     <span class="n">channel_reader</span><span class="p">(</span><span class="k">const</span> <span class="n">channel_reader</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
     <span class="n">channel_reader</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">channel_reader</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
@@ -585,8 +581,8 @@
 
         <span class="n">writer</span><span class="o">*</span> <span class="n">w</span> <span class="o">=</span> <span class="n">chan</span><span class="o">-&gt;</span><span class="n">writer_list</span><span class="o">::</span><span class="n">pop</span><span class="p">();</span>
         <span class="c1">// exchange address &amp; resumeable_handle</span>
-        <span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">,</span> <span class="n">w</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">);</span>
-        <span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">,</span> <span class="n">w</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">,</span> <span class="n">w</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">,</span> <span class="n">w</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">);</span>
 
         <span class="n">chan</span><span class="o">-&gt;</span><span class="n">mtx</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
         <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
@@ -601,17 +597,17 @@
         <span class="n">ch</span><span class="p">.</span><span class="n">reader_list</span><span class="o">::</span><span class="n">push</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
         <span class="n">ch</span><span class="p">.</span><span class="n">mtx</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
     <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tuple</span><span class="o">&lt;</span><span class="n">value_type</span><span class="p">,</span> <span class="kt">bool</span><span class="o">&gt;</span> <span class="p">{</span>
-        <span class="k">auto</span> <span class="n">t</span> <span class="o">=</span> <span class="n">make_tuple</span><span class="p">(</span><span class="n">value_type</span><span class="p">{},</span> <span class="nb">false</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="n">value_type</span><span class="p">,</span> <span class="kt">bool</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">t</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="n">value_type</span><span class="p">{},</span> <span class="nb">false</span><span class="p">);</span>
         <span class="c1">// frame holds poision if the channel is under destruction</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span> <span class="o">==</span> <span class="n">internal</span><span class="o">::</span><span class="n">poison</span><span class="p">())</span>
             <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
         <span class="c1">// the resume operation can destroy the other coroutine</span>
         <span class="c1">// store before resume</span>
-        <span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="n">move</span><span class="p">(</span><span class="o">*</span><span class="n">ptr</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="o">*</span><span class="n">ptr</span><span class="p">);</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
             <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
-        <span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
         <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
@@ -645,7 +641,7 @@
 
   <span class="k">private</span><span class="o">:</span>
     <span class="k">explicit</span> <span class="n">channel_writer</span><span class="p">(</span><span class="n">channel_type</span><span class="o">&amp;</span> <span class="n">ch</span><span class="p">,</span> <span class="n">pointer</span> <span class="n">pv</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
-        <span class="o">:</span> <span class="n">ptr</span><span class="p">{</span><span class="n">pv</span><span class="p">},</span> <span class="n">frame</span><span class="p">{</span><span class="k">nullptr</span><span class="p">},</span> <span class="n">chan</span><span class="p">{</span><span class="n">addressof</span><span class="p">(</span><span class="n">ch</span><span class="p">)}</span> <span class="p">{</span>
+        <span class="o">:</span> <span class="n">ptr</span><span class="p">{</span><span class="n">pv</span><span class="p">},</span> <span class="n">frame</span><span class="p">{</span><span class="k">nullptr</span><span class="p">},</span> <span class="n">chan</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">addressof</span><span class="p">(</span><span class="n">ch</span><span class="p">)}</span> <span class="p">{</span>
     <span class="p">}</span>
     <span class="n">channel_writer</span><span class="p">(</span><span class="k">const</span> <span class="n">channel_writer</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
     <span class="n">channel_writer</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">channel_writer</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
@@ -664,8 +660,8 @@
 
         <span class="n">reader</span><span class="o">*</span> <span class="n">r</span> <span class="o">=</span> <span class="n">chan</span><span class="o">-&gt;</span><span class="n">reader_list</span><span class="o">::</span><span class="n">pop</span><span class="p">();</span>
         <span class="c1">// exchange address &amp; resumeable_handle</span>
-        <span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">,</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">);</span>
-        <span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">,</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">,</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">,</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">);</span>
 
         <span class="n">chan</span><span class="o">-&gt;</span><span class="n">mtx</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
         <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
@@ -693,7 +689,7 @@
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel</span> <span class="k">final</span> <span class="o">:</span> <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">channel_reader</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span><span class="p">,</span>
                       <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">channel_writer</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
-    <span class="k">static_assert</span><span class="p">(</span><span class="n">is_reference</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span> <span class="o">==</span> <span class="nb">false</span><span class="p">,</span>
+    <span class="k">static_assert</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_reference</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span> <span class="o">==</span> <span class="nb">false</span><span class="p">,</span>
                   <span class="s">&quot;reference type can&#39;t be channel&#39;s value_type.&quot;</span><span class="p">);</span>
 
   <span class="k">public</span><span class="o">:</span>
@@ -733,7 +729,7 @@
         <span class="c1">// even 5&#39;000+ can be unsafe for hazard usage ...</span>
         <span class="kt">size_t</span> <span class="n">repeat</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
         <span class="k">do</span> <span class="p">{</span>
-            <span class="n">unique_lock</span> <span class="n">lck</span><span class="p">{</span><span class="n">mtx</span><span class="p">};</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span> <span class="n">lck</span><span class="p">{</span><span class="n">mtx</span><span class="p">};</span>
             <span class="k">while</span> <span class="p">(</span><span class="n">writers</span><span class="p">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
                 <span class="n">writer</span><span class="o">*</span> <span class="n">w</span> <span class="o">=</span> <span class="n">writers</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
                 <span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">w</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">);</span>
@@ -753,7 +749,7 @@
 
   <span class="k">public</span><span class="o">:</span>
     <span class="k">decltype</span><span class="p">(</span><span class="k">auto</span><span class="p">)</span> <span class="n">write</span><span class="p">(</span><span class="n">reference</span> <span class="n">ref</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">channel_writer</span><span class="p">{</span><span class="o">*</span><span class="k">this</span><span class="p">,</span> <span class="n">addressof</span><span class="p">(</span><span class="n">ref</span><span class="p">)};</span>
+        <span class="k">return</span> <span class="n">channel_writer</span><span class="p">{</span><span class="o">*</span><span class="k">this</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">addressof</span><span class="p">(</span><span class="n">ref</span><span class="p">)};</span>
     <span class="p">}</span>
     <span class="k">decltype</span><span class="p">(</span><span class="k">auto</span><span class="p">)</span> <span class="n">read</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">channel_reader</span><span class="p">{</span><span class="o">*</span><span class="k">this</span><span class="p">};</span>
@@ -779,18 +775,18 @@
 
   <span class="k">public</span><span class="o">:</span>
     <span class="kt">void</span> <span class="n">peek</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">unique_lock</span> <span class="n">lck</span><span class="p">{</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">mtx</span><span class="p">};</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span> <span class="n">lck</span><span class="p">{</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">mtx</span><span class="p">};</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">writer_list</span><span class="o">::</span><span class="n">is_empty</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">writer</span><span class="o">*</span> <span class="n">w</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">chan</span><span class="o">-&gt;</span><span class="n">writer_list</span><span class="o">::</span><span class="n">pop</span><span class="p">();</span>
-            <span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">,</span> <span class="n">w</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">);</span>
-            <span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">,</span> <span class="n">w</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">);</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">,</span> <span class="n">w</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">);</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">,</span> <span class="n">w</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="kt">bool</span> <span class="n">acquire</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">storage</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// if there was a writer, take its value</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span>
             <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-        <span class="n">storage</span> <span class="o">=</span> <span class="n">move</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">);</span>
+        <span class="n">storage</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="p">);</span>
         <span class="c1">// resume writer coroutine</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">))</span>
             <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
@@ -810,6 +806,7 @@
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Ch</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Fn</span><span class="o">&gt;</span>
 <span class="kt">void</span> <span class="n">select</span><span class="p">(</span><span class="n">Ch</span><span class="o">&amp;</span> <span class="n">ch</span><span class="p">,</span> <span class="n">Fn</span><span class="o">&amp;&amp;</span> <span class="n">fn</span><span class="p">,</span> <span class="n">Args</span><span class="o">&amp;&amp;</span><span class="p">...</span> <span class="n">args</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
     <span class="n">select</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="n">forward</span><span class="o">&lt;</span><span class="n">Fn</span><span class="o">&amp;&amp;&gt;</span><span class="p">(</span><span class="n">fn</span><span class="p">));</span>           <span class="c1">// evaluate</span>
     <span class="k">return</span> <span class="nf">select</span><span class="p">(</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Args</span><span class="o">&amp;&amp;&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">)...);</span> <span class="c1">// try next pair</span>
 <span class="p">}</span>

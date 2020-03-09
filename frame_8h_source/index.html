@@ -459,404 +459,224 @@
                 <h1 id="file-frameh">File frame.h<a class="headerlink" href="#file-frameh" title="Permanent link">&para;</a></h1>
 <p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_9b61234ab8cba81e3caae75634773f62/"><strong>coroutine</strong></a> <strong>&gt;</strong> <a href="../frame_8h/"><strong>frame.h</strong></a></p>
 <p><a href="../frame_8h/">Go to the documentation of this file.</a> </p>
-<div class="codehilite"><pre><span></span><code><span class="c1">//</span>
-<span class="c1">//  Author  : github.com/luncliff (luncliff@gmail.com)</span>
-<span class="c1">//  License : CC BY 4.0</span>
-<span class="c1">//</span>
-<span class="c1">//  Note</span>
-<span class="c1">//      Header to adjust the difference of coroutine frame between compilers</span>
-<span class="c1">//</span>
-<span class="c1">//  Reference</span>
-<span class="c1">//      &lt;experimental/resumable&gt; from Microsoft VC++ (since 2017 Feb.)</span>
-<span class="c1">//      &lt;experimental/coroutine&gt; from LLVM libcxx (since 6.0)</span>
-<span class="c1">//      https://github.com/iains/gcc-cxx-coroutines</span>
-<span class="c1">//</span>
-<span class="cp">#pragma once</span>
-
+<div class="codehilite"><pre><span></span><code><span class="cp">#pragma once</span>
+<span class="cp">#ifndef _COROUTINE_</span>
+<span class="cp">#define _COROUTINE_</span>
+<span class="cp">#define _EXPERIMENTAL_RESUMABLE_</span>
+<span class="cp">#if __has_include(&lt;yvals_core.h&gt;)</span>
+<span class="cp">#include</span> <span class="cpf">&lt;yvals_core.h&gt;</span><span class="cp"></span>
+<span class="cp">#endif</span>
+<span class="cp">#if _STL_COMPILER_PREPROCESSOR</span>
+<span class="cp">#include</span> <span class="cpf">&lt;memory&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;new&gt;</span><span class="cp"></span>
+<span class="cp">#endif </span><span class="c1">// _STL_COMPILER_PREPROCESSOR</span>
 <span class="cp">#include</span> <span class="cpf">&lt;cstddef&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;cstdint&gt;</span><span class="cp"></span>
-
-<span class="cp">#if defined(__clang__) &amp;&amp; defined(_MSC_VER) </span><span class="c1">// use this header</span>
-<span class="c1">//</span>
-<span class="c1">// case: clang-cl, VC++</span>
-<span class="c1">//  In this case, override &lt;experimental/resumable&gt;.</span>
-<span class="c1">//  Since msvc and clang++ uses differnet frame layout,</span>
-<span class="c1">//  VC++ won&#39;t fit clang-cl&#39;s code generation.</span>
-<span class="c1">//  see the implementation below</span>
-<span class="c1">//</span>
-<span class="cp">#if defined(_EXPERIMENTAL_RESUMABLE_)</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="nb">false</span><span class="p">,</span> <span class="s">&quot;This header replaces &lt;experimental/coroutine&gt;&quot;</span>
-                     <span class="s">&quot; for clang-cl/VC++. Please remove previous includes.&quot;</span><span class="p">);</span>
-<span class="cp">#endif</span>
-<span class="c1">// supporess later includes</span>
-<span class="cp">#define _EXPERIMENTAL_RESUMABLE_</span>
-
-<span class="cp">#elif defined(USE_PORTABLE_COROUTINE_HANDLE) </span><span class="c1">// use this header</span>
-<span class="c1">//</span>
-<span class="c1">// case: clang-cl, VC++</span>
-<span class="c1">// case: msvc, VC++</span>
-<span class="c1">// case: clang, libc++</span>
-<span class="c1">//</span>
-<span class="cp">#if defined(_EXPERIMENTAL_RESUMABLE_)</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="nb">false</span><span class="p">,</span> <span class="s">&quot;This header replaces &lt;experimental/coroutine&gt;&quot;</span>
-                     <span class="s">&quot; for clang-cl/VC++. Please remove previous includes.&quot;</span><span class="p">);</span>
-<span class="cp">#endif</span>
-<span class="c1">// supporess later includes</span>
-<span class="cp">#define _EXPERIMENTAL_RESUMABLE_</span>
-
-<span class="cp">#else                          </span><span class="c1">// use default header</span>
-<span class="c1">//</span>
-<span class="c1">// case: msvc, VC++</span>
-<span class="c1">// case: clang, libc++</span>
-<span class="c1">//  It is safe to use vendor&#39;s header.</span>
-<span class="c1">//  by defining macro variable, user can prevent template redefinition</span>
-<span class="c1">//</span>
-<span class="cp">#if __has_include(&lt;coroutine&gt;) </span><span class="c1">// C++ 20 standard</span>
-<span class="cp">#include</span> <span class="cpf">&lt;coroutine&gt;</span><span class="cp"></span>
-<span class="cp">#elif __has_include(&lt;experimental/coroutine&gt;) </span><span class="c1">// C++ 17 experimetal</span>
-<span class="cp">#include</span> <span class="cpf">&lt;experimental/coroutine&gt;</span><span class="cp"></span>
-<span class="c1">// We don&#39;t need to use this portable one.</span>
-<span class="c1">// Disable the implementation below and use the default</span>
-<span class="cp">#define COROUTINE_PORTABLE_FRAME_H</span>
-<span class="cp">#endif</span>
-<span class="cp">#endif </span><span class="c1">// &lt;coroutine&gt; header</span>
-
-<span class="cp">#if defined(__clang__)</span>
-<span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_clang</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-<span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_msvc</span> <span class="o">=</span> <span class="o">!</span><span class="n">is_clang</span><span class="p">;</span>
-<span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_gcc</span> <span class="o">=</span> <span class="o">!</span><span class="n">is_clang</span><span class="p">;</span>
-
-<span class="k">using</span> <span class="n">procedure_t</span> <span class="o">=</span> <span class="kt">void</span><span class="p">(</span><span class="kr">__cdecl</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-
-<span class="cp">#elif defined(_MSC_VER)</span>
-<span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_msvc</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-<span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_clang</span> <span class="o">=</span> <span class="o">!</span><span class="n">is_msvc</span><span class="p">;</span>
-<span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_gcc</span> <span class="o">=</span> <span class="o">!</span><span class="n">is_msvc</span><span class="p">;</span>
-
-<span class="k">using</span> <span class="n">procedure_t</span> <span class="o">=</span> <span class="kt">void</span><span class="p">(</span><span class="kr">__cdecl</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-
-<span class="cp">#elif defined(__GNUC__)</span>
-<span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_gcc</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-<span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_msvc</span> <span class="o">=</span> <span class="o">!</span><span class="n">is_gcc</span><span class="p">;</span>
-<span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_clang</span> <span class="o">=</span> <span class="o">!</span><span class="n">is_gcc</span><span class="p">;</span>
-
-<span class="c1">// gcc-10 failes when __cdecl is used. declare it without convention</span>
-<span class="k">using</span> <span class="n">procedure_t</span> <span class="o">=</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-
-<span class="cp">#else</span>
-<span class="cp">#error &quot;unexpected compiler. please contact the author&quot;</span>
-<span class="cp">#endif</span>
-
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">aligned_size_v</span> <span class="o">=</span> <span class="p">((</span><span class="k">sizeof</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="mi">16u</span> <span class="o">-</span> <span class="mi">1u</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="p">(</span><span class="mi">16u</span> <span class="o">-</span> <span class="mi">1u</span><span class="p">));</span>
-
-<span class="c1">// - Note</span>
-<span class="c1">//      MSVC coroutine frame&#39;s prefix</span>
-<span class="c1">//      Reference &lt;experimental/resumable&gt; for the detail</span>
-<span class="c1">// - Layout</span>
-<span class="c1">//      +------------+------------------+--------------------+</span>
-<span class="c1">//      | Promise(?) | Frame Prefix(16) | Local variables(?) |</span>
-<span class="c1">//      +------------+------------------+--------------------+</span>
-<span class="k">struct</span> <span class="n">msvc_frame_prefix</span> <span class="k">final</span> <span class="p">{</span>
-    <span class="n">procedure_t</span> <span class="n">factivate</span><span class="p">;</span>
-    <span class="kt">uint16_t</span> <span class="n">index</span><span class="p">;</span>
-    <span class="kt">uint16_t</span> <span class="n">flag</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">aligned_size_v</span><span class="o">&lt;</span><span class="n">msvc_frame_prefix</span><span class="o">&gt;</span> <span class="o">==</span> <span class="mi">16</span><span class="p">);</span>
-
-<span class="c1">// - Note</span>
-<span class="c1">//      Clang coroutine frame&#39;s prefix</span>
-<span class="c1">// - Layout</span>
-<span class="c1">//      +------------------+------------+---+--------------------+</span>
-<span class="c1">//      | Frame Prefix(16) | Promise(?) | ? | Local variables(?) |</span>
-<span class="c1">//      +------------------+------------+---+--------------------+</span>
-<span class="k">struct</span> <span class="n">clang_frame_prefix</span> <span class="k">final</span> <span class="p">{</span>
-    <span class="n">procedure_t</span> <span class="n">factivate</span><span class="p">;</span>
-    <span class="n">procedure_t</span> <span class="n">fdestroy</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">aligned_size_v</span><span class="o">&lt;</span><span class="n">clang_frame_prefix</span><span class="o">&gt;</span> <span class="o">==</span> <span class="mi">16</span><span class="p">);</span>
-
-<span class="c1">// - Note</span>
-<span class="c1">//      GCC coroutine frame&#39;s prefix</span>
-<span class="c1">// - Layout</span>
-<span class="c1">//      Unknown</span>
-<span class="k">struct</span> <span class="n">gcc_frame_prefix</span> <span class="k">final</span> <span class="p">{</span>
-    <span class="kt">void</span><span class="o">*</span> <span class="n">_unknown1</span><span class="p">;</span>
-    <span class="kt">void</span><span class="o">*</span> <span class="n">_unknown2</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">aligned_size_v</span><span class="o">&lt;</span><span class="n">gcc_frame_prefix</span><span class="o">&gt;</span> <span class="o">==</span> <span class="mi">16</span><span class="p">);</span>
-
-<span class="cp">#ifndef COROUTINE_PORTABLE_FRAME_H</span>
-<span class="cp">#define COROUTINE_PORTABLE_FRAME_H</span>
-<span class="cp">#pragma warning(push, 4)</span>
-<span class="cp">#pragma warning(disable : 4455 4494 4577 4619 4643 4702 4984 4988)</span>
-<span class="cp">#pragma warning(disable : 26490 26481 26476 26429 26409)</span>
-
 <span class="cp">#include</span> <span class="cpf">&lt;type_traits&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;exception&gt;  // std::current_exception</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;functional&gt; // std::hash</span><span class="cp"></span>
+
+<span class="cp">#if !defined(__cpp_coroutines)</span>
+<span class="c1">// ...</span>
+<span class="cp">#endif</span>
+
+<span class="k">struct</span> <span class="n">portable_coro_prefix</span><span class="p">;</span>
 
 <span class="c1">// Alternative of `_coro_done` of msvc for this library.</span>
 <span class="c1">// It is renamed to avoid redefinition</span>
-<span class="kt">bool</span> <span class="nf">_coro_finished</span><span class="p">(</span><span class="k">const</span> <span class="n">msvc_frame_prefix</span><span class="o">*</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="nf">portable_coro_done</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">portable_coro_resume</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">portable_coro_destroy</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">);</span>
 
-<span class="c1">//</span>
-<span class="c1">// intrinsic: MSVC</span>
-<span class="c1">//</span>
-<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">size_t</span> <span class="n">_coro_resume</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span> <span class="n">_coro_destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">size_t</span> <span class="n">_coro_done</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span> <span class="c1">// &lt;- leads compiler error</span>
-
-<span class="c1">//</span>
-<span class="c1">// intrinsic: Clang/GCC</span>
-<span class="c1">//</span>
-<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">bool</span> <span class="n">__builtin_coro_done</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span> <span class="n">__builtin_coro_resume</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span> <span class="n">__builtin_coro_destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-<span class="c1">// void* __builtin_coro_promise(void* ptr, int align, bool p);</span>
+<span class="k">auto</span> <span class="nf">portable_coro_from_promise</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_PromAddr</span><span class="p">,</span> <span class="kt">ptrdiff_t</span> <span class="n">_PromSize</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="n">portable_coro_prefix</span><span class="o">*</span><span class="p">;</span>
+<span class="kt">void</span><span class="o">*</span> <span class="nf">portable_coro_get_promise</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">,</span>
+                                <span class="kt">ptrdiff_t</span> <span class="n">_PromSize</span><span class="p">);</span>
 
 <span class="k">namespace</span> <span class="n">std</span> <span class="p">{</span>
-<span class="k">namespace</span> <span class="n">experimental</span> <span class="p">{</span>
 
-<span class="c1">// template &lt;typename R, class = void&gt;</span>
-<span class="c1">// struct coroutine_traits_sfinae {};</span>
-<span class="c1">//</span>
-<span class="c1">// template &lt;typename R&gt;</span>
-<span class="c1">// struct coroutine_traits_sfinae&lt;R, void_t&lt;typename R::promise_type&gt;&gt; {</span>
-<span class="c1">//    using promise_type = typename R::promise_type;</span>
-<span class="c1">// };</span>
+<span class="c1">// 17.12.3, coroutine handle</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_PromiseT</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="p">;</span>
 
-<span class="c1">// traits to enforce `promise_type`, without sfinae consideration.</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">ReturnType</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_traits</span> <span class="p">{</span>
-    <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">ReturnType</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">PromiseType</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">coroutine_handle</span><span class="p">;</span>
-
+<span class="c1">// STRUCT TEMPLATE coroutine_handle</span>
 <span class="k">template</span> <span class="o">&lt;&gt;</span>
-<span class="k">class</span> <span class="nc">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="k">public</span><span class="o">:</span>
-    <span class="c1">// This type is exposed</span>
-    <span class="c1">//  to provide more information for the frame and</span>
-    <span class="c1">//  to prepare for future adaptation. (especially for gcc family)</span>
-    <span class="k">union</span> <span class="n">prefix_t</span> <span class="p">{</span>
-        <span class="kt">void</span><span class="o">*</span> <span class="n">v</span><span class="p">{};</span>
-        <span class="n">msvc_frame_prefix</span><span class="o">*</span> <span class="n">m</span><span class="p">;</span>
-        <span class="n">clang_frame_prefix</span><span class="o">*</span> <span class="n">c</span><span class="p">;</span>
-        <span class="n">gcc_frame_prefix</span><span class="o">*</span> <span class="n">g</span><span class="p">;</span>
-    <span class="p">};</span>
-    <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">prefix_t</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">));</span>
-    <span class="n">prefix_t</span> <span class="n">prefix</span><span class="p">;</span>
-
-  <span class="k">public</span><span class="o">:</span>
-    <span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-    <span class="o">~</span><span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-    <span class="n">coroutine_handle</span><span class="p">(</span><span class="n">coroutine_handle</span> <span class="k">const</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-    <span class="n">coroutine_handle</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&amp;&amp;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-    <span class="n">coroutine_handle</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">coroutine_handle</span> <span class="k">const</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-    <span class="n">coroutine_handle</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&amp;&amp;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-
-    <span class="n">coroutine_handle</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">:</span> <span class="n">prefix</span><span class="p">{</span><span class="k">nullptr</span><span class="p">}</span> <span class="p">{</span>
+<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="c1">// 17.12.3.1, construct</span>
+    <span class="k">constexpr</span> <span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">:</span> <span class="n">_Ptr</span><span class="p">{</span><span class="k">nullptr</span><span class="p">}</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="c1">// 17.12.3.1, reset</span>
+    <span class="k">constexpr</span> <span class="n">coroutine_handle</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">:</span> <span class="n">_Ptr</span><span class="p">{</span><span class="k">nullptr</span><span class="p">}</span> <span class="p">{</span>
     <span class="p">}</span>
     <span class="n">coroutine_handle</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="n">prefix</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="n">_Ptr</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
         <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
     <span class="p">}</span>
-
-    <span class="k">explicit</span> <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">prefix</span><span class="p">.</span><span class="n">v</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="kt">void</span> <span class="n">resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">_coro_resume</span><span class="p">(</span><span class="n">prefix</span><span class="p">.</span><span class="n">m</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">__builtin_coro_resume</span><span class="p">(</span><span class="n">prefix</span><span class="p">.</span><span class="n">c</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_gcc</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">__builtin_coro_resume</span><span class="p">(</span><span class="n">prefix</span><span class="p">.</span><span class="n">g</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="kt">void</span> <span class="n">destroy</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">_coro_destroy</span><span class="p">(</span><span class="n">prefix</span><span class="p">.</span><span class="n">m</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">__builtin_coro_destroy</span><span class="p">(</span><span class="n">prefix</span><span class="p">.</span><span class="n">c</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_gcc</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">__builtin_coro_destroy</span><span class="p">(</span><span class="n">prefix</span><span class="p">.</span><span class="n">g</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="kt">bool</span> <span class="n">done</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="n">_coro_finished</span><span class="p">(</span><span class="n">prefix</span><span class="p">.</span><span class="n">m</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="n">__builtin_coro_done</span><span class="p">(</span><span class="n">prefix</span><span class="p">.</span><span class="n">c</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_gcc</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="n">__builtin_coro_done</span><span class="p">(</span><span class="n">prefix</span><span class="p">.</span><span class="n">g</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-  <span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 17.12.3.2, export</span>
     <span class="k">constexpr</span> <span class="kt">void</span><span class="o">*</span> <span class="n">address</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">prefix</span><span class="p">.</span><span class="n">v</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">_Ptr</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 17.12.3.2, import</span>
+    <span class="k">static</span> <span class="cm">/*constexpr*/</span> <span class="n">coroutine_handle</span> <span class="n">from_address</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">coroutine_handle</span> <span class="n">_Result</span><span class="p">{};</span>
+        <span class="n">_Result</span><span class="p">.</span><span class="n">_Ptr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">portable_coro_prefix</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">_Addr</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">_Result</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 17.12.3.3, observers</span>
+    <span class="k">constexpr</span> <span class="k">explicit</span> <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">_Ptr</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">bool</span> <span class="n">done</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">portable_coro_done</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// 17.12.3.4, resumption</span>
+    <span class="kt">void</span> <span class="n">resume</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">portable_coro_resume</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="k">operator</span><span class="p">()()</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">portable_coro_resume</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">destroy</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">portable_coro_destroy</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
     <span class="p">}</span>
 
-    <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="n">from_address</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="n">coroutine_handle</span> <span class="n">rh</span><span class="p">{};</span>
-        <span class="n">rh</span><span class="p">.</span><span class="n">prefix</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">addr</span><span class="p">;</span>
-        <span class="k">return</span> <span class="n">rh</span><span class="p">;</span>
-    <span class="p">}</span>
+  <span class="k">protected</span><span class="o">:</span> <span class="c1">// this is `private` in the standard</span>
+    <span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Ptr</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">PromiseType</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">coroutine_handle</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="k">public</span><span class="o">:</span>
-    <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="n">PromiseType</span><span class="p">;</span>
-
-  <span class="k">private</span><span class="o">:</span>
-    <span class="k">static</span> <span class="n">promise_type</span><span class="o">*</span> <span class="n">from_frame</span><span class="p">(</span><span class="n">prefix_t</span> <span class="n">addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// calculate the location of the frame&#39;s prefix</span>
-            <span class="k">auto</span><span class="o">*</span> <span class="n">prefix</span> <span class="o">=</span> <span class="n">addr</span><span class="p">.</span><span class="n">c</span><span class="p">;</span>
-            <span class="c1">// for clang, promise is placed just after frame prefix</span>
-            <span class="c1">// so this line works like `__builtin_coro_promise`,</span>
-            <span class="k">auto</span><span class="o">*</span> <span class="n">promise</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-            <span class="k">return</span> <span class="n">promise</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">auto</span><span class="o">*</span> <span class="n">ptr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">m</span><span class="p">);</span>
-            <span class="c1">// for msvc, promise is placed before frame prefix</span>
-            <span class="k">auto</span><span class="o">*</span> <span class="n">promise</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">*&gt;</span><span class="p">(</span>
-                <span class="n">ptr</span> <span class="o">-</span> <span class="n">aligned_size_v</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span><span class="p">);</span>
-            <span class="k">return</span> <span class="n">promise</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_gcc</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kt">void</span><span class="o">*</span> <span class="n">ptr</span> <span class="o">=</span>
-                <span class="n">__builtin_coro_promise</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">g</span><span class="p">,</span> <span class="n">__alignof</span><span class="p">(</span><span class="n">promise_type</span><span class="p">),</span> <span class="nb">false</span><span class="p">);</span>
-            <span class="k">return</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="c1">// !!! crash !!!</span>
-        <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
-    <span class="p">}</span>
-
-  <span class="k">public</span><span class="o">:</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_PromiseT</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nl">coroutine_handle</span> <span class="p">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="c1">// 17.12.3.1, construct</span>
     <span class="k">using</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">coroutine_handle</span><span class="p">;</span>
 
+    <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="nf">from_promise</span><span class="p">(</span><span class="n">_PromiseT</span><span class="o">&amp;</span> <span class="n">_Prom</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span><span class="o">*</span> <span class="n">_Addr</span> <span class="o">=</span> <span class="n">portable_coro_from_promise</span><span class="p">(</span><span class="o">&amp;</span><span class="n">_Prom</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">_PromiseT</span><span class="p">));</span>
+        <span class="k">return</span> <span class="n">coroutine_handle</span><span class="o">::</span><span class="n">from_address</span><span class="p">(</span><span class="n">_Addr</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// 17.12.3.1, reset</span>
     <span class="n">coroutine_handle</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">this</span><span class="o">-&gt;</span><span class="n">prefix</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="k">this</span><span class="o">-&gt;</span><span class="n">_Ptr</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
         <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">promise</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="o">-&gt;</span> <span class="k">const</span> <span class="n">promise_type</span><span class="o">&amp;</span> <span class="p">{</span>
-        <span class="n">promise_type</span><span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">from_frame</span><span class="p">(</span><span class="n">prefix</span><span class="p">);</span>
-        <span class="k">return</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+    <span class="c1">// 17.12.3.2, export/import</span>
+    <span class="k">static</span> <span class="cm">/*constexpr*/</span> <span class="n">coroutine_handle</span> <span class="n">from_address</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">coroutine_handle</span> <span class="n">_Result</span><span class="p">{};</span>
+        <span class="n">_Result</span><span class="p">.</span><span class="n">_Ptr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">portable_coro_prefix</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">_Addr</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">_Result</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">promise</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">-&gt;</span> <span class="n">promise_type</span><span class="o">&amp;</span> <span class="p">{</span>
-        <span class="n">promise_type</span><span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">from_frame</span><span class="p">(</span><span class="n">prefix</span><span class="p">);</span>
-        <span class="k">return</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
-    <span class="p">}</span>
-
-  <span class="k">public</span><span class="o">:</span>
-    <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="n">from_address</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="n">coroutine_handle</span> <span class="n">rh</span><span class="p">{};</span>
-        <span class="n">rh</span><span class="p">.</span><span class="n">prefix</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">addr</span><span class="p">;</span>
-        <span class="k">return</span> <span class="n">rh</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="n">from_promise</span><span class="p">(</span><span class="n">promise_type</span><span class="o">&amp;</span> <span class="n">prom</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="n">promise_type</span><span class="o">*</span> <span class="n">promise</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">prom</span><span class="p">;</span>
-        <span class="c1">// calculate the location of the coroutine frame prefix</span>
-        <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kt">void</span><span class="o">*</span> <span class="n">prefix</span> <span class="o">=</span>
-                <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">promise</span><span class="p">)</span> <span class="o">-</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">clang_frame_prefix</span><span class="p">);</span>
-            <span class="k">return</span> <span class="n">coroutine_handle</span><span class="o">::</span><span class="n">from_address</span><span class="p">(</span><span class="n">prefix</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kt">void</span><span class="o">*</span> <span class="n">prefix</span> <span class="o">=</span>
-                <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">promise</span><span class="p">)</span> <span class="o">+</span> <span class="n">aligned_size_v</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span><span class="p">;</span>
-            <span class="k">return</span> <span class="n">coroutine_handle</span><span class="o">::</span><span class="n">from_address</span><span class="p">(</span><span class="n">prefix</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">is_gcc</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kt">void</span><span class="o">*</span> <span class="n">prefix</span> <span class="o">=</span> <span class="n">__builtin_coro_promise</span><span class="p">(</span>
-                <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">prom</span><span class="p">),</span> <span class="n">__alignof</span><span class="p">(</span><span class="n">promise_type</span><span class="p">),</span> <span class="nb">true</span><span class="p">);</span>
-            <span class="k">return</span> <span class="n">coroutine_handle</span><span class="o">::</span><span class="n">from_address</span><span class="p">(</span><span class="n">prefix</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">coroutine_handle</span><span class="p">{};</span>
+    <span class="c1">// 17.12.3.5, promise access</span>
+    <span class="n">_PromiseT</span><span class="o">&amp;</span> <span class="n">promise</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="k">auto</span><span class="o">*</span> <span class="n">_Prefix</span> <span class="o">=</span>
+            <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">portable_coro_prefix</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">address</span><span class="p">());</span>
+        <span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span> <span class="o">=</span> <span class="n">portable_coro_get_promise</span><span class="p">(</span><span class="n">_Prefix</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">_PromiseT</span><span class="p">));</span>
+        <span class="n">_PromiseT</span><span class="o">*</span> <span class="n">_Prom</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">_PromiseT</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">_Addr</span><span class="p">);</span>
+        <span class="k">return</span> <span class="o">*</span><span class="n">_Prom</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">));</span>
 
-<span class="kr">inline</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
-                       <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">address</span><span class="p">()</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">.</span><span class="n">address</span><span class="p">();</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
-                       <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="n">lhs</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
-                      <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">address</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">address</span><span class="p">();</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
-                      <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="n">lhs</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
-                       <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="n">lhs</span> <span class="o">&gt;</span> <span class="n">rhs</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="kr">inline</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">lhs</span><span class="p">,</span>
-                       <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">rhs</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="n">lhs</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">);</span>
+<span class="c1">// 17.12.3.6, comparison operators</span>
+<span class="k">constexpr</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+                          <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Right</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">_Left</span><span class="p">.</span><span class="n">address</span><span class="p">()</span> <span class="o">==</span> <span class="n">_Right</span><span class="p">.</span><span class="n">address</span><span class="p">();</span>
 <span class="p">}</span>
 
+
+<span class="k">constexpr</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+                          <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Right</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="n">_Left</span> <span class="o">==</span> <span class="n">_Right</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">constexpr</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+                         <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Right</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">_Left</span><span class="p">.</span><span class="n">address</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">_Right</span><span class="p">.</span><span class="n">address</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="k">constexpr</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+                         <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Right</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">_Right</span> <span class="o">&lt;</span> <span class="n">_Left</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">constexpr</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+                          <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Right</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="n">_Left</span> <span class="o">&gt;</span> <span class="n">_Right</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">constexpr</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+                          <span class="k">const</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">_Right</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="n">_Left</span> <span class="o">&lt;</span> <span class="n">_Right</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// 17.12.4, no-op coroutines</span>
 <span class="k">struct</span> <span class="n">noop_coroutine_promise</span> <span class="p">{};</span>
+
+<span class="c1">// STRUCT noop_coroutine_handle</span>
 <span class="k">using</span> <span class="n">noop_coroutine_handle</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">noop_coroutine_promise</span><span class="o">&gt;</span><span class="p">;</span>
 
-<span class="k">template</span> <span class="o">&lt;&gt;</span>
-<span class="k">class</span> <span class="nc">coroutine_handle</span><span class="o">&lt;</span><span class="n">noop_coroutine_promise</span><span class="o">&gt;</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="k">public</span><span class="o">:</span>
-    <span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">:</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">{}</span> <span class="p">{</span>
-<span class="cp">#if defined(__clang__) &amp;&amp; __has_builtin(__builtin_coro_noop)</span>
-        <span class="k">this</span><span class="o">-&gt;</span><span class="n">prefix</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">__builtin_coro_noop</span><span class="p">();</span>
-<span class="cp">#else</span>
-        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">p</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">promise</span><span class="p">();</span>
-        <span class="k">this</span><span class="o">-&gt;</span><span class="n">prefix</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">;</span>
-<span class="cp">#endif</span>
-    <span class="p">}</span>
+<span class="c1">// 17.12.4.3</span>
+<span class="n">noop_coroutine_handle</span> <span class="nf">noop_coroutine</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
 
-  <span class="k">public</span><span class="o">:</span>
+<span class="c1">// STRUCT coroutine_handle&lt;noop_coroutine_promise&gt;</span>
+<span class="k">template</span> <span class="o">&lt;&gt;</span>
+<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">noop_coroutine_promise</span><span class="o">&gt;</span>
+    <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="c1">// 17.12.4.2.1, observers</span>
     <span class="k">constexpr</span> <span class="k">explicit</span> <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">done</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
     <span class="p">}</span>
-
+    <span class="c1">// 17.12.4.2.2, resumption</span>
     <span class="k">constexpr</span> <span class="kt">void</span> <span class="k">operator</span><span class="p">()()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">constexpr</span> <span class="kt">void</span> <span class="n">resume</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">constexpr</span> <span class="kt">void</span> <span class="n">destroy</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
     <span class="p">}</span>
 
+<span class="cp">#if defined(__clang__)</span>
+<span class="cp">#if __has_builtin(__builtin_coro_noop)</span>
+
     <span class="n">noop_coroutine_promise</span><span class="o">&amp;</span> <span class="n">promise</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-<span class="cp">#if defined(__clang__) &amp;&amp; __has_builtin(__builtin_coro_noop)</span>
-        <span class="k">return</span> <span class="o">*</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">noop_coroutine_promise</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">__builtin_coro_promise</span><span class="p">(</span>
-            <span class="k">this</span><span class="o">-&gt;</span><span class="n">prefix</span><span class="p">.</span><span class="n">v</span><span class="p">,</span> <span class="n">__alignof</span><span class="p">(</span><span class="n">noop_coroutine_promise</span><span class="p">),</span> <span class="nb">false</span><span class="p">));</span>
+        <span class="kt">void</span><span class="o">*</span> <span class="n">_Prom</span> <span class="o">=</span>
+            <span class="n">__builtin_coro_promise</span><span class="p">(</span><span class="n">__builtin_coro_noop</span><span class="p">(),</span> <span class="c1">//</span>
+                                   <span class="k">alignof</span><span class="p">(</span><span class="n">noop_coroutine_promise</span><span class="p">),</span> <span class="nb">false</span><span class="p">);</span>
+        <span class="k">return</span> <span class="o">*</span><span class="p">(</span><span class="n">noop_coroutine_promise</span><span class="o">*</span><span class="p">)(</span><span class="n">_Prom</span><span class="p">);</span>
+    <span class="p">}</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span>
+        <span class="o">:</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">{</span><span class="n">from_address</span><span class="p">(</span><span class="n">__builtin_coro_noop</span><span class="p">())}</span> <span class="p">{</span>
+    <span class="p">}</span>
 <span class="cp">#else</span>
-        <span class="k">static</span> <span class="n">noop_coroutine_promise</span> <span class="n">p</span><span class="p">{};</span>
-        <span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+<span class="cp">#error &quot;requires higher clang version to use __builtin_coro_noop&quot;</span>
 <span class="cp">#endif</span>
-    <span class="p">}</span>
+<span class="cp">#elif defined(_MSC_VER)</span>
+    <span class="c1">// 17.12.4.2.4, address</span>
+    <span class="c1">// C3615: cannot result in a constant expression</span>
     <span class="k">constexpr</span> <span class="kt">void</span><span class="o">*</span> <span class="n">address</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">prefix</span><span class="p">.</span><span class="n">v</span><span class="p">;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">noop_coroutine_promise</span><span class="o">*</span><span class="p">)(</span><span class="n">UINTPTR_MAX</span> <span class="o">-</span> <span class="mh">0x170704</span><span class="p">);</span>
     <span class="p">}</span>
+    <span class="c1">// 17.12.4.2.3, promise access</span>
+    <span class="n">noop_coroutine_promise</span><span class="o">&amp;</span> <span class="n">promise</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">*</span><span class="p">(</span><span class="n">noop_coroutine_promise</span><span class="o">*</span><span class="p">)(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">address</span><span class="p">());</span>
+    <span class="p">}</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span>
+        <span class="o">:</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">{</span><span class="n">from_address</span><span class="p">(</span><span class="o">&amp;</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">promise</span><span class="p">())}</span> <span class="p">{</span>
+        <span class="c1">// A noop_coroutine_handle&#39;s ptr is always a non-null pointer</span>
+    <span class="p">}</span>
+<span class="cp">#endif</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="k">friend</span> <span class="n">noop_coroutine_handle</span> <span class="n">noop_coroutine</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
 <span class="p">};</span>
 
 <span class="kr">inline</span> <span class="n">noop_coroutine_handle</span> <span class="nf">noop_coroutine</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">{};</span>
 <span class="p">}</span>
 
+<span class="c1">// 17.12.5, trivial awaitables</span>
+
+<span class="c1">// STRUCT suspend_never</span>
 <span class="k">class</span> <span class="nc">suspend_never</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
@@ -864,11 +684,11 @@
     <span class="p">}</span>
     <span class="k">constexpr</span> <span class="kt">void</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="p">}</span>
-    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="c1">// This function won&#39;t be invoked</span>
+    <span class="k">constexpr</span> <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
+<span class="c1">// STRUCT suspend_always</span>
 <span class="k">class</span> <span class="nc">suspend_always</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
@@ -876,103 +696,96 @@
     <span class="p">}</span>
     <span class="k">constexpr</span> <span class="kt">void</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="p">}</span>
-    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="c1">// This function will ignore the given handle</span>
+    <span class="k">constexpr</span> <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
-<span class="p">}</span> <span class="c1">// namespace experimental</span>
-<span class="p">}</span> <span class="c1">// namespace std</span>
+<span class="c1">// 17.12.2, coroutine traits</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ret</span><span class="p">,</span> <span class="k">class</span> <span class="err">= </span><span class="nc">void</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">coro_traits_sfinae</span> <span class="p">{};</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ret</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">coro_traits_sfinae</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="p">,</span> <span class="n">void_t</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ret</span><span class="o">::</span><span class="n">promise_type</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+    <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">_Ret</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// there is no way but to define in `std::experimental` since compilers are checking it</span>
+<span class="k">namespace</span> <span class="n">experimental</span> <span class="p">{</span>
+
+<span class="c1">// STRUCT TEMPLATE coroutine_traits</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Ts</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nl">coroutine_traits</span> <span class="p">:</span> <span class="n">coro_traits_sfinae</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="o">&gt;</span> <span class="p">{};</span>
 
 <span class="cp">#if defined(__clang__)</span>
-<span class="c1">//</span>
-<span class="c1">//  Note</span>
-<span class="c1">//      VC++ header expects msvc intrinsics. Redirect them to Clang intrinsics.</span>
-<span class="c1">//      If the project uses libc++ header files, this code won&#39;t be a problem</span>
-<span class="c1">//      because they wont&#39;t be used</span>
-<span class="c1">//  Reference</span>
-<span class="c1">//      https://clang.llvm.org/docs/LanguageExtensions.html#c-coroutines-support-builtins</span>
-<span class="c1">//      https://llvm.org/docs/Coroutines.html#example</span>
-<span class="c1">//</span>
 
-<span class="kr">inline</span> <span class="kt">bool</span> <span class="n">_coro_finished</span><span class="p">(</span><span class="n">msvc_frame_prefix</span><span class="o">*</span> <span class="n">m</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="c1">// expect: coroutine == suspended</span>
-    <span class="c1">// expect: coroutine != destroyed</span>
-    <span class="k">auto</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">clang_frame_prefix</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nf">__builtin_coro_done</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kr">inline</span> <span class="kt">size_t</span> <span class="n">_coro_resume</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">addr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">auto</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">clang_frame_prefix</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
-    <span class="n">__builtin_coro_resume</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kr">inline</span> <span class="kt">void</span> <span class="n">_coro_destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">addr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">auto</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">clang_frame_prefix</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
-    <span class="n">__builtin_coro_destroy</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="c1">// clang: std::experimental::coroutine_handle must be a class template</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">P</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nl">coroutine_handle</span> <span class="p">:</span> <span class="k">public</span> <span class="n">std</span><span class="o">::</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="p">{};</span>
 
 <span class="cp">#elif defined(_MSC_VER)</span>
 
-<span class="kr">inline</span> <span class="kt">bool</span> <span class="n">_coro_finished</span><span class="p">(</span><span class="k">const</span> <span class="n">msvc_frame_prefix</span><span class="o">*</span> <span class="n">prefix</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="c1">// expect: coroutine == suspended</span>
-    <span class="c1">// expect: coroutine != destroyed</span>
-    <span class="k">return</span> <span class="n">prefix</span><span class="o">-&gt;</span><span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span> <span class="p">{</span>
-<span class="c1">// Helper traits for MSVC&#39;s coroutine compilation.</span>
+<span class="c1">// _Resumable_helper_traits class isolates front-end from public surface naming changes</span>
 <span class="c1">// The original code is in &lt;experimental/resumable&gt;</span>
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Ts</span><span class="o">&gt;</span>
 <span class="k">struct</span> <span class="n">_Resumable_helper_traits</span> <span class="p">{</span>
-    <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="p">,</span> <span class="n">_Ts</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">promise_type</span><span class="p">;</span>
-    <span class="k">using</span> <span class="n">handle_type</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">_Traits</span> <span class="o">=</span> <span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="p">,</span> <span class="n">_Ts</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">_PromiseT</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">_Traits</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">_Handle_type</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">_PromiseT</span><span class="o">&gt;</span><span class="p">;</span>
 
-    <span class="k">static</span> <span class="n">promise_type</span><span class="o">*</span> <span class="nf">_Promise_from_frame</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">prom</span> <span class="o">=</span> <span class="n">handle_type</span><span class="o">::</span><span class="n">from_address</span><span class="p">(</span><span class="n">addr</span><span class="p">).</span><span class="n">promise</span><span class="p">();</span>
+    <span class="k">static</span> <span class="n">_PromiseT</span><span class="o">*</span> <span class="nf">_Promise_from_frame</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">prom</span> <span class="o">=</span> <span class="n">_Handle_type</span><span class="o">::</span><span class="n">from_address</span><span class="p">(</span><span class="n">_Addr</span><span class="p">).</span><span class="n">promise</span><span class="p">();</span>
         <span class="k">return</span> <span class="o">&amp;</span><span class="n">prom</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="k">static</span> <span class="n">handle_type</span> <span class="nf">_Handle_from_frame</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">auto</span><span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">_Promise_from_frame</span><span class="p">(</span><span class="n">_Addr</span><span class="p">);</span>
-        <span class="k">return</span> <span class="n">handle_type</span><span class="o">::</span><span class="n">from_promise</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">);</span>
+    <span class="k">static</span> <span class="n">_Handle_type</span> <span class="nf">_Handle_from_frame</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">_Handle_type</span><span class="o">::</span><span class="n">from_promise</span><span class="p">(</span><span class="o">*</span><span class="n">_Promise_from_frame</span><span class="p">(</span><span class="n">_Addr</span><span class="p">));</span>
     <span class="p">}</span>
 
-    <span class="k">static</span> <span class="kt">void</span> <span class="nf">_Set_exception</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">auto</span><span class="o">&amp;</span> <span class="n">prom</span> <span class="o">=</span> <span class="n">handle_type</span><span class="o">::</span><span class="n">from_address</span><span class="p">(</span><span class="n">addr</span><span class="p">).</span><span class="n">promise</span><span class="p">();</span>
-        <span class="n">prom</span><span class="o">-&gt;</span><span class="n">set_exception</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">current_exception</span><span class="p">());</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="nf">_Set_exception</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_Promise_from_frame</span><span class="p">(</span><span class="n">_Addr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">set_exception</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">current_exception</span><span class="p">());</span>
     <span class="p">}</span>
 
-    <span class="k">static</span> <span class="kt">void</span> <span class="nf">_ConstructPromise</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">addr</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">func</span><span class="p">,</span>
-                                  <span class="kt">int</span> <span class="n">_HeapElision</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">auto</span> <span class="n">prefix</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">msvc_frame_prefix</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
-        <span class="n">prefix</span><span class="o">-&gt;</span><span class="n">factivate</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">procedure_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">func</span><span class="p">);</span>
-
-        <span class="kt">uint32_t</span><span class="o">*</span> <span class="n">ptr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">*&gt;</span><span class="p">(</span>
-            <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">+</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">));</span>
-        <span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">_HeapElision</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mh">0x10000</span><span class="p">);</span>
-
-        <span class="k">auto</span><span class="o">*</span> <span class="n">prom</span> <span class="o">=</span> <span class="n">_Promise_from_frame</span><span class="p">(</span><span class="n">prefix</span><span class="p">);</span>
-        <span class="o">::</span><span class="k">new</span> <span class="p">(</span><span class="n">prom</span><span class="p">)</span> <span class="n">promise_type</span><span class="p">();</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="nf">_ConstructPromise</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_Resume_addr</span><span class="p">,</span>
+                                  <span class="kt">int</span> <span class="n">_HeapElision</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">**&gt;</span><span class="p">(</span><span class="n">_Addr</span><span class="p">)</span> <span class="o">=</span> <span class="n">_Resume_addr</span><span class="p">;</span>
+        <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_Addr</span><span class="p">)</span> <span class="o">+</span>
+                                     <span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">))</span> <span class="o">=</span>
+            <span class="mi">2u</span> <span class="o">+</span> <span class="p">(</span><span class="n">_HeapElision</span> <span class="o">?</span> <span class="mi">0u</span> <span class="o">:</span> <span class="mh">0x10000u</span><span class="p">);</span>
+        <span class="k">auto</span> <span class="n">_Prom</span> <span class="o">=</span> <span class="n">_Promise_from_frame</span><span class="p">(</span><span class="n">_Addr</span><span class="p">);</span>
+        <span class="o">::</span><span class="k">new</span> <span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">_Prom</span><span class="p">))</span> <span class="n">_PromiseT</span><span class="p">();</span>
     <span class="p">}</span>
 
-    <span class="k">static</span> <span class="kt">void</span> <span class="nf">_DestructPromise</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">auto</span> <span class="n">prefix</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">msvc_frame_prefix</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
-        <span class="n">_Promise_from_frame</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span><span class="o">-&gt;~</span><span class="n">promise_type</span><span class="p">();</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="nf">_DestructPromise</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_Promise_from_frame</span><span class="p">(</span><span class="n">_Addr</span><span class="p">)</span><span class="o">-&gt;~</span><span class="n">_PromiseT</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
-<span class="p">}</span> <span class="c1">// namespace std::experimental</span>
 
-<span class="cp">#elif defined(__GNUC__)</span>
+<span class="cp">#endif</span>
 
-<span class="kr">inline</span> <span class="kt">bool</span> <span class="n">is_suspended</span><span class="p">(</span><span class="n">gcc_frame_prefix</span><span class="o">*</span> <span class="n">g</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">__builtin_coro_is_suspended</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="p">}</span> <span class="c1">// namespace experimental</span>
 
-<span class="cp">#endif </span><span class="c1">// __clang__ || _MSC_VER || __GNUC__</span>
-<span class="cp">#pragma warning(pop)</span>
-<span class="cp">#endif </span><span class="c1">// COROUTINE_PORTABLE_FRAME_H</span>
+<span class="c1">// STRUCT TEMPLATE coroutine_traits</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Param</span><span class="o">&gt;</span>
+<span class="k">using</span> <span class="n">coroutine_traits</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">Ret</span><span class="p">,</span> <span class="n">Param</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="c1">// 17.12.3.7, hash support</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">P</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">hash</span><span class="o">&lt;</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+    <span class="c1">// deprecated in C++17</span>
+    <span class="k">using</span> <span class="n">argument_type</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="p">;</span>
+    <span class="c1">// deprecated in C++17</span>
+    <span class="k">using</span> <span class="n">result_type</span> <span class="o">=</span> <span class="kt">size_t</span><span class="p">;</span>
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="c1">//</span>
+        <span class="n">result_type</span>
+        <span class="k">operator</span><span class="p">()(</span><span class="n">argument_type</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">_Handle</span><span class="p">)</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">hash</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">*&gt;</span><span class="p">()(</span><span class="n">_Handle</span><span class="p">.</span><span class="n">address</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="p">}</span> <span class="c1">// namespace std</span>
+
+<span class="cp">#endif </span><span class="c1">// _COROUTINE_</span>
 </code></pre></div>
                 
                   

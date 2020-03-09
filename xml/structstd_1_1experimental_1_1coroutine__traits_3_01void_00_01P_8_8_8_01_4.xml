@@ -23,7 +23,7 @@
 </parameteritem>
 </parameterlist>
 </para>    </detaileddescription>
-    <location file="interface/coroutine/return.h" line="186" column="1" bodyfile="interface/coroutine/return.h" bodystart="186" bodyend="208"/>
+    <location file="interface/coroutine/return.h" line="194" column="1" bodyfile="interface/coroutine/return.h" bodystart="194" bodyend="216"/>
     <listofallmembers>
     </listofallmembers>
   </compounddef>

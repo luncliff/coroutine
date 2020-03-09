@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::coroutine_handle&lt; noop_coroutine_promise &gt;</compoundname>
+    <basecompoundref refid="structstd_1_1coroutine__handle_3_01void_01_4" prot="public" virt="non-virtual">std::coroutine_handle&lt; void &gt;</basecompoundref>
+    <includes refid="frame_8h" local="no">frame.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1af8fba5c3efd872a89e95d28a11310583" prot="public" static="no" const="yes" explicit="yes" inline="yes" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>constexpr std::coroutine_handle&lt; noop_coroutine_promise &gt;::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="175" column="1" bodyfile="interface/coroutine/frame.h" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a6fb323e8614db22e993a3e050a04d77b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool std::coroutine_handle&lt; noop_coroutine_promise &gt;::done</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>done</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="178" column="1" bodyfile="interface/coroutine/frame.h" bodystart="178" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a9957547cfe9e5ff647069c5ba5a2bba2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void std::coroutine_handle&lt; noop_coroutine_promise &gt;::operator()</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator()</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="182" column="1" bodyfile="interface/coroutine/frame.h" bodystart="182" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1af63cb9835b297d0650a426063968cfd5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void std::coroutine_handle&lt; noop_coroutine_promise &gt;::resume</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>resume</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="184" column="1" bodyfile="interface/coroutine/frame.h" bodystart="184" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1afb8ef84df3649323ccccb1673ef5ff88" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void std::coroutine_handle&lt; noop_coroutine_promise &gt;::destroy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>destroy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="186" column="1" bodyfile="interface/coroutine/frame.h" bodystart="186" bodyend="187"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a43aa77a087a863d0064283cc5871fde7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend <ref refid="namespacestd_1a65bade8aeae7a9efa8101240c161d109" kindref="member">noop_coroutine_handle</ref></type>
+        <definition>noop_coroutine_handle noop_coroutine</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>noop_coroutine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="228" column="1" bodyfile="interface/coroutine/frame.h" bodystart="231" bodyend="233"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="209">
+        <label>std::coroutine_handle&lt; void &gt;</label>
+        <link refid="structstd_1_1coroutine__handle_3_01void_01_4"/>
+      </node>
+      <node id="208">
+        <label>std::coroutine_handle&lt; noop_coroutine_promise &gt;</label>
+        <link refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4"/>
+        <childnode refid="209" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="211">
+        <label>std::coroutine_handle&lt; void &gt;</label>
+        <link refid="structstd_1_1coroutine__handle_3_01void_01_4"/>
+      </node>
+      <node id="210">
+        <label>std::coroutine_handle&lt; noop_coroutine_promise &gt;</label>
+        <link refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4"/>
+        <childnode refid="211" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/frame.h" line="173" column="1" bodyfile="interface/coroutine/frame.h" bodystart="172" bodyend="229"/>
+    <listofallmembers>
+      <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a2b0a0c0e4aa456343c91c330cffbac98" prot="protected" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>_Ptr</name></member>
+      <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a53c28109d68a249b167b55f2e00fec0d" prot="public" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>address</name></member>
+      <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a00719061b82c9c30833bf1ca65580611" prot="public" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>coroutine_handle</name></member>
+      <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a2fb02ba714309103598311e15a27d96f" prot="public" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>coroutine_handle</name></member>
+      <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1afb8ef84df3649323ccccb1673ef5ff88" prot="public" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>destroy</name></member>
+      <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a6fb323e8614db22e993a3e050a04d77b" prot="public" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>done</name></member>
+      <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a76f6a285c67fb921c7cdf9bdede2eeaf" prot="public" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>from_address</name></member>
+      <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a43aa77a087a863d0064283cc5871fde7" prot="private" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>noop_coroutine</name></member>
+      <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1af8fba5c3efd872a89e95d28a11310583" prot="public" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>operator bool</name></member>
+      <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a9957547cfe9e5ff647069c5ba5a2bba2" prot="public" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>operator()</name></member>
+      <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a3407f60783152a1f0560c4b51911c5ea" prot="public" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>operator=</name></member>
+      <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1af63cb9835b297d0650a426063968cfd5" prot="public" virt="non-virtual"><scope>std::coroutine_handle&lt; noop_coroutine_promise &gt;</scope><name>resume</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

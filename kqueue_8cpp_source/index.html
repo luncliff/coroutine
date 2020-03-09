@@ -467,7 +467,7 @@
 
 <span class="n">kqueue_owner</span><span class="o">::</span><span class="n">kqueue_owner</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">:</span> <span class="n">kqfd</span><span class="p">{</span><span class="n">kqueue</span><span class="p">()}</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">kqfd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;kqueue&quot;</span><span class="p">};</span>
+        <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;kqueue&quot;</span><span class="p">};</span>
 <span class="p">}</span>
 <span class="n">kqueue_owner</span><span class="o">::~</span><span class="n">kqueue_owner</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="n">close</span><span class="p">(</span><span class="n">kqfd</span><span class="p">);</span>
@@ -477,7 +477,7 @@
     <span class="c1">// attach the event config</span>
     <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">kevent64</span><span class="p">(</span><span class="n">kqfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">req</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">ec</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;kevent64&quot;</span><span class="p">};</span>
+        <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;kevent64&quot;</span><span class="p">};</span>
 <span class="p">}</span>
 
 <span class="kt">ptrdiff_t</span> <span class="n">kqueue_owner</span><span class="o">::</span><span class="n">events</span><span class="p">(</span><span class="k">const</span> <span class="n">timespec</span><span class="o">&amp;</span> <span class="n">ts</span><span class="p">,</span>
@@ -487,7 +487,7 @@
                           <span class="n">events</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">events</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="c1">//</span>
                           <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ts</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;kevent64&quot;</span><span class="p">};</span>
+        <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;kevent64&quot;</span><span class="p">};</span>
     <span class="k">return</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">ptrdiff_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">count</span><span class="p">);</span>
 <span class="p">}</span>
 

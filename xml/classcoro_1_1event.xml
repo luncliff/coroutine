@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="129" column="1" bodyfile="interface/coroutine/linux.h" bodystart="129" bodyend="-1"/>
+        <location file="interface/coroutine/linux.h" line="127" column="1" bodyfile="interface/coroutine/linux.h" bodystart="127" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="132" column="1" bodyfile="modules/system/linux.cpp" bodystart="92" bodyend="98"/>
+        <location file="interface/coroutine/linux.h" line="130" column="1" bodyfile="modules/system/linux.cpp" bodystart="92" bodyend="98"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1event_1a70e278450035be6ed12b4a224a3efad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="133" column="1" bodyfile="modules/system/linux.cpp" bodystart="99" bodyend="103"/>
+        <location file="interface/coroutine/linux.h" line="131" column="1" bodyfile="modules/system/linux.cpp" bodystart="99" bodyend="103"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1event_1ad71c57b012bdc18f9e6dc7b7893fa206" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="134" column="1"/>
+        <location file="interface/coroutine/linux.h" line="132" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1event_1a077f435933732cdb57e5ced5bd1e16e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="135" column="1"/>
+        <location file="interface/coroutine/linux.h" line="133" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1event_1a993ded5e0fd78e5c43a0d6190f990a7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1event" kindref="compound">event</ref> &amp;</type>
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="136" column="1"/>
+        <location file="interface/coroutine/linux.h" line="134" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1event_1a4475e32746954c7281b7612c20b9e54e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1event" kindref="compound">event</ref> &amp;</type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="137" column="1"/>
+        <location file="interface/coroutine/linux.h" line="135" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1event_1ae0980a005dba5b12fd7ce3125bc1cd33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>uint64_t</type>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="139" column="1" bodyfile="modules/system/linux.cpp" bodystart="105" bodyend="107"/>
+        <location file="interface/coroutine/linux.h" line="137" column="1" bodyfile="modules/system/linux.cpp" bodystart="105" bodyend="107"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1event_1a125dc66eb62083c7b42b279a2dbf399f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -133,7 +133,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="140" column="1" bodyfile="modules/system/linux.cpp" bodystart="109" bodyend="111"/>
+        <location file="interface/coroutine/linux.h" line="138" column="1" bodyfile="modules/system/linux.cpp" bodystart="109" bodyend="111"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1event_1a4ac8eb8ea7cfc21a8be5bc35c1b4dcc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -146,7 +146,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="141" column="1" bodyfile="modules/system/linux.cpp" bodystart="113" bodyend="122"/>
+        <location file="interface/coroutine/linux.h" line="139" column="1" bodyfile="modules/system/linux.cpp" bodystart="113" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1event_1ae835aa2aa771ae07ff6d0caba147a1d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -159,7 +159,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="142" column="1" bodyfile="modules/system/linux.cpp" bodystart="124" bodyend="131"/>
+        <location file="interface/coroutine/linux.h" line="140" column="1" bodyfile="modules/system/linux.cpp" bodystart="124" bodyend="131"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -167,7 +167,7 @@
     <detaileddescription>
 <para><simplesect kind="see"><para><ulink url="https://github.com/grpc/grpc/blob/master/src/core/lib/iomgr/is_epollexclusive_available.cc">https://github.com/grpc/grpc/blob/master/src/core/lib/iomgr/is_epollexclusive_available.cc</ulink></para></simplesect>
 If the object is signaled(<computeroutput>set</computeroutput>), the bound <computeroutput><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref></computeroutput> will yield suspended coroutine through <computeroutput>epoll_event</computeroutput>&apos;s user data.</para><para>Its object can be <computeroutput>co_await</computeroutput>ed multiple times </para>    </detaileddescription>
-    <location file="interface/coroutine/linux.h" line="128" column="1" bodyfile="interface/coroutine/linux.h" bodystart="128" bodyend="143"/>
+    <location file="interface/coroutine/linux.h" line="126" column="1" bodyfile="interface/coroutine/linux.h" bodystart="126" bodyend="141"/>
     <listofallmembers>
       <member refid="classcoro_1_1event_1a6fc21592c13d569140e55e16dbd66291" prot="public" virt="non-virtual"><scope>coro::event</scope><name>event</name></member>
       <member refid="classcoro_1_1event_1ad71c57b012bdc18f9e6dc7b7893fa206" prot="public" virt="non-virtual"><scope>coro::event</scope><name>event</name></member>

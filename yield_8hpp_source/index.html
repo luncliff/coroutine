@@ -457,18 +457,16 @@
                 
                 
                 <h1 id="file-yieldhpp">File yield.hpp<a class="headerlink" href="#file-yieldhpp" title="Permanent link">&para;</a></h1>
-<p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_b31d54d5631803016a26f28213a41162/"><strong>interface</strong></a> <strong>&gt;</strong> <a href="../dir_1a14cfa05288f960dad150e6e316c4bb/"><strong>internal</strong></a> <strong>&gt;</strong> <a href="../yield_8hpp/"><strong>yield.hpp</strong></a></p>
+<p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_9b61234ab8cba81e3caae75634773f62/"><strong>coroutine</strong></a> <strong>&gt;</strong> <a href="../yield_8hpp/"><strong>yield.hpp</strong></a></p>
 <p><a href="../yield_8hpp/">Go to the documentation of this file.</a> </p>
 <div class="codehilite"><pre><span></span><code><span class="cp">#ifndef COROUTINE_YIELD_HPP</span>
 <span class="cp">#define COROUTINE_YIELD_HPP</span>
-
-<span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;iterator&gt;</span><span class="cp"></span>
 
-<span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
+<span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
 
-<span class="c1">// &lt;experimental/generator&gt; from the VC++</span>
+<span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
+
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">enumerable</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>

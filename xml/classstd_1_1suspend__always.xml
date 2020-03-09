@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classstd_1_1suspend__always" kind="class" language="C++" prot="public">
+    <compoundname>std::suspend_always</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classstd_1_1suspend__always_1aa54aab5520e3556f0890b94583bd6e9c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool std::suspend_always::await_ready</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>await_ready</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="252" column="1" bodyfile="interface/coroutine/frame.h" bodystart="252" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classstd_1_1suspend__always_1a88a2c10a7c4b29e403779a0d54c5ba6c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void std::suspend_always::await_resume</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>await_resume</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="255" column="1" bodyfile="interface/coroutine/frame.h" bodystart="255" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classstd_1_1suspend__always_1a34da95c5a98c9e4b2f929e397f9704c6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void std::suspend_always::await_suspend</definition>
+        <argsstring>(coroutine_handle&lt; void &gt;) const noexcept</argsstring>
+        <name>await_suspend</name>
+        <param>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="257" column="1" bodyfile="interface/coroutine/frame.h" bodystart="257" bodyend="258"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/frame.h" line="250" column="1" bodyfile="interface/coroutine/frame.h" bodystart="250" bodyend="259"/>
+    <listofallmembers>
+      <member refid="classstd_1_1suspend__always_1aa54aab5520e3556f0890b94583bd6e9c" prot="public" virt="non-virtual"><scope>std::suspend_always</scope><name>await_ready</name></member>
+      <member refid="classstd_1_1suspend__always_1a88a2c10a7c4b29e403779a0d54c5ba6c" prot="public" virt="non-virtual"><scope>std::suspend_always</scope><name>await_resume</name></member>
+      <member refid="classstd_1_1suspend__always_1a34da95c5a98c9e4b2f929e397f9704c6" prot="public" virt="non-virtual"><scope>std::suspend_always</scope><name>await_suspend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

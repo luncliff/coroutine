@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/pthread.cpp" line="63" column="1" bodyfile="modules/system/pthread.cpp" bodystart="63" bodyend="-1"/>
+        <location file="modules/system/pthread.cpp" line="64" column="1" bodyfile="modules/system/pthread.cpp" bodystart="64" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -31,7 +31,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/pthread.cpp" line="66" column="1" bodyfile="modules/system/pthread.cpp" bodystart="81" bodyend="84"/>
+        <location file="modules/system/pthread.cpp" line="67" column="1" bodyfile="modules/system/pthread.cpp" bodystart="82" bodyend="85"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1a1a19bc8d5aa50e721a871e52c7e8a554" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -45,7 +45,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/pthread.cpp" line="67" column="1" bodyfile="modules/system/pthread.cpp" bodystart="89" bodyend="98"/>
+        <location file="modules/system/pthread.cpp" line="68" column="1" bodyfile="modules/system/pthread.cpp" bodystart="90" bodyend="99"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1ab3d9f0753243ad9e7f2c09d3799b53b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/pthread.cpp" line="68" column="1"/>
+        <location file="modules/system/pthread.cpp" line="69" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1af80fc9f0cb9ee65280e3b5697c8ba4dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/pthread.cpp" line="69" column="1"/>
+        <location file="modules/system/pthread.cpp" line="70" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1aa31e1f13dcbc351797a6973d34e5a4db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1section" kindref="compound">section</ref> &amp;</type>
@@ -93,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/pthread.cpp" line="70" column="1"/>
+        <location file="modules/system/pthread.cpp" line="71" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1a7e8f7446da42e13aeca9aa051de207bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1section" kindref="compound">section</ref> &amp;</type>
@@ -109,7 +109,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/pthread.cpp" line="71" column="1"/>
+        <location file="modules/system/pthread.cpp" line="72" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1aa87d23fc56fbffff2d16fbdff3bb1ca6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -127,7 +127,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/pthread.cpp" line="73" column="1" bodyfile="modules/system/pthread.cpp" bodystart="109" bodyend="112"/>
+        <location file="modules/system/pthread.cpp" line="74" column="1" bodyfile="modules/system/pthread.cpp" bodystart="110" bodyend="113"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1ae87c2669f33f76891f0ae9193295907b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -142,7 +142,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/pthread.cpp" line="74" column="1" bodyfile="modules/system/pthread.cpp" bodystart="118" bodyend="122"/>
+        <location file="modules/system/pthread.cpp" line="75" column="1" bodyfile="modules/system/pthread.cpp" bodystart="119" bodyend="123"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1ac416fc79c4d4f27856d20f9cb90c7773" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -156,7 +156,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/pthread.cpp" line="75" column="1" bodyfile="modules/system/pthread.cpp" bodystart="127" bodyend="130"/>
+        <location file="modules/system/pthread.cpp" line="76" column="1" bodyfile="modules/system/pthread.cpp" bodystart="128" bodyend="131"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1a2b1a5f49c5bb3c3f1975bfe3ed010821" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -169,7 +169,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="135" column="1"/>
+        <location file="modules/system/windows.cpp" line="132" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1a1a19bc8d5aa50e721a871e52c7e8a554" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -182,7 +182,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="136" column="1"/>
+        <location file="modules/system/windows.cpp" line="133" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1aa87d23fc56fbffff2d16fbdff3bb1ca6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -195,7 +195,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="138" column="1"/>
+        <location file="modules/system/windows.cpp" line="135" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1ae87c2669f33f76891f0ae9193295907b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -208,7 +208,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="139" column="1"/>
+        <location file="modules/system/windows.cpp" line="136" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1ac416fc79c4d4f27856d20f9cb90c7773" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -221,7 +221,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="140" column="1"/>
+        <location file="modules/system/windows.cpp" line="137" column="1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -239,7 +239,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="129" column="1"/>
+        <location file="modules/system/windows.cpp" line="126" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1af80fc9f0cb9ee65280e3b5697c8ba4dc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -255,7 +255,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="130" column="1"/>
+        <location file="modules/system/windows.cpp" line="127" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1aa31e1f13dcbc351797a6973d34e5a4db" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1section" kindref="compound">section</ref> &amp;</type>
@@ -271,7 +271,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="131" column="1"/>
+        <location file="modules/system/windows.cpp" line="128" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1a7e8f7446da42e13aeca9aa051de207bd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1section" kindref="compound">section</ref> &amp;</type>
@@ -287,7 +287,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="132" column="1"/>
+        <location file="modules/system/windows.cpp" line="129" column="1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -316,7 +316,7 @@
         <label>CRITICAL_SECTION</label>
       </node>
     </collaborationgraph>
-    <location file="modules/system/pthread.cpp" line="61" column="1" bodyfile="modules/system/pthread.cpp" bodystart="61" bodyend="76"/>
+    <location file="modules/system/pthread.cpp" line="62" column="1" bodyfile="modules/system/pthread.cpp" bodystart="62" bodyend="77"/>
     <listofallmembers>
       <member refid="classcoro_1_1section_1ae87c2669f33f76891f0ae9193295907b" prot="public" virt="non-virtual"><scope>coro::section</scope><name>lock</name></member>
       <member refid="classcoro_1_1section_1ae87c2669f33f76891f0ae9193295907b" prot="public" virt="non-virtual"><scope>coro::section</scope><name>lock</name></member>

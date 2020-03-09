@@ -1,44 +1,43 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
-  <compounddef id="structclang__frame__prefix" kind="struct" language="C++" prot="public" final="yes">
+  <compounddef id="structclang__frame__prefix" kind="struct" language="C++" prot="public">
     <compoundname>clang_frame_prefix</compoundname>
-    <includes refid="frame_8h" local="no">frame.h</includes>
       <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="structclang__frame__prefix_1ac88fe15fe5c099df2eee940bf5508d34" prot="public" static="no" mutable="no">
-        <type>procedure_t</type>
-        <definition>procedure_t clang_frame_prefix::factivate</definition>
+      <memberdef kind="variable" id="structclang__frame__prefix_1a9e519b86feb06331e76b7bfaa3e687df" prot="public" static="no" mutable="no">
+        <type><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref></type>
+        <definition>procedure_t clang_frame_prefix::_Factivate</definition>
         <argsstring></argsstring>
-        <name>factivate</name>
+        <name>_Factivate</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="113" column="1" bodyfile="interface/coroutine/frame.h" bodystart="113" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="28" column="1" bodyfile="modules/portable/frame.cpp" bodystart="28" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structclang__frame__prefix_1ac186ff88db512f9a862b5584d6b93944" prot="public" static="no" mutable="no">
-        <type>procedure_t</type>
-        <definition>procedure_t clang_frame_prefix::fdestroy</definition>
+      <memberdef kind="variable" id="structclang__frame__prefix_1adc18b946a6366f6f62b4e4abbc690a4d" prot="public" static="no" mutable="no">
+        <type><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref></type>
+        <definition>procedure_t clang_frame_prefix::_Fdestroy</definition>
         <argsstring></argsstring>
-        <name>fdestroy</name>
+        <name>_Fdestroy</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="114" column="1" bodyfile="interface/coroutine/frame.h" bodystart="114" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="29" column="1" bodyfile="modules/portable/frame.cpp" bodystart="29" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="112" column="1" bodyfile="interface/coroutine/frame.h" bodystart="112" bodyend="115"/>
+    <location file="modules/portable/frame.cpp" line="27" column="1" bodyfile="modules/portable/frame.cpp" bodystart="27" bodyend="30"/>
     <listofallmembers>
-      <member refid="structclang__frame__prefix_1ac88fe15fe5c099df2eee940bf5508d34" prot="public" virt="non-virtual"><scope>clang_frame_prefix</scope><name>factivate</name></member>
-      <member refid="structclang__frame__prefix_1ac186ff88db512f9a862b5584d6b93944" prot="public" virt="non-virtual"><scope>clang_frame_prefix</scope><name>fdestroy</name></member>
+      <member refid="structclang__frame__prefix_1a9e519b86feb06331e76b7bfaa3e687df" prot="public" virt="non-virtual"><scope>clang_frame_prefix</scope><name>_Factivate</name></member>
+      <member refid="structclang__frame__prefix_1adc18b946a6366f6f62b4e4abbc690a4d" prot="public" virt="non-virtual"><scope>clang_frame_prefix</scope><name>_Fdestroy</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

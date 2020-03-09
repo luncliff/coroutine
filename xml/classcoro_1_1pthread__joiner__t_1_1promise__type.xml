@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="138" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="138" bodyend="140"/>
+        <location file="interface/coroutine/pthread.h" line="137" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="137" bodyend="139"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1pthread__joiner__t_1_1promise__type_1abd3d2a4ded1ea6fe0cf6d9ab9bff3306" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="141" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="141" bodyend="144"/>
+        <location file="interface/coroutine/pthread.h" line="140" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="140" bodyend="143"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1pthread__joiner__t_1_1promise__type_1af5d8fac1c1c2a4f8aa3806186428753d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>auto</type>
@@ -42,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="145" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="145" bodyend="147"/>
+        <location file="interface/coroutine/pthread.h" line="144" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="144" bodyend="146"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -50,30 +50,30 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="296">
+      <node id="306">
         <label>coro::pthread_spawn_promise</label>
         <link refid="classcoro_1_1pthread__spawn__promise"/>
       </node>
-      <node id="295">
+      <node id="305">
         <label>coro::pthread_joiner_t::promise_type</label>
         <link refid="classcoro_1_1pthread__joiner__t_1_1promise__type"/>
-        <childnode refid="296" relation="public-inheritance">
+        <childnode refid="306" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="298">
+      <node id="308">
         <label>coro::pthread_spawn_promise</label>
         <link refid="classcoro_1_1pthread__spawn__promise"/>
       </node>
-      <node id="297">
+      <node id="307">
         <label>coro::pthread_joiner_t::promise_type</label>
         <link refid="classcoro_1_1pthread__joiner__t_1_1promise__type"/>
-        <childnode refid="298" relation="public-inheritance">
+        <childnode refid="308" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/pthread.h" line="136" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="136" bodyend="148"/>
+    <location file="interface/coroutine/pthread.h" line="135" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="135" bodyend="147"/>
     <listofallmembers>
       <member refid="classcoro_1_1pthread__spawn__promise_1a0001ebb427fe3da1857b36bb3b483eb0" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t::promise_type</scope><name>await_transform</name></member>
       <member refid="classcoro_1_1pthread__spawn__promise_1a3b8bf1c50daa6f9a8dd7e21d9ce264ef" prot="public" virt="non-virtual"><scope>coro::pthread_joiner_t::promise_type</scope><name>await_transform</name></member>

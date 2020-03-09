@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classpromise__an" kind="class" language="C++" prot="public">
+    <compoundname>promise_an</compoundname>
+    <includes refid="return_8h" local="no">return.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpromise__an_1a76e21ad10b42fb5f96bd3366b149f8dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>suspend_always</type>
+        <definition>suspend_always promise_an::initial_suspend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>initial_suspend</name>
+        <briefdescription>
+<para>suspend after invoke </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>suspend_always </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="90" column="1" bodyfile="interface/coroutine/return.h" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classpromise__an_1afeb84b8de6a3c0cdef9b665adb02eb37" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>suspend_never</type>
+        <definition>suspend_never promise_an::final_suspend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>final_suspend</name>
+        <briefdescription>
+<para>destroy coroutine frame after return </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>suspend_never </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="97" column="1" bodyfile="interface/coroutine/return.h" bodystart="97" bodyend="99"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para><computeroutput>suspend_always</computeroutput>(initial) + <computeroutput>suspend_never</computeroutput>(final) </para></simplesect>
+</para>    </detaileddescription>
+    <location file="interface/coroutine/return.h" line="84" column="1" bodyfile="interface/coroutine/return.h" bodystart="84" bodyend="100"/>
+    <listofallmembers>
+      <member refid="classpromise__an_1afeb84b8de6a3c0cdef9b665adb02eb37" prot="public" virt="non-virtual"><scope>promise_an</scope><name>final_suspend</name></member>
+      <member refid="classpromise__an_1a76e21ad10b42fb5f96bd3366b149f8dc" prot="public" virt="non-virtual"><scope>promise_an</scope><name>initial_suspend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

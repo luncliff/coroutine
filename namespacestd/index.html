@@ -454,8 +454,22 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    Classes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#public-types" class="md-nav__link">
     Public Types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-functions" class="md-nav__link">
+    Public Functions
   </a>
   
 </li>
@@ -471,6 +485,75 @@
           <li class="md-nav__item">
   <a href="#typedef-coroutine_traits" class="md-nav__link">
     typedef coroutine_traits
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typedef-noop_coroutine_handle" class="md-nav__link">
+    typedef noop_coroutine_handle
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-functions-documentation" class="md-nav__link">
+    Public Functions Documentation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-noop_coroutine" class="md-nav__link">
+    function noop_coroutine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-operator" class="md-nav__link">
+    function operator!=
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-operator_1" class="md-nav__link">
+    function operator&lt;
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-operator_2" class="md-nav__link">
+    function operator&lt;=
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-operator_3" class="md-nav__link">
+    function operator==
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-operator_4" class="md-nav__link">
+    function operator&gt;
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-operator_5" class="md-nav__link">
+    function operator&gt;=
   </a>
   
 </li>
@@ -516,6 +599,53 @@
 </tr>
 </tbody>
 </table>
+<h2 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th align="right">Type</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1coro__traits__sfinae/"><strong>coro_traits_sfinae</strong></a> &lt;class _Ret, class&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1coro__traits__sfinae_3_01__Ret_00_01void__t_3_01typename_01__Ret_1_1promise__type_01_4_01_4/"><strong>coro_traits_sfinae&lt; _Ret, void_t&lt; typename _Ret::promise_type &gt; &gt;</strong></a> &lt;class _Ret&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a> &lt;_PromiseT&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4/"><strong>coroutine_handle&lt; noop_coroutine_promise &gt;</strong></a> &lt;&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1coroutine__handle_3_01void_01_4/"><strong>coroutine_handle&lt; void &gt;</strong></a> &lt;&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4/"><strong>hash&lt; coroutine_handle&lt; P &gt; &gt;</strong></a> &lt;typename P&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1noop__coroutine__promise/"><strong>noop_coroutine_promise</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classstd_1_1suspend__always/"><strong>suspend_always</strong></a> <br></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classstd_1_1suspend__never/"><strong>suspend_never</strong></a> <br></td>
+</tr>
+</tbody>
+</table>
 <h2 id="public-types">Public Types<a class="headerlink" href="#public-types" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -529,11 +659,119 @@
 <td align="right">typedef <a href="../structstd_1_1experimental_1_1coroutine__traits/"><strong>std::experimental::coroutine_traits</strong></a>&lt; Ret, Param... &gt;</td>
 <td align="left"><a href="./#typedef-coroutine-traits"><strong>coroutine_traits</strong></a>  <br></td>
 </tr>
+<tr>
+<td align="right">typedef <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; <a href="../structstd_1_1noop__coroutine__promise/"><strong>noop_coroutine_promise</strong></a> &gt;</td>
+<td align="left"><a href="./#typedef-noop-coroutine-handle"><strong>noop_coroutine_handle</strong></a>  <br></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th align="right">Type</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right"><a href="./#typedef-noop-coroutine-handle"><strong>noop_coroutine_handle</strong></a></td>
+<td align="left"><a href="./#function-noop-coroutine"><strong>noop_coroutine</strong></a> () noexcept<br></td>
+</tr>
+<tr>
+<td align="right">constexpr bool</td>
+<td align="left"><a href="./#function-operator"><strong>operator!=</strong></a> (const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Left, const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Right) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">constexpr bool</td>
+<td align="left"><a href="./#function-operator_1"><strong>operator&lt;</strong></a> (const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Left, const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Right) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">constexpr bool</td>
+<td align="left"><a href="./#function-operator_2"><strong>operator&lt;=</strong></a> (const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Left, const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Right) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">constexpr bool</td>
+<td align="left"><a href="./#function-operator_3"><strong>operator==</strong></a> (const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Left, const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Right) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">constexpr bool</td>
+<td align="left"><a href="./#function-operator_4"><strong>operator&gt;</strong></a> (const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Left, const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Right) noexcept<br></td>
+</tr>
+<tr>
+<td align="right">constexpr bool</td>
+<td align="left"><a href="./#function-operator_5"><strong>operator&gt;=</strong></a> (const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Left, const <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; void &gt; _Right) noexcept<br></td>
+</tr>
 </tbody>
 </table>
 <h2 id="public-types-documentation">Public Types Documentation<a class="headerlink" href="#public-types-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="typedef-coroutine_traits">typedef coroutine_traits<a class="headerlink" href="#typedef-coroutine_traits" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">coroutine_traits</span> <span class="o">=</span> <span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">Ret</span><span class="p">,</span> <span class="n">Param</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div>
+
+
+<h3 id="typedef-noop_coroutine_handle">typedef noop_coroutine_handle<a class="headerlink" href="#typedef-noop_coroutine_handle" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">noop_coroutine_handle</span> <span class="o">=</span> <span class="k">typedef</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">noop_coroutine_promise</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div>
+
+
+<h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
+<h3 id="function-noop_coroutine">function noop_coroutine<a class="headerlink" href="#function-noop_coroutine" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">noop_coroutine_handle</span> <span class="n">std</span><span class="o">::</span><span class="n">noop_coroutine</span> <span class="p">()</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<h3 id="function-operator">function operator!=<a class="headerlink" href="#function-operator" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">std</span><span class="o">::</span><span class="k">operator</span><span class="o">!=</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Right</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<p><strong>Todo</strong></p>
+<p>apply standard spaceship operator. </p>
+<div class="codehilite"><pre><span></span><code><span class="k">constexpr</span> <span class="n">strong_ordering</span> <span class="k">operator</span><span class="o">&lt;=&gt;</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">x</span><span class="p">,</span> <span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">y</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+</code></pre></div>
+
+
+<h3 id="function-operator_1">function operator&lt;<a class="headerlink" href="#function-operator_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">std</span><span class="o">::</span><span class="k">operator</span><span class="o">&lt;</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Right</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<h3 id="function-operator_2">function operator&lt;=<a class="headerlink" href="#function-operator_2" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">std</span><span class="o">::</span><span class="k">operator</span><span class="o">&lt;=</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Right</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<h3 id="function-operator_3">function operator==<a class="headerlink" href="#function-operator_3" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">std</span><span class="o">::</span><span class="k">operator</span><span class="o">==</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Right</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<h3 id="function-operator_4">function operator&gt;<a class="headerlink" href="#function-operator_4" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">std</span><span class="o">::</span><span class="k">operator</span><span class="o">&gt;</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Right</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<h3 id="function-operator_5">function operator&gt;=<a class="headerlink" href="#function-operator_5" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">std</span><span class="o">::</span><span class="k">operator</span><span class="o">&gt;=</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Left</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">_Right</span>
+<span class="p">)</span> <span class="k">noexcept</span>
 </code></pre></div>
 
 

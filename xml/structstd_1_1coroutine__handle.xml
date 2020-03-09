@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structstd_1_1coroutine__handle" kind="struct" language="C++" prot="public">
+    <compoundname>std::coroutine_handle</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename</type>
+        <declname>_PromiseT</declname>
+        <defname>_PromiseT</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structstd_1_1coroutine__handle_1ae5c6fd5a601ffde34d8e5d9130851a01" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref></type>
+        <definition>static coroutine_handle std::coroutine_handle&lt; _PromiseT &gt;::from_promise</definition>
+        <argsstring>(_PromiseT &amp;_Prom)</argsstring>
+        <name>from_promise</name>
+        <param>
+          <type>_PromiseT &amp;</type>
+          <declname>_Prom</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="104" column="1" bodyfile="interface/coroutine/frame.h" bodystart="104" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1coroutine__handle_1ae744465e0cadc25082d5b36f8e60bea3" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref></type>
+        <definition>static coroutine_handle std::coroutine_handle&lt; _PromiseT &gt;::from_address</definition>
+        <argsstring>(void *_Addr)</argsstring>
+        <name>from_address</name>
+        <param>
+          <type>void *</type>
+          <declname>_Addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="114" column="1" bodyfile="interface/coroutine/frame.h" bodystart="114" bodyend="118"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1coroutine__handle_1a5b18d02f810729a20b6916a31b4dfffb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref> &amp;</type>
+        <definition>coroutine_handle&amp; std::coroutine_handle&lt; _PromiseT &gt;::operator=</definition>
+        <argsstring>(nullptr_t) noexcept</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>nullptr_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="109" column="1" bodyfile="interface/coroutine/frame.h" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1coroutine__handle_1a36141e7f3007812cad591c77d985a19a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>_PromiseT &amp;</type>
+        <definition>_PromiseT&amp; std::coroutine_handle&lt; _PromiseT &gt;::promise</definition>
+        <argsstring>() const </argsstring>
+        <name>promise</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="120" column="1" bodyfile="interface/coroutine/frame.h" bodystart="120" bodyend="126"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/frame.h" line="52" column="1" bodyfile="interface/coroutine/frame.h" bodystart="52" bodyend="-1"/>
+    <listofallmembers>
+      <member refid="structstd_1_1coroutine__handle_1ae744465e0cadc25082d5b36f8e60bea3" prot="public" virt="non-virtual"><scope>std::coroutine_handle</scope><name>from_address</name></member>
+      <member refid="structstd_1_1coroutine__handle_1ae5c6fd5a601ffde34d8e5d9130851a01" prot="public" virt="non-virtual"><scope>std::coroutine_handle</scope><name>from_promise</name></member>
+      <member refid="structstd_1_1coroutine__handle_1a5b18d02f810729a20b6916a31b4dfffb" prot="public" virt="non-virtual"><scope>std::coroutine_handle</scope><name>operator=</name></member>
+      <member refid="structstd_1_1coroutine__handle_1a36141e7f3007812cad591c77d985a19a" prot="public" virt="non-virtual"><scope>std::coroutine_handle</scope><name>promise</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

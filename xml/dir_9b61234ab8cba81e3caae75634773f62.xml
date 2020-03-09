@@ -10,6 +10,7 @@
     <innerfile refid="return_8h">return.h</innerfile>
     <innerfile refid="unix_8h">unix.h</innerfile>
     <innerfile refid="windows_8h">windows.h</innerfile>
+    <innerfile refid="yield_8hpp">yield.hpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

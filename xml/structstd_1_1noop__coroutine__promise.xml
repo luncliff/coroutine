@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structstd_1_1noop__coroutine__promise" kind="struct" language="C++" prot="public">
+    <compoundname>std::noop_coroutine_promise</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/frame.h" line="162" column="1" bodyfile="interface/coroutine/frame.h" bodystart="162" bodyend="162"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -6,68 +6,50 @@
     <includes refid="linux_8h" local="no">coroutine/linux.h</includes>
     <includes refid="net_8h" local="no">coroutine/net.h</includes>
     <incdepgraph>
-      <node id="313">
-        <label>coroutine/frame.h</label>
-        <link refid="frame_8h"/>
-        <childnode refid="314" relation="include">
-        </childnode>
-        <childnode refid="315" relation="include">
-        </childnode>
-        <childnode refid="316" relation="include">
-        </childnode>
-      </node>
-      <node id="315">
-        <label>cstdint</label>
-      </node>
-      <node id="319">
+      <node id="262">
         <label>coroutine/net.h</label>
         <link refid="net_8h"/>
-        <childnode refid="320" relation="include">
+        <childnode refid="259" relation="include">
         </childnode>
-        <childnode refid="317" relation="include">
+        <childnode refid="261" relation="include">
         </childnode>
       </node>
-      <node id="310">
+      <node id="255">
         <label>modules/net/io_linux.cpp</label>
         <link refid="io_linux.cpp"/>
-        <childnode refid="311" relation="include">
+        <childnode refid="256" relation="include">
         </childnode>
-        <childnode refid="312" relation="include">
+        <childnode refid="257" relation="include">
         </childnode>
-        <childnode refid="319" relation="include">
+        <childnode refid="262" relation="include">
         </childnode>
       </node>
-      <node id="320">
+      <node id="259">
         <label>coroutine/return.h</label>
         <link refid="return_8h"/>
-        <childnode refid="316" relation="include">
-        </childnode>
-        <childnode refid="313" relation="include">
+        <childnode refid="260" relation="include">
         </childnode>
       </node>
-      <node id="317">
+      <node id="261">
         <label>gsl/gsl</label>
       </node>
-      <node id="314">
-        <label>cstddef</label>
-      </node>
-      <node id="312">
+      <node id="257">
         <label>coroutine/linux.h</label>
         <link refid="linux_8h"/>
-        <childnode refid="313" relation="include">
+        <childnode refid="258" relation="include">
         </childnode>
-        <childnode refid="317" relation="include">
+        <childnode refid="259" relation="include">
         </childnode>
-        <childnode refid="318" relation="include">
+        <childnode refid="261" relation="include">
         </childnode>
       </node>
-      <node id="311">
+      <node id="256">
         <label>chrono</label>
       </node>
-      <node id="316">
+      <node id="260">
         <label>type_traits</label>
       </node>
-      <node id="318">
+      <node id="258">
         <label>sys/epoll.h</label>
       </node>
     </incdepgraph>
@@ -99,12 +81,12 @@
 <codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>resume<sp/>inbound<sp/>coroutines</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>count<sp/>=<sp/><ref refid="namespacecoro_1a364142b18eb0724cabbf3a942c65ce92" kindref="member">iep</ref>.<ref refid="classcoro_1_1epoll__owner_1a1b956b95ed34ffed8c3932686b06e642" kindref="member">wait</ref>(half_time.count(),<sp/>{buf.get(),<sp/>buf_sz});</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0u;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>=<sp/>coroutine_handle&lt;void&gt;::from_address(buf[i].data.ptr))</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>=<sp/><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle&lt;void&gt;::from_address</ref>(buf[i].data.ptr))</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>.resume();</highlight></codeline>
 <codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>resume<sp/>outbound<sp/>coroutines</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>count<sp/>=<sp/><ref refid="namespacecoro_1a85afa8adbfd008d91e74fd5e0716e924" kindref="member">oep</ref>.<ref refid="classcoro_1_1epoll__owner_1a1b956b95ed34ffed8c3932686b06e642" kindref="member">wait</ref>(half_time.count(),<sp/>{buf.get(),<sp/>buf_sz});</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0u;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>=<sp/>coroutine_handle&lt;void&gt;::from_address(buf[i].data.ptr))</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>=<sp/><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle&lt;void&gt;::from_address</ref>(buf[i].data.ptr))</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>.resume();</highlight></codeline>
 <codeline lineno="32"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
@@ -141,7 +123,7 @@
 <codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_send_to*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="65"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="66"><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send_to::suspend(coroutine_handle&lt;void&gt;<sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send_to::suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sd<sp/>=<sp/>this-&gt;handle;</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>errc<sp/>=<sp/>this-&gt;</highlight><highlight class="keyword">internal</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>errc<sp/>=<sp/>0;</highlight></codeline>
@@ -183,7 +165,7 @@
 <codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_recv_from*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="107"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="108"><highlight class="normal"></highlight></codeline>
-<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv_from::suspend(coroutine_handle&lt;void&gt;<sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv_from::suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sd<sp/>=<sp/>this-&gt;handle;</highlight></codeline>
 <codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>errc<sp/>=<sp/>this-&gt;</highlight><highlight class="keyword">internal</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>errc<sp/>=<sp/>0;</highlight></codeline>
@@ -216,7 +198,7 @@
 <codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_send*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="140"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="141"><highlight class="normal"></highlight></codeline>
-<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send::suspend(coroutine_handle&lt;void&gt;<sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send::suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sd<sp/>=<sp/>this-&gt;handle;</highlight></codeline>
 <codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>errc<sp/>=<sp/>this-&gt;</highlight><highlight class="keyword">internal</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>errc<sp/>=<sp/>0;</highlight></codeline>
@@ -247,7 +229,7 @@
 <codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_recv*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="171"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="172"><highlight class="normal"></highlight></codeline>
-<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv::suspend(coroutine_handle&lt;void&gt;<sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv::suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sd<sp/>=<sp/>this-&gt;handle;</highlight></codeline>
 <codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>errc<sp/>=<sp/>this-&gt;</highlight><highlight class="keyword">internal</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>errc<sp/>=<sp/>0;</highlight></codeline>

@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="29" column="1" bodyfile="interface/coroutine/linux.h" bodystart="29" bodyend="-1"/>
+        <location file="interface/coroutine/linux.h" line="27" column="1" bodyfile="interface/coroutine/linux.h" bodystart="27" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -39,7 +39,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="37" column="1" bodyfile="modules/system/linux.cpp" bodystart="14" bodyend="18"/>
+        <location file="interface/coroutine/linux.h" line="35" column="1" bodyfile="modules/system/linux.cpp" bodystart="14" bodyend="18"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1epoll__owner_1aa79b3b95a42f358ee5371a9e49940c2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -52,7 +52,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="41" column="1" bodyfile="modules/system/linux.cpp" bodystart="19" bodyend="21"/>
+        <location file="interface/coroutine/linux.h" line="39" column="1" bodyfile="modules/system/linux.cpp" bodystart="19" bodyend="21"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1epoll__owner_1ace7bd8a1e220b42d134f6e1787571205" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -68,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="42" column="1"/>
+        <location file="interface/coroutine/linux.h" line="40" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1epoll__owner_1a67aefcb858ebd9b290410fb4c0675ac2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -84,7 +84,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="43" column="1"/>
+        <location file="interface/coroutine/linux.h" line="41" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1epoll__owner_1afe84e5cde9fed10798ddc40aa778d17a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref> &amp;</type>
@@ -100,7 +100,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="44" column="1"/>
+        <location file="interface/coroutine/linux.h" line="42" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1epoll__owner_1aa687a1df93f38dfe75ebeddb21e26f67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1epoll__owner" kindref="compound">epoll_owner</ref> &amp;</type>
@@ -116,7 +116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="45" column="1"/>
+        <location file="interface/coroutine/linux.h" line="43" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1epoll__owner_1a013b22663c37c41b1ebc50f5af374dc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -161,7 +161,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="55" column="1" bodyfile="modules/system/linux.cpp" bodystart="23" bodyend="36"/>
+        <location file="interface/coroutine/linux.h" line="53" column="1" bodyfile="modules/system/linux.cpp" bodystart="23" bodyend="36"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1epoll__owner_1a199d0fa519d3300ed9998ac4090c16fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -187,7 +187,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="62" column="1" bodyfile="modules/system/linux.cpp" bodystart="38" bodyend="44"/>
+        <location file="interface/coroutine/linux.h" line="60" column="1" bodyfile="modules/system/linux.cpp" bodystart="38" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1epoll__owner_1a1b956b95ed34ffed8c3932686b06e642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ptrdiff_t</type>
@@ -233,7 +233,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="74" column="1" bodyfile="modules/system/linux.cpp" bodystart="45" bodyend="51"/>
+        <location file="interface/coroutine/linux.h" line="72" column="1" bodyfile="modules/system/linux.cpp" bodystart="45" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1epoll__owner_1a9f82dbafdc400b3daa9a253399eb83b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>auto</type>
@@ -260,7 +260,7 @@
 </parameteritem>
 </parameterlist>
 <simplesect kind="see"><para>change</para></simplesect>
-There is no guarantee of reusage of returned awaiter object When it is awaited, and <computeroutput>req.udata</computeroutput> is null(0), the value is set to <computeroutput>coroutine_handle&lt;void&gt;</computeroutput></para><para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>edge_in_async(<ref refid="classcoro_1_1epoll__owner_1af896fc8b647b56733a7442ec3ecf2823" kindref="member">epoll_owner</ref>&amp;<sp/>ep,<sp/>int64_t<sp/>fd)<sp/>-&gt;<sp/>frame_t<sp/>{</highlight></codeline>
+There is no guarantee of reusage of returned awaiter object When it is awaited, and <computeroutput>req.udata</computeroutput> is null(0), the value is set to <computeroutput>coroutine_handle&lt;void&gt;</computeroutput></para><para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>edge_in_async(<ref refid="classcoro_1_1epoll__owner_1af896fc8b647b56733a7442ec3ecf2823" kindref="member">epoll_owner</ref>&amp;<sp/>ep,<sp/>int64_t<sp/>fd)<sp/>-&gt;<sp/><ref refid="classframe__t" kindref="compound">frame_t</ref><sp/>{</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>epoll_event<sp/>req{};</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>req.events<sp/>=<sp/>EPOLLET<sp/>|<sp/>EPOLLIN<sp/>|<sp/>EPOLLONESHOT;</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>req.data.ptr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
@@ -269,14 +269,14 @@ There is no guarantee of reusage of returned awaiter object When it is awaited, 
 </programlisting> </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="96" column="1" bodyfile="interface/coroutine/linux.h" bodystart="96" bodyend="115"/>
+        <location file="interface/coroutine/linux.h" line="94" column="1" bodyfile="interface/coroutine/linux.h" bodystart="94" bodyend="113"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>RAII wrapping for epoll file descriptor. </para>    </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/linux.h" line="28" column="1" bodyfile="interface/coroutine/linux.h" bodystart="28" bodyend="116"/>
+    <location file="interface/coroutine/linux.h" line="26" column="1" bodyfile="interface/coroutine/linux.h" bodystart="26" bodyend="114"/>
     <listofallmembers>
       <member refid="classcoro_1_1epoll__owner_1a9c861ec74010169d0f17b90e842662fe" prot="private" virt="non-virtual"><scope>coro::epoll_owner</scope><name>epfd</name></member>
       <member refid="classcoro_1_1epoll__owner_1af896fc8b647b56733a7442ec3ecf2823" prot="public" virt="non-virtual"><scope>coro::epoll_owner</scope><name>epoll_owner</name></member>

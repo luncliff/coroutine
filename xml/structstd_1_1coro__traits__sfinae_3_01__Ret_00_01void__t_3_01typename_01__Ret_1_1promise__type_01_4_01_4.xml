@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structstd_1_1coro__traits__sfinae_3_01__Ret_00_01void__t_3_01typename_01__Ret_1_1promise__type_01_4_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::coro_traits_sfinae&lt; _Ret, void_t&lt; typename _Ret::promise_type &gt; &gt;</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
+    <templateparamlist>
+      <param>
+        <type>class _Ret</type>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structstd_1_1coro__traits__sfinae_3_01__Ret_00_01void__t_3_01typename_01__Ret_1_1promise__type_01_4_01_4_1aedd4e5217b19e80ecfdcce12d962fe9a" prot="public" static="no">
+        <type>typename _Ret::promise_type</type>
+        <definition>using std::coro_traits_sfinae&lt; _Ret, void_t&lt; typename _Ret::promise_type &gt; &gt;::promise_type =  typename _Ret::promise_type</definition>
+        <argsstring></argsstring>
+        <name>promise_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="268" column="1" bodyfile="interface/coroutine/frame.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/frame.h" line="267" column="1" bodyfile="interface/coroutine/frame.h" bodystart="267" bodyend="269"/>
+    <listofallmembers>
+      <member refid="structstd_1_1coro__traits__sfinae_3_01__Ret_00_01void__t_3_01typename_01__Ret_1_1promise__type_01_4_01_4_1aedd4e5217b19e80ecfdcce12d962fe9a" prot="public" virt="non-virtual"><scope>std::coro_traits_sfinae&lt; _Ret, void_t&lt; typename _Ret::promise_type &gt; &gt;</scope><name>promise_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

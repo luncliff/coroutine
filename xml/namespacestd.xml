@@ -2,8 +2,30 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="namespacestd" kind="namespace" language="C++">
     <compoundname>std</compoundname>
+    <innerclass refid="structstd_1_1coro__traits__sfinae" prot="public">std::coro_traits_sfinae</innerclass>
+    <innerclass refid="structstd_1_1coro__traits__sfinae_3_01__Ret_00_01void__t_3_01typename_01__Ret_1_1promise__type_01_4_01_4" prot="public">std::coro_traits_sfinae&lt; _Ret, void_t&lt; typename _Ret::promise_type &gt; &gt;</innerclass>
+    <innerclass refid="structstd_1_1coroutine__handle" prot="public">std::coroutine_handle</innerclass>
+    <innerclass refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4" prot="public">std::coroutine_handle&lt; noop_coroutine_promise &gt;</innerclass>
+    <innerclass refid="structstd_1_1coroutine__handle_3_01void_01_4" prot="public">std::coroutine_handle&lt; void &gt;</innerclass>
+    <innerclass refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4" prot="public">std::hash&lt; coroutine_handle&lt; P &gt; &gt;</innerclass>
+    <innerclass refid="structstd_1_1noop__coroutine__promise" prot="public">std::noop_coroutine_promise</innerclass>
+    <innerclass refid="classstd_1_1suspend__always" prot="public">std::suspend_always</innerclass>
+    <innerclass refid="classstd_1_1suspend__never" prot="public">std::suspend_never</innerclass>
     <innernamespace refid="namespacestd_1_1experimental">std::experimental</innernamespace>
       <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacestd_1a65bade8aeae7a9efa8101240c161d109" prot="public" static="no">
+        <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; <ref refid="structstd_1_1noop__coroutine__promise" kindref="compound">noop_coroutine_promise</ref> &gt;</type>
+        <definition>using std::noop_coroutine_handle = typedef coroutine_handle&lt;noop_coroutine_promise&gt;</definition>
+        <argsstring></argsstring>
+        <name>noop_coroutine_handle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="165" column="1" bodyfile="interface/coroutine/frame.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="typedef" id="namespacestd_1a6b868b9d1542641a1fc432863d8c91d2" prot="public" static="no">
         <type><ref refid="structstd_1_1experimental_1_1coroutine__traits" kindref="compound">std::experimental::coroutine_traits</ref>&lt; Ret, Param... &gt;</type>
         <definition>using std::coroutine_traits = typedef std::experimental::coroutine_traits&lt;Ret, Param...&gt;</definition>
@@ -15,13 +37,155 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="213" column="1" bodyfile="interface/coroutine/return.h" bodystart="213" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="328" column="1" bodyfile="interface/coroutine/frame.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacestd_1a6afe77761cc2bb4b999d0c5d420eaa91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool std::operator==</definition>
+        <argsstring>(const coroutine_handle&lt; void &gt; _Left, const coroutine_handle&lt; void &gt; _Right) noexcept</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="130" column="1" bodyfile="interface/coroutine/frame.h" bodystart="130" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacestd_1ac124cc9360c133441e329a5a33c1280d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool std::operator!=</definition>
+        <argsstring>(const coroutine_handle&lt; void &gt; _Left, const coroutine_handle&lt; void &gt; _Right) noexcept</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="todo_1_todo000001"><xreftitle>Todo</xreftitle><xrefdescription><para>apply standard spaceship operator. <programlisting><codeline><highlight class="normal">constexpr<sp/>strong_ordering<sp/>operator&lt;=&gt;(coroutine_handle&lt;&gt;<sp/>x,<sp/>coroutine_handle&lt;&gt;<sp/>y)<sp/>noexcept;</highlight></codeline>
+</programlisting></para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="140" column="1" bodyfile="interface/coroutine/frame.h" bodystart="140" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacestd_1a2e1bafefd3a1a93c5df60be5bb463d90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool std::operator&lt;</definition>
+        <argsstring>(const coroutine_handle&lt; void &gt; _Left, const coroutine_handle&lt; void &gt; _Right) noexcept</argsstring>
+        <name>operator&lt;</name>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="144" column="1" bodyfile="interface/coroutine/frame.h" bodystart="144" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacestd_1a06a1162629552eb6bdcb2a3ed725b3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool std::operator&gt;</definition>
+        <argsstring>(const coroutine_handle&lt; void &gt; _Left, const coroutine_handle&lt; void &gt; _Right) noexcept</argsstring>
+        <name>operator&gt;</name>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="148" column="1" bodyfile="interface/coroutine/frame.h" bodystart="148" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacestd_1ab5872289d09b6a964e8008c5ccfca465" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool std::operator&lt;=</definition>
+        <argsstring>(const coroutine_handle&lt; void &gt; _Left, const coroutine_handle&lt; void &gt; _Right) noexcept</argsstring>
+        <name>operator&lt;=</name>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="152" column="1" bodyfile="interface/coroutine/frame.h" bodystart="152" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacestd_1a0deb9c2f722ef383052395fc5a99e63e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool std::operator&gt;=</definition>
+        <argsstring>(const coroutine_handle&lt; void &gt; _Left, const coroutine_handle&lt; void &gt; _Right) noexcept</argsstring>
+        <name>operator&gt;=</name>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>_Right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="156" column="1" bodyfile="interface/coroutine/frame.h" bodystart="156" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacestd_1aea74685396dbd4152e0f297c53721915" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacestd_1a65bade8aeae7a9efa8101240c161d109" kindref="member">noop_coroutine_handle</ref></type>
+        <definition>noop_coroutine_handle std::noop_coroutine</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>noop_coroutine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/frame.h" line="168" column="1" bodyfile="interface/coroutine/frame.h" bodystart="231" bodyend="233"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="155" column="1"/>
+    <location file="interface/coroutine/frame.h" line="48" column="1"/>
   </compounddef>
 </doxygen>

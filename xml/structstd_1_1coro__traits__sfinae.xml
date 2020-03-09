@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structstd_1_1coro__traits__sfinae" kind="struct" language="C++" prot="public">
+    <compoundname>std::coro_traits_sfinae</compoundname>
+    <includes refid="frame_8h" local="no">frame.h</includes>
+    <templateparamlist>
+      <param>
+        <type>class _Ret</type>
+      </param>
+      <param>
+        <type>class</type>
+        <defval>void</defval>
+      </param>
+    </templateparamlist>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/frame.h" line="264" column="1" bodyfile="interface/coroutine/frame.h" bodystart="264" bodyend="264"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -461,20 +461,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#public-types" class="md-nav__link">
-    Public Types
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#public-attributes" class="md-nav__link">
-    Public Attributes
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#public-functions" class="md-nav__link">
     Public Functions
   </a>
@@ -485,128 +471,6 @@
   <a href="#macros" class="md-nav__link">
     Macros
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#public-types-documentation" class="md-nav__link">
-    Public Types Documentation
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#union-prefix_t" class="md-nav__link">
-    union prefix_t
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#public-attributes-documentation" class="md-nav__link">
-    Public Attributes Documentation
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#variable-aligned_size_v" class="md-nav__link">
-    variable aligned_size_v
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#public-functions-documentation" class="md-nav__link">
-    Public Functions Documentation
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#function-__builtin_coro_destroy" class="md-nav__link">
-    function __builtin_coro_destroy
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-__builtin_coro_done" class="md-nav__link">
-    function __builtin_coro_done
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-__builtin_coro_resume" class="md-nav__link">
-    function __builtin_coro_resume
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-_coro_destroy" class="md-nav__link">
-    function _coro_destroy
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-_coro_done" class="md-nav__link">
-    function _coro_done
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-_coro_finished" class="md-nav__link">
-    function _coro_finished
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-_coro_resume" class="md-nav__link">
-    function _coro_resume
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#macro-definition-documentation" class="md-nav__link">
-    Macro Definition Documentation
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#define-coroutine_portable_frame_h" class="md-nav__link">
-    define COROUTINE_PORTABLE_FRAME_H
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -632,10 +496,13 @@
                 <h1 id="file-frameh">File frame.h<a class="headerlink" href="#file-frameh" title="Permanent link">&para;</a></h1>
 <p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_9b61234ab8cba81e3caae75634773f62/"><strong>coroutine</strong></a> <strong>&gt;</strong> <a href="./"><strong>frame.h</strong></a></p>
 <p><a href="../frame_8h_source/">Go to the source code of this file.</a></p>
+<p><em>Header to adjust the difference of coroutine frame between compilers.</em> <a href="#detailed-description">More...</a></p>
 <ul>
 <li><code>#include &lt;cstddef&gt;</code></li>
 <li><code>#include &lt;cstdint&gt;</code></li>
 <li><code>#include &lt;type_traits&gt;</code></li>
+<li><code>#include &lt;exception&gt;</code></li>
+<li><code>#include &lt;functional&gt;</code></li>
 </ul>
 <h2 id="namespaces">Namespaces<a class="headerlink" href="#namespaces" title="Permanent link">&para;</a></h2>
 <table>
@@ -667,77 +534,47 @@
 <tbody>
 <tr>
 <td align="right">struct</td>
-<td align="left"><a href="../structclang__frame__prefix/"><strong>clang_frame_prefix</strong></a> <br></td>
+<td align="left"><a href="../structstd_1_1coro__traits__sfinae/"><strong>coro_traits_sfinae</strong></a> &lt;class _Ret, class&gt;<br></td>
 </tr>
 <tr>
 <td align="right">struct</td>
-<td align="left"><a href="../structgcc__frame__prefix/"><strong>gcc_frame_prefix</strong></a> <br></td>
+<td align="left"><a href="../structstd_1_1coro__traits__sfinae_3_01__Ret_00_01void__t_3_01typename_01__Ret_1_1promise__type_01_4_01_4/"><strong>coro_traits_sfinae&lt; _Ret, void_t&lt; typename _Ret::promise_type &gt; &gt;</strong></a> &lt;class _Ret&gt;<br></td>
 </tr>
 <tr>
 <td align="right">struct</td>
-<td align="left"><a href="../structmsvc__frame__prefix/"><strong>msvc_frame_prefix</strong></a> <br></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classstd_1_1experimental_1_1coroutine__handle/"><strong>coroutine_handle</strong></a> &lt;PromiseType&gt;<br></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classstd_1_1experimental_1_1coroutine__handle/"><strong>coroutine_handle</strong></a> &lt;PromiseType&gt;<br></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4/"><strong>coroutine_handle&lt; noop_coroutine_promise &gt;</strong></a> &lt;&gt;<br></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4/"><strong>coroutine_handle&lt; void &gt;</strong></a> &lt;&gt;<br></td>
+<td align="left"><a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a> &lt;_PromiseT&gt;<br></td>
 </tr>
 <tr>
 <td align="right">struct</td>
-<td align="left"><a href="../structstd_1_1experimental_1_1coroutine__traits/"><strong>coroutine_traits</strong></a> &lt;typename ReturnType, Args&gt;<br></td>
+<td align="left"><a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a> &lt;_PromiseT&gt;<br></td>
 </tr>
 <tr>
 <td align="right">struct</td>
-<td align="left"><a href="../structstd_1_1experimental_1_1noop__coroutine__promise/"><strong>noop_coroutine_promise</strong></a> <br></td>
+<td align="left"><a href="../structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4/"><strong>coroutine_handle&lt; noop_coroutine_promise &gt;</strong></a> &lt;&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1coroutine__handle_3_01void_01_4/"><strong>coroutine_handle&lt; void &gt;</strong></a> &lt;&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1experimental_1_1coroutine__traits/"><strong>coroutine_traits</strong></a> &lt;typename _Ret, _Ts&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4/"><strong>hash&lt; coroutine_handle&lt; P &gt; &gt;</strong></a> &lt;typename P&gt;<br></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1noop__coroutine__promise/"><strong>noop_coroutine_promise</strong></a> <br></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classstd_1_1experimental_1_1suspend__always/"><strong>suspend_always</strong></a> <br></td>
+<td align="left"><a href="../classstd_1_1suspend__always/"><strong>suspend_always</strong></a> <br></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classstd_1_1experimental_1_1suspend__never/"><strong>suspend_never</strong></a> <br></td>
-</tr>
-</tbody>
-</table>
-<h2 id="public-types">Public Types<a class="headerlink" href="#public-types" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th align="right">Type</th>
-<th align="left">Name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="right">union</td>
-<td align="left"><a href="../unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t/"><strong>prefix_t</strong></a>  <br></td>
-</tr>
-</tbody>
-</table>
-<h2 id="public-attributes">Public Attributes<a class="headerlink" href="#public-attributes" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th align="right">Type</th>
-<th align="left">Name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="right">constexpr auto</td>
-<td align="left"><a href="./#variable-aligned-size-v"><strong>aligned_size_v</strong></a>   = = ((sizeof(T) + 16u - 1u) &amp; ~(16u - 1u))<br></td>
+<td align="left"><a href="../classstd_1_1suspend__never/"><strong>suspend_never</strong></a> <br></td>
 </tr>
 </tbody>
 </table>
@@ -752,31 +589,23 @@
 <tbody>
 <tr>
 <td align="right">void</td>
-<td align="left"><a href="./#function--builtin-coro-destroy"><strong>__builtin_coro_destroy</strong></a> (void *) <br></td>
+<td align="left"><a href="./#function-portable-coro-destroy"><strong>portable_coro_destroy</strong></a> (portable_coro_prefix * _Handle) <br></td>
 </tr>
 <tr>
 <td align="right">bool</td>
-<td align="left"><a href="./#function--builtin-coro-done"><strong>__builtin_coro_done</strong></a> (void *) <br></td>
+<td align="left"><a href="./#function-portable-coro-done"><strong>portable_coro_done</strong></a> (portable_coro_prefix * _Handle) <br></td>
+</tr>
+<tr>
+<td align="right">auto</td>
+<td align="left"><a href="./#function-portable-coro-from-promise"><strong>portable_coro_from_promise</strong></a> (void * _PromAddr, ptrdiff_t _PromSize) <br></td>
+</tr>
+<tr>
+<td align="right">void *</td>
+<td align="left"><a href="./#function-portable-coro-get-promise"><strong>portable_coro_get_promise</strong></a> (portable_coro_prefix * _Handle, ptrdiff_t _PromSize) <br></td>
 </tr>
 <tr>
 <td align="right">void</td>
-<td align="left"><a href="./#function--builtin-coro-resume"><strong>__builtin_coro_resume</strong></a> (void *) <br></td>
-</tr>
-<tr>
-<td align="right">void</td>
-<td align="left"><a href="./#function-coro-destroy"><strong>_coro_destroy</strong></a> (void *) <br></td>
-</tr>
-<tr>
-<td align="right">size_t</td>
-<td align="left"><a href="./#function-coro-done"><strong>_coro_done</strong></a> (void *) <br></td>
-</tr>
-<tr>
-<td align="right">bool</td>
-<td align="left"><a href="./#function-coro-finished"><strong>_coro_finished</strong></a> (const <a href="../structmsvc__frame__prefix/"><strong>msvc_frame_prefix</strong></a> *) noexcept<br></td>
-</tr>
-<tr>
-<td align="right">size_t</td>
-<td align="left"><a href="./#function-coro-resume"><strong>_coro_resume</strong></a> (void *) <br></td>
+<td align="left"><a href="./#function-portable-coro-resume"><strong>portable_coro_resume</strong></a> (portable_coro_prefix * _Handle) <br></td>
 </tr>
 </tbody>
 </table>
@@ -791,75 +620,69 @@
 <tbody>
 <tr>
 <td align="right">define</td>
-<td align="left"><a href="./#define-coroutine-portable-frame-h"><strong>COROUTINE_PORTABLE_FRAME_H</strong></a>  <br></td>
+<td align="left"><a href="./#define-coroutine-"><strong>_COROUTINE_</strong></a>  <br></td>
+</tr>
+<tr>
+<td align="right">define</td>
+<td align="left"><a href="./#define-experimental-resumable-"><strong>_EXPERIMENTAL_RESUMABLE_</strong></a>  <br></td>
 </tr>
 </tbody>
 </table>
-<h2 id="public-types-documentation">Public Types Documentation<a class="headerlink" href="#public-types-documentation" title="Permanent link">&para;</a></h2>
-<h3 id="union-prefix_t">union prefix_t<a class="headerlink" href="#union-prefix_t" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>
-</code></pre></div>
-
-
-<h2 id="public-attributes-documentation">Public Attributes Documentation<a class="headerlink" href="#public-attributes-documentation" title="Permanent link">&para;</a></h2>
-<h3 id="variable-aligned_size_v">variable aligned_size_v<a class="headerlink" href="#variable-aligned_size_v" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">constexpr</span> <span class="k">auto</span> <span class="n">aligned_size_v</span><span class="p">;</span>
-</code></pre></div>
-
-
+<h1 id="detailed-description">Detailed Description<a class="headerlink" href="#detailed-description" title="Permanent link">&para;</a></h1>
+<p><strong>Author:</strong></p>
+<p>github.com/luncliff (<a href="mailto:luncliff@gmail.com">luncliff@gmail.com</a>) </p>
+<p><strong>See also:</strong> &lt;experimental/resumable&gt; from Microsoft VC++ (since 2017 Feb.) </p>
+<p><strong>See also:</strong> &lt;experimental/coroutine&gt; from LLVM libcxx (since 6.0) </p>
+<p><strong>See also:</strong> <a href="https://github.com/iains/gcc-cxx-coroutines/tree/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines">https://github.com/iains/gcc-cxx-coroutines/tree/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines</a> </p>
+<p><strong>See also:</strong> 17.12 Coroutines [support.coroutine]</p>
+<p><strong>Copyright:</strong></p>
+<p>CC BY 4.0 </p>
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
-<h3 id="function-__builtin_coro_destroy">function __builtin_coro_destroy<a class="headerlink" href="#function-__builtin_coro_destroy" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="n">__builtin_coro_destroy</span> <span class="p">(</span>
-    <span class="kt">void</span> <span class="o">*</span>
+<h3 id="function-portable_coro_destroy">function portable_coro_destroy<a class="headerlink" href="#function-portable_coro_destroy" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="n">portable_coro_destroy</span> <span class="p">(</span>
+    <span class="n">portable_coro_prefix</span> <span class="o">*</span> <span class="n">_Handle</span>
 <span class="p">)</span> 
 </code></pre></div>
 
 
-<h3 id="function-__builtin_coro_done">function __builtin_coro_done<a class="headerlink" href="#function-__builtin_coro_done" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">bool</span> <span class="n">__builtin_coro_done</span> <span class="p">(</span>
-    <span class="kt">void</span> <span class="o">*</span>
+<h3 id="function-portable_coro_done">function portable_coro_done<a class="headerlink" href="#function-portable_coro_done" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kt">bool</span> <span class="n">portable_coro_done</span> <span class="p">(</span>
+    <span class="n">portable_coro_prefix</span> <span class="o">*</span> <span class="n">_Handle</span>
 <span class="p">)</span> 
 </code></pre></div>
 
 
-<h3 id="function-__builtin_coro_resume">function __builtin_coro_resume<a class="headerlink" href="#function-__builtin_coro_resume" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="n">__builtin_coro_resume</span> <span class="p">(</span>
-    <span class="kt">void</span> <span class="o">*</span>
+<h3 id="function-portable_coro_from_promise">function portable_coro_from_promise<a class="headerlink" href="#function-portable_coro_from_promise" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="n">portable_coro_from_promise</span> <span class="p">(</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">_PromAddr</span><span class="p">,</span>
+    <span class="kt">ptrdiff_t</span> <span class="n">_PromSize</span>
 <span class="p">)</span> 
 </code></pre></div>
 
 
-<h3 id="function-_coro_destroy">function _coro_destroy<a class="headerlink" href="#function-_coro_destroy" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="n">_coro_destroy</span> <span class="p">(</span>
-    <span class="kt">void</span> <span class="o">*</span>
+<h3 id="function-portable_coro_get_promise">function portable_coro_get_promise<a class="headerlink" href="#function-portable_coro_get_promise" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="o">*</span> <span class="n">portable_coro_get_promise</span> <span class="p">(</span>
+    <span class="n">portable_coro_prefix</span> <span class="o">*</span> <span class="n">_Handle</span><span class="p">,</span>
+    <span class="kt">ptrdiff_t</span> <span class="n">_PromSize</span>
 <span class="p">)</span> 
 </code></pre></div>
 
 
-<h3 id="function-_coro_done">function _coro_done<a class="headerlink" href="#function-_coro_done" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">size_t</span> <span class="n">_coro_done</span> <span class="p">(</span>
-    <span class="kt">void</span> <span class="o">*</span>
-<span class="p">)</span> 
-</code></pre></div>
-
-
-<h3 id="function-_coro_finished">function _coro_finished<a class="headerlink" href="#function-_coro_finished" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">bool</span> <span class="n">_coro_finished</span> <span class="p">(</span>
-    <span class="k">const</span> <span class="n">msvc_frame_prefix</span> <span class="o">*</span>
-<span class="p">)</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<h3 id="function-_coro_resume">function _coro_resume<a class="headerlink" href="#function-_coro_resume" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">size_t</span> <span class="n">_coro_resume</span> <span class="p">(</span>
-    <span class="kt">void</span> <span class="o">*</span>
+<h3 id="function-portable_coro_resume">function portable_coro_resume<a class="headerlink" href="#function-portable_coro_resume" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="n">portable_coro_resume</span> <span class="p">(</span>
+    <span class="n">portable_coro_prefix</span> <span class="o">*</span> <span class="n">_Handle</span>
 <span class="p">)</span> 
 </code></pre></div>
 
 
 <h2 id="macro-definition-documentation">Macro Definition Documentation<a class="headerlink" href="#macro-definition-documentation" title="Permanent link">&para;</a></h2>
-<h3 id="define-coroutine_portable_frame_h">define COROUTINE_PORTABLE_FRAME_H<a class="headerlink" href="#define-coroutine_portable_frame_h" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="cp">#define COROUTINE_PORTABLE_FRAME_H </span>
+<h3 id="define-_coroutine_">define _COROUTINE_<a class="headerlink" href="#define-_coroutine_" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">#define _COROUTINE_ </span>
+</code></pre></div>
+
+
+<h3 id="define-_experimental_resumable_">define _EXPERIMENTAL_RESUMABLE_<a class="headerlink" href="#define-_experimental_resumable_" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">#define _EXPERIMENTAL_RESUMABLE_ </span>
 </code></pre></div>
 
 

@@ -497,9 +497,6 @@
     <span class="c1">// wait object is used as a storage for the event handle</span>
     <span class="c1">// until it is going to suspend</span>
 <span class="p">}</span>
-<span class="n">set_or_cancel</span><span class="o">::~</span><span class="n">set_or_cancel</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="n">UnregisterWait</span><span class="p">(</span><span class="n">hobject</span><span class="p">);</span>
-<span class="p">}</span>
 
 <span class="k">auto</span> <span class="n">set_or_cancel</span><span class="o">::</span><span class="n">unregister</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">-&gt;</span> <span class="kt">uint32_t</span> <span class="p">{</span>
     <span class="n">UnregisterWait</span><span class="p">(</span><span class="n">hobject</span><span class="p">);</span>

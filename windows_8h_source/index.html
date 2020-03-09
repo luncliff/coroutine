@@ -467,25 +467,22 @@
 <span class="cp">#else</span>
 <span class="cp">#error &quot;expect Windows platform for this file&quot;</span>
 <span class="cp">#endif</span>
-
-<span class="cp">#include</span> <span class="cpf">&lt;coroutine/frame.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;system_error&gt;</span><span class="cp"></span>
 
+<span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
+
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
 
 <span class="k">class</span> <span class="nc">set_or_cancel</span> <span class="k">final</span> <span class="p">{</span>
-    <span class="kt">void</span><span class="o">*</span> <span class="n">hobject</span><span class="p">;</span>
+    <span class="n">HANDLE</span> <span class="n">hobject</span><span class="p">;</span>
 
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">explicit</span> <span class="n">set_or_cancel</span><span class="p">(</span><span class="n">HANDLE</span> <span class="n">target</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="o">~</span><span class="n">set_or_cancel</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
     <span class="n">set_or_cancel</span><span class="p">(</span><span class="k">const</span> <span class="n">set_or_cancel</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
     <span class="n">set_or_cancel</span><span class="p">(</span><span class="n">set_or_cancel</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
     <span class="n">set_or_cancel</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">set_or_cancel</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
     <span class="n">set_or_cancel</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">set_or_cancel</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
-
-  <span class="k">public</span><span class="o">:</span>
-    <span class="k">explicit</span> <span class="n">set_or_cancel</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">target</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-    <span class="o">~</span><span class="n">set_or_cancel</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
 
   <span class="k">private</span><span class="o">:</span>
     <span class="kt">void</span> <span class="n">suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
@@ -519,8 +516,9 @@
 
     <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">create_and_submit_work</span><span class="p">(</span><span class="n">coro</span><span class="p">))</span>
-            <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ec</span><span class="p">),</span> <span class="n">system_category</span><span class="p">(),</span>
-                               <span class="s">&quot;CreateThreadpoolWork&quot;</span><span class="p">};</span>
+            <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">system_error</span><span class="p">{</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ec</span><span class="p">),</span>
+                                    <span class="n">std</span><span class="o">::</span><span class="n">system_category</span><span class="p">(),</span>
+                                    <span class="s">&quot;CreateThreadpoolWork&quot;</span><span class="p">};</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
@@ -538,8 +536,8 @@
 
     <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">queue_user_apc</span><span class="p">(</span><span class="n">coro</span><span class="p">))</span>
-            <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ec</span><span class="p">),</span> <span class="n">system_category</span><span class="p">(),</span>
-                               <span class="s">&quot;QueueUserAPC&quot;</span><span class="p">};</span>
+            <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">system_error</span><span class="p">{</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ec</span><span class="p">),</span>
+                                    <span class="n">std</span><span class="o">::</span><span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;QueueUserAPC&quot;</span><span class="p">};</span>
     <span class="p">}</span>
 
   <span class="k">public</span><span class="o">:</span>

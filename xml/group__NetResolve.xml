@@ -63,7 +63,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="339" column="1" bodyfile="modules/net/resolver.cpp" bodystart="60" bodyend="74"/>
+        <location file="interface/coroutine/net.h" line="340" column="1" bodyfile="modules/net/resolver.cpp" bodystart="60" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -124,7 +124,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="354" column="1" bodyfile="modules/net/resolver.cpp" bodystart="76" bodyend="90"/>
+        <location file="interface/coroutine/net.h" line="355" column="1" bodyfile="modules/net/resolver.cpp" bodystart="76" bodyend="90"/>
       </memberdef>
       <memberdef kind="function" id="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -185,7 +185,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="368" column="1" bodyfile="modules/net/resolver.cpp" bodystart="11" bodyend="19"/>
+        <location file="interface/coroutine/net.h" line="369" column="1" bodyfile="modules/net/resolver.cpp" bodystart="11" bodyend="19"/>
       </memberdef>
       <memberdef kind="function" id="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -246,7 +246,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="382" column="1" bodyfile="modules/net/resolver.cpp" bodystart="22" bodyend="30"/>
+        <location file="interface/coroutine/net.h" line="383" column="1" bodyfile="modules/net/resolver.cpp" bodystart="22" bodyend="30"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

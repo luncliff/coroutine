@@ -6,68 +6,50 @@
     <includes refid="net_8h" local="no">coroutine/net.h</includes>
     <includes refid="unix_8h" local="no">coroutine/unix.h</includes>
     <incdepgraph>
-      <node id="303">
-        <label>coroutine/frame.h</label>
-        <link refid="frame_8h"/>
-        <childnode refid="304" relation="include">
-        </childnode>
-        <childnode refid="305" relation="include">
-        </childnode>
-        <childnode refid="302" relation="include">
-        </childnode>
-      </node>
-      <node id="305">
-        <label>cstdint</label>
-      </node>
-      <node id="300">
+      <node id="248">
         <label>coroutine/net.h</label>
         <link refid="net_8h"/>
-        <childnode refid="301" relation="include">
+        <childnode refid="249" relation="include">
         </childnode>
-        <childnode refid="306" relation="include">
+        <childnode refid="251" relation="include">
         </childnode>
       </node>
-      <node id="301">
+      <node id="249">
         <label>coroutine/return.h</label>
         <link refid="return_8h"/>
-        <childnode refid="302" relation="include">
-        </childnode>
-        <childnode refid="303" relation="include">
+        <childnode refid="250" relation="include">
         </childnode>
       </node>
-      <node id="306">
+      <node id="251">
         <label>gsl/gsl</label>
       </node>
-      <node id="307">
+      <node id="252">
         <label>coroutine/unix.h</label>
         <link refid="unix_8h"/>
-        <childnode refid="303" relation="include">
+        <childnode refid="253" relation="include">
         </childnode>
-        <childnode refid="306" relation="include">
+        <childnode refid="251" relation="include">
         </childnode>
-        <childnode refid="308" relation="include">
+        <childnode refid="249" relation="include">
         </childnode>
       </node>
-      <node id="298">
+      <node id="246">
         <label>modules/net/io_darwin.cpp</label>
         <link refid="io_darwin.cpp"/>
-        <childnode refid="299" relation="include">
+        <childnode refid="247" relation="include">
         </childnode>
-        <childnode refid="300" relation="include">
+        <childnode refid="248" relation="include">
         </childnode>
-        <childnode refid="307" relation="include">
+        <childnode refid="252" relation="include">
         </childnode>
       </node>
-      <node id="304">
-        <label>cstddef</label>
-      </node>
-      <node id="308">
+      <node id="253">
         <label>sys/event.h</label>
       </node>
-      <node id="299">
+      <node id="247">
         <label>chrono</label>
       </node>
-      <node id="302">
+      <node id="250">
         <label>type_traits</label>
       </node>
     </incdepgraph>
@@ -92,7 +74,7 @@
 <codeline lineno="14"><highlight class="normal"></highlight></codeline>
 <codeline lineno="15"><highlight class="normal">kqueue_owner<sp/><ref refid="namespacecoro_1a8c609d3792ba6a72e94e0f88aca23589" kindref="member">netkq</ref>{};</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" kindref="member">net_callback_t</ref><sp/>=<sp/>void<sp/>(*)(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ctx,<sp/>coroutine_handle&lt;void&gt;<sp/><ref refid="namespacecoro" kindref="compound">coro</ref>);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" kindref="member">net_callback_t</ref><sp/>=<sp/>void<sp/>(*)(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ctx,<sp/><ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>);</highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a022830c9178aa1a201f95abd2026d35f" kindref="member">poll_net_tasks</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>timespec&amp;<sp/>wait_time,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" kindref="member">net_callback_t</ref><sp/>callback,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ctx)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
@@ -107,7 +89,7 @@
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="30"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a0260f9ba0f9c3c2abe90513e1f9ebbb4" kindref="member">resume_net_task</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*,<sp/>coroutine_handle&lt;void&gt;<sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a0260f9ba0f9c3c2abe90513e1f9ebbb4" kindref="member">resume_net_task</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*,<sp/><ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>.resume();</highlight></codeline>
 <codeline lineno="34"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
@@ -155,7 +137,7 @@
 <codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_send_to*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="78"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="79"><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send_to::suspend(coroutine_handle&lt;void&gt;<sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send_to::suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>&lt;=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint64_t));</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>task<sp/>=<sp/>rh;</highlight></codeline>
 <codeline lineno="83"><highlight class="normal"></highlight></codeline>
@@ -199,7 +181,7 @@
 <codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_recv_from*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="122"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="123"><highlight class="normal"></highlight></codeline>
-<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv_from::suspend(coroutine_handle&lt;void&gt;<sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv_from::suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>&lt;=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint64_t));</highlight></codeline>
 <codeline lineno="126"><highlight class="normal"></highlight></codeline>
 <codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>task<sp/>=<sp/>rh;</highlight></codeline>
@@ -239,7 +221,7 @@
 <codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_send*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="162"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="163"><highlight class="normal"></highlight></codeline>
-<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send::suspend(coroutine_handle&lt;void&gt;<sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send::suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>&lt;=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint64_t));</highlight></codeline>
 <codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>task<sp/>=<sp/>rh;</highlight></codeline>
 <codeline lineno="167"><highlight class="normal"></highlight></codeline>
@@ -273,7 +255,7 @@
 <codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_recv*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(addressof(work));</highlight></codeline>
 <codeline lineno="196"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="197"><highlight class="normal"></highlight></codeline>
-<codeline lineno="198"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv::suspend(coroutine_handle&lt;void&gt;<sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv::suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>rh)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>&lt;=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint64_t));</highlight></codeline>
 <codeline lineno="200"><highlight class="normal"></highlight></codeline>
 <codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>task<sp/>=<sp/>rh;</highlight></codeline>

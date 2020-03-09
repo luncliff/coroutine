@@ -3,14 +3,14 @@
   <compounddef id="group__channel" kind="group">
     <compoundname>channel</compoundname>
     <title>Channel</title>
-    <innerclass refid="classcoro_1_1channel__reader" prot="public">coro::channel_reader</innerclass>
-    <innerclass refid="classcoro_1_1channel__writer" prot="public">coro::channel_writer</innerclass>
-    <innerclass refid="classcoro_1_1channel" prot="public">coro::channel</innerclass>
-    <innerclass refid="classcoro_1_1channel__peeker" prot="public">coro::channel_peeker</innerclass>
+    <innerclass refid="classchannel__reader" prot="public">channel_reader</innerclass>
+    <innerclass refid="classchannel__writer" prot="public">channel_writer</innerclass>
+    <innerclass refid="classchannel" prot="public">channel</innerclass>
+    <innerclass refid="classchannel__peeker" prot="public">channel_peeker</innerclass>
       <sectiondef kind="func">
-      <memberdef kind="function" id="group__channel_1ga5477a9df5dbe696d741b9a7dd064ff49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__channel_1ga4fbcdbf9072d326f515ae5c36c6bef14" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void *</type>
-        <definition>static void* coro::internal::poison</definition>
+        <definition>static void* internal::poison</definition>
         <argsstring>() noexcept(false)</argsstring>
         <name>poison</name>
         <briefdescription>
@@ -21,9 +21,9 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="79" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="79" bodyend="81"/>
+        <location file="interface/coroutine/channel.hpp" line="75" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="75" bodyend="77"/>
       </memberdef>
-      <memberdef kind="function" id="group__channel_1ga63d87ae8cd27ef6af053b2012e14b8bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__channel_1ga3f5b0341c261df210578215eccb3111a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename T</type>
@@ -36,11 +36,11 @@
           </param>
         </templateparamlist>
         <type>void</type>
-        <definition>void coro::select</definition>
+        <definition>void select</definition>
         <argsstring>(channel&lt; T, M &gt; &amp;ch, Fn &amp;&amp;fn) noexcept(false)</argsstring>
         <name>select</name>
         <param>
-          <type>channel&lt; T, M &gt; &amp;</type>
+          <type><ref refid="classchannel" kindref="compound">channel</ref>&lt; T, M &gt; &amp;</type>
           <declname>ch</declname>
         </param>
         <param>
@@ -51,13 +51,13 @@
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="note"><para>If the channel is readable, acquire the value and invoke the function</para></simplesect>
-<simplesect kind="see"><para><ref refid="classcoro_1_1channel__peeker" kindref="compound">channel_peeker</ref> </para></simplesect>
+<simplesect kind="see"><para><ref refid="classchannel__peeker" kindref="compound">channel_peeker</ref> </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="530" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="530" bodyend="537"/>
+        <location file="interface/coroutine/channel.hpp" line="526" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="526" bodyend="533"/>
       </memberdef>
-      <memberdef kind="function" id="group__channel_1ga7c63c8dde53d11f6c245acbbe82ab12e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__channel_1ga7c401c70f1afabefe85be0e1bc33d94c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename...</type>
@@ -72,7 +72,7 @@
           </param>
         </templateparamlist>
         <type>void</type>
-        <definition>void coro::select</definition>
+        <definition>void select</definition>
         <argsstring>(Ch &amp;ch, Fn &amp;&amp;fn, Args &amp;&amp;...args) noexcept(false)</argsstring>
         <name>select</name>
         <param>
@@ -95,7 +95,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="546" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="546" bodyend="549"/>
+        <location file="interface/coroutine/channel.hpp" line="542" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="542" bodyend="546"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -103,7 +103,7 @@
     <detaileddescription>
 <para><simplesect kind="note"><para>The implementation of channel heavily rely on <computeroutput>friend</computeroutput> relationship. The design may make the template code ugly, but is necessary because of 2 behaviors.</para></simplesect>
 <itemizedlist>
-<listitem><para><computeroutput>channel</computeroutput> is a synchronizes 2 awaitable types, <computeroutput><ref refid="classcoro_1_1channel__reader" kindref="compound">channel_reader</ref></computeroutput> and <computeroutput><ref refid="classcoro_1_1channel__writer" kindref="compound">channel_writer</ref></computeroutput>.</para></listitem><listitem><para>Those reader/writer exchanges their information before their <computeroutput>resume</computeroutput> of each other.</para></listitem></itemizedlist>
+<listitem><para><computeroutput>channel</computeroutput> is a synchronizes 2 awaitable types, <computeroutput><ref refid="classchannel__reader" kindref="compound">channel_reader</ref></computeroutput> and <computeroutput><ref refid="classchannel__writer" kindref="compound">channel_writer</ref></computeroutput>.</para></listitem><listitem><para>Those reader/writer exchanges their information before their <computeroutput>resume</computeroutput> of each other.</para></listitem></itemizedlist>
 </para><para>If user code can become mess because of such relationship, it is strongly recommended to hide <computeroutput>channel</computeroutput> internally and open their own interfaces. </para>    </detaileddescription>
   </compounddef>
 </doxygen>

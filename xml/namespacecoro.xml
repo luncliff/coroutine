@@ -2,27 +2,17 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="namespacecoro" kind="namespace" language="C++">
     <compoundname>coro</compoundname>
-    <innerclass refid="structcoro_1_1bypass__mutex" prot="public">coro::bypass_mutex</innerclass>
-    <innerclass refid="classcoro_1_1channel" prot="public">coro::channel</innerclass>
-    <innerclass refid="classcoro_1_1channel__peeker" prot="public">coro::channel_peeker</innerclass>
-    <innerclass refid="classcoro_1_1channel__reader" prot="public">coro::channel_reader</innerclass>
-    <innerclass refid="classcoro_1_1channel__writer" prot="public">coro::channel_writer</innerclass>
     <innerclass refid="classcoro_1_1continue__on__apc" prot="public">coro::continue_on_apc</innerclass>
     <innerclass refid="classcoro_1_1continue__on__thread__pool" prot="public">coro::continue_on_thread_pool</innerclass>
     <innerclass refid="classcoro_1_1enumerable" prot="public">coro::enumerable</innerclass>
     <innerclass refid="classcoro_1_1epoll__owner" prot="public">coro::epoll_owner</innerclass>
     <innerclass refid="classcoro_1_1event" prot="public">coro::event</innerclass>
-    <innerclass refid="classcoro_1_1frame__t" prot="public">coro::frame_t</innerclass>
     <innerclass refid="classcoro_1_1io__recv" prot="public">coro::io_recv</innerclass>
     <innerclass refid="classcoro_1_1io__recv__from" prot="public">coro::io_recv_from</innerclass>
     <innerclass refid="classcoro_1_1io__send" prot="public">coro::io_send</innerclass>
     <innerclass refid="classcoro_1_1io__send__to" prot="public">coro::io_send_to</innerclass>
     <innerclass refid="classcoro_1_1io__work__t" prot="public">coro::io_work_t</innerclass>
     <innerclass refid="classcoro_1_1kqueue__owner" prot="public">coro::kqueue_owner</innerclass>
-    <innerclass refid="classcoro_1_1promise__aa" prot="public">coro::promise_aa</innerclass>
-    <innerclass refid="classcoro_1_1promise__an" prot="public">coro::promise_an</innerclass>
-    <innerclass refid="classcoro_1_1promise__na" prot="public">coro::promise_na</innerclass>
-    <innerclass refid="classcoro_1_1promise__nn" prot="public">coro::promise_nn</innerclass>
     <innerclass refid="classcoro_1_1pthread__detacher__t" prot="public">coro::pthread_detacher_t</innerclass>
     <innerclass refid="classcoro_1_1pthread__joiner__t" prot="public">coro::pthread_joiner_t</innerclass>
     <innerclass refid="classcoro_1_1pthread__knower__t" prot="public">coro::pthread_knower_t</innerclass>
@@ -30,7 +20,6 @@
     <innerclass refid="classcoro_1_1pthread__spawner__t" prot="public">coro::pthread_spawner_t</innerclass>
     <innerclass refid="classcoro_1_1section" prot="public">coro::section</innerclass>
     <innerclass refid="classcoro_1_1set__or__cancel" prot="public">coro::set_or_cancel</innerclass>
-    <innernamespace refid="namespacecoro_1_1internal">coro::internal</innernamespace>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="group__NetWork_1ga60d36260824423f894ffd077f8487663" prot="public" static="no">
         <type>gsl::span&lt; std::byte &gt;</type>
@@ -43,10 +32,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="72" column="1" bodyfile="interface/coroutine/net.h" bodystart="72" bodyend="-1"/>
+        <location file="interface/coroutine/net.h" line="73" column="1" bodyfile="interface/coroutine/net.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" prot="public" static="no">
-        <type>void(*)(void *ctx, <ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt; coro)</type>
+        <type>void(*)(void *ctx, <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt; coro)</type>
         <definition>using coro::net_callback_t = typedef void (*)(void* ctx, coroutine_handle&lt;void&gt; coro)</definition>
         <argsstring></argsstring>
         <name>net_callback_t</name>
@@ -118,80 +107,6 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="group__channel_1ga63d87ae8cd27ef6af053b2012e14b8bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <templateparamlist>
-          <param>
-            <type>typename T</type>
-          </param>
-          <param>
-            <type>typename M</type>
-          </param>
-          <param>
-            <type>typename Fn</type>
-          </param>
-        </templateparamlist>
-        <type>void</type>
-        <definition>void coro::select</definition>
-        <argsstring>(channel&lt; T, M &gt; &amp;ch, Fn &amp;&amp;fn) noexcept(false)</argsstring>
-        <name>select</name>
-        <param>
-          <type><ref refid="classcoro_1_1channel" kindref="compound">channel</ref>&lt; T, M &gt; &amp;</type>
-          <declname>ch</declname>
-        </param>
-        <param>
-          <type>Fn &amp;&amp;</type>
-          <declname>fn</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="note"><para>If the channel is readable, acquire the value and invoke the function</para></simplesect>
-<simplesect kind="see"><para><ref refid="classcoro_1_1channel__peeker" kindref="compound">channel_peeker</ref> </para></simplesect>
-</para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="530" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="530" bodyend="537"/>
-      </memberdef>
-      <memberdef kind="function" id="group__channel_1ga7c63c8dde53d11f6c245acbbe82ab12e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <templateparamlist>
-          <param>
-            <type>typename...</type>
-            <declname>Args</declname>
-            <defname>Args</defname>
-          </param>
-          <param>
-            <type>typename Ch</type>
-          </param>
-          <param>
-            <type>typename Fn</type>
-          </param>
-        </templateparamlist>
-        <type>void</type>
-        <definition>void coro::select</definition>
-        <argsstring>(Ch &amp;ch, Fn &amp;&amp;fn, Args &amp;&amp;...args) noexcept(false)</argsstring>
-        <name>select</name>
-        <param>
-          <type>Ch &amp;</type>
-          <declname>ch</declname>
-        </param>
-        <param>
-          <type>Fn &amp;&amp;</type>
-          <declname>fn</declname>
-        </param>
-        <param>
-          <type>Args &amp;&amp;...</type>
-          <declname>args</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="note"><para>For each pair, peeks a channel and invoke the function with the value if the peek was successful.</para></simplesect>
-<simplesect kind="see"><para>test/channel_select_type.cpp </para></simplesect>
-</para>        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="546" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="546" bodyend="549"/>
-      </memberdef>
       <memberdef kind="function" id="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
         <definition>auto coro::wait_in</definition>
@@ -228,7 +143,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
 <para>Prepares one-time registration</para><para>Wait for <computeroutput>write</computeroutput> to given <computeroutput>eventfd</computeroutput></para><para>Reset the given event object when resumed</para>        </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="154" column="1" bodyfile="interface/coroutine/linux.h" bodystart="154" bodyend="186"/>
+        <location file="interface/coroutine/linux.h" line="152" column="1" bodyfile="interface/coroutine/linux.h" bodystart="152" bodyend="184"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1ga31d5a4a545024c3c24e6f5204537307b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -287,7 +202,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="254" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="62" bodyend="69"/>
+        <location file="interface/coroutine/net.h" line="255" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="62" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -346,7 +261,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="266" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="71" bodyend="78"/>
+        <location file="interface/coroutine/net.h" line="267" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="71" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1gace516cdc1f8b51596ba7a406190182eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -405,7 +320,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="278" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="107" bodyend="114"/>
+        <location file="interface/coroutine/net.h" line="279" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="107" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -464,7 +379,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="290" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="115" bodyend="122"/>
+        <location file="interface/coroutine/net.h" line="291" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="115" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1gac94bb59884293c451906c8cffe825a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -523,7 +438,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="302" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="155" bodyend="162"/>
+        <location file="interface/coroutine/net.h" line="303" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="155" bodyend="162"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1ga60c53387a2e976df4742620055666796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -582,7 +497,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="314" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="189" bodyend="196"/>
+        <location file="interface/coroutine/net.h" line="315" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="189" bodyend="196"/>
       </memberdef>
       <memberdef kind="function" id="group__NetResolve_1gadc07999d236df3e984d42b37cbf56693" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -643,7 +558,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="339" column="1" bodyfile="modules/net/resolver.cpp" bodystart="60" bodyend="74"/>
+        <location file="interface/coroutine/net.h" line="340" column="1" bodyfile="modules/net/resolver.cpp" bodystart="60" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -704,7 +619,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="354" column="1" bodyfile="modules/net/resolver.cpp" bodystart="76" bodyend="90"/>
+        <location file="interface/coroutine/net.h" line="355" column="1" bodyfile="modules/net/resolver.cpp" bodystart="76" bodyend="90"/>
       </memberdef>
       <memberdef kind="function" id="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -765,7 +680,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="368" column="1" bodyfile="modules/net/resolver.cpp" bodystart="11" bodyend="19"/>
+        <location file="interface/coroutine/net.h" line="369" column="1" bodyfile="modules/net/resolver.cpp" bodystart="11" bodyend="19"/>
       </memberdef>
       <memberdef kind="function" id="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -826,7 +741,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="382" column="1" bodyfile="modules/net/resolver.cpp" bodystart="22" bodyend="30"/>
+        <location file="interface/coroutine/net.h" line="383" column="1" bodyfile="modules/net/resolver.cpp" bodystart="22" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -862,7 +777,7 @@
           <type>void *</type>
         </param>
         <param>
-          <type><ref refid="classstd_1_1experimental_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
           <declname>coro</declname>
         </param>
         <briefdescription>
@@ -1158,6 +1073,6 @@
     <detaileddescription>
 <para><simplesect kind="author"><para>github.com/luncliff (<ulink url="mailto:luncliff@gmail.com">luncliff@gmail.com</ulink>) </para></simplesect>
 </para>    </detaileddescription>
-    <location file="interface/coroutine/channel.hpp" line="32" column="1"/>
+    <location file="interface/coroutine/linux.h" line="20" column="1"/>
   </compounddef>
 </doxygen>

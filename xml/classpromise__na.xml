@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classpromise__na" kind="class" language="C++" prot="public">
+    <compoundname>promise_na</compoundname>
+    <derivedcompoundref refid="classframe__t_1_1promise__type" prot="public" virt="non-virtual">frame_t::promise_type</derivedcompoundref>
+    <includes refid="return_8h" local="no">return.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpromise__na_1a91148abe4003519303cb8d09135e602c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>suspend_never</type>
+        <definition>suspend_never promise_na::initial_suspend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>initial_suspend</name>
+        <briefdescription>
+<para>no suspend after invoke </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>suspend_never </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="68" column="1" bodyfile="interface/coroutine/return.h" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classpromise__na_1abce5e5bf2da45ee5ef37b57c98a0978d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>suspend_always</type>
+        <definition>suspend_always promise_na::final_suspend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>final_suspend</name>
+        <briefdescription>
+<para>suspend after return </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>suspend_always </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="75" column="1" bodyfile="interface/coroutine/return.h" bodystart="75" bodyend="77"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para><computeroutput>suspend_never</computeroutput>(initial) + <computeroutput>suspend_always</computeroutput>(final) </para></simplesect>
+</para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="287">
+        <label>frame_t::promise_type</label>
+        <link refid="classframe__t_1_1promise__type"/>
+        <childnode refid="286" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="286">
+        <label>promise_na</label>
+        <link refid="classpromise__na"/>
+      </node>
+    </inheritancegraph>
+    <location file="interface/coroutine/return.h" line="62" column="1" bodyfile="interface/coroutine/return.h" bodystart="62" bodyend="78"/>
+    <listofallmembers>
+      <member refid="classpromise__na_1abce5e5bf2da45ee5ef37b57c98a0978d" prot="public" virt="non-virtual"><scope>promise_na</scope><name>final_suspend</name></member>
+      <member refid="classpromise__na_1a91148abe4003519303cb8d09135e602c" prot="public" virt="non-virtual"><scope>promise_na</scope><name>initial_suspend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

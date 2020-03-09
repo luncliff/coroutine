@@ -3,6 +3,7 @@
   <compounddef id="dir_e05d7e2b1ecd646af5bb94391405f3b5" kind="dir">
     <compoundname>modules</compoundname>
     <innerdir refid="dir_923c80758d00fd62f29a99e232049d19">modules/net</innerdir>
+    <innerdir refid="dir_9e663825f2eb5972f82710dacd6d502a">modules/portable</innerdir>
     <innerdir refid="dir_826aeabe2439c2b66ff3bb7c0dad7853">modules/system</innerdir>
     <briefdescription>
     </briefdescription>

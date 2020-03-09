@@ -1,58 +1,57 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
-  <compounddef id="structmsvc__frame__prefix" kind="struct" language="C++" prot="public" final="yes">
+  <compounddef id="structmsvc__frame__prefix" kind="struct" language="C++" prot="public">
     <compoundname>msvc_frame_prefix</compoundname>
-    <includes refid="frame_8h" local="no">frame.h</includes>
       <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="structmsvc__frame__prefix_1a63e7a285d705ec63b36132af19e8a7fe" prot="public" static="no" mutable="no">
-        <type>procedure_t</type>
-        <definition>procedure_t msvc_frame_prefix::factivate</definition>
+      <memberdef kind="variable" id="structmsvc__frame__prefix_1ab179af4c00a610241ff2364936f304e8" prot="public" static="no" mutable="no">
+        <type><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref></type>
+        <definition>procedure_t msvc_frame_prefix::_Factivate</definition>
         <argsstring></argsstring>
-        <name>factivate</name>
+        <name>_Factivate</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="100" column="1" bodyfile="interface/coroutine/frame.h" bodystart="100" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="47" column="1" bodyfile="modules/portable/frame.cpp" bodystart="47" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structmsvc__frame__prefix_1a86df18eaa75a15b102d1e8920870d2ff" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structmsvc__frame__prefix_1a27d28c6eebe0ba4fd28f7091db3ec7e2" prot="public" static="no" mutable="no">
         <type>uint16_t</type>
-        <definition>uint16_t msvc_frame_prefix::index</definition>
+        <definition>uint16_t msvc_frame_prefix::_Index</definition>
         <argsstring></argsstring>
-        <name>index</name>
+        <name>_Index</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="101" column="1" bodyfile="interface/coroutine/frame.h" bodystart="101" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="48" column="1" bodyfile="modules/portable/frame.cpp" bodystart="48" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structmsvc__frame__prefix_1aa24c497b63b9d2069c178cb07091409c" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structmsvc__frame__prefix_1ae03202c6132b500921eedbcd7a680f2a" prot="public" static="no" mutable="no">
         <type>uint16_t</type>
-        <definition>uint16_t msvc_frame_prefix::flag</definition>
+        <definition>uint16_t msvc_frame_prefix::_Flag</definition>
         <argsstring></argsstring>
-        <name>flag</name>
+        <name>_Flag</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="102" column="1" bodyfile="interface/coroutine/frame.h" bodystart="102" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="49" column="1" bodyfile="modules/portable/frame.cpp" bodystart="49" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="99" column="1" bodyfile="interface/coroutine/frame.h" bodystart="99" bodyend="103"/>
+    <location file="modules/portable/frame.cpp" line="46" column="1" bodyfile="modules/portable/frame.cpp" bodystart="46" bodyend="50"/>
     <listofallmembers>
-      <member refid="structmsvc__frame__prefix_1a63e7a285d705ec63b36132af19e8a7fe" prot="public" virt="non-virtual"><scope>msvc_frame_prefix</scope><name>factivate</name></member>
-      <member refid="structmsvc__frame__prefix_1aa24c497b63b9d2069c178cb07091409c" prot="public" virt="non-virtual"><scope>msvc_frame_prefix</scope><name>flag</name></member>
-      <member refid="structmsvc__frame__prefix_1a86df18eaa75a15b102d1e8920870d2ff" prot="public" virt="non-virtual"><scope>msvc_frame_prefix</scope><name>index</name></member>
+      <member refid="structmsvc__frame__prefix_1ab179af4c00a610241ff2364936f304e8" prot="public" virt="non-virtual"><scope>msvc_frame_prefix</scope><name>_Factivate</name></member>
+      <member refid="structmsvc__frame__prefix_1ae03202c6132b500921eedbcd7a680f2a" prot="public" virt="non-virtual"><scope>msvc_frame_prefix</scope><name>_Flag</name></member>
+      <member refid="structmsvc__frame__prefix_1a27d28c6eebe0ba4fd28f7091db3ec7e2" prot="public" virt="non-virtual"><scope>msvc_frame_prefix</scope><name>_Index</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

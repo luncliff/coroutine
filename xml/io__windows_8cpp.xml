@@ -5,53 +5,35 @@
     <includes local="no">cassert</includes>
     <includes refid="net_8h" local="no">coroutine/net.h</includes>
     <incdepgraph>
-      <node id="327">
-        <label>coroutine/frame.h</label>
-        <link refid="frame_8h"/>
-        <childnode refid="328" relation="include">
-        </childnode>
-        <childnode refid="329" relation="include">
-        </childnode>
-        <childnode refid="326" relation="include">
-        </childnode>
-      </node>
-      <node id="329">
-        <label>cstdint</label>
-      </node>
-      <node id="324">
+      <node id="266">
         <label>coroutine/net.h</label>
         <link refid="net_8h"/>
-        <childnode refid="325" relation="include">
+        <childnode refid="267" relation="include">
         </childnode>
-        <childnode refid="330" relation="include">
+        <childnode refid="269" relation="include">
         </childnode>
       </node>
-      <node id="323">
+      <node id="265">
         <label>cassert</label>
       </node>
-      <node id="325">
+      <node id="267">
         <label>coroutine/return.h</label>
         <link refid="return_8h"/>
-        <childnode refid="326" relation="include">
-        </childnode>
-        <childnode refid="327" relation="include">
+        <childnode refid="268" relation="include">
         </childnode>
       </node>
-      <node id="330">
+      <node id="269">
         <label>gsl/gsl</label>
       </node>
-      <node id="328">
-        <label>cstddef</label>
-      </node>
-      <node id="322">
+      <node id="264">
         <label>modules/net/io_windows.cpp</label>
         <link refid="io_windows.cpp"/>
-        <childnode refid="323" relation="include">
+        <childnode refid="265" relation="include">
         </childnode>
-        <childnode refid="324" relation="include">
+        <childnode refid="266" relation="include">
         </childnode>
       </node>
-      <node id="326">
+      <node id="268">
         <label>type_traits</label>
       </node>
     </incdepgraph>
@@ -177,7 +159,7 @@
 <codeline lineno="115"><highlight class="normal"></highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(bounds<sp/>.3)</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send_to::suspend(coroutine_handle&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/>t)<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send_to::suspend(<ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/>t)<sp/>noexcept(false)<sp/>{</highlight></codeline>
 <codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>task<sp/>=<sp/>t;<sp/></highlight><highlight class="comment">//<sp/>coroutine<sp/>will<sp/>be<sp/>resumed<sp/>in<sp/>overlapped<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="120"><highlight class="normal"></highlight></codeline>
 <codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sd<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">SOCKET</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(hEvent);</highlight></codeline>
@@ -233,7 +215,7 @@
 <codeline lineno="171"><highlight class="normal"></highlight></codeline>
 <codeline lineno="172"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
 <codeline lineno="173"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(bounds<sp/>.3)</highlight></codeline>
-<codeline lineno="174"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv_from::suspend(coroutine_handle&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/>t)<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv_from::suspend(<ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/>t)<sp/>noexcept(false)<sp/>{</highlight></codeline>
 <codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>task<sp/>=<sp/>t;<sp/></highlight><highlight class="comment">//<sp/>coroutine<sp/>will<sp/>be<sp/>resumed<sp/>in<sp/>overlapped<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="176"><highlight class="normal"></highlight></codeline>
 <codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sd<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">SOCKET</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(hEvent);</highlight></codeline>
@@ -273,7 +255,7 @@
 <codeline lineno="211"><highlight class="normal"></highlight></codeline>
 <codeline lineno="212"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
 <codeline lineno="213"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(bounds<sp/>.3)</highlight></codeline>
-<codeline lineno="214"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send::suspend(coroutine_handle&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/>t)<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_send::suspend(<ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/>t)<sp/>noexcept(false)<sp/>{</highlight></codeline>
 <codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>task<sp/>=<sp/>t;<sp/></highlight><highlight class="comment">//<sp/>coroutine<sp/>will<sp/>be<sp/>resumed<sp/>in<sp/>overlapped<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="216"><highlight class="normal"></highlight></codeline>
 <codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sd<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">SOCKET</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(hEvent);</highlight></codeline>
@@ -310,7 +292,7 @@
 <codeline lineno="248"><highlight class="normal"></highlight></codeline>
 <codeline lineno="249"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
 <codeline lineno="250"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(bounds<sp/>.3)</highlight></codeline>
-<codeline lineno="251"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv::suspend(coroutine_handle&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/>t)<sp/>noexcept(false)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>io_recv::suspend(<ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/>t)<sp/>noexcept(false)<sp/>{</highlight></codeline>
 <codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>task<sp/>=<sp/>t;<sp/></highlight><highlight class="comment">//<sp/>coroutine<sp/>will<sp/>be<sp/>resumed<sp/>in<sp/>overlapped<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="253"><highlight class="normal"></highlight></codeline>
 <codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sd<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">SOCKET</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(hEvent);</highlight></codeline>

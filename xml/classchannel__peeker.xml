@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classchannel__peeker" kind="class" language="C++" prot="public">
+    <compoundname>channel_peeker</compoundname>
+    <basecompoundref refid="classchannel__reader" prot="protected" virt="non-virtual">channel_reader&lt; T, M &gt;</basecompoundref>
+    <includes refid="channel_8hpp" local="no">channel.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+      <param>
+        <type>typename M</type>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classchannel__peeker_1a44172cb7a0d7dbca187800c59eda9d57" prot="private" static="no">
+        <type><ref refid="classchannel" kindref="compound">channel</ref>&lt; T, M &gt;</type>
+        <definition>using channel_peeker&lt; T, M &gt;::channel_type =  channel&lt;T, M&gt;</definition>
+        <argsstring></argsstring>
+        <name>channel_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="462" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="462" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classchannel__peeker_1ac04334af0528fe5c0427542a122bf564" prot="private" static="no">
+        <type>typename <ref refid="classchannel__writer" kindref="compound">channel_type::writer</ref></type>
+        <definition>using channel_peeker&lt; T, M &gt;::writer =  typename channel_type::writer</definition>
+        <argsstring></argsstring>
+        <name>writer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="463" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="463" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classchannel__peeker_1a990e9808a9916b8938a374952c4deff7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>channel_peeker&lt; T, M &gt;::channel_peeker</definition>
+        <argsstring>(const channel_peeker &amp;) noexcept(false)=delete</argsstring>
+        <name>channel_peeker</name>
+        <param>
+          <type>const <ref refid="classchannel__peeker" kindref="compound">channel_peeker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="466" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classchannel__peeker_1a9f2afa6c57cb5652a270e06598481df9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>channel_peeker&lt; T, M &gt;::channel_peeker</definition>
+        <argsstring>(channel_peeker &amp;&amp;) noexcept(false)=delete</argsstring>
+        <name>channel_peeker</name>
+        <param>
+          <type><ref refid="classchannel__peeker" kindref="compound">channel_peeker</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="467" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classchannel__peeker_1a5ef0b39ac4b22bb613480338ea2ace56" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classchannel__peeker" kindref="compound">channel_peeker</ref> &amp;</type>
+        <definition>channel_peeker&amp; channel_peeker&lt; T, M &gt;::operator=</definition>
+        <argsstring>(const channel_peeker &amp;) noexcept(false)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classchannel__peeker" kindref="compound">channel_peeker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="468" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classchannel__peeker_1af5cad25d19ba2e1032cad896211853da" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classchannel__peeker" kindref="compound">channel_peeker</ref> &amp;</type>
+        <definition>channel_peeker&amp; channel_peeker&lt; T, M &gt;::operator=</definition>
+        <argsstring>(channel_peeker &amp;&amp;) noexcept(false)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classchannel__peeker" kindref="compound">channel_peeker</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="469" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchannel__peeker_1a3ad7df911e30a8164fbda30177b7d825" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>channel_peeker&lt; T, M &gt;::channel_peeker</definition>
+        <argsstring>(channel_type &amp;ch) noexcept(false)</argsstring>
+        <name>channel_peeker</name>
+        <param>
+          <type><ref refid="classchannel__reader_1a6978f5dc63dc961a01ac446bca9109c0" kindref="member">channel_type</ref> &amp;</type>
+          <declname>ch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="472" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="472" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classchannel__peeker_1a5000b660243d9362696abeed42b62d7c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void channel_peeker&lt; T, M &gt;::peek</definition>
+        <argsstring>() const noexcept(false)</argsstring>
+        <name>peek</name>
+        <briefdescription>
+<para>Since there is no suspension for the <computeroutput>peeker</computeroutput>, the implementation will use scoped locking. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="482" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="482" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classchannel__peeker_1ae51a5dae0a2785e732bf970782a9d2b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool channel_peeker&lt; T, M &gt;::acquire</definition>
+        <argsstring>(T &amp;storage) noexcept(false)</argsstring>
+        <name>acquire</name>
+        <param>
+          <type>T &amp;</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+<para>Move a value from matches <computeroutput>writer</computeroutput> to designated storage. After then, resume the <computeroutput>writer</computeroutput> coroutine. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Unless the caller has invoked <computeroutput>peek</computeroutput>, nothing will happen.</para></simplesect>
+<programlisting><codeline><highlight class="normal">bool<sp/>peek_channel(channel&lt;string&gt;&amp;<sp/>ch,<sp/>string&amp;<sp/>out){</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>peeker<sp/>p{ch};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>p.peek();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>return<sp/>p.acquire(out);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>memory object to store the value from <computeroutput>writer</computeroutput> </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true Acquired the value </para></simplesect>
+<simplesect kind="return"><para>false No <computeroutput>writer</computeroutput> found or <computeroutput>peek</computeroutput> is not invoked </para></simplesect>
+<simplesect kind="see"><para><ref refid="classchannel__peeker_1a5000b660243d9362696abeed42b62d7c" kindref="member">peek</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="507" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="507" bodyend="516"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Extension of <computeroutput><ref refid="classchannel__reader" kindref="compound">channel_reader</ref></computeroutput> for subroutines. </para>    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>type of the element </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>mutex for the channel </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para><ref refid="classchannel__reader" kindref="compound">channel_reader</ref> </para></simplesect>
+</para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="178">
+        <label>channel_peeker&lt; T, M &gt;</label>
+        <link refid="classchannel__peeker"/>
+        <childnode refid="179" relation="protected-inheritance">
+        </childnode>
+      </node>
+      <node id="179">
+        <label>channel_reader&lt; T, M &gt;</label>
+        <link refid="classchannel__reader"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="182">
+        <label>channel&lt; T, M &gt;</label>
+        <link refid="classchannel"/>
+        <childnode refid="183" relation="private-inheritance">
+        </childnode>
+        <childnode refid="184" relation="private-inheritance">
+        </childnode>
+      </node>
+      <node id="180">
+        <label>channel_peeker&lt; T, M &gt;</label>
+        <link refid="classchannel__peeker"/>
+        <childnode refid="181" relation="protected-inheritance">
+        </childnode>
+      </node>
+      <node id="183">
+        <label>internal::list&lt; channel_reader&lt; T, M &gt; &gt;</label>
+        <link refid="classinternal_1_1list"/>
+      </node>
+      <node id="181">
+        <label>channel_reader&lt; T, M &gt;</label>
+        <link refid="classchannel__reader"/>
+        <childnode refid="182" relation="usage">
+          <edgelabel>chan</edgelabel>
+        </childnode>
+        <childnode refid="181" relation="usage">
+          <edgelabel>next</edgelabel>
+        </childnode>
+      </node>
+      <node id="184">
+        <label>internal::list&lt; channel_writer&lt; T, M &gt; &gt;</label>
+        <link refid="classinternal_1_1list"/>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/channel.hpp" line="120" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="120" bodyend="-1"/>
+    <listofallmembers>
+      <member refid="classchannel__peeker_1ae51a5dae0a2785e732bf970782a9d2b1" prot="public" virt="non-virtual"><scope>channel_peeker</scope><name>acquire</name></member>
+      <member refid="classchannel__reader_1a80ec5a50e00b39129a7dcbf191515200" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>await_ready</name></member>
+      <member refid="classchannel__reader_1ae81ce084fa91e7af9c254636e65f0c90" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>await_resume</name></member>
+      <member refid="classchannel__reader_1a22cf1eb07a344b05cba4d4dc3dc38135" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>await_suspend</name></member>
+      <member refid="classchannel__reader_1aa488a6833a9793694566f629f60ff699" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>chan</name></member>
+      <member refid="classchannel__peeker_1a990e9808a9916b8938a374952c4deff7" prot="private" virt="non-virtual"><scope>channel_peeker</scope><name>channel_peeker</name></member>
+      <member refid="classchannel__peeker_1a9f2afa6c57cb5652a270e06598481df9" prot="private" virt="non-virtual"><scope>channel_peeker</scope><name>channel_peeker</name></member>
+      <member refid="classchannel__peeker_1a3ad7df911e30a8164fbda30177b7d825" prot="public" virt="non-virtual"><scope>channel_peeker</scope><name>channel_peeker</name></member>
+      <member refid="classchannel__reader_1aa286327aba3a9d1a08d998e1ab18da89" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>channel_reader</name></member>
+      <member refid="classchannel__reader_1ac6accd26fa11711e7091537f1b27d627" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>channel_reader</name></member>
+      <member refid="classchannel__reader_1ac2abb1e1c1bb7dc79c7b0e174277beea" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>channel_reader</name></member>
+      <member refid="classchannel__peeker_1a44172cb7a0d7dbca187800c59eda9d57" prot="private" virt="non-virtual"><scope>channel_peeker</scope><name>channel_type</name></member>
+      <member refid="classchannel__reader_1aa1491ab51380e4d9cf1493ecc8f92c68" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>frame</name></member>
+      <member refid="classchannel__reader_1ad055a7fee5734fd6f31d5efbf09e5854" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>next</name></member>
+      <member refid="classchannel__peeker_1a5ef0b39ac4b22bb613480338ea2ace56" prot="private" virt="non-virtual"><scope>channel_peeker</scope><name>operator=</name></member>
+      <member refid="classchannel__peeker_1af5cad25d19ba2e1032cad896211853da" prot="private" virt="non-virtual"><scope>channel_peeker</scope><name>operator=</name></member>
+      <member refid="classchannel__reader_1a54ec29dfabe01c0000fa6b928237a194" prot="protected" virt="non-virtual" ambiguityscope="channel_reader::"><scope>channel_peeker</scope><name>operator=</name></member>
+      <member refid="classchannel__reader_1a46c244e5fb743c2e3098d26a56a5094a" prot="protected" virt="non-virtual" ambiguityscope="channel_reader::"><scope>channel_peeker</scope><name>operator=</name></member>
+      <member refid="classchannel__peeker_1a5000b660243d9362696abeed42b62d7c" prot="public" virt="non-virtual"><scope>channel_peeker</scope><name>peek</name></member>
+      <member refid="classchannel__reader_1aa6d73eda2c62de2f7c9640de285246fa" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>pointer</name></member>
+      <member refid="classchannel__reader_1aea516c94c54055797b146d4d899ccb62" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>ptr</name></member>
+      <member refid="classchannel__reader_1a9cac01060750b1255000091210c24236" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>reference</name></member>
+      <member refid="classchannel__reader_1ae9db3577650b39565659c7e67f444a47" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>value_type</name></member>
+      <member refid="classchannel__peeker_1ac04334af0528fe5c0427542a122bf564" prot="private" virt="non-virtual"><scope>channel_peeker</scope><name>writer</name></member>
+      <member refid="classchannel__reader_1a2775ebd8e22ae2c56b3ce0395c1c4b9d" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>~channel_reader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

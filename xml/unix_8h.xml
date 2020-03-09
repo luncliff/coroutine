@@ -2,69 +2,59 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="unix_8h" kind="file" language="C++">
     <compoundname>unix.h</compoundname>
-    <includes refid="frame_8h" local="no">coroutine/frame.h</includes>
-    <includes local="no">gsl/gsl</includes>
     <includes local="no">sys/event.h</includes>
+    <includes local="no">gsl/gsl</includes>
+    <includes refid="return_8h" local="no">coroutine/return.h</includes>
     <includedby refid="io__darwin_8cpp" local="no">modules/net/io_darwin.cpp</includedby>
     <includedby refid="darwin_8cpp" local="no">modules/system/darwin.cpp</includedby>
     <includedby refid="kqueue_8cpp" local="no">modules/system/kqueue.cpp</includedby>
     <incdepgraph>
-      <node id="270">
-        <label>coroutine/frame.h</label>
-        <link refid="frame_8h"/>
-        <childnode refid="271" relation="include">
-        </childnode>
-        <childnode refid="272" relation="include">
-        </childnode>
-        <childnode refid="273" relation="include">
+      <node id="227">
+        <label>coroutine/return.h</label>
+        <link refid="return_8h"/>
+        <childnode refid="228" relation="include">
         </childnode>
       </node>
-      <node id="272">
-        <label>cstdint</label>
-      </node>
-      <node id="274">
+      <node id="226">
         <label>gsl/gsl</label>
       </node>
-      <node id="269">
+      <node id="224">
         <label>interface/coroutine/unix.h</label>
         <link refid="unix.h"/>
-        <childnode refid="270" relation="include">
+        <childnode refid="225" relation="include">
         </childnode>
-        <childnode refid="274" relation="include">
+        <childnode refid="226" relation="include">
         </childnode>
-        <childnode refid="275" relation="include">
+        <childnode refid="227" relation="include">
         </childnode>
       </node>
-      <node id="271">
-        <label>cstddef</label>
-      </node>
-      <node id="275">
+      <node id="225">
         <label>sys/event.h</label>
       </node>
-      <node id="273">
+      <node id="228">
         <label>type_traits</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="279">
+      <node id="232">
         <label>modules/system/kqueue.cpp</label>
         <link refid="kqueue_8cpp"/>
       </node>
-      <node id="278">
+      <node id="231">
         <label>modules/system/darwin.cpp</label>
         <link refid="darwin_8cpp"/>
       </node>
-      <node id="276">
+      <node id="229">
         <label>interface/coroutine/unix.h</label>
         <link refid="unix.h"/>
-        <childnode refid="277" relation="include">
+        <childnode refid="230" relation="include">
         </childnode>
-        <childnode refid="278" relation="include">
+        <childnode refid="231" relation="include">
         </childnode>
-        <childnode refid="279" relation="include">
+        <childnode refid="232" relation="include">
         </childnode>
       </node>
-      <node id="277">
+      <node id="230">
         <label>modules/net/io_darwin.cpp</label>
         <link refid="io__darwin_8cpp"/>
       </node>
@@ -81,60 +71,59 @@
 <codeline lineno="1"></codeline>
 <codeline lineno="6"><highlight class="preprocessor">#ifndef<sp/>COROUTINE_SYSTEM_WRAPPER_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>COROUTINE_SYSTEM_WRAPPER_H</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>not(defined(unix)<sp/>or<sp/>defined(__APPLE__)<sp/>or<sp/>defined(__FreeBSD__))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!(defined(unix)<sp/>||<sp/>defined(__APPLE__)<sp/>||<sp/>defined(__FreeBSD__))</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#error<sp/>&quot;expect<sp/>UNIX<sp/>platform<sp/>for<sp/>this<sp/>file&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="frame_8h" kindref="compound">coroutine/frame.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/event.h&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>for<sp/>BSD<sp/>kqueue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gsl/gsl&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/event.h&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>for<sp/>BSD<sp/>kqueue</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1experimental" kindref="compound">std::experimental</ref>;</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight></codeline>
-<codeline lineno="28" refid="classcoro_1_1kqueue__owner" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref><sp/>final<sp/>{</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>kqfd;</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>()<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>(<ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;<sp/>operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;<sp/>operator=(<ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>change(kevent64_s&amp;<sp/>req)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>ptrdiff_t<sp/>events(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>timespec&amp;<sp/>wait_time,</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::span&lt;kevent64_s&gt;<sp/>list)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="97" refid="classcoro_1_1kqueue__owner_1a85b1325589038239515769ec24226c06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1kqueue__owner_1a85b1325589038239515769ec24226c06" kindref="member">submit</ref>(kevent64_s&amp;<sp/>req)<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">awaiter<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1experimental_1_1suspend__always" kindref="compound">suspend_always</ref><sp/>{</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;<sp/>kq;</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kevent64_s&amp;<sp/>req;</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/>awaiter(<ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;<sp/>_kq,<sp/>kevent64_s&amp;<sp/>_req)</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>kq{_kq},<sp/>req{_req}<sp/>{</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>await_suspend(<ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(req.udata<sp/>==<sp/>0)</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.udata<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(coro.<ref refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a91b3e76af53b029da67649a99a7efdd5" kindref="member">address</ref>());</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>kq.<ref refid="classcoro_1_1kqueue__owner_1a46a9fe17102de32beb90777d4f17d1f7" kindref="member">change</ref>(req);</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>awaiter{*</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>req};</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"></highlight></codeline>
-<codeline lineno="118"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coro</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight></codeline>
-<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>COROUTINE_SYSTEM_WRAPPER_H</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="return_8h" kindref="compound">coroutine/return.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classcoro_1_1kqueue__owner" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref><sp/>final<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>kqfd;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner_1ad10972af514d58a9281bb582309e8f93" kindref="member">kqueue_owner</ref>()<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner_1a3258d491f1ca307d04fcee5a86afb5c6" kindref="member">~kqueue_owner</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner_1ad10972af514d58a9281bb582309e8f93" kindref="member">kqueue_owner</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner_1ad10972af514d58a9281bb582309e8f93" kindref="member">kqueue_owner</ref>(<ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;<sp/><ref refid="classcoro_1_1kqueue__owner_1a33144db610e6bd5271b216c1f382929a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;<sp/><ref refid="classcoro_1_1kqueue__owner_1a33144db610e6bd5271b216c1f382929a" kindref="member">operator=</ref>(<ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1kqueue__owner_1a46a9fe17102de32beb90777d4f17d1f7" kindref="member">change</ref>(kevent64_s&amp;<sp/>req)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>ptrdiff_t<sp/><ref refid="classcoro_1_1kqueue__owner_1aa7584b447fcb9a7382516302b9fadbb8" kindref="member">events</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>timespec&amp;<sp/>wait_time,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::span&lt;kevent64_s&gt;<sp/>list)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="96" refid="classcoro_1_1kqueue__owner_1a85b1325589038239515769ec24226c06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1kqueue__owner_1a85b1325589038239515769ec24226c06" kindref="member">submit</ref>(kevent64_s&amp;<sp/>req)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">awaiter<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classstd_1_1suspend__always" kindref="compound">suspend_always</ref><sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;<sp/>kq;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kevent64_s&amp;<sp/>req;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/>awaiter(<ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref>&amp;<sp/>_kq,<sp/>kevent64_s&amp;<sp/>_req)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>kq{_kq},<sp/>req{_req}<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>await_suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(req.udata<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.udata<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(coro.<ref refid="structstd_1_1coroutine__handle_3_01void_01_4_1a53c28109d68a249b167b55f2e00fec0d" kindref="member">address</ref>());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>kq.<ref refid="classcoro_1_1kqueue__owner_1a46a9fe17102de32beb90777d4f17d1f7" kindref="member">change</ref>(req);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>awaiter{*</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>req};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>COROUTINE_SYSTEM_WRAPPER_H</highlight></codeline>
     </programlisting>
     <location file="interface/coroutine/unix.h"/>
   </compounddef>

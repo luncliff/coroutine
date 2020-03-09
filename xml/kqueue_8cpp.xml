@@ -6,55 +6,45 @@
     <includes local="no">system_error</includes>
     <includes local="no">unistd.h</includes>
     <incdepgraph>
-      <node id="355">
+      <node id="301">
         <label>modules/system/kqueue.cpp</label>
         <link refid="kqueue.cpp"/>
-        <childnode refid="356" relation="include">
+        <childnode refid="302" relation="include">
         </childnode>
-        <childnode refid="363" relation="include">
+        <childnode refid="307" relation="include">
         </childnode>
-        <childnode refid="364" relation="include">
+        <childnode refid="308" relation="include">
         </childnode>
       </node>
-      <node id="363">
+      <node id="307">
         <label>system_error</label>
       </node>
-      <node id="357">
-        <label>coroutine/frame.h</label>
-        <link refid="frame_8h"/>
-        <childnode refid="358" relation="include">
-        </childnode>
-        <childnode refid="359" relation="include">
-        </childnode>
-        <childnode refid="360" relation="include">
+      <node id="305">
+        <label>coroutine/return.h</label>
+        <link refid="return_8h"/>
+        <childnode refid="306" relation="include">
         </childnode>
       </node>
-      <node id="359">
-        <label>cstdint</label>
-      </node>
-      <node id="361">
+      <node id="304">
         <label>gsl/gsl</label>
       </node>
-      <node id="356">
+      <node id="302">
         <label>coroutine/unix.h</label>
         <link refid="unix_8h"/>
-        <childnode refid="357" relation="include">
+        <childnode refid="303" relation="include">
         </childnode>
-        <childnode refid="361" relation="include">
+        <childnode refid="304" relation="include">
         </childnode>
-        <childnode refid="362" relation="include">
+        <childnode refid="305" relation="include">
         </childnode>
       </node>
-      <node id="364">
+      <node id="308">
         <label>unistd.h</label>
       </node>
-      <node id="358">
-        <label>cstddef</label>
-      </node>
-      <node id="362">
+      <node id="303">
         <label>sys/event.h</label>
       </node>
-      <node id="360">
+      <node id="306">
         <label>type_traits</label>
       </node>
     </incdepgraph>
@@ -73,7 +63,7 @@
 <codeline lineno="9"><highlight class="normal"></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"><ref refid="classcoro_1_1kqueue__owner_1ad10972af514d58a9281bb582309e8f93" kindref="member">kqueue_owner::kqueue_owner</ref>()<sp/>noexcept(false)<sp/>:<sp/>kqfd{kqueue()}<sp/>{</highlight></codeline>
 <codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(kqfd<sp/>&lt;<sp/>0)</highlight></codeline>
-<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{errno,<sp/>system_category(),<sp/></highlight><highlight class="stringliteral">&quot;kqueue&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::system_error{errno,<sp/>std::system_category(),<sp/></highlight><highlight class="stringliteral">&quot;kqueue&quot;</highlight><highlight class="normal">};</highlight></codeline>
 <codeline lineno="13"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="14"><highlight class="normal"><ref refid="classcoro_1_1kqueue__owner_1a3258d491f1ca307d04fcee5a86afb5c6" kindref="member">kqueue_owner::~kqueue_owner</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
 <codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>close(kqfd);</highlight></codeline>
@@ -83,7 +73,7 @@
 <codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>attach<sp/>the<sp/>event<sp/>config</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ec<sp/>=<sp/>kevent64(kqfd,<sp/>&amp;req,<sp/>1,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>0,<sp/>0,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ec<sp/>==<sp/>-1)</highlight></codeline>
-<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{errno,<sp/>system_category(),<sp/></highlight><highlight class="stringliteral">&quot;kevent64&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::system_error{errno,<sp/>std::system_category(),<sp/></highlight><highlight class="stringliteral">&quot;kevent64&quot;</highlight><highlight class="normal">};</highlight></codeline>
 <codeline lineno="23"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
 <codeline lineno="25"><highlight class="normal">ptrdiff_t<sp/><ref refid="classcoro_1_1kqueue__owner_1aa7584b447fcb9a7382516302b9fadbb8" kindref="member">kqueue_owner::events</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>timespec&amp;<sp/>ts,</highlight></codeline>
@@ -93,7 +83,7 @@
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1kqueue__owner_1aa7584b447fcb9a7382516302b9fadbb8" kindref="member">events</ref>.data(),<sp/><ref refid="classcoro_1_1kqueue__owner_1aa7584b447fcb9a7382516302b9fadbb8" kindref="member">events</ref>.size(),<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,<sp/>&amp;ts);</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(count<sp/>==<sp/>-1)</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>system_error{errno,<sp/>system_category(),<sp/></highlight><highlight class="stringliteral">&quot;kevent64&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::system_error{errno,<sp/>std::system_category(),<sp/></highlight><highlight class="stringliteral">&quot;kevent64&quot;</highlight><highlight class="normal">};</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">ptrdiff_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(count);</highlight></codeline>
 <codeline lineno="34"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>

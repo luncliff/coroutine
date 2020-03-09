@@ -1,101 +1,101 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.11">
-  <compound refid="structcoro_1_1bypass__mutex" kind="struct"><name>coro::bypass_mutex</name>
-    <member refid="structcoro_1_1bypass__mutex_1a87ef240ce3119aeee66e41c28eab427e" kind="function"><name>try_lock</name></member>
-    <member refid="structcoro_1_1bypass__mutex_1ace47e8964e754a7ca33b86d0a60617c0" kind="function"><name>lock</name></member>
-    <member refid="structcoro_1_1bypass__mutex_1a024012e3d4291d6b8ba82563aea41577" kind="function"><name>unlock</name></member>
+  <compound refid="structbypass__mutex" kind="struct"><name>bypass_mutex</name>
+    <member refid="structbypass__mutex_1aad6b24424454dd002f71c61c95e6b646" kind="function"><name>try_lock</name></member>
+    <member refid="structbypass__mutex_1a7bcbf1d481aca03f1e937d5eeecf5c5d" kind="function"><name>lock</name></member>
+    <member refid="structbypass__mutex_1ad961926cc7ec5ebe198e82a1ce60457c" kind="function"><name>unlock</name></member>
   </compound>
-  <compound refid="classcoro_1_1channel" kind="class"><name>coro::channel</name>
-    <member refid="classcoro_1_1channel_1a9ec75050c355ffb2b024714a7ab431a4" kind="typedef"><name>value_type</name></member>
-    <member refid="classcoro_1_1channel_1aa39036482a7cbe5948361f05cb90f08e" kind="typedef"><name>pointer</name></member>
-    <member refid="classcoro_1_1channel_1a237892aa34ea2f74b81f2357a35a9d39" kind="typedef"><name>reference</name></member>
-    <member refid="classcoro_1_1channel_1a4c5a25ab02b09adfca500dad9847e614" kind="typedef"><name>mutex_type</name></member>
-    <member refid="classcoro_1_1channel_1a1c2cf057eb04bb92865c72ea622d95c8" kind="typedef"><name>reader</name></member>
-    <member refid="classcoro_1_1channel_1aed049c9040cfa7902a7fb9de70108c95" kind="typedef"><name>reader_list</name></member>
-    <member refid="classcoro_1_1channel_1a562db6acaf720f829ca5d9c2ab07eed5" kind="typedef"><name>writer</name></member>
-    <member refid="classcoro_1_1channel_1ad3a8386d74fd125feb5b415fb63d3cbe" kind="typedef"><name>writer_list</name></member>
-    <member refid="classcoro_1_1channel_1ad2fee5f994fb76e10b9041f5f9f2cb4c" kind="typedef"><name>peeker</name></member>
-    <member refid="classcoro_1_1channel_1ab7a630a2afa7580a6dd2231930dd7f3c" kind="variable"><name>reader</name></member>
-    <member refid="classcoro_1_1channel_1a041271ea7d37ead351ca38af51d56794" kind="variable"><name>writer</name></member>
-    <member refid="classcoro_1_1channel_1abb4d8d26d937b9baf21a1a06fe9e0c97" kind="variable"><name>peeker</name></member>
-    <member refid="classcoro_1_1channel_1a6deb1d8b1bee0f3bae168e50e58d323b" kind="variable"><name>mtx</name></member>
-    <member refid="classcoro_1_1channel_1a4cf1a95a2cebe1212be7f4c340aeabc0" kind="function"><name>channel</name></member>
-    <member refid="classcoro_1_1channel_1ae74b89cd4fdfb128412fb0fe9b6eabcb" kind="function"><name>channel</name></member>
-    <member refid="classcoro_1_1channel_1a2d58af94b4f7002acce60ebd79f5db3c" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1channel_1afa31c58572b4af15fab3618cdff5b556" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1channel_1a74304f24df84623d98ff6733a2ba2281" kind="function"><name>channel</name></member>
-    <member refid="classcoro_1_1channel_1adb12b67c3ed3050bf108583e495d240e" kind="function"><name>~channel</name></member>
-    <member refid="classcoro_1_1channel_1a1cbff064b82e41767691003a7c1a64d1" kind="function"><name>write</name></member>
-    <member refid="classcoro_1_1channel_1a899183f59f63289060c79d4c6f57cd52" kind="function"><name>read</name></member>
+  <compound refid="classchannel" kind="class"><name>channel</name>
+    <member refid="classchannel_1ad74597ca991006c04ffb977ce16da8de" kind="typedef"><name>value_type</name></member>
+    <member refid="classchannel_1ab6f3c55e61fa490bf0ba391f9d876d79" kind="typedef"><name>pointer</name></member>
+    <member refid="classchannel_1a76f514a6490fa439fa4688e6a555d83c" kind="typedef"><name>reference</name></member>
+    <member refid="classchannel_1a9fbf1ecad8ff64ba4f32102c2e5d8228" kind="typedef"><name>mutex_type</name></member>
+    <member refid="classchannel_1aa7d1f010a1b88cf3a7fa3350ec9eb262" kind="typedef"><name>reader</name></member>
+    <member refid="classchannel_1a275ac66b9b775a7423f4fb090ea01e86" kind="typedef"><name>reader_list</name></member>
+    <member refid="classchannel_1a639dfb7f219f194b943a8276f704c39a" kind="typedef"><name>writer</name></member>
+    <member refid="classchannel_1a3b851f25b9d47791a3c03d718ad0d499" kind="typedef"><name>writer_list</name></member>
+    <member refid="classchannel_1a94ce29a4e88ac4278623854e2b729a5b" kind="typedef"><name>peeker</name></member>
+    <member refid="classchannel_1a51d94f54c197af517c9e2c589a84b58d" kind="variable"><name>reader</name></member>
+    <member refid="classchannel_1a027bdf92ab9603838832eb2372d93c91" kind="variable"><name>writer</name></member>
+    <member refid="classchannel_1a81b939148ec4d6c7b8d6cef83a0dfac6" kind="variable"><name>peeker</name></member>
+    <member refid="classchannel_1ad59706908a2c7b5403cfc8ada6a452ac" kind="variable"><name>mtx</name></member>
+    <member refid="classchannel_1ae78463e4465ec60d0f59900ab9b3acd8" kind="function"><name>channel</name></member>
+    <member refid="classchannel_1a12027223b8ed72cc54aaa7a0d954c011" kind="function"><name>channel</name></member>
+    <member refid="classchannel_1a24717c815e37c603172ceb49fd4c1e0c" kind="function"><name>operator=</name></member>
+    <member refid="classchannel_1a3f6d8f994fe12cbcd30ab450c9b6776b" kind="function"><name>operator=</name></member>
+    <member refid="classchannel_1aaf4f17bd09c369eed59b0a3372759ea5" kind="function"><name>channel</name></member>
+    <member refid="classchannel_1a3d930bce6d71bf3200f17152eddcbac0" kind="function"><name>~channel</name></member>
+    <member refid="classchannel_1a0c4217bf051739ef25742e3ebcf01546" kind="function"><name>write</name></member>
+    <member refid="classchannel_1a4742e9ec6c3c18a8c20ee6c30a088e9a" kind="function"><name>read</name></member>
   </compound>
-  <compound refid="classcoro_1_1channel__peeker" kind="class"><name>coro::channel_peeker</name>
-    <member refid="classcoro_1_1channel__peeker_1a98f77c342ae2992cb80badbfff25197f" kind="typedef"><name>channel_type</name></member>
-    <member refid="classcoro_1_1channel__peeker_1ad36c07a8b15283362397c7c547d640ba" kind="typedef"><name>writer</name></member>
-    <member refid="classcoro_1_1channel__peeker_1ad402ee4dc53003072cd99b124126e94c" kind="function"><name>channel_peeker</name></member>
-    <member refid="classcoro_1_1channel__peeker_1ad1b68345510d3628e15000ed444d4813" kind="function"><name>channel_peeker</name></member>
-    <member refid="classcoro_1_1channel__peeker_1aa27c77c8b45000ee664aa49031cc0d77" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1channel__peeker_1a383823e76523e4493bf5ed9d8a5fd47a" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1channel__peeker_1ad4e5fab722d296ac91651df7d9293caf" kind="function"><name>channel_peeker</name></member>
-    <member refid="classcoro_1_1channel__peeker_1a3b9789ea5b3a5d558f9f0205efde1aef" kind="function"><name>peek</name></member>
-    <member refid="classcoro_1_1channel__peeker_1a305575c2b3457fb6b442f48b1408f5e3" kind="function"><name>acquire</name></member>
+  <compound refid="classchannel__peeker" kind="class"><name>channel_peeker</name>
+    <member refid="classchannel__peeker_1a44172cb7a0d7dbca187800c59eda9d57" kind="typedef"><name>channel_type</name></member>
+    <member refid="classchannel__peeker_1ac04334af0528fe5c0427542a122bf564" kind="typedef"><name>writer</name></member>
+    <member refid="classchannel__peeker_1a990e9808a9916b8938a374952c4deff7" kind="function"><name>channel_peeker</name></member>
+    <member refid="classchannel__peeker_1a9f2afa6c57cb5652a270e06598481df9" kind="function"><name>channel_peeker</name></member>
+    <member refid="classchannel__peeker_1a5ef0b39ac4b22bb613480338ea2ace56" kind="function"><name>operator=</name></member>
+    <member refid="classchannel__peeker_1af5cad25d19ba2e1032cad896211853da" kind="function"><name>operator=</name></member>
+    <member refid="classchannel__peeker_1a3ad7df911e30a8164fbda30177b7d825" kind="function"><name>channel_peeker</name></member>
+    <member refid="classchannel__peeker_1a5000b660243d9362696abeed42b62d7c" kind="function"><name>peek</name></member>
+    <member refid="classchannel__peeker_1ae51a5dae0a2785e732bf970782a9d2b1" kind="function"><name>acquire</name></member>
   </compound>
-  <compound refid="classcoro_1_1channel__reader" kind="class"><name>coro::channel_reader</name>
-    <member refid="classcoro_1_1channel__reader_1a937fa1456bd4d80a400cf410f8cea030" kind="typedef"><name>value_type</name></member>
-    <member refid="classcoro_1_1channel__reader_1a372275133511e4b2ae4977dc67c22274" kind="typedef"><name>pointer</name></member>
-    <member refid="classcoro_1_1channel__reader_1a005ff737d751cda5823af9cb613a871a" kind="typedef"><name>reference</name></member>
-    <member refid="classcoro_1_1channel__reader_1aa592732c802a92906e200adc2ba8bcba" kind="typedef"><name>channel_type</name></member>
-    <member refid="classcoro_1_1channel__reader_1a07d062a7d7b5bd4e65bdf9803ea9594c" kind="typedef"><name>reader_list</name></member>
-    <member refid="classcoro_1_1channel__reader_1af73ad06d214b45d0391936ede4bc38dd" kind="typedef"><name>writer</name></member>
-    <member refid="classcoro_1_1channel__reader_1af19e994ef091fb8c93a7b896746ed403" kind="typedef"><name>writer_list</name></member>
-    <member refid="classcoro_1_1channel__reader_1a3116377d4f32ecbd0a0a295e2746b9f7" kind="variable"><name>channel_type</name></member>
-    <member refid="classcoro_1_1channel__reader_1aa63ba5328f968b1f0be81cde864a8800" kind="variable"><name>writer</name></member>
-    <member refid="classcoro_1_1channel__reader_1a39a3c698b114efdf25532c2ac031a02c" kind="variable"><name>reader_list</name></member>
-    <member refid="classcoro_1_1channel__reader_1a15741659d93d48d28f4ed26fc45513a8" kind="variable"><name>ptr</name></member>
-    <member refid="classcoro_1_1channel__reader_1a300b60a97532389bceab817d09d5522c" kind="variable"><name>frame</name></member>
-    <member refid="classcoro_1_1channel__reader_1afb07fe069d5ba635c3de001f713280a1" kind="variable"><name>@1</name></member>
-    <member refid="classcoro_1_1channel__reader_1a2809591c073db48e8b1ffbb6adac2bf8" kind="variable"><name>next</name></member>
-    <member refid="classcoro_1_1channel__reader_1ac5d3756c7226efb3070f1db4172ce35c" kind="variable"><name>chan</name></member>
-    <member refid="classcoro_1_1channel__reader_1a506b55e6bbc889d79a99fd452f598d5e" kind="function"><name>channel_reader</name></member>
-    <member refid="classcoro_1_1channel__reader_1a294f81d573ebcbd866c608c2baee3608" kind="function"><name>channel_reader</name></member>
-    <member refid="classcoro_1_1channel__reader_1a166581d49783fe586f0a6af732d7805b" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1channel__reader_1ad02b4463e39c26ffd08e166734670518" kind="function"><name>channel_reader</name></member>
-    <member refid="classcoro_1_1channel__reader_1a9ddb9899bee9fc1410d82c0f3d309647" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1channel__reader_1ab9d43851cdddf607e64b8e7d80b30753" kind="function"><name>~channel_reader</name></member>
-    <member refid="classcoro_1_1channel__reader_1a299128f7762dc27ce31013b2b6c34331" kind="function"><name>await_ready</name></member>
-    <member refid="classcoro_1_1channel__reader_1a249a03cfe455e9c4faa3b11a68d9b27b" kind="function"><name>await_suspend</name></member>
-    <member refid="classcoro_1_1channel__reader_1af0ee9c32a559f30fa733089334b57f63" kind="function"><name>await_resume</name></member>
+  <compound refid="classchannel__reader" kind="class"><name>channel_reader</name>
+    <member refid="classchannel__reader_1ae9db3577650b39565659c7e67f444a47" kind="typedef"><name>value_type</name></member>
+    <member refid="classchannel__reader_1aa6d73eda2c62de2f7c9640de285246fa" kind="typedef"><name>pointer</name></member>
+    <member refid="classchannel__reader_1a9cac01060750b1255000091210c24236" kind="typedef"><name>reference</name></member>
+    <member refid="classchannel__reader_1a6978f5dc63dc961a01ac446bca9109c0" kind="typedef"><name>channel_type</name></member>
+    <member refid="classchannel__reader_1ade1c425b162179dcdddada235724c7b9" kind="typedef"><name>reader_list</name></member>
+    <member refid="classchannel__reader_1af9d055aff99c10e3963eefbdcbce58c5" kind="typedef"><name>writer</name></member>
+    <member refid="classchannel__reader_1a7dd3e80320f4342a458a289c562c8fd7" kind="typedef"><name>writer_list</name></member>
+    <member refid="classchannel__reader_1add73a499fe9417bd39ea599980719de0" kind="variable"><name>channel_type</name></member>
+    <member refid="classchannel__reader_1aed56d9ab37660d431bb06a05b49cd169" kind="variable"><name>writer</name></member>
+    <member refid="classchannel__reader_1a50135926201a0dca9b7d692851ec755a" kind="variable"><name>reader_list</name></member>
+    <member refid="classchannel__reader_1aea516c94c54055797b146d4d899ccb62" kind="variable"><name>ptr</name></member>
+    <member refid="classchannel__reader_1aa1491ab51380e4d9cf1493ecc8f92c68" kind="variable"><name>frame</name></member>
+    <member refid="classchannel__reader_1a39e153a488adc71c3b30eec816e091d8" kind="variable"><name>@1</name></member>
+    <member refid="classchannel__reader_1ad055a7fee5734fd6f31d5efbf09e5854" kind="variable"><name>next</name></member>
+    <member refid="classchannel__reader_1aa488a6833a9793694566f629f60ff699" kind="variable"><name>chan</name></member>
+    <member refid="classchannel__reader_1aa286327aba3a9d1a08d998e1ab18da89" kind="function"><name>channel_reader</name></member>
+    <member refid="classchannel__reader_1ac6accd26fa11711e7091537f1b27d627" kind="function"><name>channel_reader</name></member>
+    <member refid="classchannel__reader_1a54ec29dfabe01c0000fa6b928237a194" kind="function"><name>operator=</name></member>
+    <member refid="classchannel__reader_1ac2abb1e1c1bb7dc79c7b0e174277beea" kind="function"><name>channel_reader</name></member>
+    <member refid="classchannel__reader_1a46c244e5fb743c2e3098d26a56a5094a" kind="function"><name>operator=</name></member>
+    <member refid="classchannel__reader_1a2775ebd8e22ae2c56b3ce0395c1c4b9d" kind="function"><name>~channel_reader</name></member>
+    <member refid="classchannel__reader_1a80ec5a50e00b39129a7dcbf191515200" kind="function"><name>await_ready</name></member>
+    <member refid="classchannel__reader_1a22cf1eb07a344b05cba4d4dc3dc38135" kind="function"><name>await_suspend</name></member>
+    <member refid="classchannel__reader_1ae81ce084fa91e7af9c254636e65f0c90" kind="function"><name>await_resume</name></member>
   </compound>
-  <compound refid="classcoro_1_1channel__writer" kind="class"><name>coro::channel_writer</name>
-    <member refid="classcoro_1_1channel__writer_1a15b7c725e12e5d57158afefc4ac1af08" kind="typedef"><name>value_type</name></member>
-    <member refid="classcoro_1_1channel__writer_1a2e601eaf0113e0bd943a0a009a808d01" kind="typedef"><name>pointer</name></member>
-    <member refid="classcoro_1_1channel__writer_1ac03207a219b23b1dc233a7e5c785b29d" kind="typedef"><name>reference</name></member>
-    <member refid="classcoro_1_1channel__writer_1a23e19ff14d2a6e5512221637c9306de8" kind="typedef"><name>channel_type</name></member>
-    <member refid="classcoro_1_1channel__writer_1a5da6013661ca9ccc4690b2588e25edc0" kind="typedef"><name>reader</name></member>
-    <member refid="classcoro_1_1channel__writer_1a452eabd9962ae4af8efb4d1269b539d7" kind="typedef"><name>reader_list</name></member>
-    <member refid="classcoro_1_1channel__writer_1a6141b886ddc77f1e5cd669d3ca1bd7e8" kind="typedef"><name>writer_list</name></member>
-    <member refid="classcoro_1_1channel__writer_1ad9b0723cda6dbd8432092f1638f8dd7d" kind="typedef"><name>peeker</name></member>
-    <member refid="classcoro_1_1channel__writer_1a4935160a0bafdb4d0dbc6a742fb1463f" kind="variable"><name>channel_type</name></member>
-    <member refid="classcoro_1_1channel__writer_1a28287c8d2908c9eb1b60f5b2024bb4e7" kind="variable"><name>reader</name></member>
-    <member refid="classcoro_1_1channel__writer_1a8ee534dcf9331a8d5a22ab67e51a6d51" kind="variable"><name>writer_list</name></member>
-    <member refid="classcoro_1_1channel__writer_1ad49091d95fc4a54ebc4a7a5542c180a0" kind="variable"><name>peeker</name></member>
-    <member refid="classcoro_1_1channel__writer_1a121e573aebdcafc82dfe8950b039f388" kind="variable"><name>ptr</name></member>
-    <member refid="classcoro_1_1channel__writer_1ad45f262e721b0eec0b11f8e203d25f9b" kind="variable"><name>frame</name></member>
-    <member refid="classcoro_1_1channel__writer_1a059a874e1fecb3843569b2ed6343ed6d" kind="variable"><name>@3</name></member>
-    <member refid="classcoro_1_1channel__writer_1a80ea8e6ab70df9b56383772707a48314" kind="variable"><name>next</name></member>
-    <member refid="classcoro_1_1channel__writer_1a224b7856ee06abc31b6a3e2338554abc" kind="variable"><name>chan</name></member>
-    <member refid="classcoro_1_1channel__writer_1a0cd5001d1ec9e7501a5157418ae5b3d3" kind="function"><name>channel_writer</name></member>
-    <member refid="classcoro_1_1channel__writer_1a26ea9623c33550cdde6cb9db12dd38ce" kind="function"><name>channel_writer</name></member>
-    <member refid="classcoro_1_1channel__writer_1a23df97d1b8105b79070cc4d2e9d5f153" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1channel__writer_1a589ef19c0b52b6b2f83b2fc253bf8e5a" kind="function"><name>channel_writer</name></member>
-    <member refid="classcoro_1_1channel__writer_1a5370b9f5c384a751d412d511c0aa8eed" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1channel__writer_1abaeb41fae9d599ed34d6809c342c82ee" kind="function"><name>~channel_writer</name></member>
-    <member refid="classcoro_1_1channel__writer_1a9f96ddb07846c281dd69118bbcd29fdd" kind="function"><name>await_ready</name></member>
-    <member refid="classcoro_1_1channel__writer_1a87bb591154da900264707a54fffa5bd8" kind="function"><name>await_suspend</name></member>
-    <member refid="classcoro_1_1channel__writer_1a2ed36a301759bf2c63d02d95156bac32" kind="function"><name>await_resume</name></member>
+  <compound refid="classchannel__writer" kind="class"><name>channel_writer</name>
+    <member refid="classchannel__writer_1a76456f7914509f79c65ad56a0af585cc" kind="typedef"><name>value_type</name></member>
+    <member refid="classchannel__writer_1ae62fe0999d3dc69bcf1fdf376ea10fd4" kind="typedef"><name>pointer</name></member>
+    <member refid="classchannel__writer_1ae6bd113a575628c74c85c6fefa272aa8" kind="typedef"><name>reference</name></member>
+    <member refid="classchannel__writer_1a3cb628a8490854495be80c0db505a8aa" kind="typedef"><name>channel_type</name></member>
+    <member refid="classchannel__writer_1aab36618e5455b230e43b9e7ab3bde369" kind="typedef"><name>reader</name></member>
+    <member refid="classchannel__writer_1a26ee2362518de22a3ac838284a2a979d" kind="typedef"><name>reader_list</name></member>
+    <member refid="classchannel__writer_1a2c4ebb4beb5b20950d0ade268bee0486" kind="typedef"><name>writer_list</name></member>
+    <member refid="classchannel__writer_1a7493fa2991e786754b7c35094556f283" kind="typedef"><name>peeker</name></member>
+    <member refid="classchannel__writer_1a715f9104475acb5b4a7b41ec7429e306" kind="variable"><name>channel_type</name></member>
+    <member refid="classchannel__writer_1a2218b2cda0f8cea0d0838b2d6d4aa7fc" kind="variable"><name>reader</name></member>
+    <member refid="classchannel__writer_1ab97bdd78da0edf039b04669293c8a519" kind="variable"><name>writer_list</name></member>
+    <member refid="classchannel__writer_1a887bf171c122f7468b2efb6184cd3683" kind="variable"><name>peeker</name></member>
+    <member refid="classchannel__writer_1a6689df505b111fdab4c293857b443e35" kind="variable"><name>ptr</name></member>
+    <member refid="classchannel__writer_1a159c26f83092e2faae2c8f1dd4dad2ad" kind="variable"><name>frame</name></member>
+    <member refid="classchannel__writer_1afa38ac2e6a341484a40ca27e58389485" kind="variable"><name>@3</name></member>
+    <member refid="classchannel__writer_1ac7380c4b908e4c0e7c35d17156f99f8f" kind="variable"><name>next</name></member>
+    <member refid="classchannel__writer_1a9a2b94676f047f8ef6d7cd3a66c3cb4c" kind="variable"><name>chan</name></member>
+    <member refid="classchannel__writer_1a00f6744c96c56a6b8a6cb3ab1725a496" kind="function"><name>channel_writer</name></member>
+    <member refid="classchannel__writer_1a57a81aef483ad755009e5f902a2be063" kind="function"><name>channel_writer</name></member>
+    <member refid="classchannel__writer_1a8b7ceeb4345628bfcd95296d992cbbca" kind="function"><name>operator=</name></member>
+    <member refid="classchannel__writer_1a42be78432e2e029ced6b6be812715d1a" kind="function"><name>channel_writer</name></member>
+    <member refid="classchannel__writer_1a35ef1d4507ea60865995ded152efe283" kind="function"><name>operator=</name></member>
+    <member refid="classchannel__writer_1ada52a0bb3bfe15c61a8e09065220e2b3" kind="function"><name>~channel_writer</name></member>
+    <member refid="classchannel__writer_1aadcd462fb1b02cafc5e7924fa980a8ab" kind="function"><name>await_ready</name></member>
+    <member refid="classchannel__writer_1ac5374c25bbf9c172dc78cff279b430a1" kind="function"><name>await_suspend</name></member>
+    <member refid="classchannel__writer_1ad4ed8478bd6465857f67e4f83a8009b0" kind="function"><name>await_resume</name></member>
   </compound>
   <compound refid="structclang__frame__prefix" kind="struct"><name>clang_frame_prefix</name>
-    <member refid="structclang__frame__prefix_1ac88fe15fe5c099df2eee940bf5508d34" kind="variable"><name>factivate</name></member>
-    <member refid="structclang__frame__prefix_1ac186ff88db512f9a862b5584d6b93944" kind="variable"><name>fdestroy</name></member>
+    <member refid="structclang__frame__prefix_1a9e519b86feb06331e76b7bfaa3e687df" kind="variable"><name>_Factivate</name></member>
+    <member refid="structclang__frame__prefix_1adc18b946a6366f6f62b4e4abbc690a4d" kind="variable"><name>_Fdestroy</name></member>
   </compound>
   <compound refid="classcoro_1_1continue__on__apc" kind="class"><name>coro::continue_on_apc</name>
     <member refid="classcoro_1_1continue__on__apc_1ae9ae7d5c7394552475d7f45c9e96f169" kind="variable"><name>thread</name></member>
@@ -113,45 +113,39 @@
     <member refid="classcoro_1_1continue__on__thread__pool_1a46d15a2c1c5d282edb3171288b368b1b" kind="function"><name>await_resume</name></member>
     <member refid="classcoro_1_1continue__on__thread__pool_1ab1e6995c97b189e8e5eab3dab9e97067" kind="function"><name>await_suspend</name></member>
   </compound>
-  <compound refid="classstd_1_1experimental_1_1coroutine__handle" kind="class"><name>std::experimental::coroutine_handle</name>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_1aa6d09ecbb759391a485814cbcf29c9a6" kind="typedef"><name>promise_type</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_1ae82bd2ef38ef317c7cea3c5e645b17c6" kind="function"><name>from_frame</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_1ab78f9d5a21820ed3e34dda3189450ea9" kind="function"><name>operator=</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_1a2ca267e94ef0885b578c63ba634d89fd" kind="function"><name>promise</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_1a77abdab694dcf7246042d54a94e86234" kind="function"><name>promise</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_1ad100f808f737bc0e487007678dc933c4" kind="function"><name>from_address</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_1a9a25f06db61142e7be4f6418b04de246" kind="function"><name>from_promise</name></member>
+  <compound refid="structstd_1_1coro__traits__sfinae" kind="struct"><name>std::coro_traits_sfinae</name>
   </compound>
-  <compound refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4" kind="class"><name>std::experimental::coroutine_handle&lt; noop_coroutine_promise &gt;</name>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1aeb47c9fa622a2d0e73bfbca18f98ff7a" kind="variable"><name>v</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a8fafcf4a2736bebb941def74b0d4fc64" kind="function"><name>coroutine_handle</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a06d7817af4083ffd2294170d44bb3047" kind="function"><name>operator bool</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a4eb3b3c62336eba294792dd182bef7d6" kind="function"><name>done</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a0f78b004c10654ace900b46683af4b32" kind="function"><name>operator()</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1ab31e531e47bad7714a2791ed3ec88c44" kind="function"><name>resume</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a88df8aab8481926b5c223b5fc5bb1b02" kind="function"><name>destroy</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a0bed23e10157280fc8e1ee9b015a0c93" kind="function"><name>promise</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a398a680dbf14a8542a88729344de2ce3" kind="function"><name>address</name></member>
+  <compound refid="structstd_1_1coro__traits__sfinae_3_01__Ret_00_01void__t_3_01typename_01__Ret_1_1promise__type_01_4_01_4" kind="struct"><name>std::coro_traits_sfinae&lt; _Ret, void_t&lt; typename _Ret::promise_type &gt; &gt;</name>
+    <member refid="structstd_1_1coro__traits__sfinae_3_01__Ret_00_01void__t_3_01typename_01__Ret_1_1promise__type_01_4_01_4_1aedd4e5217b19e80ecfdcce12d962fe9a" kind="typedef"><name>promise_type</name></member>
   </compound>
-  <compound refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4" kind="class"><name>std::experimental::coroutine_handle&lt; void &gt;</name>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a539afb4dbb98ef72c4b1bc815ca544dd" kind="variable"><name>prefix</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a2d93acbaf2756143278d58623e972ef7" kind="function"><name>coroutine_handle</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1afe0b96dcd8ba2e9e2cf6f40a8bbdc6de" kind="function"><name>~coroutine_handle</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1afc742d2bb6c3d57cb9f634b59870595f" kind="function"><name>coroutine_handle</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a9bfe8d863ca3990766933966ee7aac98" kind="function"><name>coroutine_handle</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a56103ccddff839bb50669adc1ad129fe" kind="function"><name>operator=</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a8e50e6f4cd7ef094b57dcfa93678ef9e" kind="function"><name>operator=</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a159f11cf324cb9e52b3ab4efa18749b4" kind="function"><name>coroutine_handle</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a44c1faf2c62a32c57492f6b423493e03" kind="function"><name>operator=</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1aee1109d9f9f6152d7dab7654d914d92e" kind="function"><name>operator bool</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1af25e195bac0d596e66043e82a9406d0e" kind="function"><name>resume</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a1eac3fe500f7af2b02c37ee0ecacde68" kind="function"><name>destroy</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a5dd3756163ceeb9ca8a7f283225a8b34" kind="function"><name>done</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a91b3e76af53b029da67649a99a7efdd5" kind="function"><name>address</name></member>
-    <member refid="classstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1a9bd09d9dc0b1b54e726b74b1991ddd47" kind="function"><name>from_address</name></member>
+  <compound refid="structstd_1_1coroutine__handle" kind="struct"><name>std::coroutine_handle</name>
+    <member refid="structstd_1_1coroutine__handle_1ae5c6fd5a601ffde34d8e5d9130851a01" kind="function"><name>from_promise</name></member>
+    <member refid="structstd_1_1coroutine__handle_1ae744465e0cadc25082d5b36f8e60bea3" kind="function"><name>from_address</name></member>
+    <member refid="structstd_1_1coroutine__handle_1a5b18d02f810729a20b6916a31b4dfffb" kind="function"><name>operator=</name></member>
+    <member refid="structstd_1_1coroutine__handle_1a36141e7f3007812cad591c77d985a19a" kind="function"><name>promise</name></member>
+  </compound>
+  <compound refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4" kind="struct"><name>std::coroutine_handle&lt; noop_coroutine_promise &gt;</name>
+    <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1af8fba5c3efd872a89e95d28a11310583" kind="function"><name>operator bool</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a6fb323e8614db22e993a3e050a04d77b" kind="function"><name>done</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a9957547cfe9e5ff647069c5ba5a2bba2" kind="function"><name>operator()</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1af63cb9835b297d0650a426063968cfd5" kind="function"><name>resume</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1afb8ef84df3649323ccccb1673ef5ff88" kind="function"><name>destroy</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4_1a43aa77a087a863d0064283cc5871fde7" kind="friend"><name>noop_coroutine</name></member>
+  </compound>
+  <compound refid="structstd_1_1coroutine__handle_3_01void_01_4" kind="struct"><name>std::coroutine_handle&lt; void &gt;</name>
+    <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a2b0a0c0e4aa456343c91c330cffbac98" kind="variable"><name>_Ptr</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a00719061b82c9c30833bf1ca65580611" kind="function"><name>coroutine_handle</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a2fb02ba714309103598311e15a27d96f" kind="function"><name>coroutine_handle</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a3407f60783152a1f0560c4b51911c5ea" kind="function"><name>operator=</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a53c28109d68a249b167b55f2e00fec0d" kind="function"><name>address</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1ae59c49e9dccab018283cefff9c2e2cb3" kind="function"><name>operator bool</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1ad76f9dabbe85b529a389cb6ced893ce7" kind="function"><name>done</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a2ca3a8939708812987408b7fac84c336" kind="function"><name>resume</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1af10de68c35d41c66f997023a1ca00567" kind="function"><name>operator()</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a2867ef5f88bb895076bdad54049cc8df" kind="function"><name>destroy</name></member>
+    <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a76f6a285c67fb921c7cdf9bdede2eeaf" kind="function"><name>from_address</name></member>
   </compound>
   <compound refid="structstd_1_1experimental_1_1coroutine__traits" kind="struct"><name>std::experimental::coroutine_traits</name>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_1a89b8abe24d6a2e8636d2bb7e026b4196" kind="typedef"><name>promise_type</name></member>
   </compound>
   <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4" kind="struct"><name>std::experimental::coroutine_traits&lt; void, P... &gt;</name>
   </compound>
@@ -196,11 +190,12 @@
     <member refid="classcoro_1_1event_1a4ac8eb8ea7cfc21a8be5bc35c1b4dcc1" kind="function"><name>set</name></member>
     <member refid="classcoro_1_1event_1ae835aa2aa771ae07ff6d0caba147a1d8" kind="function"><name>reset</name></member>
   </compound>
-  <compound refid="classcoro_1_1frame__t" kind="class"><name>coro::frame_t</name>
+  <compound refid="classframe__t" kind="class"><name>frame_t</name>
   </compound>
-  <compound refid="structgcc__frame__prefix" kind="struct"><name>gcc_frame_prefix</name>
-    <member refid="structgcc__frame__prefix_1a01460f12131e646420ffa43942466704" kind="variable"><name>_unknown1</name></member>
-    <member refid="structgcc__frame__prefix_1a46a6c9f8fb7368987107043fe06bbfa1" kind="variable"><name>_unknown2</name></member>
+  <compound refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4" kind="struct"><name>std::hash&lt; coroutine_handle&lt; P &gt; &gt;</name>
+    <member refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4_1a8d8621f44cb43d3adb4a65bce92a2d90" kind="typedef"><name>argument_type</name></member>
+    <member refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4_1af3ce9a823d91241074300d1185cd722a" kind="typedef"><name>result_type</name></member>
+    <member refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4_1ac16cee347fbc64caaf634673c074832a" kind="function"><name>operator()</name></member>
   </compound>
   <compound refid="classcoro_1_1io__recv" kind="class"><name>coro::io_recv</name>
     <member refid="classcoro_1_1io__recv_1ad23ab79a70711925a02fe7d8eb4aae68" kind="function"><name>suspend</name></member>
@@ -264,41 +259,35 @@
     <member refid="classcoro_1_1kqueue__owner_1aa7584b447fcb9a7382516302b9fadbb8" kind="function"><name>events</name></member>
     <member refid="classcoro_1_1kqueue__owner_1a85b1325589038239515769ec24226c06" kind="function"><name>submit</name></member>
   </compound>
-  <compound refid="classcoro_1_1internal_1_1list" kind="class"><name>coro::internal::list</name>
-    <member refid="classcoro_1_1internal_1_1list_1afdc62099df932f6b176ef9f3621c5ce0" kind="variable"><name>head</name></member>
-    <member refid="classcoro_1_1internal_1_1list_1a121a1e69c05d157329cdc88428fa0c76" kind="variable"><name>tail</name></member>
-    <member refid="classcoro_1_1internal_1_1list_1a04a7df7b349952b290c8a1bc393c278e" kind="function"><name>is_empty</name></member>
-    <member refid="classcoro_1_1internal_1_1list_1ace49b504493b9dbf41ae5616e6c43d53" kind="function"><name>push</name></member>
-    <member refid="classcoro_1_1internal_1_1list_1a0a84874a8a54b2e1c7145f7332983dc8" kind="function"><name>pop</name></member>
+  <compound refid="classinternal_1_1list" kind="class"><name>internal::list</name>
+    <member refid="classinternal_1_1list_1ab3022808ff39d010f8d7414e78dfae43" kind="variable"><name>head</name></member>
+    <member refid="classinternal_1_1list_1ad96687aa534157909ddf8d4bb6b3cef4" kind="variable"><name>tail</name></member>
+    <member refid="classinternal_1_1list_1ac846e27cfb9646e8f5de0d0a5c48d742" kind="function"><name>is_empty</name></member>
+    <member refid="classinternal_1_1list_1a06db9566686875fbb1824d1700e8a3c2" kind="function"><name>push</name></member>
+    <member refid="classinternal_1_1list_1a7b39507e869c5cfa3abf7376878abae1" kind="function"><name>pop</name></member>
   </compound>
   <compound refid="structmsvc__frame__prefix" kind="struct"><name>msvc_frame_prefix</name>
-    <member refid="structmsvc__frame__prefix_1a63e7a285d705ec63b36132af19e8a7fe" kind="variable"><name>factivate</name></member>
-    <member refid="structmsvc__frame__prefix_1a86df18eaa75a15b102d1e8920870d2ff" kind="variable"><name>index</name></member>
-    <member refid="structmsvc__frame__prefix_1aa24c497b63b9d2069c178cb07091409c" kind="variable"><name>flag</name></member>
+    <member refid="structmsvc__frame__prefix_1ab179af4c00a610241ff2364936f304e8" kind="variable"><name>_Factivate</name></member>
+    <member refid="structmsvc__frame__prefix_1a27d28c6eebe0ba4fd28f7091db3ec7e2" kind="variable"><name>_Index</name></member>
+    <member refid="structmsvc__frame__prefix_1ae03202c6132b500921eedbcd7a680f2a" kind="variable"><name>_Flag</name></member>
   </compound>
-  <compound refid="structstd_1_1experimental_1_1noop__coroutine__promise" kind="struct"><name>std::experimental::noop_coroutine_promise</name>
+  <compound refid="structstd_1_1noop__coroutine__promise" kind="struct"><name>std::noop_coroutine_promise</name>
   </compound>
-  <compound refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t" kind="union"><name>std::experimental::coroutine_handle&lt; void &gt;::prefix_t</name>
-    <member refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a4b616f3a365c765231b47e6fdfa6f5d4" kind="variable"><name>v</name></member>
-    <member refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a0ad2fb1ff63bda4c5dcb0cd8d01747b7" kind="variable"><name>m</name></member>
-    <member refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a667d0c5c42097163346ecb9e57845d8b" kind="variable"><name>c</name></member>
-    <member refid="unionstd_1_1experimental_1_1coroutine__handle_3_01void_01_4_1_1prefix__t_1a0091bb9e7db56bd8cd21c5ff12e516d6" kind="variable"><name>g</name></member>
+  <compound refid="classpromise__aa" kind="class"><name>promise_aa</name>
+    <member refid="classpromise__aa_1aa195dd4ecbc0b0572f570a44e968acde" kind="function"><name>initial_suspend</name></member>
+    <member refid="classpromise__aa_1a53e853d1ff33be76e1a405fc7aedd36e" kind="function"><name>final_suspend</name></member>
   </compound>
-  <compound refid="classcoro_1_1promise__aa" kind="class"><name>coro::promise_aa</name>
-    <member refid="classcoro_1_1promise__aa_1a0f73ef270974608b4c8206ef7a4dd195" kind="function"><name>initial_suspend</name></member>
-    <member refid="classcoro_1_1promise__aa_1ae2704bdaace12103bb6c42fe229a36b9" kind="function"><name>final_suspend</name></member>
+  <compound refid="classpromise__an" kind="class"><name>promise_an</name>
+    <member refid="classpromise__an_1a76e21ad10b42fb5f96bd3366b149f8dc" kind="function"><name>initial_suspend</name></member>
+    <member refid="classpromise__an_1afeb84b8de6a3c0cdef9b665adb02eb37" kind="function"><name>final_suspend</name></member>
   </compound>
-  <compound refid="classcoro_1_1promise__an" kind="class"><name>coro::promise_an</name>
-    <member refid="classcoro_1_1promise__an_1aa86e2ba1ac1bcd563b72aead99e46154" kind="function"><name>initial_suspend</name></member>
-    <member refid="classcoro_1_1promise__an_1a53cad2f133187506cf0023d6971d0535" kind="function"><name>final_suspend</name></member>
+  <compound refid="classpromise__na" kind="class"><name>promise_na</name>
+    <member refid="classpromise__na_1a91148abe4003519303cb8d09135e602c" kind="function"><name>initial_suspend</name></member>
+    <member refid="classpromise__na_1abce5e5bf2da45ee5ef37b57c98a0978d" kind="function"><name>final_suspend</name></member>
   </compound>
-  <compound refid="classcoro_1_1promise__na" kind="class"><name>coro::promise_na</name>
-    <member refid="classcoro_1_1promise__na_1a8ef0f7bd7b8b834de1eb85dcb723e674" kind="function"><name>initial_suspend</name></member>
-    <member refid="classcoro_1_1promise__na_1af07e52a11070442615475901fbbb21e2" kind="function"><name>final_suspend</name></member>
-  </compound>
-  <compound refid="classcoro_1_1promise__nn" kind="class"><name>coro::promise_nn</name>
-    <member refid="classcoro_1_1promise__nn_1ae4078639d15f8c8b52c47c0326ad96ee" kind="function"><name>initial_suspend</name></member>
-    <member refid="classcoro_1_1promise__nn_1ae3f283f0874d0395783973e835e8c536" kind="function"><name>final_suspend</name></member>
+  <compound refid="classpromise__nn" kind="class"><name>promise_nn</name>
+    <member refid="classpromise__nn_1a6d4e1fa9d0bd22a6e26513c5d99b4ba8" kind="function"><name>initial_suspend</name></member>
+    <member refid="classpromise__nn_1a5aeb075cbae2b4b7e1e51f7797705f7c" kind="function"><name>final_suspend</name></member>
   </compound>
   <compound refid="classcoro_1_1enumerable_1_1promise__type" kind="class"><name>coro::enumerable::promise_type</name>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a67171474c4da6cc8efe0c7fafefd2b2d" kind="friend"><name>iterator</name></member>
@@ -310,16 +299,6 @@
     <member refid="classcoro_1_1enumerable_1_1promise__type_1aea5f74fe3a0de6660ffedd99382626f5" kind="function"><name>yield_value</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a24f0cdb9f39fff8bea46089495dabbcf" kind="function"><name>return_void</name></member>
   </compound>
-  <compound refid="classcoro_1_1pthread__joiner__t_1_1promise__type" kind="class"><name>coro::pthread_joiner_t::promise_type</name>
-    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1a948b398eb5589a9d4cfa0d22c4544fe9" kind="function"><name>final_suspend</name></member>
-    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1abd3d2a4ded1ea6fe0cf6d9ab9bff3306" kind="function"><name>return_void</name></member>
-    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1af5d8fac1c1c2a4f8aa3806186428753d" kind="function"><name>get_return_object</name></member>
-  </compound>
-  <compound refid="classcoro_1_1pthread__detacher__t_1_1promise__type" kind="class"><name>coro::pthread_detacher_t::promise_type</name>
-    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a21362c44504730ced0857f6e7b7a21fa" kind="function"><name>final_suspend</name></member>
-    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a23ab51d7e94692dd6fac80ab844c88b6" kind="function"><name>return_void</name></member>
-    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a69a7c92cd0cc08125ef3ebd06ebff109" kind="function"><name>get_return_object</name></member>
-  </compound>
   <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type" kind="struct"><name>std::experimental::coroutine_traits&lt; void, P... &gt;::promise_type</name>
     <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1a826583f86a52f48546382f03e36346c5" kind="function"><name>initial_suspend</name></member>
     <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1a6fe81d301e84ea0b01163c98a86590e5" kind="function"><name>final_suspend</name></member>
@@ -327,10 +306,20 @@
     <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1acde97e9dda8acde94022d87715c4c572" kind="function"><name>return_void</name></member>
     <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1a10e8c0a22fee7cf2b293e93414a00cd3" kind="function"><name>get_return_object</name></member>
   </compound>
-  <compound refid="classcoro_1_1frame__t_1_1promise__type" kind="class"><name>coro::frame_t::promise_type</name>
-    <member refid="classcoro_1_1frame__t_1_1promise__type_1a63d10c951414b16b7ff45a574e3094a9" kind="function"><name>unhandled_exception</name></member>
-    <member refid="classcoro_1_1frame__t_1_1promise__type_1a9644f5c45cb2843a4458eaf25a0ebe74" kind="function"><name>return_void</name></member>
-    <member refid="classcoro_1_1frame__t_1_1promise__type_1a22b9498b1294c08cd04a0e90db979c85" kind="function"><name>get_return_object</name></member>
+  <compound refid="classframe__t_1_1promise__type" kind="class"><name>frame_t::promise_type</name>
+    <member refid="classframe__t_1_1promise__type_1ac5ed5b7beba5d8b80a1c4714997669ad" kind="function"><name>unhandled_exception</name></member>
+    <member refid="classframe__t_1_1promise__type_1a6d877a5a5c67c606434803818b20c96a" kind="function"><name>return_void</name></member>
+    <member refid="classframe__t_1_1promise__type_1a02e7a0008289f4e8ff7a491d699a74f0" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__detacher__t_1_1promise__type" kind="class"><name>coro::pthread_detacher_t::promise_type</name>
+    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a21362c44504730ced0857f6e7b7a21fa" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a23ab51d7e94692dd6fac80ab844c88b6" kind="function"><name>return_void</name></member>
+    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a69a7c92cd0cc08125ef3ebd06ebff109" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__joiner__t_1_1promise__type" kind="class"><name>coro::pthread_joiner_t::promise_type</name>
+    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1a948b398eb5589a9d4cfa0d22c4544fe9" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1abd3d2a4ded1ea6fe0cf6d9ab9bff3306" kind="function"><name>return_void</name></member>
+    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1af5d8fac1c1c2a4f8aa3806186428753d" kind="function"><name>get_return_object</name></member>
   </compound>
   <compound refid="classcoro_1_1pthread__detacher__t" kind="class"><name>coro::pthread_detacher_t</name>
     <member refid="classcoro_1_1pthread__detacher__t_1a63f3731204515d60ab4ae40c89061503" kind="function"><name>try_detach</name></member>
@@ -388,28 +377,28 @@
     <member refid="classcoro_1_1section_1a7e8f7446da42e13aeca9aa051de207bd" kind="function"><name>operator=</name></member>
   </compound>
   <compound refid="classcoro_1_1set__or__cancel" kind="class"><name>coro::set_or_cancel</name>
-    <member refid="classcoro_1_1set__or__cancel_1aa906040216dbce2482c49e3abedebabc" kind="variable"><name>hobject</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a4a94535cb979fd6c574c51b8c57fe37b" kind="variable"><name>hobject</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a5f2fe30cccc6e8b9a0a529d62da6257a" kind="function"><name>set_or_cancel</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1abe6b34b7536c2600da59df1aa10e8aed" kind="function"><name>~set_or_cancel</name></member>
     <member refid="classcoro_1_1set__or__cancel_1a56616f78a2cfba0971d958a9a042f9eb" kind="function"><name>set_or_cancel</name></member>
     <member refid="classcoro_1_1set__or__cancel_1a8b4b9e51e565aa420ae28323b06cc6c8" kind="function"><name>set_or_cancel</name></member>
     <member refid="classcoro_1_1set__or__cancel_1a696137603ff3cb5c0558321a8e2412d4" kind="function"><name>operator=</name></member>
     <member refid="classcoro_1_1set__or__cancel_1a2e77ef5654ae6141dab1faf67affe674" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1a7ee98f7fe618104dc5ff2ccce7f5273c" kind="function"><name>suspend</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1a19a92a3cc43a7b11011125df594369a9" kind="function"><name>set_or_cancel</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1a351fc31b4ac912ea48092cc727b83238" kind="function"><name>~set_or_cancel</name></member>
     <member refid="classcoro_1_1set__or__cancel_1ad5f73e27cfa2c17f5025906efb7f55c2" kind="function"><name>unregister</name></member>
     <member refid="classcoro_1_1set__or__cancel_1af088d0a91ef5fc0042155b52bf917313" kind="function"><name>await_ready</name></member>
     <member refid="classcoro_1_1set__or__cancel_1a3c53cc7da30ac727f1b8c77335036398" kind="function"><name>await_suspend</name></member>
     <member refid="classcoro_1_1set__or__cancel_1a862b4373192426e0ca4d313a32f24266" kind="function"><name>await_resume</name></member>
+    <member refid="classcoro_1_1set__or__cancel_1a7ee98f7fe618104dc5ff2ccce7f5273c" kind="function"><name>suspend</name></member>
   </compound>
-  <compound refid="classstd_1_1experimental_1_1suspend__always" kind="class"><name>std::experimental::suspend_always</name>
-    <member refid="classstd_1_1experimental_1_1suspend__always_1aac17bbdbc141b9c3dbee8469804fc1dc" kind="function"><name>await_ready</name></member>
-    <member refid="classstd_1_1experimental_1_1suspend__always_1a1b25ef59640cbe81ff7c8ed247d0c979" kind="function"><name>await_resume</name></member>
-    <member refid="classstd_1_1experimental_1_1suspend__always_1a0b2a4d3194623755dd7fd89367763f93" kind="function"><name>await_suspend</name></member>
+  <compound refid="classstd_1_1suspend__always" kind="class"><name>std::suspend_always</name>
+    <member refid="classstd_1_1suspend__always_1aa54aab5520e3556f0890b94583bd6e9c" kind="function"><name>await_ready</name></member>
+    <member refid="classstd_1_1suspend__always_1a88a2c10a7c4b29e403779a0d54c5ba6c" kind="function"><name>await_resume</name></member>
+    <member refid="classstd_1_1suspend__always_1a34da95c5a98c9e4b2f929e397f9704c6" kind="function"><name>await_suspend</name></member>
   </compound>
-  <compound refid="classstd_1_1experimental_1_1suspend__never" kind="class"><name>std::experimental::suspend_never</name>
-    <member refid="classstd_1_1experimental_1_1suspend__never_1af3ad1c874a9bd3160fee7da2d45ef86c" kind="function"><name>await_ready</name></member>
-    <member refid="classstd_1_1experimental_1_1suspend__never_1a7754430540e2b8a0a7513ad57e44a0a7" kind="function"><name>await_resume</name></member>
-    <member refid="classstd_1_1experimental_1_1suspend__never_1a0064e54a38e05222f0dd2395229d3afd" kind="function"><name>await_suspend</name></member>
+  <compound refid="classstd_1_1suspend__never" kind="class"><name>std::suspend_never</name>
+    <member refid="classstd_1_1suspend__never_1a5580bc2b80198f89509ff360940f7717" kind="function"><name>await_ready</name></member>
+    <member refid="classstd_1_1suspend__never_1a53576ddeaa9a9a449de888ff128ff5b9" kind="function"><name>await_resume</name></member>
+    <member refid="classstd_1_1suspend__never_1abecb08cd6432018de4d3d8101ab684bf" kind="function"><name>await_suspend</name></member>
   </compound>
   <compound refid="namespacecoro" kind="namespace"><name>coro</name>
     <member refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kind="typedef"><name>io_buffer_t</name></member>
@@ -418,8 +407,6 @@
     <member refid="namespacecoro_1a364142b18eb0724cabbf3a942c65ce92" kind="variable"><name>iep</name></member>
     <member refid="namespacecoro_1a85afa8adbfd008d91e74fd5e0716e924" kind="variable"><name>oep</name></member>
     <member refid="namespacecoro_1a75c5634f13d403665ca66b9e5df22caf" kind="variable"><name>emask</name></member>
-    <member refid="group__channel_1ga63d87ae8cd27ef6af053b2012e14b8bc" kind="function"><name>select</name></member>
-    <member refid="group__channel_1ga7c63c8dde53d11f6c245acbbe82ab12e" kind="function"><name>select</name></member>
     <member refid="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" kind="function"><name>wait_in</name></member>
     <member refid="group__NetWork_1ga31d5a4a545024c3c24e6f5204537307b" kind="function"><name>send_to</name></member>
     <member refid="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" kind="function"><name>send_to</name></member>
@@ -449,39 +436,39 @@
     <member refid="namespacecoro_1a93e9b38a4a7badcb102632a09861318d" kind="function"><name>consume_event</name></member>
     <member refid="namespacecoro_1ad9c56049f2089b9473d8ac9bc06e2a6f" kind="function"><name>wait_event_on_thread_pool</name></member>
   </compound>
-  <compound refid="namespacecoro_1_1internal" kind="namespace"><name>coro::internal</name>
-    <member refid="group__channel_1ga5477a9df5dbe696d741b9a7dd064ff49" kind="function"><name>poison</name></member>
-  </compound>
   <compound refid="namespacegsl" kind="namespace"><name>gsl</name>
   </compound>
+  <compound refid="namespaceinternal" kind="namespace"><name>internal</name>
+    <member refid="group__channel_1ga4fbcdbf9072d326f515ae5c36c6bef14" kind="function"><name>poison</name></member>
+  </compound>
   <compound refid="namespacestd" kind="namespace"><name>std</name>
+    <member refid="namespacestd_1a65bade8aeae7a9efa8101240c161d109" kind="typedef"><name>noop_coroutine_handle</name></member>
     <member refid="namespacestd_1a6b868b9d1542641a1fc432863d8c91d2" kind="typedef"><name>coroutine_traits</name></member>
+    <member refid="namespacestd_1a6afe77761cc2bb4b999d0c5d420eaa91" kind="function"><name>operator==</name></member>
+    <member refid="namespacestd_1ac124cc9360c133441e329a5a33c1280d" kind="function"><name>operator!=</name></member>
+    <member refid="namespacestd_1a2e1bafefd3a1a93c5df60be5bb463d90" kind="function"><name>operator&lt;</name></member>
+    <member refid="namespacestd_1a06a1162629552eb6bdcb2a3ed725b3eb" kind="function"><name>operator&gt;</name></member>
+    <member refid="namespacestd_1ab5872289d09b6a964e8008c5ccfca465" kind="function"><name>operator&lt;=</name></member>
+    <member refid="namespacestd_1a0deb9c2f722ef383052395fc5a99e63e" kind="function"><name>operator&gt;=</name></member>
+    <member refid="namespacestd_1aea74685396dbd4152e0f297c53721915" kind="function"><name>noop_coroutine</name></member>
   </compound>
   <compound refid="namespacestd_1_1chrono" kind="namespace"><name>std::chrono</name>
   </compound>
   <compound refid="namespacestd_1_1experimental" kind="namespace"><name>std::experimental</name>
-    <member refid="namespacestd_1_1experimental_1a332c317fca5dac180c997a4f8410ac75" kind="typedef"><name>noop_coroutine_handle</name></member>
-    <member refid="namespacestd_1_1experimental_1af678c6b41c5d772b10ebb87546b5ad4b" kind="function"><name>operator==</name></member>
-    <member refid="namespacestd_1_1experimental_1ae298174d1290f8634172802b05fe8557" kind="function"><name>operator!=</name></member>
-    <member refid="namespacestd_1_1experimental_1ac2f9247ca4d893b694562afd12c9ace1" kind="function"><name>operator&lt;</name></member>
-    <member refid="namespacestd_1_1experimental_1a4c559297e30ec354ed1d38670efa7a9d" kind="function"><name>operator&gt;</name></member>
-    <member refid="namespacestd_1_1experimental_1a6d55bc3fb1700c4f6ed95c24ba7e91bb" kind="function"><name>operator&lt;=</name></member>
-    <member refid="namespacestd_1_1experimental_1a279287d45bcdbc54be630cefcc73d854" kind="function"><name>operator&gt;=</name></member>
-    <member refid="namespacestd_1_1experimental_1a6fb7945da7b9ad20181e92a97e44ae7f" kind="function"><name>noop_coroutine</name></member>
   </compound>
   <compound refid="channel_8hpp" kind="file"><name>channel.hpp</name>
     <member refid="channel_8hpp_1a488e1dd7966781c626c4daa43789ab9f" kind="define"><name>LUNCLIFF_COROUTINE_CHANNEL_HPP</name></member>
+    <member refid="group__channel_1ga3f5b0341c261df210578215eccb3111a" kind="function"><name>select</name></member>
+    <member refid="group__channel_1ga7c401c70f1afabefe85be0e1bc33d94c" kind="function"><name>select</name></member>
   </compound>
   <compound refid="frame_8h" kind="file"><name>frame.h</name>
-    <member refid="frame_8h_1ad21192f1cad5b1c02e73ef554b796312" kind="define"><name>COROUTINE_PORTABLE_FRAME_H</name></member>
-    <member refid="frame_8h_1abee7037222597d67247c60a41fcedc80" kind="variable"><name>aligned_size_v</name></member>
-    <member refid="frame_8h_1a5bb86b7b6ba79d344e36d104b4a67f23" kind="function"><name>_coro_finished</name></member>
-    <member refid="frame_8h_1a5d0e68792f8b064aa120ae1418c03b35" kind="function"><name>_coro_resume</name></member>
-    <member refid="frame_8h_1a5a4e460c9fbacbd253a7fc3c17ee0e9f" kind="function"><name>_coro_destroy</name></member>
-    <member refid="frame_8h_1afb7c0a1ff1cf3ec9331651fa180a1f55" kind="function"><name>_coro_done</name></member>
-    <member refid="frame_8h_1acb7f973f4e6ad1693c30280e369d927b" kind="function"><name>__builtin_coro_done</name></member>
-    <member refid="frame_8h_1a689025ba7111862b86b178803894cb99" kind="function"><name>__builtin_coro_resume</name></member>
-    <member refid="frame_8h_1a2f56e6ded0ef72ae52ad3b71e829e9fd" kind="function"><name>__builtin_coro_destroy</name></member>
+    <member refid="frame_8h_1a5ecce067256439ed3b5681e094ae749c" kind="define"><name>_COROUTINE_</name></member>
+    <member refid="frame_8h_1a3096b918a14bbd178dd4899876bba567" kind="define"><name>_EXPERIMENTAL_RESUMABLE_</name></member>
+    <member refid="frame_8h_1ac002a62257f981a6fc711d37427b78ab" kind="function"><name>portable_coro_done</name></member>
+    <member refid="frame_8h_1a9e5d5a4fb051d725d1b9dd68151ec9fd" kind="function"><name>portable_coro_resume</name></member>
+    <member refid="frame_8h_1a5dc7784c46cb12b309a1da8dbe9b657f" kind="function"><name>portable_coro_destroy</name></member>
+    <member refid="frame_8h_1ae25b4cbe4319855dc809f51873b98e0a" kind="function"><name>portable_coro_from_promise</name></member>
+    <member refid="frame_8h_1a4d79efa01220fdbe2748544d40292f2c" kind="function"><name>portable_coro_get_promise</name></member>
   </compound>
   <compound refid="linux_8h" kind="file"><name>linux.h</name>
   </compound>
@@ -508,6 +495,25 @@
   </compound>
   <compound refid="resolver_8cpp" kind="file"><name>resolver.cpp</name>
   </compound>
+  <compound refid="frame_8cpp" kind="file"><name>frame.cpp</name>
+    <member refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kind="typedef"><name>procedure_t</name></member>
+    <member refid="frame_8cpp_1a94e176b990184403637e7f8f68c074c3" kind="typedef"><name>gcc_frame_prefix</name></member>
+    <member refid="frame_8cpp_1a297d336f66d70f7b1c2ca90ea003b513" kind="variable"><name>align_req_v</name></member>
+    <member refid="frame_8cpp_1abee7037222597d67247c60a41fcedc80" kind="variable"><name>aligned_size_v</name></member>
+    <member refid="frame_8cpp_1a4167cf261dfdd6d1d2daf278c786c311" kind="function"><name>make_aligned_size</name></member>
+    <member refid="frame_8cpp_1a5d0e68792f8b064aa120ae1418c03b35" kind="function"><name>_coro_resume</name></member>
+    <member refid="frame_8cpp_1a5a4e460c9fbacbd253a7fc3c17ee0e9f" kind="function"><name>_coro_destroy</name></member>
+    <member refid="frame_8cpp_1afb7c0a1ff1cf3ec9331651fa180a1f55" kind="function"><name>_coro_done</name></member>
+    <member refid="frame_8cpp_1acb7f973f4e6ad1693c30280e369d927b" kind="function"><name>__builtin_coro_done</name></member>
+    <member refid="frame_8cpp_1a689025ba7111862b86b178803894cb99" kind="function"><name>__builtin_coro_resume</name></member>
+    <member refid="frame_8cpp_1a2f56e6ded0ef72ae52ad3b71e829e9fd" kind="function"><name>__builtin_coro_destroy</name></member>
+    <member refid="frame_8cpp_1a63529ce16b733c934970f3ab6a13e4a3" kind="function"><name>_coro_finished</name></member>
+    <member refid="frame_8cpp_1ac002a62257f981a6fc711d37427b78ab" kind="function"><name>portable_coro_done</name></member>
+    <member refid="frame_8cpp_1a9e5d5a4fb051d725d1b9dd68151ec9fd" kind="function"><name>portable_coro_resume</name></member>
+    <member refid="frame_8cpp_1a5dc7784c46cb12b309a1da8dbe9b657f" kind="function"><name>portable_coro_destroy</name></member>
+    <member refid="frame_8cpp_1a4d79efa01220fdbe2748544d40292f2c" kind="function"><name>portable_coro_get_promise</name></member>
+    <member refid="frame_8cpp_1a7ae36c21c7d07f21eed0cdb6c884b4b4" kind="function"><name>portable_coro_from_promise</name></member>
+  </compound>
   <compound refid="darwin_8cpp" kind="file"><name>darwin.cpp</name>
   </compound>
   <compound refid="kqueue_8cpp" kind="file"><name>kqueue.cpp</name>
@@ -523,9 +529,9 @@
   <compound refid="windows_8cpp" kind="file"><name>windows.cpp</name>
   </compound>
   <compound refid="group__channel" kind="group"><name>channel</name>
-    <member refid="group__channel_1ga5477a9df5dbe696d741b9a7dd064ff49" kind="function"><name>poison</name></member>
-    <member refid="group__channel_1ga63d87ae8cd27ef6af053b2012e14b8bc" kind="function"><name>select</name></member>
-    <member refid="group__channel_1ga7c63c8dde53d11f6c245acbbe82ab12e" kind="function"><name>select</name></member>
+    <member refid="group__channel_1ga4fbcdbf9072d326f515ae5c36c6bef14" kind="function"><name>poison</name></member>
+    <member refid="group__channel_1ga3f5b0341c261df210578215eccb3111a" kind="function"><name>select</name></member>
+    <member refid="group__channel_1ga7c401c70f1afabefe85be0e1bc33d94c" kind="function"><name>select</name></member>
   </compound>
   <compound refid="group__Linux" kind="group"><name>Linux</name>
     <member refid="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" kind="function"><name>wait_in</name></member>
@@ -553,15 +559,17 @@
   </compound>
   <compound refid="group__Windows" kind="group"><name>Windows</name>
   </compound>
+  <compound refid="todo" kind="page"><name>todo</name>
+  </compound>
   <compound refid="dir_9b61234ab8cba81e3caae75634773f62" kind="dir"><name>interface/coroutine</name>
   </compound>
   <compound refid="dir_b31d54d5631803016a26f28213a41162" kind="dir"><name>interface</name>
   </compound>
-  <compound refid="dir_1a14cfa05288f960dad150e6e316c4bb" kind="dir"><name>interface/internal</name>
-  </compound>
   <compound refid="dir_e05d7e2b1ecd646af5bb94391405f3b5" kind="dir"><name>modules</name>
   </compound>
   <compound refid="dir_923c80758d00fd62f29a99e232049d19" kind="dir"><name>modules/net</name>
+  </compound>
+  <compound refid="dir_9e663825f2eb5972f82710dacd6d502a" kind="dir"><name>modules/portable</name>
   </compound>
   <compound refid="dir_826aeabe2439c2b66ff3bb7c0dad7853" kind="dir"><name>modules/system</name>
   </compound>

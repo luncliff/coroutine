@@ -42,7 +42,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
 <para>Prepares one-time registration</para><para>Wait for <computeroutput>write</computeroutput> to given <computeroutput>eventfd</computeroutput></para><para>Reset the given event object when resumed</para>        </inbodydescription>
-        <location file="interface/coroutine/linux.h" line="154" column="1" bodyfile="interface/coroutine/linux.h" bodystart="154" bodyend="186"/>
+        <location file="interface/coroutine/linux.h" line="152" column="1" bodyfile="interface/coroutine/linux.h" bodystart="152" bodyend="184"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

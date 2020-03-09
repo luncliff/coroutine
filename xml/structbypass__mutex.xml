@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structbypass__mutex" kind="struct" language="C++" prot="public" final="yes">
+    <compoundname>bypass_mutex</compoundname>
+    <includes refid="channel_8hpp" local="no">channel.hpp</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structbypass__mutex_1aad6b24424454dd002f71c61c95e6b646" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool bypass_mutex::try_lock</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>try_lock</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="56" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="structbypass__mutex_1a7bcbf1d481aca03f1e937d5eeecf5c5d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void bypass_mutex::lock</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>lock</name>
+        <briefdescription>
+<para>Do nothing since this is &apos;bypass&apos; lock. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="60" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="60" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="structbypass__mutex_1ad961926cc7ec5ebe198e82a1ce60457c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void bypass_mutex::unlock</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>unlock</name>
+        <briefdescription>
+<para>Do nothing since it didn&apos;t locked something. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="63" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="63" bodyend="64"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Lockable without lock operation. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para><computeroutput>channel</computeroutput> uses lockable whenever read/write is requested. If its object is used without race condition, such lock operation can be skipped. Use this <bold>bypass</bold> lockable for such cases. </para></simplesect>
+</para>    </detaileddescription>
+    <location file="interface/coroutine/channel.hpp" line="55" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="55" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structbypass__mutex_1a7bcbf1d481aca03f1e937d5eeecf5c5d" prot="public" virt="non-virtual"><scope>bypass_mutex</scope><name>lock</name></member>
+      <member refid="structbypass__mutex_1aad6b24424454dd002f71c61c95e6b646" prot="public" virt="non-virtual"><scope>bypass_mutex</scope><name>try_lock</name></member>
+      <member refid="structbypass__mutex_1ad961926cc7ec5ebe198e82a1ce60457c" prot="public" virt="non-virtual"><scope>bypass_mutex</scope><name>unlock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

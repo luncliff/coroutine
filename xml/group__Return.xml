@@ -3,11 +3,11 @@
   <compounddef id="group__Return" kind="group">
     <compoundname>Return</compoundname>
     <title>Return</title>
-    <innerclass refid="classcoro_1_1promise__nn" prot="public">coro::promise_nn</innerclass>
-    <innerclass refid="classcoro_1_1promise__na" prot="public">coro::promise_na</innerclass>
-    <innerclass refid="classcoro_1_1promise__an" prot="public">coro::promise_an</innerclass>
-    <innerclass refid="classcoro_1_1promise__aa" prot="public">coro::promise_aa</innerclass>
-    <innerclass refid="classcoro_1_1frame__t" prot="public">coro::frame_t</innerclass>
+    <innerclass refid="classpromise__nn" prot="public">promise_nn</innerclass>
+    <innerclass refid="classpromise__na" prot="public">promise_na</innerclass>
+    <innerclass refid="classpromise__an" prot="public">promise_an</innerclass>
+    <innerclass refid="classpromise__aa" prot="public">promise_aa</innerclass>
+    <innerclass refid="classframe__t" prot="public">frame_t</innerclass>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="70" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="70" bodyend="-1"/>
+        <location file="interface/coroutine/pthread.h" line="69" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="73" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="73" bodyend="75"/>
+        <location file="interface/coroutine/pthread.h" line="72" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="72" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1pthread__spawn__promise_1a376471c18a55b430110ee8cd4e7c5b05" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="77" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="77" bodyend="79"/>
+        <location file="interface/coroutine/pthread.h" line="76" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="76" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1pthread__spawn__promise_1a0001ebb427fe3da1857b36bb3b483eb0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>auto</type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="84" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="84" bodyend="90"/>
+        <location file="interface/coroutine/pthread.h" line="83" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="83" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1pthread__spawn__promise_1a3b8bf1c50daa6f9a8dd7e21d9ce264ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>auto</type>
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="91" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="91" bodyend="93"/>
+        <location file="interface/coroutine/pthread.h" line="90" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="90" bodyend="92"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1pthread__spawn__promise_1a0d23e2a68f2715d37f2621788869cc2f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/pthread.h" line="99" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="99" bodyend="101"/>
+        <location file="interface/coroutine/pthread.h" line="98" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="98" bodyend="100"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -129,7 +129,7 @@ The type wraps <computeroutput>pthread_create</computeroutput> function. After s
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="interface/coroutine/pthread.h" line="68" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="68" bodyend="102"/>
+    <location file="interface/coroutine/pthread.h" line="67" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="67" bodyend="101"/>
     <listofallmembers>
       <member refid="classcoro_1_1pthread__spawn__promise_1a0001ebb427fe3da1857b36bb3b483eb0" prot="public" virt="non-virtual"><scope>coro::pthread_spawn_promise</scope><name>await_transform</name></member>
       <member refid="classcoro_1_1pthread__spawn__promise_1a3b8bf1c50daa6f9a8dd7e21d9ce264ef" prot="public" virt="non-virtual"><scope>coro::pthread_spawn_promise</scope><name>await_transform</name></member>

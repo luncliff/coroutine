@@ -501,19 +501,19 @@
 <tbody>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1channel/"><strong>coro::channel</strong></a> &lt;T, M&gt;<br><em>C++ Coroutines based channel.</em></td>
+<td align="left"><a href="../classchannel/"><strong>channel</strong></a> &lt;T, M&gt;<br><em>C++ Coroutines based channel.</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1channel__peeker/"><strong>coro::channel_peeker</strong></a> &lt;typename T, typename M&gt;<br><em>Extension of</em> <code>channel_reader</code> <em>for subroutines.</em></td>
+<td align="left"><a href="../classchannel__peeker/"><strong>channel_peeker</strong></a> &lt;typename T, typename M&gt;<br><em>Extension of</em> <code>channel_reader</code> <em>for subroutines.</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1channel__reader/"><strong>coro::channel_reader</strong></a> &lt;typename T, typename M&gt;<br><em>Awaitable type for</em> <code>channel</code> <em>'s read operation. It moves the value from writer coroutine's frame to reader coroutine's frame.</em></td>
+<td align="left"><a href="../classchannel__reader/"><strong>channel_reader</strong></a> &lt;typename T, typename M&gt;<br><em>Awaitable type for</em> <code>channel</code> <em>'s read operation. It moves the value from writer coroutine's frame to reader coroutine's frame.</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1channel__writer/"><strong>coro::channel_writer</strong></a> &lt;typename T, typename M&gt;<br><em>Awaitable for</em> <code>channel</code> <em>'s write operation. It exposes a reference to the value for</em><code>channel_reader</code> <em>.</em></td>
+<td align="left"><a href="../classchannel__writer/"><strong>channel_writer</strong></a> &lt;typename T, typename M&gt;<br><em>Awaitable for</em> <code>channel</code> <em>'s write operation. It exposes a reference to the value for</em><code>channel_reader</code> <em>.</em></td>
 </tr>
 </tbody>
 </table>
@@ -528,11 +528,11 @@
 <tbody>
 <tr>
 <td align="right">void</td>
-<td align="left"><a href="../namespacecoro/#function-select"><strong>coro::select</strong></a> (<a href="../classcoro_1_1channel/"><strong>channel</strong></a>&lt; T, M &gt; &amp; ch, Fn &amp;&amp; fn) noexcept<br></td>
+<td align="left"><a href="../channel_8hpp/#function-select"><strong>select</strong></a> (<a href="../classchannel/"><strong>channel</strong></a>&lt; T, M &gt; &amp; ch, Fn &amp;&amp; fn) noexcept<br></td>
 </tr>
 <tr>
 <td align="right">void</td>
-<td align="left"><a href="../namespacecoro/#function-select"><strong>coro::select</strong></a> (Ch &amp; ch, Fn &amp;&amp; fn, Args &amp;&amp;... args) noexcept<br></td>
+<td align="left"><a href="../channel_8hpp/#function-select"><strong>select</strong></a> (Ch &amp; ch, Fn &amp;&amp; fn, Args &amp;&amp;... args) noexcept<br></td>
 </tr>
 </tbody>
 </table>
@@ -547,7 +547,7 @@
 <tbody>
 <tr>
 <td align="right">void *</td>
-<td align="left"><a href="../namespacecoro_1_1internal/#function-poison"><strong>coro::internal::poison</strong></a> () noexcept<br><em>Returns a non-null address that leads access violation.</em></td>
+<td align="left"><a href="../namespaceinternal/#function-poison"><strong>internal::poison</strong></a> () noexcept<br><em>Returns a non-null address that leads access violation.</em></td>
 </tr>
 </tbody>
 </table>
@@ -562,7 +562,7 @@
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="function-select">function select<a class="headerlink" href="#function-select" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span> <span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span> <span class="k">typename</span> <span class="n">M</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Fn</span> <span class="k">typename</span> <span class="n">Fn</span><span class="o">&gt;</span>
-<span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">select</span> <span class="p">(</span>
+<span class="kt">void</span> <span class="n">select</span> <span class="p">(</span>
     <span class="n">channel</span> <span class="o">&lt;</span> <span class="n">T</span><span class="p">,</span> <span class="n">M</span> <span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">ch</span><span class="p">,</span>
     <span class="n">Fn</span> <span class="o">&amp;&amp;</span> <span class="n">fn</span>
 <span class="p">)</span> <span class="k">noexcept</span>
@@ -571,10 +571,10 @@
 
 <p><strong>Note:</strong></p>
 <p>If the channel is readable, acquire the value and invoke the function</p>
-<p><strong>See also:</strong> <a href="../classcoro_1_1channel__peeker/"><strong>channel_peeker</strong></a> </p>
+<p><strong>See also:</strong> <a href="../classchannel__peeker/"><strong>channel_peeker</strong></a> </p>
 <h3 id="function-select_1">function select<a class="headerlink" href="#function-select_1" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Ch</span> <span class="k">typename</span> <span class="n">Ch</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Fn</span> <span class="k">typename</span> <span class="n">Fn</span><span class="o">&gt;</span>
-<span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">select</span> <span class="p">(</span>
+<span class="kt">void</span> <span class="n">select</span> <span class="p">(</span>
     <span class="n">Ch</span> <span class="o">&amp;</span> <span class="n">ch</span><span class="p">,</span>
     <span class="n">Fn</span> <span class="o">&amp;&amp;</span> <span class="n">fn</span><span class="p">,</span>
     <span class="n">Args</span> <span class="o">&amp;&amp;</span><span class="p">...</span> <span class="n">args</span>

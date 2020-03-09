@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/unix.h" line="29" column="1" bodyfile="interface/coroutine/unix.h" bodystart="29" bodyend="-1"/>
+        <location file="interface/coroutine/unix.h" line="28" column="1" bodyfile="interface/coroutine/unix.h" bodystart="28" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -39,7 +39,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/unix.h" line="37" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="10" bodyend="13"/>
+        <location file="interface/coroutine/unix.h" line="36" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="10" bodyend="13"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1kqueue__owner_1a3258d491f1ca307d04fcee5a86afb5c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -52,7 +52,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/unix.h" line="41" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="14" bodyend="16"/>
+        <location file="interface/coroutine/unix.h" line="40" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="14" bodyend="16"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1kqueue__owner_1ac333e577487ba730c11eedef2d98b7a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -68,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/unix.h" line="42" column="1"/>
+        <location file="interface/coroutine/unix.h" line="41" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1kqueue__owner_1afdf6feb6968115750e9e6e67bbea2b9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -84,7 +84,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/unix.h" line="43" column="1"/>
+        <location file="interface/coroutine/unix.h" line="42" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1kqueue__owner_1a33144db610e6bd5271b216c1f382929a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref> &amp;</type>
@@ -100,7 +100,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/unix.h" line="44" column="1"/>
+        <location file="interface/coroutine/unix.h" line="43" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1kqueue__owner_1af52d8e10a7b4204657caa702d457e9f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1kqueue__owner" kindref="compound">kqueue_owner</ref> &amp;</type>
@@ -116,7 +116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/unix.h" line="45" column="1"/>
+        <location file="interface/coroutine/unix.h" line="44" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1kqueue__owner_1a46a9fe17102de32beb90777d4f17d1f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -150,7 +150,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/unix.h" line="57" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="18" bodyend="23"/>
+        <location file="interface/coroutine/unix.h" line="56" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="18" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1kqueue__owner_1aa7584b447fcb9a7382516302b9fadbb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ptrdiff_t</type>
@@ -196,7 +196,7 @@
 Timeout is not an error for this function </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/unix.h" line="72" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="25" bodyend="34"/>
+        <location file="interface/coroutine/unix.h" line="71" column="1" bodyfile="modules/system/kqueue.cpp" bodystart="25" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1kqueue__owner_1a85b1325589038239515769ec24226c06" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>auto</type>
@@ -231,14 +231,14 @@ There is no guarantee of reusage of returned awaiter object When it is awaited, 
 </programlisting> </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/unix.h" line="97" column="1" bodyfile="interface/coroutine/unix.h" bodystart="97" bodyend="115"/>
+        <location file="interface/coroutine/unix.h" line="96" column="1" bodyfile="interface/coroutine/unix.h" bodystart="96" bodyend="114"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>RAII wrapping for kqueue file descriptor. </para>    </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/unix.h" line="28" column="1" bodyfile="interface/coroutine/unix.h" bodystart="28" bodyend="116"/>
+    <location file="interface/coroutine/unix.h" line="27" column="1" bodyfile="interface/coroutine/unix.h" bodystart="27" bodyend="115"/>
     <listofallmembers>
       <member refid="classcoro_1_1kqueue__owner_1a46a9fe17102de32beb90777d4f17d1f7" prot="public" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>change</name></member>
       <member refid="classcoro_1_1kqueue__owner_1aa7584b447fcb9a7382516302b9fadbb8" prot="public" virt="non-virtual"><scope>coro::kqueue_owner</scope><name>events</name></member>
