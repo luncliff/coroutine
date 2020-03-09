@@ -1,11 +1,11 @@
 
 #include "coroutine/frame.h"
 
-namespace std {
+namespace std::experimental {
 
 static_assert(sizeof(coroutine_handle<void>) == sizeof(void*));
 
-} // namespace std
+} // namespace std::experimental
 
 using procedure_t = void(__cdecl*)(void*);
 

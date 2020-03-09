@@ -46,7 +46,6 @@ void* portable_coro_get_promise(portable_coro_prefix* _Handle,
                                 ptrdiff_t _PromSize);
 
 namespace std {
-
 // there is no way but to define in `std::experimental` since compilers are checking it
 namespace experimental {
 
@@ -234,11 +233,6 @@ struct coroutine_handle<noop_coroutine_promise>
 inline noop_coroutine_handle noop_coroutine() noexcept {
     return {};
 }
-} // namespace experimental
-
-// STRUCT TEMPLATE coroutine_traits
-template <typename P>
-using coroutine_handle = experimental::coroutine_handle<P>;
 
 // 17.12.5, trivial awaitables
 
@@ -266,7 +260,7 @@ class suspend_always {
     }
 };
 
-namespace experimental {
+// 17.12.2, coroutine traits
 
 template <class _Ret, class = void>
 struct coro_traits_sfinae {};
@@ -276,6 +270,7 @@ struct coro_traits_sfinae<_Ret, void_t<typename _Ret::promise_type>> {
     using promise_type = typename _Ret::promise_type;
 };
 
+// STRUCT TEMPLATE coroutine_traits
 template <typename _Ret, typename... _Ts>
 struct coroutine_traits : coro_traits_sfinae<_Ret> {};
 
@@ -322,17 +317,11 @@ struct _Resumable_helper_traits {
 
 } // namespace experimental
 
-// 17.12.2, coroutine traits
-
-// STRUCT TEMPLATE coroutine_traits
-template <typename R, typename... _Ts>
-using coroutine_traits = experimental::coroutine_traits<R, _Ts...>;
-
 // 17.12.3.7, hash support
 template <typename P>
-struct hash<coroutine_handle<P>> {
+struct hash<experimental::coroutine_handle<P>> {
     // deprecated in C++17
-    using argument_type = coroutine_handle<P>;
+    using argument_type = experimental::coroutine_handle<P>;
     // deprecated in C++17
     using result_type = size_t;
     [[nodiscard]] //

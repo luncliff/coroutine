@@ -14,14 +14,16 @@
 #if __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
 namespace coro {
-using std::coroutine_handle;
-using std::suspend_always;
-using std::suspend_never;
+using std::experimental::coroutine_handle; // using std::coroutine_handle;
+using std::experimental::suspend_always;   // using std::suspend_always;
+using std::experimental::suspend_never;    // using std::suspend_never;
 
 #elif __has_include(<experimental/coroutine>)
 #include <experimental/coroutine>
 namespace coro {
 using std::experimental::coroutine_handle;
+using std::experimental::suspend_always;
+using std::experimental::suspend_never;
 
 #else
 #error "requires header <experimental/coroutine> or <coroutine/frame.h>"

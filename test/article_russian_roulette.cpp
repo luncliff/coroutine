@@ -10,13 +10,14 @@
 #include <coroutine/return.h>
 
 using namespace std;
+using namespace std::experimental;
 
 class promise_manual_control {
   public:
     auto initial_suspend() {
         return suspend_always{}; // suspend after invoke
     }
-    auto final_suspend() {
+    auto final_suspend() noexcept {
         return suspend_always{}; // suspend after return
     }
     void unhandled_exception() {
@@ -133,7 +134,7 @@ auto russian_roulette(revolver_t& revolver, gsl::span<user_behavior_t> users) {
     }
 }
 
-int main(int, char*[]) {
+int main(int, char* []) {
     // select some chamber with the users
     array<user_behavior_t, 6> users{};
     revolver_t revolver{select_chamber(),
