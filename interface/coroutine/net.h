@@ -7,8 +7,9 @@
 #pragma once
 #ifndef COROUTINE_NET_IO_H
 #define COROUTINE_NET_IO_H
-#include <coroutine/return.h>
 #include <gsl/gsl>
+
+#include <coroutine/return.h>
 
 /**
  * @defgroup NetWork

@@ -1,24 +1,28 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ * @copyright CC BY 4.0
+ */
+#include <cassert>
+#include <cstdlib>
 
+#include <coroutine/net.h>
 #include <coroutine/return.h>
-// #include <coroutine/net.h> is in 'socket.h'
-#include "socket.h"
-#include <concurrency_helper.h>
 
-#include "test.h"
+#include <socket.hpp>
+#if defined(__APPLE__)
+#include <latch_darwin.h>
+#else
+#include <latch.h>
+#endif
+
 using namespace std;
 using namespace coro;
 
 using io_buffer_reserved_t = array<std::byte, 3900>;
-using on_accept_handler = auto (*)(int64_t) -> forget_frame;
+using on_accept_handler = auto (*)(int64_t) -> void;
 
 //  Accept socket connects and invoke designated function
-auto accept_until_error(int64_t ln, //
-                        on_accept_handler service) {
-
+auto accept_until_error(int64_t ln, on_accept_handler service) {
     while (true) {
         // next accept is non-blocking
         socket_set_option_nonblock(ln);
@@ -31,15 +35,16 @@ auto accept_until_error(int64_t ln, //
 
         socket_set_option_nonblock(cs); // set some options
         socket_set_option_nodelay(cs);
-        socket_set_option_timout(cs, 1000);
-
-        service(cs); // attach(spawn) a service coroutine
+        socket_set_option_recv_timout(cs, 1000);
+        socket_set_option_send_timout(cs, 1000);
+        // attach(spawn) a service coroutine
+        service(cs);
     }
 }
 
 // Receive some bytes from the socket and echo back
 // continue until EOF
-auto tcp_echo_service(int64_t sd) -> forget_frame {
+auto tcp_echo_service(int64_t sd) -> void {
     auto on_return = gsl::finally([=]() { socket_close(sd); });
 
     io_work_t work{};
@@ -67,7 +72,7 @@ SendData:
 }
 
 auto tcp_recv_stream(int64_t sd, io_work_t& work, //
-                     int64_t& rsz, latch& wg) -> forget_frame {
+                     int64_t& rsz, latch& wg) -> void {
 
     auto on_return = gsl::finally([&wg]() { wg.count_down(); });
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
@@ -81,7 +86,7 @@ auto tcp_recv_stream(int64_t sd, io_work_t& work, //
 }
 
 auto tcp_send_stream(int64_t sd, io_work_t& work, //
-                     int64_t& ssz, latch& wg) -> forget_frame {
+                     int64_t& ssz, latch& wg) -> void {
 
     auto on_return = gsl::finally([&wg]() { wg.count_down(); });
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
@@ -94,9 +99,9 @@ auto tcp_send_stream(int64_t sd, io_work_t& work, //
     _require_(ssz > 0);
 }
 
-auto net_echo_tcp_test() {
-    init_network_api();
-    auto on_return1 = gsl::finally([]() { release_network_api(); });
+int main(int, char* []) {
+    socket_setup();
+    auto on_return = gsl::finally([]() { socket_teardown(); });
 
     // going to handle 4 connections concurrently
     static constexpr auto max_socket_count = 4U;
@@ -181,21 +186,3 @@ auto net_echo_tcp_test() {
 
     return EXIT_SUCCESS;
 }
-
-#if defined(CMAKE_TEST)
-int main(int, char* []) {
-    return net_echo_tcp_test();
-}
-
-#elif __has_include(<CppUnitTest.h>)
-#include <CppUnitTest.h>
-
-template <typename T>
-using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
-
-class net_echo_tcp : public TestClass<net_echo_tcp> {
-    TEST_METHOD(test_net_socket_tcp_echo) {
-        net_echo_tcp_test();
-    }
-};
-#endif

@@ -1,21 +1,27 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ * @copyright CC BY 4.0
+ */
+#include <cassert>
+#include <cstdlib>
 
+#include <coroutine/net.h>
 #include <coroutine/return.h>
-// #include <coroutine/net.h> is in 'socket.h'
-#include "socket.h"
-#include <concurrency_helper.h>
 
-#include "test.h"
+#include <socket.hpp>
+#if defined(__APPLE__)
+#include <latch_darwin.h>
+#else
+#include <latch.h>
+#endif
+
 using namespace std;
 using namespace coro;
 
 using io_buffer_reserved_t = array<std::byte, 3900>;
 
 auto udp_recv_datagram(int64_t sd, io_work_t& work, //
-                       int64_t& rsz, latch& wg) -> forget_frame {
+                       int64_t& rsz, latch& wg) -> void {
 
     auto on_return = gsl::finally([&wg]() { wg.count_down(); });
     sockaddr_in remote{};
@@ -33,7 +39,7 @@ auto udp_recv_datagram(int64_t sd, io_work_t& work, //
 
 auto udp_send_datagram(int64_t sd, io_work_t& work, //
                        const sockaddr_in& remote, int64_t& ssz, latch& wg)
-    -> forget_frame {
+    -> void {
 
     auto on_return = gsl::finally([&wg]() { wg.count_down(); });
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
@@ -48,7 +54,7 @@ auto udp_send_datagram(int64_t sd, io_work_t& work, //
     _require_(static_cast<size_t>(ssz) == storage.size());
 }
 
-auto udp_echo_service(int64_t sd) -> forget_frame {
+auto udp_echo_service(int64_t sd) -> void {
     sockaddr_in remote{};
     io_work_t work{};
     io_buffer_t buf{};              // memory view to the 'storage'
@@ -76,9 +82,9 @@ OnError:
     _println_(emsg.c_str());
 }
 
-auto net_echo_udp_test() {
-    init_network_api();
-    auto on_return1 = gsl::finally([]() { release_network_api(); });
+int main(int, char* []) {
+    socket_setup();
+    auto on_return = gsl::finally([]() { socket_teardown(); });
 
     static constexpr auto max_socket_count = 4;
     static constexpr auto io_coroutine_count = max_socket_count * 2;
@@ -156,21 +162,3 @@ auto net_echo_udp_test() {
     }
     return EXIT_SUCCESS;
 }
-
-#if defined(CMAKE_TEST)
-int main(int, char* []) {
-    return net_echo_udp_test();
-}
-
-#elif __has_include(<CppUnitTest.h>)
-#include <CppUnitTest.h>
-
-template <typename T>
-using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
-
-class net_echo_udp : public TestClass<net_echo_udp> {
-    TEST_METHOD(test_net_socket_udp_echo) {
-        net_echo_udp_test();
-    }
-};
-#endif
