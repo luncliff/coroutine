@@ -2,6 +2,7 @@
  * @author github.com/luncliff (luncliff@gmail.com)
  */
 #include <cassert>
+#include <chrono>
 #include <coroutine/net.h>
 
 using namespace std;
@@ -9,14 +10,11 @@ using namespace gsl;
 
 namespace coro {
 
-//void wait_net_tasks(enumerable<coroutine_handle<void>>& tasks,
-//                    chrono::nanoseconds) noexcept(false) {
-//    // windows implementation rely on callback.
-//    // So there is noting to yield ...
-//    tasks = enumerable<coroutine_handle<void>>{};
-//    // Just comsume some items in this thread's APC queue
-//    SleepEx(0, true);
-//}
+void poll_net_tasks(uint64_t nano) noexcept(false) {
+    using namespace std::chrono;
+    const auto ms = duration_cast<milliseconds>(nanoseconds{nano});
+    SleepEx(ms.count(), true);
+}
 
 bool is_async_pending(int ec) noexcept {
     switch (ec) {

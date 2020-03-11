@@ -3,7 +3,9 @@
  * @copyright CC BY 4.0
  */
 #include <cassert>
+#include <cerrno>
 #include <cstdlib>
+#include <thread>
 
 #include <coroutine/net.h>
 #include <coroutine/return.h>
@@ -21,13 +23,30 @@ using namespace coro;
 using io_buffer_reserved_t = array<std::byte, 3900>;
 using on_accept_handler = auto (*)(int64_t) -> void;
 
+bool is_async_pending(uint32_t ec) noexcept {
+    switch (ec) {
+#if defined(_WIN32)
+    case WSAEWOULDBLOCK:
+    case EINPROGRESS:
+    case ERROR_IO_PENDING:
+    case EWOULDBLOCK:
+#else
+    case EAGAIN:
+    case EINPROGRESS:
+#endif
+        return true;
+    default:
+        return false;
+    }
+}
+
 //  Accept socket connects and invoke designated function
 auto accept_until_error(int64_t ln, on_accept_handler service) {
     while (true) {
         // next accept is non-blocking
         socket_set_option_nonblock(ln);
-
-        auto cs = socket_accept(ln);
+        int64_t cs{};
+        socket_accept(ln, cs);
         if (cs < 0) // accept failed
             // auto ec = recent_net_error();
             // system_category().message(ec)
@@ -74,29 +93,43 @@ SendData:
 auto tcp_recv_stream(int64_t sd, io_work_t& work, //
                      int64_t& rsz, latch& wg) -> void {
 
-    auto on_return = gsl::finally([&wg]() { wg.count_down(); });
+    auto on_return = gsl::finally([&wg]() {
+        try {
+            wg.count_down();
+        } catch (const std::system_error& e) {
+            fputs(e.what(), stderr);
+        }
+    });
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     rsz = co_await recv_stream(sd, storage, 0, work);
     if (auto ec = work.error()) {
         const auto emsg = system_category().message(ec);
-        _fail_now_(emsg.c_str(), __FILE__, __LINE__);
+        fputs(emsg.c_str(), stderr);
+        exit(__LINE__);
     }
-    _require_(rsz > 0);
+    assert(rsz > 0);
 }
 
 auto tcp_send_stream(int64_t sd, io_work_t& work, //
                      int64_t& ssz, latch& wg) -> void {
 
-    auto on_return = gsl::finally([&wg]() { wg.count_down(); });
+    auto on_return = gsl::finally([&wg]() {
+        try {
+            wg.count_down();
+        } catch (const std::system_error& e) {
+            fputs(e.what(), stderr);
+        }
+    });
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     ssz = co_await send_stream(sd, storage, 0, work);
     if (auto ec = work.error()) {
         const auto emsg = system_category().message(ec);
-        _fail_now_(emsg.c_str(), __FILE__, __LINE__);
+        fputs(emsg.c_str(), stderr);
+        exit(__LINE__);
     }
-    _require_(ssz > 0);
+    assert(ssz > 0);
 }
 
 int main(int, char* []) {
@@ -114,11 +147,16 @@ int main(int, char* []) {
     hint.ai_protocol = IPPROTO_TCP;
 
     // listener socket
-    int64_t ln = socket_create(hint);
+    int64_t ln{};
+    if (auto ec = socket_create(hint, ln)) {
+        const auto emsg = system_category().message(ec);
+        fputs(emsg.c_str(), stderr);
+        exit(__LINE__);
+    }
     auto on_return2 = gsl::finally([ln]() {
         socket_close(ln);
         // this sleep is for waiting windows completion routines
-        this_thread::sleep_for(1s);
+        std::this_thread::sleep_for(1s);
     });
 
     sockaddr_in local{}; // local: listening address
@@ -135,15 +173,21 @@ int main(int, char* []) {
     array<int64_t, max_socket_count> rsz{}, ssz{}; // received/sent
 
     for (auto& sd : conns) {
-        sd = socket_create(hint);
+        if (auto ec = socket_create(hint, sd)) {
+            const auto emsg = system_category().message(ec);
+            fputs(emsg.c_str(), stderr);
+            exit(__LINE__);
+        }
         socket_set_option_nonblock(sd); // non-blocking connect
-        socket_set_option_timout(sd, 900);
+        socket_set_option_send_timout(sd, 900);
+        socket_set_option_recv_timout(sd, 900);
 
         if (auto ec = socket_connect(sd, local))
             // Allow non-block error
-            if (is_in_progress(ec) == false) {
+            if (is_async_pending(ec) == false) {
                 const auto emsg = system_category().message(ec);
-                _fail_now_(emsg.c_str(), __FILE__, __LINE__);
+                fputs(emsg.c_str(), stderr);
+                exit(__LINE__);
             }
         socket_set_option_nodelay(sd);
     }
@@ -168,21 +212,16 @@ int main(int, char* []) {
         tcp_recv_stream(conns[i], works[2 * i + 0], rsz[i], wg);
         tcp_send_stream(conns[i], works[2 * i + 1], ssz[i], wg);
     }
-    if constexpr (is_netinet) {
-        // latch will help to sync the fork-join of coroutines
-        while (wg.is_ready() == false)
-            for (auto task : wait_net_tasks(4ms)) {
-                task.resume();
-            }
-    }
-    wg.wait();
+    // latch will help to sync the fork-join of coroutines
+    while (wg.try_wait() == false)
+        poll_net_tasks(2'000);
+    wg.wait(); // just make sure of it
 
     // This is an echo. so receive/send length must be equal !
     for (auto i = 0U; i < max_socket_count; ++i) {
-        _require_(ssz[i] != -1);     // no i/o error
-        _require_(rsz[i] != -1);     //
-        _require_(ssz[i] == rsz[i]); // sent == received
+        assert(ssz[i] != -1);     // no i/o error
+        assert(rsz[i] != -1);     //
+        assert(ssz[i] == rsz[i]); // sent == received
     }
-
     return EXIT_SUCCESS;
 }
