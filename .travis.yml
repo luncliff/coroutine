@@ -63,6 +63,8 @@ after_success:
   - tree ./install
 
 jobs:
+  allow_failures:
+    - env: EXPERIMENTAL=true
   include:
     - stage: build
       os: windows
@@ -82,6 +84,16 @@ jobs:
     - os: linux
       dist: bionic
       compiler: clang-8
+
+    - os: linux
+      dist: bionic
+      services:
+        - docker
+      env: EXPERIMENTAL=true
+      before_script:
+        - docker info
+      script:
+        - docker build . -f ./scropts/gcc-10-build.dockerfile -t luncliff/coroutine
 
     - stage: deploy
       language: python
