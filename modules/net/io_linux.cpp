@@ -33,12 +33,10 @@ void poll_net_tasks(uint64_t nano) noexcept(false) {
 
 bool io_work_t::ready() const noexcept {
     auto sd = this->handle;
-    // non blocking operation is expected
-    // going to suspend
+    // non blocking operation is expected going to suspend
     if (fcntl(sd, F_GETFL, 0) & O_NONBLOCK)
         return false;
-    // not configured. return true
-    // and bypass to the blocking I/O
+    // not configured. return `true` and bypass to the blocking I/O
     return true;
 }
 

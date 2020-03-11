@@ -14,7 +14,7 @@ auto multiple_spawn_coroutine(std::promise<void>& p, const pthread_attr_t* attr)
         co_await attr; // can't spawn mutliple times
 
         p.set_value();
-    } catch (const logic_error& e) {
+    } catch (const std::logic_error& e) {
         p.set_exception(std::current_exception());
     }
 }

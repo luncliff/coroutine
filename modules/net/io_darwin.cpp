@@ -23,7 +23,7 @@ void poll_net_tasks(const timespec& wait_time, //
     auto buf = make_unique<kevent64_s[]>(buf_size);
 
     const auto count = netkq.events(wait_time, {buf.get(), buf_size});
-    for (auto i = count; i < count; ++i) {
+    for (auto i = 0; i < count; ++i) {
         auto* work = reinterpret_cast<io_work_t*>(buf[i].udata);
         callback(ctx, work->task);
     }

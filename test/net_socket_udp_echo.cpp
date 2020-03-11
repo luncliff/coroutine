@@ -4,6 +4,7 @@
  */
 #include <cassert>
 #include <cstdlib>
+#include <thread>
 
 #include <coroutine/net.h>
 #include <coroutine/return.h>
@@ -32,9 +33,10 @@ auto udp_recv_datagram(int64_t sd, io_work_t& work, //
     // using work.error() multiple read is ok
     if (auto ec = work.error()) {
         const auto emsg = system_category().message(ec);
-        _fail_now_(emsg.c_str(), __FILE__, __LINE__);
+        fputs(emsg.c_str(), stderr);
+        exit(__LINE__);
     }
-    _require_(rsz > 0);
+    assert(rsz > 0);
 }
 
 auto udp_send_datagram(int64_t sd, io_work_t& work, //
@@ -49,9 +51,10 @@ auto udp_send_datagram(int64_t sd, io_work_t& work, //
     // using work.error() multiple read is ok
     if (auto ec = work.error()) {
         const auto emsg = system_category().message(ec);
-        _fail_now_(emsg.c_str(), __FILE__, __LINE__);
+        fputs(emsg.c_str(), stderr);
+        exit(__LINE__);
     }
-    _require_(static_cast<size_t>(ssz) == storage.size());
+    assert(static_cast<size_t>(ssz) == storage.size());
 }
 
 auto udp_echo_service(int64_t sd) -> void {
@@ -72,17 +75,17 @@ auto udp_echo_service(int64_t sd) -> void {
         if (work.error())
             goto OnError;
 
-        _require_(length == buf.size_bytes());
+        assert(length == buf.size_bytes());
     }
     co_return;
 OnError:
     // expect ERROR_OPERATION_ABORTED (the socket is closed in this case)
     const auto ec = work.error();
     const auto emsg = system_category().message(ec);
-    _println_(emsg.c_str());
+    fputs(emsg.c_str(), stderr);
 }
 
-int main(int, char* []) {
+int main(int, char*[]) {
     socket_setup();
     auto on_return = gsl::finally([]() { socket_teardown(); });
 
@@ -96,11 +99,17 @@ int main(int, char* []) {
     hint.ai_protocol = IPPROTO_UDP;
 
     // service socket
-    int64_t ss = socket_create(hint);
+    int64_t ss{};
+    if (auto ec = socket_create(hint, ss)) {
+        const auto emsg = system_category().message(ec);
+        fputs(emsg.c_str(), stderr);
+        exit(__LINE__);
+    }
     auto on_return2 = gsl::finally([ss]() {
         socket_close(ss);
         // this sleep is for waiting windows completion routines
-        this_thread::sleep_for(1s);
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(1s);
     });
 
     sockaddr_in local{};
@@ -117,11 +126,16 @@ int main(int, char* []) {
     array<int64_t, max_socket_count> rsz{}, ssz{}; // received/sent
 
     for (auto& sd : sockets) {
-        sd = socket_create(hint);
+        if (auto ec = socket_create(hint, sd)) {
+            const auto emsg = system_category().message(ec);
+            fputs(emsg.c_str(), stderr);
+            exit(__LINE__);
+        }
         local.sin_port = 0; // let system define the port
         socket_bind(sd, local);
         socket_set_option_nonblock(sd);
-        socket_set_option_timout(sd, 900);
+        socket_set_option_send_timout(sd, 900);
+        socket_set_option_recv_timout(sd, 900);
     }
     auto on_return3 = gsl::finally([&sockets]() {
         for (auto sd : sockets)
@@ -145,20 +159,16 @@ int main(int, char* []) {
         udp_recv_datagram(sockets[i], works[2 * i + 0], rsz[i], wg);
         udp_send_datagram(sockets[i], works[2 * i + 1], remote, ssz[i], wg);
     }
-    if constexpr (is_netinet) {
-        // latch will help to sync the fork-join of coroutines
-        while (wg.is_ready() == false) {
-            for (auto task : wait_net_tasks(2ms))
-                task.resume();
-        }
-    }
-    wg.wait();
+    // latch will help to sync the fork-join of coroutines
+    while (wg.try_wait() == false)
+        poll_net_tasks(2'000);
+    wg.wait(); // just make sure of it
 
     // This is an echo. so receive/send length must be equal !
     for (auto i = 0U; i < max_socket_count; ++i) {
-        _require_(ssz[i] != -1);     // no i/o error
-        _require_(rsz[i] != -1);     //
-        _require_(ssz[i] == rsz[i]); // sent == received
+        assert(ssz[i] != -1);     // no i/o error
+        assert(rsz[i] != -1);     //
+        assert(ssz[i] == rsz[i]); // sent == received
     }
     return EXIT_SUCCESS;
 }
