@@ -24,7 +24,13 @@ using io_buffer_reserved_t = array<std::byte, 3900>;
 auto udp_recv_datagram(int64_t sd, io_work_t& work, //
                        int64_t& rsz, latch& wg) -> void {
 
-    auto on_return = gsl::finally([&wg]() { wg.count_down(); });
+    auto on_return = gsl::finally([&wg]() {
+        try {
+            wg.count_down();
+        } catch (const std::system_error& e) {
+            fputs(e.what(), stderr);
+        }
+    });
     sockaddr_in remote{};
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
@@ -43,7 +49,13 @@ auto udp_send_datagram(int64_t sd, io_work_t& work, //
                        const sockaddr_in& remote, int64_t& ssz, latch& wg)
     -> void {
 
-    auto on_return = gsl::finally([&wg]() { wg.count_down(); });
+    auto on_return = gsl::finally([&wg]() {
+        try {
+            wg.count_down();
+        } catch (const std::system_error& e) {
+            fputs(e.what(), stderr);
+        }
+    });
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     ssz = co_await send_to(sd, remote, storage, work);
@@ -85,7 +97,7 @@ OnError:
     fputs(emsg.c_str(), stderr);
 }
 
-int main(int, char*[]) {
+int main(int, char* []) {
     socket_setup();
     auto on_return = gsl::finally([]() { socket_teardown(); });
 

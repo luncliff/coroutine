@@ -20,15 +20,21 @@ void poll_net_tasks(uint64_t nano) noexcept(false) {
     constexpr auto buf_sz = 30u;
     auto buf = make_unique<epoll_event[]>(buf_sz);
     // resume inbound coroutines
-    auto count = iep.wait(half_time.count(), {buf.get(), buf_sz});
-    for (auto i = 0u; i < count; ++i)
-        if (auto coro = coroutine_handle<void>::from_address(buf[i].data.ptr))
-            coro.resume();
+    {
+        auto count = iep.wait(half_time.count(), {buf.get(), buf_sz});
+        for (auto i = 0u; i < count; ++i)
+            if (auto coro =
+                    coroutine_handle<void>::from_address(buf[i].data.ptr))
+                coro.resume();
+    }
     // resume outbound coroutines
-    count = oep.wait(half_time.count(), {buf.get(), buf_sz});
-    for (auto i = 0u; i < count; ++i)
-        if (auto coro = coroutine_handle<void>::from_address(buf[i].data.ptr))
-            coro.resume();
+    {
+        auto count = oep.wait(half_time.count(), {buf.get(), buf_sz});
+        for (auto i = 0u; i < count; ++i)
+            if (auto coro =
+                    coroutine_handle<void>::from_address(buf[i].data.ptr))
+                coro.resume();
+    }
 }
 
 bool io_work_t::ready() const noexcept {

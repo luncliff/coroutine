@@ -93,7 +93,13 @@ SendData:
 auto tcp_recv_stream(int64_t sd, io_work_t& work, //
                      int64_t& rsz, latch& wg) -> void {
 
-    auto on_return = gsl::finally([&wg]() { wg.count_down(); });
+    auto on_return = gsl::finally([&wg]() {
+        try {
+            wg.count_down();
+        } catch (const std::system_error& e) {
+            fputs(e.what(), stderr);
+        }
+    });
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     rsz = co_await recv_stream(sd, storage, 0, work);
@@ -108,7 +114,13 @@ auto tcp_recv_stream(int64_t sd, io_work_t& work, //
 auto tcp_send_stream(int64_t sd, io_work_t& work, //
                      int64_t& ssz, latch& wg) -> void {
 
-    auto on_return = gsl::finally([&wg]() { wg.count_down(); });
+    auto on_return = gsl::finally([&wg]() {
+        try {
+            wg.count_down();
+        } catch (const std::system_error& e) {
+            fputs(e.what(), stderr);
+        }
+    });
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     ssz = co_await send_stream(sd, storage, 0, work);
@@ -120,7 +132,7 @@ auto tcp_send_stream(int64_t sd, io_work_t& work, //
     assert(ssz > 0);
 }
 
-int main(int, char*[]) {
+int main(int, char* []) {
     socket_setup();
     auto on_return = gsl::finally([]() { socket_teardown(); });
 
