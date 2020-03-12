@@ -100,6 +100,7 @@ auto tcp_recv_stream(int64_t sd, io_work_t& work, //
             fputs(e.what(), stderr);
         }
     });
+
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     rsz = co_await recv_stream(sd, storage, 0, work);
@@ -121,6 +122,7 @@ auto tcp_send_stream(int64_t sd, io_work_t& work, //
             fputs(e.what(), stderr);
         }
     });
+
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     ssz = co_await send_stream(sd, storage, 0, work);
@@ -132,7 +134,7 @@ auto tcp_send_stream(int64_t sd, io_work_t& work, //
     assert(ssz > 0);
 }
 
-int main(int, char* []) {
+int main(int, char*[]) {
     socket_setup();
     auto on_return = gsl::finally([]() { socket_teardown(); });
 
@@ -213,9 +215,11 @@ int main(int, char* []) {
         tcp_send_stream(conns[i], works[2 * i + 1], ssz[i], wg);
     }
     // latch will help to sync the fork-join of coroutines
-    while (wg.try_wait() == false)
+    do {
+        // perform APC on Windows,
+        // polling in the other platform
         poll_net_tasks(2'000);
-    wg.wait(); // just make sure of it
+    } while (wg.try_wait() == false);
 
     // This is an echo. so receive/send length must be equal !
     for (auto i = 0U; i < max_socket_count; ++i) {

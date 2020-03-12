@@ -97,7 +97,7 @@ OnError:
     fputs(emsg.c_str(), stderr);
 }
 
-int main(int, char* []) {
+int main(int, char*[]) {
     socket_setup();
     auto on_return = gsl::finally([]() { socket_teardown(); });
 
@@ -172,9 +172,11 @@ int main(int, char* []) {
         udp_send_datagram(sockets[i], works[2 * i + 1], remote, ssz[i], wg);
     }
     // latch will help to sync the fork-join of coroutines
-    while (wg.try_wait() == false)
+    do {
+        // perform APC on Windows,
+        // polling in the other platform
         poll_net_tasks(2'000);
-    wg.wait(); // just make sure of it
+    } while (wg.try_wait() == false);
 
     // This is an echo. so receive/send length must be equal !
     for (auto i = 0U; i < max_socket_count; ++i) {
