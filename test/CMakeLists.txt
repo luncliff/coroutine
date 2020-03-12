@@ -26,6 +26,12 @@ function(create_ctest TEST_NAME)
         PRIVATE
             ${ARGV${idx}} 
         )
+        if("${ARGV${idx}}" STREQUAL ssf)
+            target_include_directories(${TEST_NAME}
+            PRIVATE
+                ${PROJECT_SOURCE_DIR}/external/sockets
+            )    
+        endif()
     endforeach()
 
     target_compile_definitions(${TEST_NAME}
@@ -76,10 +82,10 @@ create_ctest( return_not_subroutine       coroutine_portable )
 #   <coroutine/net.h>
 #
 if(TARGET coroutine_net)
-create_ctest( net_resolve_ip4   coroutine_net ssf )
-create_ctest( net_resolve_ip6   coroutine_net ssf )
-# create_ctest( net_socket_tcp_echo coroutine_net )
-# create_ctest( net_socket_udp_echo coroutine_net )
+create_ctest( net_socket_tcp_echo       coroutine_net ssf latch )
+create_ctest( net_socket_udp_echo       coroutine_net ssf latch )
+create_ctest( net_resolve_ip4                  coroutine_net ssf )
+create_ctest( net_resolve_ip6                  coroutine_net ssf )
 create_ctest( net_resolve_ip6_bind             coroutine_net ssf )
 create_ctest( net_resolve_ip6_multicast        coroutine_net ssf )
 create_ctest( net_resolve_tcp6_connect         coroutine_net ssf )
@@ -106,7 +112,7 @@ create_ctest( windows_on_thread_pool        coroutine_system )
 
 elseif(UNIX)
 create_ctest( pthread_detach_no_spawn       coroutine_system )
-# create_ctest( pthread_detach_spawn          coroutine_system )
+create_ctest( pthread_detach_spawn          coroutine_system )
 create_ctest( pthread_join_no_spawn         coroutine_system )
 create_ctest( pthread_join_spawn_1          coroutine_system )
 create_ctest( pthread_join_spawn_2          coroutine_system )

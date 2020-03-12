@@ -1,23 +1,36 @@
-//
-//  Author  : github.com/luncliff (luncliff@gmail.com)
-//  License : CC BY 4.0
-//
+/**
+ * @author github.com/luncliff (luncliff@gmail.com)
+ * @copyright CC BY 4.0
+ */
+#include <cassert>
+#include <cstdlib>
+#include <thread>
 
+#include <coroutine/net.h>
 #include <coroutine/return.h>
-// #include <coroutine/net.h> is in 'socket.h'
-#include "socket.h"
-#include <concurrency_helper.h>
 
-#include "test.h"
+#include <socket.hpp>
+#if defined(__APPLE__)
+#include <latch_darwin.h>
+#else
+#include <latch.h>
+#endif
+
 using namespace std;
 using namespace coro;
 
 using io_buffer_reserved_t = array<std::byte, 3900>;
 
 auto udp_recv_datagram(int64_t sd, io_work_t& work, //
-                       int64_t& rsz, latch& wg) -> forget_frame {
+                       int64_t& rsz, latch& wg) -> void {
 
-    auto on_return = gsl::finally([&wg]() { wg.count_down(); });
+    auto on_return = gsl::finally([&wg]() {
+        try {
+            wg.count_down();
+        } catch (const std::system_error& e) {
+            fputs(e.what(), stderr);
+        }
+    });
     sockaddr_in remote{};
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
@@ -26,16 +39,23 @@ auto udp_recv_datagram(int64_t sd, io_work_t& work, //
     // using work.error() multiple read is ok
     if (auto ec = work.error()) {
         const auto emsg = system_category().message(ec);
-        _fail_now_(emsg.c_str(), __FILE__, __LINE__);
+        fputs(emsg.c_str(), stderr);
+        exit(__LINE__);
     }
-    _require_(rsz > 0);
+    assert(rsz > 0);
 }
 
 auto udp_send_datagram(int64_t sd, io_work_t& work, //
                        const sockaddr_in& remote, int64_t& ssz, latch& wg)
-    -> forget_frame {
+    -> void {
 
-    auto on_return = gsl::finally([&wg]() { wg.count_down(); });
+    auto on_return = gsl::finally([&wg]() {
+        try {
+            wg.count_down();
+        } catch (const std::system_error& e) {
+            fputs(e.what(), stderr);
+        }
+    });
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
     ssz = co_await send_to(sd, remote, storage, work);
@@ -43,12 +63,13 @@ auto udp_send_datagram(int64_t sd, io_work_t& work, //
     // using work.error() multiple read is ok
     if (auto ec = work.error()) {
         const auto emsg = system_category().message(ec);
-        _fail_now_(emsg.c_str(), __FILE__, __LINE__);
+        fputs(emsg.c_str(), stderr);
+        exit(__LINE__);
     }
-    _require_(static_cast<size_t>(ssz) == storage.size());
+    assert(static_cast<size_t>(ssz) == storage.size());
 }
 
-auto udp_echo_service(int64_t sd) -> forget_frame {
+auto udp_echo_service(int64_t sd) -> void {
     sockaddr_in remote{};
     io_work_t work{};
     io_buffer_t buf{};              // memory view to the 'storage'
@@ -66,19 +87,19 @@ auto udp_echo_service(int64_t sd) -> forget_frame {
         if (work.error())
             goto OnError;
 
-        _require_(length == buf.size_bytes());
+        assert(length == buf.size_bytes());
     }
     co_return;
 OnError:
     // expect ERROR_OPERATION_ABORTED (the socket is closed in this case)
     const auto ec = work.error();
     const auto emsg = system_category().message(ec);
-    _println_(emsg.c_str());
+    fputs(emsg.c_str(), stderr);
 }
 
-auto net_echo_udp_test() {
-    init_network_api();
-    auto on_return1 = gsl::finally([]() { release_network_api(); });
+int main(int, char*[]) {
+    socket_setup();
+    auto on_return = gsl::finally([]() { socket_teardown(); });
 
     static constexpr auto max_socket_count = 4;
     static constexpr auto io_coroutine_count = max_socket_count * 2;
@@ -90,11 +111,17 @@ auto net_echo_udp_test() {
     hint.ai_protocol = IPPROTO_UDP;
 
     // service socket
-    int64_t ss = socket_create(hint);
+    int64_t ss{};
+    if (auto ec = socket_create(hint, ss)) {
+        const auto emsg = system_category().message(ec);
+        fputs(emsg.c_str(), stderr);
+        exit(__LINE__);
+    }
     auto on_return2 = gsl::finally([ss]() {
         socket_close(ss);
         // this sleep is for waiting windows completion routines
-        this_thread::sleep_for(1s);
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(1s);
     });
 
     sockaddr_in local{};
@@ -111,11 +138,16 @@ auto net_echo_udp_test() {
     array<int64_t, max_socket_count> rsz{}, ssz{}; // received/sent
 
     for (auto& sd : sockets) {
-        sd = socket_create(hint);
+        if (auto ec = socket_create(hint, sd)) {
+            const auto emsg = system_category().message(ec);
+            fputs(emsg.c_str(), stderr);
+            exit(__LINE__);
+        }
         local.sin_port = 0; // let system define the port
         socket_bind(sd, local);
         socket_set_option_nonblock(sd);
-        socket_set_option_timout(sd, 900);
+        socket_set_option_send_timout(sd, 900);
+        socket_set_option_recv_timout(sd, 900);
     }
     auto on_return3 = gsl::finally([&sockets]() {
         for (auto sd : sockets)
@@ -139,38 +171,18 @@ auto net_echo_udp_test() {
         udp_recv_datagram(sockets[i], works[2 * i + 0], rsz[i], wg);
         udp_send_datagram(sockets[i], works[2 * i + 1], remote, ssz[i], wg);
     }
-    if constexpr (is_netinet) {
-        // latch will help to sync the fork-join of coroutines
-        while (wg.is_ready() == false) {
-            for (auto task : wait_net_tasks(2ms))
-                task.resume();
-        }
-    }
-    wg.wait();
+    // latch will help to sync the fork-join of coroutines
+    do {
+        // perform APC on Windows,
+        // polling in the other platform
+        poll_net_tasks(2'000);
+    } while (wg.try_wait() == false);
 
     // This is an echo. so receive/send length must be equal !
     for (auto i = 0U; i < max_socket_count; ++i) {
-        _require_(ssz[i] != -1);     // no i/o error
-        _require_(rsz[i] != -1);     //
-        _require_(ssz[i] == rsz[i]); // sent == received
+        assert(ssz[i] != -1);     // no i/o error
+        assert(rsz[i] != -1);     //
+        assert(ssz[i] == rsz[i]); // sent == received
     }
     return EXIT_SUCCESS;
 }
-
-#if defined(CMAKE_TEST)
-int main(int, char* []) {
-    return net_echo_udp_test();
-}
-
-#elif __has_include(<CppUnitTest.h>)
-#include <CppUnitTest.h>
-
-template <typename T>
-using TestClass = ::Microsoft::VisualStudio::CppUnitTestFramework::TestClass<T>;
-
-class net_echo_udp : public TestClass<net_echo_udp> {
-    TEST_METHOD(test_net_socket_udp_echo) {
-        net_echo_udp_test();
-    }
-};
-#endif

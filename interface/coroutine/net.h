@@ -7,8 +7,9 @@
 #pragma once
 #ifndef COROUTINE_NET_IO_H
 #define COROUTINE_NET_IO_H
-#include <coroutine/return.h>
 #include <gsl/gsl>
+
+#include <coroutine/return.h>
 
 /**
  * @defgroup NetWork
@@ -315,16 +316,12 @@ auto send_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
 auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_recv&;
 
-#if defined(__APPLE__) || defined(__UNIX__) || defined(__linux__)
-
 /**
  * @brief Poll internal I/O works and invoke user callback
  * @param nano timeout in nanoseconds 
  * @ingroup NetWork
  */
 void poll_net_tasks(uint64_t nano) noexcept(false);
-
-#endif
 
 /**
  * @brief Thin wrapper of `getaddrinfo` for IPv4
