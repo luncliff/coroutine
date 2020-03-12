@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="73" column="1" bodyfile="interface/coroutine/net.h" bodystart="73" bodyend="-1"/>
+        <location file="interface/coroutine/net.h" line="74" column="1" bodyfile="interface/coroutine/net.h" bodystart="74" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" prot="public" static="no">
         <type>void(*)(void *ctx, <ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt; coro)</type>
@@ -202,7 +202,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="255" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="62" bodyend="69"/>
+        <location file="interface/coroutine/net.h" line="256" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="62" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -261,7 +261,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="267" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="71" bodyend="78"/>
+        <location file="interface/coroutine/net.h" line="268" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="71" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1gace516cdc1f8b51596ba7a406190182eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -320,7 +320,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="279" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="107" bodyend="114"/>
+        <location file="interface/coroutine/net.h" line="280" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="107" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -379,7 +379,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="291" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="115" bodyend="122"/>
+        <location file="interface/coroutine/net.h" line="292" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="115" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1gac94bb59884293c451906c8cffe825a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -438,7 +438,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="303" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="155" bodyend="162"/>
+        <location file="interface/coroutine/net.h" line="304" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="155" bodyend="162"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1ga60c53387a2e976df4742620055666796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -497,7 +497,32 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="315" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="189" bodyend="196"/>
+        <location file="interface/coroutine/net.h" line="316" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="189" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1ga022830c9178aa1a201f95abd2026d35f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::poll_net_tasks</definition>
+        <argsstring>(uint64_t nano) noexcept(false)</argsstring>
+        <name>poll_net_tasks</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>nano</declname>
+        </param>
+        <briefdescription>
+<para>Poll internal I/O works and invoke user callback. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nano</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>timeout in nanoseconds </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="324" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="36" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="group__NetResolve_1gadc07999d236df3e984d42b37cbf56693" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -558,7 +583,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="340" column="1" bodyfile="modules/net/resolver.cpp" bodystart="60" bodyend="74"/>
+        <location file="interface/coroutine/net.h" line="337" column="1" bodyfile="modules/net/resolver.cpp" bodystart="60" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -619,7 +644,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="355" column="1" bodyfile="modules/net/resolver.cpp" bodystart="76" bodyend="90"/>
+        <location file="interface/coroutine/net.h" line="352" column="1" bodyfile="modules/net/resolver.cpp" bodystart="76" bodyend="90"/>
       </memberdef>
       <memberdef kind="function" id="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -680,7 +705,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="369" column="1" bodyfile="modules/net/resolver.cpp" bodystart="11" bodyend="19"/>
+        <location file="interface/coroutine/net.h" line="366" column="1" bodyfile="modules/net/resolver.cpp" bodystart="11" bodyend="19"/>
       </memberdef>
       <memberdef kind="function" id="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -741,7 +766,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="383" column="1" bodyfile="modules/net/resolver.cpp" bodystart="22" bodyend="30"/>
+        <location file="interface/coroutine/net.h" line="380" column="1" bodyfile="modules/net/resolver.cpp" bodystart="22" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -788,23 +813,6 @@
         </inbodydescription>
         <location file="modules/net/io_darwin.cpp" line="32" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="32" bodyend="34"/>
       </memberdef>
-      <memberdef kind="function" id="namespacecoro_1a022830c9178aa1a201f95abd2026d35f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void coro::poll_net_tasks</definition>
-        <argsstring>(uint64_t nano) noexcept(false)</argsstring>
-        <name>poll_net_tasks</name>
-        <param>
-          <type>uint64_t</type>
-          <declname>nano</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/net/io_darwin.cpp" line="36" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="36" bodyend="44"/>
-      </memberdef>
       <memberdef kind="function" id="namespacecoro_1a556b102db93c6e7cf8864b28308036e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool coro::is_async_pending</definition>
@@ -820,7 +828,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_windows.cpp" line="21" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="21" bodyend="31"/>
+        <location file="modules/net/io_windows.cpp" line="19" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="19" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="namespacecoro_1affafc280af2137eafd6000149dc01334" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void CALLBACK</type>
@@ -849,7 +857,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_windows.cpp" line="35" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="35" bodyend="47"/>
+        <location file="modules/net/io_windows.cpp" line="33" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="33" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="namespacecoro_1aaa874db68805b8dd64c59b7727648a17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -866,7 +874,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_windows.cpp" line="53" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="53" bodyend="55"/>
+        <location file="modules/net/io_windows.cpp" line="51" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="51" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="namespacecoro_1afdc260d04de2933c90bdc26d9bd09768" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int64_t</type>
@@ -883,7 +891,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_windows.cpp" line="57" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="57" bodyend="59"/>
+        <location file="modules/net/io_windows.cpp" line="55" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="55" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="namespacecoro_1afc690d3107e22a73fe91d15c30d52d58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -900,7 +908,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_windows.cpp" line="67" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="67" bodyend="70"/>
+        <location file="modules/net/io_windows.cpp" line="65" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="65" bodyend="68"/>
       </memberdef>
       <memberdef kind="function" id="namespacecoro_1aeebb761b70e474419a62f56419402531" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -917,7 +925,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/net/io_windows.cpp" line="73" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="73" bodyend="79"/>
+        <location file="modules/net/io_windows.cpp" line="71" column="1" bodyfile="modules/net/io_windows.cpp" bodystart="71" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="namespacecoro_1a6b125cc7a08921bd28b759c52a5889b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>

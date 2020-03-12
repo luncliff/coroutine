@@ -283,7 +283,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/exploring-msvc-coroutine.md" title="Exploring MSVC Coroutine" class="md-nav__link">
+    <a href="../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-nav__link">
       Exploring MSVC Coroutine
     </a>
   </li>
@@ -295,7 +295,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/awaitable-event.md" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
+    <a href="../articles/awaitable-event/" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
       Awaitable event using the coroutine, epoll and eventfd
     </a>
   </li>
@@ -307,7 +307,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/designing-the-channel.md" title="Designing the coroutine channel" class="md-nav__link">
+    <a href="../articles/designing-the-channel/" title="Designing the coroutine channel" class="md-nav__link">
       Designing the coroutine channel
     </a>
   </li>
@@ -319,7 +319,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/combining-coroutines-and-pthread_create.md" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
+    <a href="../articles/combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
       Combining C++ coroutines and `pthread_create`
     </a>
   </li>
@@ -331,7 +331,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/russian-roulette.md" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
+    <a href="../articles/russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
       Russian Roulette and C++ Coroutines
     </a>
   </li>
@@ -700,11 +700,11 @@
 </tr>
 <tr>
 <td align="right">void</td>
-<td align="left"><a href="./#function-poll-net-tasks"><strong>poll_net_tasks</strong></a> (const timespec &amp; wait_time, <a href="./#typedef-net-callback-t"><strong>net_callback_t</strong></a> callback, void * ctx) noexcept<br></td>
+<td align="left"><a href="./#function-poll-net-tasks"><strong>poll_net_tasks</strong></a> (uint64_t nano) noexcept<br><em>Poll internal I/O works and invoke user callback.</em></td>
 </tr>
 <tr>
 <td align="right">void</td>
-<td align="left"><a href="./#function-poll-net-tasks"><strong>poll_net_tasks</strong></a> (uint64_t nano) noexcept<br></td>
+<td align="left"><a href="./#function-poll-net-tasks"><strong>poll_net_tasks</strong></a> (const timespec &amp; wait_time, <a href="./#typedef-net-callback-t"><strong>net_callback_t</strong></a> callback, void * ctx) noexcept<br></td>
 </tr>
 <tr>
 <td align="right">auto</td>
@@ -957,16 +957,20 @@
 
 <h3 id="function-poll_net_tasks">function poll_net_tasks<a class="headerlink" href="#function-poll_net_tasks" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">poll_net_tasks</span> <span class="p">(</span>
-    <span class="k">const</span> <span class="n">timespec</span> <span class="o">&amp;</span> <span class="n">wait_time</span><span class="p">,</span>
-    <span class="n">net_callback_t</span> <span class="n">callback</span><span class="p">,</span>
-    <span class="kt">void</span> <span class="o">*</span> <span class="n">ctx</span>
+    <span class="kt">uint64_t</span> <span class="n">nano</span>
 <span class="p">)</span> <span class="k">noexcept</span>
 </code></pre></div>
 
 
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>nano</code> timeout in nanoseconds </li>
+</ul>
 <h3 id="function-poll_net_tasks_1">function poll_net_tasks<a class="headerlink" href="#function-poll_net_tasks_1" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">poll_net_tasks</span> <span class="p">(</span>
-    <span class="kt">uint64_t</span> <span class="n">nano</span>
+    <span class="k">const</span> <span class="n">timespec</span> <span class="o">&amp;</span> <span class="n">wait_time</span><span class="p">,</span>
+    <span class="n">net_callback_t</span> <span class="n">callback</span><span class="p">,</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">ctx</span>
 <span class="p">)</span> <span class="k">noexcept</span>
 </code></pre></div>
 

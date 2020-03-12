@@ -283,7 +283,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/exploring-msvc-coroutine.md" title="Exploring MSVC Coroutine" class="md-nav__link">
+    <a href="../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-nav__link">
       Exploring MSVC Coroutine
     </a>
   </li>
@@ -295,7 +295,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/awaitable-event.md" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
+    <a href="../articles/awaitable-event/" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
       Awaitable event using the coroutine, epoll and eventfd
     </a>
   </li>
@@ -307,7 +307,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/designing-the-channel.md" title="Designing the coroutine channel" class="md-nav__link">
+    <a href="../articles/designing-the-channel/" title="Designing the coroutine channel" class="md-nav__link">
       Designing the coroutine channel
     </a>
   </li>
@@ -319,7 +319,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/combining-coroutines-and-pthread_create.md" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
+    <a href="../articles/combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
       Combining C++ coroutines and `pthread_create`
     </a>
   </li>
@@ -331,7 +331,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/russian-roulette.md" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
+    <a href="../articles/russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
       Russian Roulette and C++ Coroutines
     </a>
   </li>
@@ -462,8 +462,9 @@
 <div class="codehilite"><pre><span></span><code><span class="cp">#pragma once</span>
 <span class="cp">#ifndef COROUTINE_NET_IO_H</span>
 <span class="cp">#define COROUTINE_NET_IO_H</span>
-<span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;gsl/gsl&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;coroutine/return.h&gt;</span><span class="cp"></span>
 
 <span class="cp">#if __has_include(&lt;WinSock2.h&gt;) </span><span class="c1">// use winsock</span>
 <span class="cp">#include</span> <span class="cpf">&lt;WS2tcpip.h&gt;</span><span class="cp"></span>
@@ -610,11 +611,7 @@
 <span class="k">auto</span> <span class="nf">recv_stream</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span> <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span>
                  <span class="n">io_work_t</span><span class="o">&amp;</span> <span class="n">work</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io_recv</span><span class="o">&amp;</span><span class="p">;</span>
 
-<span class="cp">#if defined(__APPLE__) || defined(__UNIX__) || defined(__linux__)</span>
-
 <span class="kt">void</span> <span class="nf">poll_net_tasks</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">nano</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-
-<span class="cp">#endif</span>
 
 <span class="kt">uint32_t</span> <span class="nf">get_address</span><span class="p">(</span><span class="k">const</span> <span class="n">addrinfo</span><span class="o">&amp;</span> <span class="n">hint</span><span class="p">,</span> <span class="c1">//</span>
                      <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;&gt;</span> <span class="n">host</span><span class="p">,</span> <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;&gt;</span> <span class="n">serv</span><span class="p">,</span>

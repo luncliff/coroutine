@@ -6,50 +6,50 @@
     <includes refid="net_8h" local="no">coroutine/net.h</includes>
     <includes refid="unix_8h" local="no">coroutine/unix.h</includes>
     <incdepgraph>
-      <node id="248">
+      <node id="249">
         <label>coroutine/net.h</label>
         <link refid="net_8h"/>
-        <childnode refid="249" relation="include">
+        <childnode refid="250" relation="include">
         </childnode>
         <childnode refid="251" relation="include">
-        </childnode>
-      </node>
-      <node id="249">
-        <label>coroutine/return.h</label>
-        <link refid="return_8h"/>
-        <childnode refid="250" relation="include">
         </childnode>
       </node>
       <node id="251">
-        <label>gsl/gsl</label>
-      </node>
-      <node id="252">
-        <label>coroutine/unix.h</label>
-        <link refid="unix_8h"/>
-        <childnode refid="253" relation="include">
-        </childnode>
-        <childnode refid="251" relation="include">
-        </childnode>
-        <childnode refid="249" relation="include">
-        </childnode>
-      </node>
-      <node id="246">
-        <label>modules/net/io_darwin.cpp</label>
-        <link refid="io_darwin.cpp"/>
-        <childnode refid="247" relation="include">
-        </childnode>
-        <childnode refid="248" relation="include">
-        </childnode>
+        <label>coroutine/return.h</label>
+        <link refid="return_8h"/>
         <childnode refid="252" relation="include">
         </childnode>
       </node>
+      <node id="250">
+        <label>gsl/gsl</label>
+      </node>
       <node id="253">
-        <label>sys/event.h</label>
+        <label>coroutine/unix.h</label>
+        <link refid="unix_8h"/>
+        <childnode refid="254" relation="include">
+        </childnode>
+        <childnode refid="250" relation="include">
+        </childnode>
+        <childnode refid="251" relation="include">
+        </childnode>
       </node>
       <node id="247">
+        <label>modules/net/io_darwin.cpp</label>
+        <link refid="io_darwin.cpp"/>
+        <childnode refid="248" relation="include">
+        </childnode>
+        <childnode refid="249" relation="include">
+        </childnode>
+        <childnode refid="253" relation="include">
+        </childnode>
+      </node>
+      <node id="254">
+        <label>sys/event.h</label>
+      </node>
+      <node id="248">
         <label>chrono</label>
       </node>
-      <node id="250">
+      <node id="252">
         <label>type_traits</label>
       </node>
     </incdepgraph>
@@ -76,14 +76,14 @@
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" kindref="member">net_callback_t</ref><sp/>=<sp/>void<sp/>(*)(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ctx,<sp/><ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>);</highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a022830c9178aa1a201f95abd2026d35f" kindref="member">poll_net_tasks</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>timespec&amp;<sp/>wait_time,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" kindref="member">poll_net_tasks</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>timespec&amp;<sp/>wait_time,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" kindref="member">net_callback_t</ref><sp/>callback,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ctx)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf_size<sp/>=<sp/>30u;</highlight></codeline>
 <codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>make_unique&lt;kevent64_s[]&gt;(buf_size);</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
 <codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>count<sp/>=<sp/><ref refid="namespacecoro_1a8c609d3792ba6a72e94e0f88aca23589" kindref="member">netkq</ref>.<ref refid="classcoro_1_1kqueue__owner_1aa7584b447fcb9a7382516302b9fadbb8" kindref="member">events</ref>(wait_time,<sp/>{buf.get(),<sp/>buf_size});</highlight></codeline>
-<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>count;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)<sp/>{</highlight></codeline>
 <codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>work<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">io_work_t*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(buf[i].udata);</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback(ctx,<sp/>work-&gt;task);</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -93,14 +93,14 @@
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>.resume();</highlight></codeline>
 <codeline lineno="34"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a022830c9178aa1a201f95abd2026d35f" kindref="member">poll_net_tasks</ref>(uint64_t<sp/>nano)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" kindref="member">poll_net_tasks</ref>(uint64_t<sp/>nano)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>timeout<sp/>=<sp/>nanoseconds{nano};</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sec<sp/>=<sp/>duration_cast&lt;seconds&gt;(timeout);</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>timespec<sp/>wait_time{</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.tv_sec<sp/>=<sp/>sec.count(),</highlight></codeline>
 <codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.tv_nsec<sp/>=<sp/>(timeout<sp/>-<sp/>sec).count(),</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1a022830c9178aa1a201f95abd2026d35f" kindref="member">poll_net_tasks</ref>(wait_time,<sp/><ref refid="namespacecoro_1a0260f9ba0f9c3c2abe90513e1f9ebbb4" kindref="member">resume_net_task</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" kindref="member">poll_net_tasks</ref>(wait_time,<sp/><ref refid="namespacecoro_1a0260f9ba0f9c3c2abe90513e1f9ebbb4" kindref="member">resume_net_task</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="44"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>io_work_t::ready()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>

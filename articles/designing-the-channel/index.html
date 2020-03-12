@@ -1,0 +1,1468 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="C++ 20 Coroutines in Action.">
+      
+      
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/articles/designing-the-channel/">
+      
+      
+        <meta name="author" content="Park DongHa">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+    
+    
+      
+        <title>Designing the coroutine channel - luncliff/coroutine</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.adb8469c.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.86422ebf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#designing-the-coroutine-channel" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://luncliff.github.io/coroutine" title="luncliff/coroutine" aria-label="luncliff/coroutine" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">call_split</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              luncliff/coroutine
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Designing the coroutine channel
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://luncliff.github.io/coroutine" title="luncliff/coroutine" class="md-nav__button md-logo">
+      
+        <i class="md-icon">call_split</i>
+      
+    </a>
+    luncliff/coroutine
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      PPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        PPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+      C++ Korea 5th Seminar
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Articles
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Articles
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-nav__link">
+      Exploring MSVC Coroutine
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../awaitable-event/" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
+      Awaitable event using the coroutine, epoll and eventfd
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Designing the coroutine channel
+      </label>
+    
+    <a href="./" title="Designing the coroutine channel" class="md-nav__link md-nav__link--active">
+      Designing the coroutine channel
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note" class="md-nav__link">
+    Note
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#motivationbackground" class="md-nav__link">
+    Motivation(Background)
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-the-coroutine" class="md-nav__link">
+    Before the coroutine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-the-coroutine" class="md-nav__link">
+    After the coroutine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#another-type-of-the-delivery" class="md-nav__link">
+    Another type of the delivery?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirement" class="md-nav__link">
+    Requirement
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#non-directional-delivery" class="md-nav__link">
+    Non-directional delivery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-synchronization" class="md-nav__link">
+    Optional synchronization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage-leak-prevention" class="md-nav__link">
+    Coverage leak prevention
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invalidation" class="md-nav__link">
+    Invalidation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zero-allocation" class="md-nav__link">
+    Zero allocation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design-concerns" class="md-nav__link">
+    Design Concerns
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optional-synchronization_1" class="md-nav__link">
+    Optional synchronization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invalidation_1" class="md-nav__link">
+    Invalidation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#making-a-linked-list-of-the-coroutine-frames" class="md-nav__link">
+    Making a linked list of the coroutine frames
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preventing-coverage-leak" class="md-nav__link">
+    Preventing Coverage Leak
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-a-poison-in-await_resume" class="md-nav__link">
+    Using a poison in await_resume
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skip-await_ready-and-await_suspend" class="md-nav__link">
+    Skip: await_ready and await_suspend
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#non-directional-delivery_1" class="md-nav__link">
+    Non-directional delivery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage-leak" class="md-nav__link">
+    Coverage Leak
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invalidation-close-status" class="md-nav__link">
+    Invalidation (Close Status)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
+      Combining C++ coroutines and `pthread_create`
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
+      Russian Roulette and C++ Coroutines
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../namespaces/" title="Namespaces" class="md-nav__link">
+      Namespaces
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../classes/" title="Classes" class="md-nav__link">
+      Classes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../files/" title="Files" class="md-nav__link">
+      Files
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note" class="md-nav__link">
+    Note
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#motivationbackground" class="md-nav__link">
+    Motivation(Background)
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-the-coroutine" class="md-nav__link">
+    Before the coroutine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-the-coroutine" class="md-nav__link">
+    After the coroutine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#another-type-of-the-delivery" class="md-nav__link">
+    Another type of the delivery?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirement" class="md-nav__link">
+    Requirement
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#non-directional-delivery" class="md-nav__link">
+    Non-directional delivery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-synchronization" class="md-nav__link">
+    Optional synchronization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage-leak-prevention" class="md-nav__link">
+    Coverage leak prevention
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invalidation" class="md-nav__link">
+    Invalidation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zero-allocation" class="md-nav__link">
+    Zero allocation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design-concerns" class="md-nav__link">
+    Design Concerns
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optional-synchronization_1" class="md-nav__link">
+    Optional synchronization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invalidation_1" class="md-nav__link">
+    Invalidation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#making-a-linked-list-of-the-coroutine-frames" class="md-nav__link">
+    Making a linked list of the coroutine frames
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preventing-coverage-leak" class="md-nav__link">
+    Preventing Coverage Leak
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-a-poison-in-await_resume" class="md-nav__link">
+    Using a poison in await_resume
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skip-await_ready-and-await_suspend" class="md-nav__link">
+    Skip: await_ready and await_suspend
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#non-directional-delivery_1" class="md-nav__link">
+    Non-directional delivery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage-leak" class="md-nav__link">
+    Coverage Leak
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invalidation-close-status" class="md-nav__link">
+    Invalidation (Close Status)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/articles/designing-the-channel.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="designing-the-coroutine-channel">Designing the coroutine channel<a class="headerlink" href="#designing-the-coroutine-channel" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>commit: <a href="https://github.com/luncliff/coroutine/tree/74467cb470a6bf8b9559a56ebdcb68ff915d871e"><code>1.4.3</code></a></p>
+</blockquote>
+<p>This is a design note for the <a href="../feature/channel-overview.md"><code>channel&lt;T&gt;</code></a>.</p>
+<p>It's one of the oldest feature in this library. In this article, I will write about the design background of the type.</p>
+<h3 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/jbandela">John Bandela</a> already talked about <a href="https://www.youtube.com/watch?v=N3CkQu39j5I">the coroutine based channel in CppCon 2016</a>.
+However, I designed <a href="../channel-overview.md">more limited one</a> on my own.</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;coroutine/channel.hpp&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">coro</span><span class="p">;</span>
+
+<span class="k">constexpr</span> <span class="kt">int</span> <span class="n">bye</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="nf">consumer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="c1">// the type doesn&#39;t support for-co_await for now</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="p">[</span><span class="n">msg</span><span class="p">,</span> <span class="n">ok</span><span class="p">]</span> <span class="o">=</span> <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span> <span class="n">ok</span><span class="p">;</span>
+         <span class="n">tie</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ok</span><span class="p">)</span> <span class="o">=</span> <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// ok == true: we received a value</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">msg</span> <span class="o">==</span> <span class="n">bye</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>  <span class="c1">// we can write in the reader coroutine</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">auto</span> <span class="nf">producer_owner</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ch</span><span class="p">{};</span>
+    <span class="n">consumer</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span> <span class="c1">// start a consumer routine</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">msg</span> <span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">bye</span><span class="p">})</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">ok</span> <span class="o">=</span> <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+        <span class="c1">// ok == true: we sent a value</span>
+
+        <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>  <span class="c1">// we can read in the writer coroutine</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>Notice that we are reading <strong>before</strong> writing values to the channel.
+You can visit more example(test) codes for the type:</p>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_read_write_nolock.cpp">test/channel_read_write_nolock.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_read_fail_after_close.cpp">test/channel_read_fail_after_close.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_write_read_nolock.cpp">test/channel_write_read_nolock.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_write_fail_after_close.cpp">test/channel_write_fail_after_close.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_ownership_consumer.cpp">test/channel_ownership_consumer.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_ownership_producer.cpp">test/channel_ownership_producer.cpp</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/1.4.3/test/channel_race_no_leak.cpp">test/channel_race_no_leak.cpp</a></li>
+</ul>
+<h2 id="note">Note<a class="headerlink" href="#note" title="Permanent link">&para;</a></h2>
+<h3 id="motivationbackground">Motivation(Background)<a class="headerlink" href="#motivationbackground" title="Permanent link">&para;</a></h3>
+<p>There are multiple ways to deliver value(normally an object) from a routine to another routine.<br />
+<code>channel&lt;T&gt;</code> is designed to play a role as one of them.</p>
+<h4 id="before-the-coroutine">Before the coroutine<a class="headerlink" href="#before-the-coroutine" title="Permanent link">&para;</a></h4>
+<p>Before the C++ Coroutines becames available, there were 2 ways.</p>
+<ul>
+<li><code>return</code> : from callee subroutine to caller subroutine</li>
+<li><code>future&lt;T&gt;</code> since C++11 : <code>return</code> with synchronization(shared state)</li>
+</ul>
+<p><code>return</code> forwards a <code>T</code> type object from callee subroutine to caller subroutine.</p>
+<p>C++ 11 <code>future&lt;T&gt;</code>, do the same work but uses a shared state to provide synchronization. 
+As we know, such a synchronization is for multi-threaded code. 
+One of those methods' limitation is that they can deliver only 1 object (of <code>T</code> type), only 1 time (with the <code>return</code>). Which makes inconvenience sometimes...</p>
+<h4 id="after-the-coroutine">After the coroutine<a class="headerlink" href="#after-the-coroutine" title="Permanent link">&para;</a></h4>
+<p>By adopting coroutine to our world, now we can suspend, and get a new way of delivery.</p>
+<ul>
+<li><code>task&lt;T&gt;</code>: 1 time delivery, from a coroutine to another coroutine</li>
+<li><code>generator&lt;T&gt;</code>: multi-time delivery, from the generator coroutine to activator coroutine</li>
+</ul>
+<p><code>task&lt;T&gt;</code> is the simplest way to get <code>co_return</code> from a coroutine. 
+The most important design point for a coroutine function is that managing suspension(<code>co_await</code>).
+It's because suspension is more general than finalization(<code>co_return</code>).
+<code>task&lt;T&gt;</code> deals with the cases and activates(resumes) awaiting coroutine when the activatee coroutine returns.</p>
+<p><code>generator&lt;T&gt;</code> uses <code>co_yield</code> to deliver value from activatee(generator coroutine) to activator(resumer subroutine) <strong>multiple</strong> times.
+For us, <code>co_yield</code> itself is a syntatic sugar that invokes <code>yield_value</code> and evaluate <code>co_await</code>(therefore, suspend) at the same time.
+Indeed there is a harmony in the way <code>generator&lt;T&gt;</code> works. </p>
+<p>However, what if we can't acquire the value from <code>generator&lt;T&gt;</code> immediately?
+What if advancing its iterator is asynchronous?</p>
+<ul>
+<li><code>async_generator&lt;T&gt;</code>: <code>generator&lt;T&gt;</code> + awaitable iterator</li>
+</ul>
+<p>So <code>async_generator&lt;T&gt;</code> allows us to attach a coroutine which will be resumed when the generator coroutine can yield(perform the delivery).
+In my perspective, using <code>co_await</code> on its iterator is indeed a good idea for the interface design.</p>
+<ul>
+<li>Its user code remains very similar to that of the <code>generator&lt;T&gt;</code></li>
+<li>The consumer coroutine is resumed automatically, so there is no coverage leak</li>
+</ul>
+<p>You can review existing implementations.</p>
+<blockquote>
+<p>Please <a href="https://github.com/luncliff/coroutine/issues">let me know</a> if there is another implementations so I can add them :)</p>
+</blockquote>
+<ul>
+<li>From the <a href="https://github.com/kirkshoop/await">https://github.com/kirkshoop/await</a></li>
+<li>In this library, which is based on kirkshoop's work, <a href="../yield-sequence.md"><code>sequence&lt;T&gt;</code></a></li>
+<li>From the adorable <a href="https://github.com/lewissbaker/cppcoro/blob/master/test/async_generator_tests.cpp#L67">cppcoro</a></li>
+</ul>
+<h4 id="another-type-of-the-delivery">Another type of the delivery?<a class="headerlink" href="#another-type-of-the-delivery" title="Permanent link">&para;</a></h4>
+<p>At this point, <strong>we can recognize that we don't have a bidirectional delivery</strong>.
+<code>generator&lt;T&gt;</code> delivers its <code>co_yield</code>ed value only in 1 direction, and so does <code>async_generator&lt;T&gt;</code>.</p>
+<p>Also, if we need to write multi-threaded code, there are still needs of the synchronization.
+It depends on the pattern and can managed well, but it's still hard to the beginners.</p>
+<p>For nondirectional delivery, there is a good example in the Go language. It's <code>channel</code>. 
+The channel can suspend both producer and consumer goroutines by affecting their scheduling.</p>
+<p>However, there is a difference between the coroutine in the C++ and Goroutine in the Go language.
+Goroutine is scheduled by the Go runtime, but coroutine are not.
+It doesn't have a built-in scheduling. 
+Basically, <code>coroutine_handle&lt;T&gt;</code> itself is a pointer and programmers have to manage them manually.</p>
+<h3 id="requirement">Requirement<a class="headerlink" href="#requirement" title="Permanent link">&para;</a></h3>
+<p>So the requirement for our new type is like the following.</p>
+<ul>
+<li><code>channel&lt;T&gt;</code><ul>
+<li>Non-directional delivery (at least bidirectional)</li>
+<li>Optional synchronization</li>
+<li>Coverage leak prevention</li>
+<li>Invalidation</li>
+<li>Zero allocation</li>
+</ul>
+</li>
+</ul>
+<h4 id="non-directional-delivery">Non-directional delivery<a class="headerlink" href="#non-directional-delivery" title="Permanent link">&para;</a></h4>
+<p>We should be able to write/read to a channel in a same coroutine.<br />
+It's convenient. And that is important for the beginners.</p>
+<h4 id="optional-synchronization">Optional synchronization<a class="headerlink" href="#optional-synchronization" title="Permanent link">&para;</a></h4>
+<p>It supports single-threaded code and there must be zero-cost in the case.  </p>
+<h4 id="coverage-leak-prevention">Coverage leak prevention<a class="headerlink" href="#coverage-leak-prevention" title="Permanent link">&para;</a></h4>
+<p>The type must prevent coverage leak.<br />
+That means, it must do its best to make related coroutines reach their ends.</p>
+<h4 id="invalidation">Invalidation<a class="headerlink" href="#invalidation" title="Permanent link">&para;</a></h4>
+<p>The channel must be able to notify its invalidation.<br />
+So its user code can handle the operation failure and prevent undefined behavior while they are writing the code.</p>
+<p>With the coverage requirement above, user will <code>co_return</code> the coroutine, or delegate its work somehow.</p>
+<h4 id="zero-allocation">Zero allocation<a class="headerlink" href="#zero-allocation" title="Permanent link">&para;</a></h4>
+<p><code>new</code>/<code>delete</code> is not allowed to avoid unnecessary cost.</p>
+<h3 id="design-concerns">Design Concerns<a class="headerlink" href="#design-concerns" title="Permanent link">&para;</a></h3>
+<h4 id="optional-synchronization_1">Optional synchronization<a class="headerlink" href="#optional-synchronization_1" title="Permanent link">&para;</a></h4>
+<p>The logic will remain while user applies different synchronization types.
+So the type will use be template.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span> <span class="o">=</span> <span class="n">bypass_lock</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">channel</span><span class="p">;</span> <span class="c1">// by default, channel doesn&#39;t care about the race condition</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">channel</span> <span class="k">final</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">using</span> <span class="n">mutex_type</span> <span class="o">=</span> <span class="n">M</span><span class="p">;</span> 
+  <span class="k">private</span><span class="o">:</span>
+    <span class="n">mutex_type</span> <span class="n">mtx</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>Also, as you can see above, it will use <strong>do nothing</strong> lockable by default.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Lockable without lock operation.</span>
+<span class="k">struct</span> <span class="n">bypass_lock</span> <span class="k">final</span> <span class="p">{</span>
+    <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">try_lock</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">constexpr</span> <span class="kt">void</span> <span class="n">lock</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="c1">// do nothing since this is &#39;bypass&#39; lock</span>
+    <span class="p">}</span>
+    <span class="k">constexpr</span> <span class="kt">void</span> <span class="n">unlock</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="c1">// it is not locked</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<h4 id="invalidation_1">Invalidation<a class="headerlink" href="#invalidation_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li>unlike the channel of Go, the type doesn't provide explicit <code>close</code> operation</li>
+</ul>
+<p>Explicit <code>close</code> is simple enough because we can just check the channel's state and break the loop.
+But it is highly possible that user will carefully design the value if there is no <code>close</code>.</p>
+<p>Suppose we have a <code>close</code> for the channel:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="nf">producer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">msg</span><span class="p">{};</span>
+    <span class="c1">// ...</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">ch</span><span class="p">.</span><span class="n">closed</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">){</span>
+        <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+        <span class="c1">// ...</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">ch</span><span class="p">.</span><span class="n">close</span><span class="p">();</span> <span class="c1">// ok, no more value</span>
+    <span class="k">co_return</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">auto</span> <span class="nf">consumer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">ch</span><span class="p">.</span><span class="n">closed</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">){</span>
+        <span class="kt">int</span> <span class="n">msg</span> <span class="o">=</span> <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>In this case, user will think about the state of the channel.<br />
+The following questions can be managed by patternized code, but will always arise from the existance of <code>close</code>.</p>
+<ul>
+<li>Which line should the <code>close</code> placed?</li>
+<li>When it's already closed, what should I do for read/write?</li>
+</ul>
+<p>When we don't have a <code>close</code>, users will think about another issue.</p>
+<ul>
+<li>When should I stop the read/write?</li>
+</ul>
+<p>The question is about managing the loop, and probably they will use something like <code>EOF</code>(sentinel value).
+In my perspective, it is more likely to have well-designed space for the <code>value_type</code> of the channel:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="nf">producer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">msg</span> <span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">bye</span><span class="p">})</span> <span class="p">{</span>
+        <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">auto</span> <span class="nf">consumer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">msg</span><span class="p">{};</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span> <span class="n">msg</span> <span class="o">!=</span> <span class="n">bye</span><span class="p">;</span> 
+        <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">msg</span><span class="p">)){</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<h3 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h3>
+<p>Watching the <a href="https://www.youtube.com/watch?v=N3CkQu39j5I">CppCon 2016 talk</a> will help you a lot for the following notes.</p>
+<h4 id="making-a-linked-list-of-the-coroutine-frames">Making a linked list of the coroutine frames<a class="headerlink" href="#making-a-linked-list-of-the-coroutine-frames" title="Permanent link">&para;</a></h4>
+<p>Since coroutine frames are allocated separatly, we can use them like a node in the linked list.
+By placing next pointer in those frame, we can make zero-allocation channel.
+Actually they are a kind of pre-allocation since the cost is already paid in the frame construction(invocation) steps.</p>
+<p>So it will be enough for <code>channel&lt;T&gt;</code> to have <a href="https://github.com/luncliff/coroutine/blob/1.4.3/interface/coroutine/channel.hpp#L264">2 linked lists and 1 mutex</a> to operate correctly under multi-threaded code.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">channel</span> <span class="k">final</span> <span class="o">:</span> <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">reader</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+                      <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">writer</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+  <span class="k">private</span><span class="o">:</span>
+    <span class="n">mutex_type</span> <span class="n">mtx</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>To make a linked list of the coroutine frames, 
+the type <strong>places an objects in the coroutine frame</strong> that containes <code>next</code> pointer.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Coroutine based channel. User have to provide appropriate lockable</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">channel</span> <span class="k">final</span> <span class="o">:</span> <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">reader</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+                      <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">writer</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="c1">// place a writer in the coroutine&#39;s frame</span>
+    <span class="k">decltype</span><span class="p">(</span><span class="k">auto</span><span class="p">)</span> <span class="n">write</span><span class="p">(</span><span class="n">reference</span> <span class="n">ref</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">writer</span><span class="p">{</span><span class="o">*</span><span class="k">this</span><span class="p">,</span> <span class="n">addressof</span><span class="p">(</span><span class="n">ref</span><span class="p">)};</span>
+    <span class="p">}</span>
+    <span class="c1">// place a reader in the coroutine&#39;s frame</span>
+    <span class="k">decltype</span><span class="p">(</span><span class="k">auto</span><span class="p">)</span> <span class="n">read</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">reader</span><span class="p">{</span><span class="o">*</span><span class="k">this</span><span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<p>You can find next pointer in the following <code>writer</code> and <code>reader</code>.
+Notice that they have a reserved space to receive <code>coroutine_handle&lt;void&gt;</code> from <code>await_suspend</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">writer</span> <span class="k">final</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">using</span> <span class="n">value_type</span> <span class="o">=</span> <span class="n">T</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">channel_type</span> <span class="o">=</span> <span class="n">channel</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span><span class="p">;</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="k">mutable</span> <span class="n">pointer</span> <span class="n">ptr</span><span class="p">;</span> <span class="c1">// Address of value</span>
+    <span class="k">mutable</span> <span class="kt">void</span><span class="o">*</span> <span class="n">frame</span><span class="p">;</span>
+    <span class="k">union</span> <span class="p">{</span>
+        <span class="n">writer</span><span class="o">*</span> <span class="n">next</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span> <span class="c1">// Next writer in the channel</span>
+        <span class="n">channel_type</span><span class="o">*</span> <span class="n">chan</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">reader</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">using</span> <span class="n">value_type</span> <span class="o">=</span> <span class="n">T</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">channel_type</span> <span class="o">=</span> <span class="n">channel</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span><span class="p">;</span>
+
+  <span class="k">protected</span><span class="o">:</span>
+    <span class="k">mutable</span> <span class="n">pointer</span> <span class="n">ptr</span><span class="p">;</span> <span class="c1">// Address of value</span>
+    <span class="k">mutable</span> <span class="kt">void</span><span class="o">*</span> <span class="n">frame</span><span class="p">;</span>
+    <span class="k">union</span> <span class="p">{</span>
+        <span class="n">reader</span><span class="o">*</span> <span class="n">next</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span> <span class="c1">// Next reader in the channel</span>
+        <span class="n">channel_type</span><span class="o">*</span> <span class="n">chan</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<p>Because of the design we will place the objects in the frame. </p>
+<p>Consider:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="nf">temporary_reader_object</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="c1">// co_await ch.read();</span>
+    <span class="n">reader</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+    <span class="k">co_await</span> <span class="n">reader</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>When it's used with <code>for</code> statement, there will be at most 2 read/writes.
+So it won't be that complicated.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// at most 2 operation in 1 for loop</span>
+
+<span class="k">auto</span> <span class="nf">consumer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="p">[</span><span class="n">msg</span><span class="p">,</span> <span class="n">ok</span><span class="p">]</span> <span class="o">=</span> <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span> <span class="n">ok</span><span class="p">;</span>
+         <span class="n">tie</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ok</span><span class="p">)</span> <span class="o">=</span> <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">auto</span> <span class="nf">producer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">msg</span> <span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">bye</span><span class="p">})</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">ok</span> <span class="o">=</span> <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<h4 id="preventing-coverage-leak">Preventing Coverage Leak<a class="headerlink" href="#preventing-coverage-leak" title="Permanent link">&para;</a></h4>
+<p>We all know that RAII is the best way to make the type system work for us. Let's consider about it.</p>
+<p><strong>What is the proper behavior of the linked list on its destruction?</strong><br />
+Like the <code>std::list&lt;T&gt;</code>, it must delete its existing nodes to prevent memory leak.
+Unfortunately, this case is <strong>really special</strong> because the nodes are existing coroutines' frame.</p>
+<p>That means, if we free the node, it will destroy all objects in the frame.
+That's really brutal because it can break all existing expectations of the function that manages its frame manually (with customized <code>promise_type</code>).</p>
+<p>So the appropriate behavior is to resume those frames and let them recognize that they can't access the channel anymore.
+In <a href="https://github.com/luncliff/coroutine/blob/1.4.3/interface/coroutine/channel.hpp#L296">its destructor</a>, <code>channel&lt;T, M&gt;</code> resumes all awaiting coroutines in its linked lists.
+Notice the destructor is specified <code>noexcept(false)</code> because typically <code>resume</code> operation is not guaranteed <code>noexcept</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">channel</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="o">~</span><span class="n">channel</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="c1">// channel can&#39;t provide exception guarantee...</span>
+    <span class="p">{</span>
+        <span class="n">writer_list</span><span class="o">&amp;</span> <span class="n">writers</span> <span class="o">=</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+        <span class="n">reader_list</span><span class="o">&amp;</span> <span class="n">readers</span> <span class="o">=</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+
+        <span class="kt">size_t</span> <span class="n">repeat</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">repeat</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">unique_lock</span> <span class="n">lck</span><span class="p">{</span><span class="n">mtx</span><span class="p">};</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">writers</span><span class="p">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">writer</span><span class="o">*</span> <span class="n">w</span> <span class="o">=</span> <span class="n">writers</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+                <span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">w</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">);</span>
+                <span class="n">w</span><span class="o">-&gt;</span><span class="n">frame</span> <span class="o">=</span> <span class="n">internal</span><span class="o">::</span><span class="n">poison</span><span class="p">();</span>  <span class="c1">// &lt;-- use a poison value</span>
+
+                <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span> <span class="c1">// &lt;-- resume write operations</span>
+            <span class="p">}</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">readers</span><span class="p">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">reader</span><span class="o">*</span> <span class="n">r</span> <span class="o">=</span> <span class="n">readers</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+                <span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">r</span><span class="o">-&gt;</span><span class="n">frame</span><span class="p">);</span>
+                <span class="n">r</span><span class="o">-&gt;</span><span class="n">frame</span> <span class="o">=</span> <span class="n">internal</span><span class="o">::</span><span class="n">poison</span><span class="p">();</span>
+
+                <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span> <span class="c1">// &lt;-- resume read operations</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>With the behavior, user code must be changed like the following.
+It receive not only a value from the channel but also one <code>bool</code> that notifies the channel is still accessible.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Before</span>
+<span class="k">auto</span> <span class="nf">consumer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">msg</span><span class="p">{};</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span> <span class="n">msg</span> <span class="o">!=</span> <span class="n">bye</span><span class="p">;</span> 
+        <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">msg</span><span class="p">)){</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// After</span>
+<span class="k">auto</span> <span class="nf">consumer</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+    <span class="c1">// it&#39;s returning tuple, </span>
+    <span class="c1">//  declare memory objects using structured binding</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="p">[</span><span class="n">msg</span><span class="p">,</span> <span class="n">ok</span><span class="p">]</span> <span class="o">=</span> <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">();</span> <span class="n">ok</span><span class="p">;</span>
+         <span class="n">tie</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ok</span><span class="p">)</span> <span class="o">=</span> <span class="k">co_await</span> <span class="n">ch</span><span class="p">.</span><span class="n">read</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// ok == true: the channel is accessible</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>By doing so, if the reader/writer coroutines are written correctly, channel can guarantee there is no dangling coroutines in its linked lists, and prevent coverage leak of them.</p>
+<h4 id="using-a-poison-in-await_resume">Using a poison in <code>await_resume</code><a class="headerlink" href="#using-a-poison-in-await_resume" title="Permanent link">&para;</a></h4>
+<p>I used <code>poison</code> to replace explicit <code>close</code>.</p>
+<p>Remember that the <code>co_await</code> expression is affected by <code>await_resume</code>.
+Returning a <code>tuple</code> from the function can constrain user's code. </p>
+<p>In the implementation, to decide to return <code>true</code> or <code>false</code>, both <code>reader&lt;T, M&gt;</code> and <code>writer&lt;T, M&gt;</code> have to check if the poison is delivered.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Awaitable for channel&#39;s read operation</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">reader</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">auto</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tuple</span><span class="o">&lt;</span><span class="n">value_type</span><span class="p">,</span> <span class="kt">bool</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">t</span> <span class="o">=</span> <span class="n">make_tuple</span><span class="p">(</span><span class="n">value_type</span><span class="p">{},</span> <span class="nb">false</span><span class="p">);</span>
+        <span class="c1">// frame holds poision if the channel is going to be destroyed</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span> <span class="o">==</span> <span class="n">internal</span><span class="o">::</span><span class="n">poison</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
+
+        <span class="c1">// Store first. we have to do this because the resume operation</span>
+        <span class="c1">// can destroy the writer coroutine</span>
+        <span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="n">move</span><span class="p">(</span><span class="o">*</span><span class="n">ptr</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+            <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+
+        <span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<p>Unlike reader, writer just returns <code>bool</code>.
+The signature makes its return can be used in <code>if</code> or <code>while</code> conveniently.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Awaitable for channel&#39;s write operation</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">writer</span> <span class="k">final</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="kt">bool</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// frame holds poision if the channel is going to destroy</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span> <span class="o">==</span> <span class="n">internal</span><span class="o">::</span><span class="n">poison</span><span class="p">())</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+            <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<p>Furthermore, the signature makes user to places a boolean in the coroutine's frame, <strong>not in the channel</strong>.
+So it's on-demand cost.</p>
+<h4 id="skip-await_ready-and-await_suspend">Skip: <code>await_ready</code> and <code>await_suspend</code><a class="headerlink" href="#skip-await_ready-and-await_suspend" title="Permanent link">&para;</a></h4>
+<p>This part is realted to the requirement, optional synchronization.
+It will be covered later because they are purely about the implementation.</p>
+<p>If you are really curious, visit <a href="../channel-read_write.md">this page</a>.</p>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
+<p>The type doesn't weighted for the performance.
+What I focused was to enforce intuitive code and to guide users' consideration to their behavior (and undelying semantics).
+It's not replacement nor alternative of the other delivery methods. </p>
+<p>To summarize each methods,</p>
+<ul>
+<li><code>return</code> : 1 time, directional, subroutine to subroutine</li>
+<li><code>future&lt;T&gt;</code> : 1 time, directional, subroutine to subroutine, synchronization(shared state)</li>
+<li><code>task&lt;T&gt;</code>: 1 time, directional, coroutine to coroutine</li>
+<li><code>generator&lt;T&gt;</code>: multi-time, directional, coroutine to coroutine</li>
+<li><code>asnyc_generator&lt;T&gt;</code>: multi-time, directional, coroutine to coroutine, awaitable iterator</li>
+<li><code>channel&lt;T&gt;</code>: multi-time (with suspend), non-directional, optional synchronization</li>
+</ul>
+<p>For <code>channel&lt;T&gt;</code> itself...</p>
+<h4 id="non-directional-delivery_1">Non-directional delivery<a class="headerlink" href="#non-directional-delivery_1" title="Permanent link">&para;</a></h4>
+<p>You can see the example with <a href="https://godbolt.org/z/GXvfHK">the Compiler Explorer(MSVC)</a> or with <a href="https://wandbox.org/permlink/6mRwvKtUAUzAKcdX">the WandBox(clang-8)</a></p>
+<h4 id="coverage-leak">Coverage Leak<a class="headerlink" href="#coverage-leak" title="Permanent link">&para;</a></h4>
+<p>For the requirement, channel becomes a linked list of each reader and writer.
+Its operations place reader/writer object in the coroutine frame.</p>
+<p>In the destructor, all objects in linked lists receive the poison value.</p>
+<h4 id="invalidation-close-status">Invalidation (Close Status)<a class="headerlink" href="#invalidation-close-status" title="Permanent link">&para;</a></h4>
+<p>To detect invalidation of the channel, we check the poison value in the <code>await_resume</code> function.
+It's signature enforces to make a memory object(<code>ok</code> in the example) to receive channel's status.</p>
+<p>When the poison is delivered, <code>co_await</code> on the reader/writer will return <code>false</code>, so the user can break the loop.
+This can be done without use of <code>close</code> operation.</p>
+                
+                  
+                
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../awaitable-event/" title="Awaitable event using the coroutine, epoll and eventfd" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Awaitable event using the coroutine, epoll and eventfd
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Combining C++ coroutines and `pthread_create`
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/deed
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/luncliff" target="_blank" rel="noopener" title="github" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.c33a9706.js"></script>
+      
+      <script>app.initialize({version:"1.1",url:{base:"../.."}})</script>
+      
+    
+  </body>
+</html>

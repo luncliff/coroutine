@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="73" column="1" bodyfile="interface/coroutine/net.h" bodystart="73" bodyend="-1"/>
+        <location file="interface/coroutine/net.h" line="74" column="1" bodyfile="interface/coroutine/net.h" bodystart="74" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -81,7 +81,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="255" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="62" bodyend="69"/>
+        <location file="interface/coroutine/net.h" line="256" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="62" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -140,7 +140,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="267" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="71" bodyend="78"/>
+        <location file="interface/coroutine/net.h" line="268" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="71" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1gace516cdc1f8b51596ba7a406190182eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -199,7 +199,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="279" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="107" bodyend="114"/>
+        <location file="interface/coroutine/net.h" line="280" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="107" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -258,7 +258,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="291" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="115" bodyend="122"/>
+        <location file="interface/coroutine/net.h" line="292" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="115" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1gac94bb59884293c451906c8cffe825a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -317,7 +317,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="303" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="155" bodyend="162"/>
+        <location file="interface/coroutine/net.h" line="304" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="155" bodyend="162"/>
       </memberdef>
       <memberdef kind="function" id="group__NetWork_1ga60c53387a2e976df4742620055666796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -376,7 +376,32 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="315" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="189" bodyend="196"/>
+        <location file="interface/coroutine/net.h" line="316" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="189" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="group__NetWork_1ga022830c9178aa1a201f95abd2026d35f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::poll_net_tasks</definition>
+        <argsstring>(uint64_t nano) noexcept(false)</argsstring>
+        <name>poll_net_tasks</name>
+        <param>
+          <type>uint64_t</type>
+          <declname>nano</declname>
+        </param>
+        <briefdescription>
+<para>Poll internal I/O works and invoke user callback. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nano</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>timeout in nanoseconds </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/net.h" line="324" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="36" bodyend="44"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

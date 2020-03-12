@@ -283,7 +283,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/exploring-msvc-coroutine.md" title="Exploring MSVC Coroutine" class="md-nav__link">
+    <a href="../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-nav__link">
       Exploring MSVC Coroutine
     </a>
   </li>
@@ -295,7 +295,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/awaitable-event.md" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
+    <a href="../articles/awaitable-event/" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
       Awaitable event using the coroutine, epoll and eventfd
     </a>
   </li>
@@ -307,7 +307,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/designing-the-channel.md" title="Designing the coroutine channel" class="md-nav__link">
+    <a href="../articles/designing-the-channel/" title="Designing the coroutine channel" class="md-nav__link">
       Designing the coroutine channel
     </a>
   </li>
@@ -319,7 +319,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/combining-coroutines-and-pthread_create.md" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
+    <a href="../articles/combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
       Combining C++ coroutines and `pthread_create`
     </a>
   </li>
@@ -331,7 +331,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/russian-roulette.md" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
+    <a href="../articles/russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
       Russian Roulette and C++ Coroutines
     </a>
   </li>
@@ -478,25 +478,29 @@
     <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">buf_sz</span> <span class="o">=</span> <span class="mi">30u</span><span class="p">;</span>
     <span class="k">auto</span> <span class="n">buf</span> <span class="o">=</span> <span class="n">make_unique</span><span class="o">&lt;</span><span class="n">epoll_event</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="n">buf_sz</span><span class="p">);</span>
     <span class="c1">// resume inbound coroutines</span>
-    <span class="k">auto</span> <span class="n">count</span> <span class="o">=</span> <span class="n">iep</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">half_time</span><span class="p">.</span><span class="n">count</span><span class="p">(),</span> <span class="p">{</span><span class="n">buf</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">buf_sz</span><span class="p">});</span>
-    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0u</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">ptr</span><span class="p">))</span>
-            <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+    <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">count</span> <span class="o">=</span> <span class="n">iep</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">half_time</span><span class="p">.</span><span class="n">count</span><span class="p">(),</span> <span class="p">{</span><span class="n">buf</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">buf_sz</span><span class="p">});</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0u</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span>
+                    <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">ptr</span><span class="p">))</span>
+                <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+    <span class="p">}</span>
     <span class="c1">// resume outbound coroutines</span>
-    <span class="n">count</span> <span class="o">=</span> <span class="n">oep</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">half_time</span><span class="p">.</span><span class="n">count</span><span class="p">(),</span> <span class="p">{</span><span class="n">buf</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">buf_sz</span><span class="p">});</span>
-    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0u</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">ptr</span><span class="p">))</span>
-            <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+    <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">count</span> <span class="o">=</span> <span class="n">oep</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">half_time</span><span class="p">.</span><span class="n">count</span><span class="p">(),</span> <span class="p">{</span><span class="n">buf</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">buf_sz</span><span class="p">});</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0u</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">coro</span> <span class="o">=</span>
+                    <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">from_address</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">.</span><span class="n">ptr</span><span class="p">))</span>
+                <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="kt">bool</span> <span class="n">io_work_t</span><span class="o">::</span><span class="n">ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="k">auto</span> <span class="n">sd</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">handle</span><span class="p">;</span>
-    <span class="c1">// non blocking operation is expected</span>
-    <span class="c1">// going to suspend</span>
+    <span class="c1">// non blocking operation is expected going to suspend</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">fcntl</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">F_GETFL</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">O_NONBLOCK</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="c1">// not configured. return true</span>
-    <span class="c1">// and bypass to the blocking I/O</span>
+    <span class="c1">// not configured. return `true` and bypass to the blocking I/O</span>
     <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
 <span class="p">}</span>
 

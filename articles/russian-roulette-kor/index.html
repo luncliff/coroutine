@@ -1,0 +1,804 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="C++ 20 Coroutines in Action.">
+      
+      
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/articles/russian-roulette-kor/">
+      
+      
+        <meta name="author" content="Park DongHa">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+    
+    
+      
+        <title>Russian Roulette and C++ Coroutines - luncliff/coroutine</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.adb8469c.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.86422ebf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#russian-roulette-and-c-coroutines" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://luncliff.github.io/coroutine" title="luncliff/coroutine" aria-label="luncliff/coroutine" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">call_split</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              luncliff/coroutine
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Russian Roulette and C++ Coroutines
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://luncliff.github.io/coroutine" title="luncliff/coroutine" class="md-nav__button md-logo">
+      
+        <i class="md-icon">call_split</i>
+      
+    </a>
+    luncliff/coroutine
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      PPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        PPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+      C++ Korea 5th Seminar
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Articles
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Articles
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-nav__link">
+      Exploring MSVC Coroutine
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../awaitable-event/" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
+      Awaitable event using the coroutine, epoll and eventfd
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../designing-the-channel/" title="Designing the coroutine channel" class="md-nav__link">
+      Designing the coroutine channel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
+      Combining C++ coroutines and `pthread_create`
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
+      Russian Roulette and C++ Coroutines
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../namespaces/" title="Namespaces" class="md-nav__link">
+      Namespaces
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../classes/" title="Classes" class="md-nav__link">
+      Classes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../files/" title="Files" class="md-nav__link">
+      Files
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    리볼버 준비하기 1: 약실/방아쇠
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    참가자 행동 정의하기
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    리볼버 준비하기 2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    게임 진행과정
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#player" class="md-nav__link">
+    Player 코루틴을 위한 반환 타입
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#player_1" class="md-nav__link">
+    Player 코루틴 프레임에 대한 접근
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    결론
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/articles/russian-roulette-kor.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="russian-roulette-and-c-coroutines">Russian Roulette and C++ Coroutines<a class="headerlink" href="#russian-roulette-and-c-coroutines" title="Permanent link">&para;</a></h1>
+<p><a href="../russian-roulette/">English</a></p>
+<p>이번에는 여러 코루틴은 동작에 집중하고 이들의 진행을 하나의 서브루틴에서 수행하는 코드를 하나 작성해보고자 합니다.
+예시로는 굉장히 유명한 규칙을 가진 러시안 룰렛과 그 게임의 참가자들을 사용해 봤습니다.</p>
+<h3 id="1">리볼버 준비하기 1: 약실/방아쇠<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<p>우선 리볼버를 만드는 것부터 시작해보겠습니다. 참가 인원이 얼마나 있을지 모르기 때문에, <code>uint32_t</code>를 사용해 충분히 많은 약실(chamber)을 준비할 겁니다.
+그리고 임의의 약실을 선택하는 <code>select_chamber</code>를 아래와 같이 정의하겠습니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;random&gt;</span><span class="cp"></span>
+
+<span class="c1">//  for this example,</span>
+<span class="c1">//  chamber_t is the indices of the revolver&#39;s chambers</span>
+<span class="k">using</span> <span class="n">chamber_t</span> <span class="o">=</span> <span class="kt">uint32_t</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="nf">select_chamber</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">chamber_t</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">random_device</span> <span class="n">device</span><span class="p">{};</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">mt19937_64</span> <span class="n">gen</span><span class="p">{</span><span class="n">device</span><span class="p">()};</span>
+    <span class="k">return</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">chamber_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">gen</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>경우에 따라서는 인자를 받아 상황에 따라 약실을 선택할지 모르지만, 이 예시에서는 가장 단순한 방법(무작위)을 사용하겠습니다.</p>
+<p>약실이 있으니 이제 방아쇠(trigger)를 준비해야겠군요.
+방아쇠는 당길(<code>pull</code>) 수 있으며, 현재 공이가 맞물린 약실(<code>current</code>)과 장전된 약실(<code>loaded</code>)에 대해서 알고 있습니다.
+한번 방아쇠를 당기면 약실이 회전할테니, 여기서는 간단히 <code>chamber_t</code>의 값을 1 감소 시키는 것으로 약실을 회전시키겠습니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">//  trigger fires the bullet</span>
+<span class="k">class</span> <span class="nc">trigger_t</span> <span class="p">{</span>
+  <span class="k">protected</span><span class="o">:</span>
+    <span class="k">const</span> <span class="n">chamber_t</span><span class="o">&amp;</span> <span class="n">loaded</span><span class="p">;</span>
+    <span class="n">chamber_t</span> <span class="n">current</span><span class="p">;</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">trigger_t</span><span class="p">(</span><span class="k">const</span> <span class="n">chamber_t</span><span class="o">&amp;</span> <span class="n">_loaded</span><span class="p">,</span> <span class="n">chamber_t</span> <span class="n">_current</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">loaded</span><span class="p">{</span><span class="n">_loaded</span><span class="p">},</span> <span class="n">current</span><span class="p">{</span><span class="n">_current</span><span class="p">}</span> <span class="p">{</span>
+    <span class="p">}</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">pull</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// pull the trigger. is it the bad case?</span>
+        <span class="k">return</span> <span class="o">--</span><span class="n">current</span> <span class="o">==</span> <span class="n">loaded</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<h3 id="_1">참가자 행동 정의하기<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>여기서 방아쇠는 Awaitable 타입으로 정의해서, 게임 참가자들이 방아쇠를 당긴 후 결과를 <strong>기다리도록</strong> 만들겠습니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">//  trigger fires the bullet</span>
+<span class="c1">//  all players will &#39;wait&#39; for it</span>
+<span class="k">class</span> <span class="nc">trigger_t</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="kt">bool</span> <span class="n">await_resume</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">pull</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<p>이렇게 정의한 이유는 참가자(player)들이 3가지 상태를 가지기 때문입니다.</p>
+<ul>
+<li>방아쇠를 당겼지만, 총이 발사되지 않았다 (살았다!)</li>
+<li>방아쇠를 당겨서, 총이 발사되었다 (X를 눌러 조의를 표하십시오.)</li>
+<li>차례를 기다리던 중 다른 사람이 이미 총알을 받았다</li>
+</ul>
+<p>코드로 표현하자면 아래와 같습니다.
+<code>index</code>를 사용해 각 <code>player</code>들을 구분하고, 코루틴 외부에 위치한 <code>fired</code>(불이야!)의 값을 변경하는 방법으로 총알이 발사되었을 때 다른 코루틴들이 이를 확인할 수 있도록 하겠습니다.
+모두가 같은 리볼버의 방아쇠를 사용하므로, <code>trigger</code>는 참조를 사용하였습니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">//  this player will ...</span>
+<span class="c1">//  1. be bypassed</span>
+<span class="c1">//     (fired = false; then return)</span>
+<span class="c1">//  2. receive the bullet</span>
+<span class="c1">//     (fired = true; then return)</span>
+<span class="c1">//  3. be skipped because of the other player became a victim</span>
+<span class="c1">//     (destroyed when it is suspended - no output)</span>
+<span class="k">auto</span> <span class="nf">player</span><span class="p">(</span><span class="n">gsl</span><span class="o">::</span><span class="n">index</span> <span class="n">id</span><span class="p">,</span> <span class="kt">bool</span><span class="o">&amp;</span> <span class="n">fired</span><span class="p">,</span> <span class="n">trigger_t</span><span class="o">&amp;</span> <span class="n">trigger</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">user_behavior_t</span> <span class="p">{</span>
+    <span class="c1">// bang !</span>
+    <span class="n">fired</span> <span class="o">=</span> <span class="k">co_await</span> <span class="n">trigger</span><span class="p">;</span>
+    <span class="n">fired</span> <span class="o">?</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;player %zu dead  :( </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
+          <span class="o">:</span> <span class="n">printf</span><span class="p">(</span><span class="s">&quot;player %zu alive :) </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">id</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>이렇게 하면 실제로는 모든 참가자 코루틴들은 방아쇠를 미리 당겨놓고 기다리게(suspend) 됩니다. 그리고 방아쇠를 한번씩 당기면서 차례대로 깨워보는(resume) 것이죠.
+차례가 되면(resumed) <code>trigger_t</code>은 <code>await_resume</code>의 반환값을 통해 결과(<code>fired</code>)를 전달할 것이고 그 값에 따라서 <code>player</code>의 동작이 달라지게 됩니다.</p>
+<h3 id="2">리볼버 준비하기 2<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>이제 리볼버를 마저 완성하고, <code>user_behavior_t</code>에 대해 설명하겠습니다. 이미 위에서 <code>trigger_t</code>를 정의 했으므로, <code>revolver_t</code>는 1개의 방아쇠와 장전된 약실(<code>loaded</code>)에 대한 정보를 가지고 있어야 합니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// revolver knows which is the loaded chamber</span>
+<span class="k">class</span> <span class="nc">revolver_t</span> <span class="o">:</span> <span class="k">public</span> <span class="n">trigger_t</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">chamber_t</span> <span class="n">loaded</span><span class="p">;</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">revolver_t</span><span class="p">(</span><span class="n">chamber_t</span> <span class="n">current</span><span class="p">,</span> <span class="n">chamber_t</span> <span class="n">num_player</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">trigger_t</span><span class="p">{</span><span class="n">loaded</span><span class="p">,</span> <span class="n">num_player</span><span class="p">},</span> <span class="c1">//</span>
+          <span class="n">loaded</span><span class="p">{</span><span class="n">current</span> <span class="o">%</span> <span class="n">num_player</span><span class="p">}</span> <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<p>물론 누군가는 <strong>당첨</strong>되어야 하기 때문에, 모듈로 연산을 하는 것도 잊지 않았습니다.</p>
+<h3 id="_2">게임 진행과정<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>이제 참가자와 도구(리볼버)가 모두 정의되었으니, 게임 진행과정을 표현해보겠습니다.
+이 게임에서는 총 6명의 참가자가 있다고 가정하겠습니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;array&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="p">[])</span> <span class="p">{</span>
+    <span class="c1">// select some chamber with the users</span>
+    <span class="n">array</span><span class="o">&lt;</span><span class="n">user_behavior_t</span><span class="p">,</span> <span class="mi">6</span><span class="o">&gt;</span> <span class="n">users</span><span class="p">{};</span>
+    <span class="n">revolver_t</span> <span class="n">revolver</span><span class="p">{</span><span class="n">select_chamber</span><span class="p">(),</span>
+                        <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">chamber_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">users</span><span class="p">.</span><span class="n">max_size</span><span class="p">())};</span>
+
+    <span class="n">russian_roulette</span><span class="p">(</span><span class="n">revolver</span><span class="p">,</span> <span class="n">users</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>참가자와 도구가 준비되면, <code>russian_roulette</code>을 호출하여 게임을 시작합니다.
+GSL(C++ 핵심 가이드라인 지원 라이브러리)에 익숙하지 않으시더라도 읽는데 문제는 없을 것입니다.<br />
+모르는 분들을 위해 설명하자면, <code>gsl::span</code>은 범위를 표현하여 range-<code>for</code> 구문을 사용할 수 있게 해주고, <code>gsl::finally</code>는 개체가 소멸하는 시점에 함수를 호출하는 기능을 합니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;gsl/gsl&gt;</span><span class="cp"></span>
+
+<span class="c1">// the game will go on until the revolver fires its bullet</span>
+<span class="k">auto</span> <span class="nf">russian_roulette</span><span class="p">(</span><span class="n">revolver_t</span><span class="o">&amp;</span> <span class="n">revolver</span><span class="p">,</span> <span class="n">gsl</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">user_behavior_t</span><span class="o">&gt;</span> <span class="n">users</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="n">fired</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+
+    <span class="c1">// spawn player coroutines with their id</span>
+    <span class="n">gsl</span><span class="o">::</span><span class="n">index</span> <span class="n">id</span><span class="p">{};</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">user</span> <span class="p">:</span> <span class="n">users</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">player</span><span class="p">(</span><span class="o">++</span><span class="n">id</span><span class="p">,</span> <span class="n">fired</span><span class="p">,</span> <span class="n">revolver</span><span class="p">);</span>
+
+    <span class="c1">// cleanup the game on return</span>
+    <span class="k">auto</span> <span class="n">on_finish</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">finally</span><span class="p">([</span><span class="n">users</span><span class="p">]</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;&amp;</span> <span class="nl">frame</span> <span class="p">:</span> <span class="n">users</span><span class="p">)</span>
+            <span class="n">frame</span><span class="p">.</span><span class="n">destroy</span><span class="p">();</span>
+    <span class="p">});</span>
+
+    <span class="c1">// until there is a victim ...</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">id</span> <span class="o">=</span> <span class="mi">0u</span><span class="p">;</span> <span class="n">fired</span> <span class="o">==</span> <span class="nb">false</span><span class="p">;</span> <span class="n">id</span> <span class="o">=</span> <span class="p">(</span><span class="n">id</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">users</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// continue the users&#39; behavior in round-robin manner</span>
+        <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;&amp;</span> <span class="n">task</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="n">id</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">task</span><span class="p">.</span><span class="n">done</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+            <span class="n">task</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>모든 <code>player</code>들이 <code>fired</code>와 <code>revolver</code>를 공유하며 게임을 시작합니다. 이들의 행동은 코루틴으로 정의하였습니다.
+참가자들의 수와 무관하게, <code>russian_roulette</code> 서브루틴은 게임의 진행자가 되어 코루틴들이 차례대로 방아쇠를 당기게 만들것입니다. 이는 <code>task.resume()</code>을 통해서 이루어집니다. </p>
+<p>게임은 <code>fired</code>가 <code>true</code>가 될 때까지 계속됩니다.</p>
+<p>게임이 끝나면 <code>on_finish</code> 개체가 모든 참가자들이 사용한 메모리(코루틴 프레임)를 회수할 것입니다. 간단히 <code>frame.destroy()</code>하는 것으로 이를 처리할 수 있습니다.</p>
+<h3 id="player">Player 코루틴을 위한 반환 타입<a class="headerlink" href="#player" title="Permanent link">&para;</a></h3>
+<p>C++ 20 Coroutines에서 코루틴을 정의하려면, Coroutine Promise Requirement를 만족하는 반환 타입을 가져야 합니다. 이 조건에 맞춰서 <code>user_behavior_t</code>를 정의해보겠습니다.</p>
+<blockquote>
+<p>Promise에 대한 상세한 설명은 <a href="https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type">Lewiss Baker가 다룬 바 있습니다</a>.<br />
+한글 자료는 <a href="https://github.com/CppKorea/CppKoreaSeminar5th/blob/master/5%20-%20C%2B%2B%20Coroutine%20%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0%3B%20%EC%A0%91%EA%B7%BC%EB%B2%95%2C%20%EC%BB%B4%ED%8C%8C%EC%9D%BC%EB%9F%AC%2C%20%EA%B7%B8%EB%A6%AC%EA%B3%A0%20%EC%9D%B4%EC%8A%88/%5BC%2B%2B%20Korea%205th%20Seminar%5D%20C%2B%2B%20Coroutine%20%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0%3B%20%EC%A0%91%EA%B7%BC%EB%B2%95%2C%20%EC%BB%B4%ED%8C%8C%EC%9D%BC%EB%9F%AC%2C%20%EA%B7%B8%EB%A6%AC%EA%B3%A0%20%EC%9D%B4%EC%8A%88%EB%93%A4.pdf">C++ Korea 5회 세미나의 발표자료</a>를 참고해주시길 바랍니다. 
+</p>
+</blockquote>
+<p>우선 코루틴의 프레임을 관리하는 <code>user_behavior_t::promise_type</code>을 정의해야 합니다. 엄밀하게는 <code>coroutine_traits&lt;user_behavior_t, ...&gt;::promise_type</code> 이지만, 여기서는 가장 간단한 방법을 사용하겠습니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;experimental/coroutine&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">promise_manual_control</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">auto</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">suspend_always</span><span class="p">{};</span> <span class="c1">// suspend after invoke</span>
+    <span class="p">}</span>
+    <span class="k">auto</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">suspend_always</span><span class="p">{};</span> <span class="c1">// suspend after return</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">unhandled_exception</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// this example never &#39;throw&#39;. so nothing to do</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<p>각 함수들은 다음과 같은 역할을 합니다.</p>
+<ul>
+<li><code>initial_suspend</code>: 코루틴이 호출(invoke)되어 해당 코루틴의 프레임이 생성된 직후 중단 여부를 결정</li>
+<li><code>final_suspend</code>: 코루틴이 반환(<code>co_return</code>)된 이후 해당 코루틴의 중단 여부를 결정</li>
+<li><code>unhandled_exception</code>: 코루틴 내에서 처리되지 못한 Exception이 발생할때 호출</li>
+</ul>
+<p><code>suspend_always</code> 타입 개체를 반환하는 행위는 단순히 현재 코루틴을 중단하겠다는 의미입니다. 만약 중단하지 않고 바로 진행한다면 <code>suspend_never</code>를 반환하면 됩니다.<br />
+위에서 작성한 예시에서 <code>player</code> 코루틴들의 진행(suspend, resume) 여부는 모두 게임의 진행자인 <code>russian_roulette</code> 서브루틴에서 관리하므로 두 경우 모두 <code>suspend_always</code>를 반환하도록 하였습니다.</p>
+<h3 id="player_1">Player 코루틴 프레임에 대한 접근<a class="headerlink" href="#player_1" title="Permanent link">&para;</a></h3>
+<p><code>user_behavior_t::promise_type</code>는 <code>promise_manual_control</code>를 상속받으면서, 2가지 멤버 함수를 정의합니다.</p>
+<ul>
+<li><code>return_void</code>: <code>co_return</code>을 처리합니다</li>
+<li><code>get_return_object</code>: 코루틴의 반환타입을 생성할 수 있도록 임의의 개체를 반환합니다. 이 경우는 <code>user_behavior_t</code>를 바로 반환하도록 하였습니다.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="c1">//  behavior will be defined as a coroutine</span>
+<span class="k">class</span> <span class="nc">user_behavior_t</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">class</span> <span class="nc">promise_type</span> <span class="o">:</span> <span class="k">public</span> <span class="n">promise_manual_control</span> <span class="p">{</span>
+      <span class="k">public</span><span class="o">:</span>
+        <span class="kt">void</span> <span class="n">return_void</span><span class="p">()</span> <span class="p">{</span>
+        <span class="p">}</span>
+        <span class="k">auto</span> <span class="n">get_return_object</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">user_behavior_t</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">{</span><span class="k">this</span><span class="p">};</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="n">user_behavior_t</span><span class="p">(</span><span class="n">promise_type</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span> <span class="o">:</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">{}</span> <span class="p">{</span>
+        <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;&amp;</span> <span class="n">self</span> <span class="o">=</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+        <span class="n">self</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;::</span><span class="n">from_promise</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">);</span>
+    <span class="p">}</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">user_behavior_t</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<p><code>user_behavior_t</code>는 <code>coroutine_handle&lt;void&gt;</code>를 상속 받아 <code>resume</code>, <code>done</code>, <code>destroy</code>와 같이 코루틴을 제어할 수 있도록 하였습니다.
+이를 위해서는 <code>promise_type</code>으로부터 <code>coroutine_handle&lt;void&gt;</code>를 얻을 방법이 필요한데, 이는 <code>coroutine_handle&lt;promise_type&gt;</code>을 사용하여 해결할 수 있습니다.</p>
+<p>제어는 <code>russian_roulette</code>에서 직접 이루어지므로 지금과 같은 코드로도 문제가 없습니다. 하지만 <code>coroutine_handle&lt;void&gt;</code>는 마치 <code>void*</code>처럼 사용할 수 있기 때문에, 부주의한 실수를 예방하려면 복사/이동 생성자, 복사/이동 대입 연산자, 소멸자를 추가로 정의해야 할 것입니다.</p>
+<h3 id="_3">결론<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p><a href="https://godbolt.org/z/rlKE7f">All-in-one 코드는 Compiler Explorer에서 실행해볼 수 있습니다.</a></p>
+<p>https://github.com/Naios/continuable 처럼 <code>future&lt;T&gt;</code>를 더 편리하게 사용하기 위해 코루틴을 사용할수도 있지만, 이는 한가지 방법일 뿐입니다.</p>
+<p>코루틴 프레임 안에 중단 지점에 대한 정보(index)가 있기 때문에 구현레벨에서는 상태 패턴과 크게 다르지 않습니다.
+다만 차이점이 있다면 상태 패턴이 추가적인 타입을 작성해야 하지만, 코루틴에서는 중단(suspend)과 재개(resume)를 자연스럽게 기술하는데 좀 더 초점을 둘 수 있죠.
+이는 중단과 재개하는 과정이 코드의 구조에 영향을 주는 일이 줄어든다고 요약할 수 있겠습니다.</p>
+                
+                  
+                
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/deed
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/luncliff" target="_blank" rel="noopener" title="github" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.c33a9706.js"></script>
+      
+      <script>app.initialize({version:"1.1",url:{base:"../.."}})</script>
+      
+    
+  </body>
+</html>

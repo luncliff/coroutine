@@ -2,60 +2,60 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="net_8h" kind="file" language="C++">
     <compoundname>net.h</compoundname>
-    <includes refid="return_8h" local="no">coroutine/return.h</includes>
     <includes local="no">gsl/gsl</includes>
+    <includes refid="return_8h" local="no">coroutine/return.h</includes>
     <includedby refid="io__darwin_8cpp" local="no">modules/net/io_darwin.cpp</includedby>
     <includedby refid="io__linux_8cpp" local="no">modules/net/io_linux.cpp</includedby>
     <includedby refid="io__windows_8cpp" local="no">modules/net/io_windows.cpp</includedby>
     <includedby refid="resolver_8cpp" local="no">modules/net/resolver.cpp</includedby>
     <incdepgraph>
-      <node id="191">
+      <node id="192">
         <label>interface/coroutine/net.h</label>
         <link refid="net.h"/>
-        <childnode refid="192" relation="include">
+        <childnode refid="193" relation="include">
         </childnode>
         <childnode refid="194" relation="include">
         </childnode>
       </node>
-      <node id="192">
+      <node id="194">
         <label>coroutine/return.h</label>
         <link refid="return_8h"/>
-        <childnode refid="193" relation="include">
+        <childnode refid="195" relation="include">
         </childnode>
       </node>
-      <node id="194">
+      <node id="193">
         <label>gsl/gsl</label>
       </node>
-      <node id="193">
+      <node id="195">
         <label>type_traits</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="199">
+      <node id="200">
         <label>modules/net/resolver.cpp</label>
         <link refid="resolver_8cpp"/>
       </node>
-      <node id="195">
+      <node id="196">
         <label>interface/coroutine/net.h</label>
         <link refid="net.h"/>
-        <childnode refid="196" relation="include">
-        </childnode>
         <childnode refid="197" relation="include">
         </childnode>
         <childnode refid="198" relation="include">
         </childnode>
         <childnode refid="199" relation="include">
         </childnode>
+        <childnode refid="200" relation="include">
+        </childnode>
       </node>
-      <node id="197">
+      <node id="198">
         <label>modules/net/io_linux.cpp</label>
         <link refid="io__linux_8cpp"/>
       </node>
-      <node id="196">
+      <node id="197">
         <label>modules/net/io_darwin.cpp</label>
         <link refid="io__darwin_8cpp"/>
       </node>
-      <node id="198">
+      <node id="199">
         <label>modules/net/io_windows.cpp</label>
         <link refid="io__windows_8cpp"/>
       </node>
@@ -89,179 +89,176 @@
 <codeline lineno="7"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>COROUTINE_NET_IO_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="9" refid="net_8h_1a07b439132c0db62a43c0e1bbd48b7faa" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>COROUTINE_NET_IO_H</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="return_8h" kindref="compound">coroutine/return.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gsl/gsl&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="preprocessor">#if<sp/>__has_include(&lt;WinSock2.h&gt;)<sp/>//<sp/>use<sp/>winsock</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;WS2tcpip.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;WinSock2.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ws2def.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_winsock<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_netinet<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>io_control_block<sp/>=<sp/>OVERLAPPED;</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>__has_include(&lt;netinet/in.h&gt;)<sp/>//<sp/>use<sp/>netinet</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fcntl.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;netdb.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;netinet/in.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;netinet/tcp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/socket.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_winsock<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_netinet<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="keyword">struct<sp/></highlight><highlight class="normal">io_control_block<sp/>{</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/></highlight><highlight class="keyword">internal</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint32_t<sp/>errc,<sp/>int32_t<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>internal_high;<sp/></highlight><highlight class="comment">//<sp/>int64_t<sp/>len,<sp/>socklen_t<sp/>addrlen</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>offset;</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>offset_high;</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr;<sp/></highlight><highlight class="comment">//<sp/>sockaddr*<sp/>addr;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>handle;<sp/></highlight><highlight class="comment">//<sp/>int64_t<sp/>sd;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>winsock<sp/>||<sp/>netinet</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight></codeline>
-<codeline lineno="73" refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" refkind="member"><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>=<sp/>gsl::span&lt;std::byte&gt;;</highlight></codeline>
-<codeline lineno="74"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref>)<sp/>&lt;=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>*<sp/>2);</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81" refid="classcoro_1_1io__work__t" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>io_control_block<sp/>{</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="83" refid="classcoro_1_1io__work__t_1a4dd4bfa76a21f67ffc954759d1de320e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>task{};</highlight></codeline>
-<codeline lineno="84" refid="classcoro_1_1io__work__t_1aa2108f1c95a93873abf686f496f9f719" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer{};</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"></highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ready()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>noexcept;</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"></highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>error()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>noexcept;</highlight></codeline>
-<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="101"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>)<sp/>&lt;=<sp/>56);</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="109" refid="classcoro_1_1io__send__to" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref><sp/>{</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>resume()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"></highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="125" refid="classcoro_1_1io__send__to_1af8fa0d72e893de5ca95a2683c113c39c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__send__to_1af8fa0d72e893de5ca95a2683c113c39c" kindref="member">await_ready</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;ready();</highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="131" refid="classcoro_1_1io__send__to_1ab679c092e208d40a2fc1f59e7d904861" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__send__to_1ab679c092e208d40a2fc1f59e7d904861" kindref="member">await_suspend</ref>(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;suspend(t);</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="134" refid="classcoro_1_1io__send__to_1a04349caf971062352ff0427412907a1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classcoro_1_1io__send__to_1a04349caf971062352ff0427412907a1d" kindref="member">await_resume</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;resume();</highlight></codeline>
-<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="137"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="138"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref>)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>));</highlight></codeline>
-<codeline lineno="139"><highlight class="normal"></highlight></codeline>
-<codeline lineno="146" refid="classcoro_1_1io__recv__from" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref><sp/>{</highlight></codeline>
-<codeline lineno="147"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>resume()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"></highlight></codeline>
-<codeline lineno="161"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="162" refid="classcoro_1_1io__recv__from_1a4df83e51e7d93acfc657995da090014a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__recv__from_1a4df83e51e7d93acfc657995da090014a" kindref="member">await_ready</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;ready();</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="168" refid="classcoro_1_1io__recv__from_1addb17cbc7a4762fa86988a2242136882" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__recv__from_1addb17cbc7a4762fa86988a2242136882" kindref="member">await_suspend</ref>(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;suspend(t);</highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="171" refid="classcoro_1_1io__recv__from_1a1f457126fa1663eb7f8c322efc0a701f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classcoro_1_1io__recv__from_1a1f457126fa1663eb7f8c322efc0a701f" kindref="member">await_resume</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;resume();</highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="175"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref>)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>));</highlight></codeline>
-<codeline lineno="176"><highlight class="normal"></highlight></codeline>
-<codeline lineno="183" refid="classcoro_1_1io__send" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1io__send" kindref="compound">io_send</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref><sp/>{</highlight></codeline>
-<codeline lineno="184"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>resume()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="197"><highlight class="normal"></highlight></codeline>
-<codeline lineno="198"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="199" refid="classcoro_1_1io__send_1a413c95b112794ebb557b6574703b13b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__send_1a413c95b112794ebb557b6574703b13b4" kindref="member">await_ready</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;ready();</highlight></codeline>
-<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="202" refid="classcoro_1_1io__send_1a22645cbac6eea58bc59c8571d5a2162d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__send_1a22645cbac6eea58bc59c8571d5a2162d" kindref="member">await_suspend</ref>(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;suspend(t);</highlight></codeline>
-<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="205" refid="classcoro_1_1io__send_1aed3b15b47eba71a5476c8b70e9be2423" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classcoro_1_1io__send_1aed3b15b47eba71a5476c8b70e9be2423" kindref="member">await_resume</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;resume();</highlight></codeline>
-<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="208"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="209"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__send" kindref="compound">io_send</ref>)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>));</highlight></codeline>
-<codeline lineno="210"><highlight class="normal"></highlight></codeline>
-<codeline lineno="217" refid="classcoro_1_1io__recv" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1io__recv" kindref="compound">io_recv</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref><sp/>{</highlight></codeline>
-<codeline lineno="218"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="224"><highlight class="normal"></highlight></codeline>
-<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>resume()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="232"><highlight class="normal"></highlight></codeline>
-<codeline lineno="233"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="234" refid="classcoro_1_1io__recv_1acbe69a0ee11a0ad650a27dae19fbae17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__recv_1acbe69a0ee11a0ad650a27dae19fbae17" kindref="member">await_ready</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;ready();</highlight></codeline>
-<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="237" refid="classcoro_1_1io__recv_1af3d6fd62e9cc0e51db565c111769d7f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__recv_1af3d6fd62e9cc0e51db565c111769d7f3" kindref="member">await_suspend</ref>(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;suspend(t);</highlight></codeline>
-<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="240" refid="classcoro_1_1io__recv_1a009e06ff7800d9ede9e3ac8e6b7d0861" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classcoro_1_1io__recv_1a009e06ff7800d9ede9e3ac8e6b7d0861" kindref="member">await_resume</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
-<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;resume();</highlight></codeline>
-<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="243"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="244"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__recv" kindref="compound">io_recv</ref>)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>));</highlight></codeline>
-<codeline lineno="245"><highlight class="normal"></highlight></codeline>
-<codeline lineno="255"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" kindref="member">send_to</ref>(uint64_t<sp/>sd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sockaddr_in&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,</highlight></codeline>
-<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref>&amp;;</highlight></codeline>
-<codeline lineno="257"><highlight class="normal"></highlight></codeline>
-<codeline lineno="267"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" kindref="member">send_to</ref>(uint64_t<sp/>sd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sockaddr_in6&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,</highlight></codeline>
-<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref>&amp;;</highlight></codeline>
-<codeline lineno="269"><highlight class="normal"></highlight></codeline>
-<codeline lineno="279"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" kindref="member">recv_from</ref>(uint64_t<sp/>sd,<sp/>sockaddr_in&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,</highlight></codeline>
-<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref>&amp;;</highlight></codeline>
-<codeline lineno="281"><highlight class="normal"></highlight></codeline>
-<codeline lineno="291"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" kindref="member">recv_from</ref>(uint64_t<sp/>sd,<sp/>sockaddr_in6&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,</highlight></codeline>
-<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref>&amp;;</highlight></codeline>
-<codeline lineno="293"><highlight class="normal"></highlight></codeline>
-<codeline lineno="303"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1gac94bb59884293c451906c8cffe825a14" kindref="member">send_stream</ref>(uint64_t<sp/>sd,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,<sp/>uint32_t<sp/>flag,</highlight></codeline>
-<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__send" kindref="compound">io_send</ref>&amp;;</highlight></codeline>
-<codeline lineno="305"><highlight class="normal"></highlight></codeline>
-<codeline lineno="315"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1ga60c53387a2e976df4742620055666796" kindref="member">recv_stream</ref>(uint64_t<sp/>sd,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,<sp/>uint32_t<sp/>flag,</highlight></codeline>
-<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__recv" kindref="compound">io_recv</ref>&amp;;</highlight></codeline>
-<codeline lineno="317"><highlight class="normal"></highlight></codeline>
-<codeline lineno="318"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__APPLE__)<sp/>||<sp/>defined(__UNIX__)<sp/>||<sp/>defined(__linux__)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="319"><highlight class="normal"></highlight></codeline>
-<codeline lineno="325"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" kindref="member">poll_net_tasks</ref>(uint64_t<sp/>nano)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="326"><highlight class="normal"></highlight></codeline>
-<codeline lineno="327"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="328"><highlight class="normal"></highlight></codeline>
-<codeline lineno="340"><highlight class="normal">uint32_t<sp/><ref refid="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kindref="member">get_address</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>addrinfo&amp;<sp/>hint,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::czstring&lt;&gt;<sp/>host,<sp/>gsl::czstring&lt;&gt;<sp/>serv,</highlight></codeline>
-<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::span&lt;sockaddr_in&gt;<sp/>output)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="343"><highlight class="normal"></highlight></codeline>
-<codeline lineno="355"><highlight class="normal">uint32_t<sp/><ref refid="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kindref="member">get_address</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>addrinfo&amp;<sp/>hint,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::czstring&lt;&gt;<sp/>host,<sp/>gsl::czstring&lt;&gt;<sp/>serv,</highlight></codeline>
-<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::span&lt;sockaddr_in6&gt;<sp/>output)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="358"><highlight class="normal"></highlight></codeline>
-<codeline lineno="369"><highlight class="normal">uint32_t<sp/><ref refid="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" kindref="member">get_name</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sockaddr_in&amp;<sp/>addr,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::zstring&lt;NI_MAXHOST&gt;<sp/>name,<sp/>gsl::zstring&lt;NI_MAXSERV&gt;<sp/>serv,</highlight></codeline>
-<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>flags<sp/>=<sp/>NI_NUMERICHOST<sp/>|<sp/>NI_NUMERICSERV)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="372"><highlight class="normal"></highlight></codeline>
-<codeline lineno="383"><highlight class="normal">uint32_t<sp/><ref refid="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" kindref="member">get_name</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sockaddr_in6&amp;<sp/>addr,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::zstring&lt;NI_MAXHOST&gt;<sp/>name,<sp/>gsl::zstring&lt;NI_MAXSERV&gt;<sp/>serv,</highlight></codeline>
-<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>flags<sp/>=<sp/>NI_NUMERICHOST<sp/>|<sp/>NI_NUMERICSERV)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="386"><highlight class="normal"></highlight></codeline>
-<codeline lineno="387"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coro</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="388"><highlight class="normal"></highlight></codeline>
-<codeline lineno="389"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>COROUTINE_NET_IO_H</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gsl/gsl&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="return_8h" kindref="compound">coroutine/return.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="preprocessor">#if<sp/>__has_include(&lt;WinSock2.h&gt;)<sp/>//<sp/>use<sp/>winsock</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;WS2tcpip.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;WinSock2.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ws2def.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_winsock<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_netinet<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>io_control_block<sp/>=<sp/>OVERLAPPED;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>__has_include(&lt;netinet/in.h&gt;)<sp/>//<sp/>use<sp/>netinet</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fcntl.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;netdb.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;netinet/in.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;netinet/tcp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/socket.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_winsock<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_netinet<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="keyword">struct<sp/></highlight><highlight class="normal">io_control_block<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/></highlight><highlight class="keyword">internal</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint32_t<sp/>errc,<sp/>int32_t<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>internal_high;<sp/></highlight><highlight class="comment">//<sp/>int64_t<sp/>len,<sp/>socklen_t<sp/>addrlen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>offset;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>offset_high;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr;<sp/></highlight><highlight class="comment">//<sp/>sockaddr*<sp/>addr;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>handle;<sp/></highlight><highlight class="comment">//<sp/>int64_t<sp/>sd;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>winsock<sp/>||<sp/>netinet</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" refkind="member"><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>=<sp/>gsl::span&lt;std::byte&gt;;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref>)<sp/>&lt;=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>*<sp/>2);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classcoro_1_1io__work__t" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>io_control_block<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84" refid="classcoro_1_1io__work__t_1a4dd4bfa76a21f67ffc954759d1de320e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>task{};</highlight></codeline>
+<codeline lineno="85" refid="classcoro_1_1io__work__t_1aa2108f1c95a93873abf686f496f9f719" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer{};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ready()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>noexcept;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>error()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>noexcept;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>)<sp/>&lt;=<sp/>56);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classcoro_1_1io__send__to" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref><sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>resume()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="126" refid="classcoro_1_1io__send__to_1af8fa0d72e893de5ca95a2683c113c39c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__send__to_1af8fa0d72e893de5ca95a2683c113c39c" kindref="member">await_ready</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;ready();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132" refid="classcoro_1_1io__send__to_1ab679c092e208d40a2fc1f59e7d904861" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__send__to_1ab679c092e208d40a2fc1f59e7d904861" kindref="member">await_suspend</ref>(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;suspend(t);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135" refid="classcoro_1_1io__send__to_1a04349caf971062352ff0427412907a1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classcoro_1_1io__send__to_1a04349caf971062352ff0427412907a1d" kindref="member">await_resume</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;resume();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref>)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classcoro_1_1io__recv__from" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref><sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>resume()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163" refid="classcoro_1_1io__recv__from_1a4df83e51e7d93acfc657995da090014a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__recv__from_1a4df83e51e7d93acfc657995da090014a" kindref="member">await_ready</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;ready();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169" refid="classcoro_1_1io__recv__from_1addb17cbc7a4762fa86988a2242136882" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__recv__from_1addb17cbc7a4762fa86988a2242136882" kindref="member">await_suspend</ref>(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;suspend(t);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172" refid="classcoro_1_1io__recv__from_1a1f457126fa1663eb7f8c322efc0a701f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classcoro_1_1io__recv__from_1a1f457126fa1663eb7f8c322efc0a701f" kindref="member">await_resume</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;resume();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref>)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="classcoro_1_1io__send" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1io__send" kindref="compound">io_send</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref><sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>resume()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="200" refid="classcoro_1_1io__send_1a413c95b112794ebb557b6574703b13b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__send_1a413c95b112794ebb557b6574703b13b4" kindref="member">await_ready</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;ready();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203" refid="classcoro_1_1io__send_1a22645cbac6eea58bc59c8571d5a2162d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__send_1a22645cbac6eea58bc59c8571d5a2162d" kindref="member">await_suspend</ref>(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;suspend(t);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206" refid="classcoro_1_1io__send_1aed3b15b47eba71a5476c8b70e9be2423" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classcoro_1_1io__send_1aed3b15b47eba71a5476c8b70e9be2423" kindref="member">await_resume</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;resume();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__send" kindref="compound">io_send</ref>)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="classcoro_1_1io__recv" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcoro_1_1io__recv" kindref="compound">io_recv</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref><sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>suspend(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>resume()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="235" refid="classcoro_1_1io__recv_1acbe69a0ee11a0ad650a27dae19fbae17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__recv_1acbe69a0ee11a0ad650a27dae19fbae17" kindref="member">await_ready</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;ready();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238" refid="classcoro_1_1io__recv_1af3d6fd62e9cc0e51db565c111769d7f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcoro_1_1io__recv_1af3d6fd62e9cc0e51db565c111769d7f3" kindref="member">await_suspend</ref>(<ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt;void&gt;</ref><sp/>t)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;suspend(t);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="241" refid="classcoro_1_1io__recv_1a009e06ff7800d9ede9e3ac8e6b7d0861" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classcoro_1_1io__recv_1a009e06ff7800d9ede9e3ac8e6b7d0861" kindref="member">await_resume</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;resume();</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__recv" kindref="compound">io_recv</ref>)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>));</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" kindref="member">send_to</ref>(uint64_t<sp/>sd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sockaddr_in&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref>&amp;;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" kindref="member">send_to</ref>(uint64_t<sp/>sd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sockaddr_in6&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__send__to" kindref="compound">io_send_to</ref>&amp;;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" kindref="member">recv_from</ref>(uint64_t<sp/>sd,<sp/>sockaddr_in&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref>&amp;;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" kindref="member">recv_from</ref>(uint64_t<sp/>sd,<sp/>sockaddr_in6&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__recv__from" kindref="compound">io_recv_from</ref>&amp;;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1gac94bb59884293c451906c8cffe825a14" kindref="member">send_stream</ref>(uint64_t<sp/>sd,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,<sp/>uint32_t<sp/>flag,</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__send" kindref="compound">io_send</ref>&amp;;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1ga60c53387a2e976df4742620055666796" kindref="member">recv_stream</ref>(uint64_t<sp/>sd,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buf,<sp/>uint32_t<sp/>flag,</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classcoro_1_1io__work__t" kindref="compound">io_work_t</ref>&amp;<sp/>work)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classcoro_1_1io__recv" kindref="compound">io_recv</ref>&amp;;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1ga022830c9178aa1a201f95abd2026d35f" kindref="member">poll_net_tasks</ref>(uint64_t<sp/>nano)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal">uint32_t<sp/><ref refid="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kindref="member">get_address</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>addrinfo&amp;<sp/>hint,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::czstring&lt;&gt;<sp/>host,<sp/>gsl::czstring&lt;&gt;<sp/>serv,</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::span&lt;sockaddr_in&gt;<sp/>output)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal">uint32_t<sp/><ref refid="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kindref="member">get_address</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>addrinfo&amp;<sp/>hint,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::czstring&lt;&gt;<sp/>host,<sp/>gsl::czstring&lt;&gt;<sp/>serv,</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::span&lt;sockaddr_in6&gt;<sp/>output)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal">uint32_t<sp/><ref refid="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" kindref="member">get_name</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sockaddr_in&amp;<sp/>addr,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::zstring&lt;NI_MAXHOST&gt;<sp/>name,<sp/>gsl::zstring&lt;NI_MAXSERV&gt;<sp/>serv,</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>flags<sp/>=<sp/>NI_NUMERICHOST<sp/>|<sp/>NI_NUMERICSERV)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal">uint32_t<sp/><ref refid="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" kindref="member">get_name</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>sockaddr_in6&amp;<sp/>addr,<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gsl::zstring&lt;NI_MAXHOST&gt;<sp/>name,<sp/>gsl::zstring&lt;NI_MAXSERV&gt;<sp/>serv,</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>flags<sp/>=<sp/>NI_NUMERICHOST<sp/>|<sp/>NI_NUMERICSERV)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>coro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>COROUTINE_NET_IO_H</highlight></codeline>
     </programlisting>
     <location file="interface/coroutine/net.h"/>
   </compounddef>

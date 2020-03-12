@@ -414,13 +414,13 @@
     <member refid="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" kind="function"><name>recv_from</name></member>
     <member refid="group__NetWork_1gac94bb59884293c451906c8cffe825a14" kind="function"><name>send_stream</name></member>
     <member refid="group__NetWork_1ga60c53387a2e976df4742620055666796" kind="function"><name>recv_stream</name></member>
+    <member refid="group__NetWork_1ga022830c9178aa1a201f95abd2026d35f" kind="function"><name>poll_net_tasks</name></member>
     <member refid="group__NetResolve_1gadc07999d236df3e984d42b37cbf56693" kind="function"><name>get_address</name></member>
     <member refid="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kind="function"><name>get_address</name></member>
     <member refid="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" kind="function"><name>get_name</name></member>
     <member refid="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" kind="function"><name>get_name</name></member>
     <member refid="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" kind="function"><name>poll_net_tasks</name></member>
     <member refid="namespacecoro_1a0260f9ba0f9c3c2abe90513e1f9ebbb4" kind="function"><name>resume_net_task</name></member>
-    <member refid="namespacecoro_1a022830c9178aa1a201f95abd2026d35f" kind="function"><name>poll_net_tasks</name></member>
     <member refid="namespacecoro_1a556b102db93c6e7cf8864b28308036e2" kind="function"><name>is_async_pending</name></member>
     <member refid="namespacecoro_1affafc280af2137eafd6000149dc01334" kind="function"><name>on_io_done</name></member>
     <member refid="namespacecoro_1aaa874db68805b8dd64c59b7727648a17" kind="function"><name>get_io_error</name></member>
@@ -544,6 +544,7 @@
     <member refid="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" kind="function"><name>recv_from</name></member>
     <member refid="group__NetWork_1gac94bb59884293c451906c8cffe825a14" kind="function"><name>send_stream</name></member>
     <member refid="group__NetWork_1ga60c53387a2e976df4742620055666796" kind="function"><name>recv_stream</name></member>
+    <member refid="group__NetWork_1ga022830c9178aa1a201f95abd2026d35f" kind="function"><name>poll_net_tasks</name></member>
   </compound>
   <compound refid="group__NetResolve" kind="group"><name>NetResolve</name>
     <member refid="group__NetResolve_1gadc07999d236df3e984d42b37cbf56693" kind="function"><name>get_address</name></member>

@@ -1,0 +1,1419 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="C++ 20 Coroutines in Action.">
+      
+      
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/articles/awaitable-event/">
+      
+      
+        <meta name="author" content="Park DongHa">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+    
+    
+      
+        <title>Awaitable event using the coroutine, epoll and eventfd - luncliff/coroutine</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.adb8469c.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.86422ebf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#awaitable-event-using-the-coroutine-epoll-and-eventfd" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://luncliff.github.io/coroutine" title="luncliff/coroutine" aria-label="luncliff/coroutine" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">call_split</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              luncliff/coroutine
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Awaitable event using the coroutine, epoll and eventfd
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://luncliff.github.io/coroutine" title="luncliff/coroutine" class="md-nav__button md-logo">
+      
+        <i class="md-icon">call_split</i>
+      
+    </a>
+    luncliff/coroutine
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="http://github.com/luncliff/coroutine/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    luncliff/coroutine
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      PPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        PPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+      C++ Korea 5th Seminar
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Articles
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Articles
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-nav__link">
+      Exploring MSVC Coroutine
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Awaitable event using the coroutine, epoll and eventfd
+      </label>
+    
+    <a href="./" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link md-nav__link--active">
+      Awaitable event using the coroutine, epoll and eventfd
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note" class="md-nav__link">
+    Note
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    Motivation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirement" class="md-nav__link">
+    Requirement
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design" class="md-nav__link">
+    Design
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concerns" class="md-nav__link">
+    Concerns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wrapping-epoll" class="md-nav__link">
+    Wrapping epoll
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polling-epoll" class="md-nav__link">
+    Polling epoll
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-interface" class="md-nav__link">
+    Event interface
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#events-state-managment" class="md-nav__link">
+    Event's state managment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#events-await-operations" class="md-nav__link">
+    Event's await operations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-for-the-implementation" class="md-nav__link">
+    Summary for the implementation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../designing-the-channel/" title="Designing the coroutine channel" class="md-nav__link">
+      Designing the coroutine channel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
+      Combining C++ coroutines and `pthread_create`
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
+      Russian Roulette and C++ Coroutines
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Code
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Code
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../modules/" title="Groups" class="md-nav__link">
+      Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../namespaces/" title="Namespaces" class="md-nav__link">
+      Namespaces
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../functions/" title="Functions" class="md-nav__link">
+      Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../classes/" title="Classes" class="md-nav__link">
+      Classes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../files/" title="Files" class="md-nav__link">
+      Files
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note" class="md-nav__link">
+    Note
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    Motivation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirement" class="md-nav__link">
+    Requirement
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design" class="md-nav__link">
+    Design
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concerns" class="md-nav__link">
+    Concerns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wrapping-epoll" class="md-nav__link">
+    Wrapping epoll
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polling-epoll" class="md-nav__link">
+    Polling epoll
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-interface" class="md-nav__link">
+    Event interface
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#events-state-managment" class="md-nav__link">
+    Event's state managment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#events-await-operations" class="md-nav__link">
+    Event's await operations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-for-the-implementation" class="md-nav__link">
+    Summary for the implementation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/articles/awaitable-event.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="awaitable-event-using-the-coroutine-epoll-and-eventfd">Awaitable event using the coroutine, <code>epoll</code>, and <code>eventfd</code><a class="headerlink" href="#awaitable-event-using-the-coroutine-epoll-and-eventfd" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>commit: <a href="https://github.com/luncliff/coroutine/tree/ad1e682fe9a01a250e71080366d653af60eda708"><code>ad1e682f</code></a></p>
+</blockquote>
+<p>The note explains the detail of <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/interface/coroutine/concrt.h#L194"><code>event</code> in <code>coroutine/concrt.h</code></a></p>
+<h3 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h3>
+<p>Look &amp; feel of the <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/interface/coroutine/concrt.h#L194">interface</a> via <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/test/c2_concrt_event.cpp">test code</a>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="nf">wait_for_one_event</span><span class="p">(</span><span class="n">event</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">,</span> <span class="n">atomic_flag</span><span class="o">&amp;</span> <span class="n">flag</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+
+    <span class="c1">// resume after the event is signaled ...</span>
+    <span class="k">co_await</span> <span class="n">e</span><span class="p">;</span>
+
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">system_error</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// event throws if there was an internal system error</span>
+    <span class="n">FAIL</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">());</span>
+  <span class="p">}</span>
+  <span class="n">flag</span><span class="p">.</span><span class="n">test_and_set</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">TEST_CASE</span><span class="p">(</span><span class="s">&quot;wait for one event&quot;</span><span class="p">,</span> <span class="s">&quot;[event]&quot;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">event</span> <span class="n">e1</span><span class="p">{};</span>
+  <span class="n">atomic_flag</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">ATOMIC_FLAG_INIT</span><span class="p">;</span>
+
+  <span class="n">wait_for_one_event</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">flag</span><span class="p">);</span>
+  <span class="n">e1</span><span class="p">.</span><span class="n">set</span><span class="p">();</span>
+
+  <span class="k">auto</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">task</span> <span class="p">:</span> <span class="n">signaled_event_tasks</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">task</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+    <span class="o">++</span><span class="n">count</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">REQUIRE</span><span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="c1">// already set by the coroutine `wait_for_one_event`</span>
+  <span class="n">REQUIRE</span><span class="p">(</span><span class="n">flag</span><span class="p">.</span><span class="n">test_and_set</span><span class="p">()</span> <span class="o">==</span> <span class="nb">true</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<h2 id="note">Note<a class="headerlink" href="#note" title="Permanent link">&para;</a></h2>
+<h3 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h3>
+<p>It would be convenient if there is a simple event type for <code>co_await</code> operator.
+Linux system's <a href="http://man7.org/linux/man-pages/man2/eventfd.2.html"><code>eventfd</code></a> might be able to do the work.</p>
+<h3 id="requirement">Requirement<a class="headerlink" href="#requirement" title="Permanent link">&para;</a></h3>
+<p>The requirement for the <code>event</code> type is simple. </p>
+<ul>
+<li>It doesn’t support <strong>copy</strong> construction/assignment</li>
+<li>It doesn’t support <strong>move</strong> construction/assignment</li>
+<li>The type can’t be inherited(<code>final</code>)</li>
+<li>It can be an operand of <code>co_await</code> operator </li>
+<li>The event is stateful and has 2 states. <ul>
+<li>Signaled</li>
+<li>Non-signaled</li>
+</ul>
+</li>
+<li>For each state, the behavior is like the following<ul>
+<li>Non-signaled:<br />
+<code>co_await</code> will suspend the coroutine 
+  and becomes resumable when the event object is signaled.
+  If the event is already signaled, the coroutine must not suspend.</li>
+<li>Signaled:<br />
+<code>co_await</code> won’t suspend
+  and the event object becomes non-signaled state after the statement.</li>
+</ul>
+</li>
+</ul>
+<p>The first 3 requirement is quite strict, but it’s for simplicity. Normally it won’t be that hazardous for move operation. 
+But moving from coroutine’s frame to another space is a tricky situation. So I’ve banned move semantics to prevent misusage like that. </p>
+<h3 id="design">Design<a class="headerlink" href="#design" title="Permanent link">&para;</a></h3>
+<p>Win32 API supports <a href="https://docs.microsoft.com/en-us/windows/desktop/procthread/thread-pool-api">internal thread pool</a>, but Linux system API does not. 
+So user code has to poll those created events. Fortunately, Linux supports <a href="http://man7.org/linux/man-pages/man7/epoll.7.html"><code>epoll</code></a> to allow the behavior.
+We can derive 2 behavior constraint from the interface limitation.</p>
+<ul>
+<li>To acquire a list of signaled events, user code has to perform a polling operation<ul>
+<li>Limitation from <code>epoll</code>’s use-case</li>
+</ul>
+</li>
+<li>User has to resume coroutines that are suspended for an event object<ul>
+<li>Limitation from <code>coroutine_handle&lt;void&gt;</code> and absence of embedded thread pool/APC support</li>
+</ul>
+</li>
+</ul>
+<p>This was the rough version of the interface type &amp; function.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Awaitable event type.</span>
+<span class="k">class</span> <span class="nc">event</span> <span class="k">final</span> <span class="o">:</span> <span class="n">no_copy_move</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">using</span> <span class="n">task</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">;</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="kt">uint64_t</span> <span class="n">state</span><span class="p">;</span> <span class="c1">// it&#39;s lightweight !</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">event</span><span class="p">();</span>
+    <span class="o">~</span><span class="n">event</span><span class="p">();</span>
+
+    <span class="kt">void</span> <span class="nf">set</span><span class="p">();</span>
+
+    <span class="kt">bool</span> <span class="nf">await_ready</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">);</span>
+    <span class="kt">void</span> <span class="nf">await_resume</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="c1">//  Enumerate all suspended coroutines that are waiting for signaled events.</span>
+<span class="k">auto</span> <span class="nf">signaled_event_tasks</span><span class="p">()</span>   <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">event</span><span class="o">::</span><span class="n">task</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div>
+
+
+<blockquote>
+<p><a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/interface/coroutine/yield.hpp#L26"><code>coro::enumerable&lt;T&gt;</code></a> is my own implementation of the <code>generator&lt;T&gt;</code> in <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4736.pdf"><code>&lt;experimental/generator&gt;</code></a></p>
+</blockquote>
+<p><code>state</code> is a space for <code>eventfd</code>, and <code>signaled_event_tasks</code> performs polling operation on the <code>epoll</code> file descriptor.</p>
+<h4 id="concerns">Concerns<a class="headerlink" href="#concerns" title="Permanent link">&para;</a></h4>
+<p>You may think about why I didn’t adopt design like <code>io_context</code> in <a href="https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio.html">Boost ASIO</a>. Which provides an explicit point of creation and polling operation.
+For instance, with Boost ASIO, user code must create objects(e.g, socket) via <code>boost::asio::io_context</code> object.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// see: https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/example/cpp03/allocation/server.cpp</span>
+
+<span class="k">class</span> <span class="nc">server</span>
+<span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+  <span class="n">boost</span><span class="o">::</span><span class="n">asio</span><span class="o">::</span><span class="n">io_context</span><span class="o">&amp;</span> <span class="n">io_context_</span><span class="p">;</span>
+  <span class="n">tcp</span><span class="o">::</span><span class="n">acceptor</span> <span class="n">acceptor_</span><span class="p">;</span>
+
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">server</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">asio</span><span class="o">::</span><span class="n">io_context</span><span class="o">&amp;</span> <span class="n">io_context</span><span class="p">,</span> <span class="kt">short</span> <span class="n">port</span><span class="p">)</span>
+    <span class="o">:</span> <span class="n">io_context_</span><span class="p">(</span><span class="n">io_context</span><span class="p">),</span>
+      <span class="n">acceptor_</span><span class="p">(</span><span class="n">io_context</span><span class="p">,</span> <span class="n">tcp</span><span class="o">::</span><span class="n">endpoint</span><span class="p">(</span><span class="n">tcp</span><span class="o">::</span><span class="n">v4</span><span class="p">(),</span> <span class="n">port</span><span class="p">))</span> <span class="c1">// &lt;------ </span>
+  <span class="p">{</span>
+    <span class="n">session_ptr</span> <span class="n">new_session</span><span class="p">(</span><span class="k">new</span> <span class="n">session</span><span class="p">(</span><span class="n">io_context_</span><span class="p">));</span>
+    <span class="n">acceptor_</span><span class="p">.</span><span class="n">async_accept</span><span class="p">(</span><span class="n">new_session</span><span class="o">-&gt;</span><span class="n">socket</span><span class="p">(),</span>
+        <span class="n">boost</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">server</span><span class="o">::</span><span class="n">handle_accept</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="n">new_session</span><span class="p">,</span>
+          <span class="n">boost</span><span class="o">::</span><span class="n">asio</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">error</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">handle_accept</span><span class="p">(</span><span class="n">session_ptr</span> <span class="n">new_session</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">boost</span><span class="o">::</span><span class="n">system</span><span class="o">::</span><span class="n">error_code</span><span class="o">&amp;</span> <span class="n">error</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">error</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">new_session</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="n">new_session</span><span class="p">.</span><span class="n">reset</span><span class="p">(</span><span class="k">new</span> <span class="n">session</span><span class="p">(</span><span class="n">io_context_</span><span class="p">));</span>
+    <span class="n">acceptor_</span><span class="p">.</span><span class="n">async_accept</span><span class="p">(</span><span class="n">new_session</span><span class="o">-&gt;</span><span class="n">socket</span><span class="p">(),</span>
+        <span class="n">boost</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">server</span><span class="o">::</span><span class="n">handle_accept</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="n">new_session</span><span class="p">,</span>
+          <span class="n">boost</span><span class="o">::</span><span class="n">asio</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">error</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+  <span class="k">try</span>
+  <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="n">boost</span><span class="o">::</span><span class="n">asio</span><span class="o">::</span><span class="n">io_context</span> <span class="n">io_context</span><span class="p">;</span> <span class="c1">// &lt;------ </span>
+
+    <span class="n">server</span> <span class="n">s</span><span class="p">(</span><span class="n">io_context</span><span class="p">,</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]));</span>
+
+    <span class="n">io_context</span><span class="p">.</span><span class="n">run</span><span class="p">();</span> <span class="c1">// &lt;------ </span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">exception</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Exception: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>As you can see, such design enforces to use reference in construction like <code>server</code>’s constructor.</p>
+<p>Since there might be multiple instances of server in one program, this is sound and appropriate. However, <code>event</code> is used in system level, and we don’t have to consider the owner of <code>event</code> objects because it is always system itself.<br />
+This is why I didn’t designed some type like <code>event_context</code>. Therefore, it will be enough to replace <code>io_context.run()</code> to <code>signaled_event_tasks()</code>.</p>
+<h3 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h3>
+<p>Each description is based on the actual code. In this note, I will explain with a simplified code. (skip some header, exception spec, etc.)</p>
+<ul>
+<li><a href="#wrapping-epoll">Wrapping <code>epoll</code></a></li>
+<li><a href="#polling-epoll">Polling <code>epoll</code></a></li>
+<li><a href="#event-interface">Event interface</a></li>
+<li><a href="#events-state-managment">Event state managment</a></li>
+<li><a href="#events-await-operations">Event await operations</a></li>
+</ul>
+<h4 id="wrapping-epoll">Wrapping epoll<a class="headerlink" href="#wrapping-epoll" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/modules/linux/event_poll.h">linux/event_poll.h</a></li>
+<li><a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/modules/linux/event_poll.cpp">linux/event_poll.cpp</a></li>
+</ul>
+<p>I don't prefer writing wrapper for the system API, but I have another feature(networking) that uses it. Before the start, if you're not familiar with <code>epoll</code>, I do recommend you to find some articles and read them first. (I'm sorry!)</p>
+<blockquote>
+<p>Ok, let me start ...</p>
+</blockquote>
+<p>The wrapper follows RAII and provides some member functions.</p>
+<ul>
+<li><code>try_add</code>: add or modify given <code>epoll_event</code> using <code>epoll_ctl</code></li>
+<li><code>remove</code>: <code>epoll_ctl</code> with <code>EPOLL_CTL_DEL</code></li>
+<li><code>wait</code>: wait for <code>epoll_event</code>s and allows iterate them for each <code>epoll_wait</code></li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;fcntl.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;sys/epoll.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="n">event_poll_t</span> <span class="k">final</span> <span class="o">:</span> <span class="n">no_copy_move</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">epfd</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">capacity</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">epoll_event</span><span class="p">[]</span><span class="o">&gt;</span> <span class="n">events</span><span class="p">;</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">event_poll_t</span><span class="p">()</span>  <span class="p">;</span>
+    <span class="o">~</span><span class="n">event_poll_t</span><span class="p">()</span> <span class="p">;</span>
+
+    <span class="kt">void</span> <span class="nf">try_add</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">fd</span><span class="p">,</span> <span class="n">epoll_event</span><span class="o">&amp;</span> <span class="n">req</span><span class="p">)</span>  <span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">remove</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">fd</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="nf">wait</span><span class="p">(</span><span class="kt">int</span> <span class="n">timeout</span><span class="p">)</span>   <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">epoll_event</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<p>As you can expect, it internally allocates an array to receive events from <code>epoll_wait</code></p>
+<div class="codehilite"><pre><span></span><code><span class="n">event_poll_t</span><span class="o">::</span><span class="n">event_poll_t</span><span class="p">()</span>  
+    <span class="o">:</span> <span class="n">epfd</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">},</span>
+      <span class="c1">// use 2 page for polling</span>
+      <span class="n">capacity</span><span class="p">{</span><span class="mi">2</span> <span class="o">*</span> <span class="n">getpagesize</span><span class="p">()</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">epoll_event</span><span class="p">)},</span>
+      <span class="n">events</span><span class="p">{</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">epoll_event</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="n">capacity</span><span class="p">)}</span> <span class="p">{</span>
+
+    <span class="n">epfd</span> <span class="o">=</span> <span class="n">epoll_create1</span><span class="p">(</span><span class="n">EPOLL_CLOEXEC</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">epfd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;epoll_create1&quot;</span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="n">event_poll_t</span><span class="o">::~</span><span class="n">event_poll_t</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="n">close</span><span class="p">(</span><span class="n">epfd</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>With the RAII, <code>epoll_ctl</code> can be wrapped with exception throwing code.<br />
+You might be able to write your own version if you hate using the exception.</p>
+<div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="n">event_poll_t</span><span class="o">::</span><span class="n">try_add</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">_fd</span><span class="p">,</span> <span class="n">epoll_event</span><span class="o">&amp;</span> <span class="n">req</span><span class="p">)</span>   <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">op</span> <span class="o">=</span> <span class="n">EPOLL_CTL_ADD</span><span class="p">,</span> <span class="n">ec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nl">TRY_OP</span><span class="p">:</span>
+    <span class="n">ec</span> <span class="o">=</span> <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epfd</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">_fd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">req</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ec</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="n">EEXIST</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">op</span> <span class="o">=</span> <span class="n">EPOLL_CTL_MOD</span><span class="p">;</span> <span class="c1">// already exists. try again with mod</span>
+        <span class="k">goto</span> <span class="n">TRY_OP</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// failed</span>
+    <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;epoll_ctl&quot;</span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">event_poll_t</span><span class="o">::</span><span class="n">remove</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">_fd</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">epoll_event</span> <span class="n">req</span><span class="p">{};</span> <span class="c1">// just prevent non-null input</span>
+    <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epfd</span><span class="p">,</span> <span class="n">EPOLL_CTL_DEL</span><span class="p">,</span> <span class="n">_fd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">req</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ec</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;epoll_ctl EPOLL_CTL_DEL&quot;</span><span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>It's not that complicated :)</p>
+<h4 id="polling-epoll">Polling epoll<a class="headerlink" href="#polling-epoll" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/modules/linux/event_poll.cpp#L46">linux/event_poll.cpp</a></li>
+</ul>
+<p>Since <code>event_poll_t</code> is internal type, it is free to <code>co_yield</code> internal type objects like <code>epoll_event</code>. Type for the wait timeout uses <code>int</code> instead of <code>chrono::duration</code> because <a href="http://man7.org/linux/man-pages/man2/epoll_wait.2.html"><code>epoll_wait</code></a> allows negative(<code>-1</code>) timeout.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="n">event_poll_t</span><span class="o">::</span><span class="n">wait</span><span class="p">(</span><span class="kt">int</span> <span class="n">timeout</span><span class="p">)</span>  
+    <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">epoll_event</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">count</span> <span class="o">=</span> <span class="n">epoll_wait</span><span class="p">(</span><span class="n">epfd</span><span class="p">,</span> <span class="n">events</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">timeout</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;epoll_wait&quot;</span><span class="p">};</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">co_yield</span> <span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>In another translation unit, <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/modules/linux/event.cpp#L97"><code>signaled_event_tasks</code></a> queries the <code>event_poll_t</code> and yield coroutine handles from the user data in <code>epoll_event</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// signaled event list</span>
+<span class="n">event_poll_t</span> <span class="n">selist</span><span class="p">{};</span>
+
+<span class="k">auto</span> <span class="nf">signaled_event_tasks</span><span class="p">()</span>   <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">event</span><span class="o">::</span><span class="n">task</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="n">event</span><span class="o">::</span><span class="n">task</span> <span class="n">t</span><span class="p">{};</span> <span class="c1">// it&#39;s an alias of `coroutine_handle&lt;void&gt;`</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">e</span> <span class="p">:</span> <span class="n">selist</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+        <span class="c1">// we don&#39;t care about the internal counter of eventfd.</span>
+        <span class="c1">//  just receive the coroutine handle</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">event</span><span class="o">::</span><span class="n">task</span><span class="o">::</span><span class="n">from_address</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">ptr</span><span class="p">);</span>
+
+        <span class="k">co_yield</span> <span class="n">t</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>Ok, now user code will invoke the function to acquire coroutines with the signaled event. Since its return type is coroutine generator, they can use <code>for</code> statement like the following <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/test/c2_concrt_event.cpp#L15">test code</a>.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">TEST_CASE</span><span class="p">(</span><span class="s">&quot;wait for one event&quot;</span><span class="p">,</span> <span class="s">&quot;[event]&quot;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">task</span> <span class="p">:</span> <span class="n">signaled_event_tasks</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">task</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+
+    <span class="c1">// ...</span>
+  <span class="p">}</span>
+
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<h4 id="event-interface">Event interface<a class="headerlink" href="#event-interface" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/interface/coroutine/concrt.h#L207">coroutine/concrt.h</a></li>
+</ul>
+<p>Now, it's time to implement <code>event</code> type. I will write some <code>private</code> member functions for each of <code>await_ready</code>, <code>await_suspend</code>, and <code>await_resume</code>.</p>
+<p>You may ask why I'm not implementing <code>await_*</code> functions directly.
+Well, that's because I've met an issue that <strong>exporting <code>await_*</code> functions for DLL leads to an internal compiler error</strong>. At least vc140 and vc141 did in my experience.<br />
+My approach is to export those interface functions as <code>private</code> and redirecting to them using <code>public</code> functions to allow <code>co_await</code> statement</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// note:</span>
+<span class="c1">//    _INTERFACE_ is __declspec(dllexport) or __attribute__((visibility(&quot;default&quot;)))</span>
+
+<span class="k">class</span> <span class="nc">event</span> <span class="k">final</span> <span class="o">:</span> <span class="n">no_copy_move</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">using</span> <span class="n">task</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">;</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="kt">uint64_t</span> <span class="n">state</span><span class="p">;</span> <span class="c1">// &lt;--- will explain in next section</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="n">on_suspend</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>  <span class="p">;</span>
+    <span class="n">_INTERFACE_</span> <span class="kt">bool</span> <span class="nf">is_ready</span><span class="p">()</span> <span class="k">const</span> <span class="p">;</span>
+    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="nf">on_resume</span><span class="p">()</span> <span class="p">;</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">_INTERFACE_</span> <span class="n">event</span><span class="p">()</span>  <span class="p">;</span>
+    <span class="n">_INTERFACE_</span> <span class="o">~</span><span class="n">event</span><span class="p">()</span> <span class="p">;</span>
+
+    <span class="c1">// signal the event object</span>
+    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="nf">set</span><span class="p">()</span>  <span class="p">;</span>
+
+    <span class="c1">// ... redirect to private member functions safely ...</span>
+
+    <span class="kt">bool</span> <span class="nf">await_ready</span><span class="p">()</span> <span class="k">const</span>  <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">is_ready</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span>   <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">on_suspend</span><span class="p">(</span><span class="n">coro</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="nf">await_resume</span><span class="p">()</span>  <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">on_resume</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">//  Enumerate all suspended coroutines that are waiting for signaled events.</span>
+<span class="n">_INTERFACE_</span>
+<span class="k">auto</span> <span class="nf">signaled_event_tasks</span><span class="p">()</span>   <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">event</span><span class="o">::</span><span class="n">task</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div>
+
+
+<p>Its member functions will be explained below. Before that, let's see <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/modules/linux/event.cpp#L53">how the type implemented constructor and destructor</a>. It's not complicated!</p>
+<div class="codehilite"><pre><span></span><code><span class="n">event</span><span class="o">::</span><span class="n">event</span><span class="p">()</span> <span class="o">:</span> <span class="n">state</span><span class="p">{}</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">eventfd</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">EFD_NONBLOCK</span> <span class="o">|</span> <span class="n">EFD_CLOEXEC</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;eventfd&quot;</span><span class="p">};</span>
+
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">state</span> <span class="o">=</span> <span class="n">fd</span><span class="p">;</span> <span class="c1">// start with unsignaled state</span>
+<span class="p">}</span>
+<span class="n">event</span><span class="o">::~</span><span class="n">event</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="c1">// if already closed, fd == 0</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">get_eventfd</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+        <span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>You can see a weird function, <code>get_eventfd</code>.</p>
+<h4 id="events-state-managment">Event's state managment<a class="headerlink" href="#events-state-managment" title="Permanent link">&para;</a></h4>
+<p>Just like the code above, <code>event</code>'s state is from <code>eventfd</code> function. However, <strong>we need a piece of information to estimate the event is signaled</strong>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">event</span> <span class="k">final</span> <span class="o">:</span> <span class="n">no_copy_move</span> <span class="p">{</span>
+  <span class="k">private</span><span class="o">:</span>
+    <span class="kt">uint64_t</span> <span class="n">state</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+
+
+<p>Instead of using an internal counter of <code>eventfd</code>, <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/modules/linux/event.cpp#L19">I used a bit mask to distinguish that the event object is signaled</a>. Please follow the comments. I wrote carefully!</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">//</span>
+<span class="c1">//  We are going to combine file descriptor and state bit</span>
+<span class="c1">//</span>
+<span class="c1">//  On x86 system,</span>
+<span class="c1">//    this won&#39;t matter since `int` is 32 bit.</span>
+<span class="c1">//    we can safely use msb for state indicator.</span>
+<span class="c1">//</span>
+<span class="c1">//  On x64 system,</span>
+<span class="c1">//    this might be a hazardous since the value of `eventfd` can be corrupted.</span>
+<span class="c1">//    **Normally** descriptor in Linux system grows from 3, so it is highly</span>
+<span class="c1">//    possible to reach system limitation before the value consumes all 63 bit.</span>
+<span class="c1">//</span>
+<span class="k">constexpr</span> <span class="kt">uint64_t</span> <span class="n">emask</span> <span class="o">=</span> <span class="mi">1ULL</span> <span class="o">&lt;&lt;</span> <span class="mi">63</span><span class="p">;</span>
+
+<span class="c1">//  the msb(most significant bit) will be ...</span>
+<span class="c1">//   1 if the fd is signaled,</span>
+<span class="c1">//   0 on the other case</span>
+<span class="kt">bool</span> <span class="nf">is_signaled</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">state</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="k">return</span> <span class="n">emask</span> <span class="o">&amp;</span> <span class="n">state</span><span class="p">;</span> <span class="c1">// msb is 1?</span>
+<span class="p">}</span>
+<span class="kt">int64_t</span> <span class="nf">get_eventfd</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">state</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="k">return</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="o">~</span><span class="n">emask</span> <span class="o">&amp;</span> <span class="n">state</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">uint64_t</span> <span class="nf">make_signaled</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">efd</span><span class="p">)</span>  <span class="p">;</span>
+</code></pre></div>
+
+
+<p>Was the comment enough? With those helper functions, <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/modules/linux/event.cpp#L66"><code>set</code> operation</a> becomes really simple.</p>
+<div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="n">event</span><span class="o">::</span><span class="n">set</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// already signaled. nothing to do...</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">is_signaled</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+        <span class="c1">// !!! under the race condition, this check is not safe !!!</span>
+        <span class="k">return</span><span class="p">;</span>
+
+    <span class="k">auto</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">get_eventfd</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">make_signaled</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span> <span class="c1">// if it didn&#39;t throwed</span>
+                               <span class="c1">//  it&#39;s signaled state from now</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>Let me remind you of one of the requirements.</p>
+<ul>
+<li>For each state, the behavior is like the following<ul>
+<li>Non-signaled:<br />
+<code>co_await</code> will suspend the coroutine 
+  and becomes resumable when the event object is signaled.
+  If the event is already signaled, the coroutine must not suspend.</li>
+<li>Signaled:<br />
+<code>co_await</code> won’t suspend
+  and the event object becomes non-signaled state after the statement.</li>
+</ul>
+</li>
+</ul>
+<p>Let's just assume that our <code>event</code>'s fd is already registered to <code>epoll</code>. To make <code>epoll</code> return this event in <code>epoll_wait</code>, <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/modules/linux/event.cpp#L41">we will use <code>write</code></a>. And, of course, bit masking must come after the success of the operation!</p>
+<div class="codehilite"><pre><span></span><code><span class="kt">uint64_t</span> <span class="nf">make_signaled</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">efd</span><span class="p">)</span>   <span class="p">{</span>
+    <span class="c1">// signal the eventfd...</span>
+    <span class="c1">//  the message can be any value</span>
+    <span class="c1">//  since the purpose of it is to trigger the epoll</span>
+    <span class="c1">//  we won&#39;t care about the internal counter of the eventfd</span>
+    <span class="k">auto</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">write</span><span class="p">(</span><span class="n">efd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">efd</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">efd</span><span class="p">));</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sz</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;write&quot;</span><span class="p">};</span>
+
+    <span class="k">return</span> <span class="n">emask</span> <span class="o">|</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">efd</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>Remember that we flagged <code>EFD_NONBLOCK</code> for <code>eventfd</code> function in the constructor. It was intended :)</p>
+<h4 id="events-await-operations">Event's await operations<a class="headerlink" href="#events-await-operations" title="Permanent link">&para;</a></h4>
+<p>The last part of the implementation is for <code>co_await</code> statement. <code>await_ready</code> and <code>await_resume</code> is simple with the masking function.</p>
+<div class="codehilite"><pre><span></span><code><span class="kt">bool</span> <span class="n">event</span><span class="o">::</span><span class="n">is_ready</span><span class="p">()</span> <span class="k">const</span>  <span class="p">{</span>
+    <span class="k">return</span> <span class="n">is_signaled</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="n">event</span><span class="o">::</span><span class="n">on_resume</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="c1">// make non-signaled state</span>
+    <span class="k">this</span><span class="o">-&gt;</span><span class="n">state</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">get_eventfd</span><span class="p">(</span><span class="n">state</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>The transition to non-signaled state is based on the requirement. And after <code>set</code> member function, <code>await_ready</code> will return <code>true</code> and will bypass <code>await_suspend</code>.</p>
+<ul>
+<li>The event is stateful and has 2 states. <ul>
+<li>Signaled</li>
+<li>Non-signaled</li>
+</ul>
+</li>
+<li>For each state, the behavior is like the following<ul>
+<li>Non-signaled:<br />
+<code>co_await</code> will suspend the coroutine 
+  and becomes resumable when the event object is signaled.
+  <strong>If the event is already signaled, the coroutine must not suspend</strong>.</li>
+<li>Signaled:<br />
+<code>co_await</code> won’t suspend
+  and <strong>the event object becomes non-signaled state after the statement</strong>.</li>
+</ul>
+</li>
+</ul>
+<p>Now, our keystone function is like this. We declared global variable with <code>event_poll_t</code> type when writing <code>signaled_event_tasks</code>. <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/modules/linux/event.cpp#L86">When the coroutine enters <code>await_suspend</code></a>, we have to send the <code>coroutine_handle&lt;void&gt;</code> to the <code>event_poll_t</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// signaled event list.</span>
+<span class="n">event_poll_t</span> <span class="n">selist</span><span class="p">{};</span>
+
+<span class="kt">void</span> <span class="n">event</span><span class="o">::</span><span class="n">on_suspend</span><span class="p">(</span><span class="n">task</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// just care if there was `write` for the eventfd</span>
+    <span class="c1">//  when it happens, coroutine handle will be forwarded</span>
+    <span class="c1">//  to `signaled_event_tasks` by epoll</span>
+    <span class="n">epoll_event</span> <span class="n">req</span><span class="p">{};</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">EPOLLET</span> <span class="o">|</span> <span class="n">EPOLLIN</span> <span class="o">|</span> <span class="n">EPOLLONESHOT</span><span class="p">;</span>
+    <span class="n">req</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">address</span><span class="p">();</span>
+
+    <span class="c1">// throws if `epoll_ctl` fails</span>
+    <span class="n">selist</span><span class="p">.</span><span class="n">try_add</span><span class="p">(</span><span class="n">get_eventfd</span><span class="p">(</span><span class="n">state</span><span class="p">),</span> <span class="n">req</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>Here, we use <code>epoll_event</code>'s user data to save the coroutine frame's address. Compare the code with the implementation of the <code>signaled_event_tasks</code> below. <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/modules/linux/event.cpp#L105">It constructs coroutine handle from <code>e.data.ptr</code></a>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="nf">signaled_event_tasks</span><span class="p">()</span>   <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">event</span><span class="o">::</span><span class="n">task</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="n">event</span><span class="o">::</span><span class="n">task</span> <span class="n">t</span><span class="p">{};</span> <span class="c1">// it&#39;s an alias of `coroutine_handle&lt;void&gt;`</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">e</span> <span class="p">:</span> <span class="n">selist</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+        <span class="c1">// we don&#39;t care about the internal counter of eventfd.</span>
+        <span class="c1">//  just receive the coroutine handle</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">event</span><span class="o">::</span><span class="n">task</span><span class="o">::</span><span class="n">from_address</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">ptr</span><span class="p">);</span>
+
+        <span class="k">co_yield</span> <span class="n">t</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<h4 id="summary-for-the-implementation">Summary for the implementation<a class="headerlink" href="#summary-for-the-implementation" title="Permanent link">&para;</a></h4>
+<p>It wasn't that hard to combine coroutine with <code>epoll</code> and <code>evnetfd</code>.<br />
+Let's cover the <code>event</code> again.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// event type uses `eventfd` and bit masking for state check </span>
+<span class="k">class</span> <span class="nc">event</span> <span class="k">final</span> <span class="o">:</span> <span class="n">no_copy_move</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="k">using</span> <span class="n">task</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="p">;</span> <span class="c1">// becomes user data of `epoll_event`</span>
+
+  <span class="k">private</span><span class="o">:</span>
+    <span class="kt">uint64_t</span> <span class="n">state</span><span class="p">;</span> <span class="c1">// msb + file descriptor</span>
+
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">event</span><span class="p">();</span>      <span class="c1">// create fd with `eventfd`</span>
+    <span class="o">~</span><span class="n">event</span><span class="p">();</span>     <span class="c1">// `close` the fd</span>
+
+    <span class="c1">// if it&#39;s signaled (msb is 1), no suspend</span>
+    <span class="kt">bool</span> <span class="nf">await_ready</span><span class="p">();</span> 
+
+    <span class="c1">// bind current fd to epoll </span>
+    <span class="c1">//  and its epoll_event will hold the coroutine&#39;s handle</span>
+    <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">);</span>
+
+    <span class="c1">// make non-signaled (reset msb to 0)</span>
+    <span class="kt">void</span> <span class="nf">await_resume</span><span class="p">();</span> 
+
+    <span class="c1">// if there is a suspended coroutine,</span>
+    <span class="c1">//  it means that the event&#39;s fd is alreadty registered via `await_suspend`</span>
+    <span class="c1">//  so we will invoke `write` for the fd.</span>
+    <span class="c1">//  `epoll` in the `signaled_event_tasks` will report that using `epoll_wait`</span>
+    <span class="c1">// if it&#39;s not suspended (== no waiting coroutine), </span>
+    <span class="c1">//  `write` on it won&#39;t matter</span>
+    <span class="kt">void</span> <span class="nf">set</span><span class="p">();</span> 
+<span class="p">};</span>
+</code></pre></div>
+
+
+<p>the exported function <code>signaled_event_tasks</code> allows user code to acquire suspended(event-waiting) coroutines.<br />
+It might be unsatisfying that those coroutines are not resumed automatically, but if we already have a main loop for event handling, this function can be placed at the point without concerns.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// access to hidden(global) `epoll` and invoke `epoll_wait`.</span>
+<span class="c1">//  `epoll_wait` will return `epoll_event`s with `coroutine_handle&lt;void&gt;`</span>
+<span class="c1">//  this function extracts and yields them to caller</span>
+<span class="k">auto</span> <span class="nf">signaled_event_tasks</span><span class="p">()</span>   <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">event</span><span class="o">::</span><span class="n">task</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div>
+
+
+<p>Whoa, that's all for the implementation details.</p>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
+<p>Now we can write a coroutine code like the summary section.<br />
+<code>epoll</code> and <code>eventfd</code> is simple enough to use, but almost all of their examples use thread(or system process). <strong>With the C++ 20 coroutine, we can use the pair in a more graceful manner</strong>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="nf">wait_for_one_event</span><span class="p">(</span><span class="n">event</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">,</span> <span class="n">atomic_flag</span><span class="o">&amp;</span> <span class="n">flag</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">no_return</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+
+    <span class="c1">// resume after the event is signaled ...</span>
+    <span class="k">co_await</span> <span class="n">e</span><span class="p">;</span>
+
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">system_error</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// event throws if there was an internal system error</span>
+    <span class="n">FAIL</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">());</span>
+  <span class="p">}</span>
+  <span class="n">flag</span><span class="p">.</span><span class="n">test_and_set</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">TEST_CASE</span><span class="p">(</span><span class="s">&quot;wait for one event&quot;</span><span class="p">,</span> <span class="s">&quot;[event]&quot;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">event</span> <span class="n">e1</span><span class="p">{};</span>
+  <span class="n">atomic_flag</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">ATOMIC_FLAG_INIT</span><span class="p">;</span>
+
+  <span class="n">wait_for_one_event</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">flag</span><span class="p">);</span>
+  <span class="n">e1</span><span class="p">.</span><span class="n">set</span><span class="p">();</span>
+
+  <span class="k">auto</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">task</span> <span class="p">:</span> <span class="n">signaled_event_tasks</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">task</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
+    <span class="o">++</span><span class="n">count</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">// we must enter the loop</span>
+  <span class="n">REQUIRE</span><span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="c1">// already set by the coroutine `wait_for_one_event`</span>
+  <span class="n">REQUIRE</span><span class="p">(</span><span class="n">flag</span><span class="p">.</span><span class="n">test_and_set</span><span class="p">()</span> <span class="o">==</span> <span class="nb">true</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+                
+                  
+                
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Exploring MSVC Coroutine
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../designing-the-channel/" title="Designing the coroutine channel" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Designing the coroutine channel
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/deed
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/luncliff" target="_blank" rel="noopener" title="github" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.c33a9706.js"></script>
+      
+      <script>app.initialize({version:"1.1",url:{base:"../.."}})</script>
+      
+    
+  </body>
+</html>

@@ -283,7 +283,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/exploring-msvc-coroutine.md" title="Exploring MSVC Coroutine" class="md-nav__link">
+    <a href="../articles/exploring-msvc-coroutine/" title="Exploring MSVC Coroutine" class="md-nav__link">
       Exploring MSVC Coroutine
     </a>
   </li>
@@ -295,7 +295,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/awaitable-event.md" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
+    <a href="../articles/awaitable-event/" title="Awaitable event using the coroutine, epoll and eventfd" class="md-nav__link">
       Awaitable event using the coroutine, epoll and eventfd
     </a>
   </li>
@@ -307,7 +307,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/designing-the-channel.md" title="Designing the coroutine channel" class="md-nav__link">
+    <a href="../articles/designing-the-channel/" title="Designing the coroutine channel" class="md-nav__link">
       Designing the coroutine channel
     </a>
   </li>
@@ -319,7 +319,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/combining-coroutines-and-pthread_create.md" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
+    <a href="../articles/combining-coroutines-and-pthread_create/" title="Combining C++ coroutines and `pthread_create`" class="md-nav__link">
       Combining C++ coroutines and `pthread_create`
     </a>
   </li>
@@ -331,7 +331,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../articles/russian-roulette.md" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
+    <a href="../articles/russian-roulette/" title="Russian Roulette and C++ Coroutines" class="md-nav__link">
       Russian Roulette and C++ Coroutines
     </a>
   </li>
@@ -481,7 +481,7 @@
     <span class="k">auto</span> <span class="n">buf</span> <span class="o">=</span> <span class="n">make_unique</span><span class="o">&lt;</span><span class="n">kevent64_s</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="n">buf_size</span><span class="p">);</span>
 
     <span class="k">const</span> <span class="k">auto</span> <span class="n">count</span> <span class="o">=</span> <span class="n">netkq</span><span class="p">.</span><span class="n">events</span><span class="p">(</span><span class="n">wait_time</span><span class="p">,</span> <span class="p">{</span><span class="n">buf</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">buf_size</span><span class="p">});</span>
-    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">auto</span><span class="o">*</span> <span class="n">work</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">io_work_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">udata</span><span class="p">);</span>
         <span class="n">callback</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">work</span><span class="o">-&gt;</span><span class="n">task</span><span class="p">);</span>
     <span class="p">}</span>
