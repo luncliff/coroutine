@@ -93,7 +93,7 @@ jobs:
       before_script:
         - docker info
       script:
-        - docker build . -f ./scropts/gcc-10-build.dockerfile -t luncliff/coroutine
+        - docker build . -f ./scripts/gcc-10-build.dockerfile -t luncliff/coroutine
 
     - stage: deploy
       language: python
