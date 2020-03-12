@@ -7,14 +7,15 @@
 #include <mutex>
 
 #include <coroutine/channel.hpp>
-#include <coroutine/return.h> // includes `coroutine_traits<void, ...>`
+#include <coroutine/return.h>
 
 using namespace std;
 using namespace coro;
 
 using channel_with_lock_t = channel<int, mutex>;
 
-auto write_to(channel_with_lock_t& ch, int value, bool ok = false) -> void {
+auto write_to(channel_with_lock_t& ch, int value, bool ok = false)
+    -> nullptr_t {
     ok = co_await ch.write(value);
     if (ok == false)
         // !!!!!
@@ -26,7 +27,8 @@ auto write_to(channel_with_lock_t& ch, int value, bool ok = false) -> void {
     assert(ok);
 }
 
-auto read_from(channel_with_lock_t& ch, int& ref, bool ok = false) -> void {
+auto read_from(channel_with_lock_t& ch, int& ref, bool ok = false)
+    -> nullptr_t {
     tie(ref, ok) = co_await ch.read();
     assert(ok);
 }

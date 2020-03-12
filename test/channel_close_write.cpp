@@ -6,7 +6,7 @@
 #include <cassert>
 
 #include <coroutine/channel.hpp>
-#include <coroutine/return.h> // includes `coroutine_traits<void, ...>`
+#include <coroutine/return.h>
 
 using namespace std;
 using namespace coro;

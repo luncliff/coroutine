@@ -77,6 +77,7 @@ create_ctest( return_destroy_with_handle  coroutine_portable )
 create_ctest( return_destroy_with_return  coroutine_portable )
 create_ctest( return_not_coroutine        coroutine_portable )
 create_ctest( return_not_subroutine       coroutine_portable )
+create_ctest( return_std_future           coroutine_portable )
 
 #
 #   <coroutine/net.h>

@@ -51,7 +51,7 @@ int main(int, char*[]) {
 //  The implementation uses coroutine
 //
 #include <coroutine/channel.hpp>
-#include <coroutine/return.h> // includes `coroutine_traits<void, ...>`
+#include <coroutine/return.h>
 
 using channel_t = coro::channel<message_t>;
 
@@ -61,7 +61,7 @@ opaque_t* start_messaging(void* ctx, callback_t on_message) {
         return nullptr;
 
     // attach a receiver coroutine to the channel
-    [](channel_t* ch, void* context, callback_t callback) -> void {
+    [](channel_t* ch, void* context, callback_t callback) -> nullptr_t {
         puts("start receiving ...");
         while (ch) { // always true
             auto [msg, ok] = co_await ch->read();
@@ -84,7 +84,7 @@ void stop_messaging(opaque_t* ptr) {
 
 void send_message(opaque_t* ptr, message_t m) {
     // spawn a sender coroutine
-    [](channel_t* ch, message_t msg) mutable -> void {
+    [](channel_t* ch, message_t msg) mutable -> nullptr_t {
         // msg will be 'moved' to reader coroutine. so it must be `mutable`
         if (co_await ch->write(msg) == false)
             puts("can't send anymore"); // the channel is going to destruct ...

@@ -6,7 +6,7 @@
 #include <cassert>
 
 #include <coroutine/channel.hpp>
-#include <coroutine/return.h> // includes `coroutine_traits<void, ...>`
+#include <coroutine/return.h>
 
 using namespace std;
 using namespace coro;
@@ -18,7 +18,7 @@ int main(int, char*[]) {
     u32_chan_t ch1{};
     i32_chan_t ch2{};
 
-    auto write_to = [](auto& ch, auto value, bool ok = false) -> void {
+    auto write_to = [](auto& ch, auto value, bool ok = false) -> nullptr_t {
         ok = co_await ch.write(value);
         if (ok == false)
             // !!!!!
@@ -42,7 +42,7 @@ int main(int, char*[]) {
             exit(__LINE__);
         },
         ch1,
-        [](auto v) -> void {
+        [](auto v) -> nullptr_t {
             static_assert(is_same_v<decltype(v), uint32_t>);
             assert(v == 17u);
             co_await suspend_never{};

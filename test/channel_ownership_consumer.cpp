@@ -6,14 +6,14 @@
 #include <cassert>
 
 #include <coroutine/channel.hpp>
-#include <coroutine/return.h> // includes `coroutine_traits<void, ...>`
+#include <coroutine/return.h>
 
 using namespace std;
 using namespace coro;
 
 constexpr int bye = 0;
 
-auto producer(channel<int>& ch) -> void {
+auto producer(channel<int>& ch) -> nullptr_t {
     for (int msg : {1, 2, 3, bye}) {
         auto ok = co_await ch.write(msg);
         // ok == true: we sent a value
@@ -30,7 +30,7 @@ auto producer(channel<int>& ch) -> void {
     puts("channel destruction detected");
 }
 
-auto consumer_owner() -> void {
+auto consumer_owner() -> nullptr_t {
     channel<int> ch{};
     producer(ch); // start a producer routine
 

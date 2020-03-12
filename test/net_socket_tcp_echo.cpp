@@ -21,7 +21,7 @@ using namespace std;
 using namespace coro;
 
 using io_buffer_reserved_t = array<std::byte, 3900>;
-using on_accept_handler = auto (*)(int64_t) -> void;
+using on_accept_handler = auto (*)(int64_t) -> nullptr_t;
 
 bool is_async_pending(uint32_t ec) noexcept {
     switch (ec) {
@@ -63,7 +63,7 @@ auto accept_until_error(int64_t ln, on_accept_handler service) {
 
 // Receive some bytes from the socket and echo back
 // continue until EOF
-auto tcp_echo_service(int64_t sd) -> void {
+auto tcp_echo_service(int64_t sd) -> nullptr_t {
     auto on_return = gsl::finally([=]() { socket_close(sd); });
 
     io_work_t work{};
@@ -91,7 +91,7 @@ SendData:
 }
 
 auto tcp_recv_stream(int64_t sd, io_work_t& work, //
-                     int64_t& rsz, latch& wg) -> void {
+                     int64_t& rsz, latch& wg) -> nullptr_t {
 
     auto on_return = gsl::finally([&wg]() {
         try {
@@ -113,7 +113,7 @@ auto tcp_recv_stream(int64_t sd, io_work_t& work, //
 }
 
 auto tcp_send_stream(int64_t sd, io_work_t& work, //
-                     int64_t& ssz, latch& wg) -> void {
+                     int64_t& ssz, latch& wg) -> nullptr_t {
 
     auto on_return = gsl::finally([&wg]() {
         try {
