@@ -238,6 +238,7 @@ struct coroutine_traits<nullptr_t, P...> {
     };
 };
 
+#if !defined(_WIN32)
 /**
  * @brief Support return of `std::future<T>` like VC++ did with `resumable_handle`
  * @ingroup Return
@@ -266,7 +267,7 @@ struct coroutine_traits<future<R>, P...> {
         }
     };
 };
-
+#endif
 } // namespace experimental
 } // namespace std
 
