@@ -42,3 +42,10 @@ int main(int, char* []) {
     assert(f.get() == 3);
     return 0;
 }
+
+// test compatibility with old namespace
+namespace std::experimental {
+
+static_assert(sizeof(coroutine_handle<void>) == sizeof(void*));
+
+} // namespace std::experimental
