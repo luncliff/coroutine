@@ -1,6 +1,6 @@
 /**
  * @author github.com/luncliff (luncliff@gmail.com)
- * @brief Get a string representation from the `sockaddr_in6` object
+ * @brief get a list of address for IPv6, UDP unspecified
  */
 #undef NDEBUG
 #include <array>
@@ -17,17 +17,18 @@ void socket_teardown() noexcept;
 
 array<sockaddr_in6, 1> addresses{};
 
-uint32_t resolve_ip6_bind(addrinfo& hint) {
-    hint.ai_flags = AI_ALL | AI_V4MAPPED | AI_NUMERICHOST | AI_NUMERICSERV;
+uint32_t resolve_udp_unspecified(addrinfo& hint) {
+    hint.ai_flags = AI_ALL | AI_NUMERICHOST | AI_NUMERICSERV;
 
     size_t count = 0u;
-    if (const auto ec = get_address(hint, "::0.0.0.0", nullptr, addresses)) {
+    if (const auto ec = get_address(hint, "::", "9283", addresses)) {
         fputs(gai_strerror(ec), stderr);
         return ec;
     }
 
     for (const sockaddr_in6& ep : addresses) {
         assert(ep.sin6_family == AF_INET6);
+        assert(ep.sin6_port == htons(9283));
         bool unspec = IN6_IS_ADDR_UNSPECIFIED(addressof(ep.sin6_addr));
         assert(unspec);
         ++count;
@@ -36,20 +37,21 @@ uint32_t resolve_ip6_bind(addrinfo& hint) {
     return EXIT_SUCCESS;
 }
 
-uint32_t resolve_ip6_multicast(addrinfo& hint) {
-    hint.ai_flags = AI_ALL | AI_NUMERICHOST | AI_NUMERICSERV;
+uint32_t resolve_udp_v4mapped(addrinfo& hint) {
+    hint.ai_flags = AI_ALL | AI_V4MAPPED | AI_NUMERICHOST | AI_NUMERICSERV;
 
     size_t count = 0u;
-    // https://www.iana.org/assignments/ipv6-multicast-addresses/ipv6-multicast-addresses.xhtml
-    if (const auto ec = get_address(hint, "FF0E::1", nullptr, addresses)) {
+    if (const auto ec = get_address(hint, //
+                                    "::ffff:192.168.0.1", "9287", addresses)) {
         fputs(gai_strerror(ec), stderr);
         return ec;
     }
 
     for (const sockaddr_in6& ep : addresses) {
         assert(ep.sin6_family == AF_INET6);
-        bool global = IN6_IS_ADDR_MC_GLOBAL(addressof(ep.sin6_addr));
-        assert(global);
+        assert(ep.sin6_port == htons(9287));
+        bool v4mapped = IN6_IS_ADDR_V4MAPPED(addressof(ep.sin6_addr));
+        assert(v4mapped);
         ++count;
     }
     assert(count > 0);
@@ -62,11 +64,11 @@ int main(int, char* []) {
 
     addrinfo hint{};
     hint.ai_family = AF_INET6;
-    hint.ai_socktype = SOCK_RAW;
+    hint.ai_socktype = SOCK_DGRAM;
 
-    if (auto ec = resolve_ip6_bind(hint))
+    if (auto ec = resolve_udp_unspecified(hint))
         return ec;
-    if (auto ec = resolve_ip6_multicast(hint))
+    if (auto ec = resolve_udp_v4mapped(hint))
         return ec;
     return EXIT_SUCCESS;
 }

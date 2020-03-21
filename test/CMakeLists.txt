@@ -77,26 +77,18 @@ create_ctest( return_destroy_with_handle  coroutine_portable )
 create_ctest( return_destroy_with_return  coroutine_portable )
 create_ctest( return_not_coroutine        coroutine_portable )
 create_ctest( return_not_subroutine       coroutine_portable )
-if(NOT WIN32)
 create_ctest( return_std_future           coroutine_portable )
-
-endif()
 
 #
 #   <coroutine/net.h>
 #
 if(TARGET coroutine_net)
-create_ctest( net_socket_tcp_echo       coroutine_net ssf latch )
-create_ctest( net_socket_udp_echo       coroutine_net ssf latch )
-create_ctest( net_resolve_ip4                  coroutine_net ssf )
-create_ctest( net_resolve_ip6                  coroutine_net ssf )
-create_ctest( net_resolve_ip6_bind             coroutine_net ssf )
-create_ctest( net_resolve_ip6_multicast        coroutine_net ssf )
-create_ctest( net_resolve_tcp6_connect         coroutine_net ssf )
-create_ctest( net_resolve_tcp6_listen_text     coroutine_net ssf )
-create_ctest( net_resolve_tcp6_listen_numeric  coroutine_net ssf )
-create_ctest( net_resolve_udp6_unspecified     coroutine_net ssf )
-create_ctest( net_resolve_udp6_v4mapped        coroutine_net ssf )
+create_ctest( net_socket_tcp_echo   coroutine_net ssf latch )
+create_ctest( net_socket_udp_echo   coroutine_net ssf latch )
+create_ctest( net_resolve_name      coroutine_net ssf )
+create_ctest( net_resolve_ip6       coroutine_net ssf )
+create_ctest( net_resolve_tcp6      coroutine_net ssf )
+create_ctest( net_resolve_udp6      coroutine_net ssf )
 endif()
 
 #

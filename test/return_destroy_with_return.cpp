@@ -6,9 +6,8 @@
 #include <coroutine/return.h>
 
 using namespace std;
-using namespace coro;
 
-auto invoke_and_suspend_immediately() -> frame_t {
+auto invoke_and_suspend_immediately() -> coro::frame_t {
     co_await suspend_always{};
     co_return;
 };
