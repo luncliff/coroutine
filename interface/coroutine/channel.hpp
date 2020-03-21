@@ -461,6 +461,7 @@ template <typename T, typename M>
 class channel_peeker final : protected channel_reader<T, M> {
     using channel_type = channel<T, M>;
     using writer = typename channel_type::writer;
+    using writer_list = typename channel_type::writer_list;
 
   private:
     channel_peeker(const channel_peeker&) noexcept(false) = delete;
