@@ -8,6 +8,7 @@ ENV CC=gcc-10 CXX=g++-10
 WORKDIR /code
 
 COPY . .
+RUN ./scripts/install-libcxx.sh
 RUN cmake . \
     -DCMAKE_BUILD_TYPE=Debug \
     -DBUILD_SHARED_LIBS=True \

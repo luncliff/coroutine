@@ -48,7 +48,7 @@ function(create_ctest TEST_NAME)
         PRIVATE
             c++
         )
-    else()
+    else(CMAKE_SYSTEM_NAME MATCHES Linux)
         target_link_libraries(${TEST_NAME}
         PRIVATE
             stdc++ c++
