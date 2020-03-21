@@ -31,7 +31,7 @@
 #include <functional> // std::hash
 
 #if defined(__cpp_coroutines)
- // ...
+// ...
 #endif
 
 struct portable_coro_prefix;
@@ -273,9 +273,6 @@ struct coro_traits_sfinae<_Ret, void_t<typename _Ret::promise_type>> {
 // there is no way but to define in `std::experimental` since compilers are checking it
 namespace experimental {
 
-// compatibility with existing `experimental::coroutine_handle` identifiers.
-using std::coroutine_handle;
-
 // STRUCT TEMPLATE coroutine_traits
 template <typename _Ret, typename... _Ts>
 struct coroutine_traits : coro_traits_sfinae<_Ret> {};
@@ -287,6 +284,9 @@ template <typename P>
 struct coroutine_handle : public std::coroutine_handle<P> {};
 
 #elif defined(_MSC_VER)
+
+// msvc: compatibility with existing `experimental::coroutine_handle` identifiers.
+using std::coroutine_handle;
 
 // _Resumable_helper_traits class isolates front-end from public surface naming changes
 // The original code is in <experimental/resumable>
