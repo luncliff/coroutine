@@ -13,7 +13,9 @@
 #pragma once
 #ifndef _COROUTINE_
 #define _COROUTINE_
-#define _EXPERIMENTAL_RESUMABLE_
+#define _EXPERIMENTAL_RESUMABLE_ // suppress <experimental/resumable>
+//#define _RESUMABLE_FUNCTIONS_SUPPORTED // this will be enforced by MSVC
+
 #if __has_include(<yvals_core.h>)
 #include <yvals_core.h>
 #endif
@@ -28,8 +30,8 @@
 #include <exception>  // std::current_exception
 #include <functional> // std::hash
 
-#if !defined(__cpp_coroutines)
-// ...
+#if defined(__cpp_coroutines)
+ // ...
 #endif
 
 struct portable_coro_prefix;
@@ -270,6 +272,9 @@ struct coro_traits_sfinae<_Ret, void_t<typename _Ret::promise_type>> {
 
 // there is no way but to define in `std::experimental` since compilers are checking it
 namespace experimental {
+
+// compatibility with existing `experimental::coroutine_handle` identifiers.
+using std::coroutine_handle;
 
 // STRUCT TEMPLATE coroutine_traits
 template <typename _Ret, typename... _Ts>

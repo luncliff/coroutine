@@ -12,7 +12,6 @@
 
 #if __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
-#include <future>
 
 namespace coro {
 using std::coroutine_handle;
@@ -21,7 +20,6 @@ using std::suspend_never;
 
 #elif __has_include(<experimental/coroutine>)
 #include <experimental/coroutine>
-#include <future>
 
 namespace coro {
 using std::experimental::coroutine_handle;
@@ -30,7 +28,7 @@ using std::experimental::suspend_never;
 
 #else
 #error "requires header <experimental/coroutine> or <coroutine/frame.h>"
-#endif
+#endif // <experimental/coroutine>
 
 /**
  * @defgroup Return
@@ -126,7 +124,9 @@ class promise_aa {
 };
 
 /**
- * @brief A type to acquire `coroutine_handle<void>` from anonymous coroutine's return
+ * @brief   A type to acquire `coroutine_handle<void>` from anonymous coroutine's return. 
+ *          Requires manual `destroy` of the coroutine handle.
+ * 
  * @ingroup Return
  * @see coroutine_handle<void>
  * @see promise_na
@@ -151,12 +151,14 @@ class frame_t : public coroutine_handle<void> {
          * @return frame_t 
          */
         frame_t get_return_object() noexcept {
-            frame_t frame{};
-            coroutine_handle<void>& ref = frame;
-            ref = coroutine_handle<promise_type>::from_promise(*this);
-            return frame;
+            return frame_t{coroutine_handle<promise_type>::from_promise(*this)};
         }
     };
+
+  public:
+    explicit frame_t(coroutine_handle<void> frame = nullptr) noexcept
+        : coroutine_handle<void>{frame} {
+    }
 };
 
 /**
@@ -176,12 +178,13 @@ class passive_frame_t : public coroutine_handle<void> {
         void return_void() noexcept {
         }
         passive_frame_t get_return_object() noexcept {
-            passive_frame_t frame{};
-            coroutine_handle<void>& ref = frame;
-            ref = coroutine_handle<promise_type>::from_promise(*this);
-            return frame;
+            return passive_frame_t{
+                coroutine_handle<promise_type>::from_promise(*this)};
         }
     };
+    explicit passive_frame_t(coroutine_handle<void> frame = nullptr) noexcept
+        : coroutine_handle<void>{frame} {
+    }
 };
 
 #if defined(__cpp_concepts)
@@ -238,36 +241,6 @@ struct coroutine_traits<nullptr_t, P...> {
     };
 };
 
-#if !defined(_WIN32)
-/**
- * @brief Support return of `std::future<T>` like VC++ did with `resumable_handle`
- * @ingroup Return
- * @see std::promise<T>
- */
-template <typename R, typename... P>
-struct coroutine_traits<future<R>, P...> {
-    struct promise_type final : promise<R> {
-        suspend_never initial_suspend() noexcept {
-            return {};
-        }
-        suspend_never final_suspend() noexcept {
-            return {};
-        }
-        void unhandled_exception() noexcept {
-            this->set_exception(current_exception());
-        }
-        void return_value(R&& result) noexcept {
-            this->set_value(move(result));
-        }
-        void return_value(R& result) noexcept {
-            this->set_value(result);
-        }
-        auto get_return_object() noexcept -> future<R> {
-            return this->get_future();
-        }
-    };
-};
-#endif
 } // namespace experimental
 } // namespace std
 
