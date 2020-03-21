@@ -22,7 +22,7 @@ using namespace coro;
 using io_buffer_reserved_t = array<std::byte, 3900>;
 
 auto udp_recv_datagram(int64_t sd, io_work_t& work, //
-                       int64_t& rsz, latch& wg) -> void {
+                       int64_t& rsz, latch& wg) -> nullptr_t {
 
     auto on_return = gsl::finally([&wg]() {
         try {
@@ -47,7 +47,7 @@ auto udp_recv_datagram(int64_t sd, io_work_t& work, //
 
 auto udp_send_datagram(int64_t sd, io_work_t& work, //
                        const sockaddr_in& remote, int64_t& ssz, latch& wg)
-    -> void {
+    -> nullptr_t {
 
     auto on_return = gsl::finally([&wg]() {
         try {
@@ -69,7 +69,7 @@ auto udp_send_datagram(int64_t sd, io_work_t& work, //
     assert(static_cast<size_t>(ssz) == storage.size());
 }
 
-auto udp_echo_service(int64_t sd) -> void {
+auto udp_echo_service(int64_t sd) -> nullptr_t {
     sockaddr_in remote{};
     io_work_t work{};
     io_buffer_t buf{};              // memory view to the 'storage'

@@ -6,14 +6,14 @@
 #include <cassert>
 
 #include <coroutine/channel.hpp>
-#include <coroutine/return.h> // includes `coroutine_traits<void, ...>`
+#include <coroutine/return.h>
 
 using namespace std;
 using namespace coro;
 
 constexpr int bye = 0;
 
-auto consumer(channel<int>& ch) -> void {
+auto consumer(channel<int>& ch) -> nullptr_t {
     // the type doesn't support for-co_await for now
     for (auto [msg, ok] = co_await ch.read(); ok;
          tie(msg, ok) = co_await ch.read()) {
@@ -32,7 +32,7 @@ auto consumer(channel<int>& ch) -> void {
     puts("channel destruction detected");
 }
 
-auto producer_owner() -> void {
+auto producer_owner() -> nullptr_t {
     channel<int> ch{};
     consumer(ch); // start a consumer routine
 

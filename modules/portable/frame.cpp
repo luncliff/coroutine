@@ -1,48 +1,63 @@
 
 #include "coroutine/frame.h"
 
-namespace std::experimental {
-
-static_assert(sizeof(coroutine_handle<void>) == sizeof(void*));
-
-} // namespace std::experimental
-
+#if defined(__GNUC__)
+using procedure_t = void (*)(void*);
+#else
 using procedure_t = void(__cdecl*)(void*);
+#endif
 
 constexpr auto align_req_v = sizeof(void*) * 2;
 template <typename P>
 constexpr auto aligned_size_v = (sizeof(P) + align_req_v - 1u) &
                                 ~(align_req_v - 1u);
 
-constexpr ptrdiff_t make_aligned_size(size_t _TypeSize) {
+/**
+ * @brief Simply calculate aligned size of the type. It is multiplier of 16
+ */
+constexpr ptrdiff_t portable_aligned_size(size_t _TypeSize) {
     return (_TypeSize + align_req_v - 1u) & ~(align_req_v - 1u);
 }
 
-// - Note
-//      Clang coroutine frame's prefix
-// - Layout
-//      +------------------+------------+---+--------------------+
-//      | Frame Prefix(16) | Promise(?) | ? | Local variables(?) |
-//      +------------------+------------+---+--------------------+
+/**
+ * @brief Clang coroutine frame's prefix
+ * @details
+ * The layout is like the following
+ * ```
+ * +------------------+------------+---+--------------------+
+ * | Frame Prefix(16) | Promise(?) | ? | Local variables(?) |
+ * +------------------+------------+---+--------------------+
+ * ```
+ */
 struct clang_frame_prefix {
     procedure_t _Factivate;
     procedure_t _Fdestroy;
 };
 static_assert(aligned_size_v<clang_frame_prefix> == 16);
 
-// - Note
-//      GCC coroutine frame's prefix
-// - Layout
-//      Unknown
+/**
+ * @brief GCC coroutine frame's prefix
+ * @details
+ * The layout is unknown
+ */
 using gcc_frame_prefix = clang_frame_prefix;
 
 // - Note
 //      MSVC coroutine frame's prefix
 //      Reference <experimental/resumable> for the detail
 // - Layout
-//      +------------+------------------+--------------------+
-//      | Promise(?) | Frame Prefix(16) | Local variables(?) |
-//      +------------+------------------+--------------------+
+
+/**
+ * @brief MSVC coroutine frame's prefix
+ * @details
+ * The layout is like the following
+ * ```
+ * +------------+------------------+--------------------+
+ * | Promise(?) | Frame Prefix(16) | Local variables(?) |
+ * +------------+------------------+--------------------+
+ * ```
+ * @see Reference <experimental/resumable>
+ */
 struct msvc_frame_prefix {
     procedure_t _Factivate;
     uint16_t _Index;
@@ -91,12 +106,17 @@ inline bool _coro_finished(portable_coro_prefix* _Handle) {
 }
 
 #elif defined(__GNUC__)
+// For now, work like a clang
+static constexpr auto is_clang = true;
+static constexpr auto is_msvc = !is_clang;
+
+struct portable_coro_prefix final : public clang_frame_prefix {};
 
 extern "C" {
 bool __builtin_coro_is_suspended(void*);
 }
 
-#endif // __clang__ || _MSC_VER
+#endif // __clang__ || _MSC_VER || __GNUC__
 
 // replacement of the `_coro_done`
 bool portable_coro_done(portable_coro_prefix* _Handle) {
@@ -124,7 +144,9 @@ void portable_coro_destroy(portable_coro_prefix* _Handle) {
     }
 }
 
-// 'get_promise' from frame prefix
+/**
+ * @brief 'get_promise' from the frame prefix
+ */
 void* portable_coro_get_promise(portable_coro_prefix* _Handle,
                                 ptrdiff_t _PromSize) {
     // location of the promise object
@@ -138,12 +160,14 @@ void* portable_coro_get_promise(portable_coro_prefix* _Handle,
     } else if constexpr (is_msvc) {
         // for MSVC, promise is placed before frame prefix
         _PromAddr = reinterpret_cast<std::byte*>(_Handle) -
-                    make_aligned_size(_PromSize);
+                    portable_aligned_size(_PromSize);
     }
     return _PromAddr;
 }
 
-// 'from_promise' get frame prefix
+/**
+ * @brief Get the frame prefix 'from_promise'
+ */
 portable_coro_prefix* portable_coro_from_promise(void* _PromAddr,
                                                  ptrdiff_t _PromSize) {
     // location of the frame prefix
@@ -154,7 +178,7 @@ portable_coro_prefix* portable_coro_from_promise(void* _PromAddr,
                   aligned_size_v<clang_frame_prefix>;
     } else if constexpr (is_msvc) {
         _Handle = reinterpret_cast<std::byte*>(_PromAddr) +
-                  make_aligned_size(_PromSize);
+                  portable_aligned_size(_PromSize);
     }
     return reinterpret_cast<portable_coro_prefix*>(_Handle);
 }

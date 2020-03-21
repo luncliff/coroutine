@@ -7,7 +7,7 @@
 #include <mutex>
 
 #include <coroutine/channel.hpp>
-#include <coroutine/return.h> // includes `coroutine_traits<void, ...>`
+#include <coroutine/return.h>
 
 #include <coroutine/windows.h>
 #include <latch.h>
@@ -23,14 +23,14 @@ int main(int, char*[]) {
     uint32_t success{}, failure{};
     latch group{2 * max_try_count};
 
-    auto send_once = [&](channel_section_t& ch, uint64_t value) -> void {
+    auto send_once = [&](channel_section_t& ch, uint64_t value) -> nullptr_t {
         co_await continue_on_thread_pool{};
 
         auto w = co_await ch.write(value);
         w ? success += 1 : failure += 1;
         group.count_down();
     };
-    auto recv_once = [&](channel_section_t& ch) -> void {
+    auto recv_once = [&](channel_section_t& ch) -> nullptr_t {
         co_await continue_on_thread_pool{};
 
         auto [value, r] = co_await ch.read();

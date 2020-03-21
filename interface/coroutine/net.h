@@ -12,13 +12,8 @@
 #include <coroutine/return.h>
 
 /**
- * @defgroup NetWork
- * Helper types to apply `co_await` for socket operations
- */
-
-/**
- * @defgroup NetResolve
- * Name resolution utilities
+ * @defgroup Network
+ * Helper types to apply `co_await` for socket operations + Name resolution utilities
  */
 
 #if __has_include(<WinSock2.h>) // use winsock
@@ -48,7 +43,7 @@ static constexpr bool is_netinet = true;
  * @brief Follow the definition of Windows `OVERLAPPED`
  * @see https://docs.microsoft.com/en-us/windows/win32/sync/synchronization-and-overlapped-input-and-output
  * @see https://docs.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-overlapped
- * @ingroup NetWork
+ * @ingroup Network
  */
 struct io_control_block {
     uint64_t internal;      // uint32_t errc, int32_t flag
@@ -69,14 +64,14 @@ namespace coro {
 
 /**
  * @brief This is simply a view to storage. Be aware that it doesn't have ownership
- * @ingroup NetWork
+ * @ingroup Network
  */
 using io_buffer_t = gsl::span<std::byte>;
 static_assert(sizeof(io_buffer_t) <= sizeof(void*) * 2);
 
 /**
  * @brief A struct to describe "1 I/O request" to system API.
- * @ingroup NetWork
+ * @ingroup Network
  * When I/O request is submitted, an I/O task becomes 1 coroutine handle
  */
 class io_work_t : public io_control_block {
@@ -105,7 +100,7 @@ static_assert(sizeof(io_work_t) <= 56);
  * @brief Awaitable type to perform `sendto` I/O request
  * @see sendto
  * @see WSASendTo
- * @ingroup NetWork
+ * @ingroup Network
  */
 class io_send_to final : public io_work_t {
   private:
@@ -142,7 +137,7 @@ static_assert(sizeof(io_send_to) == sizeof(io_work_t));
  * @brief Awaitable type to perform `recvfrom` I/O request
  * @see recvfrom
  * @see WSARecvFrom
- * @ingroup NetWork
+ * @ingroup Network
  */
 class io_recv_from final : public io_work_t {
   private:
@@ -179,7 +174,7 @@ static_assert(sizeof(io_recv_from) == sizeof(io_work_t));
  * @brief Awaitable type to perform `send` I/O request
  * @see send
  * @see WSASend
- * @ingroup NetWork
+ * @ingroup Network
  */
 class io_send final : public io_work_t {
   private:
@@ -213,7 +208,7 @@ static_assert(sizeof(io_send) == sizeof(io_work_t));
  * @brief Awaitable type to perform `recv` I/O request
  * @see recv
  * @see WSARecv
- * @ingroup NetWork
+ * @ingroup Network
  */
 class io_recv final : public io_work_t {
   private:
@@ -251,7 +246,7 @@ static_assert(sizeof(io_recv) == sizeof(io_work_t));
  * @param buf 
  * @param work 
  * @return io_send_to& 
- * @ingroup NetWork
+ * @ingroup Network
  */
 auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buf,
              io_work_t& work) noexcept(false) -> io_send_to&;
@@ -263,7 +258,7 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buf,
  * @param buf 
  * @param work 
  * @return io_send_to& 
- * @ingroup NetWork
+ * @ingroup Network
  */
 auto send_to(uint64_t sd, const sockaddr_in6& remote, io_buffer_t buf,
              io_work_t& work) noexcept(false) -> io_send_to&;
@@ -275,7 +270,7 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, io_buffer_t buf,
  * @param buf 
  * @param work 
  * @return io_recv_from& 
- * @ingroup NetWork
+ * @ingroup Network
  */
 auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buf,
                io_work_t& work) noexcept(false) -> io_recv_from&;
@@ -287,7 +282,7 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buf,
  * @param buf 
  * @param work 
  * @return io_recv_from& 
- * @ingroup NetWork
+ * @ingroup Network
  */
 auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buf,
                io_work_t& work) noexcept(false) -> io_recv_from&;
@@ -299,7 +294,7 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buf,
  * @param flag 
  * @param work 
  * @return io_send& 
- * @ingroup NetWork
+ * @ingroup Network
  */
 auto send_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_send&;
@@ -311,7 +306,7 @@ auto send_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
  * @param flag 
  * @param work 
  * @return io_recv& 
- * @ingroup NetWork
+ * @ingroup Network
  */
 auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
                  io_work_t& work) noexcept(false) -> io_recv&;
@@ -319,13 +314,13 @@ auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
 /**
  * @brief Poll internal I/O works and invoke user callback
  * @param nano timeout in nanoseconds 
- * @ingroup NetWork
+ * @ingroup Network
  */
 void poll_net_tasks(uint64_t nano) noexcept(false);
 
 /**
  * @brief Thin wrapper of `getaddrinfo` for IPv4
- * @ingroup NetResolve
+ * @ingroup Network
  * @param hint 
  * @param host 
  * @param serv 
@@ -340,7 +335,7 @@ uint32_t get_address(const addrinfo& hint, //
 
 /**
  * @brief Thin wrapper of `getaddrinfo` for IPv6
- * @ingroup NetResolve
+ * @ingroup Network
  * @param hint 
  * @param host 
  * @param serv 
@@ -355,7 +350,7 @@ uint32_t get_address(const addrinfo& hint, //
 
 /**
  * @brief Thin wrapper of `getnameinfo`
- * @ingroup NetResolve
+ * @ingroup Network
  * @param addr 
  * @param name 
  * @param serv can be `nullptr`
@@ -369,7 +364,7 @@ uint32_t get_name(const sockaddr_in& addr, //
 
 /**
  * @brief Thin wrapper of `getnameinfo`
- * @ingroup NetResolve
+ * @ingroup Network
  * @param addr 
  * @param name 
  * @param serv can be `nullptr`

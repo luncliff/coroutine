@@ -12,6 +12,7 @@
 
 #if __has_include(<coroutine/frame.h>)
 #include <coroutine/frame.h>
+
 namespace coro {
 using std::coroutine_handle;
 using std::suspend_always;
@@ -19,6 +20,7 @@ using std::suspend_never;
 
 #elif __has_include(<experimental/coroutine>)
 #include <experimental/coroutine>
+
 namespace coro {
 using std::experimental::coroutine_handle;
 using std::experimental::suspend_always;
@@ -26,7 +28,7 @@ using std::experimental::suspend_never;
 
 #else
 #error "requires header <experimental/coroutine> or <coroutine/frame.h>"
-#endif
+#endif // <experimental/coroutine>
 
 /**
  * @defgroup Return
@@ -34,8 +36,8 @@ using std::experimental::suspend_never;
  */
 
 /**
+ * @brief   `suspend_never`(initial) + `suspend_never`(final)
  * @ingroup Return
- * @note `suspend_never`(initial) + `suspend_never`(final)
  */
 class promise_nn {
   public:
@@ -56,8 +58,8 @@ class promise_nn {
 };
 
 /**
+ * @brief   `suspend_never`(initial) + `suspend_always`(final)
  * @ingroup Return
- * @note `suspend_never`(initial) + `suspend_always`(final)
  */
 class promise_na {
   public:
@@ -78,8 +80,8 @@ class promise_na {
 };
 
 /**
+ * @brief   `suspend_always`(initial) + `suspend_never`(final)
  * @ingroup Return
- * @note `suspend_always`(initial) + `suspend_never`(final)
  */
 class promise_an {
   public:
@@ -100,8 +102,8 @@ class promise_an {
 };
 
 /**
+ * @brief   `suspend_always`(initial) + `suspend_always`(final)
  * @ingroup Return
- * @note `suspend_always`(initial) + `suspend_always`(final)
  */
 class promise_aa {
   public:
@@ -122,16 +124,19 @@ class promise_aa {
 };
 
 /**
- * @brief A type to acquire `coroutine_handle<void>` from anonymous coroutine's return
+ * @brief   A type to acquire `coroutine_handle<void>` from anonymous coroutine's return. 
+ *          Requires manual `destroy` of the coroutine handle.
+ * 
  * @ingroup Return
  * @see coroutine_handle<void>
+ * @see promise_na
  */
-class frame_t final : public coroutine_handle<void> {
+class frame_t : public coroutine_handle<void> {
   public:
     /**
      * @brief Acquire `coroutine_handle<void>` from current object and expose it through `get_return_object`
      */
-    class promise_type final : public promise_na {
+    class promise_type : public promise_na {
       public:
         /**
          * @brief The `frame_t` will do nothing for exception handling
@@ -139,9 +144,6 @@ class frame_t final : public coroutine_handle<void> {
         void unhandled_exception() noexcept(false) {
             throw;
         }
-        /**
-         * @brief this is a `void` return for the coroutines
-         */
         void return_void() noexcept {
         }
         /**
@@ -149,35 +151,57 @@ class frame_t final : public coroutine_handle<void> {
          * @return frame_t 
          */
         frame_t get_return_object() noexcept {
-            frame_t frame{};
-            coroutine_handle<void>& ref = frame;
-            ref = coroutine_handle<promise_type>::from_promise(*this);
-            return frame;
+            return frame_t{coroutine_handle<promise_type>::from_promise(*this)};
         }
     };
+
+  public:
+    explicit frame_t(coroutine_handle<void> frame = nullptr) noexcept
+        : coroutine_handle<void>{frame} {
+    }
+};
+
+/**
+ * @brief Suspend after invoke and expose its `coroutine_handle<void>` through return
+ * @ingroup Return
+ * @see coroutine_handle<void>
+ * @see frame_t
+ * @see promise_aa
+ */
+class passive_frame_t : public coroutine_handle<void> {
+  public:
+    class promise_type : public promise_aa {
+      public:
+        void unhandled_exception() noexcept(false) {
+            throw;
+        }
+        void return_void() noexcept {
+        }
+        passive_frame_t get_return_object() noexcept {
+            return passive_frame_t{
+                coroutine_handle<promise_type>::from_promise(*this)};
+        }
+    };
+    explicit passive_frame_t(coroutine_handle<void> frame = nullptr) noexcept
+        : coroutine_handle<void>{frame} {
+    }
 };
 
 #if defined(__cpp_concepts)
+/*
 template <typename T, typename R = void>
 concept awaitable = requires(T a, coroutine_handle<void> h) {
-    { a.await_ready() }
-    ->bool;
-    { a.await_suspend(h) }
-    ->void;
-    { a.await_resume() }
-    ->R;
+    { a.await_ready() } ->bool;
+    { a.await_suspend(h) } ->void;
+    { a.await_resume() } ->R;
 };
-
 template <typename P>
 concept promise_requirement_basic = requires(P p) {
-    { p.initial_suspend() }
-    ->awaitable;
-    { p.final_suspend() }
-    ->awaitable;
-    { p.unhandled_exception() }
-    ->void;
+    { p.initial_suspend() } ->awaitable;
+    { p.final_suspend() } ->awaitable;
+    { p.unhandled_exception() } ->void;
 };
-
+*/
 #endif
 
 } // namespace coro
@@ -189,9 +213,10 @@ namespace experimental {
  * @brief Allow `void` return of the coroutine
  * 
  * @tparam P input parameter types of the coroutine's signature
+ * @ingroup Return
  */
 template <typename... P>
-struct coroutine_traits<void, P...> {
+struct coroutine_traits<nullptr_t, P...> {
     struct promise_type final {
         suspend_never initial_suspend() noexcept {
             return {};
@@ -210,7 +235,8 @@ struct coroutine_traits<void, P...> {
         /**
          * @brief Since this is template specialization for `void`, the return type is fixed to `void`
          */
-        void get_return_object() noexcept {
+        nullptr_t get_return_object() noexcept {
+            return nullptr;
         }
     };
 };

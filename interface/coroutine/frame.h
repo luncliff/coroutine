@@ -13,7 +13,9 @@
 #pragma once
 #ifndef _COROUTINE_
 #define _COROUTINE_
-#define _EXPERIMENTAL_RESUMABLE_
+#define _EXPERIMENTAL_RESUMABLE_ // suppress <experimental/resumable>
+//#define _RESUMABLE_FUNCTIONS_SUPPORTED // this will be enforced by MSVC
+
 #if __has_include(<yvals_core.h>)
 #include <yvals_core.h>
 #endif
@@ -28,7 +30,7 @@
 #include <exception>  // std::current_exception
 #include <functional> // std::hash
 
-#if !defined(__cpp_coroutines)
+#if defined(__cpp_coroutines)
 // ...
 #endif
 
@@ -282,6 +284,9 @@ template <typename P>
 struct coroutine_handle : public std::coroutine_handle<P> {};
 
 #elif defined(_MSC_VER)
+
+// msvc: compatibility with existing `experimental::coroutine_handle` identifiers.
+using std::coroutine_handle;
 
 // _Resumable_helper_traits class isolates front-end from public surface naming changes
 // The original code is in <experimental/resumable>
