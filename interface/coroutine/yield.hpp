@@ -43,12 +43,13 @@ class enumerable {
         return *this;
     }
     enumerable() noexcept = default;
-    enumerable(promise_type* ptr) noexcept
-        : coro{coroutine_handle<promise_type>::from_promise(*ptr)} {
+    explicit enumerable(coroutine_handle<promise_type> rh) noexcept : coro{rh} {
     }
+    /**
+     * @brief   The type will destroy the frame in destructor
+     *          So promise/iterator are free from those ownership control
+     */
     ~enumerable() noexcept {
-        // enumerable will destroy the frame.
-        //  promise/iterator are free from those ownership
         if (coro)
             coro.destroy();
     }
@@ -75,25 +76,31 @@ class enumerable {
         pointer current = nullptr;
 
       public:
-        promise_type* get_return_object() noexcept {
-            // enumerable will create coroutine handle from the address
-            return this;
+        /**
+         * @brief create coroutine handle from current promise's address
+         */
+        enumerable get_return_object() noexcept {
+            return enumerable{
+                coroutine_handle<promise_type>::from_promise(*this)};
         }
         void unhandled_exception() noexcept(false) {
             throw;
         }
-        // `co_yield` expression. for reference
+        /// @brief  `co_yield` expression. for reference
         auto yield_value(reference ref) noexcept {
             current = std::addressof(ref);
             return suspend_always{};
         }
-        // `co_yield` expression. for r-value
+        /// @brief  `co_yield` expression. for r-value
         auto yield_value(value_type&& v) noexcept {
             return yield_value(v);
         }
-        // `co_return` expression
+        /// @brief
+
+        /**
+         * @brief `co_return` expression. There should be no more access to the value.
+         */
         void return_void() noexcept {
-            // no more access to value
             current = nullptr;
         }
     };
@@ -110,21 +117,21 @@ class enumerable {
         coroutine_handle<promise_type> coro;
 
       public:
-        // `enumerable::end()`
+        /// @see enumerable::end()
         explicit iterator(std::nullptr_t) noexcept : coro{nullptr} {
         }
-        // `enumerable::begin()`
+        /// @see enumerable::begin()
         explicit iterator(coroutine_handle<promise_type> handle) noexcept
             : coro{handle} {
         }
 
       public:
-        iterator& operator++(int) = delete; // post increment
+        /// @brief post increment is prohibited
+        iterator& operator++(int) = delete;
         iterator& operator++() noexcept(false) {
             coro.resume();
             if (coro.done())    // enumerable will destroy
                 coro = nullptr; // the frame later...
-
             return *this;
         }
 
