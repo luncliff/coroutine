@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -453,6 +453,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#public-functions" class="md-nav__link">
+    Public Functions
+  </a>
+  
+</li>
+      
       
       
       
@@ -474,7 +481,7 @@
                 
                 <h1 id="class-frame_t">Class frame_t<a class="headerlink" href="#class-frame_t" title="Permanent link">&para;</a></h1>
 <p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="./"><strong>frame_t</strong></a></p>
-<p><em>A type to acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from anonymous coroutine's return.</em><a href="#detailed-description">More...</a></p>
+<p><em>A type to acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from anonymous coroutine's return. Requires manual</em><code>destroy</code> <em>of the coroutine handle.</em><a href="#detailed-description">More...</a></p>
 <ul>
 <li><code>#include &lt;return.h&gt;</code></li>
 </ul>
@@ -494,8 +501,32 @@
 </tr>
 </tbody>
 </table>
+<h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th align="right">Type</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right"></td>
+<td align="left"><a href="./#function-frame-t"><strong>frame_t</strong></a> (coroutine_handle&lt; void &gt; frame=nullptr) noexcept<br></td>
+</tr>
+</tbody>
+</table>
 <h1 id="detailed-description">Detailed Description<a class="headerlink" href="#detailed-description" title="Permanent link">&para;</a></h1>
 <p><strong>See also:</strong> coroutine_handle&lt;void&gt; </p>
+<p><strong>See also:</strong> <a href="../classpromise__na/"><strong>promise_na</strong></a> </p>
+<h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
+<h3 id="function-frame_t">function frame_t<a class="headerlink" href="#function-frame_t" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="k">explicit</span> <span class="n">frame_t</span><span class="o">::</span><span class="n">frame_t</span> <span class="p">(</span>
+    <span class="n">coroutine_handle</span><span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">frame</span><span class="o">=</span><span class="k">nullptr</span>
+<span class="p">)</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
 <hr />
 <p>The documentation for this class was generated from the following file <code>interface/coroutine/return.h</code></p>
                 

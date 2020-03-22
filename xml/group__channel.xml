@@ -55,7 +55,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="526" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="526" bodyend="533"/>
+        <location file="interface/coroutine/channel.hpp" line="527" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="527" bodyend="534"/>
       </memberdef>
       <memberdef kind="function" id="group__channel_1ga7c401c70f1afabefe85be0e1bc33d94c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -95,7 +95,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="542" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="542" bodyend="546"/>
+        <location file="interface/coroutine/channel.hpp" line="543" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="543" bodyend="547"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

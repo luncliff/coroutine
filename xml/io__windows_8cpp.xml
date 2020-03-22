@@ -60,7 +60,7 @@
 <codeline lineno="10"><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>{</highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__NetWork_1ga022830c9178aa1a201f95abd2026d35f" kindref="member">poll_net_tasks</ref>(uint64_t<sp/>nano)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__Network_1ga022830c9178aa1a201f95abd2026d35f" kindref="member">poll_net_tasks</ref>(uint64_t<sp/>nano)<sp/>noexcept(</highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1chrono" kindref="compound">std::chrono</ref>;</highlight></codeline>
 <codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ms<sp/>=<sp/>duration_cast&lt;milliseconds&gt;(nanoseconds{nano});</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>SleepEx(ms.count(),<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
@@ -119,7 +119,7 @@
 <codeline lineno="69"><highlight class="normal"></highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(f<sp/>.4)<sp/></highlight><highlight class="comment">//<sp/>for<sp/>clang,<sp/>this<sp/>is<sp/>not<sp/>constexpr<sp/>function.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal">auto<sp/>make_wsa_buf(<ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>v)<sp/>noexcept<sp/>-&gt;<sp/>WSABUF<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">auto<sp/>make_wsa_buf(<ref refid="group__Network_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>v)<sp/>noexcept<sp/>-&gt;<sp/>WSABUF<sp/>{</highlight></codeline>
 <codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>WSABUF<sp/>buf{};<sp/></highlight><highlight class="comment">//<sp/>expect<sp/>NRVO</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.buf<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(v.data());</highlight></codeline>
 <codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.len<sp/>=<sp/>gsl::narrow_cast&lt;ULONG&gt;(v.size_bytes());</highlight></codeline>
@@ -132,7 +132,7 @@
 <codeline lineno="82"><highlight class="normal"></highlight></codeline>
 <codeline lineno="83"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.3)</highlight></codeline>
-<codeline lineno="85"><highlight class="normal">auto<sp/><ref refid="group__NetWork_1ga31d5a4a545024c3c24e6f5204537307b" kindref="member">send_to</ref>(uint64_t<sp/>sd,<sp/>const<sp/>sockaddr_in6&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">auto<sp/><ref refid="group__Network_1ga31d5a4a545024c3c24e6f5204537307b" kindref="member">send_to</ref>(uint64_t<sp/>sd,<sp/>const<sp/>sockaddr_in6&amp;<sp/>remote,<sp/><ref refid="group__Network_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>io_work_t&amp;<sp/>work)<sp/>noexcept(false)<sp/>-&gt;<sp/>io_send_to&amp;<sp/>{</highlight></codeline>
 <codeline lineno="87"><highlight class="normal"></highlight></codeline>
 <codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>work.hEvent<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">HANDLE</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sd);</highlight></codeline>
@@ -147,7 +147,7 @@
 <codeline lineno="97"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="98"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
 <codeline lineno="99"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.3)</highlight></codeline>
-<codeline lineno="100"><highlight class="normal">auto<sp/><ref refid="group__NetWork_1ga31d5a4a545024c3c24e6f5204537307b" kindref="member">send_to</ref>(uint64_t<sp/>sd,<sp/>const<sp/>sockaddr_in&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">auto<sp/><ref refid="group__Network_1ga31d5a4a545024c3c24e6f5204537307b" kindref="member">send_to</ref>(uint64_t<sp/>sd,<sp/>const<sp/>sockaddr_in&amp;<sp/>remote,<sp/><ref refid="group__Network_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>io_work_t&amp;<sp/>work)<sp/>noexcept(false)<sp/>-&gt;<sp/>io_send_to&amp;<sp/>{</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"></highlight></codeline>
 <codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>work.hEvent<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">HANDLE</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sd);</highlight></codeline>
@@ -190,7 +190,7 @@
 <codeline lineno="140"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="141"><highlight class="normal"></highlight></codeline>
 <codeline lineno="142"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
-<codeline lineno="143"><highlight class="normal">auto<sp/><ref refid="group__NetWork_1gace516cdc1f8b51596ba7a406190182eb" kindref="member">recv_from</ref>(uint64_t<sp/>sd,<sp/>sockaddr_in6&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">auto<sp/><ref refid="group__Network_1gace516cdc1f8b51596ba7a406190182eb" kindref="member">recv_from</ref>(uint64_t<sp/>sd,<sp/>sockaddr_in6&amp;<sp/>remote,<sp/><ref refid="group__Network_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,</highlight></codeline>
 <codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>io_work_t&amp;<sp/>work)<sp/>noexcept(false)<sp/>-&gt;<sp/>io_recv_from&amp;<sp/>{</highlight></codeline>
 <codeline lineno="145"><highlight class="normal"></highlight></codeline>
 <codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>work.hEvent<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">HANDLE</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sd);</highlight></codeline>
@@ -204,7 +204,7 @@
 <codeline lineno="154"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
 <codeline lineno="156"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
-<codeline lineno="157"><highlight class="normal">auto<sp/><ref refid="group__NetWork_1gace516cdc1f8b51596ba7a406190182eb" kindref="member">recv_from</ref>(uint64_t<sp/>sd,<sp/>sockaddr_in&amp;<sp/>remote,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">auto<sp/><ref refid="group__Network_1gace516cdc1f8b51596ba7a406190182eb" kindref="member">recv_from</ref>(uint64_t<sp/>sd,<sp/>sockaddr_in&amp;<sp/>remote,<sp/><ref refid="group__Network_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,</highlight></codeline>
 <codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>io_work_t&amp;<sp/>work)<sp/>noexcept(false)<sp/>-&gt;<sp/>io_recv_from&amp;<sp/>{</highlight></codeline>
 <codeline lineno="159"><highlight class="normal"></highlight></codeline>
 <codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>work.hEvent<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">HANDLE</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sd);</highlight></codeline>
@@ -246,7 +246,7 @@
 <codeline lineno="196"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="197"><highlight class="normal"></highlight></codeline>
 <codeline lineno="198"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
-<codeline lineno="199"><highlight class="normal">auto<sp/><ref refid="group__NetWork_1gac94bb59884293c451906c8cffe825a14" kindref="member">send_stream</ref>(uint64_t<sp/>sd,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,<sp/>uint32_t<sp/>flag,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">auto<sp/><ref refid="group__Network_1gac94bb59884293c451906c8cffe825a14" kindref="member">send_stream</ref>(uint64_t<sp/>sd,<sp/><ref refid="group__Network_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,<sp/>uint32_t<sp/>flag,</highlight></codeline>
 <codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>io_work_t&amp;<sp/>work)<sp/>noexcept(false)<sp/>-&gt;<sp/>io_send&amp;<sp/>{</highlight></codeline>
 <codeline lineno="201"><highlight class="normal"></highlight></codeline>
 <codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>work.hEvent<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">HANDLE</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sd);</highlight></codeline>
@@ -283,7 +283,7 @@
 <codeline lineno="233"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="234"><highlight class="normal"></highlight></codeline>
 <codeline lineno="235"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(type<sp/>.1)</highlight></codeline>
-<codeline lineno="236"><highlight class="normal">auto<sp/><ref refid="group__NetWork_1ga60c53387a2e976df4742620055666796" kindref="member">recv_stream</ref>(uint64_t<sp/>sd,<sp/><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,<sp/>uint32_t<sp/>flag,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">auto<sp/><ref refid="group__Network_1ga60c53387a2e976df4742620055666796" kindref="member">recv_stream</ref>(uint64_t<sp/>sd,<sp/><ref refid="group__Network_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref><sp/>buffer,<sp/>uint32_t<sp/>flag,</highlight></codeline>
 <codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>io_work_t&amp;<sp/>work)<sp/>noexcept(false)<sp/>-&gt;<sp/>io_recv&amp;<sp/>{</highlight></codeline>
 <codeline lineno="238"><highlight class="normal"></highlight></codeline>
 <codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>work.hEvent<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">HANDLE</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sd);</highlight></codeline>

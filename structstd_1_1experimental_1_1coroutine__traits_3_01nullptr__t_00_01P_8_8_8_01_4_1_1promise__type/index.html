@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type/">
       
       
         <meta name="author" content="Park DongHa">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Struct std::experimental::coroutine\_traits< void, P... > - luncliff/coroutine</title>
+        <title>Struct std::experimental::coroutine\_traits< nullptr\_t, P... >::promise\_type - luncliff/coroutine</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#struct-stdexperimentalcoroutine_traits-void-p" tabindex="0" class="md-skip">
+      <a href="#struct-stdexperimentalcoroutine_traits-nullptr_t-p-promise_type" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Struct std::experimental::coroutine\_traits&lt; void, P... &gt;
+                Struct std::experimental::coroutine\_traits&lt; nullptr\_t, P... &gt;::promise\_type
               
             </span>
           
@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -447,9 +447,57 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#classes" class="md-nav__link">
-    Classes
+  <a href="#public-functions" class="md-nav__link">
+    Public Functions
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-functions-documentation" class="md-nav__link">
+    Public Functions Documentation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-final_suspend" class="md-nav__link">
+    function final_suspend
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-get_return_object" class="md-nav__link">
+    function get_return_object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-initial_suspend" class="md-nav__link">
+    function initial_suspend
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-return_void" class="md-nav__link">
+    function return_void
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-unhandled_exception" class="md-nav__link">
+    function unhandled_exception
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -469,17 +517,15 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="struct-stdexperimentalcoroutine_traits-void-p">Struct std::experimental::coroutine_traits&lt; void, P... &gt;<a class="headerlink" href="#struct-stdexperimentalcoroutine_traits-void-p" title="Permanent link">&para;</a></h1>
-<p><strong>template &lt;typename... P&gt;</strong></p>
-<p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacestd/"><strong>std</strong></a> <strong>&gt;</strong> <a href="../namespacestd_1_1experimental/"><strong>experimental</strong></a> <strong>&gt;</strong> <a href="./"><strong>coroutine_traits&lt; void, P... &gt;</strong></a></p>
-<p><em>Allow</em> <code>void</code> <em>return of the coroutine.</em><a href="#detailed-description">More...</a></p>
+                <h1 id="struct-stdexperimentalcoroutine_traits-nullptr_t-p-promise_type">Struct std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type<a class="headerlink" href="#struct-stdexperimentalcoroutine_traits-nullptr_t-p-promise_type" title="Permanent link">&para;</a></h1>
+<p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacestd_1_1experimental/"><strong>experimental</strong></a> <strong>&gt;</strong> <a href="../structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4/"><strong>coroutine_traits&lt; nullptr_t, P... &gt;</strong></a> <strong>&gt;</strong> <a href="./"><strong>promise_type</strong></a></p>
 <ul>
 <li><code>#include &lt;return.h&gt;</code></li>
 </ul>
-<h2 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h2>
+<h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -489,16 +535,53 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">struct</td>
-<td align="left"><a href="../structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type/"><strong>promise_type</strong></a> <br></td>
+<td align="right"><a href="../classstd_1_1suspend__never/"><strong>suspend_never</strong></a></td>
+<td align="left"><a href="./#function-final-suspend"><strong>final_suspend</strong></a> () noexcept<br></td>
+</tr>
+<tr>
+<td align="right">nullptr_t</td>
+<td align="left"><a href="./#function-get-return-object"><strong>get_return_object</strong></a> () noexcept<br><em>Since this is template specialization for</em> <code>void</code> <em>, the return type is fixed to</em><code>void</code> __</td>
+</tr>
+<tr>
+<td align="right"><a href="../classstd_1_1suspend__never/"><strong>suspend_never</strong></a></td>
+<td align="left"><a href="./#function-initial-suspend"><strong>initial_suspend</strong></a> () noexcept<br></td>
+</tr>
+<tr>
+<td align="right">void</td>
+<td align="left"><a href="./#function-return-void"><strong>return_void</strong></a> () noexcept<br><em>Since this is template specialization for</em> <code>void</code> <em>, the return type is fixed to</em><code>void</code> __</td>
+</tr>
+<tr>
+<td align="right">void</td>
+<td align="left"><a href="./#function-unhandled-exception"><strong>unhandled_exception</strong></a> () noexcept<br></td>
 </tr>
 </tbody>
 </table>
-<h1 id="detailed-description">Detailed Description<a class="headerlink" href="#detailed-description" title="Permanent link">&para;</a></h1>
-<p><strong>Template parameters:</strong></p>
-<ul>
-<li><code>P</code> input parameter types of the coroutine's signature </li>
-</ul>
+<h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
+<h3 id="function-final_suspend">function final_suspend<a class="headerlink" href="#function-final_suspend" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">suspend_never</span> <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span> <span class="n">nullptr_t</span><span class="p">,</span> <span class="n">P</span><span class="p">...</span> <span class="o">&gt;::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">final_suspend</span> <span class="p">()</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<h3 id="function-get_return_object">function get_return_object<a class="headerlink" href="#function-get_return_object" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">nullptr_t</span> <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span> <span class="n">nullptr_t</span><span class="p">,</span> <span class="n">P</span><span class="p">...</span> <span class="o">&gt;::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">get_return_object</span> <span class="p">()</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<h3 id="function-initial_suspend">function initial_suspend<a class="headerlink" href="#function-initial_suspend" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">suspend_never</span> <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span> <span class="n">nullptr_t</span><span class="p">,</span> <span class="n">P</span><span class="p">...</span> <span class="o">&gt;::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">initial_suspend</span> <span class="p">()</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<h3 id="function-return_void">function return_void<a class="headerlink" href="#function-return_void" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span> <span class="n">nullptr_t</span><span class="p">,</span> <span class="n">P</span><span class="p">...</span> <span class="o">&gt;::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">return_void</span> <span class="p">()</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<h3 id="function-unhandled_exception">function unhandled_exception<a class="headerlink" href="#function-unhandled_exception" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span> <span class="n">nullptr_t</span><span class="p">,</span> <span class="n">P</span><span class="p">...</span> <span class="o">&gt;::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">unhandled_exception</span> <span class="p">()</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
 <hr />
 <p>The documentation for this class was generated from the following file <code>interface/coroutine/return.h</code></p>
                 

@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/group__NetWork/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/classpassive__frame__t/">
       
       
         <meta name="author" content="Park DongHa">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Group NetWork - luncliff/coroutine</title>
+        <title>Class passive\_frame\_t - luncliff/coroutine</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#group-network" tabindex="0" class="md-skip">
+      <a href="#class-passive_frame_t" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Group NetWork
+                Class passive\_frame\_t
               
             </span>
           
@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -454,13 +454,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#public-types" class="md-nav__link">
-    Public Types
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#public-functions" class="md-nav__link">
     Public Functions
   </a>
@@ -483,13 +476,16 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/group__NetWork.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/classpassive__frame__t.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="group-network">Group NetWork<a class="headerlink" href="#group-network" title="Permanent link">&para;</a></h1>
-<p><a href="../modules/"><strong>Modules</strong></a>
- <strong>&gt;</strong> <a href="./"><strong>NetWork</strong></a></p>
-<p><a href="#detailed-description">More...</a></p>
+                <h1 id="class-passive_frame_t">Class passive_frame_t<a class="headerlink" href="#class-passive_frame_t" title="Permanent link">&para;</a></h1>
+<p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="./"><strong>passive_frame_t</strong></a></p>
+<p><em>Suspend after invoke and expose its</em> <code>coroutine_handle&lt;void&gt;</code> <em>through return.</em><a href="#detailed-description">More...</a></p>
+<ul>
+<li><code>#include &lt;return.h&gt;</code></li>
+</ul>
+<p>Inherits the following classes: coroutine_handle&lt; void &gt;</p>
 <h2 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -501,38 +497,7 @@
 <tbody>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1io__recv/"><strong>coro::io_recv</strong></a> <br><em>Awaitable type to perform</em> <code>recv</code> <em>I/O request.</em></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1io__recv__from/"><strong>coro::io_recv_from</strong></a> <br><em>Awaitable type to perform</em> <code>recvfrom</code> <em>I/O request.</em></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1io__send/"><strong>coro::io_send</strong></a> <br><em>Awaitable type to perform</em> <code>send</code> <em>I/O request.</em></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1io__send__to/"><strong>coro::io_send_to</strong></a> <br><em>Awaitable type to perform</em> <code>sendto</code> <em>I/O request.</em></td>
-</tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1io__work__t/"><strong>coro::io_work_t</strong></a> <br><em>A struct to describe "1 I/O request" to system API.</em>  <em>When I/O request is submitted, an I/O task becomes 1 coroutine handle.</em></td>
-</tr>
-</tbody>
-</table>
-<h2 id="public-types">Public Types<a class="headerlink" href="#public-types" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th align="right">Type</th>
-<th align="left">Name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="right">typedef gsl::span&lt; std::byte &gt;</td>
-<td align="left"><a href="../namespacecoro/#typedef-io-buffer-t"><strong>coro::io_buffer_t</strong></a>  <br><em>This is simply a view to storage. Be aware that it doesn't have ownership.</em></td>
+<td align="left"><a href="../classpassive__frame__t_1_1promise__type/"><strong>promise_type</strong></a> <br></td>
 </tr>
 </tbody>
 </table>
@@ -546,170 +511,25 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">void</td>
-<td align="left"><a href="../namespacecoro/#function-poll-net-tasks"><strong>coro::poll_net_tasks</strong></a> (uint64_t nano) noexcept<br><em>Poll internal I/O works and invoke user callback.</em></td>
-</tr>
-<tr>
-<td align="right">auto</td>
-<td align="left"><a href="../namespacecoro/#function-recv-from"><strong>coro::recv_from</strong></a> (uint64_t sd, sockaddr_in &amp; remote, <a href="../namespacecoro/#typedef-io-buffer-t"><strong>io_buffer_t</strong></a> buf, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br><em>Constructs</em> <code>io_recv_from</code> <em>awaitable with the given parameters.</em></td>
-</tr>
-<tr>
-<td align="right">auto</td>
-<td align="left"><a href="../namespacecoro/#function-recv-from"><strong>coro::recv_from</strong></a> (uint64_t sd, sockaddr_in6 &amp; remote, <a href="../namespacecoro/#typedef-io-buffer-t"><strong>io_buffer_t</strong></a> buf, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br><em>Constructs</em> <code>io_recv_from</code> <em>awaitable with the given parameters.</em></td>
-</tr>
-<tr>
-<td align="right">auto</td>
-<td align="left"><a href="../namespacecoro/#function-recv-stream"><strong>coro::recv_stream</strong></a> (uint64_t sd, <a href="../namespacecoro/#typedef-io-buffer-t"><strong>io_buffer_t</strong></a> buf, uint32_t flag, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br><em>Constructs</em> <code>io_recv</code> <em>awaitable with the given parameters.</em></td>
-</tr>
-<tr>
-<td align="right">auto</td>
-<td align="left"><a href="../namespacecoro/#function-send-stream"><strong>coro::send_stream</strong></a> (uint64_t sd, <a href="../namespacecoro/#typedef-io-buffer-t"><strong>io_buffer_t</strong></a> buf, uint32_t flag, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br><em>Constructs</em> <code>io_send</code> <em>awaitable with the given parameters.</em></td>
-</tr>
-<tr>
-<td align="right">auto</td>
-<td align="left"><a href="../namespacecoro/#function-send-to"><strong>coro::send_to</strong></a> (uint64_t sd, const sockaddr_in &amp; remote, <a href="../namespacecoro/#typedef-io-buffer-t"><strong>io_buffer_t</strong></a> buf, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br><em>Constructs</em> <code>io_send_to</code> <em>awaitable with the given parameters.</em></td>
-</tr>
-<tr>
-<td align="right">auto</td>
-<td align="left"><a href="../namespacecoro/#function-send-to"><strong>coro::send_to</strong></a> (uint64_t sd, const sockaddr_in6 &amp; remote, <a href="../namespacecoro/#typedef-io-buffer-t"><strong>io_buffer_t</strong></a> buf, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br><em>Constructs</em> <code>io_send_to</code> <em>awaitable with the given parameters.</em></td>
+<td align="right"></td>
+<td align="left"><a href="./#function-passive-frame-t"><strong>passive_frame_t</strong></a> (coroutine_handle&lt; void &gt; frame=nullptr) noexcept<br></td>
 </tr>
 </tbody>
 </table>
 <h1 id="detailed-description">Detailed Description<a class="headerlink" href="#detailed-description" title="Permanent link">&para;</a></h1>
-<p>Helper types to apply <code>co_await</code> for socket operations </p>
-<h2 id="public-types-documentation">Public Types Documentation<a class="headerlink" href="#public-types-documentation" title="Permanent link">&para;</a></h2>
-<h3 id="typedef-io_buffer_t">typedef io_buffer_t<a class="headerlink" href="#typedef-io_buffer_t" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">using</span> <span class="n">coro</span><span class="o">::</span><span class="n">io_buffer_t</span> <span class="o">=</span> <span class="k">typedef</span> <span class="n">gsl</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">byte</span><span class="o">&gt;</span><span class="p">;</span>
-</code></pre></div>
-
-
+<p><strong>See also:</strong> coroutine_handle&lt;void&gt; </p>
+<p><strong>See also:</strong> <a href="../classframe__t/"><strong>frame_t</strong></a> </p>
+<p><strong>See also:</strong> <a href="../classpromise__aa/"><strong>promise_aa</strong></a> </p>
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
-<h3 id="function-poll_net_tasks">function poll_net_tasks<a class="headerlink" href="#function-poll_net_tasks" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">poll_net_tasks</span> <span class="p">(</span>
-    <span class="kt">uint64_t</span> <span class="n">nano</span>
+<h3 id="function-passive_frame_t">function passive_frame_t<a class="headerlink" href="#function-passive_frame_t" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="k">explicit</span> <span class="n">passive_frame_t</span><span class="o">::</span><span class="n">passive_frame_t</span> <span class="p">(</span>
+    <span class="n">coroutine_handle</span><span class="o">&lt;</span> <span class="kt">void</span> <span class="o">&gt;</span> <span class="n">frame</span><span class="o">=</span><span class="k">nullptr</span>
 <span class="p">)</span> <span class="k">noexcept</span>
 </code></pre></div>
 
 
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>nano</code> timeout in nanoseconds </li>
-</ul>
-<h3 id="function-recv_from">function recv_from<a class="headerlink" href="#function-recv_from" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">recv_from</span> <span class="p">(</span>
-    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
-    <span class="n">sockaddr_in</span> <span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span>
-    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
-    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
-<span class="p">)</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>sd</code> </li>
-<li><code>remote</code> </li>
-<li><code>buf</code> </li>
-<li><code>work</code> </li>
-</ul>
-<p><strong>Returns:</strong></p>
-<p><a href="../classcoro_1_1io__recv__from/"><strong>io_recv_from</strong></a>&amp; </p>
-<h3 id="function-recv_from_1">function recv_from<a class="headerlink" href="#function-recv_from_1" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">recv_from</span> <span class="p">(</span>
-    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
-    <span class="n">sockaddr_in6</span> <span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span>
-    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
-    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
-<span class="p">)</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>sd</code> </li>
-<li><code>remote</code> </li>
-<li><code>buf</code> </li>
-<li><code>work</code> </li>
-</ul>
-<p><strong>Returns:</strong></p>
-<p><a href="../classcoro_1_1io__recv__from/"><strong>io_recv_from</strong></a>&amp; </p>
-<h3 id="function-recv_stream">function recv_stream<a class="headerlink" href="#function-recv_stream" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">recv_stream</span> <span class="p">(</span>
-    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
-    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
-    <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span>
-    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
-<span class="p">)</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>sd</code> </li>
-<li><code>buf</code> </li>
-<li><code>flag</code> </li>
-<li><code>work</code> </li>
-</ul>
-<p><strong>Returns:</strong></p>
-<p><a href="../classcoro_1_1io__recv/"><strong>io_recv</strong></a>&amp; </p>
-<h3 id="function-send_stream">function send_stream<a class="headerlink" href="#function-send_stream" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">send_stream</span> <span class="p">(</span>
-    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
-    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
-    <span class="kt">uint32_t</span> <span class="n">flag</span><span class="p">,</span>
-    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
-<span class="p">)</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>sd</code> </li>
-<li><code>buf</code> </li>
-<li><code>flag</code> </li>
-<li><code>work</code> </li>
-</ul>
-<p><strong>Returns:</strong></p>
-<p><a href="../classcoro_1_1io__send/"><strong>io_send</strong></a>&amp; </p>
-<h3 id="function-send_to">function send_to<a class="headerlink" href="#function-send_to" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">send_to</span> <span class="p">(</span>
-    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
-    <span class="k">const</span> <span class="n">sockaddr_in</span> <span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span>
-    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
-    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
-<span class="p">)</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>sd</code> </li>
-<li><code>remote</code> </li>
-<li><code>buf</code> </li>
-<li><code>work</code> </li>
-</ul>
-<p><strong>Returns:</strong></p>
-<p><a href="../classcoro_1_1io__send__to/"><strong>io_send_to</strong></a>&amp; </p>
-<h3 id="function-send_to_1">function send_to<a class="headerlink" href="#function-send_to_1" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">send_to</span> <span class="p">(</span>
-    <span class="kt">uint64_t</span> <span class="n">sd</span><span class="p">,</span>
-    <span class="k">const</span> <span class="n">sockaddr_in6</span> <span class="o">&amp;</span> <span class="n">remote</span><span class="p">,</span>
-    <span class="n">io_buffer_t</span> <span class="n">buf</span><span class="p">,</span>
-    <span class="n">io_work_t</span> <span class="o">&amp;</span> <span class="n">work</span>
-<span class="p">)</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>sd</code> </li>
-<li><code>remote</code> </li>
-<li><code>buf</code> </li>
-<li><code>work</code> </li>
-</ul>
-<p><strong>Returns:</strong></p>
-<p><a href="../classcoro_1_1io__send__to/"><strong>io_send_to</strong></a>&amp; </p>
 <hr />
+<p>The documentation for this class was generated from the following file <code>interface/coroutine/return.h</code></p>
                 
                   
                 

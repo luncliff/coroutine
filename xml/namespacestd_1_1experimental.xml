@@ -3,11 +3,11 @@
   <compounddef id="namespacestd_1_1experimental" kind="namespace" language="C++">
     <compoundname>std::experimental</compoundname>
     <innerclass refid="structstd_1_1experimental_1_1coroutine__traits" prot="public">std::experimental::coroutine_traits</innerclass>
-    <innerclass refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4" prot="public">std::experimental::coroutine_traits&lt; void, P... &gt;</innerclass>
+    <innerclass refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4" prot="public">std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;</innerclass>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="272" column="1"/>
+    <location file="interface/coroutine/frame.h" line="274" column="1"/>
   </compounddef>
 </doxygen>

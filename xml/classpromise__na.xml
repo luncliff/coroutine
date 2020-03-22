@@ -17,7 +17,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="68" column="1" bodyfile="interface/coroutine/return.h" bodystart="68" bodyend="70"/>
+        <location file="interface/coroutine/return.h" line="70" column="1" bodyfile="interface/coroutine/return.h" bodystart="70" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="classpromise__na_1abce5e5bf2da45ee5ef37b57c98a0978d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>suspend_always</type>
@@ -31,27 +31,26 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="75" column="1" bodyfile="interface/coroutine/return.h" bodystart="75" bodyend="77"/>
+        <location file="interface/coroutine/return.h" line="77" column="1" bodyfile="interface/coroutine/return.h" bodystart="77" bodyend="79"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-    </briefdescription>
+<para><computeroutput>suspend_never</computeroutput>(initial) + <computeroutput>suspend_always</computeroutput>(final) </para>    </briefdescription>
     <detaileddescription>
-<para><simplesect kind="note"><para><computeroutput>suspend_never</computeroutput>(initial) + <computeroutput>suspend_always</computeroutput>(final) </para></simplesect>
-</para>    </detaileddescription>
+    </detaileddescription>
     <inheritancegraph>
-      <node id="287">
+      <node id="301">
         <label>frame_t::promise_type</label>
         <link refid="classframe__t_1_1promise__type"/>
-        <childnode refid="286" relation="public-inheritance">
+        <childnode refid="300" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="286">
+      <node id="300">
         <label>promise_na</label>
         <link refid="classpromise__na"/>
       </node>
     </inheritancegraph>
-    <location file="interface/coroutine/return.h" line="62" column="1" bodyfile="interface/coroutine/return.h" bodystart="62" bodyend="78"/>
+    <location file="interface/coroutine/return.h" line="64" column="1" bodyfile="interface/coroutine/return.h" bodystart="64" bodyend="80"/>
     <listofallmembers>
       <member refid="classpromise__na_1abce5e5bf2da45ee5ef37b57c98a0978d" prot="public" virt="non-virtual"><scope>promise_na</scope><name>final_suspend</name></member>
       <member refid="classpromise__na_1a91148abe4003519303cb8d09135e602c" prot="public" virt="non-virtual"><scope>promise_na</scope><name>initial_suspend</name></member>

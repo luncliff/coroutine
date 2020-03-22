@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -487,23 +487,31 @@
 <tbody>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classframe__t/"><strong>frame_t</strong></a> <br><em>A type to acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from anonymous coroutine's return.</em></td>
+<td align="left"><a href="../classframe__t/"><strong>frame_t</strong></a> <br><em>A type to acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from anonymous coroutine's return. Requires manual</em><code>destroy</code> <em>of the coroutine handle.</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classpromise__aa/"><strong>promise_aa</strong></a> <br></td>
+<td align="left"><a href="../classpassive__frame__t/"><strong>passive_frame_t</strong></a> <br><em>Suspend after invoke and expose its</em> <code>coroutine_handle&lt;void&gt;</code> <em>through return.</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classpromise__an/"><strong>promise_an</strong></a> <br></td>
+<td align="left"><a href="../classpromise__aa/"><strong>promise_aa</strong></a> <br><code>suspend_always</code> <em>(initial) +</em><code>suspend_always</code> <em>(final)</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classpromise__na/"><strong>promise_na</strong></a> <br></td>
+<td align="left"><a href="../classpromise__an/"><strong>promise_an</strong></a> <br><code>suspend_always</code> <em>(initial) +</em><code>suspend_never</code> <em>(final)</em></td>
 </tr>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classpromise__nn/"><strong>promise_nn</strong></a> <br></td>
+<td align="left"><a href="../classpromise__na/"><strong>promise_na</strong></a> <br><code>suspend_never</code> <em>(initial) +</em><code>suspend_always</code> <em>(final)</em></td>
+</tr>
+<tr>
+<td align="right">class</td>
+<td align="left"><a href="../classpromise__nn/"><strong>promise_nn</strong></a> <br><code>suspend_never</code> <em>(initial) +</em><code>suspend_never</code> <em>(final)</em></td>
+</tr>
+<tr>
+<td align="right">struct</td>
+<td align="left"><a href="../structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4/"><strong>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;</strong></a> &lt;P&gt;<br><em>Allow</em> <code>void</code> <em>return of the coroutine.</em></td>
 </tr>
 </tbody>
 </table>

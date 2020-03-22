@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -543,12 +543,12 @@
 </thead>
 <tbody>
 <tr>
-<td align="right"><a href="./"><strong>promise_type</strong></a> *</td>
-<td align="left"><a href="./#function-get-return-object"><strong>get_return_object</strong></a> () noexcept<br></td>
+<td align="right"><a href="../classcoro_1_1enumerable/"><strong>enumerable</strong></a></td>
+<td align="left"><a href="./#function-get-return-object"><strong>get_return_object</strong></a> () noexcept<br><em>create coroutine handle from current promise's address</em></td>
 </tr>
 <tr>
 <td align="right">void</td>
-<td align="left"><a href="./#function-return-void"><strong>return_void</strong></a> () noexcept<br></td>
+<td align="left"><a href="./#function-return-void"><strong>return_void</strong></a> () noexcept<br><code>co_return</code> <em>expression. There should be no more access to the value.</em></td>
 </tr>
 <tr>
 <td align="right">void</td>
@@ -556,11 +556,11 @@
 </tr>
 <tr>
 <td align="right">auto</td>
-<td align="left"><a href="./#function-yield-value-12"><strong>yield_value</strong></a> (<a href="../classcoro_1_1enumerable/#typedef-reference"><strong>reference</strong></a> ref) noexcept<br></td>
+<td align="left"><a href="./#function-yield-value-12"><strong>yield_value</strong></a> (<a href="../classcoro_1_1enumerable/#typedef-reference"><strong>reference</strong></a> ref) noexcept<br><code>co_yield</code> <em>expression. for reference</em></td>
 </tr>
 <tr>
 <td align="right">auto</td>
-<td align="left"><a href="./#function-yield-value-22"><strong>yield_value</strong></a> (<a href="../classcoro_1_1enumerable/#typedef-value-type"><strong>value_type</strong></a> &amp;&amp; v) noexcept<br></td>
+<td align="left"><a href="./#function-yield-value-22"><strong>yield_value</strong></a> (<a href="../classcoro_1_1enumerable/#typedef-value-type"><strong>value_type</strong></a> &amp;&amp; v) noexcept<br><code>co_yield</code> <em>expression. for r-value</em></td>
 </tr>
 </tbody>
 </table>
@@ -586,7 +586,7 @@
 </table>
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="function-get_return_object">function get_return_object<a class="headerlink" href="#function-get_return_object" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">promise_type</span> <span class="o">*</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">get_return_object</span> <span class="p">()</span> <span class="k">noexcept</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">enumerable</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">get_return_object</span> <span class="p">()</span> <span class="k">noexcept</span>
 </code></pre></div>
 
 

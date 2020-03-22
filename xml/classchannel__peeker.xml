@@ -39,6 +39,19 @@
         </inbodydescription>
         <location file="interface/coroutine/channel.hpp" line="463" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="463" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="typedef" id="classchannel__peeker_1a4a0da31b1cc48fd7aad175853196a6e1" prot="private" static="no">
+        <type>typename <ref refid="classinternal_1_1list" kindref="compound">channel_type::writer_list</ref></type>
+        <definition>using channel_peeker&lt; T, M &gt;::writer_list =  typename channel_type::writer_list</definition>
+        <argsstring></argsstring>
+        <name>writer_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/channel.hpp" line="464" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="464" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
       <memberdef kind="function" id="classchannel__peeker_1a990e9808a9916b8938a374952c4deff7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -55,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="466" column="1"/>
+        <location file="interface/coroutine/channel.hpp" line="467" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classchannel__peeker_1a9f2afa6c57cb5652a270e06598481df9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -71,7 +84,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="467" column="1"/>
+        <location file="interface/coroutine/channel.hpp" line="468" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classchannel__peeker_1a5ef0b39ac4b22bb613480338ea2ace56" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classchannel__peeker" kindref="compound">channel_peeker</ref> &amp;</type>
@@ -87,7 +100,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="468" column="1"/>
+        <location file="interface/coroutine/channel.hpp" line="469" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classchannel__peeker_1af5cad25d19ba2e1032cad896211853da" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classchannel__peeker" kindref="compound">channel_peeker</ref> &amp;</type>
@@ -103,7 +116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="469" column="1"/>
+        <location file="interface/coroutine/channel.hpp" line="470" column="1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -122,7 +135,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="472" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="472" bodyend="473"/>
+        <location file="interface/coroutine/channel.hpp" line="473" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="473" bodyend="474"/>
       </memberdef>
       <memberdef kind="function" id="classchannel__peeker_1a5000b660243d9362696abeed42b62d7c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -135,7 +148,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="482" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="482" bodyend="489"/>
+        <location file="interface/coroutine/channel.hpp" line="483" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="483" bodyend="490"/>
       </memberdef>
       <memberdef kind="function" id="classchannel__peeker_1ae51a5dae0a2785e732bf970782a9d2b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -169,7 +182,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/channel.hpp" line="507" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="507" bodyend="516"/>
+        <location file="interface/coroutine/channel.hpp" line="508" column="1" bodyfile="interface/coroutine/channel.hpp" bodystart="508" bodyend="517"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -193,47 +206,47 @@
 <simplesect kind="see"><para><ref refid="classchannel__reader" kindref="compound">channel_reader</ref> </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="178">
+      <node id="187">
         <label>channel_peeker&lt; T, M &gt;</label>
         <link refid="classchannel__peeker"/>
-        <childnode refid="179" relation="protected-inheritance">
+        <childnode refid="188" relation="protected-inheritance">
         </childnode>
       </node>
-      <node id="179">
+      <node id="188">
         <label>channel_reader&lt; T, M &gt;</label>
         <link refid="classchannel__reader"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="182">
+      <node id="191">
         <label>channel&lt; T, M &gt;</label>
         <link refid="classchannel"/>
-        <childnode refid="183" relation="private-inheritance">
+        <childnode refid="192" relation="private-inheritance">
         </childnode>
-        <childnode refid="184" relation="private-inheritance">
+        <childnode refid="193" relation="private-inheritance">
         </childnode>
       </node>
-      <node id="180">
+      <node id="189">
         <label>channel_peeker&lt; T, M &gt;</label>
         <link refid="classchannel__peeker"/>
-        <childnode refid="181" relation="protected-inheritance">
+        <childnode refid="190" relation="protected-inheritance">
         </childnode>
       </node>
-      <node id="183">
+      <node id="192">
         <label>internal::list&lt; channel_reader&lt; T, M &gt; &gt;</label>
         <link refid="classinternal_1_1list"/>
       </node>
-      <node id="181">
+      <node id="190">
         <label>channel_reader&lt; T, M &gt;</label>
         <link refid="classchannel__reader"/>
-        <childnode refid="182" relation="usage">
+        <childnode refid="191" relation="usage">
           <edgelabel>chan</edgelabel>
         </childnode>
-        <childnode refid="181" relation="usage">
+        <childnode refid="190" relation="usage">
           <edgelabel>next</edgelabel>
         </childnode>
       </node>
-      <node id="184">
+      <node id="193">
         <label>internal::list&lt; channel_writer&lt; T, M &gt; &gt;</label>
         <link refid="classinternal_1_1list"/>
       </node>
@@ -264,6 +277,7 @@
       <member refid="classchannel__reader_1a9cac01060750b1255000091210c24236" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>reference</name></member>
       <member refid="classchannel__reader_1ae9db3577650b39565659c7e67f444a47" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>value_type</name></member>
       <member refid="classchannel__peeker_1ac04334af0528fe5c0427542a122bf564" prot="private" virt="non-virtual"><scope>channel_peeker</scope><name>writer</name></member>
+      <member refid="classchannel__peeker_1a4a0da31b1cc48fd7aad175853196a6e1" prot="private" virt="non-virtual"><scope>channel_peeker</scope><name>writer_list</name></member>
       <member refid="classchannel__reader_1a2775ebd8e22ae2c56b3ce0395c1c4b9d" prot="protected" virt="non-virtual"><scope>channel_peeker</scope><name>~channel_reader</name></member>
     </listofallmembers>
   </compounddef>

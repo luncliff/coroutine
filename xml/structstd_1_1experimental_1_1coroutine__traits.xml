@@ -19,30 +19,30 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="216">
+      <node id="225">
         <label>std::coro_traits_sfinae&lt; _Ret &gt;</label>
         <link refid="structstd_1_1coro__traits__sfinae"/>
       </node>
-      <node id="215">
+      <node id="224">
         <label>std::experimental::coroutine_traits&lt; _Ret, _Ts &gt;</label>
         <link refid="structstd_1_1experimental_1_1coroutine__traits"/>
-        <childnode refid="216" relation="public-inheritance">
+        <childnode refid="225" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="218">
+      <node id="227">
         <label>std::coro_traits_sfinae&lt; _Ret &gt;</label>
         <link refid="structstd_1_1coro__traits__sfinae"/>
       </node>
-      <node id="217">
+      <node id="226">
         <label>std::experimental::coroutine_traits&lt; _Ret, _Ts &gt;</label>
         <link refid="structstd_1_1experimental_1_1coroutine__traits"/>
-        <childnode refid="218" relation="public-inheritance">
+        <childnode refid="227" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/frame.h" line="276" column="1" bodyfile="interface/coroutine/frame.h" bodystart="276" bodyend="276"/>
+    <location file="interface/coroutine/frame.h" line="278" column="1" bodyfile="interface/coroutine/frame.h" bodystart="278" bodyend="278"/>
     <listofallmembers>
     </listofallmembers>
   </compounddef>

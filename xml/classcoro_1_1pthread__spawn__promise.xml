@@ -112,20 +112,20 @@
 <simplesect kind="see"><para>pthread_attr_t</para></simplesect>
 The type wraps <computeroutput>pthread_create</computeroutput> function. After spawn, it contains thread id of the brand-new thread. </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="325">
+      <node id="343">
         <label>coro::pthread_detacher_t::promise_type</label>
         <link refid="classcoro_1_1pthread__detacher__t_1_1promise__type"/>
-        <childnode refid="324" relation="public-inheritance">
+        <childnode refid="342" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="324">
+      <node id="342">
         <label>coro::pthread_spawn_promise</label>
         <link refid="classcoro_1_1pthread__spawn__promise"/>
       </node>
-      <node id="326">
+      <node id="344">
         <label>coro::pthread_joiner_t::promise_type</label>
         <link refid="classcoro_1_1pthread__joiner__t_1_1promise__type"/>
-        <childnode refid="324" relation="public-inheritance">
+        <childnode refid="342" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>

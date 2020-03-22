@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -701,7 +701,7 @@
 </tr>
 <tr>
 <td align="right"><a href="./"><strong>iterator</strong></a> &amp;</td>
-<td align="left"><a href="./#function-operator_2"><strong>operator++</strong></a> (int) = delete<br></td>
+<td align="left"><a href="./#function-operator_2"><strong>operator++</strong></a> (int) = delete<br><em>post increment is prohibited</em></td>
 </tr>
 <tr>
 <td align="right"><a href="./"><strong>iterator</strong></a> &amp;</td>
@@ -757,6 +757,7 @@
 </code></pre></div>
 
 
+<p><strong>See also:</strong> <a href="../classcoro_1_1enumerable/#function-end"><strong>enumerable::end()</strong></a> </p>
 <h3 id="function-iterator-22">function iterator [2/2]<a class="headerlink" href="#function-iterator-22" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="k">explicit</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">::</span><span class="n">iterator</span><span class="o">::</span><span class="n">iterator</span> <span class="p">(</span>
     <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="n">promise_type</span> <span class="o">&gt;</span> <span class="n">handle</span>
@@ -764,6 +765,7 @@
 </code></pre></div>
 
 
+<p><strong>See also:</strong> <a href="../classcoro_1_1enumerable/#function-begin"><strong>enumerable::begin()</strong></a> </p>
 <h3 id="function-operator">function operator!=<a class="headerlink" href="#function-operator" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="kt">bool</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">::</span><span class="n">iterator</span><span class="o">::</span><span class="k">operator</span><span class="o">!=</span> <span class="p">(</span>
     <span class="k">const</span> <span class="n">iterator</span> <span class="o">&amp;</span> <span class="n">rhs</span>

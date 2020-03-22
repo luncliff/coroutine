@@ -14,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="47" column="1" bodyfile="modules/portable/frame.cpp" bodystart="47" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="62" column="1" bodyfile="modules/portable/frame.cpp" bodystart="62" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structmsvc__frame__prefix_1a27d28c6eebe0ba4fd28f7091db3ec7e2" prot="public" static="no" mutable="no">
         <type>uint16_t</type>
@@ -27,7 +27,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="48" column="1" bodyfile="modules/portable/frame.cpp" bodystart="48" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="63" column="1" bodyfile="modules/portable/frame.cpp" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structmsvc__frame__prefix_1ae03202c6132b500921eedbcd7a680f2a" prot="public" static="no" mutable="no">
         <type>uint16_t</type>
@@ -40,14 +40,18 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="49" column="1" bodyfile="modules/portable/frame.cpp" bodystart="49" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="64" column="1" bodyfile="modules/portable/frame.cpp" bodystart="64" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-    </briefdescription>
+<para>MSVC coroutine frame&apos;s prefix. </para>    </briefdescription>
     <detaileddescription>
-    </detaileddescription>
-    <location file="modules/portable/frame.cpp" line="46" column="1" bodyfile="modules/portable/frame.cpp" bodystart="46" bodyend="50"/>
+<para>The layout is like the following <programlisting><codeline><highlight class="normal">+------------+------------------+--------------------+</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>Promise(?)<sp/>|<sp/>Frame<sp/>Prefix(16)<sp/>|<sp/>Local<sp/>variables(?)<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">+------------+------------------+--------------------+</highlight></codeline>
+</programlisting> <simplesect kind="see"><para>Reference &lt;experimental/resumable&gt; </para></simplesect>
+</para>    </detaileddescription>
+    <location file="modules/portable/frame.cpp" line="61" column="1" bodyfile="modules/portable/frame.cpp" bodystart="61" bodyend="65"/>
     <listofallmembers>
       <member refid="structmsvc__frame__prefix_1ab179af4c00a610241ff2364936f304e8" prot="public" virt="non-virtual"><scope>msvc_frame_prefix</scope><name>_Factivate</name></member>
       <member refid="structmsvc__frame__prefix_1ae03202c6132b500921eedbcd7a680f2a" prot="public" virt="non-virtual"><scope>msvc_frame_prefix</scope><name>_Flag</name></member>

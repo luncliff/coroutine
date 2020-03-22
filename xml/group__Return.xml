@@ -8,6 +8,8 @@
     <innerclass refid="classpromise__an" prot="public">promise_an</innerclass>
     <innerclass refid="classpromise__aa" prot="public">promise_aa</innerclass>
     <innerclass refid="classframe__t" prot="public">frame_t</innerclass>
+    <innerclass refid="classpassive__frame__t" prot="public">passive_frame_t</innerclass>
+    <innerclass refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4" prot="public">std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;</innerclass>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

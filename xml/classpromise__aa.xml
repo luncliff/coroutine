@@ -3,6 +3,7 @@
   <compounddef id="classpromise__aa" kind="class" language="C++" prot="public">
     <compoundname>promise_aa</compoundname>
     <derivedcompoundref refid="classcoro_1_1enumerable_1_1promise__type" prot="public" virt="non-virtual">coro::enumerable&lt; T &gt;::promise_type</derivedcompoundref>
+    <derivedcompoundref refid="classpassive__frame__t_1_1promise__type" prot="public" virt="non-virtual">passive_frame_t::promise_type</derivedcompoundref>
     <includes refid="return_8h" local="no">return.h</includes>
       <sectiondef kind="public-func">
       <memberdef kind="function" id="classpromise__aa_1aa195dd4ecbc0b0572f570a44e968acde" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
@@ -17,7 +18,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="112" column="1" bodyfile="interface/coroutine/return.h" bodystart="112" bodyend="114"/>
+        <location file="interface/coroutine/return.h" line="114" column="1" bodyfile="interface/coroutine/return.h" bodystart="114" bodyend="116"/>
       </memberdef>
       <memberdef kind="function" id="classpromise__aa_1a53e853d1ff33be76e1a405fc7aedd36e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>suspend_always</type>
@@ -31,27 +32,32 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="119" column="1" bodyfile="interface/coroutine/return.h" bodystart="119" bodyend="121"/>
+        <location file="interface/coroutine/return.h" line="121" column="1" bodyfile="interface/coroutine/return.h" bodystart="121" bodyend="123"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-    </briefdescription>
+<para><computeroutput>suspend_always</computeroutput>(initial) + <computeroutput>suspend_always</computeroutput>(final) </para>    </briefdescription>
     <detaileddescription>
-<para><simplesect kind="note"><para><computeroutput>suspend_always</computeroutput>(initial) + <computeroutput>suspend_always</computeroutput>(final) </para></simplesect>
-</para>    </detaileddescription>
+    </detaileddescription>
     <inheritancegraph>
-      <node id="282">
-        <label>coro::enumerable&lt; T &gt;::promise_type</label>
-        <link refid="classcoro_1_1enumerable_1_1promise__type"/>
-        <childnode refid="281" relation="public-inheritance">
+      <node id="296">
+        <label>passive_frame_t::promise_type</label>
+        <link refid="classpassive__frame__t_1_1promise__type"/>
+        <childnode refid="294" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="281">
+      <node id="295">
+        <label>coro::enumerable&lt; T &gt;::promise_type</label>
+        <link refid="classcoro_1_1enumerable_1_1promise__type"/>
+        <childnode refid="294" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="294">
         <label>promise_aa</label>
         <link refid="classpromise__aa"/>
       </node>
     </inheritancegraph>
-    <location file="interface/coroutine/return.h" line="106" column="1" bodyfile="interface/coroutine/return.h" bodystart="106" bodyend="122"/>
+    <location file="interface/coroutine/return.h" line="108" column="1" bodyfile="interface/coroutine/return.h" bodystart="108" bodyend="124"/>
     <listofallmembers>
       <member refid="classpromise__aa_1a53e853d1ff33be76e1a405fc7aedd36e" prot="public" virt="non-virtual"><scope>promise_aa</scope><name>final_suspend</name></member>
       <member refid="classpromise__aa_1aa195dd4ecbc0b0572f570a44e968acde" prot="public" virt="non-virtual"><scope>promise_aa</scope><name>initial_suspend</name></member>

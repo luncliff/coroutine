@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type" kind="struct" language="C++" prot="public" final="yes">
+    <compoundname>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</compoundname>
+    <includes refid="return_8h" local="no">return.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a600d9e9909a8d1dc60347a07caecb228" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classstd_1_1suspend__never" kindref="compound">suspend_never</ref></type>
+        <definition>suspend_never std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type::initial_suspend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>initial_suspend</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="221" column="1" bodyfile="interface/coroutine/return.h" bodystart="221" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a806b9377ea8514c62a572c7cb9f72391" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classstd_1_1suspend__never" kindref="compound">suspend_never</ref></type>
+        <definition>suspend_never std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type::final_suspend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>final_suspend</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="224" column="1" bodyfile="interface/coroutine/return.h" bodystart="224" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a69a56854a7542e9f60c1c4558c2dbf09" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type::unhandled_exception</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>unhandled_exception</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="227" column="1" bodyfile="interface/coroutine/return.h" bodystart="227" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a6162a8712e4335da520c937c45f55929" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type::return_void</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>return_void</name>
+        <briefdescription>
+<para>Since this is template specialization for <computeroutput>void</computeroutput>, the return type is fixed to <computeroutput>void</computeroutput> </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="233" column="1" bodyfile="interface/coroutine/return.h" bodystart="233" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a775d060502bbeaa1ebb62c59f351ed2b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nullptr_t</type>
+        <definition>nullptr_t std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type::get_return_object</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_return_object</name>
+        <briefdescription>
+<para>Since this is template specialization for <computeroutput>void</computeroutput>, the return type is fixed to <computeroutput>void</computeroutput> </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="238" column="1" bodyfile="interface/coroutine/return.h" bodystart="238" bodyend="240"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/return.h" line="220" column="1" bodyfile="interface/coroutine/return.h" bodystart="220" bodyend="241"/>
+    <listofallmembers>
+      <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a806b9377ea8514c62a572c7cb9f72391" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</scope><name>final_suspend</name></member>
+      <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a775d060502bbeaa1ebb62c59f351ed2b" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</scope><name>get_return_object</name></member>
+      <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a600d9e9909a8d1dc60347a07caecb228" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</scope><name>initial_suspend</name></member>
+      <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a6162a8712e4335da520c937c45f55929" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</scope><name>return_void</name></member>
+      <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a69a56854a7542e9f60c1c4558c2dbf09" prot="public" virt="non-virtual"><scope>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</scope><name>unhandled_exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

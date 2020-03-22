@@ -16,7 +16,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="90" column="1" bodyfile="interface/coroutine/return.h" bodystart="90" bodyend="92"/>
+        <location file="interface/coroutine/return.h" line="92" column="1" bodyfile="interface/coroutine/return.h" bodystart="92" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="classpromise__an_1afeb84b8de6a3c0cdef9b665adb02eb37" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>suspend_never</type>
@@ -30,15 +30,14 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="97" column="1" bodyfile="interface/coroutine/return.h" bodystart="97" bodyend="99"/>
+        <location file="interface/coroutine/return.h" line="99" column="1" bodyfile="interface/coroutine/return.h" bodystart="99" bodyend="101"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-    </briefdescription>
+<para><computeroutput>suspend_always</computeroutput>(initial) + <computeroutput>suspend_never</computeroutput>(final) </para>    </briefdescription>
     <detaileddescription>
-<para><simplesect kind="note"><para><computeroutput>suspend_always</computeroutput>(initial) + <computeroutput>suspend_never</computeroutput>(final) </para></simplesect>
-</para>    </detaileddescription>
-    <location file="interface/coroutine/return.h" line="84" column="1" bodyfile="interface/coroutine/return.h" bodystart="84" bodyend="100"/>
+    </detaileddescription>
+    <location file="interface/coroutine/return.h" line="86" column="1" bodyfile="interface/coroutine/return.h" bodystart="86" bodyend="102"/>
     <listofallmembers>
       <member refid="classpromise__an_1afeb84b8de6a3c0cdef9b665adb02eb37" prot="public" virt="non-virtual"><scope>promise_an</scope><name>final_suspend</name></member>
       <member refid="classpromise__an_1a76e21ad10b42fb5f96bd3366b149f8dc" prot="public" virt="non-virtual"><scope>promise_an</scope><name>initial_suspend</name></member>

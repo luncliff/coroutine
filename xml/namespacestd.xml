@@ -24,7 +24,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="165" column="1" bodyfile="interface/coroutine/frame.h" bodystart="165" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="167" column="1" bodyfile="interface/coroutine/frame.h" bodystart="167" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacestd_1a6b868b9d1542641a1fc432863d8c91d2" prot="public" static="no">
         <type><ref refid="structstd_1_1experimental_1_1coroutine__traits" kindref="compound">std::experimental::coroutine_traits</ref>&lt; Ret, Param... &gt;</type>
@@ -37,7 +37,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="328" column="1" bodyfile="interface/coroutine/frame.h" bodystart="328" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="333" column="1" bodyfile="interface/coroutine/frame.h" bodystart="333" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -60,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="130" column="1" bodyfile="interface/coroutine/frame.h" bodystart="130" bodyend="133"/>
+        <location file="interface/coroutine/frame.h" line="132" column="1" bodyfile="interface/coroutine/frame.h" bodystart="132" bodyend="135"/>
       </memberdef>
       <memberdef kind="function" id="namespacestd_1ac124cc9360c133441e329a5a33c1280d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>constexpr bool</type>
@@ -82,7 +82,7 @@
 </programlisting></para></xrefdescription></xrefsect></para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="140" column="1" bodyfile="interface/coroutine/frame.h" bodystart="140" bodyend="143"/>
+        <location file="interface/coroutine/frame.h" line="142" column="1" bodyfile="interface/coroutine/frame.h" bodystart="142" bodyend="145"/>
       </memberdef>
       <memberdef kind="function" id="namespacestd_1a2e1bafefd3a1a93c5df60be5bb463d90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>constexpr bool</type>
@@ -103,7 +103,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="144" column="1" bodyfile="interface/coroutine/frame.h" bodystart="144" bodyend="147"/>
+        <location file="interface/coroutine/frame.h" line="146" column="1" bodyfile="interface/coroutine/frame.h" bodystart="146" bodyend="149"/>
       </memberdef>
       <memberdef kind="function" id="namespacestd_1a06a1162629552eb6bdcb2a3ed725b3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>constexpr bool</type>
@@ -124,7 +124,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="148" column="1" bodyfile="interface/coroutine/frame.h" bodystart="148" bodyend="151"/>
+        <location file="interface/coroutine/frame.h" line="150" column="1" bodyfile="interface/coroutine/frame.h" bodystart="150" bodyend="153"/>
       </memberdef>
       <memberdef kind="function" id="namespacestd_1ab5872289d09b6a964e8008c5ccfca465" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>constexpr bool</type>
@@ -145,7 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="152" column="1" bodyfile="interface/coroutine/frame.h" bodystart="152" bodyend="155"/>
+        <location file="interface/coroutine/frame.h" line="154" column="1" bodyfile="interface/coroutine/frame.h" bodystart="154" bodyend="157"/>
       </memberdef>
       <memberdef kind="function" id="namespacestd_1a0deb9c2f722ef383052395fc5a99e63e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>constexpr bool</type>
@@ -166,7 +166,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="156" column="1" bodyfile="interface/coroutine/frame.h" bodystart="156" bodyend="159"/>
+        <location file="interface/coroutine/frame.h" line="158" column="1" bodyfile="interface/coroutine/frame.h" bodystart="158" bodyend="161"/>
       </memberdef>
       <memberdef kind="function" id="namespacestd_1aea74685396dbd4152e0f297c53721915" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="namespacestd_1a65bade8aeae7a9efa8101240c161d109" kindref="member">noop_coroutine_handle</ref></type>
@@ -179,13 +179,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="168" column="1" bodyfile="interface/coroutine/frame.h" bodystart="231" bodyend="233"/>
+        <location file="interface/coroutine/frame.h" line="170" column="1" bodyfile="interface/coroutine/frame.h" bodystart="233" bodyend="235"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="48" column="1"/>
+    <location file="interface/coroutine/frame.h" line="50" column="1"/>
   </compounddef>
 </doxygen>

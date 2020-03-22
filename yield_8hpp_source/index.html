@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -491,12 +491,9 @@
         <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="n">enumerable</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-    <span class="n">enumerable</span><span class="p">(</span><span class="n">promise_type</span><span class="o">*</span> <span class="n">ptr</span><span class="p">)</span> <span class="k">noexcept</span>
-        <span class="o">:</span> <span class="n">coro</span><span class="p">{</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;::</span><span class="n">from_promise</span><span class="p">(</span><span class="o">*</span><span class="n">ptr</span><span class="p">)}</span> <span class="p">{</span>
+    <span class="k">explicit</span> <span class="nf">enumerable</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">rh</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">:</span> <span class="n">coro</span><span class="p">{</span><span class="n">rh</span><span class="p">}</span> <span class="p">{</span>
     <span class="p">}</span>
     <span class="o">~</span><span class="n">enumerable</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="c1">// enumerable will destroy the frame.</span>
-        <span class="c1">//  promise/iterator are free from those ownership</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">coro</span><span class="p">)</span>
             <span class="n">coro</span><span class="p">.</span><span class="n">destroy</span><span class="p">();</span>
     <span class="p">}</span>
@@ -523,25 +520,22 @@
         <span class="n">pointer</span> <span class="n">current</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
 
       <span class="k">public</span><span class="o">:</span>
-        <span class="n">promise_type</span><span class="o">*</span> <span class="n">get_return_object</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-            <span class="c1">// enumerable will create coroutine handle from the address</span>
-            <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+        <span class="n">enumerable</span> <span class="n">get_return_object</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">enumerable</span><span class="p">{</span>
+                <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;::</span><span class="n">from_promise</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)};</span>
         <span class="p">}</span>
         <span class="kt">void</span> <span class="n">unhandled_exception</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">throw</span><span class="p">;</span>
         <span class="p">}</span>
-        <span class="c1">// `co_yield` expression. for reference</span>
         <span class="k">auto</span> <span class="n">yield_value</span><span class="p">(</span><span class="n">reference</span> <span class="n">ref</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
             <span class="n">current</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">addressof</span><span class="p">(</span><span class="n">ref</span><span class="p">);</span>
             <span class="k">return</span> <span class="n">suspend_always</span><span class="p">{};</span>
         <span class="p">}</span>
-        <span class="c1">// `co_yield` expression. for r-value</span>
         <span class="k">auto</span> <span class="n">yield_value</span><span class="p">(</span><span class="n">value_type</span><span class="o">&amp;&amp;</span> <span class="n">v</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
             <span class="k">return</span> <span class="n">yield_value</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
         <span class="p">}</span>
-        <span class="c1">// `co_return` expression</span>
+
         <span class="kt">void</span> <span class="n">return_void</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-            <span class="c1">// no more access to value</span>
             <span class="n">current</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
         <span class="p">}</span>
     <span class="p">};</span>
@@ -558,21 +552,18 @@
         <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">;</span>
 
       <span class="k">public</span><span class="o">:</span>
-        <span class="c1">// `enumerable::end()`</span>
         <span class="k">explicit</span> <span class="n">iterator</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">:</span> <span class="n">coro</span><span class="p">{</span><span class="k">nullptr</span><span class="p">}</span> <span class="p">{</span>
         <span class="p">}</span>
-        <span class="c1">// `enumerable::begin()`</span>
         <span class="k">explicit</span> <span class="n">iterator</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">handle</span><span class="p">)</span> <span class="k">noexcept</span>
             <span class="o">:</span> <span class="n">coro</span><span class="p">{</span><span class="n">handle</span><span class="p">}</span> <span class="p">{</span>
         <span class="p">}</span>
 
       <span class="k">public</span><span class="o">:</span>
-        <span class="n">iterator</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span> <span class="c1">// post increment</span>
+        <span class="n">iterator</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
         <span class="n">iterator</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">coro</span><span class="p">.</span><span class="n">resume</span><span class="p">();</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">coro</span><span class="p">.</span><span class="n">done</span><span class="p">())</span>    <span class="c1">// enumerable will destroy</span>
                 <span class="n">coro</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span> <span class="c1">// the frame later...</span>
-
             <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
         <span class="p">}</span>
 

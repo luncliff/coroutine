@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -453,40 +453,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#public-attributes-documentation" class="md-nav__link">
-    Public Attributes Documentation
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#variable-_factivate" class="md-nav__link">
-    variable _Factivate
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#variable-_flag" class="md-nav__link">
-    variable _Flag
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#variable-_index" class="md-nav__link">
-    variable _Index
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
       
       
       
@@ -508,6 +474,7 @@
                 
                 <h1 id="struct-msvc_frame_prefix">Struct msvc_frame_prefix<a class="headerlink" href="#struct-msvc_frame_prefix" title="Permanent link">&para;</a></h1>
 <p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="./"><strong>msvc_frame_prefix</strong></a></p>
+<p><em>MSVC coroutine frame's prefix.</em> <a href="#detailed-description">More...</a></p>
 <h2 id="public-attributes">Public Attributes<a class="headerlink" href="#public-attributes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -531,6 +498,15 @@
 </tr>
 </tbody>
 </table>
+<h1 id="detailed-description">Detailed Description<a class="headerlink" href="#detailed-description" title="Permanent link">&para;</a></h1>
+<p>The layout is like the following </p>
+<div class="codehilite"><pre><span></span><code><span class="o">+------------+------------------+--------------------+</span>
+<span class="o">|</span> <span class="n">Promise</span><span class="p">(</span><span class="o">?</span><span class="p">)</span> <span class="o">|</span> <span class="n">Frame</span> <span class="n">Prefix</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span> <span class="o">|</span> <span class="n">Local</span> <span class="n">variables</span><span class="p">(</span><span class="o">?</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+------------+------------------+--------------------+</span>
+</code></pre></div>
+
+
+<p><strong>See also:</strong> Reference &lt;experimental/resumable&gt; </p>
 <h2 id="public-attributes-documentation">Public Attributes Documentation<a class="headerlink" href="#public-attributes-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="variable-_factivate">variable _Factivate<a class="headerlink" href="#variable-_factivate" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="n">procedure_t</span> <span class="n">msvc_frame_prefix</span><span class="o">::</span><span class="n">_Factivate</span><span class="p">;</span>

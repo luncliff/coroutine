@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -566,7 +566,7 @@
 </tr>
 <tr>
 <td align="right"></td>
-<td align="left"><a href="./#function-enumerable-44"><strong>enumerable</strong></a> (<a href="../classcoro_1_1enumerable_1_1promise__type/"><strong>promise_type</strong></a> * ptr) noexcept<br></td>
+<td align="left"><a href="./#function-enumerable-44"><strong>enumerable</strong></a> (<a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; <a href="../classcoro_1_1enumerable_1_1promise__type/"><strong>promise_type</strong></a> &gt; rh) noexcept<br></td>
 </tr>
 <tr>
 <td align="right"><a href="./"><strong>enumerable</strong></a> &amp;</td>
@@ -578,7 +578,7 @@
 </tr>
 <tr>
 <td align="right"></td>
-<td align="left"><a href="./#function-enumerable"><strong>~enumerable</strong></a> () noexcept<br></td>
+<td align="left"><a href="./#function-enumerable"><strong>~enumerable</strong></a> () noexcept<br><em>The type will destroy the frame in destructor So promise/iterator are free from those ownership control.</em></td>
 </tr>
 </tbody>
 </table>
@@ -636,8 +636,8 @@
 
 
 <h3 id="function-enumerable-44">function enumerable [4/4]<a class="headerlink" href="#function-enumerable-44" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">::</span><span class="n">enumerable</span> <span class="p">(</span>
-    <span class="n">promise_type</span> <span class="o">*</span> <span class="n">ptr</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="k">explicit</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">::</span><span class="n">enumerable</span> <span class="p">(</span>
+    <span class="n">coroutine_handle</span> <span class="o">&lt;</span> <span class="n">promise_type</span> <span class="o">&gt;</span> <span class="n">rh</span>
 <span class="p">)</span> <span class="k">noexcept</span>
 </code></pre></div>
 

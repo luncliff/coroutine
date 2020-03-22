@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -453,6 +453,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#public-functions-documentation" class="md-nav__link">
+    Public Functions Documentation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-final_suspend" class="md-nav__link">
+    function final_suspend
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-initial_suspend" class="md-nav__link">
+    function initial_suspend
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
       
@@ -474,11 +501,11 @@
                 
                 <h1 id="class-promise_aa">Class promise_aa<a class="headerlink" href="#class-promise_aa" title="Permanent link">&para;</a></h1>
 <p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="./"><strong>promise_aa</strong></a></p>
-<p><a href="#detailed-description">More...</a></p>
+<p><code>suspend_always</code> <em>(initial) +</em><code>suspend_always</code> <em>(final)</em></p>
 <ul>
 <li><code>#include &lt;return.h&gt;</code></li>
 </ul>
-<p>Inherited by the following classes: <a href="../classcoro_1_1enumerable_1_1promise__type/">coro::enumerable::promise_type</a></p>
+<p>Inherited by the following classes: <a href="../classcoro_1_1enumerable_1_1promise__type/">coro::enumerable::promise_type</a>,  <a href="../classpassive__frame__t_1_1promise__type/">passive_frame_t::promise_type</a></p>
 <h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -498,9 +525,6 @@
 </tr>
 </tbody>
 </table>
-<h1 id="detailed-description">Detailed Description<a class="headerlink" href="#detailed-description" title="Permanent link">&para;</a></h1>
-<p><strong>Note:</strong></p>
-<p><code>suspend_always</code>(initial) + <code>suspend_always</code>(final) </p>
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="function-final_suspend">function final_suspend<a class="headerlink" href="#function-final_suspend" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">suspend_always</span> <span class="n">promise_aa</span><span class="o">::</span><span class="n">final_suspend</span> <span class="p">()</span> <span class="k">noexcept</span>

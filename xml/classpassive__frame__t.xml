@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classpassive__frame__t" kind="class" language="C++" prot="public">
+    <compoundname>passive_frame_t</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">coroutine_handle&lt; void &gt;</basecompoundref>
+    <includes refid="return_8h" local="no">return.h</includes>
+    <innerclass refid="classpassive__frame__t_1_1promise__type" prot="public">passive_frame_t::promise_type</innerclass>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpassive__frame__t_1a4cb04a77e3f0fb4ce12fa379e82205c4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>passive_frame_t::passive_frame_t</definition>
+        <argsstring>(coroutine_handle&lt; void &gt; frame=nullptr) noexcept</argsstring>
+        <name>passive_frame_t</name>
+        <param>
+          <type>coroutine_handle&lt; void &gt;</type>
+          <declname>frame</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="185" column="1" bodyfile="interface/coroutine/return.h" bodystart="185" bodyend="186"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Suspend after invoke and expose its <computeroutput>coroutine_handle&lt;void&gt;</computeroutput> through return. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="see"><para>coroutine_handle&lt;void&gt; </para></simplesect>
+<simplesect kind="see"><para><ref refid="classframe__t" kindref="compound">frame_t</ref> </para></simplesect>
+<simplesect kind="see"><para><ref refid="classpromise__aa" kindref="compound">promise_aa</ref> </para></simplesect>
+</para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="291">
+        <label>coroutine_handle&lt; void &gt;</label>
+      </node>
+      <node id="290">
+        <label>passive_frame_t</label>
+        <link refid="classpassive__frame__t"/>
+        <childnode refid="291" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="293">
+        <label>coroutine_handle&lt; void &gt;</label>
+      </node>
+      <node id="292">
+        <label>passive_frame_t</label>
+        <link refid="classpassive__frame__t"/>
+        <childnode refid="293" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/return.h" line="171" column="1" bodyfile="interface/coroutine/return.h" bodystart="171" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classpassive__frame__t_1a4cb04a77e3f0fb4ce12fa379e82205c4" prot="public" virt="non-virtual"><scope>passive_frame_t</scope><name>passive_frame_t</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

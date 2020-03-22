@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/group__NetResolve/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/classpassive__frame__t_1_1promise__type/">
       
       
         <meta name="author" content="Park DongHa">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Group NetResolve - luncliff/coroutine</title>
+        <title>Class passive\_frame\_t::promise\_type - luncliff/coroutine</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#group-netresolve" tabindex="0" class="md-skip">
+      <a href="#class-passive_frame_tpromise_type" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Group NetResolve
+                Class passive\_frame\_t::promise\_type
               
             </span>
           
@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -453,6 +453,47 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#public-functions-inherited-from-promise_aa" class="md-nav__link">
+    Public Functions inherited from promise_aa
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-functions-documentation" class="md-nav__link">
+    Public Functions Documentation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-get_return_object" class="md-nav__link">
+    function get_return_object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-return_void" class="md-nav__link">
+    function return_void
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-unhandled_exception" class="md-nav__link">
+    function unhandled_exception
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
       
@@ -469,13 +510,15 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/group__NetResolve.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/classpassive__frame__t_1_1promise__type.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="group-netresolve">Group NetResolve<a class="headerlink" href="#group-netresolve" title="Permanent link">&para;</a></h1>
-<p><a href="../modules/"><strong>Modules</strong></a>
- <strong>&gt;</strong> <a href="./"><strong>NetResolve</strong></a></p>
-<p><a href="#detailed-description">More...</a></p>
+                <h1 id="class-passive_frame_tpromise_type">Class passive_frame_t::promise_type<a class="headerlink" href="#class-passive_frame_tpromise_type" title="Permanent link">&para;</a></h1>
+<p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../classpassive__frame__t/"><strong>passive_frame_t</strong></a> <strong>&gt;</strong> <a href="./"><strong>promise_type</strong></a></p>
+<ul>
+<li><code>#include &lt;return.h&gt;</code></li>
+</ul>
+<p>Inherits the following classes: <a href="../classpromise__aa/">promise_aa</a></p>
 <h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -486,109 +529,57 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">uint32_t</td>
-<td align="left"><a href="../namespacecoro/#function-get-address"><strong>coro::get_address</strong></a> (const addrinfo &amp; hint, gsl::czstring&lt;&gt; host, gsl::czstring&lt;&gt; serv, gsl::span&lt; sockaddr_in &gt; output) noexcept<br><em>Thin wrapper of</em> <code>getaddrinfo</code> <em>for IPv4.</em></td>
+<td align="right"><a href="../classpassive__frame__t/"><strong>passive_frame_t</strong></a></td>
+<td align="left"><a href="./#function-get-return-object"><strong>get_return_object</strong></a> () noexcept<br></td>
 </tr>
 <tr>
-<td align="right">uint32_t</td>
-<td align="left"><a href="../namespacecoro/#function-get-address"><strong>coro::get_address</strong></a> (const addrinfo &amp; hint, gsl::czstring&lt;&gt; host, gsl::czstring&lt;&gt; serv, gsl::span&lt; sockaddr_in6 &gt; output) noexcept<br><em>Thin wrapper of</em> <code>getaddrinfo</code> <em>for IPv6.</em></td>
+<td align="right">void</td>
+<td align="left"><a href="./#function-return-void"><strong>return_void</strong></a> () noexcept<br></td>
 </tr>
 <tr>
-<td align="right">uint32_t</td>
-<td align="left"><a href="../namespacecoro/#function-get-name"><strong>coro::get_name</strong></a> (const sockaddr_in &amp; addr, gsl::zstring&lt; NI_MAXHOST &gt; name, gsl::zstring&lt; NI_MAXSERV &gt; serv, int32_t flags=NI_NUMERICHOST</td>
-</tr>
-<tr>
-<td align="right">uint32_t</td>
-<td align="left"><a href="../namespacecoro/#function-get-name"><strong>coro::get_name</strong></a> (const sockaddr_in6 &amp; addr, gsl::zstring&lt; NI_MAXHOST &gt; name, gsl::zstring&lt; NI_MAXSERV &gt; serv, int32_t flags=NI_NUMERICHOST</td>
+<td align="right">void</td>
+<td align="left"><a href="./#function-unhandled-exception"><strong>unhandled_exception</strong></a> () noexcept<br></td>
 </tr>
 </tbody>
 </table>
-<h1 id="detailed-description">Detailed Description<a class="headerlink" href="#detailed-description" title="Permanent link">&para;</a></h1>
-<p>Name resolution utilities </p>
+<h2 id="public-functions-inherited-from-promise_aa">Public Functions inherited from promise_aa<a class="headerlink" href="#public-functions-inherited-from-promise_aa" title="Permanent link">&para;</a></h2>
+<p>See <a href="../classpromise__aa/">promise_aa</a></p>
+<table>
+<thead>
+<tr>
+<th align="right">Type</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">suspend_always</td>
+<td align="left"><a href="../classpromise__aa/#function-final-suspend"><strong>final_suspend</strong></a> () noexcept<br><em>suspend after return</em></td>
+</tr>
+<tr>
+<td align="right">suspend_always</td>
+<td align="left"><a href="../classpromise__aa/#function-initial-suspend"><strong>initial_suspend</strong></a> () noexcept<br><em>suspend after invoke</em></td>
+</tr>
+</tbody>
+</table>
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
-<h3 id="function-get_address">function get_address<a class="headerlink" href="#function-get_address" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">uint32_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">get_address</span> <span class="p">(</span>
-    <span class="k">const</span> <span class="n">addrinfo</span> <span class="o">&amp;</span> <span class="n">hint</span><span class="p">,</span>
-    <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;&gt;</span> <span class="n">host</span><span class="p">,</span>
-    <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;&gt;</span> <span class="n">serv</span><span class="p">,</span>
-    <span class="n">gsl</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span> <span class="n">sockaddr_in</span> <span class="o">&gt;</span> <span class="n">output</span>
-<span class="p">)</span> <span class="k">noexcept</span>
+<h3 id="function-get_return_object">function get_return_object<a class="headerlink" href="#function-get_return_object" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">passive_frame_t</span> <span class="n">passive_frame_t</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">get_return_object</span> <span class="p">()</span> <span class="k">noexcept</span>
 </code></pre></div>
 
 
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>hint</code> </li>
-<li><code>host</code> </li>
-<li><code>serv</code> </li>
-<li><code>output</code> </li>
-</ul>
-<p><strong>Returns:</strong></p>
-<p>uint32_t Error code from the <code>getaddrinfo</code> that can be the argument of <code>gai_strerror</code> </p>
-<p><strong>See also:</strong> getaddrinfo </p>
-<p><strong>See also:</strong> gai_strerror </p>
-<h3 id="function-get_address_1">function get_address<a class="headerlink" href="#function-get_address_1" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">uint32_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">get_address</span> <span class="p">(</span>
-    <span class="k">const</span> <span class="n">addrinfo</span> <span class="o">&amp;</span> <span class="n">hint</span><span class="p">,</span>
-    <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;&gt;</span> <span class="n">host</span><span class="p">,</span>
-    <span class="n">gsl</span><span class="o">::</span><span class="n">czstring</span><span class="o">&lt;&gt;</span> <span class="n">serv</span><span class="p">,</span>
-    <span class="n">gsl</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span> <span class="n">sockaddr_in6</span> <span class="o">&gt;</span> <span class="n">output</span>
-<span class="p">)</span> <span class="k">noexcept</span>
+<h3 id="function-return_void">function return_void<a class="headerlink" href="#function-return_void" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">passive_frame_t</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">return_void</span> <span class="p">()</span> <span class="k">noexcept</span>
 </code></pre></div>
 
 
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>hint</code> </li>
-<li><code>host</code> </li>
-<li><code>serv</code> </li>
-<li><code>output</code> </li>
-</ul>
-<p><strong>Returns:</strong></p>
-<p>uint32_t Error code from the <code>getaddrinfo</code> that can be the argument of <code>gai_strerror</code> </p>
-<p><strong>See also:</strong> getaddrinfo </p>
-<p><strong>See also:</strong> gai_strerror </p>
-<h3 id="function-get_name">function get_name<a class="headerlink" href="#function-get_name" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">uint32_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">get_name</span> <span class="p">(</span>
-    <span class="k">const</span> <span class="n">sockaddr_in</span> <span class="o">&amp;</span> <span class="n">addr</span><span class="p">,</span>
-    <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span> <span class="n">NI_MAXHOST</span> <span class="o">&gt;</span> <span class="n">name</span><span class="p">,</span>
-    <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span> <span class="n">NI_MAXSERV</span> <span class="o">&gt;</span> <span class="n">serv</span><span class="p">,</span>
-    <span class="kt">int32_t</span> <span class="n">flags</span><span class="o">=</span><span class="n">NI_NUMERICHOST</span><span class="o">|</span><span class="n">NI_NUMERICSERV</span>
-<span class="p">)</span> <span class="k">noexcept</span>
+<h3 id="function-unhandled_exception">function unhandled_exception<a class="headerlink" href="#function-unhandled_exception" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">passive_frame_t</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">unhandled_exception</span> <span class="p">()</span> <span class="k">noexcept</span>
 </code></pre></div>
 
 
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>addr</code> </li>
-<li><code>name</code> </li>
-<li><code>serv</code> can be <code>nullptr</code> </li>
-<li><code>flags</code> </li>
-</ul>
-<p><strong>Returns:</strong></p>
-<p>uint32_t EAI_AGAIN ... </p>
-<p><strong>See also:</strong> getnameinfo </p>
-<h3 id="function-get_name_1">function get_name<a class="headerlink" href="#function-get_name_1" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">uint32_t</span> <span class="n">coro</span><span class="o">::</span><span class="n">get_name</span> <span class="p">(</span>
-    <span class="k">const</span> <span class="n">sockaddr_in6</span> <span class="o">&amp;</span> <span class="n">addr</span><span class="p">,</span>
-    <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span> <span class="n">NI_MAXHOST</span> <span class="o">&gt;</span> <span class="n">name</span><span class="p">,</span>
-    <span class="n">gsl</span><span class="o">::</span><span class="n">zstring</span><span class="o">&lt;</span> <span class="n">NI_MAXSERV</span> <span class="o">&gt;</span> <span class="n">serv</span><span class="p">,</span>
-    <span class="kt">int32_t</span> <span class="n">flags</span><span class="o">=</span><span class="n">NI_NUMERICHOST</span><span class="o">|</span><span class="n">NI_NUMERICSERV</span>
-<span class="p">)</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>addr</code> </li>
-<li><code>name</code> </li>
-<li><code>serv</code> can be <code>nullptr</code> </li>
-<li><code>flags</code> </li>
-</ul>
-<p><strong>Returns:</strong></p>
-<p>uint32_t EAI_AGAIN ... </p>
-<p><strong>See also:</strong> getnameinfo </p>
 <hr />
+<p>The documentation for this class was generated from the following file <code>interface/coroutine/return.h</code></p>
                 
                   
                 

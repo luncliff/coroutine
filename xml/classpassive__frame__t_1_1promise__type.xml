@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classpassive__frame__t_1_1promise__type" kind="class" language="C++" prot="public">
+    <compoundname>passive_frame_t::promise_type</compoundname>
+    <basecompoundref refid="classpromise__aa" prot="public" virt="non-virtual">promise_aa</basecompoundref>
+    <includes refid="return_8h" local="no">return.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpassive__frame__t_1_1promise__type_1a76d0038147acf00a31f852f7d7716f01" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void passive_frame_t::promise_type::unhandled_exception</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>unhandled_exception</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="175" column="1" bodyfile="interface/coroutine/return.h" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classpassive__frame__t_1_1promise__type_1a40aff2c9bfbdc56aebce5932f3af7449" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void passive_frame_t::promise_type::return_void</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>return_void</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="178" column="1" bodyfile="interface/coroutine/return.h" bodystart="178" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classpassive__frame__t_1_1promise__type_1ac55162d270c135f55863b2f3b6c888be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classpassive__frame__t" kindref="compound">passive_frame_t</ref></type>
+        <definition>passive_frame_t passive_frame_t::promise_type::get_return_object</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_return_object</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="180" column="1" bodyfile="interface/coroutine/return.h" bodystart="180" bodyend="183"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="313">
+        <label>passive_frame_t::promise_type</label>
+        <link refid="classpassive__frame__t_1_1promise__type"/>
+        <childnode refid="314" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="314">
+        <label>promise_aa</label>
+        <link refid="classpromise__aa"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="315">
+        <label>passive_frame_t::promise_type</label>
+        <link refid="classpassive__frame__t_1_1promise__type"/>
+        <childnode refid="316" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="316">
+        <label>promise_aa</label>
+        <link refid="classpromise__aa"/>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/return.h" line="173" column="1" bodyfile="interface/coroutine/return.h" bodystart="173" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classpromise__aa_1a53e853d1ff33be76e1a405fc7aedd36e" prot="public" virt="non-virtual"><scope>passive_frame_t::promise_type</scope><name>final_suspend</name></member>
+      <member refid="classpassive__frame__t_1_1promise__type_1ac55162d270c135f55863b2f3b6c888be" prot="public" virt="non-virtual"><scope>passive_frame_t::promise_type</scope><name>get_return_object</name></member>
+      <member refid="classpromise__aa_1aa195dd4ecbc0b0572f570a44e968acde" prot="public" virt="non-virtual"><scope>passive_frame_t::promise_type</scope><name>initial_suspend</name></member>
+      <member refid="classpassive__frame__t_1_1promise__type_1a40aff2c9bfbdc56aebce5932f3af7449" prot="public" virt="non-virtual"><scope>passive_frame_t::promise_type</scope><name>return_void</name></member>
+      <member refid="classpassive__frame__t_1_1promise__type_1a76d0038147acf00a31f852f7d7716f01" prot="public" virt="non-virtual"><scope>passive_frame_t::promise_type</scope><name>unhandled_exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

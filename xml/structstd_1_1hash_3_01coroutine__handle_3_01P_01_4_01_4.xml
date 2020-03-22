@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="334" column="1" bodyfile="interface/coroutine/frame.h" bodystart="334" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="339" column="1" bodyfile="interface/coroutine/frame.h" bodystart="339" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4_1af3ce9a823d91241074300d1185cd722a" prot="public" static="no">
         <type>size_t</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="336" column="1" bodyfile="interface/coroutine/frame.h" bodystart="336" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="341" column="1" bodyfile="interface/coroutine/frame.h" bodystart="341" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -52,14 +52,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="339" column="1" bodyfile="interface/coroutine/frame.h" bodystart="339" bodyend="341"/>
+        <location file="interface/coroutine/frame.h" line="344" column="1" bodyfile="interface/coroutine/frame.h" bodystart="344" bodyend="346"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="332" column="1" bodyfile="interface/coroutine/frame.h" bodystart="332" bodyend="342"/>
+    <location file="interface/coroutine/frame.h" line="337" column="1" bodyfile="interface/coroutine/frame.h" bodystart="337" bodyend="347"/>
     <listofallmembers>
       <member refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4_1a8d8621f44cb43d3adb4a65bce92a2d90" prot="public" virt="non-virtual"><scope>std::hash&lt; coroutine_handle&lt; P &gt; &gt;</scope><name>argument_type</name></member>
       <member refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4_1ac16cee347fbc64caaf634673c074832a" prot="public" virt="non-virtual"><scope>std::hash&lt; coroutine_handle&lt; P &gt; &gt;</scope><name>operator()</name></member>

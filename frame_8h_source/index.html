@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -462,7 +462,9 @@
 <div class="codehilite"><pre><span></span><code><span class="cp">#pragma once</span>
 <span class="cp">#ifndef _COROUTINE_</span>
 <span class="cp">#define _COROUTINE_</span>
-<span class="cp">#define _EXPERIMENTAL_RESUMABLE_</span>
+<span class="cp">#define _EXPERIMENTAL_RESUMABLE_ </span><span class="c1">// suppress &lt;experimental/resumable&gt;</span>
+<span class="c1">//#define _RESUMABLE_FUNCTIONS_SUPPORTED // this will be enforced by MSVC</span>
+
 <span class="cp">#if __has_include(&lt;yvals_core.h&gt;)</span>
 <span class="cp">#include</span> <span class="cpf">&lt;yvals_core.h&gt;</span><span class="cp"></span>
 <span class="cp">#endif</span>
@@ -477,7 +479,7 @@
 <span class="cp">#include</span> <span class="cpf">&lt;exception&gt;  // std::current_exception</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;functional&gt; // std::hash</span><span class="cp"></span>
 
-<span class="cp">#if !defined(__cpp_coroutines)</span>
+<span class="cp">#if defined(__cpp_coroutines)</span>
 <span class="c1">// ...</span>
 <span class="cp">#endif</span>
 
@@ -724,6 +726,9 @@
 <span class="k">struct</span> <span class="nl">coroutine_handle</span> <span class="p">:</span> <span class="k">public</span> <span class="n">std</span><span class="o">::</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="p">{};</span>
 
 <span class="cp">#elif defined(_MSC_VER)</span>
+
+<span class="c1">// msvc: compatibility with existing `experimental::coroutine_handle` identifiers.</span>
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">coroutine_handle</span><span class="p">;</span>
 
 <span class="c1">// _Resumable_helper_traits class isolates front-end from public surface naming changes</span>
 <span class="c1">// The original code is in &lt;experimental/resumable&gt;</span>

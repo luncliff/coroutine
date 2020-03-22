@@ -16,7 +16,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="46" column="1" bodyfile="interface/coroutine/return.h" bodystart="46" bodyend="48"/>
+        <location file="interface/coroutine/return.h" line="48" column="1" bodyfile="interface/coroutine/return.h" bodystart="48" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="classpromise__nn_1a5aeb075cbae2b4b7e1e51f7797705f7c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>suspend_never</type>
@@ -30,15 +30,14 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="53" column="1" bodyfile="interface/coroutine/return.h" bodystart="53" bodyend="55"/>
+        <location file="interface/coroutine/return.h" line="55" column="1" bodyfile="interface/coroutine/return.h" bodystart="55" bodyend="57"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
-    </briefdescription>
+<para><computeroutput>suspend_never</computeroutput>(initial) + <computeroutput>suspend_never</computeroutput>(final) </para>    </briefdescription>
     <detaileddescription>
-<para><simplesect kind="note"><para><computeroutput>suspend_never</computeroutput>(initial) + <computeroutput>suspend_never</computeroutput>(final) </para></simplesect>
-</para>    </detaileddescription>
-    <location file="interface/coroutine/return.h" line="40" column="1" bodyfile="interface/coroutine/return.h" bodystart="40" bodyend="56"/>
+    </detaileddescription>
+    <location file="interface/coroutine/return.h" line="42" column="1" bodyfile="interface/coroutine/return.h" bodystart="42" bodyend="58"/>
     <listofallmembers>
       <member refid="classpromise__nn_1a5aeb075cbae2b4b7e1e51f7797705f7c" prot="public" virt="non-virtual"><scope>promise_nn</scope><name>final_suspend</name></member>
       <member refid="classpromise__nn_1a6d4e1fa9d0bd22a6e26513c5d99b4ba8" prot="public" virt="non-virtual"><scope>promise_nn</scope><name>initial_suspend</name></member>

@@ -60,32 +60,32 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="319">
+      <node id="337">
         <label>coro::pthread_knower_t</label>
         <link refid="classcoro_1_1pthread__knower__t"/>
       </node>
-      <node id="321">
+      <node id="339">
         <label>coro::pthread_joiner_t</label>
         <link refid="classcoro_1_1pthread__joiner__t"/>
-        <childnode refid="319" relation="public-inheritance">
+        <childnode refid="337" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="320">
+      <node id="338">
         <label>coro::pthread_detacher_t</label>
         <link refid="classcoro_1_1pthread__detacher__t"/>
-        <childnode refid="319" relation="public-inheritance">
+        <childnode refid="337" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="323">
+      <node id="341">
         <label>coro::pthread_spawn_promise</label>
         <link refid="classcoro_1_1pthread__spawn__promise"/>
       </node>
-      <node id="322">
+      <node id="340">
         <label>coro::pthread_knower_t</label>
         <link refid="classcoro_1_1pthread__knower__t"/>
-        <childnode refid="323" relation="usage">
+        <childnode refid="341" relation="usage">
           <edgelabel>promise</edgelabel>
         </childnode>
       </node>

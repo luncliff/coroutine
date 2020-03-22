@@ -295,24 +295,24 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="330">
+      <node id="348">
         <label>coro::section</label>
         <link refid="classcoro_1_1section"/>
-        <childnode refid="331" relation="private-inheritance">
+        <childnode refid="349" relation="private-inheritance">
         </childnode>
       </node>
-      <node id="331">
+      <node id="349">
         <label>CRITICAL_SECTION</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="332">
+      <node id="350">
         <label>coro::section</label>
         <link refid="classcoro_1_1section"/>
-        <childnode refid="333" relation="private-inheritance">
+        <childnode refid="351" relation="private-inheritance">
         </childnode>
       </node>
-      <node id="333">
+      <node id="351">
         <label>CRITICAL_SECTION</label>
       </node>
     </collaborationgraph>

@@ -21,10 +21,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="84" column="1" bodyfile="interface/coroutine/net.h" bodystart="84" bodyend="-1"/>
+        <location file="interface/coroutine/net.h" line="79" column="1" bodyfile="interface/coroutine/net.h" bodystart="79" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcoro_1_1io__work__t_1aa2108f1c95a93873abf686f496f9f719" prot="public" static="no" mutable="no">
-        <type><ref refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref></type>
+        <type><ref refid="group__Network_1ga60d36260824423f894ffd077f8487663" kindref="member">io_buffer_t</ref></type>
         <definition>io_buffer_t coro::io_work_t::buffer</definition>
         <argsstring></argsstring>
         <name>buffer</name>
@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="85" column="1" bodyfile="interface/coroutine/net.h" bodystart="85" bodyend="-1"/>
+        <location file="interface/coroutine/net.h" line="80" column="1" bodyfile="interface/coroutine/net.h" bodystart="80" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -53,7 +53,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="93" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="46" bodyend="56"/>
+        <location file="interface/coroutine/net.h" line="88" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="46" bodyend="56"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -69,7 +69,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="100" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="58" bodyend="60"/>
+        <location file="interface/coroutine/net.h" line="95" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="58" bodyend="60"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -77,59 +77,59 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="261">
+      <node id="270">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="262" relation="public-inheritance">
+        <childnode refid="271" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="263">
+      <node id="272">
         <label>coro::io_recv</label>
         <link refid="classcoro_1_1io__recv"/>
-        <childnode refid="261" relation="public-inheritance">
+        <childnode refid="270" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="262">
+      <node id="271">
         <label>io_control_block</label>
       </node>
-      <node id="264">
+      <node id="273">
         <label>coro::io_recv_from</label>
         <link refid="classcoro_1_1io__recv__from"/>
-        <childnode refid="261" relation="public-inheritance">
+        <childnode refid="270" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="265">
+      <node id="274">
         <label>coro::io_send</label>
         <link refid="classcoro_1_1io__send"/>
-        <childnode refid="261" relation="public-inheritance">
+        <childnode refid="270" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="266">
+      <node id="275">
         <label>coro::io_send_to</label>
         <link refid="classcoro_1_1io__send__to"/>
-        <childnode refid="261" relation="public-inheritance">
+        <childnode refid="270" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="269">
+      <node id="278">
         <label>std::coroutine_handle&lt; void &gt;</label>
         <link refid="structstd_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="267">
+      <node id="276">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="268" relation="public-inheritance">
+        <childnode refid="277" relation="public-inheritance">
         </childnode>
-        <childnode refid="269" relation="usage">
+        <childnode refid="278" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="268">
+      <node id="277">
         <label>io_control_block</label>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/net.h" line="82" column="1" bodyfile="interface/coroutine/net.h" bodystart="82" bodyend="101"/>
+    <location file="interface/coroutine/net.h" line="77" column="1" bodyfile="interface/coroutine/net.h" bodystart="77" bodyend="96"/>
     <listofallmembers>
       <member refid="classcoro_1_1io__work__t_1aa2108f1c95a93873abf686f496f9f719" prot="public" virt="non-virtual"><scope>coro::io_work_t</scope><name>buffer</name></member>
       <member refid="classcoro_1_1io__work__t_1aefde12bcce0b60f06c1a4f168a830142" prot="public" virt="non-virtual"><scope>coro::io_work_t</scope><name>error</name></member>

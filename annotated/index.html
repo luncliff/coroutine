@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -464,7 +464,7 @@
 <li><strong>class</strong> <a href="../classchannel__peeker/"><strong>channel_peeker</strong></a> <em>Extension of</em> <code>channel_reader</code> <em>for subroutines.</em>  </li>
 <li><strong>class</strong> <a href="../classchannel__reader/"><strong>channel_reader</strong></a> <em>Awaitable type for</em> <code>channel</code> <em>'s read operation. It moves the value from writer coroutine's frame to reader coroutine's frame.</em>  </li>
 <li><strong>class</strong> <a href="../classchannel__writer/"><strong>channel_writer</strong></a> <em>Awaitable for</em> <code>channel</code> <em>'s write operation. It exposes a reference to the value for</em><code>channel_reader</code> <em>.</em>  </li>
-<li><strong>struct</strong> <a href="../structclang__frame__prefix/"><strong>clang_frame_prefix</strong></a>   </li>
+<li><strong>struct</strong> <a href="../structclang__frame__prefix/"><strong>clang_frame_prefix</strong></a> <em>Clang coroutine frame's prefix.</em>   </li>
 <li><strong>namespace</strong> <a href="../namespacecoro/"><strong>coro</strong></a>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1continue__on__apc/"><strong>continue_on_apc</strong></a> <em>Move into the designated thread's APC queue and continue the routine.</em>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1continue__on__thread__pool/"><strong>continue_on_thread_pool</strong></a> <em>Move into the win32 thread pool and continue the routine.</em>   </li>
@@ -494,16 +494,18 @@
 <li><strong>class</strong> <a href="../classcoro_1_1pthread__spawner__t/"><strong>pthread_spawner_t</strong></a> <em>Creates a new POSIX Thread and resume the given coroutine handle on it.</em>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1section/"><strong>section</strong></a> <em>Standard lockable with win32 criticial section.</em>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1set__or__cancel/"><strong>set_or_cancel</strong></a> <em>Awaitable event type over Win32 thread pool</em>  <em>Its object can be</em> <code>co_await</code> <em>ed only once. The purpose of such design is to encourage use of short functions rather than containing multiple objects in the function's body.</em>  </li>
-<li><strong>class</strong> <a href="../classframe__t/"><strong>frame_t</strong></a> <em>A type to acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from anonymous coroutine's return.</em>  </li>
+<li><strong>class</strong> <a href="../classframe__t/"><strong>frame_t</strong></a> <em>A type to acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from anonymous coroutine's return. Requires manual</em><code>destroy</code> <em>of the coroutine handle.</em>  </li>
 <li><strong>class</strong> <a href="../classframe__t_1_1promise__type/"><strong>promise_type</strong></a> <em>Acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from current object and expose it through</em><code>get_return_object</code> __  </li>
 <li><strong>namespace</strong> <a href="../namespacegsl/"><strong>gsl</strong></a> </li>
 <li><strong>namespace</strong> <a href="../namespaceinternal/"><strong>internal</strong></a>   </li>
 <li><strong>class</strong> <a href="../classinternal_1_1list/"><strong>list</strong></a> <em>Linked list without allocation.</em>   </li>
-<li><strong>struct</strong> <a href="../structmsvc__frame__prefix/"><strong>msvc_frame_prefix</strong></a>   </li>
-<li><strong>class</strong> <a href="../classpromise__aa/"><strong>promise_aa</strong></a>   </li>
-<li><strong>class</strong> <a href="../classpromise__an/"><strong>promise_an</strong></a>   </li>
-<li><strong>class</strong> <a href="../classpromise__na/"><strong>promise_na</strong></a>   </li>
-<li><strong>class</strong> <a href="../classpromise__nn/"><strong>promise_nn</strong></a>   </li>
+<li><strong>struct</strong> <a href="../structmsvc__frame__prefix/"><strong>msvc_frame_prefix</strong></a> <em>MSVC coroutine frame's prefix.</em>   </li>
+<li><strong>class</strong> <a href="../classpassive__frame__t/"><strong>passive_frame_t</strong></a> <em>Suspend after invoke and expose its</em> <code>coroutine_handle&lt;void&gt;</code> <em>through return.</em>  </li>
+<li><strong>class</strong> <a href="../classpassive__frame__t_1_1promise__type/"><strong>promise_type</strong></a>   </li>
+<li><strong>class</strong> <a href="../classpromise__aa/"><strong>promise_aa</strong></a> <code>suspend_always</code> <em>(initial) +</em><code>suspend_always</code> <em>(final)</em>  </li>
+<li><strong>class</strong> <a href="../classpromise__an/"><strong>promise_an</strong></a> <code>suspend_always</code> <em>(initial) +</em><code>suspend_never</code> <em>(final)</em>  </li>
+<li><strong>class</strong> <a href="../classpromise__na/"><strong>promise_na</strong></a> <code>suspend_never</code> <em>(initial) +</em><code>suspend_always</code> <em>(final)</em>  </li>
+<li><strong>class</strong> <a href="../classpromise__nn/"><strong>promise_nn</strong></a> <code>suspend_never</code> <em>(initial) +</em><code>suspend_never</code> <em>(final)</em>  </li>
 <li><strong>namespace</strong> <a href="../namespacestd/"><strong>std</strong></a>   </li>
 <li><strong>struct</strong> <a href="../structstd_1_1coro__traits__sfinae/"><strong>coro_traits_sfinae</strong></a> </li>
 <li><strong>struct</strong> <a href="../structstd_1_1coro__traits__sfinae_3_01__Ret_00_01void__t_3_01typename_01__Ret_1_1promise__type_01_4_01_4/"><strong>coro_traits_sfinae&lt; _Ret, void_t&lt; typename _Ret::promise_type &gt; &gt;</strong></a>   </li>
@@ -512,8 +514,8 @@
 <li><strong>struct</strong> <a href="../structstd_1_1coroutine__handle_3_01void_01_4/"><strong>coroutine_handle&lt; void &gt;</strong></a>   </li>
 <li><strong>namespace</strong> <a href="../namespacestd_1_1experimental/"><strong>experimental</strong></a>   <ul>
 <li><strong>struct</strong> <a href="../structstd_1_1experimental_1_1coroutine__traits/"><strong>coroutine_traits</strong></a> </li>
-<li><strong>struct</strong> <a href="../structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4/"><strong>coroutine_traits&lt; void, P... &gt;</strong></a> <em>Allow</em> <code>void</code> <em>return of the coroutine.</em>  </li>
-<li><strong>struct</strong> <a href="../structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type/"><strong>promise_type</strong></a>   </li>
+<li><strong>struct</strong> <a href="../structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4/"><strong>coroutine_traits&lt; nullptr_t, P... &gt;</strong></a> <em>Allow</em> <code>void</code> <em>return of the coroutine.</em>  </li>
+<li><strong>struct</strong> <a href="../structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type/"><strong>promise_type</strong></a>   </li>
 </ul>
 </li>
 <li><strong>struct</strong> <a href="../structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4/"><strong>hash&lt; coroutine_handle&lt; P &gt; &gt;</strong></a>   </li>

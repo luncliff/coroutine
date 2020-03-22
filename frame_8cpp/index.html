@@ -247,7 +247,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../ppt/Exploring-the-Cpp-Coroutine.md" title="C++ Korea 5th Seminar" class="md-nav__link">
+    <a href="../ppt/Exploring-the-Cpp-Coroutine/" title="C++ Korea 5th Seminar" class="md-nav__link">
       C++ Korea 5th Seminar
     </a>
   </li>
@@ -447,13 +447,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#namespaces" class="md-nav__link">
-    Namespaces
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#classes" class="md-nav__link">
     Classes
   </a>
@@ -593,8 +586,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#function-make_aligned_size" class="md-nav__link">
-    function make_aligned_size
+  <a href="#function-portable_aligned_size" class="md-nav__link">
+    function portable_aligned_size
   </a>
   
 </li>
@@ -664,21 +657,6 @@
 <ul>
 <li><code>#include "coroutine/frame.h"</code></li>
 </ul>
-<h2 id="namespaces">Namespaces<a class="headerlink" href="#namespaces" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th align="right">Type</th>
-<th align="left">Name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="right">namespace</td>
-<td align="left"><a href="../namespacestd_1_1experimental/"><strong>experimental</strong></a> <br></td>
-</tr>
-</tbody>
-</table>
 <h2 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -690,11 +668,11 @@
 <tbody>
 <tr>
 <td align="right">struct</td>
-<td align="left"><a href="../structclang__frame__prefix/"><strong>clang_frame_prefix</strong></a> <br></td>
+<td align="left"><a href="../structclang__frame__prefix/"><strong>clang_frame_prefix</strong></a> <br><em>Clang coroutine frame's prefix.</em></td>
 </tr>
 <tr>
 <td align="right">struct</td>
-<td align="left"><a href="../structmsvc__frame__prefix/"><strong>msvc_frame_prefix</strong></a> <br></td>
+<td align="left"><a href="../structmsvc__frame__prefix/"><strong>msvc_frame_prefix</strong></a> <br><em>MSVC coroutine frame's prefix.</em></td>
 </tr>
 </tbody>
 </table>
@@ -709,7 +687,7 @@
 <tbody>
 <tr>
 <td align="right">typedef <a href="../structclang__frame__prefix/"><strong>clang_frame_prefix</strong></a></td>
-<td align="left"><a href="./#typedef-gcc-frame-prefix"><strong>gcc_frame_prefix</strong></a>  <br></td>
+<td align="left"><a href="./#typedef-gcc-frame-prefix"><strong>gcc_frame_prefix</strong></a>  <br><em>GCC coroutine frame's prefix.</em></td>
 </tr>
 <tr>
 <td align="right">typedef void(__cdecl *)(void *)</td>
@@ -779,7 +757,7 @@
 </tr>
 <tr>
 <td align="right">constexpr ptrdiff_t</td>
-<td align="left"><a href="./#function-make-aligned-size"><strong>make_aligned_size</strong></a> (size_t _TypeSize) <br></td>
+<td align="left"><a href="./#function-portable-aligned-size"><strong>portable_aligned_size</strong></a> (size_t _TypeSize) <br><em>Simply calculate aligned size of the type. It is multiplier of 16.</em></td>
 </tr>
 <tr>
 <td align="right">void</td>
@@ -791,11 +769,11 @@
 </tr>
 <tr>
 <td align="right">portable_coro_prefix *</td>
-<td align="left"><a href="./#function-portable-coro-from-promise"><strong>portable_coro_from_promise</strong></a> (void * _PromAddr, ptrdiff_t _PromSize) <br></td>
+<td align="left"><a href="./#function-portable-coro-from-promise"><strong>portable_coro_from_promise</strong></a> (void * _PromAddr, ptrdiff_t _PromSize) <br><em>Get the frame prefix 'from_promise'.</em></td>
 </tr>
 <tr>
 <td align="right">void *</td>
-<td align="left"><a href="./#function-portable-coro-get-promise"><strong>portable_coro_get_promise</strong></a> (portable_coro_prefix * _Handle, ptrdiff_t _PromSize) <br></td>
+<td align="left"><a href="./#function-portable-coro-get-promise"><strong>portable_coro_get_promise</strong></a> (portable_coro_prefix * _Handle, ptrdiff_t _PromSize) <br><em>'get_promise' from the frame prefix</em></td>
 </tr>
 <tr>
 <td align="right">void</td>
@@ -809,6 +787,7 @@
 </code></pre></div>
 
 
+<p>The layout is unknown </p>
 <h3 id="typedef-procedure_t">typedef procedure_t<a class="headerlink" href="#typedef-procedure_t" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="k">using</span> <span class="n">procedure_t</span> <span class="o">=</span>  <span class="kt">void</span><span class="p">(</span><span class="kr">__cdecl</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
 </code></pre></div>
@@ -875,8 +854,8 @@
 </code></pre></div>
 
 
-<h3 id="function-make_aligned_size">function make_aligned_size<a class="headerlink" href="#function-make_aligned_size" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">constexpr</span> <span class="kt">ptrdiff_t</span> <span class="n">make_aligned_size</span> <span class="p">(</span>
+<h3 id="function-portable_aligned_size">function portable_aligned_size<a class="headerlink" href="#function-portable_aligned_size" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">constexpr</span> <span class="kt">ptrdiff_t</span> <span class="n">portable_aligned_size</span> <span class="p">(</span>
     <span class="kt">size_t</span> <span class="n">_TypeSize</span>
 <span class="p">)</span> 
 </code></pre></div>

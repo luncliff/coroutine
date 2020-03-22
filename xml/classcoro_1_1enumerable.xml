@@ -147,14 +147,14 @@
         </inbodydescription>
         <location file="interface/coroutine/yield.hpp" line="45" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="classcoro_1_1enumerable_1a3a008f9b70a6d821fe0bdacaa3c0943d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcoro_1_1enumerable_1a16f727be9a88344770617323775df0d6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
         <definition>coro::enumerable&lt; T &gt;::enumerable</definition>
-        <argsstring>(promise_type *ptr) noexcept</argsstring>
+        <argsstring>(coroutine_handle&lt; promise_type &gt; rh) noexcept</argsstring>
         <name>enumerable</name>
         <param>
-          <type><ref refid="classcoro_1_1enumerable_1_1promise__type" kindref="compound">promise_type</ref> *</type>
-          <declname>ptr</declname>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; <ref refid="classcoro_1_1enumerable_1_1promise__type" kindref="compound">promise_type</ref> &gt;</type>
+          <declname>rh</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -162,7 +162,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="46" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="46" bodyend="48"/>
+        <location file="interface/coroutine/yield.hpp" line="46" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="46" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1a9495bee88e88b78fa1ccbbcf85ca690f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -170,12 +170,12 @@
         <argsstring>() noexcept</argsstring>
         <name>~enumerable</name>
         <briefdescription>
-        </briefdescription>
+<para>The type will destroy the frame in destructor So promise/iterator are free from those ownership control. </para>        </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="49" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="49" bodyend="54"/>
+        <location file="interface/coroutine/yield.hpp" line="52" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="52" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1a2f71945bdd5fd04560a5ea038bbebc6e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classcoro_1_1enumerable_1_1iterator" kindref="compound">iterator</ref></type>
@@ -188,7 +188,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="57" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="57" bodyend="65"/>
+        <location file="interface/coroutine/yield.hpp" line="58" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="58" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1a58e555626deca84947207278b8e58821" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classcoro_1_1enumerable_1_1iterator" kindref="compound">iterator</ref></type>
@@ -201,7 +201,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="66" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="66" bodyend="68"/>
+        <location file="interface/coroutine/yield.hpp" line="67" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="67" bodyend="69"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -218,7 +218,7 @@
 <simplesect kind="see"><para>N4402 </para></simplesect>
 <simplesect kind="see"><para>&lt;experimental/generator&gt; from the VC++ </para></simplesect>
 </para>    </detaileddescription>
-    <location file="interface/coroutine/yield.hpp" line="23" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="23" bodyend="146"/>
+    <location file="interface/coroutine/yield.hpp" line="23" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="23" bodyend="153"/>
     <listofallmembers>
       <member refid="classcoro_1_1enumerable_1a2f71945bdd5fd04560a5ea038bbebc6e" prot="public" virt="non-virtual"><scope>coro::enumerable</scope><name>begin</name></member>
       <member refid="classcoro_1_1enumerable_1a3b3e93b586710a54d49004bb84256c64" prot="private" virt="non-virtual"><scope>coro::enumerable</scope><name>coro</name></member>
@@ -226,7 +226,7 @@
       <member refid="classcoro_1_1enumerable_1a14bd9af0903168ccbe29a8b99ea6c4fb" prot="public" virt="non-virtual"><scope>coro::enumerable</scope><name>enumerable</name></member>
       <member refid="classcoro_1_1enumerable_1a6a0ff35826bbaced326701e6d4aed045" prot="public" virt="non-virtual"><scope>coro::enumerable</scope><name>enumerable</name></member>
       <member refid="classcoro_1_1enumerable_1a6d9e3781bbf372cc2c4482d185b7dc60" prot="public" virt="non-virtual"><scope>coro::enumerable</scope><name>enumerable</name></member>
-      <member refid="classcoro_1_1enumerable_1a3a008f9b70a6d821fe0bdacaa3c0943d" prot="public" virt="non-virtual"><scope>coro::enumerable</scope><name>enumerable</name></member>
+      <member refid="classcoro_1_1enumerable_1a16f727be9a88344770617323775df0d6" prot="public" virt="non-virtual"><scope>coro::enumerable</scope><name>enumerable</name></member>
       <member refid="classcoro_1_1enumerable_1a4a385bc06b572c9476ec7b91e79db8b6" prot="public" virt="non-virtual"><scope>coro::enumerable</scope><name>operator=</name></member>
       <member refid="classcoro_1_1enumerable_1a47b8cd22b91323ee98e94b9c5d11dfaf" prot="public" virt="non-virtual"><scope>coro::enumerable</scope><name>operator=</name></member>
       <member refid="classcoro_1_1enumerable_1ad8ece9f0764780703e11f080bdbae36b" prot="public" virt="non-virtual"><scope>coro::enumerable</scope><name>pointer</name></member>

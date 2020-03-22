@@ -31,6 +31,7 @@
   <compound refid="classchannel__peeker" kind="class"><name>channel_peeker</name>
     <member refid="classchannel__peeker_1a44172cb7a0d7dbca187800c59eda9d57" kind="typedef"><name>channel_type</name></member>
     <member refid="classchannel__peeker_1ac04334af0528fe5c0427542a122bf564" kind="typedef"><name>writer</name></member>
+    <member refid="classchannel__peeker_1a4a0da31b1cc48fd7aad175853196a6e1" kind="typedef"><name>writer_list</name></member>
     <member refid="classchannel__peeker_1a990e9808a9916b8938a374952c4deff7" kind="function"><name>channel_peeker</name></member>
     <member refid="classchannel__peeker_1a9f2afa6c57cb5652a270e06598481df9" kind="function"><name>channel_peeker</name></member>
     <member refid="classchannel__peeker_1a5ef0b39ac4b22bb613480338ea2ace56" kind="function"><name>operator=</name></member>
@@ -147,7 +148,7 @@
   </compound>
   <compound refid="structstd_1_1experimental_1_1coroutine__traits" kind="struct"><name>std::experimental::coroutine_traits</name>
   </compound>
-  <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4" kind="struct"><name>std::experimental::coroutine_traits&lt; void, P... &gt;</name>
+  <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4" kind="struct"><name>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;</name>
   </compound>
   <compound refid="classcoro_1_1enumerable" kind="class"><name>coro::enumerable</name>
     <member refid="classcoro_1_1enumerable_1a30cfb124d4d187b8d7d857932f269785" kind="typedef"><name>value_type</name></member>
@@ -159,7 +160,7 @@
     <member refid="classcoro_1_1enumerable_1a6a0ff35826bbaced326701e6d4aed045" kind="function"><name>enumerable</name></member>
     <member refid="classcoro_1_1enumerable_1a47b8cd22b91323ee98e94b9c5d11dfaf" kind="function"><name>operator=</name></member>
     <member refid="classcoro_1_1enumerable_1a6d9e3781bbf372cc2c4482d185b7dc60" kind="function"><name>enumerable</name></member>
-    <member refid="classcoro_1_1enumerable_1a3a008f9b70a6d821fe0bdacaa3c0943d" kind="function"><name>enumerable</name></member>
+    <member refid="classcoro_1_1enumerable_1a16f727be9a88344770617323775df0d6" kind="function"><name>enumerable</name></member>
     <member refid="classcoro_1_1enumerable_1a9495bee88e88b78fa1ccbbcf85ca690f" kind="function"><name>~enumerable</name></member>
     <member refid="classcoro_1_1enumerable_1a2f71945bdd5fd04560a5ea038bbebc6e" kind="function"><name>begin</name></member>
     <member refid="classcoro_1_1enumerable_1a58e555626deca84947207278b8e58821" kind="function"><name>end</name></member>
@@ -191,6 +192,7 @@
     <member refid="classcoro_1_1event_1ae835aa2aa771ae07ff6d0caba147a1d8" kind="function"><name>reset</name></member>
   </compound>
   <compound refid="classframe__t" kind="class"><name>frame_t</name>
+    <member refid="classframe__t_1a1fc79f08edd65832685b317604d6ba7b" kind="function"><name>frame_t</name></member>
   </compound>
   <compound refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4" kind="struct"><name>std::hash&lt; coroutine_handle&lt; P &gt; &gt;</name>
     <member refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4_1a8d8621f44cb43d3adb4a65bce92a2d90" kind="typedef"><name>argument_type</name></member>
@@ -273,6 +275,9 @@
   </compound>
   <compound refid="structstd_1_1noop__coroutine__promise" kind="struct"><name>std::noop_coroutine_promise</name>
   </compound>
+  <compound refid="classpassive__frame__t" kind="class"><name>passive_frame_t</name>
+    <member refid="classpassive__frame__t_1a4cb04a77e3f0fb4ce12fa379e82205c4" kind="function"><name>passive_frame_t</name></member>
+  </compound>
   <compound refid="classpromise__aa" kind="class"><name>promise_aa</name>
     <member refid="classpromise__aa_1aa195dd4ecbc0b0572f570a44e968acde" kind="function"><name>initial_suspend</name></member>
     <member refid="classpromise__aa_1a53e853d1ff33be76e1a405fc7aedd36e" kind="function"><name>final_suspend</name></member>
@@ -289,23 +294,6 @@
     <member refid="classpromise__nn_1a6d4e1fa9d0bd22a6e26513c5d99b4ba8" kind="function"><name>initial_suspend</name></member>
     <member refid="classpromise__nn_1a5aeb075cbae2b4b7e1e51f7797705f7c" kind="function"><name>final_suspend</name></member>
   </compound>
-  <compound refid="classcoro_1_1enumerable_1_1promise__type" kind="class"><name>coro::enumerable::promise_type</name>
-    <member refid="classcoro_1_1enumerable_1_1promise__type_1a67171474c4da6cc8efe0c7fafefd2b2d" kind="friend"><name>iterator</name></member>
-    <member refid="classcoro_1_1enumerable_1_1promise__type_1ad8220d50c77d15ee61635c1d0fc0f6ce" kind="friend"><name>enumerable</name></member>
-    <member refid="classcoro_1_1enumerable_1_1promise__type_1a8f51915e09459e0f24aed367b85ed530" kind="variable"><name>current</name></member>
-    <member refid="classcoro_1_1enumerable_1_1promise__type_1a1aa33df61f957a21f7f7f0bb31490ea7" kind="function"><name>get_return_object</name></member>
-    <member refid="classcoro_1_1enumerable_1_1promise__type_1a087c5d6ce511815670d11f761ed89d9d" kind="function"><name>unhandled_exception</name></member>
-    <member refid="classcoro_1_1enumerable_1_1promise__type_1a2a417b44f5048389ac628f891a851a28" kind="function"><name>yield_value</name></member>
-    <member refid="classcoro_1_1enumerable_1_1promise__type_1aea5f74fe3a0de6660ffedd99382626f5" kind="function"><name>yield_value</name></member>
-    <member refid="classcoro_1_1enumerable_1_1promise__type_1a24f0cdb9f39fff8bea46089495dabbcf" kind="function"><name>return_void</name></member>
-  </compound>
-  <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type" kind="struct"><name>std::experimental::coroutine_traits&lt; void, P... &gt;::promise_type</name>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1a826583f86a52f48546382f03e36346c5" kind="function"><name>initial_suspend</name></member>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1a6fe81d301e84ea0b01163c98a86590e5" kind="function"><name>final_suspend</name></member>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1a50b8db675add487b7f01bb5010e3340a" kind="function"><name>unhandled_exception</name></member>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1acde97e9dda8acde94022d87715c4c572" kind="function"><name>return_void</name></member>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01void_00_01P_8_8_8_01_4_1_1promise__type_1a10e8c0a22fee7cf2b293e93414a00cd3" kind="function"><name>get_return_object</name></member>
-  </compound>
   <compound refid="classframe__t_1_1promise__type" kind="class"><name>frame_t::promise_type</name>
     <member refid="classframe__t_1_1promise__type_1ac5ed5b7beba5d8b80a1c4714997669ad" kind="function"><name>unhandled_exception</name></member>
     <member refid="classframe__t_1_1promise__type_1a6d877a5a5c67c606434803818b20c96a" kind="function"><name>return_void</name></member>
@@ -315,6 +303,28 @@
     <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a21362c44504730ced0857f6e7b7a21fa" kind="function"><name>final_suspend</name></member>
     <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a23ab51d7e94692dd6fac80ab844c88b6" kind="function"><name>return_void</name></member>
     <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a69a7c92cd0cc08125ef3ebd06ebff109" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="classpassive__frame__t_1_1promise__type" kind="class"><name>passive_frame_t::promise_type</name>
+    <member refid="classpassive__frame__t_1_1promise__type_1a76d0038147acf00a31f852f7d7716f01" kind="function"><name>unhandled_exception</name></member>
+    <member refid="classpassive__frame__t_1_1promise__type_1a40aff2c9bfbdc56aebce5932f3af7449" kind="function"><name>return_void</name></member>
+    <member refid="classpassive__frame__t_1_1promise__type_1ac55162d270c135f55863b2f3b6c888be" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="classcoro_1_1enumerable_1_1promise__type" kind="class"><name>coro::enumerable::promise_type</name>
+    <member refid="classcoro_1_1enumerable_1_1promise__type_1a67171474c4da6cc8efe0c7fafefd2b2d" kind="friend"><name>iterator</name></member>
+    <member refid="classcoro_1_1enumerable_1_1promise__type_1ad8220d50c77d15ee61635c1d0fc0f6ce" kind="friend"><name>enumerable</name></member>
+    <member refid="classcoro_1_1enumerable_1_1promise__type_1a8f51915e09459e0f24aed367b85ed530" kind="variable"><name>current</name></member>
+    <member refid="classcoro_1_1enumerable_1_1promise__type_1a187b2bafd44f3f9762f9fa9fbe857c4f" kind="function"><name>get_return_object</name></member>
+    <member refid="classcoro_1_1enumerable_1_1promise__type_1a087c5d6ce511815670d11f761ed89d9d" kind="function"><name>unhandled_exception</name></member>
+    <member refid="classcoro_1_1enumerable_1_1promise__type_1a2a417b44f5048389ac628f891a851a28" kind="function"><name>yield_value</name></member>
+    <member refid="classcoro_1_1enumerable_1_1promise__type_1aea5f74fe3a0de6660ffedd99382626f5" kind="function"><name>yield_value</name></member>
+    <member refid="classcoro_1_1enumerable_1_1promise__type_1a24f0cdb9f39fff8bea46089495dabbcf" kind="function"><name>return_void</name></member>
+  </compound>
+  <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type" kind="struct"><name>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</name>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a600d9e9909a8d1dc60347a07caecb228" kind="function"><name>initial_suspend</name></member>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a806b9377ea8514c62a572c7cb9f72391" kind="function"><name>final_suspend</name></member>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a69a56854a7542e9f60c1c4558c2dbf09" kind="function"><name>unhandled_exception</name></member>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a6162a8712e4335da520c937c45f55929" kind="function"><name>return_void</name></member>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a775d060502bbeaa1ebb62c59f351ed2b" kind="function"><name>get_return_object</name></member>
   </compound>
   <compound refid="classcoro_1_1pthread__joiner__t_1_1promise__type" kind="class"><name>coro::pthread_joiner_t::promise_type</name>
     <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1a948b398eb5589a9d4cfa0d22c4544fe9" kind="function"><name>final_suspend</name></member>
@@ -401,24 +411,24 @@
     <member refid="classstd_1_1suspend__never_1abecb08cd6432018de4d3d8101ab684bf" kind="function"><name>await_suspend</name></member>
   </compound>
   <compound refid="namespacecoro" kind="namespace"><name>coro</name>
-    <member refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kind="typedef"><name>io_buffer_t</name></member>
+    <member refid="group__Network_1ga60d36260824423f894ffd077f8487663" kind="typedef"><name>io_buffer_t</name></member>
     <member refid="namespacecoro_1a7d9e996f5b47200f011e2d8c84ee1147" kind="typedef"><name>net_callback_t</name></member>
     <member refid="namespacecoro_1a8c609d3792ba6a72e94e0f88aca23589" kind="variable"><name>netkq</name></member>
     <member refid="namespacecoro_1a364142b18eb0724cabbf3a942c65ce92" kind="variable"><name>iep</name></member>
     <member refid="namespacecoro_1a85afa8adbfd008d91e74fd5e0716e924" kind="variable"><name>oep</name></member>
     <member refid="namespacecoro_1a75c5634f13d403665ca66b9e5df22caf" kind="variable"><name>emask</name></member>
     <member refid="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" kind="function"><name>wait_in</name></member>
-    <member refid="group__NetWork_1ga31d5a4a545024c3c24e6f5204537307b" kind="function"><name>send_to</name></member>
-    <member refid="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" kind="function"><name>send_to</name></member>
-    <member refid="group__NetWork_1gace516cdc1f8b51596ba7a406190182eb" kind="function"><name>recv_from</name></member>
-    <member refid="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" kind="function"><name>recv_from</name></member>
-    <member refid="group__NetWork_1gac94bb59884293c451906c8cffe825a14" kind="function"><name>send_stream</name></member>
-    <member refid="group__NetWork_1ga60c53387a2e976df4742620055666796" kind="function"><name>recv_stream</name></member>
-    <member refid="group__NetWork_1ga022830c9178aa1a201f95abd2026d35f" kind="function"><name>poll_net_tasks</name></member>
-    <member refid="group__NetResolve_1gadc07999d236df3e984d42b37cbf56693" kind="function"><name>get_address</name></member>
-    <member refid="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kind="function"><name>get_address</name></member>
-    <member refid="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" kind="function"><name>get_name</name></member>
-    <member refid="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" kind="function"><name>get_name</name></member>
+    <member refid="group__Network_1ga31d5a4a545024c3c24e6f5204537307b" kind="function"><name>send_to</name></member>
+    <member refid="group__Network_1gae85ec53584de7c5275cf85e7913316eb" kind="function"><name>send_to</name></member>
+    <member refid="group__Network_1gace516cdc1f8b51596ba7a406190182eb" kind="function"><name>recv_from</name></member>
+    <member refid="group__Network_1ga1e1a2ad32443f868826212a73ce0027e" kind="function"><name>recv_from</name></member>
+    <member refid="group__Network_1gac94bb59884293c451906c8cffe825a14" kind="function"><name>send_stream</name></member>
+    <member refid="group__Network_1ga60c53387a2e976df4742620055666796" kind="function"><name>recv_stream</name></member>
+    <member refid="group__Network_1ga022830c9178aa1a201f95abd2026d35f" kind="function"><name>poll_net_tasks</name></member>
+    <member refid="group__Network_1gadc07999d236df3e984d42b37cbf56693" kind="function"><name>get_address</name></member>
+    <member refid="group__Network_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kind="function"><name>get_address</name></member>
+    <member refid="group__Network_1ga1da2a71cf037b5ed7f88c1451fc9e18d" kind="function"><name>get_name</name></member>
+    <member refid="group__Network_1gad86a7780601bd58197a45bade7c3cacf" kind="function"><name>get_name</name></member>
     <member refid="namespacecoro_1ae4fd0bdc063dde2d17debd6289680367" kind="function"><name>poll_net_tasks</name></member>
     <member refid="namespacecoro_1a0260f9ba0f9c3c2abe90513e1f9ebbb4" kind="function"><name>resume_net_task</name></member>
     <member refid="namespacecoro_1a556b102db93c6e7cf8864b28308036e2" kind="function"><name>is_async_pending</name></member>
@@ -500,7 +510,7 @@
     <member refid="frame_8cpp_1a94e176b990184403637e7f8f68c074c3" kind="typedef"><name>gcc_frame_prefix</name></member>
     <member refid="frame_8cpp_1a297d336f66d70f7b1c2ca90ea003b513" kind="variable"><name>align_req_v</name></member>
     <member refid="frame_8cpp_1abee7037222597d67247c60a41fcedc80" kind="variable"><name>aligned_size_v</name></member>
-    <member refid="frame_8cpp_1a4167cf261dfdd6d1d2daf278c786c311" kind="function"><name>make_aligned_size</name></member>
+    <member refid="frame_8cpp_1a6f7856a59551d6792d7b06cc4318fe97" kind="function"><name>portable_aligned_size</name></member>
     <member refid="frame_8cpp_1a5d0e68792f8b064aa120ae1418c03b35" kind="function"><name>_coro_resume</name></member>
     <member refid="frame_8cpp_1a5a4e460c9fbacbd253a7fc3c17ee0e9f" kind="function"><name>_coro_destroy</name></member>
     <member refid="frame_8cpp_1afb7c0a1ff1cf3ec9331651fa180a1f55" kind="function"><name>_coro_done</name></member>
@@ -536,21 +546,19 @@
   <compound refid="group__Linux" kind="group"><name>Linux</name>
     <member refid="group__Linux_1gaefdd83117e8aadf1a4502ae9b2828b35" kind="function"><name>wait_in</name></member>
   </compound>
-  <compound refid="group__NetWork" kind="group"><name>NetWork</name>
-    <member refid="group__NetWork_1ga60d36260824423f894ffd077f8487663" kind="typedef"><name>io_buffer_t</name></member>
-    <member refid="group__NetWork_1ga31d5a4a545024c3c24e6f5204537307b" kind="function"><name>send_to</name></member>
-    <member refid="group__NetWork_1gae85ec53584de7c5275cf85e7913316eb" kind="function"><name>send_to</name></member>
-    <member refid="group__NetWork_1gace516cdc1f8b51596ba7a406190182eb" kind="function"><name>recv_from</name></member>
-    <member refid="group__NetWork_1ga1e1a2ad32443f868826212a73ce0027e" kind="function"><name>recv_from</name></member>
-    <member refid="group__NetWork_1gac94bb59884293c451906c8cffe825a14" kind="function"><name>send_stream</name></member>
-    <member refid="group__NetWork_1ga60c53387a2e976df4742620055666796" kind="function"><name>recv_stream</name></member>
-    <member refid="group__NetWork_1ga022830c9178aa1a201f95abd2026d35f" kind="function"><name>poll_net_tasks</name></member>
-  </compound>
-  <compound refid="group__NetResolve" kind="group"><name>NetResolve</name>
-    <member refid="group__NetResolve_1gadc07999d236df3e984d42b37cbf56693" kind="function"><name>get_address</name></member>
-    <member refid="group__NetResolve_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kind="function"><name>get_address</name></member>
-    <member refid="group__NetResolve_1ga1da2a71cf037b5ed7f88c1451fc9e18d" kind="function"><name>get_name</name></member>
-    <member refid="group__NetResolve_1gad86a7780601bd58197a45bade7c3cacf" kind="function"><name>get_name</name></member>
+  <compound refid="group__Network" kind="group"><name>Network</name>
+    <member refid="group__Network_1ga60d36260824423f894ffd077f8487663" kind="typedef"><name>io_buffer_t</name></member>
+    <member refid="group__Network_1ga31d5a4a545024c3c24e6f5204537307b" kind="function"><name>send_to</name></member>
+    <member refid="group__Network_1gae85ec53584de7c5275cf85e7913316eb" kind="function"><name>send_to</name></member>
+    <member refid="group__Network_1gace516cdc1f8b51596ba7a406190182eb" kind="function"><name>recv_from</name></member>
+    <member refid="group__Network_1ga1e1a2ad32443f868826212a73ce0027e" kind="function"><name>recv_from</name></member>
+    <member refid="group__Network_1gac94bb59884293c451906c8cffe825a14" kind="function"><name>send_stream</name></member>
+    <member refid="group__Network_1ga60c53387a2e976df4742620055666796" kind="function"><name>recv_stream</name></member>
+    <member refid="group__Network_1ga022830c9178aa1a201f95abd2026d35f" kind="function"><name>poll_net_tasks</name></member>
+    <member refid="group__Network_1gadc07999d236df3e984d42b37cbf56693" kind="function"><name>get_address</name></member>
+    <member refid="group__Network_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" kind="function"><name>get_address</name></member>
+    <member refid="group__Network_1ga1da2a71cf037b5ed7f88c1451fc9e18d" kind="function"><name>get_name</name></member>
+    <member refid="group__Network_1gad86a7780601bd58197a45bade7c3cacf" kind="function"><name>get_name</name></member>
   </compound>
   <compound refid="group__POSIX" kind="group"><name>POSIX</name>
   </compound>

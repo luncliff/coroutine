@@ -349,37 +349,37 @@ If the channel is raced hardly, some coroutines can be enqueued into list just a
 </parameterlist>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="172">
+      <node id="181">
         <label>channel&lt; T, M &gt;</label>
         <link refid="classchannel"/>
-        <childnode refid="173" relation="private-inheritance">
+        <childnode refid="182" relation="private-inheritance">
         </childnode>
-        <childnode refid="174" relation="private-inheritance">
+        <childnode refid="183" relation="private-inheritance">
         </childnode>
       </node>
-      <node id="173">
+      <node id="182">
         <label>internal::list&lt; channel_reader&lt; T, M &gt; &gt;</label>
         <link refid="classinternal_1_1list"/>
       </node>
-      <node id="174">
+      <node id="183">
         <label>internal::list&lt; channel_writer&lt; T, M &gt; &gt;</label>
         <link refid="classinternal_1_1list"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="175">
+      <node id="184">
         <label>channel&lt; T, M &gt;</label>
         <link refid="classchannel"/>
-        <childnode refid="176" relation="private-inheritance">
+        <childnode refid="185" relation="private-inheritance">
         </childnode>
-        <childnode refid="177" relation="private-inheritance">
+        <childnode refid="186" relation="private-inheritance">
         </childnode>
       </node>
-      <node id="176">
+      <node id="185">
         <label>internal::list&lt; channel_reader&lt; T, M &gt; &gt;</label>
         <link refid="classinternal_1_1list"/>
       </node>
-      <node id="177">
+      <node id="186">
         <label>internal::list&lt; channel_writer&lt; T, M &gt; &gt;</label>
         <link refid="classinternal_1_1list"/>
       </node>

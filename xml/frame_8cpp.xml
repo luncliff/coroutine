@@ -42,7 +42,6 @@
     </incdepgraph>
     <innerclass refid="structclang__frame__prefix" prot="public">clang_frame_prefix</innerclass>
     <innerclass refid="structmsvc__frame__prefix" prot="public">msvc_frame_prefix</innerclass>
-    <innernamespace refid="namespacestd_1_1experimental">std::experimental</innernamespace>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" prot="public" static="no">
         <type>void(__cdecl *)(void *)</type>
@@ -55,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="10" column="1" bodyfile="modules/portable/frame.cpp" bodystart="10" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="7" column="1" bodyfile="modules/portable/frame.cpp" bodystart="7" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="frame_8cpp_1a94e176b990184403637e7f8f68c074c3" prot="public" static="no">
         <type><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref></type>
@@ -63,12 +62,12 @@
         <argsstring></argsstring>
         <name>gcc_frame_prefix</name>
         <briefdescription>
-        </briefdescription>
+<para>GCC coroutine frame&apos;s prefix. </para>        </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para>The layout is unknown </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="37" column="1" bodyfile="modules/portable/frame.cpp" bodystart="37" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="43" column="1" bodyfile="modules/portable/frame.cpp" bodystart="43" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -84,7 +83,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="12" column="1" bodyfile="modules/portable/frame.cpp" bodystart="12" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="10" column="1" bodyfile="modules/portable/frame.cpp" bodystart="10" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="frame_8cpp_1abee7037222597d67247c60a41fcedc80" prot="public" static="no" mutable="no">
         <templateparamlist>
@@ -104,26 +103,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="14" column="1" bodyfile="modules/portable/frame.cpp" bodystart="14" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="12" column="1" bodyfile="modules/portable/frame.cpp" bodystart="12" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
-      <memberdef kind="function" id="frame_8cpp_1a4167cf261dfdd6d1d2daf278c786c311" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="frame_8cpp_1a6f7856a59551d6792d7b06cc4318fe97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>constexpr ptrdiff_t</type>
-        <definition>constexpr ptrdiff_t make_aligned_size</definition>
+        <definition>constexpr ptrdiff_t portable_aligned_size</definition>
         <argsstring>(size_t _TypeSize)</argsstring>
-        <name>make_aligned_size</name>
+        <name>portable_aligned_size</name>
         <param>
           <type>size_t</type>
           <declname>_TypeSize</declname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>Simply calculate aligned size of the type. It is multiplier of 16. </para>        </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="17" column="1" bodyfile="modules/portable/frame.cpp" bodystart="17" bodyend="19"/>
+        <location file="modules/portable/frame.cpp" line="18" column="1" bodyfile="modules/portable/frame.cpp" bodystart="18" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1a5d0e68792f8b064aa120ae1418c03b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -139,7 +138,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="57" column="1"/>
+        <location file="modules/portable/frame.cpp" line="72" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1a5a4e460c9fbacbd253a7fc3c17ee0e9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -155,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="58" column="1"/>
+        <location file="modules/portable/frame.cpp" line="73" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1afb7c0a1ff1cf3ec9331651fa180a1f55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -171,7 +170,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="59" column="1"/>
+        <location file="modules/portable/frame.cpp" line="74" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1acb7f973f4e6ad1693c30280e369d927b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -187,7 +186,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="65" column="1"/>
+        <location file="modules/portable/frame.cpp" line="80" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1a689025ba7111862b86b178803894cb99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -203,7 +202,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="66" column="1"/>
+        <location file="modules/portable/frame.cpp" line="81" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1a2f56e6ded0ef72ae52ad3b71e829e9fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -219,7 +218,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="67" column="1"/>
+        <location file="modules/portable/frame.cpp" line="82" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1a63529ce16b733c934970f3ab6a13e4a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -236,7 +235,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="71" column="1"/>
+        <location file="modules/portable/frame.cpp" line="86" column="1"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1ac002a62257f981a6fc711d37427b78ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -253,7 +252,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="102" column="1" bodyfile="modules/portable/frame.cpp" bodystart="102" bodyend="109"/>
+        <location file="modules/portable/frame.cpp" line="122" column="1" bodyfile="modules/portable/frame.cpp" bodystart="122" bodyend="129"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1a9e5d5a4fb051d725d1b9dd68151ec9fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -270,7 +269,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="111" column="1" bodyfile="modules/portable/frame.cpp" bodystart="111" bodyend="117"/>
+        <location file="modules/portable/frame.cpp" line="131" column="1" bodyfile="modules/portable/frame.cpp" bodystart="131" bodyend="137"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1a5dc7784c46cb12b309a1da8dbe9b657f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -287,7 +286,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="119" column="1" bodyfile="modules/portable/frame.cpp" bodystart="119" bodyend="125"/>
+        <location file="modules/portable/frame.cpp" line="139" column="1" bodyfile="modules/portable/frame.cpp" bodystart="139" bodyend="145"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1a4d79efa01220fdbe2748544d40292f2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void *</type>
@@ -303,12 +302,12 @@
           <declname>_PromSize</declname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>&apos;get_promise&apos; from the frame prefix </para>        </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="128" column="1" bodyfile="modules/portable/frame.cpp" bodystart="128" bodyend="144"/>
+        <location file="modules/portable/frame.cpp" line="150" column="1" bodyfile="modules/portable/frame.cpp" bodystart="150" bodyend="166"/>
       </memberdef>
       <memberdef kind="function" id="frame_8cpp_1a7ae36c21c7d07f21eed0cdb6c884b4b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>portable_coro_prefix *</type>
@@ -324,12 +323,12 @@
           <declname>_PromSize</declname>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>Get the frame prefix &apos;from_promise&apos;. </para>        </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="147" column="1" bodyfile="modules/portable/frame.cpp" bodystart="147" bodyend="160"/>
+        <location file="modules/portable/frame.cpp" line="171" column="1" bodyfile="modules/portable/frame.cpp" bodystart="171" bodyend="184"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -340,163 +339,152 @@
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="frame_8h" kindref="compound">coroutine/frame.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd_1_1experimental" kindref="compound">std::experimental</ref><sp/>{</highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(coroutine_handle&lt;void&gt;)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*));</highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>std::experimental</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__GNUC__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref><sp/>=<sp/>void<sp/>(*)(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref><sp/>=<sp/>void(__cdecl*)(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref><sp/>=<sp/>void(__cdecl*)(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal">constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a297d336f66d70f7b1c2ca90ea003b513" kindref="member">align_req_v</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>*<sp/>2;</highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>P&gt;</highlight></codeline>
-<codeline lineno="14"><highlight class="normal">constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1abee7037222597d67247c60a41fcedc80" kindref="member">aligned_size_v</ref><sp/>=<sp/>(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(P)<sp/>+<sp/>align_req_v<sp/>-<sp/>1u)<sp/>&amp;</highlight></codeline>
-<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>~(align_req_v<sp/>-<sp/>1u);</highlight></codeline>
-<codeline lineno="16"><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal">constexpr<sp/>ptrdiff_t<sp/><ref refid="frame_8cpp_1a4167cf261dfdd6d1d2daf278c786c311" kindref="member">make_aligned_size</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>_TypeSize)<sp/>{</highlight></codeline>
-<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(_TypeSize<sp/>+<sp/>align_req_v<sp/>-<sp/>1u)<sp/>&amp;<sp/>~(align_req_v<sp/>-<sp/>1u);</highlight></codeline>
-<codeline lineno="19"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Note</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Clang<sp/>coroutine<sp/>frame&apos;s<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Layout</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>+------------------+------------+---+--------------------+</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Frame<sp/>Prefix(16)<sp/>|<sp/>Promise(?)<sp/>|<sp/>?<sp/>|<sp/>Local<sp/>variables(?)<sp/>|</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>+------------------+------------+---+--------------------+</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="27" refid="structclang__frame__prefix" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref><sp/>{</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref><sp/>_Factivate;</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref><sp/>_Fdestroy;</highlight></codeline>
-<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="31"><highlight class="normal">static_assert(aligned_size_v&lt;clang_frame_prefix&gt;<sp/>==<sp/>16);</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Note</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>GCC<sp/>coroutine<sp/>frame&apos;s<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Layout</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Unknown</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="structclang__frame__prefix" kindref="compound">gcc_frame_prefix</ref><sp/>=<sp/><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref>;</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Note</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>MSVC<sp/>coroutine<sp/>frame&apos;s<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Reference<sp/>&lt;experimental/resumable&gt;<sp/>for<sp/>the<sp/>detail</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Layout</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>+------------+------------------+--------------------+</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>Promise(?)<sp/>|<sp/>Frame<sp/>Prefix(16)<sp/>|<sp/>Local<sp/>variables(?)<sp/>|</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>+------------+------------------+--------------------+</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="46" refid="structmsvc__frame__prefix" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structmsvc__frame__prefix" kindref="compound">msvc_frame_prefix</ref><sp/>{</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref><sp/>_Factivate;</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>_Index;</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>_Flag;</highlight></codeline>
-<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="51"><highlight class="normal">static_assert(aligned_size_v&lt;msvc_frame_prefix&gt;<sp/>==<sp/>16);</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"></highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>intrinsic:<sp/>MSVC</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a5d0e68792f8b064aa120ae1418c03b35" kindref="member">_coro_resume</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a5a4e460c9fbacbd253a7fc3c17ee0e9f" kindref="member">_coro_destroy</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1afb7c0a1ff1cf3ec9331651fa180a1f55" kindref="member">_coro_done</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
-<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>intrinsic:<sp/>Clang/GCC</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1acb7f973f4e6ad1693c30280e369d927b" kindref="member">__builtin_coro_done</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a689025ba7111862b86b178803894cb99" kindref="member">__builtin_coro_resume</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a2f56e6ded0ef72ae52ad3b71e829e9fd" kindref="member">__builtin_coro_destroy</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>void*<sp/>__builtin_coro_promise(void*<sp/>ptr,<sp/>int<sp/>align,<sp/>bool<sp/>p);</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a63529ce16b733c934970f3ab6a13e4a3" kindref="member">_coro_finished</ref>(portable_coro_prefix*<sp/>_Handle);</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__clang__)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>is_clang<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>is_msvc<sp/>=<sp/>!is_clang;</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"></highlight></codeline>
-<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">portable_coro_prefix<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref><sp/>{};</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(_MSC_VER)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>is_msvc<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>is_clang<sp/>=<sp/>!is_msvc;</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>intrinsic(_coro_resume)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>intrinsic(_coro_destroy)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>intrinsic(_coro_done)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="86"><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">portable_coro_prefix<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structmsvc__frame__prefix" kindref="compound">msvc_frame_prefix</ref><sp/>{};</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a63529ce16b733c934970f3ab6a13e4a3" kindref="member">_coro_finished</ref>(portable_coro_prefix*<sp/>_Handle)<sp/>{</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_Handle-&gt;_Index<sp/>==<sp/>0;</highlight></codeline>
-<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"></highlight></codeline>
-<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__GNUC__)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="94"><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>__builtin_coro_is_suspended(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
-<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>__clang__<sp/>||<sp/>_MSC_VER</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>replacement<sp/>of<sp/>the<sp/>`_coro_done`</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1ac002a62257f981a6fc711d37427b78ab" kindref="member">portable_coro_done</ref>(portable_coro_prefix*<sp/>_Handle)<sp/>{</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a63529ce16b733c934970f3ab6a13e4a3" kindref="member">_coro_finished</ref>(_Handle);</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1acb7f973f4e6ad1693c30280e369d927b" kindref="member">__builtin_coro_done</ref>(_Handle);</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>follow<sp/>`noop_coroutine`</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a9e5d5a4fb051d725d1b9dd68151ec9fd" kindref="member">portable_coro_resume</ref>(portable_coro_prefix*<sp/>_Handle)<sp/>{</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a5d0e68792f8b064aa120ae1418c03b35" kindref="member">_coro_resume</ref>(_Handle);</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a689025ba7111862b86b178803894cb99" kindref="member">__builtin_coro_resume</ref>(_Handle);</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="10"><highlight class="normal">constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a297d336f66d70f7b1c2ca90ea003b513" kindref="member">align_req_v</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)<sp/>*<sp/>2;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>P&gt;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1abee7037222597d67247c60a41fcedc80" kindref="member">aligned_size_v</ref><sp/>=<sp/>(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(P)<sp/>+<sp/><ref refid="frame_8cpp_1a297d336f66d70f7b1c2ca90ea003b513" kindref="member">align_req_v</ref><sp/>-<sp/>1u)<sp/>&amp;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>~(<ref refid="frame_8cpp_1a297d336f66d70f7b1c2ca90ea003b513" kindref="member">align_req_v</ref><sp/>-<sp/>1u);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">constexpr<sp/>ptrdiff_t<sp/><ref refid="frame_8cpp_1a6f7856a59551d6792d7b06cc4318fe97" kindref="member">portable_aligned_size</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>_TypeSize)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(_TypeSize<sp/>+<sp/><ref refid="frame_8cpp_1a297d336f66d70f7b1c2ca90ea003b513" kindref="member">align_req_v</ref><sp/>-<sp/>1u)<sp/>&amp;<sp/>~(<ref refid="frame_8cpp_1a297d336f66d70f7b1c2ca90ea003b513" kindref="member">align_req_v</ref><sp/>-<sp/>1u);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structclang__frame__prefix" refkind="compound"><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref><sp/><ref refid="structclang__frame__prefix_1a9e519b86feb06331e76b7bfaa3e687df" kindref="member">_Factivate</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref><sp/><ref refid="structclang__frame__prefix_1adc18b946a6366f6f62b4e4abbc690a4d" kindref="member">_Fdestroy</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">static_assert(aligned_size_v&lt;clang_frame_prefix&gt;<sp/>==<sp/>16);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="structclang__frame__prefix" kindref="compound">gcc_frame_prefix</ref><sp/>=<sp/><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Note</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>MSVC<sp/>coroutine<sp/>frame&apos;s<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Reference<sp/>&lt;experimental/resumable&gt;<sp/>for<sp/>the<sp/>detail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Layout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structmsvc__frame__prefix" refkind="compound"><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structmsvc__frame__prefix" kindref="compound">msvc_frame_prefix</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref><sp/><ref refid="structclang__frame__prefix_1a9e519b86feb06331e76b7bfaa3e687df" kindref="member">_Factivate</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>_Index;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>_Flag;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">static_assert(aligned_size_v&lt;msvc_frame_prefix&gt;<sp/>==<sp/>16);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>intrinsic:<sp/>MSVC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a5d0e68792f8b064aa120ae1418c03b35" kindref="member">_coro_resume</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a5a4e460c9fbacbd253a7fc3c17ee0e9f" kindref="member">_coro_destroy</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1afb7c0a1ff1cf3ec9331651fa180a1f55" kindref="member">_coro_done</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>intrinsic:<sp/>Clang/GCC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1acb7f973f4e6ad1693c30280e369d927b" kindref="member">__builtin_coro_done</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a689025ba7111862b86b178803894cb99" kindref="member">__builtin_coro_resume</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a2f56e6ded0ef72ae52ad3b71e829e9fd" kindref="member">__builtin_coro_destroy</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>void*<sp/>__builtin_coro_promise(void*<sp/>ptr,<sp/>int<sp/>align,<sp/>bool<sp/>p);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a63529ce16b733c934970f3ab6a13e4a3" kindref="member">_coro_finished</ref>(portable_coro_prefix*<sp/>_Handle);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__clang__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>is_clang<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>is_msvc<sp/>=<sp/>!is_clang;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">portable_coro_prefix<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref><sp/>{};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(_MSC_VER)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>is_msvc<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>is_clang<sp/>=<sp/>!is_msvc;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>intrinsic(_coro_resume)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>intrinsic(_coro_destroy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>intrinsic(_coro_done)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">portable_coro_prefix<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structmsvc__frame__prefix" kindref="compound">msvc_frame_prefix</ref><sp/>{};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a63529ce16b733c934970f3ab6a13e4a3" kindref="member">_coro_finished</ref>(portable_coro_prefix*<sp/>_Handle)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_Handle-&gt;_Index<sp/>==<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__GNUC__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>For<sp/>now,<sp/>work<sp/>like<sp/>a<sp/>clang</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>is_clang<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>is_msvc<sp/>=<sp/>!is_clang;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">portable_coro_prefix<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structclang__frame__prefix" kindref="compound">clang_frame_prefix</ref><sp/>{};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>__builtin_coro_is_suspended(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>
 <codeline lineno="117"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="118"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a5dc7784c46cb12b309a1da8dbe9b657f" kindref="member">portable_coro_destroy</ref>(portable_coro_prefix*<sp/>_Handle)<sp/>{</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a5a4e460c9fbacbd253a7fc3c17ee0e9f" kindref="member">_coro_destroy</ref>(_Handle);</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a2f56e6ded0ef72ae52ad3b71e829e9fd" kindref="member">__builtin_coro_destroy</ref>(_Handle);</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight></codeline>
-<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&apos;get_promise&apos;<sp/>from<sp/>frame<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="frame_8cpp_1a4d79efa01220fdbe2748544d40292f2c" kindref="member">portable_coro_get_promise</ref>(portable_coro_prefix*<sp/>_Handle,</highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptrdiff_t<sp/>_PromSize)<sp/>{</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>location<sp/>of<sp/>the<sp/>promise<sp/>object</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>_PromAddr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"></highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>Clang,<sp/>promise<sp/>is<sp/>placed<sp/>just<sp/>after<sp/>frame<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>see<sp/>also:<sp/>`__builtin_coro_promise`</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_PromAddr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">std::byte*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_Handle)<sp/>+</highlight></codeline>
-<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aligned_size_v&lt;clang_frame_prefix&gt;;</highlight></codeline>
-<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
-<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>MSVC,<sp/>promise<sp/>is<sp/>placed<sp/>before<sp/>frame<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_PromAddr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">std::byte*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_Handle)<sp/>-</highlight></codeline>
-<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a4167cf261dfdd6d1d2daf278c786c311" kindref="member">make_aligned_size</ref>(_PromSize);</highlight></codeline>
-<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_PromAddr;</highlight></codeline>
-<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="145"><highlight class="normal"></highlight></codeline>
-<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&apos;from_promise&apos;<sp/>get<sp/>frame<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="147"><highlight class="normal">portable_coro_prefix*<sp/><ref refid="frame_8cpp_1a7ae36c21c7d07f21eed0cdb6c884b4b4" kindref="member">portable_coro_from_promise</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>_PromAddr,</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptrdiff_t<sp/>_PromSize)<sp/>{</highlight></codeline>
-<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>location<sp/>of<sp/>the<sp/>frame<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>_Handle<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="151"><highlight class="normal"></highlight></codeline>
-<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_Handle<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">std::byte*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_PromAddr)<sp/>-</highlight></codeline>
-<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aligned_size_v&lt;clang_frame_prefix&gt;;</highlight></codeline>
-<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
-<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_Handle<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">std::byte*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_PromAddr)<sp/>+</highlight></codeline>
-<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a4167cf261dfdd6d1d2daf278c786c311" kindref="member">make_aligned_size</ref>(_PromSize);</highlight></codeline>
-<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">portable_coro_prefix*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_Handle);</highlight></codeline>
-<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>__clang__<sp/>||<sp/>_MSC_VER<sp/>||<sp/>__GNUC__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>replacement<sp/>of<sp/>the<sp/>`_coro_done`</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1ac002a62257f981a6fc711d37427b78ab" kindref="member">portable_coro_done</ref>(portable_coro_prefix*<sp/>_Handle)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a63529ce16b733c934970f3ab6a13e4a3" kindref="member">_coro_finished</ref>(_Handle);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1acb7f973f4e6ad1693c30280e369d927b" kindref="member">__builtin_coro_done</ref>(_Handle);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>follow<sp/>`noop_coroutine`</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a9e5d5a4fb051d725d1b9dd68151ec9fd" kindref="member">portable_coro_resume</ref>(portable_coro_prefix*<sp/>_Handle)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a5d0e68792f8b064aa120ae1418c03b35" kindref="member">_coro_resume</ref>(_Handle);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a689025ba7111862b86b178803894cb99" kindref="member">__builtin_coro_resume</ref>(_Handle);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a5dc7784c46cb12b309a1da8dbe9b657f" kindref="member">portable_coro_destroy</ref>(portable_coro_prefix*<sp/>_Handle)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a5a4e460c9fbacbd253a7fc3c17ee0e9f" kindref="member">_coro_destroy</ref>(_Handle);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a2f56e6ded0ef72ae52ad3b71e829e9fd" kindref="member">__builtin_coro_destroy</ref>(_Handle);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="frame_8cpp_1a4d79efa01220fdbe2748544d40292f2c" kindref="member">portable_coro_get_promise</ref>(portable_coro_prefix*<sp/>_Handle,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptrdiff_t<sp/>_PromSize)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>location<sp/>of<sp/>the<sp/>promise<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>_PromAddr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>Clang,<sp/>promise<sp/>is<sp/>placed<sp/>just<sp/>after<sp/>frame<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>see<sp/>also:<sp/>`__builtin_coro_promise`</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_PromAddr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">std::byte*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_Handle)<sp/>+</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aligned_size_v&lt;clang_frame_prefix&gt;;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>MSVC,<sp/>promise<sp/>is<sp/>placed<sp/>before<sp/>frame<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_PromAddr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">std::byte*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_Handle)<sp/>-</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a6f7856a59551d6792d7b06cc4318fe97" kindref="member">portable_aligned_size</ref>(_PromSize);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_PromAddr;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal">portable_coro_prefix*<sp/><ref refid="frame_8cpp_1a7ae36c21c7d07f21eed0cdb6c884b4b4" kindref="member">portable_coro_from_promise</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>_PromAddr,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptrdiff_t<sp/>_PromSize)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>location<sp/>of<sp/>the<sp/>frame<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>_Handle<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_clang)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_Handle<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">std::byte*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_PromAddr)<sp/>-</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aligned_size_v&lt;clang_frame_prefix&gt;;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>constexpr<sp/>(is_msvc)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_Handle<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">std::byte*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_PromAddr)<sp/>+</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="frame_8cpp_1a6f7856a59551d6792d7b06cc4318fe97" kindref="member">portable_aligned_size</ref>(_PromSize);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">portable_coro_prefix*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(_Handle);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="modules/portable/frame.cpp"/>
   </compounddef>

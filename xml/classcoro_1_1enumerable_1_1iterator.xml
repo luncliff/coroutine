@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="103" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="103" bodyend="-1"/>
+        <location file="interface/coroutine/yield.hpp" line="110" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="110" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1enumerable_1_1iterator_1ae86c9f718a0c4fc4c5219ec7eca9bf51" prot="public" static="no">
         <type>ptrdiff_t</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="104" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="104" bodyend="-1"/>
+        <location file="interface/coroutine/yield.hpp" line="111" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="111" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1enumerable_1_1iterator_1a6748cada9616c9cd3602b5f240c05fac" prot="public" static="no">
         <type>T</type>
@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="105" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="105" bodyend="-1"/>
+        <location file="interface/coroutine/yield.hpp" line="112" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="112" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1enumerable_1_1iterator_1aba17c0bad4dd9f0e1e79f5634f549b65" prot="public" static="no">
         <type><ref refid="classcoro_1_1enumerable_1_1iterator_1a6748cada9616c9cd3602b5f240c05fac" kindref="member">value_type</ref> &amp;</type>
@@ -54,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="106" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="106" bodyend="-1"/>
+        <location file="interface/coroutine/yield.hpp" line="113" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="113" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classcoro_1_1enumerable_1_1iterator_1a70cc8a2503aaac967c5739168a7e3349" prot="public" static="no">
         <type><ref refid="classcoro_1_1enumerable_1_1iterator_1a6748cada9616c9cd3602b5f240c05fac" kindref="member">value_type</ref> *</type>
@@ -67,7 +67,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="107" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="107" bodyend="-1"/>
+        <location file="interface/coroutine/yield.hpp" line="114" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="114" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-attrib">
@@ -82,7 +82,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="110" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="110" bodyend="-1"/>
+        <location file="interface/coroutine/yield.hpp" line="117" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="117" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -97,10 +97,11 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><simplesect kind="see"><para><ref refid="classcoro_1_1enumerable_1a58e555626deca84947207278b8e58821" kindref="member">enumerable::end()</ref> </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="114" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="114" bodyend="115"/>
+        <location file="interface/coroutine/yield.hpp" line="121" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="121" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1_1iterator_1a96190a6512b80b6f54880d4775b69a3b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
@@ -114,10 +115,11 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
+<para><simplesect kind="see"><para><ref refid="classcoro_1_1enumerable_1a2f71945bdd5fd04560a5ea038bbebc6e" kindref="member">enumerable::begin()</ref> </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="117" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="117" bodyend="119"/>
+        <location file="interface/coroutine/yield.hpp" line="124" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="124" bodyend="126"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1_1iterator_1a85e2c48142cf3b068b88da41a7a91590" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1enumerable_1_1iterator" kindref="compound">iterator</ref> &amp;</type>
@@ -128,12 +130,12 @@
           <type>int</type>
         </param>
         <briefdescription>
-        </briefdescription>
+<para>post increment is prohibited </para>        </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="122" column="1"/>
+        <location file="interface/coroutine/yield.hpp" line="130" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1_1iterator_1a9644f89cb746dc077807fb26d4428804" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classcoro_1_1enumerable_1_1iterator" kindref="compound">iterator</ref> &amp;</type>
@@ -146,7 +148,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="123" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="123" bodyend="129"/>
+        <location file="interface/coroutine/yield.hpp" line="131" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="131" bodyend="136"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1_1iterator_1a3511593c64a509b0ef06f9615a393327" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classcoro_1_1enumerable_1_1iterator_1a70cc8a2503aaac967c5739168a7e3349" kindref="member">pointer</ref></type>
@@ -159,7 +161,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="131" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="131" bodyend="134"/>
+        <location file="interface/coroutine/yield.hpp" line="138" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="138" bodyend="141"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1_1iterator_1a558322f621752b74dd7b0e6db1943786" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classcoro_1_1enumerable_1_1iterator_1aba17c0bad4dd9f0e1e79f5634f549b65" kindref="member">reference</ref></type>
@@ -172,7 +174,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="135" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="135" bodyend="137"/>
+        <location file="interface/coroutine/yield.hpp" line="142" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="142" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1_1iterator_1aaf71a5eb9a60c16be402ec6133f4e6b4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -189,7 +191,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="139" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="139" bodyend="141"/>
+        <location file="interface/coroutine/yield.hpp" line="146" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="146" bodyend="148"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1enumerable_1_1iterator_1a0b22c7943420f3c94181dc92b203e28e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -206,7 +208,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/yield.hpp" line="142" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="142" bodyend="144"/>
+        <location file="interface/coroutine/yield.hpp" line="149" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="149" bodyend="151"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -214,19 +216,19 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="271">
+      <node id="280">
         <label>coro::enumerable&lt; T &gt;::iterator</label>
         <link refid="classcoro_1_1enumerable_1_1iterator"/>
-        <childnode refid="272" relation="usage">
+        <childnode refid="281" relation="usage">
           <edgelabel>coro</edgelabel>
         </childnode>
       </node>
-      <node id="272">
+      <node id="281">
         <label>std::coroutine_handle&lt; coro::enumerable::promise_type &gt;</label>
         <link refid="structstd_1_1coroutine__handle"/>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/yield.hpp" line="101" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="101" bodyend="145"/>
+    <location file="interface/coroutine/yield.hpp" line="108" column="1" bodyfile="interface/coroutine/yield.hpp" bodystart="108" bodyend="152"/>
     <listofallmembers>
       <member refid="classcoro_1_1enumerable_1_1iterator_1a2c51b8da7f056b58959b9bb90fb817e9" prot="public" virt="non-virtual"><scope>coro::enumerable::iterator</scope><name>coro</name></member>
       <member refid="classcoro_1_1enumerable_1_1iterator_1ae86c9f718a0c4fc4c5219ec7eca9bf51" prot="public" virt="non-virtual"><scope>coro::enumerable::iterator</scope><name>difference_type</name></member>
