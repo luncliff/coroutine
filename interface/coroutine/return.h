@@ -124,6 +124,48 @@ class promise_aa {
 };
 
 /**
+ * @brief   no suspend in initial/final + `void` return
+ * @see     promise_nn
+ * @ingroup Return
+ */
+class null_frame_promise : public promise_nn {
+  public:
+    void unhandled_exception() noexcept(false) {
+        throw;
+    }
+    void return_void() noexcept {
+    }
+};
+
+/**
+ * @brief   `void` retrun for coroutine function
+ * @note    The library supports `coroutine_traits` specialization for `nullptr_t`.
+ *          This type is for GCC, which doesn't allow non-struct return.
+ * 
+ * @code
+ * // for MSVC, Clang, GCC
+ * auto coroutine_1() -> null_frame_t {
+ *     co_await suspend_never{};
+ * }
+ * 
+ * // GCC doesn't allow this! (`nullptr_t` is not class)
+ * auto coroutine_2() -> nullptr_t {
+ *     co_await suspend_never{};
+ * }
+ * @endcode
+ */
+struct null_frame_t final {
+    struct promise_type : public null_frame_promise {
+        /**
+         * @brief Since this is template specialization for `void`, the return type is fixed to `void`
+         */
+        null_frame_t get_return_object() noexcept {
+            return {};
+        }
+    };
+};
+
+/**
  * @brief   A type to acquire `coroutine_handle<void>` from anonymous coroutine's return. 
  *          Requires manual `destroy` of the coroutine handle.
  * 
@@ -217,21 +259,7 @@ namespace experimental {
  */
 template <typename... P>
 struct coroutine_traits<nullptr_t, P...> {
-    struct promise_type final {
-        suspend_never initial_suspend() noexcept {
-            return {};
-        }
-        suspend_never final_suspend() noexcept {
-            return {};
-        }
-        void unhandled_exception() noexcept(false) {
-            throw;
-        }
-        /**
-         * @brief Since this is template specialization for `void`, the return type is fixed to `void`
-         */
-        void return_void() noexcept {
-        }
+    struct promise_type : public coro::null_frame_promise {
         /**
          * @brief Since this is template specialization for `void`, the return type is fixed to `void`
          */

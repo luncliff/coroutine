@@ -54,6 +54,11 @@ int main(int, char*[]) {
 #include <coroutine/return.h>
 
 using channel_t = coro::channel<message_t>;
+#if defined(__GNUC__)
+using no_return_t = coro::null_frame_t;
+#else
+using no_return_t = std::nullptr_t;
+#endif
 
 opaque_t* start_messaging(void* ctx, callback_t on_message) {
     auto* ch = new (std::nothrow) channel_t{};
@@ -61,7 +66,7 @@ opaque_t* start_messaging(void* ctx, callback_t on_message) {
         return nullptr;
 
     // attach a receiver coroutine to the channel
-    [](channel_t* ch, void* context, callback_t callback) -> nullptr_t {
+    [](channel_t* ch, void* context, callback_t callback) -> no_return_t {
         puts("start receiving ...");
         while (ch) { // always true
             auto [msg, ok] = co_await ch->read();
@@ -84,7 +89,7 @@ void stop_messaging(opaque_t* ptr) {
 
 void send_message(opaque_t* ptr, message_t m) {
     // spawn a sender coroutine
-    [](channel_t* ch, message_t msg) mutable -> nullptr_t {
+    [](channel_t* ch, message_t msg) mutable -> no_return_t {
         // msg will be 'moved' to reader coroutine. so it must be `mutable`
         if (co_await ch->write(msg) == false)
             puts("can't send anymore"); // the channel is going to destruct ...

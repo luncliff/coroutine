@@ -12,9 +12,14 @@ using namespace std;
 using namespace coro;
 
 using channel_without_lock_t = channel<int>;
+#if defined(__GNUC__)
+using no_return_t = coro::null_frame_t;
+#else
+using no_return_t = std::nullptr_t;
+#endif
 
 auto write_to(channel_without_lock_t& ch, int value, bool ok = false)
-    -> nullptr_t {
+    -> no_return_t {
     ok = co_await ch.write(value);
     if (ok == false)
         // !!!!!
@@ -27,7 +32,7 @@ auto write_to(channel_without_lock_t& ch, int value, bool ok = false)
 }
 
 auto read_from(channel_without_lock_t& ch, int& ref, bool ok = false)
-    -> nullptr_t {
+    -> no_return_t {
     tie(ref, ok) = co_await ch.read();
     assert(ok);
 }

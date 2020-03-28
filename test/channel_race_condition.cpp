@@ -16,6 +16,11 @@ using namespace std;
 using namespace coro;
 
 using channel_section_t = channel<uint64_t, mutex>;
+#if defined(__GNUC__)
+using no_return_t = coro::null_frame_t;
+#else
+using no_return_t = std::nullptr_t;
+#endif
 
 int main(int, char*[]) {
     static constexpr size_t max_try_count = 6;
@@ -23,14 +28,14 @@ int main(int, char*[]) {
     uint32_t success{}, failure{};
     latch group{2 * max_try_count};
 
-    auto send_once = [&](channel_section_t& ch, uint64_t value) -> nullptr_t {
+    auto send_once = [&](channel_section_t& ch, uint64_t value) -> no_return_t {
         co_await continue_on_thread_pool{};
 
         auto w = co_await ch.write(value);
         w ? success += 1 : failure += 1;
         group.count_down();
     };
-    auto recv_once = [&](channel_section_t& ch) -> nullptr_t {
+    auto recv_once = [&](channel_section_t& ch) -> no_return_t {
         co_await continue_on_thread_pool{};
 
         auto [value, r] = co_await ch.read();
