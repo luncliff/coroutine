@@ -51,6 +51,40 @@ add_subdirectory(modules/portable)
 add_subdirectory(modules/system)    # coroutine_system
 add_subdirectory(modules/net)       # coroutine_net
 
+install(FILES           ${MODULE_INTERFACE_DIR}/coroutine/frame.h
+                        ${MODULE_INTERFACE_DIR}/coroutine/return.h
+                        ${MODULE_INTERFACE_DIR}/coroutine/channel.hpp
+                        ${MODULE_INTERFACE_DIR}/coroutine/yield.hpp
+                        ${MODULE_INTERFACE_DIR}/coroutine/net.h
+        DESTINATION     ${CMAKE_INSTALL_PREFIX}/include/coroutine
+)
+if(WIN32)
+    install(FILES       ${MODULE_INTERFACE_DIR}/coroutine/windows.h
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
+    )
+
+elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
+    install(FILES       ${MODULE_INTERFACE_DIR}/coroutine/linux.h
+                        ${MODULE_INTERFACE_DIR}/coroutine/pthread.h
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
+    )
+
+elseif(UNIX OR APPLE)
+    install(FILES       ${MODULE_INTERFACE_DIR}/coroutine/unix.h
+                        ${MODULE_INTERFACE_DIR}/coroutine/pthread.h
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
+    )
+
+endif()
+
+install(TARGETS     coroutine_portable coroutine_system coroutine_net
+        EXPORT      coroutine-config
+        INCLUDES    DESTINATION     ${CMAKE_INSTALL_PREFIX}/bin
+        RUNTIME     DESTINATION     ${CMAKE_INSTALL_PREFIX}/bin
+        LIBRARY     DESTINATION     ${CMAKE_INSTALL_PREFIX}/lib
+        ARCHIVE     DESTINATION     ${CMAKE_INSTALL_PREFIX}/lib
+)
+
 #
 # export declared cmake targets
 #

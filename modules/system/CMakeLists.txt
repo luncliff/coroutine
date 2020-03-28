@@ -54,9 +54,6 @@ if(WIN32)
     PUBLIC
         kernel32
     )
-    install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/windows.h
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
-    )
 
 elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
     target_sources(coroutine_system
@@ -74,10 +71,6 @@ elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
             rt pthread
         )
     endif()
-    install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/linux.h
-                    ${MODULE_INTERFACE_DIR}/coroutine/pthread.h
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
-    )
 
 elseif(UNIX OR APPLE)
     target_sources(coroutine_system
@@ -89,17 +82,6 @@ elseif(UNIX OR APPLE)
     PUBLIC
         pthread c++
     )
-    install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/unix.h
-                    ${MODULE_INTERFACE_DIR}/coroutine/pthread.h
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
-    )
 
 endif()
 
-install(TARGETS         coroutine_system
-        EXPORT          coroutine-config
-        INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-)
