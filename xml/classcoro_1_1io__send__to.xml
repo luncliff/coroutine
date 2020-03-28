@@ -105,43 +105,43 @@
 <simplesect kind="see"><para>WSASendTo </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="264">
+      <node id="272">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="265" relation="public-inheritance">
+        <childnode refid="273" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="265">
+      <node id="273">
         <label>io_control_block</label>
       </node>
-      <node id="263">
+      <node id="271">
         <label>coro::io_send_to</label>
         <link refid="classcoro_1_1io__send__to"/>
-        <childnode refid="264" relation="public-inheritance">
+        <childnode refid="272" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="269">
+      <node id="277">
         <label>std::coroutine_handle&lt; void &gt;</label>
         <link refid="structstd_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="267">
+      <node id="275">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="268" relation="public-inheritance">
+        <childnode refid="276" relation="public-inheritance">
         </childnode>
-        <childnode refid="269" relation="usage">
+        <childnode refid="277" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="268">
+      <node id="276">
         <label>io_control_block</label>
       </node>
-      <node id="266">
+      <node id="274">
         <label>coro::io_send_to</label>
         <link refid="classcoro_1_1io__send__to"/>
-        <childnode refid="267" relation="public-inheritance">
+        <childnode refid="275" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

@@ -107,6 +107,16 @@
     <member refid="classcoro_1_1continue__on__apc_1a4a9014be117a81d5b8534501e58d2d8d" kind="function"><name>await_suspend</name></member>
     <member refid="classcoro_1_1continue__on__apc_1abd15aa633ddddbc1b0c24fab8bb33171" kind="function"><name>continue_on_apc</name></member>
   </compound>
+  <compound refid="classcoro_1_1continue__on__pthread" kind="class"><name>coro::continue_on_pthread</name>
+    <member refid="classcoro_1_1continue__on__pthread_1a1002b32167ed3c18656bd719a073604a" kind="variable"><name>ptr</name></member>
+    <member refid="classcoro_1_1continue__on__pthread_1aa1413495d8f4316f7dba32b85fe22cdd" kind="variable"><name>attr</name></member>
+    <member refid="classcoro_1_1continue__on__pthread_1a57efdf3833211471ee323646af27545e" kind="function"><name>spawn</name></member>
+    <member refid="classcoro_1_1continue__on__pthread_1ae8d482acbbbe5b8fabf38f005cd8d824" kind="function"><name>on_pthread</name></member>
+    <member refid="classcoro_1_1continue__on__pthread_1a51fc75b8e9e652c7487ac2e9ffa6f3d1" kind="function"><name>await_ready</name></member>
+    <member refid="classcoro_1_1continue__on__pthread_1aa6156beef686a02a353dcea723c45f6f" kind="function"><name>await_resume</name></member>
+    <member refid="classcoro_1_1continue__on__pthread_1a3c86d5767ce358fb31aa165137b2deb5" kind="function"><name>await_suspend</name></member>
+    <member refid="classcoro_1_1continue__on__pthread_1a2e040932f46f11276aa8ed71f463834b" kind="function"><name>continue_on_pthread</name></member>
+  </compound>
   <compound refid="classcoro_1_1continue__on__thread__pool" kind="class"><name>coro::continue_on_thread_pool</name>
     <member refid="classcoro_1_1continue__on__thread__pool_1a77775b4b465fb5df44e90a7d7e65540c" kind="function"><name>resume_on_thread_pool</name></member>
     <member refid="classcoro_1_1continue__on__thread__pool_1af4e83dcdf512550a7e2fef589c502000" kind="function"><name>create_and_submit_work</name></member>
@@ -275,6 +285,12 @@
   </compound>
   <compound refid="structstd_1_1noop__coroutine__promise" kind="struct"><name>std::noop_coroutine_promise</name>
   </compound>
+  <compound refid="classnull__frame__promise" kind="class"><name>null_frame_promise</name>
+    <member refid="classnull__frame__promise_1a17588b19466e4c298e46db7c4e995842" kind="function"><name>unhandled_exception</name></member>
+    <member refid="classnull__frame__promise_1ac90bb150d51e2aa1fe18621b24d43324" kind="function"><name>return_void</name></member>
+  </compound>
+  <compound refid="structnull__frame__t" kind="struct"><name>null_frame_t</name>
+  </compound>
   <compound refid="classpassive__frame__t" kind="class"><name>passive_frame_t</name>
     <member refid="classpassive__frame__t_1a4cb04a77e3f0fb4ce12fa379e82205c4" kind="function"><name>passive_frame_t</name></member>
   </compound>
@@ -294,20 +310,29 @@
     <member refid="classpromise__nn_1a6d4e1fa9d0bd22a6e26513c5d99b4ba8" kind="function"><name>initial_suspend</name></member>
     <member refid="classpromise__nn_1a5aeb075cbae2b4b7e1e51f7797705f7c" kind="function"><name>final_suspend</name></member>
   </compound>
+  <compound refid="structnull__frame__t_1_1promise__type" kind="struct"><name>null_frame_t::promise_type</name>
+    <member refid="structnull__frame__t_1_1promise__type_1addb58f003e1ad4f14e7380486b2df996" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__detacher_1_1promise__type" kind="class"><name>coro::pthread_detacher::promise_type</name>
+    <member refid="classcoro_1_1pthread__detacher_1_1promise__type_1a0521d20b37a60cf1ebaadf89f023b909" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1pthread__detacher_1_1promise__type_1a0b30998c32449617236636a2550b7f68" kind="function"><name>get_return_object</name></member>
+  </compound>
   <compound refid="classframe__t_1_1promise__type" kind="class"><name>frame_t::promise_type</name>
     <member refid="classframe__t_1_1promise__type_1ac5ed5b7beba5d8b80a1c4714997669ad" kind="function"><name>unhandled_exception</name></member>
     <member refid="classframe__t_1_1promise__type_1a6d877a5a5c67c606434803818b20c96a" kind="function"><name>return_void</name></member>
     <member refid="classframe__t_1_1promise__type_1a02e7a0008289f4e8ff7a491d699a74f0" kind="function"><name>get_return_object</name></member>
   </compound>
-  <compound refid="classcoro_1_1pthread__detacher__t_1_1promise__type" kind="class"><name>coro::pthread_detacher_t::promise_type</name>
-    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a21362c44504730ced0857f6e7b7a21fa" kind="function"><name>final_suspend</name></member>
-    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a23ab51d7e94692dd6fac80ab844c88b6" kind="function"><name>return_void</name></member>
-    <member refid="classcoro_1_1pthread__detacher__t_1_1promise__type_1a69a7c92cd0cc08125ef3ebd06ebff109" kind="function"><name>get_return_object</name></member>
+  <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type" kind="struct"><name>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</name>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a775d060502bbeaa1ebb62c59f351ed2b" kind="function"><name>get_return_object</name></member>
   </compound>
   <compound refid="classpassive__frame__t_1_1promise__type" kind="class"><name>passive_frame_t::promise_type</name>
     <member refid="classpassive__frame__t_1_1promise__type_1a76d0038147acf00a31f852f7d7716f01" kind="function"><name>unhandled_exception</name></member>
     <member refid="classpassive__frame__t_1_1promise__type_1a40aff2c9bfbdc56aebce5932f3af7449" kind="function"><name>return_void</name></member>
     <member refid="classpassive__frame__t_1_1promise__type_1ac55162d270c135f55863b2f3b6c888be" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__joiner_1_1promise__type" kind="class"><name>coro::pthread_joiner::promise_type</name>
+    <member refid="classcoro_1_1pthread__joiner_1_1promise__type_1a687395ff12f7c3694f27eb6106df94da" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1pthread__joiner_1_1promise__type_1a22f9a9f448828c368293ce368152f7aa" kind="function"><name>get_return_object</name></member>
   </compound>
   <compound refid="classcoro_1_1enumerable_1_1promise__type" kind="class"><name>coro::enumerable::promise_type</name>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a67171474c4da6cc8efe0c7fafefd2b2d" kind="friend"><name>iterator</name></member>
@@ -319,72 +344,47 @@
     <member refid="classcoro_1_1enumerable_1_1promise__type_1aea5f74fe3a0de6660ffedd99382626f5" kind="function"><name>yield_value</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a24f0cdb9f39fff8bea46089495dabbcf" kind="function"><name>return_void</name></member>
   </compound>
-  <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type" kind="struct"><name>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</name>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a600d9e9909a8d1dc60347a07caecb228" kind="function"><name>initial_suspend</name></member>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a806b9377ea8514c62a572c7cb9f72391" kind="function"><name>final_suspend</name></member>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a69a56854a7542e9f60c1c4558c2dbf09" kind="function"><name>unhandled_exception</name></member>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a6162a8712e4335da520c937c45f55929" kind="function"><name>return_void</name></member>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a775d060502bbeaa1ebb62c59f351ed2b" kind="function"><name>get_return_object</name></member>
+  <compound refid="classcoro_1_1pthread__detacher" kind="class"><name>coro::pthread_detacher</name>
+    <member refid="classcoro_1_1pthread__detacher_1a57917bb91eca1c2111788d14137e75d0" kind="friend"><name>promise_type</name></member>
+    <member refid="classcoro_1_1pthread__detacher_1a0a147797bb357c4875cdfc22938ea031" kind="variable"><name>promise</name></member>
+    <member refid="classcoro_1_1pthread__detacher_1a27683679a473e530492aa9baefa9286a" kind="function"><name>pthread_detacher</name></member>
+    <member refid="classcoro_1_1pthread__detacher_1ab488c646d2f336ac616c05187be15a31" kind="function"><name>~pthread_detacher</name></member>
+    <member refid="classcoro_1_1pthread__detacher_1a96efbad1df57a2de9f58e477c467a31f" kind="function"><name>pthread_detacher</name></member>
+    <member refid="classcoro_1_1pthread__detacher_1acb9415112ea4074da020dff150d689ce" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1pthread__detacher_1afd3780c50428c0d5f3b3a0345f28d158" kind="function"><name>pthread_detacher</name></member>
+    <member refid="classcoro_1_1pthread__detacher_1a3a926ab1415190239ed02768bc7dca0a" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1pthread__detacher_1a27fad3accdd6f2b4e76c157dc989fa71" kind="function"><name>operator pthread_t</name></member>
   </compound>
-  <compound refid="classcoro_1_1pthread__joiner__t_1_1promise__type" kind="class"><name>coro::pthread_joiner_t::promise_type</name>
-    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1a948b398eb5589a9d4cfa0d22c4544fe9" kind="function"><name>final_suspend</name></member>
-    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1abd3d2a4ded1ea6fe0cf6d9ab9bff3306" kind="function"><name>return_void</name></member>
-    <member refid="classcoro_1_1pthread__joiner__t_1_1promise__type_1af5d8fac1c1c2a4f8aa3806186428753d" kind="function"><name>get_return_object</name></member>
-  </compound>
-  <compound refid="classcoro_1_1pthread__detacher__t" kind="class"><name>coro::pthread_detacher_t</name>
-    <member refid="classcoro_1_1pthread__detacher__t_1a63f3731204515d60ab4ae40c89061503" kind="function"><name>try_detach</name></member>
-    <member refid="classcoro_1_1pthread__detacher__t_1a9beacbbbc15bd05e2fdde191f3c1a269" kind="function"><name>~pthread_detacher_t</name></member>
-    <member refid="classcoro_1_1pthread__detacher__t_1a85640f0f5d742681d0c3d3fae3746898" kind="function"><name>pthread_detacher_t</name></member>
-  </compound>
-  <compound refid="classcoro_1_1pthread__joiner__t" kind="class"><name>coro::pthread_joiner_t</name>
-    <member refid="classcoro_1_1pthread__joiner__t_1af966aa5b062a89941d015ae207e143e9" kind="function"><name>try_join</name></member>
-    <member refid="classcoro_1_1pthread__joiner__t_1a235a4421bdaa89879cdf4fad0626a42a" kind="function"><name>~pthread_joiner_t</name></member>
-    <member refid="classcoro_1_1pthread__joiner__t_1ad9e4c69a571734a9a3c9a08b2b4fe7cb" kind="function"><name>pthread_joiner_t</name></member>
-  </compound>
-  <compound refid="classcoro_1_1pthread__knower__t" kind="class"><name>coro::pthread_knower_t</name>
-    <member refid="classcoro_1_1pthread__knower__t_1a9bdae50f877e7c639c28507f28eb1492" kind="variable"><name>promise</name></member>
-    <member refid="classcoro_1_1pthread__knower__t_1aaba88045030e8d395299c27a24b99ba2" kind="function"><name>operator pthread_t</name></member>
-    <member refid="classcoro_1_1pthread__knower__t_1a02ec12b031636ecd0eba2c8ebf99614a" kind="function"><name>pthread_knower_t</name></member>
+  <compound refid="classcoro_1_1pthread__joiner" kind="class"><name>coro::pthread_joiner</name>
+    <member refid="classcoro_1_1pthread__joiner_1a57917bb91eca1c2111788d14137e75d0" kind="friend"><name>promise_type</name></member>
+    <member refid="classcoro_1_1pthread__joiner_1a724afcd59af2417c9c674f137e7ecc10" kind="variable"><name>promise</name></member>
+    <member refid="classcoro_1_1pthread__joiner_1a99a68d5f0180acb94ed0ac7063da9c99" kind="function"><name>pthread_joiner</name></member>
+    <member refid="classcoro_1_1pthread__joiner_1a652d49a013b6ed705e5be84e527fc2e4" kind="function"><name>~pthread_joiner</name></member>
+    <member refid="classcoro_1_1pthread__joiner_1a995114d0d6973c795c13e72bc2cb699b" kind="function"><name>pthread_joiner</name></member>
+    <member refid="classcoro_1_1pthread__joiner_1a4a40e25516c779dbed179f7ade8f56a1" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1pthread__joiner_1a466cba34db3cf6986f0d100bdd8b4e87" kind="function"><name>pthread_joiner</name></member>
+    <member refid="classcoro_1_1pthread__joiner_1a5a5ada4e790ecec062be3cede4165824" kind="function"><name>operator=</name></member>
+    <member refid="classcoro_1_1pthread__joiner_1aa4f702ed9af225f7099ccfed2626abe0" kind="function"><name>operator pthread_t</name></member>
   </compound>
   <compound refid="classcoro_1_1pthread__spawn__promise" kind="class"><name>coro::pthread_spawn_promise</name>
     <member refid="classcoro_1_1pthread__spawn__promise_1ab97d78b547d3e294c41777520054dc49" kind="variable"><name>tid</name></member>
-    <member refid="classcoro_1_1pthread__spawn__promise_1aba3cf3b57dd677f91a70d810ba5cb586" kind="function"><name>initial_suspend</name></member>
+    <member refid="classcoro_1_1pthread__spawn__promise_1aea878708819ba45e338452687c8543e0" kind="function"><name>initial_suspend</name></member>
+    <member refid="classcoro_1_1pthread__spawn__promise_1a6d4ce41289e377832680e59d5a3d23ea" kind="function"><name>return_void</name></member>
     <member refid="classcoro_1_1pthread__spawn__promise_1a376471c18a55b430110ee8cd4e7c5b05" kind="function"><name>unhandled_exception</name></member>
     <member refid="classcoro_1_1pthread__spawn__promise_1a0001ebb427fe3da1857b36bb3b483eb0" kind="function"><name>await_transform</name></member>
     <member refid="classcoro_1_1pthread__spawn__promise_1a3b8bf1c50daa6f9a8dd7e21d9ce264ef" kind="function"><name>await_transform</name></member>
     <member refid="classcoro_1_1pthread__spawn__promise_1a0d23e2a68f2715d37f2621788869cc2f" kind="function"><name>await_transform</name></member>
   </compound>
-  <compound refid="classcoro_1_1pthread__spawner__t" kind="class"><name>coro::pthread_spawner_t</name>
-    <member refid="classcoro_1_1pthread__spawner__t_1a119b581b5698d6ca4e2f0ddcf15d3879" kind="variable"><name>tid</name></member>
-    <member refid="classcoro_1_1pthread__spawner__t_1ac32403f8e855248a85e755f8281c9063" kind="variable"><name>attr</name></member>
-    <member refid="classcoro_1_1pthread__spawner__t_1a7585dddc4f38de3cfe260072417bf031" kind="function"><name>resume_on_pthread</name></member>
-    <member refid="classcoro_1_1pthread__spawner__t_1a47e728424d660adf0f7fb20c0a43689b" kind="function"><name>pthread_resume</name></member>
-    <member refid="classcoro_1_1pthread__spawner__t_1a4ee741fb2766f25431d126f1cfeb7885" kind="function"><name>await_ready</name></member>
-    <member refid="classcoro_1_1pthread__spawner__t_1acf585fcfa935b93cb986e0b80d50b40d" kind="function"><name>await_resume</name></member>
-    <member refid="classcoro_1_1pthread__spawner__t_1a8b97fcba3db84ca8d0a40ccf0365b866" kind="function"><name>await_suspend</name></member>
-    <member refid="classcoro_1_1pthread__spawner__t_1a306dbbd45c626e96d0a462471bb7b598" kind="function"><name>pthread_spawner_t</name></member>
-    <member refid="classcoro_1_1pthread__spawner__t_1a1e11f1731604c4d4584d1a870c6810a8" kind="function"><name>~pthread_spawner_t</name></member>
-  </compound>
   <compound refid="classcoro_1_1section" kind="class"><name>coro::section</name>
-    <member refid="classcoro_1_1section_1a54751b7c80db3e018d49dcf673c1354c" kind="variable"><name>rwlock</name></member>
-    <member refid="classcoro_1_1section_1a2b1a5f49c5bb3c3f1975bfe3ed010821" kind="function"><name>section</name></member>
-    <member refid="classcoro_1_1section_1a1a19bc8d5aa50e721a871e52c7e8a554" kind="function"><name>~section</name></member>
     <member refid="classcoro_1_1section_1ab3d9f0753243ad9e7f2c09d3799b53b5" kind="function"><name>section</name></member>
     <member refid="classcoro_1_1section_1af80fc9f0cb9ee65280e3b5697c8ba4dc" kind="function"><name>section</name></member>
     <member refid="classcoro_1_1section_1aa31e1f13dcbc351797a6973d34e5a4db" kind="function"><name>operator=</name></member>
     <member refid="classcoro_1_1section_1a7e8f7446da42e13aeca9aa051de207bd" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1section_1aa87d23fc56fbffff2d16fbdff3bb1ca6" kind="function"><name>try_lock</name></member>
-    <member refid="classcoro_1_1section_1ae87c2669f33f76891f0ae9193295907b" kind="function"><name>lock</name></member>
-    <member refid="classcoro_1_1section_1ac416fc79c4d4f27856d20f9cb90c7773" kind="function"><name>unlock</name></member>
     <member refid="classcoro_1_1section_1a2b1a5f49c5bb3c3f1975bfe3ed010821" kind="function"><name>section</name></member>
     <member refid="classcoro_1_1section_1a1a19bc8d5aa50e721a871e52c7e8a554" kind="function"><name>~section</name></member>
     <member refid="classcoro_1_1section_1aa87d23fc56fbffff2d16fbdff3bb1ca6" kind="function"><name>try_lock</name></member>
     <member refid="classcoro_1_1section_1ae87c2669f33f76891f0ae9193295907b" kind="function"><name>lock</name></member>
     <member refid="classcoro_1_1section_1ac416fc79c4d4f27856d20f9cb90c7773" kind="function"><name>unlock</name></member>
-    <member refid="classcoro_1_1section_1ab3d9f0753243ad9e7f2c09d3799b53b5" kind="function"><name>section</name></member>
-    <member refid="classcoro_1_1section_1af80fc9f0cb9ee65280e3b5697c8ba4dc" kind="function"><name>section</name></member>
-    <member refid="classcoro_1_1section_1aa31e1f13dcbc351797a6973d34e5a4db" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1section_1a7e8f7446da42e13aeca9aa051de207bd" kind="function"><name>operator=</name></member>
   </compound>
   <compound refid="classcoro_1_1set__or__cancel" kind="class"><name>coro::set_or_cancel</name>
     <member refid="classcoro_1_1set__or__cancel_1a4a94535cb979fd6c574c51b8c57fe37b" kind="variable"><name>hobject</name></member>

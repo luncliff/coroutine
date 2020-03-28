@@ -462,36 +462,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#function-final_suspend" class="md-nav__link">
-    function final_suspend
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#function-get_return_object" class="md-nav__link">
     function get_return_object
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-initial_suspend" class="md-nav__link">
-    function initial_suspend
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-return_void" class="md-nav__link">
-    function return_void
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#function-unhandled_exception" class="md-nav__link">
-    function unhandled_exception
   </a>
   
 </li>
@@ -525,6 +497,7 @@
 <ul>
 <li><code>#include &lt;return.h&gt;</code></li>
 </ul>
+<p>Inherits the following classes: null_frame_promise</p>
 <h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -535,50 +508,14 @@
 </thead>
 <tbody>
 <tr>
-<td align="right"><a href="../classstd_1_1suspend__never/"><strong>suspend_never</strong></a></td>
-<td align="left"><a href="./#function-final-suspend"><strong>final_suspend</strong></a> () noexcept<br></td>
-</tr>
-<tr>
 <td align="right">nullptr_t</td>
 <td align="left"><a href="./#function-get-return-object"><strong>get_return_object</strong></a> () noexcept<br><em>Since this is template specialization for</em> <code>void</code> <em>, the return type is fixed to</em><code>void</code> __</td>
-</tr>
-<tr>
-<td align="right"><a href="../classstd_1_1suspend__never/"><strong>suspend_never</strong></a></td>
-<td align="left"><a href="./#function-initial-suspend"><strong>initial_suspend</strong></a> () noexcept<br></td>
-</tr>
-<tr>
-<td align="right">void</td>
-<td align="left"><a href="./#function-return-void"><strong>return_void</strong></a> () noexcept<br><em>Since this is template specialization for</em> <code>void</code> <em>, the return type is fixed to</em><code>void</code> __</td>
-</tr>
-<tr>
-<td align="right">void</td>
-<td align="left"><a href="./#function-unhandled-exception"><strong>unhandled_exception</strong></a> () noexcept<br></td>
 </tr>
 </tbody>
 </table>
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
-<h3 id="function-final_suspend">function final_suspend<a class="headerlink" href="#function-final_suspend" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">suspend_never</span> <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span> <span class="n">nullptr_t</span><span class="p">,</span> <span class="n">P</span><span class="p">...</span> <span class="o">&gt;::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">final_suspend</span> <span class="p">()</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
 <h3 id="function-get_return_object">function get_return_object<a class="headerlink" href="#function-get_return_object" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">nullptr_t</span> <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span> <span class="n">nullptr_t</span><span class="p">,</span> <span class="n">P</span><span class="p">...</span> <span class="o">&gt;::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">get_return_object</span> <span class="p">()</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<h3 id="function-initial_suspend">function initial_suspend<a class="headerlink" href="#function-initial_suspend" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">suspend_never</span> <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span> <span class="n">nullptr_t</span><span class="p">,</span> <span class="n">P</span><span class="p">...</span> <span class="o">&gt;::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">initial_suspend</span> <span class="p">()</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<h3 id="function-return_void">function return_void<a class="headerlink" href="#function-return_void" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span> <span class="n">nullptr_t</span><span class="p">,</span> <span class="n">P</span><span class="p">...</span> <span class="o">&gt;::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">return_void</span> <span class="p">()</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<h3 id="function-unhandled_exception">function unhandled_exception<a class="headerlink" href="#function-unhandled_exception" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span> <span class="n">nullptr_t</span><span class="p">,</span> <span class="n">P</span><span class="p">...</span> <span class="o">&gt;::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">unhandled_exception</span> <span class="p">()</span> <span class="k">noexcept</span>
 </code></pre></div>
 
 

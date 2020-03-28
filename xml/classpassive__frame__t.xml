@@ -22,7 +22,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="185" column="1" bodyfile="interface/coroutine/return.h" bodystart="185" bodyend="186"/>
+        <location file="interface/coroutine/return.h" line="227" column="1" bodyfile="interface/coroutine/return.h" bodystart="227" bodyend="228"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -33,28 +33,28 @@
 <simplesect kind="see"><para><ref refid="classpromise__aa" kindref="compound">promise_aa</ref> </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="291">
+      <node id="306">
         <label>coroutine_handle&lt; void &gt;</label>
       </node>
-      <node id="290">
+      <node id="305">
         <label>passive_frame_t</label>
         <link refid="classpassive__frame__t"/>
-        <childnode refid="291" relation="public-inheritance">
+        <childnode refid="306" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="293">
+      <node id="308">
         <label>coroutine_handle&lt; void &gt;</label>
       </node>
-      <node id="292">
+      <node id="307">
         <label>passive_frame_t</label>
         <link refid="classpassive__frame__t"/>
-        <childnode refid="293" relation="public-inheritance">
+        <childnode refid="308" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/return.h" line="171" column="1" bodyfile="interface/coroutine/return.h" bodystart="171" bodyend="188"/>
+    <location file="interface/coroutine/return.h" line="213" column="1" bodyfile="interface/coroutine/return.h" bodystart="213" bodyend="230"/>
     <listofallmembers>
       <member refid="classpassive__frame__t_1a4cb04a77e3f0fb4ce12fa379e82205c4" prot="public" virt="non-virtual"><scope>passive_frame_t</scope><name>passive_frame_t</name></member>
     </listofallmembers>

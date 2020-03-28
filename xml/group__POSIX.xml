@@ -3,11 +3,10 @@
   <compounddef id="group__POSIX" kind="group">
     <compoundname>POSIX</compoundname>
     <title>POSIX</title>
-    <innerclass refid="classcoro_1_1pthread__spawner__t" prot="public">coro::pthread_spawner_t</innerclass>
+    <innerclass refid="classcoro_1_1continue__on__pthread" prot="public">coro::continue_on_pthread</innerclass>
     <innerclass refid="classcoro_1_1pthread__spawn__promise" prot="public">coro::pthread_spawn_promise</innerclass>
-    <innerclass refid="classcoro_1_1pthread__knower__t" prot="public">coro::pthread_knower_t</innerclass>
-    <innerclass refid="classcoro_1_1pthread__joiner__t" prot="public">coro::pthread_joiner_t</innerclass>
-    <innerclass refid="classcoro_1_1pthread__detacher__t" prot="public">coro::pthread_detacher_t</innerclass>
+    <innerclass refid="classcoro_1_1pthread__joiner" prot="public">coro::pthread_joiner</innerclass>
+    <innerclass refid="classcoro_1_1pthread__detacher" prot="public">coro::pthread_detacher</innerclass>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

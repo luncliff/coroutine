@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structnull__frame__t" kind="struct" language="C++" prot="public" final="yes">
+    <compoundname>null_frame_t</compoundname>
+    <includes refid="return_8h" local="no">return.h</includes>
+    <innerclass refid="structnull__frame__t_1_1promise__type" prot="public">null_frame_t::promise_type</innerclass>
+    <briefdescription>
+<para><computeroutput>void</computeroutput> retrun for coroutine function </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>The library supports <computeroutput>coroutine_traits</computeroutput> specialization for <computeroutput>nullptr_t</computeroutput>. This type is for GCC, which doesn&apos;t allow non-struct return.</para></simplesect>
+<programlisting><codeline><highlight class="normal">//<sp/>for<sp/>MSVC,<sp/>Clang,<sp/>GCC</highlight></codeline>
+<codeline><highlight class="normal">auto<sp/>coroutine_1()<sp/>-&gt;<sp/>null_frame_t<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>co_await<sp/>suspend_never{};</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>GCC<sp/>doesn&apos;t<sp/>allow<sp/>this!<sp/>(`nullptr_t`<sp/>is<sp/>not<sp/>class)</highlight></codeline>
+<codeline><highlight class="normal">auto<sp/>coroutine_2()<sp/>-&gt;<sp/>nullptr_t<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>co_await<sp/>suspend_never{};</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>    </detaileddescription>
+    <location file="interface/coroutine/return.h" line="157" column="1" bodyfile="interface/coroutine/return.h" bodystart="157" bodyend="166"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

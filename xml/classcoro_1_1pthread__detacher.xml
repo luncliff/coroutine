@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classcoro_1_1pthread__detacher" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::pthread_detacher</compoundname>
+    <includes refid="pthread_8h" local="no">pthread.h</includes>
+    <innerclass refid="classcoro_1_1pthread__detacher_1_1promise__type" prot="public">coro::pthread_detacher::promise_type</innerclass>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classcoro_1_1pthread__detacher_1a57917bb91eca1c2111788d14137e75d0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class promise_type</definition>
+        <argsstring></argsstring>
+        <name>promise_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="159" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcoro_1_1pthread__detacher_1a0a147797bb357c4875cdfc22938ea031" prot="private" static="no" mutable="no">
+        <type><ref refid="classcoro_1_1pthread__spawn__promise" kindref="compound">pthread_spawn_promise</ref> *</type>
+        <definition>pthread_spawn_promise* coro::pthread_detacher::promise</definition>
+        <argsstring></argsstring>
+        <name>promise</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="175" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcoro_1_1pthread__detacher_1a27683679a473e530492aa9baefa9286a" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_detacher::pthread_detacher</definition>
+        <argsstring>(promise_type *p) noexcept(false)</argsstring>
+        <name>pthread_detacher</name>
+        <param>
+          <type><ref refid="classcoro_1_1pthread__detacher_1_1promise__type" kindref="compound">promise_type</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="178" column="1" bodyfile="modules/system/pthread.cpp" bodystart="44" bodyend="48"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1pthread__detacher_1ab488c646d2f336ac616c05187be15a31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_detacher::~pthread_detacher</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>~pthread_detacher</name>
+        <briefdescription>
+<para>try to detach the related thread </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>pthread_detach </para></simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="186" column="1" bodyfile="modules/system/pthread.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__detacher_1a96efbad1df57a2de9f58e477c467a31f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_detacher::pthread_detacher</definition>
+        <argsstring>(const pthread_detacher &amp;)=delete</argsstring>
+        <name>pthread_detacher</name>
+        <param>
+          <type>const <ref refid="classcoro_1_1pthread__detacher" kindref="compound">pthread_detacher</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="187" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__detacher_1acb9415112ea4074da020dff150d689ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcoro_1_1pthread__detacher" kindref="compound">pthread_detacher</ref> &amp;</type>
+        <definition>pthread_detacher&amp; coro::pthread_detacher::operator=</definition>
+        <argsstring>(const pthread_detacher &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classcoro_1_1pthread__detacher" kindref="compound">pthread_detacher</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="188" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__detacher_1afd3780c50428c0d5f3b3a0345f28d158" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_detacher::pthread_detacher</definition>
+        <argsstring>(pthread_detacher &amp;&amp;)=default</argsstring>
+        <name>pthread_detacher</name>
+        <param>
+          <type><ref refid="classcoro_1_1pthread__detacher" kindref="compound">pthread_detacher</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="189" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__detacher_1a3a926ab1415190239ed02768bc7dca0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcoro_1_1pthread__detacher" kindref="compound">pthread_detacher</ref> &amp;</type>
+        <definition>pthread_detacher&amp; coro::pthread_detacher::operator=</definition>
+        <argsstring>(pthread_detacher &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classcoro_1_1pthread__detacher" kindref="compound">pthread_detacher</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="190" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__detacher_1a27fad3accdd6f2b4e76c157dc989fa71" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_detacher::operator pthread_t</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator pthread_t</name>
+        <briefdescription>
+<para>allow access to the <computeroutput>tid</computeroutput> </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>pthread_t </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="196" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="196" bodyend="198"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Special return type that wraps <computeroutput>pthread_detach</computeroutput> </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/pthread.h" line="158" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="158" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1pthread__detacher_1a27fad3accdd6f2b4e76c157dc989fa71" prot="public" virt="non-virtual"><scope>coro::pthread_detacher</scope><name>operator pthread_t</name></member>
+      <member refid="classcoro_1_1pthread__detacher_1acb9415112ea4074da020dff150d689ce" prot="public" virt="non-virtual"><scope>coro::pthread_detacher</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1pthread__detacher_1a3a926ab1415190239ed02768bc7dca0a" prot="public" virt="non-virtual"><scope>coro::pthread_detacher</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1pthread__detacher_1a0a147797bb357c4875cdfc22938ea031" prot="private" virt="non-virtual"><scope>coro::pthread_detacher</scope><name>promise</name></member>
+      <member refid="classcoro_1_1pthread__detacher_1a57917bb91eca1c2111788d14137e75d0" prot="private" virt="non-virtual"><scope>coro::pthread_detacher</scope><name>promise_type</name></member>
+      <member refid="classcoro_1_1pthread__detacher_1a27683679a473e530492aa9baefa9286a" prot="private" virt="non-virtual"><scope>coro::pthread_detacher</scope><name>pthread_detacher</name></member>
+      <member refid="classcoro_1_1pthread__detacher_1a96efbad1df57a2de9f58e477c467a31f" prot="public" virt="non-virtual"><scope>coro::pthread_detacher</scope><name>pthread_detacher</name></member>
+      <member refid="classcoro_1_1pthread__detacher_1afd3780c50428c0d5f3b3a0345f28d158" prot="public" virt="non-virtual"><scope>coro::pthread_detacher</scope><name>pthread_detacher</name></member>
+      <member refid="classcoro_1_1pthread__detacher_1ab488c646d2f336ac616c05187be15a31" prot="public" virt="non-virtual"><scope>coro::pthread_detacher</scope><name>~pthread_detacher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

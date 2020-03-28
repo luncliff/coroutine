@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/classcoro_1_1pthread__joiner__t/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/classcoro_1_1pthread__detacher/">
       
       
         <meta name="author" content="Park DongHa">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Class coro::pthread\_joiner\_t - luncliff/coroutine</title>
+        <title>Class coro::pthread\_detacher - luncliff/coroutine</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#class-coropthread_joiner_t" tabindex="0" class="md-skip">
+      <a href="#class-coropthread_detacher" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Class coro::pthread\_joiner\_t
+                Class coro::pthread\_detacher
               
             </span>
           
@@ -461,23 +461,57 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#public-functions-inherited-from-coropthread_knower_t" class="md-nav__link">
-    Public Functions inherited from coro::pthread_knower_t
+  <a href="#public-functions-documentation" class="md-nav__link">
+    Public Functions Documentation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-operator-pthread_t" class="md-nav__link">
+    function operator pthread_t
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#protected-attributes-inherited-from-coropthread_knower_t" class="md-nav__link">
-    Protected Attributes inherited from coro::pthread_knower_t
+        
+          <li class="md-nav__item">
+  <a href="#function-operator" class="md-nav__link">
+    function operator=
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#protected-functions-inherited-from-coropthread_knower_t" class="md-nav__link">
-    Protected Functions inherited from coro::pthread_knower_t
+        
+          <li class="md-nav__item">
+  <a href="#function-operator_1" class="md-nav__link">
+    function operator=
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-pthread_detacher-23" class="md-nav__link">
+    function pthread_detacher [2/3]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-pthread_detacher-33" class="md-nav__link">
+    function pthread_detacher [3/3]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-pthread_detacher" class="md-nav__link">
+    function ~pthread_detacher
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -497,16 +531,15 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/classcoro_1_1pthread__joiner__t.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/classcoro_1_1pthread__detacher.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="class-coropthread_joiner_t">Class coro::pthread_joiner_t<a class="headerlink" href="#class-coropthread_joiner_t" title="Permanent link">&para;</a></h1>
-<p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacecoro/"><strong>coro</strong></a> <strong>&gt;</strong> <a href="./"><strong>pthread_joiner_t</strong></a></p>
-<p><em>Special return type that wraps</em> <code>pthread_join</code> __<a href="#detailed-description">More...</a></p>
+                <h1 id="class-coropthread_detacher">Class coro::pthread_detacher<a class="headerlink" href="#class-coropthread_detacher" title="Permanent link">&para;</a></h1>
+<p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacecoro/"><strong>coro</strong></a> <strong>&gt;</strong> <a href="./"><strong>pthread_detacher</strong></a></p>
+<p><em>Special return type that wraps</em> <code>pthread_detach</code> __</p>
 <ul>
 <li><code>#include &lt;pthread.h&gt;</code></li>
 </ul>
-<p>Inherits the following classes: <a href="../classcoro_1_1pthread__knower__t/">coro::pthread_knower_t</a></p>
 <h2 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -518,7 +551,7 @@
 <tbody>
 <tr>
 <td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1pthread__joiner__t_1_1promise__type/"><strong>promise_type</strong></a> <br></td>
+<td align="left"><a href="../classcoro_1_1pthread__detacher_1_1promise__type/"><strong>promise_type</strong></a> <br></td>
 </tr>
 </tbody>
 </table>
@@ -533,81 +566,76 @@
 <tbody>
 <tr>
 <td align="right"></td>
-<td align="left"><a href="./#function-pthread-joiner-t"><strong>pthread_joiner_t</strong></a> (<a href="../classcoro_1_1pthread__joiner__t_1_1promise__type/"><strong>promise_type</strong></a> * p) noexcept<br></td>
+<td align="left"><a href="./#function-operator-pthread-t"><strong>operator pthread_t</strong></a> () noexcept const<br><em>allow access to the</em> <code>tid</code> __</td>
+</tr>
+<tr>
+<td align="right"><a href="./"><strong>pthread_detacher</strong></a> &amp;</td>
+<td align="left"><a href="./#function-operator"><strong>operator=</strong></a> (const <a href="./"><strong>pthread_detacher</strong></a> &amp;) = delete<br></td>
+</tr>
+<tr>
+<td align="right"><a href="./"><strong>pthread_detacher</strong></a> &amp;</td>
+<td align="left"><a href="./#function-operator_1"><strong>operator=</strong></a> (<a href="./"><strong>pthread_detacher</strong></a> &amp;&amp;) = default<br></td>
 </tr>
 <tr>
 <td align="right"></td>
-<td align="left"><a href="./#function-pthread-joiner-t"><strong>~pthread_joiner_t</strong></a> () noexcept<br></td>
+<td align="left"><a href="./#function-pthread-detacher-23"><strong>pthread_detacher</strong></a> (const <a href="./"><strong>pthread_detacher</strong></a> &amp;) = delete<br></td>
 </tr>
-</tbody>
-</table>
-<h2 id="public-functions-inherited-from-coropthread_knower_t">Public Functions inherited from coro::pthread_knower_t<a class="headerlink" href="#public-functions-inherited-from-coropthread_knower_t" title="Permanent link">&para;</a></h2>
-<p>See <a href="../classcoro_1_1pthread__knower__t/">coro::pthread_knower_t</a></p>
-<table>
-<thead>
-<tr>
-<th align="right">Type</th>
-<th align="left">Name</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td align="right"></td>
-<td align="left"><a href="../classcoro_1_1pthread__knower__t/#function-operator-pthread-t"><strong>operator pthread_t</strong></a> () noexcept const<br><em>allow access to the</em> <code>tid</code> __</td>
+<td align="left"><a href="./#function-pthread-detacher-33"><strong>pthread_detacher</strong></a> (<a href="./"><strong>pthread_detacher</strong></a> &amp;&amp;) = default<br></td>
 </tr>
-</tbody>
-</table>
-<h2 id="protected-attributes-inherited-from-coropthread_knower_t">Protected Attributes inherited from coro::pthread_knower_t<a class="headerlink" href="#protected-attributes-inherited-from-coropthread_knower_t" title="Permanent link">&para;</a></h2>
-<p>See <a href="../classcoro_1_1pthread__knower__t/">coro::pthread_knower_t</a></p>
-<table>
-<thead>
-<tr>
-<th align="right">Type</th>
-<th align="left">Name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="right"><a href="../classcoro_1_1pthread__spawn__promise/"><strong>pthread_spawn_promise</strong></a> *</td>
-<td align="left"><a href="../classcoro_1_1pthread__knower__t/#variable-promise"><strong>promise</strong></a>  <br></td>
-</tr>
-</tbody>
-</table>
-<h2 id="protected-functions-inherited-from-coropthread_knower_t">Protected Functions inherited from coro::pthread_knower_t<a class="headerlink" href="#protected-functions-inherited-from-coropthread_knower_t" title="Permanent link">&para;</a></h2>
-<p>See <a href="../classcoro_1_1pthread__knower__t/">coro::pthread_knower_t</a></p>
-<table>
-<thead>
-<tr>
-<th align="right">Type</th>
-<th align="left">Name</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td align="right"></td>
-<td align="left"><a href="../classcoro_1_1pthread__knower__t/#function-pthread-knower-t"><strong>pthread_knower_t</strong></a> (<a href="../classcoro_1_1pthread__spawn__promise/"><strong>pthread_spawn_promise</strong></a> * _promise) noexcept<br></td>
+<td align="left"><a href="./#function-pthread-detacher"><strong>~pthread_detacher</strong></a> () noexcept<br><em>try to detach the related thread</em></td>
 </tr>
 </tbody>
 </table>
-<h1 id="detailed-description">Detailed Description<a class="headerlink" href="#detailed-description" title="Permanent link">&para;</a></h1>
-<p><strong>See also:</strong> pthread_join </p>
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
-<h3 id="function-pthread_joiner_t">function pthread_joiner_t<a class="headerlink" href="#function-pthread_joiner_t" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="n">coro</span><span class="o">::</span><span class="n">pthread_joiner_t</span><span class="o">::</span><span class="n">pthread_joiner_t</span> <span class="p">(</span>
-    <span class="n">promise_type</span> <span class="o">*</span> <span class="n">p</span>
-<span class="p">)</span> <span class="k">noexcept</span>
+<h3 id="function-operator-pthread_t">function operator pthread_t<a class="headerlink" href="#function-operator-pthread_t" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_detacher</span><span class="o">::</span><span class="k">operator</span> <span class="n">pthread_t</span> <span class="p">()</span> <span class="k">noexcept</span> <span class="k">const</span>
 </code></pre></div>
 
 
+<p><strong>Returns:</strong></p>
+<p>pthread_t </p>
+<h3 id="function-operator">function operator=<a class="headerlink" href="#function-operator" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">pthread_detacher</span> <span class="o">&amp;</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_detacher</span><span class="o">::</span><span class="k">operator</span><span class="o">=</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">pthread_detacher</span> <span class="o">&amp;</span>
+<span class="p">)</span> <span class="o">=</span> <span class="k">delete</span>
+</code></pre></div>
+
+
+<h3 id="function-operator_1">function operator=<a class="headerlink" href="#function-operator_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">pthread_detacher</span> <span class="o">&amp;</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_detacher</span><span class="o">::</span><span class="k">operator</span><span class="o">=</span> <span class="p">(</span>
+    <span class="n">pthread_detacher</span> <span class="o">&amp;&amp;</span>
+<span class="p">)</span> <span class="o">=</span> <span class="k">default</span>
+</code></pre></div>
+
+
+<h3 id="function-pthread_detacher-23">function pthread_detacher [2/3]<a class="headerlink" href="#function-pthread_detacher-23" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">coro</span><span class="o">::</span><span class="n">pthread_detacher</span><span class="o">::</span><span class="n">pthread_detacher</span> <span class="p">(</span>
+    <span class="k">const</span> <span class="n">pthread_detacher</span> <span class="o">&amp;</span>
+<span class="p">)</span> <span class="o">=</span> <span class="k">delete</span>
+</code></pre></div>
+
+
+<h3 id="function-pthread_detacher-33">function pthread_detacher [3/3]<a class="headerlink" href="#function-pthread_detacher-33" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">coro</span><span class="o">::</span><span class="n">pthread_detacher</span><span class="o">::</span><span class="n">pthread_detacher</span> <span class="p">(</span>
+    <span class="n">pthread_detacher</span> <span class="o">&amp;&amp;</span>
+<span class="p">)</span> <span class="o">=</span> <span class="k">default</span>
+</code></pre></div>
+
+
+<h3 id="function-pthread_detacher">function ~pthread_detacher<a class="headerlink" href="#function-pthread_detacher" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">coro</span><span class="o">::</span><span class="n">pthread_detacher</span><span class="o">::~</span><span class="n">pthread_detacher</span> <span class="p">()</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<p><strong>See also:</strong> pthread_detach </p>
 <p><strong>Exception:</strong></p>
 <ul>
-<li><code>invalid_argument</code> </li>
+<li><code>system_error</code> </li>
 </ul>
-<h3 id="function-pthread_joiner_t_1">function ~pthread_joiner_t<a class="headerlink" href="#function-pthread_joiner_t_1" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_joiner_t</span><span class="o">::~</span><span class="n">pthread_joiner_t</span> <span class="p">()</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
 <hr />
 <p>The documentation for this class was generated from the following file <code>interface/coroutine/pthread.h</code></p>
                 

@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classnull__frame__promise" kind="class" language="C++" prot="public">
+    <compoundname>null_frame_promise</compoundname>
+    <basecompoundref refid="classpromise__nn" prot="public" virt="non-virtual">promise_nn</basecompoundref>
+    <derivedcompoundref refid="structnull__frame__t_1_1promise__type" prot="public" virt="non-virtual">null_frame_t::promise_type</derivedcompoundref>
+    <includes refid="return_8h" local="no">return.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classnull__frame__promise_1a17588b19466e4c298e46db7c4e995842" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void null_frame_promise::unhandled_exception</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>unhandled_exception</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="133" column="1" bodyfile="interface/coroutine/return.h" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classnull__frame__promise_1ac90bb150d51e2aa1fe18621b24d43324" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void null_frame_promise::return_void</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>return_void</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="136" column="1" bodyfile="interface/coroutine/return.h" bodystart="136" bodyend="137"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>no suspend in initial/final + <computeroutput>void</computeroutput> return </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="classpromise__nn" kindref="compound">promise_nn</ref> </para></simplesect>
+</para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="299">
+        <label>promise_nn</label>
+        <link refid="classpromise__nn"/>
+      </node>
+      <node id="300">
+        <label>null_frame_t::promise_type</label>
+        <link refid="structnull__frame__t_1_1promise__type"/>
+        <childnode refid="298" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="298">
+        <label>null_frame_promise</label>
+        <link refid="classnull__frame__promise"/>
+        <childnode refid="299" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="302">
+        <label>promise_nn</label>
+        <link refid="classpromise__nn"/>
+      </node>
+      <node id="301">
+        <label>null_frame_promise</label>
+        <link refid="classnull__frame__promise"/>
+        <childnode refid="302" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/return.h" line="131" column="1" bodyfile="interface/coroutine/return.h" bodystart="131" bodyend="138"/>
+    <listofallmembers>
+      <member refid="classpromise__nn_1a5aeb075cbae2b4b7e1e51f7797705f7c" prot="public" virt="non-virtual"><scope>null_frame_promise</scope><name>final_suspend</name></member>
+      <member refid="classpromise__nn_1a6d4e1fa9d0bd22a6e26513c5d99b4ba8" prot="public" virt="non-virtual"><scope>null_frame_promise</scope><name>initial_suspend</name></member>
+      <member refid="classnull__frame__promise_1ac90bb150d51e2aa1fe18621b24d43324" prot="public" virt="non-virtual"><scope>null_frame_promise</scope><name>return_void</name></member>
+      <member refid="classnull__frame__promise_1a17588b19466e4c298e46db7c4e995842" prot="public" virt="non-virtual"><scope>null_frame_promise</scope><name>unhandled_exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

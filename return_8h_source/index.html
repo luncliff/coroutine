@@ -524,6 +524,23 @@
     <span class="p">}</span>
 <span class="p">};</span>
 
+<span class="k">class</span> <span class="nc">null_frame_promise</span> <span class="o">:</span> <span class="k">public</span> <span class="n">promise_nn</span> <span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="kt">void</span> <span class="n">unhandled_exception</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">return_void</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">null_frame_t</span> <span class="k">final</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="nl">promise_type</span> <span class="p">:</span> <span class="k">public</span> <span class="n">null_frame_promise</span> <span class="p">{</span>
+        <span class="n">null_frame_t</span> <span class="n">get_return_object</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">{};</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+<span class="p">};</span>
+
 <span class="k">class</span> <span class="nc">frame_t</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="k">class</span> <span class="nc">promise_type</span> <span class="o">:</span> <span class="k">public</span> <span class="n">promise_na</span> <span class="p">{</span>
@@ -587,18 +604,7 @@
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">P</span><span class="o">&gt;</span>
 <span class="k">struct</span> <span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">nullptr_t</span><span class="p">,</span> <span class="n">P</span><span class="p">...</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="k">struct</span> <span class="n">promise_type</span> <span class="k">final</span> <span class="p">{</span>
-        <span class="n">suspend_never</span> <span class="n">initial_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="p">{};</span>
-        <span class="p">}</span>
-        <span class="n">suspend_never</span> <span class="n">final_suspend</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="p">{};</span>
-        <span class="p">}</span>
-        <span class="kt">void</span> <span class="n">unhandled_exception</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">throw</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="kt">void</span> <span class="n">return_void</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="p">}</span>
+    <span class="k">struct</span> <span class="nl">promise_type</span> <span class="p">:</span> <span class="k">public</span> <span class="n">coro</span><span class="o">::</span><span class="n">null_frame_promise</span> <span class="p">{</span>
         <span class="n">nullptr_t</span> <span class="n">get_return_object</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
             <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
         <span class="p">}</span>

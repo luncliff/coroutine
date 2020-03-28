@@ -467,6 +467,7 @@
 <li><strong>struct</strong> <a href="../structclang__frame__prefix/"><strong>clang_frame_prefix</strong></a> <em>Clang coroutine frame's prefix.</em>   </li>
 <li><strong>namespace</strong> <a href="../namespacecoro/"><strong>coro</strong></a>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1continue__on__apc/"><strong>continue_on_apc</strong></a> <em>Move into the designated thread's APC queue and continue the routine.</em>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1continue__on__pthread/"><strong>continue_on_pthread</strong></a> <em>Creates a new POSIX Thread and resume the given coroutine handle on it.</em>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1continue__on__thread__pool/"><strong>continue_on_thread_pool</strong></a> <em>Move into the win32 thread pool and continue the routine.</em>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1enumerable/"><strong>enumerable</strong></a> <em>C++ Coroutines Generator.</em>   <ul>
 <li><strong>class</strong> <a href="../classcoro_1_1enumerable_1_1iterator/"><strong>iterator</strong></a>   </li>
@@ -481,17 +482,15 @@
 <li><strong>class</strong> <a href="../classcoro_1_1io__send__to/"><strong>io_send_to</strong></a> <em>Awaitable type to perform</em> <code>sendto</code> <em>I/O request.</em>  </li>
 <li><strong>class</strong> <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> <em>A struct to describe "1 I/O request" to system API.</em>  <em>When I/O request is submitted, an I/O task becomes 1 coroutine handle.</em>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1kqueue__owner/"><strong>kqueue_owner</strong></a> <em>RAII wrapping for kqueue file descriptor.</em>   </li>
-<li><strong>class</strong> <a href="../classcoro_1_1pthread__detacher__t/"><strong>pthread_detacher_t</strong></a> <em>Special return type that wraps</em> <code>pthread_detach</code> __  <ul>
-<li><strong>class</strong> <a href="../classcoro_1_1pthread__detacher__t_1_1promise__type/"><strong>promise_type</strong></a>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__detacher/"><strong>pthread_detacher</strong></a> <em>Special return type that wraps</em> <code>pthread_detach</code> __  <ul>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__detacher_1_1promise__type/"><strong>promise_type</strong></a>   </li>
 </ul>
 </li>
-<li><strong>class</strong> <a href="../classcoro_1_1pthread__joiner__t/"><strong>pthread_joiner_t</strong></a> <em>Special return type that wraps</em> <code>pthread_join</code> __  <ul>
-<li><strong>class</strong> <a href="../classcoro_1_1pthread__joiner__t_1_1promise__type/"><strong>promise_type</strong></a>   </li>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__joiner/"><strong>pthread_joiner</strong></a> <em>Special return type that wraps</em> <code>pthread_join</code> __  <ul>
+<li><strong>class</strong> <a href="../classcoro_1_1pthread__joiner_1_1promise__type/"><strong>promise_type</strong></a>   </li>
 </ul>
 </li>
-<li><strong>class</strong> <a href="../classcoro_1_1pthread__knower__t/"><strong>pthread_knower_t</strong></a> <em>A proxy to</em> <code>pthread_spawn_promise</code> <em>The type must ensure the promise contains a valid</em> <code>pthread_t</code> <em>when it is constructed.</em>  </li>
 <li><strong>class</strong> <a href="../classcoro_1_1pthread__spawn__promise/"><strong>pthread_spawn_promise</strong></a> <em>allows</em> <code>pthread_attr_t*</code> <em>for</em><code>co_await</code> <em>operator</em>  </li>
-<li><strong>class</strong> <a href="../classcoro_1_1pthread__spawner__t/"><strong>pthread_spawner_t</strong></a> <em>Creates a new POSIX Thread and resume the given coroutine handle on it.</em>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1section/"><strong>section</strong></a> <em>Standard lockable with win32 criticial section.</em>   </li>
 <li><strong>class</strong> <a href="../classcoro_1_1set__or__cancel/"><strong>set_or_cancel</strong></a> <em>Awaitable event type over Win32 thread pool</em>  <em>Its object can be</em> <code>co_await</code> <em>ed only once. The purpose of such design is to encourage use of short functions rather than containing multiple objects in the function's body.</em>  </li>
 <li><strong>class</strong> <a href="../classframe__t/"><strong>frame_t</strong></a> <em>A type to acquire</em> <code>coroutine_handle&lt;void&gt;</code> <em>from anonymous coroutine's return. Requires manual</em><code>destroy</code> <em>of the coroutine handle.</em>  </li>
@@ -500,6 +499,9 @@
 <li><strong>namespace</strong> <a href="../namespaceinternal/"><strong>internal</strong></a>   </li>
 <li><strong>class</strong> <a href="../classinternal_1_1list/"><strong>list</strong></a> <em>Linked list without allocation.</em>   </li>
 <li><strong>struct</strong> <a href="../structmsvc__frame__prefix/"><strong>msvc_frame_prefix</strong></a> <em>MSVC coroutine frame's prefix.</em>   </li>
+<li><strong>class</strong> <a href="../classnull__frame__promise/"><strong>null_frame_promise</strong></a> <em>no suspend in initial/final +</em> <code>void</code> <em>return</em>  </li>
+<li><strong>struct</strong> <a href="../structnull__frame__t/"><strong>null_frame_t</strong></a> <code>void</code> <em>retrun for coroutine function</em>  </li>
+<li><strong>struct</strong> <a href="../structnull__frame__t_1_1promise__type/"><strong>promise_type</strong></a>   </li>
 <li><strong>class</strong> <a href="../classpassive__frame__t/"><strong>passive_frame_t</strong></a> <em>Suspend after invoke and expose its</em> <code>coroutine_handle&lt;void&gt;</code> <em>through return.</em>  </li>
 <li><strong>class</strong> <a href="../classpassive__frame__t_1_1promise__type/"><strong>promise_type</strong></a>   </li>
 <li><strong>class</strong> <a href="../classpromise__aa/"><strong>promise_aa</strong></a> <code>suspend_always</code> <em>(initial) +</em><code>suspend_always</code> <em>(final)</em>  </li>

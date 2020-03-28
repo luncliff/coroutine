@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="structnull__frame__t_1_1promise__type" kind="struct" language="C++" prot="public">
+    <compoundname>null_frame_t::promise_type</compoundname>
+    <basecompoundref refid="classnull__frame__promise" prot="public" virt="non-virtual">null_frame_promise</basecompoundref>
+    <includes refid="return_8h" local="no">return.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structnull__frame__t_1_1promise__type_1addb58f003e1ad4f14e7380486b2df996" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structnull__frame__t" kindref="compound">null_frame_t</ref></type>
+        <definition>null_frame_t null_frame_t::promise_type::get_return_object</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_return_object</name>
+        <briefdescription>
+<para>Since this is template specialization for <computeroutput>void</computeroutput>, the return type is fixed to <computeroutput>void</computeroutput> </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/return.h" line="162" column="1" bodyfile="interface/coroutine/return.h" bodystart="162" bodyend="164"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="324">
+        <label>promise_nn</label>
+        <link refid="classpromise__nn"/>
+      </node>
+      <node id="322">
+        <label>null_frame_t::promise_type</label>
+        <link refid="structnull__frame__t_1_1promise__type"/>
+        <childnode refid="323" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="323">
+        <label>null_frame_promise</label>
+        <link refid="classnull__frame__promise"/>
+        <childnode refid="324" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="327">
+        <label>promise_nn</label>
+        <link refid="classpromise__nn"/>
+      </node>
+      <node id="325">
+        <label>null_frame_t::promise_type</label>
+        <link refid="structnull__frame__t_1_1promise__type"/>
+        <childnode refid="326" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="326">
+        <label>null_frame_promise</label>
+        <link refid="classnull__frame__promise"/>
+        <childnode refid="327" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/return.h" line="158" column="1" bodyfile="interface/coroutine/return.h" bodystart="158" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classpromise__nn_1a5aeb075cbae2b4b7e1e51f7797705f7c" prot="public" virt="non-virtual"><scope>null_frame_t::promise_type</scope><name>final_suspend</name></member>
+      <member refid="structnull__frame__t_1_1promise__type_1addb58f003e1ad4f14e7380486b2df996" prot="public" virt="non-virtual"><scope>null_frame_t::promise_type</scope><name>get_return_object</name></member>
+      <member refid="classpromise__nn_1a6d4e1fa9d0bd22a6e26513c5d99b4ba8" prot="public" virt="non-virtual"><scope>null_frame_t::promise_type</scope><name>initial_suspend</name></member>
+      <member refid="classnull__frame__promise_1ac90bb150d51e2aa1fe18621b24d43324" prot="public" virt="non-virtual"><scope>null_frame_t::promise_type</scope><name>return_void</name></member>
+      <member refid="classnull__frame__promise_1a17588b19466e4c298e46db7c4e995842" prot="public" virt="non-virtual"><scope>null_frame_t::promise_type</scope><name>unhandled_exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

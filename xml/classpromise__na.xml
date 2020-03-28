@@ -39,13 +39,13 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="301">
+      <node id="316">
         <label>frame_t::promise_type</label>
         <link refid="classframe__t_1_1promise__type"/>
-        <childnode refid="300" relation="public-inheritance">
+        <childnode refid="315" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="300">
+      <node id="315">
         <label>promise_na</label>
         <link refid="classpromise__na"/>
       </node>

@@ -40,19 +40,19 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="296">
+      <node id="311">
         <label>passive_frame_t::promise_type</label>
         <link refid="classpassive__frame__t_1_1promise__type"/>
-        <childnode refid="294" relation="public-inheritance">
+        <childnode refid="309" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="295">
+      <node id="310">
         <label>coro::enumerable&lt; T &gt;::promise_type</label>
         <link refid="classcoro_1_1enumerable_1_1promise__type"/>
-        <childnode refid="294" relation="public-inheritance">
+        <childnode refid="309" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="294">
+      <node id="309">
         <label>promise_aa</label>
         <link refid="classpromise__aa"/>
       </node>

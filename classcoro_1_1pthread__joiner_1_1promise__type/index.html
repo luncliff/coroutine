@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/classcoro_1_1pthread__detacher__t_1_1promise__type/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/classcoro_1_1pthread__joiner_1_1promise__type/">
       
       
         <meta name="author" content="Park DongHa">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Class coro::pthread\_detacher\_t::promise\_type - luncliff/coroutine</title>
+        <title>Class coro::pthread\_joiner::promise\_type - luncliff/coroutine</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#class-coropthread_detacher_tpromise_type" tabindex="0" class="md-skip">
+      <a href="#class-coropthread_joinerpromise_type" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Class coro::pthread\_detacher\_t::promise\_type
+                Class coro::pthread\_joiner::promise\_type
               
             </span>
           
@@ -489,13 +489,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#function-return_void" class="md-nav__link">
-    function return_void
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -517,11 +510,11 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/classcoro_1_1pthread__detacher__t_1_1promise__type.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/classcoro_1_1pthread__joiner_1_1promise__type.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="class-coropthread_detacher_tpromise_type">Class coro::pthread_detacher_t::promise_type<a class="headerlink" href="#class-coropthread_detacher_tpromise_type" title="Permanent link">&para;</a></h1>
-<p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacecoro/"><strong>coro</strong></a> <strong>&gt;</strong> <a href="../classcoro_1_1pthread__detacher__t/"><strong>pthread_detacher_t</strong></a> <strong>&gt;</strong> <a href="./"><strong>promise_type</strong></a></p>
+                <h1 id="class-coropthread_joinerpromise_type">Class coro::pthread_joiner::promise_type<a class="headerlink" href="#class-coropthread_joinerpromise_type" title="Permanent link">&para;</a></h1>
+<p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacecoro/"><strong>coro</strong></a> <strong>&gt;</strong> <a href="../classcoro_1_1pthread__joiner/"><strong>pthread_joiner</strong></a> <strong>&gt;</strong> <a href="./"><strong>promise_type</strong></a></p>
 <ul>
 <li><code>#include &lt;pthread.h&gt;</code></li>
 </ul>
@@ -552,16 +545,12 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">auto</td>
+<td align="right">constexpr auto</td>
 <td align="left"><a href="./#function-final-suspend"><strong>final_suspend</strong></a> () noexcept<br></td>
 </tr>
 <tr>
 <td align="right">auto</td>
 <td align="left"><a href="./#function-get-return-object"><strong>get_return_object</strong></a> () noexcept<br></td>
-</tr>
-<tr>
-<td align="right">void</td>
-<td align="left"><a href="./#function-return-void"><strong>return_void</strong></a> () noexcept<br></td>
 </tr>
 </tbody>
 </table>
@@ -588,8 +577,12 @@
 <td align="left"><a href="../classcoro_1_1pthread__spawn__promise/#function-await-transform-33"><strong>await_transform</strong></a> (Awaitable &amp;&amp; a) noexcept<br><em>general co_await</em></td>
 </tr>
 <tr>
-<td align="right">auto</td>
+<td align="right">constexpr auto</td>
 <td align="left"><a href="../classcoro_1_1pthread__spawn__promise/#function-initial-suspend"><strong>initial_suspend</strong></a> () noexcept<br></td>
+</tr>
+<tr>
+<td align="right">constexpr void</td>
+<td align="left"><a href="../classcoro_1_1pthread__spawn__promise/#function-return-void"><strong>return_void</strong></a> () noexcept<br></td>
 </tr>
 <tr>
 <td align="right">void</td>
@@ -599,17 +592,12 @@
 </table>
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="function-final_suspend">function final_suspend<a class="headerlink" href="#function-final_suspend" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_detacher_t</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">final_suspend</span> <span class="p">()</span> <span class="k">noexcept</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_joiner</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">final_suspend</span> <span class="p">()</span> <span class="k">noexcept</span>
 </code></pre></div>
 
 
 <h3 id="function-get_return_object">function get_return_object<a class="headerlink" href="#function-get_return_object" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_detacher_t</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">get_return_object</span> <span class="p">()</span> <span class="k">noexcept</span>
-</code></pre></div>
-
-
-<h3 id="function-return_void">function return_void<a class="headerlink" href="#function-return_void" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_detacher_t</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">return_void</span> <span class="p">()</span> <span class="k">noexcept</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_joiner</span><span class="o">::</span><span class="n">promise_type</span><span class="o">::</span><span class="n">get_return_object</span> <span class="p">()</span> <span class="k">noexcept</span>
 </code></pre></div>
 
 

@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classcoro_1_1pthread__joiner" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::pthread_joiner</compoundname>
+    <includes refid="pthread_8h" local="no">pthread.h</includes>
+    <innerclass refid="classcoro_1_1pthread__joiner_1_1promise__type" prot="public">coro::pthread_joiner::promise_type</innerclass>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classcoro_1_1pthread__joiner_1a57917bb91eca1c2111788d14137e75d0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class promise_type</definition>
+        <argsstring></argsstring>
+        <name>promise_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="113" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcoro_1_1pthread__joiner_1a724afcd59af2417c9c674f137e7ecc10" prot="private" static="no" mutable="no">
+        <type><ref refid="classcoro_1_1pthread__spawn__promise" kindref="compound">pthread_spawn_promise</ref> *</type>
+        <definition>pthread_spawn_promise* coro::pthread_joiner::promise</definition>
+        <argsstring></argsstring>
+        <name>promise</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="127" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcoro_1_1pthread__joiner_1a99a68d5f0180acb94ed0ac7063da9c99" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_joiner::pthread_joiner</definition>
+        <argsstring>(promise_type *p) noexcept(false)</argsstring>
+        <name>pthread_joiner</name>
+        <param>
+          <type><ref refid="classcoro_1_1pthread__joiner_1_1promise__type" kindref="compound">promise_type</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="130" column="1" bodyfile="modules/system/pthread.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1pthread__joiner_1a652d49a013b6ed705e5be84e527fc2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_joiner::~pthread_joiner</definition>
+        <argsstring>() noexcept(false)</argsstring>
+        <name>~pthread_joiner</name>
+        <briefdescription>
+<para>try to join the related thread </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>pthread_join </para></simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="138" column="1" bodyfile="modules/system/pthread.cpp" bodystart="29" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__joiner_1a995114d0d6973c795c13e72bc2cb699b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_joiner::pthread_joiner</definition>
+        <argsstring>(const pthread_joiner &amp;)=delete</argsstring>
+        <name>pthread_joiner</name>
+        <param>
+          <type>const <ref refid="classcoro_1_1pthread__joiner" kindref="compound">pthread_joiner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="140" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__joiner_1a4a40e25516c779dbed179f7ade8f56a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcoro_1_1pthread__joiner" kindref="compound">pthread_joiner</ref> &amp;</type>
+        <definition>pthread_joiner&amp; coro::pthread_joiner::operator=</definition>
+        <argsstring>(const pthread_joiner &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classcoro_1_1pthread__joiner" kindref="compound">pthread_joiner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="141" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__joiner_1a466cba34db3cf6986f0d100bdd8b4e87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_joiner::pthread_joiner</definition>
+        <argsstring>(pthread_joiner &amp;&amp;)=default</argsstring>
+        <name>pthread_joiner</name>
+        <param>
+          <type><ref refid="classcoro_1_1pthread__joiner" kindref="compound">pthread_joiner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="142" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__joiner_1a5a5ada4e790ecec062be3cede4165824" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcoro_1_1pthread__joiner" kindref="compound">pthread_joiner</ref> &amp;</type>
+        <definition>pthread_joiner&amp; coro::pthread_joiner::operator=</definition>
+        <argsstring>(pthread_joiner &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classcoro_1_1pthread__joiner" kindref="compound">pthread_joiner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="143" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__joiner_1aa4f702ed9af225f7099ccfed2626abe0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>coro::pthread_joiner::operator pthread_t</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator pthread_t</name>
+        <briefdescription>
+<para>allow access to the <computeroutput>tid</computeroutput> </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>pthread_t </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="149" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="149" bodyend="151"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Special return type that wraps <computeroutput>pthread_join</computeroutput> </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="see"><para>pthread_join </para></simplesect>
+</para>    </detaileddescription>
+    <location file="interface/coroutine/pthread.h" line="112" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="112" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1pthread__joiner_1aa4f702ed9af225f7099ccfed2626abe0" prot="public" virt="non-virtual"><scope>coro::pthread_joiner</scope><name>operator pthread_t</name></member>
+      <member refid="classcoro_1_1pthread__joiner_1a4a40e25516c779dbed179f7ade8f56a1" prot="public" virt="non-virtual"><scope>coro::pthread_joiner</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1pthread__joiner_1a5a5ada4e790ecec062be3cede4165824" prot="public" virt="non-virtual"><scope>coro::pthread_joiner</scope><name>operator=</name></member>
+      <member refid="classcoro_1_1pthread__joiner_1a724afcd59af2417c9c674f137e7ecc10" prot="private" virt="non-virtual"><scope>coro::pthread_joiner</scope><name>promise</name></member>
+      <member refid="classcoro_1_1pthread__joiner_1a57917bb91eca1c2111788d14137e75d0" prot="private" virt="non-virtual"><scope>coro::pthread_joiner</scope><name>promise_type</name></member>
+      <member refid="classcoro_1_1pthread__joiner_1a99a68d5f0180acb94ed0ac7063da9c99" prot="private" virt="non-virtual"><scope>coro::pthread_joiner</scope><name>pthread_joiner</name></member>
+      <member refid="classcoro_1_1pthread__joiner_1a995114d0d6973c795c13e72bc2cb699b" prot="public" virt="non-virtual"><scope>coro::pthread_joiner</scope><name>pthread_joiner</name></member>
+      <member refid="classcoro_1_1pthread__joiner_1a466cba34db3cf6986f0d100bdd8b4e87" prot="public" virt="non-virtual"><scope>coro::pthread_joiner</scope><name>pthread_joiner</name></member>
+      <member refid="classcoro_1_1pthread__joiner_1a652d49a013b6ed705e5be84e527fc2e4" prot="public" virt="non-virtual"><scope>coro::pthread_joiner</scope><name>~pthread_joiner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

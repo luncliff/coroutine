@@ -19,26 +19,26 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="225">
+      <node id="233">
         <label>std::coro_traits_sfinae&lt; _Ret &gt;</label>
         <link refid="structstd_1_1coro__traits__sfinae"/>
       </node>
-      <node id="224">
+      <node id="232">
         <label>std::experimental::coroutine_traits&lt; _Ret, _Ts &gt;</label>
         <link refid="structstd_1_1experimental_1_1coroutine__traits"/>
-        <childnode refid="225" relation="public-inheritance">
+        <childnode refid="233" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="227">
+      <node id="235">
         <label>std::coro_traits_sfinae&lt; _Ret &gt;</label>
         <link refid="structstd_1_1coro__traits__sfinae"/>
       </node>
-      <node id="226">
+      <node id="234">
         <label>std::experimental::coroutine_traits&lt; _Ret, _Ts &gt;</label>
         <link refid="structstd_1_1experimental_1_1coroutine__traits"/>
-        <childnode refid="227" relation="public-inheritance">
+        <childnode refid="235" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

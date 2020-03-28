@@ -3,6 +3,7 @@
   <compounddef id="namespacecoro" kind="namespace" language="C++">
     <compoundname>coro</compoundname>
     <innerclass refid="classcoro_1_1continue__on__apc" prot="public">coro::continue_on_apc</innerclass>
+    <innerclass refid="classcoro_1_1continue__on__pthread" prot="public">coro::continue_on_pthread</innerclass>
     <innerclass refid="classcoro_1_1continue__on__thread__pool" prot="public">coro::continue_on_thread_pool</innerclass>
     <innerclass refid="classcoro_1_1enumerable" prot="public">coro::enumerable</innerclass>
     <innerclass refid="classcoro_1_1epoll__owner" prot="public">coro::epoll_owner</innerclass>
@@ -13,11 +14,9 @@
     <innerclass refid="classcoro_1_1io__send__to" prot="public">coro::io_send_to</innerclass>
     <innerclass refid="classcoro_1_1io__work__t" prot="public">coro::io_work_t</innerclass>
     <innerclass refid="classcoro_1_1kqueue__owner" prot="public">coro::kqueue_owner</innerclass>
-    <innerclass refid="classcoro_1_1pthread__detacher__t" prot="public">coro::pthread_detacher_t</innerclass>
-    <innerclass refid="classcoro_1_1pthread__joiner__t" prot="public">coro::pthread_joiner_t</innerclass>
-    <innerclass refid="classcoro_1_1pthread__knower__t" prot="public">coro::pthread_knower_t</innerclass>
+    <innerclass refid="classcoro_1_1pthread__detacher" prot="public">coro::pthread_detacher</innerclass>
+    <innerclass refid="classcoro_1_1pthread__joiner" prot="public">coro::pthread_joiner</innerclass>
     <innerclass refid="classcoro_1_1pthread__spawn__promise" prot="public">coro::pthread_spawn_promise</innerclass>
-    <innerclass refid="classcoro_1_1pthread__spawner__t" prot="public">coro::pthread_spawner_t</innerclass>
     <innerclass refid="classcoro_1_1section" prot="public">coro::section</innerclass>
     <innerclass refid="classcoro_1_1set__or__cancel" prot="public">coro::set_or_cancel</innerclass>
       <sectiondef kind="typedef">

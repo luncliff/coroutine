@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classcoro_1_1continue__on__pthread" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::continue_on_pthread</compoundname>
+    <includes refid="pthread_8h" local="no">pthread.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcoro_1_1continue__on__pthread_1a1002b32167ed3c18656bd719a073604a" prot="private" static="no" mutable="no">
+        <type>pthread_t *const</type>
+        <definition>pthread_t* const coro::continue_on_pthread::ptr</definition>
+        <argsstring></argsstring>
+        <name>ptr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="38" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcoro_1_1continue__on__pthread_1aa1413495d8f4316f7dba32b85fe22cdd" prot="private" static="no" mutable="no">
+        <type>const pthread_attr_t *const</type>
+        <definition>const pthread_attr_t* const coro::continue_on_pthread::attr</definition>
+        <argsstring></argsstring>
+        <name>attr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="39" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classcoro_1_1continue__on__pthread_1a57efdf3833211471ee323646af27545e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t coro::continue_on_pthread::spawn</definition>
+        <argsstring>(pthread_t &amp;tid, const pthread_attr_t *attr, coroutine_handle&lt; void &gt; coro) noexcept(false)</argsstring>
+        <name>spawn</name>
+        <param>
+          <type>pthread_t &amp;</type>
+          <declname>tid</declname>
+        </param>
+        <param>
+          <type>const pthread_attr_t *</type>
+          <declname>attr</declname>
+        </param>
+        <param>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>coro</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>pthread_create </para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coro</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="33" column="1" bodyfile="modules/system/pthread.cpp" bodystart="19" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1continue__on__pthread_1ae8d482acbbbe5b8fabf38f005cd8d824" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * coro::continue_on_pthread::on_pthread</definition>
+        <argsstring>(void *ptr) noexcept(false)</argsstring>
+        <name>on_pthread</name>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="35" column="1" bodyfile="modules/system/pthread.cpp" bodystart="9" bodyend="16"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1continue__on__pthread_1a51fc75b8e9e652c7487ac2e9ffa6f3d1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool coro::continue_on_pthread::await_ready</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>await_ready</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="42" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1continue__on__pthread_1aa6156beef686a02a353dcea723c45f6f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::continue_on_pthread::await_resume</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>await_resume</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="45" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="45" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1continue__on__pthread_1a3c86d5767ce358fb31aa165137b2deb5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void coro::continue_on_pthread::await_suspend</definition>
+        <argsstring>(coroutine_handle&lt; void &gt; coro) noexcept(false)</argsstring>
+        <name>await_suspend</name>
+        <param>
+          <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref>&lt; void &gt;</type>
+          <declname>coro</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="47" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="47" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1continue__on__pthread_1a2e040932f46f11276aa8ed71f463834b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>coro::continue_on_pthread::continue_on_pthread</definition>
+        <argsstring>(pthread_t &amp;tid, const pthread_attr_t *attr)</argsstring>
+        <name>continue_on_pthread</name>
+        <param>
+          <type>pthread_t &amp;</type>
+          <declname>tid</declname>
+        </param>
+        <param>
+          <type>const pthread_attr_t *</type>
+          <declname>attr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="54" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="54" bodyend="56"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Creates a new POSIX Thread and resume the given coroutine handle on it. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="interface/coroutine/pthread.h" line="28" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="28" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1continue__on__pthread_1aa1413495d8f4316f7dba32b85fe22cdd" prot="private" virt="non-virtual"><scope>coro::continue_on_pthread</scope><name>attr</name></member>
+      <member refid="classcoro_1_1continue__on__pthread_1a51fc75b8e9e652c7487ac2e9ffa6f3d1" prot="public" virt="non-virtual"><scope>coro::continue_on_pthread</scope><name>await_ready</name></member>
+      <member refid="classcoro_1_1continue__on__pthread_1aa6156beef686a02a353dcea723c45f6f" prot="public" virt="non-virtual"><scope>coro::continue_on_pthread</scope><name>await_resume</name></member>
+      <member refid="classcoro_1_1continue__on__pthread_1a3c86d5767ce358fb31aa165137b2deb5" prot="public" virt="non-virtual"><scope>coro::continue_on_pthread</scope><name>await_suspend</name></member>
+      <member refid="classcoro_1_1continue__on__pthread_1a2e040932f46f11276aa8ed71f463834b" prot="public" virt="non-virtual"><scope>coro::continue_on_pthread</scope><name>continue_on_pthread</name></member>
+      <member refid="classcoro_1_1continue__on__pthread_1ae8d482acbbbe5b8fabf38f005cd8d824" prot="private" virt="non-virtual"><scope>coro::continue_on_pthread</scope><name>on_pthread</name></member>
+      <member refid="classcoro_1_1continue__on__pthread_1a1002b32167ed3c18656bd719a073604a" prot="private" virt="non-virtual"><scope>coro::continue_on_pthread</scope><name>ptr</name></member>
+      <member refid="classcoro_1_1continue__on__pthread_1a57efdf3833211471ee323646af27545e" prot="private" virt="non-virtual"><scope>coro::continue_on_pthread</scope><name>spawn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

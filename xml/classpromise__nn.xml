@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
   <compounddef id="classpromise__nn" kind="class" language="C++" prot="public">
     <compoundname>promise_nn</compoundname>
+    <derivedcompoundref refid="classnull__frame__promise" prot="public" virt="non-virtual">null_frame_promise</derivedcompoundref>
     <includes refid="return_8h" local="no">return.h</includes>
       <sectiondef kind="public-func">
       <memberdef kind="function" id="classpromise__nn_1a6d4e1fa9d0bd22a6e26513c5d99b4ba8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
@@ -37,6 +38,24 @@
 <para><computeroutput>suspend_never</computeroutput>(initial) + <computeroutput>suspend_never</computeroutput>(final) </para>    </briefdescription>
     <detaileddescription>
     </detaileddescription>
+    <inheritancegraph>
+      <node id="318">
+        <label>promise_nn</label>
+        <link refid="classpromise__nn"/>
+      </node>
+      <node id="320">
+        <label>null_frame_t::promise_type</label>
+        <link refid="structnull__frame__t_1_1promise__type"/>
+        <childnode refid="319" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="319">
+        <label>null_frame_promise</label>
+        <link refid="classnull__frame__promise"/>
+        <childnode refid="318" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
     <location file="interface/coroutine/return.h" line="42" column="1" bodyfile="interface/coroutine/return.h" bodystart="42" bodyend="58"/>
     <listofallmembers>
       <member refid="classpromise__nn_1a5aeb075cbae2b4b7e1e51f7797705f7c" prot="public" virt="non-virtual"><scope>promise_nn</scope><name>final_suspend</name></member>

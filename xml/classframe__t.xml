@@ -22,7 +22,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/return.h" line="159" column="1" bodyfile="interface/coroutine/return.h" bodystart="159" bodyend="160"/>
+        <location file="interface/coroutine/return.h" line="201" column="1" bodyfile="interface/coroutine/return.h" bodystart="201" bodyend="202"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -32,28 +32,28 @@
 <simplesect kind="see"><para><ref refid="classpromise__na" kindref="compound">promise_na</ref> </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="237">
+      <node id="245">
         <label>coroutine_handle&lt; void &gt;</label>
       </node>
-      <node id="236">
+      <node id="244">
         <label>frame_t</label>
         <link refid="classframe__t"/>
-        <childnode refid="237" relation="public-inheritance">
+        <childnode refid="245" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="239">
+      <node id="247">
         <label>coroutine_handle&lt; void &gt;</label>
       </node>
-      <node id="238">
+      <node id="246">
         <label>frame_t</label>
         <link refid="classframe__t"/>
-        <childnode refid="239" relation="public-inheritance">
+        <childnode refid="247" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/return.h" line="134" column="1" bodyfile="interface/coroutine/return.h" bodystart="134" bodyend="162"/>
+    <location file="interface/coroutine/return.h" line="176" column="1" bodyfile="interface/coroutine/return.h" bodystart="176" bodyend="204"/>
     <listofallmembers>
       <member refid="classframe__t_1a1fc79f08edd65832685b317604d6ba7b" prot="public" virt="non-virtual"><scope>frame_t</scope><name>frame_t</name></member>
     </listofallmembers>

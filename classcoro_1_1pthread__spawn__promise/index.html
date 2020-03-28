@@ -485,7 +485,7 @@
 <ul>
 <li><code>#include &lt;pthread.h&gt;</code></li>
 </ul>
-<p>Inherited by the following classes: <a href="../classcoro_1_1pthread__detacher__t_1_1promise__type/">coro::pthread_detacher_t::promise_type</a>,  <a href="../classcoro_1_1pthread__joiner__t_1_1promise__type/">coro::pthread_joiner_t::promise_type</a></p>
+<p>Inherited by the following classes: <a href="../classcoro_1_1pthread__detacher_1_1promise__type/">coro::pthread_detacher::promise_type</a>,  <a href="../classcoro_1_1pthread__joiner_1_1promise__type/">coro::pthread_joiner::promise_type</a></p>
 <h2 id="public-attributes">Public Attributes<a class="headerlink" href="#public-attributes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -523,8 +523,12 @@
 <td align="left"><a href="./#function-await-transform-33"><strong>await_transform</strong></a> (Awaitable &amp;&amp; a) noexcept<br><em>general co_await</em></td>
 </tr>
 <tr>
-<td align="right">auto</td>
+<td align="right">constexpr auto</td>
 <td align="left"><a href="./#function-initial-suspend"><strong>initial_suspend</strong></a> () noexcept<br></td>
+</tr>
+<tr>
+<td align="right">constexpr void</td>
+<td align="left"><a href="./#function-return-void"><strong>return_void</strong></a> () noexcept<br></td>
 </tr>
 <tr>
 <td align="right">void</td>
@@ -566,7 +570,12 @@ The type wraps <code>pthread_create</code> function. After spawn, it contains th
 
 
 <h3 id="function-initial_suspend">function initial_suspend<a class="headerlink" href="#function-initial_suspend" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_spawn_promise</span><span class="o">::</span><span class="n">initial_suspend</span> <span class="p">()</span> <span class="k">noexcept</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_spawn_promise</span><span class="o">::</span><span class="n">initial_suspend</span> <span class="p">()</span> <span class="k">noexcept</span>
+</code></pre></div>
+
+
+<h3 id="function-return_void">function return_void<a class="headerlink" href="#function-return_void" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="k">constexpr</span> <span class="kt">void</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_spawn_promise</span><span class="o">::</span><span class="n">return_void</span> <span class="p">()</span> <span class="k">noexcept</span>
 </code></pre></div>
 
 

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classcoro_1_1pthread__detacher_1_1promise__type" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>coro::pthread_detacher::promise_type</compoundname>
+    <basecompoundref refid="classcoro_1_1pthread__spawn__promise" prot="public" virt="non-virtual">coro::pthread_spawn_promise</basecompoundref>
+    <includes refid="pthread_8h" local="no">pthread.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcoro_1_1pthread__detacher_1_1promise__type_1a0521d20b37a60cf1ebaadf89f023b909" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr auto</type>
+        <definition>constexpr auto coro::pthread_detacher::promise_type::final_suspend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>final_suspend</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="166" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="166" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classcoro_1_1pthread__detacher_1_1promise__type_1a0b30998c32449617236636a2550b7f68" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto coro::pthread_detacher::promise_type::get_return_object</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_return_object</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="interface/coroutine/pthread.h" line="169" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="169" bodyend="171"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="329">
+        <label>coro::pthread_spawn_promise</label>
+        <link refid="classcoro_1_1pthread__spawn__promise"/>
+      </node>
+      <node id="328">
+        <label>coro::pthread_detacher::promise_type</label>
+        <link refid="classcoro_1_1pthread__detacher_1_1promise__type"/>
+        <childnode refid="329" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="331">
+        <label>coro::pthread_spawn_promise</label>
+        <link refid="classcoro_1_1pthread__spawn__promise"/>
+      </node>
+      <node id="330">
+        <label>coro::pthread_detacher::promise_type</label>
+        <link refid="classcoro_1_1pthread__detacher_1_1promise__type"/>
+        <childnode refid="331" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="interface/coroutine/pthread.h" line="162" column="1" bodyfile="interface/coroutine/pthread.h" bodystart="162" bodyend="172"/>
+    <listofallmembers>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a0001ebb427fe3da1857b36bb3b483eb0" prot="public" virt="non-virtual"><scope>coro::pthread_detacher::promise_type</scope><name>await_transform</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a3b8bf1c50daa6f9a8dd7e21d9ce264ef" prot="public" virt="non-virtual"><scope>coro::pthread_detacher::promise_type</scope><name>await_transform</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a0d23e2a68f2715d37f2621788869cc2f" prot="public" virt="non-virtual"><scope>coro::pthread_detacher::promise_type</scope><name>await_transform</name></member>
+      <member refid="classcoro_1_1pthread__detacher_1_1promise__type_1a0521d20b37a60cf1ebaadf89f023b909" prot="public" virt="non-virtual"><scope>coro::pthread_detacher::promise_type</scope><name>final_suspend</name></member>
+      <member refid="classcoro_1_1pthread__detacher_1_1promise__type_1a0b30998c32449617236636a2550b7f68" prot="public" virt="non-virtual"><scope>coro::pthread_detacher::promise_type</scope><name>get_return_object</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1aea878708819ba45e338452687c8543e0" prot="public" virt="non-virtual"><scope>coro::pthread_detacher::promise_type</scope><name>initial_suspend</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a6d4ce41289e377832680e59d5a3d23ea" prot="public" virt="non-virtual"><scope>coro::pthread_detacher::promise_type</scope><name>return_void</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1ab97d78b547d3e294c41777520054dc49" prot="public" virt="non-virtual"><scope>coro::pthread_detacher::promise_type</scope><name>tid</name></member>
+      <member refid="classcoro_1_1pthread__spawn__promise_1a376471c18a55b430110ee8cd4e7c5b05" prot="public" virt="non-virtual"><scope>coro::pthread_detacher::promise_type</scope><name>unhandled_exception</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
