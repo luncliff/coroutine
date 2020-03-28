@@ -6,7 +6,7 @@
 
 using namespace coro;
 
-auto no_spawn_coroutine() -> pthread_detacher_t {
+auto no_spawn_coroutine() -> pthread_detacher {
     co_await suspend_never{};
 }
 
