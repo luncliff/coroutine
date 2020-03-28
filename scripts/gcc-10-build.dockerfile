@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 LABEL maintainer="luncliff@gmail.com"
 
 RUN apt update -y -qq &&\
-    apt install -y -qq g++-10 rsync tar unzip wget cmake
+    apt install -y -qq g++-10 rsync tar unzip wget cmake python3
 
 ENV CC=gcc-10 CXX=g++-10
 WORKDIR /code
