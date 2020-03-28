@@ -9,6 +9,9 @@
 
     See Also
         scripts/create-coerage-xml.ps1
+        https://docs.sonarqube.org/latest/analysis/languages/cfamily/
+        https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-azure-devops/
+        https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-msbuild/
 
 #>
 $workspace = Get-Location

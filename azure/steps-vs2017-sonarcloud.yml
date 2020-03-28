@@ -1,0 +1,66 @@
+pool:
+  name: Hosted VS2017
+  demands:
+    - cmake
+    - java
+  timeoutInMinutes: 20
+
+steps:
+  - task: SonarCloudPrepare@1
+    displayName: "Prepare analysis on SonarCloud"
+    inputs:
+      SonarCloud: "luncliff-sonarcloud"
+      organization: "luncliff-github"
+      projectKey: "luncliff_coroutine"
+      projectName: "luncliff-coroutine"
+      extraProperties: |
+        sonar.login=$(sonarcloud-login-key)
+        sonar.sourceEncoding=UTF-8
+        sonar.cpp.std=c++17
+        sonar.cfamily.threads=2
+        sonar.cfamily.build-wrapper-output=bw-output
+        sonar.cfamily.vscoveragexml.reportsPath=**/*coroutine*.coveragexml
+        # sonar.sources=interface/,src/,test/
+        sonar.exclusions=external/,CMakeFiles/
+
+  - task: PowerShell@2
+    displayName: "Download Sonar Build Wrapper"
+    inputs:
+      targetType: filePath
+      filePath: "./scripts/sonar-wrapper-download.ps1"
+
+  - task: CMake@1
+    displayName: "Generate solution file"
+    inputs:
+      cmakeArgs: '. -A "x64" -DCMAKE_BUILD_TYPE="Debug" -DBUILD_SHARED_LIBS=false -DBUILD_TESTING=true '
+
+  - task: PowerShell@2
+    displayName: "Build with Sonar Build Wrapper"
+    inputs:
+      targetType: filePath
+      filePath: "./scripts/sonar-wrapper-build.ps1"
+
+  - powershell: |
+      $target_file = "../bw-output/build-wrapper-dump.json"
+      $temp_file = "./build-wrapper-dump.json"
+      Move-Item $target_file $temp_file
+      $text = Get-Content $temp_file
+      # Sonar doesn't support /std:c++latest. Replace it to C++ 17
+      # but notice that this replace uses regular expression !!!
+      $text -replace "latest", "17" | Set-Content -Path $target_file
+    errorActionPreference: silentlyContinue
+    displayName: "Edit build-wrapper-dump.json"
+
+  - task: PowerShell@2
+    displayName: "Create XML from coverage"
+    inputs:
+      targetType: filePath
+      filePath: "./scripts/create-coverage-xml.ps1"
+
+  - task: SonarCloudAnalyze@1
+    displayName: "Run Code Analysis"
+    continueOnError: true
+
+  - task: SonarCloudPublish@1
+    displayName: "Publish Quality Gate Result"
+    continueOnError: true
