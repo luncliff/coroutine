@@ -20,9 +20,14 @@ using namespace std;
 using namespace coro;
 
 using io_buffer_reserved_t = array<std::byte, 3900>;
+#if defined(__GNUC__)
+using no_return_t = coro::null_frame_t;
+#else
+using no_return_t = std::nullptr_t;
+#endif
 
 auto udp_recv_datagram(int64_t sd, io_work_t& work, //
-                       int64_t& rsz, latch& wg) -> nullptr_t {
+                       int64_t& rsz, latch& wg) -> no_return_t {
 
     auto on_return = gsl::finally([&wg]() {
         try {
@@ -30,6 +35,7 @@ auto udp_recv_datagram(int64_t sd, io_work_t& work, //
         } catch (const std::system_error& e) {
             fputs(e.what(), stderr);
         }
+        fprintf(stderr, "%s\n", "udp_recv_datagram");
     });
     sockaddr_in remote{};
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
@@ -47,7 +53,7 @@ auto udp_recv_datagram(int64_t sd, io_work_t& work, //
 
 auto udp_send_datagram(int64_t sd, io_work_t& work, //
                        const sockaddr_in& remote, int64_t& ssz, latch& wg)
-    -> nullptr_t {
+    -> no_return_t {
 
     auto on_return = gsl::finally([&wg]() {
         try {
@@ -55,6 +61,7 @@ auto udp_send_datagram(int64_t sd, io_work_t& work, //
         } catch (const std::system_error& e) {
             fputs(e.what(), stderr);
         }
+        fprintf(stderr, "%s\n", "udp_send_datagram");
     });
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
@@ -69,7 +76,7 @@ auto udp_send_datagram(int64_t sd, io_work_t& work, //
     assert(static_cast<size_t>(ssz) == storage.size());
 }
 
-auto udp_echo_service(int64_t sd) -> nullptr_t {
+auto udp_echo_service(int64_t sd) -> no_return_t {
     sockaddr_in remote{};
     io_work_t work{};
     io_buffer_t buf{};              // memory view to the 'storage'
@@ -175,7 +182,7 @@ int main(int, char*[]) {
     do {
         // perform APC on Windows,
         // polling in the other platform
-        poll_net_tasks(2'000);
+        poll_net_tasks(2'000'000);
     } while (wg.try_wait() == false);
 
     // This is an echo. so receive/send length must be equal !

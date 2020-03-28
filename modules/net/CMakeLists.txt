@@ -97,14 +97,3 @@ elseif(UNIX) # actually we can't sure it's a linux here ...
         io_linux.cpp
     )
 endif()
-
-install(FILES   ${MODULE_INTERFACE_DIR}/coroutine/net.h
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/coroutine
-)
-install(TARGETS         coroutine_net
-        EXPORT          coroutine-config
-        INCLUDES DESTINATION ${CMAKE_INSTALL_PREFIX}/include
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-)

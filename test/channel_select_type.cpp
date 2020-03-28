@@ -13,12 +13,17 @@ using namespace coro;
 
 using u32_chan_t = channel<uint32_t>;
 using i32_chan_t = channel<int32_t>;
+#if defined(__GNUC__)
+using no_return_t = coro::null_frame_t;
+#else
+using no_return_t = std::nullptr_t;
+#endif
 
 int main(int, char*[]) {
     u32_chan_t ch1{};
     i32_chan_t ch2{};
 
-    auto write_to = [](auto& ch, auto value, bool ok = false) -> nullptr_t {
+    auto write_to = [](auto& ch, auto value, bool ok = false) -> no_return_t {
         ok = co_await ch.write(value);
         if (ok == false)
             // !!!!!
@@ -42,7 +47,7 @@ int main(int, char*[]) {
             exit(__LINE__);
         },
         ch1,
-        [](auto v) -> nullptr_t {
+        [](auto v) -> no_return_t {
             static_assert(is_same_v<decltype(v), uint32_t>);
             assert(v == 17u);
             co_await suspend_never{};

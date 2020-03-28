@@ -8,7 +8,7 @@ using namespace coro;
 using namespace std;
 
 auto multiple_spawn_coroutine(atomic_bool& throwed, const pthread_attr_t* attr)
-    -> pthread_joiner_t {
+    -> pthread_joiner {
     try {
         co_await attr;
         co_await attr; // can't spawn mutliple times

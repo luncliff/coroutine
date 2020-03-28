@@ -21,7 +21,12 @@ using namespace std;
 using namespace coro;
 
 using io_buffer_reserved_t = array<std::byte, 3900>;
-using on_accept_handler = auto (*)(int64_t) -> nullptr_t;
+#if defined(__GNUC__)
+using no_return_t = coro::null_frame_t;
+#else
+using no_return_t = std::nullptr_t;
+#endif
+using on_accept_handler = auto (*)(int64_t) -> no_return_t;
 
 bool is_async_pending(uint32_t ec) noexcept {
     switch (ec) {
@@ -41,17 +46,16 @@ bool is_async_pending(uint32_t ec) noexcept {
 }
 
 //  Accept socket connects and invoke designated function
-auto accept_until_error(int64_t ln, on_accept_handler service) {
+uint32_t tcp_accept(int64_t ln, on_accept_handler service, size_t& count) {
     while (true) {
         // next accept is non-blocking
         socket_set_option_nonblock(ln);
         int64_t cs{};
         socket_accept(ln, cs);
-        if (cs < 0) // accept failed
-            // auto ec = recent_net_error();
-            // system_category().message(ec)
-            return;
+        if (cs < 0)
+            break; // accept failed
 
+        ++count;
         socket_set_option_nonblock(cs); // set some options
         socket_set_option_nodelay(cs);
         socket_set_option_recv_timout(cs, 1000);
@@ -59,11 +63,12 @@ auto accept_until_error(int64_t ln, on_accept_handler service) {
         // attach(spawn) a service coroutine
         service(cs);
     }
+    return socket_recent();
 }
 
 // Receive some bytes from the socket and echo back
 // continue until EOF
-auto tcp_echo_service(int64_t sd) -> nullptr_t {
+auto tcp_echo_service(int64_t sd) -> no_return_t {
     auto on_return = gsl::finally([=]() { socket_close(sd); });
 
     io_work_t work{};
@@ -91,7 +96,7 @@ SendData:
 }
 
 auto tcp_recv_stream(int64_t sd, io_work_t& work, //
-                     int64_t& rsz, latch& wg) -> nullptr_t {
+                     int64_t& rsz, latch& wg) -> no_return_t {
 
     auto on_return = gsl::finally([&wg]() {
         try {
@@ -99,6 +104,7 @@ auto tcp_recv_stream(int64_t sd, io_work_t& work, //
         } catch (const std::system_error& e) {
             fputs(e.what(), stderr);
         }
+        fprintf(stderr, "%s\n", "tcp_recv_stream");
     });
 
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
@@ -113,7 +119,7 @@ auto tcp_recv_stream(int64_t sd, io_work_t& work, //
 }
 
 auto tcp_send_stream(int64_t sd, io_work_t& work, //
-                     int64_t& ssz, latch& wg) -> nullptr_t {
+                     int64_t& ssz, latch& wg) -> no_return_t {
 
     auto on_return = gsl::finally([&wg]() {
         try {
@@ -121,6 +127,7 @@ auto tcp_send_stream(int64_t sd, io_work_t& work, //
         } catch (const std::system_error& e) {
             fputs(e.what(), stderr);
         }
+        fprintf(stderr, "%s\n", "tcp_send_stream");
     });
 
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
@@ -198,9 +205,12 @@ int main(int, char*[]) {
             socket_close(sd);
     });
 
+    size_t count = 0;
     // Accept all in the backlog
     // accepted sockets will be served by the 'tcp_echo_service'
-    accept_until_error(ln, tcp_echo_service);
+    if (auto ec = tcp_accept(ln, tcp_echo_service, count))
+        assert(is_async_pending(ec));
+    assert(count == 4);
 
     // We will spawn some coroutines and wait them to return using `latch`.
     // Those coroutines will perform send/recv operation on the socket
@@ -218,7 +228,7 @@ int main(int, char*[]) {
     do {
         // perform APC on Windows,
         // polling in the other platform
-        poll_net_tasks(2'000);
+        poll_net_tasks(2'000'000);
     } while (wg.try_wait() == false);
 
     // This is an echo. so receive/send length must be equal !

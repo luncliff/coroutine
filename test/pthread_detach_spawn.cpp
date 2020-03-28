@@ -11,7 +11,7 @@
 using namespace coro;
 
 auto multiple_spawn_coroutine(std::atomic_bool& p, const pthread_attr_t* attr)
-    -> pthread_detacher_t {
+    -> pthread_detacher {
     try {
         co_await attr;
         co_await attr; // can't spawn mutliple times
@@ -23,7 +23,7 @@ auto multiple_spawn_coroutine(std::atomic_bool& p, const pthread_attr_t* attr)
     }
 }
 
-int main(int, char* []) {
+int main(int, char*[]) {
     std::atomic_bool errored = false;
     {
         // detacher uses `pthread_detach` in its destructor.

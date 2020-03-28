@@ -1,6 +1,8 @@
 /**
  * @author github.com/luncliff (luncliff@gmail.com)
  */
+#include <cstring>
+
 #include <coroutine/pthread.h>
 #include <coroutine/return.h>
 
@@ -8,7 +10,7 @@ using namespace std;
 using namespace coro;
 
 auto spawn_and_join(pthread_t& tid, const pthread_attr_t* attr)
-    -> pthread_joiner_t {
+    -> pthread_joiner {
     co_await attr;
     tid = pthread_self();
     co_return;

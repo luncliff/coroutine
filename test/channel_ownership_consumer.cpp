@@ -10,10 +10,15 @@
 
 using namespace std;
 using namespace coro;
+#if defined(__GNUC__)
+using no_return_t = coro::null_frame_t;
+#else
+using no_return_t = std::nullptr_t;
+#endif
 
 constexpr int bye = 0;
 
-auto producer(channel<int>& ch) -> nullptr_t {
+auto producer(channel<int>& ch) -> no_return_t {
     for (int msg : {1, 2, 3, bye}) {
         auto ok = co_await ch.write(msg);
         // ok == true: we sent a value
@@ -30,7 +35,7 @@ auto producer(channel<int>& ch) -> nullptr_t {
     puts("channel destruction detected");
 }
 
-auto consumer_owner() -> nullptr_t {
+auto consumer_owner() -> no_return_t {
     channel<int> ch{};
     producer(ch); // start a producer routine
 

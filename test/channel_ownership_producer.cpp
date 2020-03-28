@@ -10,10 +10,15 @@
 
 using namespace std;
 using namespace coro;
+#if defined(__GNUC__)
+using no_return_t = coro::null_frame_t;
+#else
+using no_return_t = std::nullptr_t;
+#endif
 
 constexpr int bye = 0;
 
-auto consumer(channel<int>& ch) -> nullptr_t {
+auto consumer(channel<int>& ch) -> no_return_t {
     // the type doesn't support for-co_await for now
     for (auto [msg, ok] = co_await ch.read(); ok;
          tie(msg, ok) = co_await ch.read()) {
@@ -32,7 +37,7 @@ auto consumer(channel<int>& ch) -> nullptr_t {
     puts("channel destruction detected");
 }
 
-auto producer_owner() -> nullptr_t {
+auto producer_owner() -> no_return_t {
     channel<int> ch{};
     consumer(ch); // start a consumer routine
 
