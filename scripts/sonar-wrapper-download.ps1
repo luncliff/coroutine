@@ -1,11 +1,15 @@
 <#
     Author
         github.com/luncliff (luncliff@gmail.com)
+
     Note
         Download SonarCloud build wrapper
-        See `sonar-wrapper-build.ps1`
+
+    See Also
+        scripts/sonar-wrapper-build.ps1
 #>
-# Allow execution of downloaded script (Azure Pipelines)
+
+# Allow execution of downloaded script
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Invoke-WebRequest -Uri http://sonarcloud.io/static/cpp/build-wrapper-win-x86.zip -OutFile build-wrapper-win.zip
 

@@ -1,11 +1,27 @@
-# see also: https://github.com/luncliff/coroutine/issues/15
+<#
+    Author
+        github.com/luncliff (luncliff@gmail.com)
 
-# Path to Codecoverage.exe
-$env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Team Tools\Dynamic Code Coverage Tools"
+    Note
+        The script is for Azure Pipelines environment
+
+    See Also
+        https://github.com/luncliff/coroutine/issues/15
+        https://docs.microsoft.com/en-us/visualstudio/test/using-code-coverage-to-determine-how-much-code-is-being-tested?view=vs-2019
+
+#>
+$workspace = Get-Location
+
+# Codecoverage.exe (Azure Pipelines)
+if ("$workspace" -eq "D:\a\1\s") {
+    # expect VS2017 image in Azure Pipelines
+    $env:Path += ";C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Team Tools\Dynamic Code Coverage Tools"
+    Write-Output "using Azure Pipelines"
+}
 
 # Acquire coverage file and generate temporary coverage file
 $coverage_file = Get-ChildItem -Recurse *.coverage;
-if($coverage_file -eq $null){
+if ($null -eq $coverage_file) {
     Write-Output "coverage file not found"
     return
 }
