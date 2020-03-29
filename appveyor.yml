@@ -19,18 +19,22 @@ image:
 
 platform:
   - x64
+  - x86
 
 configuration:
   - Debug
   - Release
 
-# cache: c:\tools\vcpkg\installed
+cache:
+  - c:/tools/vcpkg/installed
 
 environment:
-  install_path: c:\install
+  install_path: c:/install
 
 install:
   - ps: Write-Output $(git submodule update --init --recursive)
+  - ps: if($env:PLATFORM -eq "x64"){ vcpkg install --triplet x64-windows ms-gsl }
+  - ps: if($env:PLATFORM -eq "x86"){ vcpkg install --triplet x86-windows ms-gsl }
   - ps: |
       if ($env:CXX) {
         choco info llvm
@@ -43,7 +47,9 @@ before_build:
   - ps: if($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2019"){ $env:GENERATOR="Visual Studio 16 2019" }
 
 build_script:
-  - ps: cmake . -G "$env:GENERATOR" -A x64 -DBUILD_SHARED_LIBS="true" -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_TESTING=ON
+  # configure cmake and build them
+  - ps: if($env:PLATFORM -eq "x64"){ cmake . -G "$env:GENERATOR" -A x64   -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_TESTING=ON }
+  - ps: if($env:PLATFORM -eq "x86"){ cmake . -G "$env:GENERATOR" -A Win32 -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_TESTING=ON }
   - ps: cmake --build . --config $env:CONFIGURATION
   - ps: cmake --build . --target install
 

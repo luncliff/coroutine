@@ -23,11 +23,11 @@ auto change_and_report(std::latch& wg, atomic_uint32_t& counter) -> frame_t {
 }
 
 int main(int, char*[]) {
-    constexpr auto num_worker = 40u;
+    constexpr uint32_t num_worker = 40u;
 
     atomic_uint32_t counter = num_worker;
-    std::latch wg{num_worker};
-    for (auto i = 0; i < num_worker; ++i) { // fork
+    std::latch wg{static_cast<ptrdiff_t>(num_worker)};
+    for (auto i = 0u; i < num_worker; ++i) { // fork
         change_and_report(wg, counter);
     }
     wg.wait(); // join
