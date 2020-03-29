@@ -76,8 +76,7 @@ auto make_wsa_buf(io_buffer_t v) noexcept -> WSABUF {
     return buf;
 }
 
-// ensure we are x64
-static_assert(sizeof(SOCKET) == sizeof(uint64_t));
+static_assert(sizeof(SOCKET) <= sizeof(uint64_t));
 static_assert(sizeof(HANDLE) == sizeof(SOCKET));
 
 GSL_SUPPRESS(type .1)

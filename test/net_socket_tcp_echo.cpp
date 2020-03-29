@@ -26,7 +26,7 @@ using no_return_t = coro::null_frame_t;
 #else
 using no_return_t = std::nullptr_t;
 #endif
-using on_accept_handler = auto (*)(int64_t) -> no_return_t;
+using on_accept_t = auto (*)(uint64_t) -> no_return_t;
 
 bool is_async_pending(uint32_t ec) noexcept {
     switch (ec) {
@@ -46,13 +46,13 @@ bool is_async_pending(uint32_t ec) noexcept {
 }
 
 //  Accept socket connects and invoke designated function
-uint32_t tcp_accept(int64_t ln, on_accept_handler service, size_t& count) {
+uint32_t tcp_accept(int64_t ln, on_accept_t on_accept, size_t& count) {
     while (true) {
         // next accept is non-blocking
         socket_set_option_nonblock(ln);
         int64_t cs{};
         socket_accept(ln, cs);
-        if (cs < 0)
+        if (socket_is_valid(cs) == false)
             break; // accept failed
 
         ++count;
@@ -61,14 +61,17 @@ uint32_t tcp_accept(int64_t ln, on_accept_handler service, size_t& count) {
         socket_set_option_recv_timout(cs, 1000);
         socket_set_option_send_timout(cs, 1000);
         // attach(spawn) a service coroutine
-        service(cs);
+        on_accept(static_cast<uint64_t>(cs));
     }
     return socket_recent();
 }
 
-// Receive some bytes from the socket and echo back
-// continue until EOF
-auto tcp_echo_service(int64_t sd) -> no_return_t {
+/**
+ * @brief   Receive some bytes from the socket and echo back.
+ *          Continue until EOF
+ * @throw   std::system_error 
+ */
+auto tcp_echo_service(uint64_t sd) -> no_return_t {
     auto on_return = gsl::finally([=]() { socket_close(sd); });
 
     io_work_t work{};
@@ -76,26 +79,33 @@ auto tcp_echo_service(int64_t sd) -> no_return_t {
     io_buffer_t buf{};              // memory view to the `storage`
     io_buffer_reserved_t storage{}; // each coroutine frame contains buffer
 
-RecvData:
-    rsz = co_await recv_stream(sd, buf = storage, 0, work);
-    if (rsz == 0) // EOF reached
-        co_return;
-    buf = {storage.data(), rsz}; // buf := [base, rsz)
+    try { /// @throw   std::system_error
+    RecvData:
+        rsz = co_await recv_stream(sd, buf = storage, 0, work);
+        if (rsz == 0) // EOF reached
+            co_return;
+        // buf := [base, rsz)
+        buf = {storage.data(), static_cast<ptrdiff_t>(rsz)};
 
-SendData:
-    ssz = co_await send_stream(sd, buf, 0, work);
-    if (ssz == 0) // EOF reached
-        co_return;
-    if (ssz == rsz) // send complete
-        goto RecvData;
+    SendData:
+        ssz = co_await send_stream(sd, buf, 0, work);
+        if (ssz == 0) // EOF reached
+            co_return;
+        if (ssz == rsz) // send complete
+            goto RecvData;
 
-    // send < recv : need to send more
-    rsz -= ssz;
-    buf = {storage.data() + ssz, rsz}; // buf := [base + ssz, rsz)
-    goto SendData;
+        // send < recv : need to send more
+        rsz -= ssz;
+        // buf := [base + ssz, rsz)
+        buf = {storage.data() + ssz, static_cast<ptrdiff_t>(rsz)};
+        goto SendData;
+
+    } catch (const std::system_error& ex) {
+        fprintf(stderr, "%s\n", ex.what());
+    }
 }
 
-auto tcp_recv_stream(int64_t sd, io_work_t& work, //
+auto tcp_recv_stream(uint64_t sd, io_work_t& work, //
                      int64_t& rsz, latch& wg) -> no_return_t {
 
     auto on_return = gsl::finally([&wg]() {
@@ -118,7 +128,7 @@ auto tcp_recv_stream(int64_t sd, io_work_t& work, //
     assert(rsz > 0);
 }
 
-auto tcp_send_stream(int64_t sd, io_work_t& work, //
+auto tcp_send_stream(uint64_t sd, io_work_t& work, //
                      int64_t& ssz, latch& wg) -> no_return_t {
 
     auto on_return = gsl::finally([&wg]() {

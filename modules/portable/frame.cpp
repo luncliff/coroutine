@@ -1,5 +1,6 @@
 
 #include "coroutine/frame.h"
+#include <experimental/coroutine>
 
 #if defined(__GNUC__)
 using procedure_t = void (*)(void*);
@@ -33,7 +34,7 @@ struct clang_frame_prefix {
     procedure_t _Factivate;
     procedure_t _Fdestroy;
 };
-static_assert(aligned_size_v<clang_frame_prefix> == 16);
+//static_assert(aligned_size_v<clang_frame_prefix> == 16);
 
 /**
  * @brief GCC coroutine frame's prefix
@@ -63,7 +64,7 @@ struct msvc_frame_prefix {
     uint16_t _Index;
     uint16_t _Flag;
 };
-static_assert(aligned_size_v<msvc_frame_prefix> == 16);
+//static_assert(aligned_size_v<msvc_frame_prefix> == 16);
 
 //
 // intrinsic: MSVC

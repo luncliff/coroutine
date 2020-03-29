@@ -20,7 +20,7 @@ auto procedure_call_on_known_thread(HANDLE thread, HANDLE event) -> frame_t {
         cerr << system_category().message(GetLastError()) << endl;
 }
 
-DWORD wait_in_sleep(LPVOID) {
+DWORD WINAPI wait_in_sleep(LPVOID) {
     SleepEx(1000, true);
     return GetLastError();
 }

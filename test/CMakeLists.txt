@@ -104,7 +104,7 @@ create_ctest( windows_event_wait_one        coroutine_system )
 create_ctest( windows_event_wait_multiple   coroutine_system )
 create_ctest( windows_on_apc_known          coroutine_system )
 create_ctest( windows_on_apc_self           coroutine_system )
-create_ctest( windows_on_thread_pool        coroutine_system )
+create_ctest( windows_on_thread_pool        coroutine_system latch )
 
 elseif(UNIX)
 create_ctest( pthread_detach_no_spawn       coroutine_system )

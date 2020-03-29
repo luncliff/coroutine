@@ -11,21 +11,27 @@
 #include <coroutine/return.h>
 #include <coroutine/windows.h>
 
+#include <latch.h>
+
 using namespace std;
 using namespace coro;
 
-auto decrease_async(atomic_uint32_t& counter) -> frame_t {
+auto change_and_report(std::latch& wg, atomic_uint32_t& counter) -> frame_t {
     co_await continue_on_thread_pool{};
     --counter;
+    wg.count_down();
 }
 
 int main(int, char*[]) {
     constexpr auto num_worker = 40u;
-    // need a latch here ...
+
     atomic_uint32_t counter = num_worker;
+    std::latch wg{num_worker};
     for (auto i = 0; i < num_worker; ++i) { // fork
-        decrease_async(counter);
+        change_and_report(wg, counter);
     }
-    // wg.wait(); // join
+    wg.wait(); // join
+
+    assert(counter == 0);
     return EXIT_SUCCESS;
 }

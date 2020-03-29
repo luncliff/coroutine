@@ -76,6 +76,9 @@ auto udp_send_datagram(int64_t sd, io_work_t& work, //
     assert(static_cast<size_t>(ssz) == storage.size());
 }
 
+/**
+ * @throw   std::system_error 
+ */
 auto udp_echo_service(int64_t sd) -> no_return_t {
     sockaddr_in remote{};
     io_work_t work{};
@@ -84,17 +87,17 @@ auto udp_echo_service(int64_t sd) -> no_return_t {
 
     while (true) {
         // packet length(read)
-        auto length = co_await recv_from(sd, remote, buf = storage, work);
+        auto len = co_await recv_from(sd, remote, buf = storage, work);
         // instead of length check, see the error from the 'io_work_t' object
         if (work.error())
             goto OnError;
 
-        buf = {storage.data(), length};
-        length = co_await send_to(sd, remote, buf, work);
+        buf = {storage.data(), static_cast<ptrdiff_t>(len)};
+        len = co_await send_to(sd, remote, buf, work);
         if (work.error())
             goto OnError;
 
-        assert(length == buf.size_bytes());
+        assert(len == buf.size_bytes());
     }
     co_return;
 OnError:
