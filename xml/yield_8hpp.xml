@@ -7,41 +7,41 @@
     <includedby refid="resolver_8cpp" local="no">modules/net/resolver.cpp</includedby>
     <includedby refid="darwin_8cpp" local="no">modules/system/darwin.cpp</includedby>
     <incdepgraph>
-      <node id="240">
+      <node id="241">
         <label>interface/coroutine/yield.hpp</label>
         <link refid="yield.hpp"/>
-        <childnode refid="241" relation="include">
-        </childnode>
         <childnode refid="242" relation="include">
         </childnode>
-      </node>
-      <node id="241">
-        <label>iterator</label>
-      </node>
-      <node id="242">
-        <label>coroutine/return.h</label>
-        <link refid="return_8h"/>
         <childnode refid="243" relation="include">
         </childnode>
       </node>
+      <node id="242">
+        <label>iterator</label>
+      </node>
       <node id="243">
+        <label>coroutine/return.h</label>
+        <link refid="return_8h"/>
+        <childnode refid="244" relation="include">
+        </childnode>
+      </node>
+      <node id="244">
         <label>type_traits</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="245">
+      <node id="246">
         <label>modules/net/resolver.cpp</label>
         <link refid="resolver_8cpp"/>
       </node>
-      <node id="244">
+      <node id="245">
         <label>interface/coroutine/yield.hpp</label>
         <link refid="yield.hpp"/>
-        <childnode refid="245" relation="include">
-        </childnode>
         <childnode refid="246" relation="include">
         </childnode>
+        <childnode refid="247" relation="include">
+        </childnode>
       </node>
-      <node id="246">
+      <node id="247">
         <label>modules/system/darwin.cpp</label>
         <link refid="darwin_8cpp"/>
       </node>

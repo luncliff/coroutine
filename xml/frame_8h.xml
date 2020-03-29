@@ -10,14 +10,12 @@
     <includedby refid="frame_8cpp" local="yes">modules/portable/frame.cpp</includedby>
     <includedby refid="darwin_8cpp" local="no">modules/system/darwin.cpp</includedby>
     <incdepgraph>
-      <node id="180">
+      <node id="181">
         <label>functional</label>
       </node>
-      <node id="175">
+      <node id="176">
         <label>interface/coroutine/frame.h</label>
         <link refid="frame.h"/>
-        <childnode refid="176" relation="include">
-        </childnode>
         <childnode refid="177" relation="include">
         </childnode>
         <childnode refid="178" relation="include">
@@ -26,34 +24,36 @@
         </childnode>
         <childnode refid="180" relation="include">
         </childnode>
-      </node>
-      <node id="177">
-        <label>cstdint</label>
-      </node>
-      <node id="179">
-        <label>exception</label>
-      </node>
-      <node id="176">
-        <label>cstddef</label>
+        <childnode refid="181" relation="include">
+        </childnode>
       </node>
       <node id="178">
+        <label>cstdint</label>
+      </node>
+      <node id="180">
+        <label>exception</label>
+      </node>
+      <node id="177">
+        <label>cstddef</label>
+      </node>
+      <node id="179">
         <label>type_traits</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="181">
+      <node id="182">
         <label>interface/coroutine/frame.h</label>
         <link refid="frame.h"/>
-        <childnode refid="182" relation="include">
-        </childnode>
         <childnode refid="183" relation="include">
         </childnode>
+        <childnode refid="184" relation="include">
+        </childnode>
       </node>
-      <node id="183">
+      <node id="184">
         <label>modules/system/darwin.cpp</label>
         <link refid="darwin_8cpp"/>
       </node>
-      <node id="182">
+      <node id="183">
         <label>modules/portable/frame.cpp</label>
         <link refid="frame_8cpp"/>
       </node>
@@ -109,7 +109,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="41" column="1" bodyfile="modules/portable/frame.cpp" bodystart="122" bodyend="129"/>
+        <location file="interface/coroutine/frame.h" line="41" column="1" bodyfile="modules/portable/frame.cpp" bodystart="123" bodyend="130"/>
       </memberdef>
       <memberdef kind="function" id="frame_8h_1a9e5d5a4fb051d725d1b9dd68151ec9fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -126,7 +126,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="42" column="1" bodyfile="modules/portable/frame.cpp" bodystart="131" bodyend="137"/>
+        <location file="interface/coroutine/frame.h" line="42" column="1" bodyfile="modules/portable/frame.cpp" bodystart="132" bodyend="138"/>
       </memberdef>
       <memberdef kind="function" id="frame_8h_1a5dc7784c46cb12b309a1da8dbe9b657f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -143,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="43" column="1" bodyfile="modules/portable/frame.cpp" bodystart="139" bodyend="145"/>
+        <location file="interface/coroutine/frame.h" line="43" column="1" bodyfile="modules/portable/frame.cpp" bodystart="140" bodyend="146"/>
       </memberdef>
       <memberdef kind="function" id="frame_8h_1ae25b4cbe4319855dc809f51873b98e0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -164,7 +164,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="45" column="1" bodyfile="modules/portable/frame.cpp" bodystart="171" bodyend="184"/>
+        <location file="interface/coroutine/frame.h" line="45" column="1" bodyfile="modules/portable/frame.cpp" bodystart="172" bodyend="185"/>
       </memberdef>
       <memberdef kind="function" id="frame_8h_1a4d79efa01220fdbe2748544d40292f2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void *</type>
@@ -185,7 +185,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="47" column="1" bodyfile="modules/portable/frame.cpp" bodystart="150" bodyend="166"/>
+        <location file="interface/coroutine/frame.h" line="47" column="1" bodyfile="modules/portable/frame.cpp" bodystart="151" bodyend="167"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

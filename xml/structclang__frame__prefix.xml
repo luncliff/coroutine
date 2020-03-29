@@ -14,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="33" column="1" bodyfile="modules/portable/frame.cpp" bodystart="33" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="34" column="1" bodyfile="modules/portable/frame.cpp" bodystart="34" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structclang__frame__prefix_1adc18b946a6366f6f62b4e4abbc690a4d" prot="public" static="no" mutable="no">
         <type><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref></type>
@@ -27,7 +27,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/portable/frame.cpp" line="34" column="1" bodyfile="modules/portable/frame.cpp" bodystart="34" bodyend="-1"/>
+        <location file="modules/portable/frame.cpp" line="35" column="1" bodyfile="modules/portable/frame.cpp" bodystart="35" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -37,7 +37,7 @@
 <codeline><highlight class="normal">|<sp/>Frame<sp/>Prefix(16)<sp/>|<sp/>Promise(?)<sp/>|<sp/>?<sp/>|<sp/>Local<sp/>variables(?)<sp/>|</highlight></codeline>
 <codeline><highlight class="normal">+------------------+------------+---+--------------------+</highlight></codeline>
 </programlisting> </para>    </detaileddescription>
-    <location file="modules/portable/frame.cpp" line="32" column="1" bodyfile="modules/portable/frame.cpp" bodystart="32" bodyend="35"/>
+    <location file="modules/portable/frame.cpp" line="33" column="1" bodyfile="modules/portable/frame.cpp" bodystart="33" bodyend="36"/>
     <listofallmembers>
       <member refid="structclang__frame__prefix_1a9e519b86feb06331e76b7bfaa3e687df" prot="public" virt="non-virtual"><scope>clang_frame_prefix</scope><name>_Factivate</name></member>
       <member refid="structclang__frame__prefix_1adc18b946a6366f6f62b4e4abbc690a4d" prot="public" virt="non-virtual"><scope>clang_frame_prefix</scope><name>_Fdestroy</name></member>

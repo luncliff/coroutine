@@ -534,8 +534,7 @@
     <span class="k">return</span> <span class="n">buf</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="c1">// ensure we are x64</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">SOCKET</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">));</span>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">SOCKET</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">));</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">HANDLE</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">SOCKET</span><span class="p">));</span>
 
 <span class="n">GSL_SUPPRESS</span><span class="p">(</span><span class="n">type</span> <span class="mf">.1</span><span class="p">)</span>

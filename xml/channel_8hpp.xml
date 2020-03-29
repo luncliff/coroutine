@@ -5,18 +5,18 @@
     <includes local="no">mutex</includes>
     <includes local="no">tuple</includes>
     <incdepgraph>
-      <node id="173">
+      <node id="174">
         <label>tuple</label>
       </node>
-      <node id="171">
+      <node id="172">
         <label>interface/coroutine/channel.hpp</label>
         <link refid="channel.hpp"/>
-        <childnode refid="172" relation="include">
-        </childnode>
         <childnode refid="173" relation="include">
         </childnode>
+        <childnode refid="174" relation="include">
+        </childnode>
       </node>
-      <node id="172">
+      <node id="173">
         <label>mutex</label>
       </node>
     </incdepgraph>
