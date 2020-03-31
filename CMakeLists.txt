@@ -16,8 +16,7 @@
 #       - BUILD_TESTING
 #
 cmake_minimum_required(VERSION 3.12) # C++ 20
-project(coroutine 
-        LANGUAGES CXX 
+project(coroutine	LANGUAGES CXX 
         VERSION 1.5.0
 )
 
@@ -45,9 +44,12 @@ include(external-gsl)
 #
 set(MODULE_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
-    set(USE_PORTABLE_HEADER true)
+    message(STATUS "")
+    message(STATUS "	clang-cl won't work with <experimental/coroutine>")
+    message(STATUS "	use <coroutine/frame.h> for the case ...")
+    message(STATUS "")
 endif()
-add_subdirectory(modules/portable)
+add_subdirectory(modules/portable)	# corotuien_portable
 add_subdirectory(modules/system)    # coroutine_system
 add_subdirectory(modules/net)       # coroutine_net
 
@@ -55,7 +57,6 @@ install(FILES           ${MODULE_INTERFACE_DIR}/coroutine/frame.h
                         ${MODULE_INTERFACE_DIR}/coroutine/return.h
                         ${MODULE_INTERFACE_DIR}/coroutine/channel.hpp
                         ${MODULE_INTERFACE_DIR}/coroutine/yield.hpp
-                        ${MODULE_INTERFACE_DIR}/coroutine/net.h
         DESTINATION     ${CMAKE_INSTALL_PREFIX}/include/coroutine
 )
 if(WIN32)
@@ -76,6 +77,9 @@ elseif(UNIX OR APPLE)
     )
 
 endif()
+install(FILES			${MODULE_INTERFACE_DIR}/coroutine/net.h
+        DESTINATION     ${CMAKE_INSTALL_PREFIX}/include/coroutine
+)
 
 install(TARGETS     coroutine_portable coroutine_system coroutine_net
         EXPORT      coroutine-config

@@ -10,16 +10,6 @@ PROPERTIES
     WINDOWS_EXPORT_ALL_SYMBOLS true
 )
 
-if(USE_PORTABLE_HEADER)
-    message(STATUS "Customizaton")
-    message(STATUS "  <coroutine/frame.h> is suppressing <experimental/coroutine>")
-    message(STATUS)
-    target_compile_definitions(coroutine_portable
-    PUBLIC
-        USE_PORTABLE_COROUTINE_HANDLE
-    )
-endif()
-
 target_include_directories(coroutine_portable
 PUBLIC
     $<BUILD_INTERFACE:${MODULE_INTERFACE_DIR}>

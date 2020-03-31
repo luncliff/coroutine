@@ -10,7 +10,7 @@
 #define COROUTINE_PROMISE_AND_RETURN_TYPES_H
 #include <type_traits>
 
-#if __has_include(<coroutine/frame.h>)
+#if __has_include(<coroutine/frame.h>) && !defined(USE_EXPERIMENTAL_COROUTINE)
 #include <coroutine/frame.h>
 
 namespace coro {

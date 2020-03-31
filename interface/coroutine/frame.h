@@ -1,21 +1,30 @@
 /**
- * @file coroutine/frame.h
- * @author github.com/luncliff (luncliff@gmail.com)
- * @brief Header to adjust the difference of coroutine frame between compilers
+ * @file    coroutine/frame.h
+ * @author  github.com/luncliff (luncliff@gmail.com)
+ * @brief   `<coroutine>` header with `std::` namespace/
+ * @note    The implementation adjusts difference of coroutine frame between compilers
  * 
  * @see <experimental/resumable> from Microsoft VC++ (since 2017 Feb.)
  * @see <experimental/coroutine> from LLVM libcxx (since 6.0)
  * @see https://github.com/iains/gcc-cxx-coroutines/tree/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines
  * @see 17.12 Coroutines [support.coroutine]
- *
+ * @see https://en.cppreference.com/w/cpp/header
+ * 
  * @copyright CC BY 4.0
  */
 #pragma once
 #ifndef _COROUTINE_
 #define _COROUTINE_
-#define _EXPERIMENTAL_RESUMABLE_ // suppress <experimental/resumable>
-//#define _RESUMABLE_FUNCTIONS_SUPPORTED // this will be enforced by MSVC
 
+// suppress <experimental/resumable>
+#define _EXPERIMENTAL_RESUMABLE_
+
+// enforced by MSVC, but be explicit
+#ifndef _RESUMABLE_FUNCTIONS_SUPPORTED
+#define _RESUMABLE_FUNCTIONS_SUPPORTED
+#endif
+
+// requires C++ 17 __has_include
 #if __has_include(<yvals_core.h>)
 #include <yvals_core.h>
 #endif
@@ -36,8 +45,6 @@
 
 struct portable_coro_prefix;
 
-// Alternative of `_coro_done` of msvc for this library.
-// It is renamed to avoid redefinition
 bool portable_coro_done(portable_coro_prefix* _Handle);
 void portable_coro_resume(portable_coro_prefix* _Handle);
 void portable_coro_destroy(portable_coro_prefix* _Handle);
@@ -134,7 +141,7 @@ constexpr bool operator==(const coroutine_handle<void> _Left,
     return _Left.address() == _Right.address();
 }
 
-/// @todo apply standard spaceship operator.
+/// @todo apply standard spaceship operator
 /// ```
 /// constexpr strong_ordering operator<=>(coroutine_handle<> x, coroutine_handle<> y) noexcept;
 /// ```
@@ -211,7 +218,7 @@ struct coroutine_handle<noop_coroutine_promise>
     // 17.12.4.2.4, address
     // C3615: cannot result in a constant expression
     constexpr void* address() const noexcept {
-        /// @todo: work safely for portable_ functions
+        /// @todo: work safely for `portable_coro_` functions
         return (noop_coroutine_promise*)(UINTPTR_MAX - 0x170704);
     }
     // 17.12.4.2.3, promise access
@@ -329,19 +336,20 @@ struct _Resumable_helper_traits {
 } // namespace experimental
 
 // STRUCT TEMPLATE coroutine_traits
-template <typename Ret, typename... Param>
-using coroutine_traits = std::experimental::coroutine_traits<Ret, Param...>;
+template <typename _Ret, typename... _Param>
+using coroutine_traits = std::experimental::coroutine_traits<_Ret, _Param...>;
 
 // 17.12.3.7, hash support
-template <typename P>
-struct hash<coroutine_handle<P>> {
+template <typename _PromiseT>
+struct hash<coroutine_handle<_PromiseT>> {
     // deprecated in C++17
-    using argument_type = coroutine_handle<P>;
+    using argument_type = coroutine_handle<_PromiseT>;
     // deprecated in C++17
     using result_type = size_t;
+
     [[nodiscard]] //
-        result_type
-        operator()(argument_type const& _Handle) const noexcept {
+    result_type
+    operator()(argument_type const& _Handle) const noexcept {
         return hash<void*>()(_Handle.address());
     }
 };

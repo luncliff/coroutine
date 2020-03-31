@@ -18,8 +18,6 @@ In that perspective, the library will be maintained as small as possible. Have f
 
 **If you are looking for another materials, visit [the MattPD's collection](https://gist.github.com/MattPD/9b55db49537a90545a90447392ad3aeb#file-cpp-std-coroutines-draft-md)!**
 
-## Developer's Note
-
 * Start with the [GitHub Pages](https://luncliff.github.io/coroutine) :)  
   You will visit the [test/](./test/) and [interface/](./interface/coroutine) folder while reading the docs.
 * This repository has some custom(and partial) implementation for the C++ Coroutines in the [`<coroutine/frame.h>`](./interface/coroutine/frame.h).  
@@ -31,10 +29,6 @@ In that perspective, the library will be maintained as small as possible. Have f
 
 The installation of this library will install it together.
 All other required modules for build/test will be placed in [external/](./external).
-
-### Build Configuration
-
-**This library is only for x64**
 
 ### Tool Support
 
@@ -48,41 +42,6 @@ All other required modules for build/test will be placed in [external/](./extern
 
 For Visual Studio users, please use **15.7.3 or later** versions.  
 For clang users, I recommend **Clang 6.0** or later versions.
-
-### [Interface](./interface)
-
-To support multiple compilers, this library defines its own header, `<coroutine/frame.h>`. This might lead to conflict with existing library (libc++ and VC++).  
-If there is a collision(build issue), please make an issue in this repo so I can fix it. 
-
-```c++
-// This header includes/overrides <experimental/coroutine>
-#include <coroutine/frame.h>
-```
-
-Utility types are in the following headers
-
-```c++
-#include <coroutine/return.h>   // return type for coroutine functions
-```
-
-Generator is named `coro::enumerable` here.
-
-For now you can see various description for the concept in C++ conference talks in Youtube.  
-If you want better implementation, visit the https://github.com/Quuxplusone/coro
-
-```c++
-#include <coroutine/yield.hpp>      // enumerable<T>
-```
-
-Go language style channel to deliver data between coroutines. 
-It Supports awaitable read/write and select operation are possible.
-
-But it is slightly different from that of the Go language because we don't have a built-in scheduler in C++. Furthermore Goroutine is quite different from the C++ Coroutines.
-It may not a necessary feature since there are so much of the channel implementation, but I'm sure **breakpointing** this one will **train** you.
-
-```c++
-#include <coroutine/channel.hpp>  // channel<T> with Lockable
-```
 
 ## How To
 
@@ -110,22 +69,25 @@ Create an issue if you think another configuration is required.
 * [Travis CI](./.travis.yml)
   * Mac OS X + AppleClang 11
   * Ubuntu 16.04(Xenial)/18.04(Bionic) + Clang 8
-  * Ubuntu 20.04 + GCC 10 ~~But it failes ...~~
+  * Ubuntu 20.04 + GCC 10 ~~it failes !!!~~
 * [AppVeyor](./appveyor.yml)
   * Visual Studio 2017 / 2019
 
 ### Test
 
 Exploring [test(example) codes](./test) will be helpful. The library uses CTest for its test.
-AppVeyor & Travis CI build shows the execution of them.
+AppVeyor & Travis CI build log will show the execution of them.
 
 ### Import
+
+If you want some tool support, please let me know. 
+I'm willing to learn about it.
 
 #### CMake 3.12+
 
 Expect there is a higher CMake project which uses this library.
 
-The library export 3 targets.
+The library exports 3 targets.
 
 * coroutine_portable
   * `<coroutine/frame.h>`
@@ -143,9 +105,10 @@ The library export 3 targets.
 
 ```cmake
 cmake_minimum_required(VERSION 3.12)
-# ...
-add_subdirectory(coroutine)
-# ...
+
+find_package(coroutine CONFIG REQUIRED)
+# or add_subdirectory(coroutine) if you want to be simple
+
 target_link_libraries(main
 PUBLIC
     coroutine_portable
@@ -153,6 +116,78 @@ PUBLIC
     coroutine_net
 )
 ```
+
+## Developer Note
+
+### [Interface](./interface)
+
+#### Portable
+
+To support multiple compilers, this library defines its own header, `<coroutine/frame.h>`. This might lead to conflict with existing library (libc++ and VC++).  
+If there is a collision(build issue), please make an issue in this repo so I can fix it. 
+
+```c++
+// This header includes/overrides <experimental/coroutine>
+#include <coroutine/frame.h>
+```
+
+Utility types are in the following headers. With the macro `USE_EXPERIMENTAL_COROUTINE`, you can enforce `<experimental/coroutine>` instead of `<coroutine/frame.h>`
+
+```c++
+// return/promise types for coroutine functions
+#define USE_EXPERIMENTAL_COROUTINE 
+#include <coroutine/return.h> 
+```
+
+Generator is named `coro::enumerable` here.
+
+For now you can see various description for the concept in C++ conference talks in Youtube.  
+If you want better implementation or want to see another generators, visit the https://github.com/Quuxplusone/coro :D
+
+```c++
+// enumerable<T>
+#include <coroutine/yield.hpp>
+```
+
+Go language style channel to deliver data between coroutines. 
+It Supports awaitable read/write and select operation are possible.  
+If you don't know the language, never worry. There was a talk in CppCon
+
+* [CppCon 2016: John Bandela "Channels - An alternative to callbacks and futures"](https://www.youtube.com/watch?v=N3CkQu39j5I)
+
+But it is slightly different from that of the Go language because we don't have a built-in scheduler in C++. Furthermore Goroutine is quite different from the C++ Coroutines.  
+It may not a necessary feature since there are so much of the channel implementation, but you may feel curiosity about it.
+
+```c++
+// channel<T> with Lockable
+#define USE_EXPERIMENTAL_COROUTINE 
+#include <coroutine/channel.hpp>
+```
+
+#### System
+
+The library doesn't provides platform-neutral abstraction.
+
+```c++
+// #include <gsl/gsl>             // requires ms-gsl
+// #include <coroutine/return.h>  // already used by the following headers
+#include <coroutine/windows.h>
+#include <coroutine/linux.h>
+#include <coroutine/unix.h>
+#include <coroutine/pthread.h>
+```
+
+Please reference test codes for their usage.
+
+#### Network
+
+Async I/O with awaitable types for socket operation and `poll_net_tasks` to multiplex control flow. 
+
+```c++
+#include <coroutine/net.h>
+```
+
+Please reference test codes for its usage.
 
 ## License
 

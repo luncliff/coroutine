@@ -11,7 +11,7 @@
 #include <mutex>
 #include <tuple>
 
-#if __has_include(<coroutine/frame.h>)
+#if __has_include(<coroutine/frame.h>) && !defined(USE_EXPERIMENTAL_COROUTINE)
 #include <coroutine/frame.h>
 namespace coro {
 using std::coroutine_handle;
