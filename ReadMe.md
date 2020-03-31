@@ -103,19 +103,16 @@ Please reference the build configurations.
 Create an issue if you think another configuration is required.
 
 * [Azure Pipelines](https://dev.azure.com/luncliff/personal/_build/latest?definitionId=13?branchName=master)
-  * Visual Studio 2017 / 2019 (CMake)
+  * Visual Studio 2017 / 2019
   * Ubuntu 16.04 + Clang 8
   * Mac OS X + AppleClang 11
-  * Windows + Clang-cl (LLVM 8.0.1)
+  * Windows + Clang-cl (LLVM 8.0.1+)
 * [Travis CI](./.travis.yml)
-  * Mac OS X + AppleClang
-  * Ubuntu 16.04 + Clang 7
+  * Mac OS X + AppleClang 11
+  * Ubuntu 16.04(Xenial)/18.04(Bionic) + Clang 8
+  * Ubuntu 20.04 + GCC 10 ~~But it failes ...~~
 * [AppVeyor](./appveyor.yml)
   * Visual Studio 2017 / 2019
-  * VC++ & Clang-cl : [LLVM chocolatey package](https://chocolatey.org/packages/llvm)
-* [Works on my machine :D](https://github.com/nikku/works-on-my-machine)
-  * Windows Subsystem for Linux (Ubuntu 18.04 + Clang 7.1.0)
-  * Clang-cl (LLVM 8.0.1) + Ninja
 
 ### Test
 

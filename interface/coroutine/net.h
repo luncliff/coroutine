@@ -112,6 +112,7 @@ class io_send_to final : public io_work_t {
     /**
      * @brief Fetch I/O result/error
      * @return int64_t return of `sendto`
+     * 
      * This function must be used through `co_await`.
      * Multiple invoke of this will lead to malfunction.
      */
@@ -149,6 +150,7 @@ class io_recv_from final : public io_work_t {
     /**
      * @brief Fetch I/O result/error
      * @return int64_t return of `recvfrom`
+     * 
      * This function must be used through `co_await`.
      * Multiple invoke of this will lead to malfunction.
      */
@@ -186,6 +188,7 @@ class io_send final : public io_work_t {
     /**
      * @brief Fetch I/O result/error
      * @return int64_t return of `send`
+     * 
      * This function must be used through `co_await`.
      * Multiple invoke of this will lead to malfunction.
      */
@@ -221,6 +224,7 @@ class io_recv final : public io_work_t {
     /**
      * @brief Fetch I/O result/error
      * @return int64_t return of `recv`
+     * 
      * This function must be used through `co_await`.
      * Multiple invoke of this will lead to malfunction.
      */
@@ -246,6 +250,7 @@ static_assert(sizeof(io_recv) == sizeof(io_work_t));
  * @param buf 
  * @param work 
  * @return io_send_to& 
+ * 
  * @ingroup Network
  */
 auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buf,
@@ -258,6 +263,7 @@ auto send_to(uint64_t sd, const sockaddr_in& remote, io_buffer_t buf,
  * @param buf 
  * @param work 
  * @return io_send_to& 
+ * 
  * @ingroup Network
  */
 auto send_to(uint64_t sd, const sockaddr_in6& remote, io_buffer_t buf,
@@ -270,6 +276,7 @@ auto send_to(uint64_t sd, const sockaddr_in6& remote, io_buffer_t buf,
  * @param buf 
  * @param work 
  * @return io_recv_from& 
+ * 
  * @ingroup Network
  */
 auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buf,
@@ -282,6 +289,7 @@ auto recv_from(uint64_t sd, sockaddr_in& remote, io_buffer_t buf,
  * @param buf 
  * @param work 
  * @return io_recv_from& 
+ * 
  * @ingroup Network
  */
 auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buf,
@@ -293,7 +301,8 @@ auto recv_from(uint64_t sd, sockaddr_in6& remote, io_buffer_t buf,
  * @param buf 
  * @param flag 
  * @param work 
- * @return io_send& 
+ * @return io_send&
+ *  
  * @ingroup Network
  */
 auto send_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
@@ -306,6 +315,7 @@ auto send_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
  * @param flag 
  * @param work 
  * @return io_recv& 
+ * 
  * @ingroup Network
  */
 auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
@@ -314,13 +324,15 @@ auto recv_stream(uint64_t sd, io_buffer_t buf, uint32_t flag,
 /**
  * @brief Poll internal I/O works and invoke user callback
  * @param nano timeout in nanoseconds 
+ * @throw std::system_error
+ * 
  * @ingroup Network
  */
 void poll_net_tasks(uint64_t nano) noexcept(false);
 
 /**
  * @brief Thin wrapper of `getaddrinfo` for IPv4
- * @ingroup Network
+ * 
  * @param hint 
  * @param host 
  * @param serv 
@@ -328,6 +340,8 @@ void poll_net_tasks(uint64_t nano) noexcept(false);
  * @return uint32_t Error code from the `getaddrinfo` that can be the argument of `gai_strerror`
  * @see getaddrinfo
  * @see gai_strerror
+ * 
+ * @ingroup Network
  */
 uint32_t get_address(const addrinfo& hint, //
                      gsl::czstring<> host, gsl::czstring<> serv,
@@ -335,7 +349,7 @@ uint32_t get_address(const addrinfo& hint, //
 
 /**
  * @brief Thin wrapper of `getaddrinfo` for IPv6
- * @ingroup Network
+ * 
  * @param hint 
  * @param host 
  * @param serv 
@@ -343,6 +357,8 @@ uint32_t get_address(const addrinfo& hint, //
  * @return uint32_t Error code from the `getaddrinfo` that can be the argument of `gai_strerror`
  * @see getaddrinfo
  * @see gai_strerror
+ * 
+ * @ingroup Network
  */
 uint32_t get_address(const addrinfo& hint, //
                      gsl::czstring<> host, gsl::czstring<> serv,
@@ -350,13 +366,15 @@ uint32_t get_address(const addrinfo& hint, //
 
 /**
  * @brief Thin wrapper of `getnameinfo`
- * @ingroup Network
+ * 
  * @param addr 
  * @param name 
  * @param serv can be `nullptr`
  * @param flags 
  * @return uint32_t EAI_AGAIN ...
  * @see getnameinfo
+ * 
+ * @ingroup Network
  */
 uint32_t get_name(const sockaddr_in& addr, //
                   gsl::zstring<NI_MAXHOST> name, gsl::zstring<NI_MAXSERV> serv,
@@ -364,13 +382,14 @@ uint32_t get_name(const sockaddr_in& addr, //
 
 /**
  * @brief Thin wrapper of `getnameinfo`
- * @ingroup Network
  * @param addr 
  * @param name 
  * @param serv can be `nullptr`
  * @param flags 
  * @return uint32_t EAI_AGAIN ...
  * @see getnameinfo
+ * 
+ * @ingroup Network
  */
 uint32_t get_name(const sockaddr_in6& addr, //
                   gsl::zstring<NI_MAXHOST> name, gsl::zstring<NI_MAXSERV> serv,

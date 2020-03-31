@@ -91,7 +91,7 @@ elseif(APPLE)
     PRIVATE
         io_darwin.cpp
     )
-elseif(UNIX) # actually we can't sure it's a linux here ...
+elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
     target_sources(coroutine_net
     PRIVATE
         io_linux.cpp

@@ -194,5 +194,10 @@ int main(int, char*[]) {
         assert(rsz[i] != -1);     //
         assert(ssz[i] == rsz[i]); // sent == received
     }
+
+    // this sleep is for waiting windows completion routines
+    using namespace std::chrono_literals;
+    std::this_thread::sleep_for(1s);
+
     return EXIT_SUCCESS;
 }

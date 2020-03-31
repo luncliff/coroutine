@@ -131,7 +131,7 @@ endif()
 #   <coroutine/channel.hpp>
 #
 if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
-    return()    # gcc-10 crashes for the feature
+    message(WARNING "using gcc: the compiler may not work for current code")
 endif()
 create_ctest( channel_close_read            coroutine_system )
 create_ctest( channel_close_write           coroutine_system )
