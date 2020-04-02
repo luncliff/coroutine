@@ -464,7 +464,7 @@
 <span class="cp">#define COROUTINE_PROMISE_AND_RETURN_TYPES_H</span>
 <span class="cp">#include</span> <span class="cpf">&lt;type_traits&gt;</span><span class="cp"></span>
 
-<span class="cp">#if __has_include(&lt;coroutine/frame.h&gt;)</span>
+<span class="cp">#if __has_include(&lt;coroutine/frame.h&gt;) &amp;&amp; !defined(USE_EXPERIMENTAL_COROUTINE)</span>
 <span class="cp">#include</span> <span class="cpf">&lt;coroutine/frame.h&gt;</span><span class="cp"></span>
 
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>

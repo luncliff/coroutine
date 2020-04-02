@@ -13,7 +13,7 @@
         <meta name="description" content="C++ 20 Coroutines in Action.">
       
       
-        <link rel="canonical" href="https://luncliff.github.io/coroutine/structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4/">
+        <link rel="canonical" href="https://luncliff.github.io/coroutine/structstd_1_1hash_3_01coroutine__handle_3_01__PromiseT_01_4_01_4/">
       
       
         <meta name="author" content="Park DongHa">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Struct std::hash< coroutine\_handle< P > > - luncliff/coroutine</title>
+        <title>Struct std::hash< coroutine\_handle< \_PromiseT > > - luncliff/coroutine</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#struct-stdhash-coroutine_handle-p" tabindex="0" class="md-skip">
+      <a href="#struct-stdhash-coroutine_handle-_promiset" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Struct std::hash&lt; coroutine\_handle&lt; P &gt; &gt;
+                Struct std::hash&lt; coroutine\_handle&lt; \_PromiseT &gt; &gt;
               
             </span>
           
@@ -523,12 +523,12 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="http://github.com/luncliff/coroutine/edit/master/docs/structstd_1_1hash_3_01coroutine__handle_3_01__PromiseT_01_4_01_4.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="struct-stdhash-coroutine_handle-p">Struct std::hash&lt; coroutine_handle&lt; P &gt; &gt;<a class="headerlink" href="#struct-stdhash-coroutine_handle-p" title="Permanent link">&para;</a></h1>
-<p><strong>template &lt;typename P typename P&gt;</strong></p>
-<p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacestd/"><strong>std</strong></a> <strong>&gt;</strong> <a href="./"><strong>hash&lt; coroutine_handle&lt; P &gt; &gt;</strong></a></p>
+                <h1 id="struct-stdhash-coroutine_handle-_promiset">Struct std::hash&lt; coroutine_handle&lt; _PromiseT &gt; &gt;<a class="headerlink" href="#struct-stdhash-coroutine_handle-_promiset" title="Permanent link">&para;</a></h1>
+<p><strong>template &lt;typename _PromiseT typename _PromiseT&gt;</strong></p>
+<p><a href="../annotated/"><strong>Class List</strong></a> <strong>&gt;</strong> <a href="../namespacestd/"><strong>std</strong></a> <strong>&gt;</strong> <a href="./"><strong>hash&lt; coroutine_handle&lt; _PromiseT &gt; &gt;</strong></a></p>
 <ul>
 <li><code>#include &lt;frame.h&gt;</code></li>
 </ul>
@@ -542,7 +542,7 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">typedef <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; P &gt;</td>
+<td align="right">typedef <a href="../structstd_1_1coroutine__handle/"><strong>coroutine_handle</strong></a>&lt; _PromiseT &gt;</td>
 <td align="left"><a href="./#typedef-argument-type"><strong>argument_type</strong></a>  <br></td>
 </tr>
 <tr>
@@ -568,18 +568,18 @@
 </table>
 <h2 id="public-types-documentation">Public Types Documentation<a class="headerlink" href="#public-types-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="typedef-argument_type">typedef argument_type<a class="headerlink" href="#typedef-argument_type" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">hash</span><span class="o">&lt;</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span> <span class="n">P</span> <span class="o">&gt;</span> <span class="o">&gt;::</span><span class="n">argument_type</span> <span class="o">=</span>  <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="p">;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">hash</span><span class="o">&lt;</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span> <span class="n">_PromiseT</span> <span class="o">&gt;</span> <span class="o">&gt;::</span><span class="n">argument_type</span> <span class="o">=</span>  <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">_PromiseT</span><span class="o">&gt;</span><span class="p">;</span>
 </code></pre></div>
 
 
 <h3 id="typedef-result_type">typedef result_type<a class="headerlink" href="#typedef-result_type" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">hash</span><span class="o">&lt;</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span> <span class="n">P</span> <span class="o">&gt;</span> <span class="o">&gt;::</span><span class="n">result_type</span> <span class="o">=</span>  <span class="kt">size_t</span><span class="p">;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">hash</span><span class="o">&lt;</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span> <span class="n">_PromiseT</span> <span class="o">&gt;</span> <span class="o">&gt;::</span><span class="n">result_type</span> <span class="o">=</span>  <span class="kt">size_t</span><span class="p">;</span>
 </code></pre></div>
 
 
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="function-operator">function operator()<a class="headerlink" href="#function-operator" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">result_type</span> <span class="n">std</span><span class="o">::</span><span class="n">hash</span><span class="o">&lt;</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span> <span class="n">P</span> <span class="o">&gt;</span> <span class="o">&gt;::</span><span class="k">operator</span><span class="p">()</span> <span class="p">(</span>
+<div class="codehilite"><pre><span></span><code><span class="kr">inline</span> <span class="n">result_type</span> <span class="n">std</span><span class="o">::</span><span class="n">hash</span><span class="o">&lt;</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span> <span class="n">_PromiseT</span> <span class="o">&gt;</span> <span class="o">&gt;::</span><span class="k">operator</span><span class="p">()</span> <span class="p">(</span>
     <span class="n">argument_type</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">_Handle</span>
 <span class="p">)</span> <span class="k">noexcept</span> <span class="k">const</span>
 </code></pre></div>

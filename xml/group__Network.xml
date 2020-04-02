@@ -81,7 +81,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="251" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="62" bodyend="69"/>
+        <location file="interface/coroutine/net.h" line="256" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="62" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="group__Network_1gae85ec53584de7c5275cf85e7913316eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -140,7 +140,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="263" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="71" bodyend="78"/>
+        <location file="interface/coroutine/net.h" line="269" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="71" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="group__Network_1gace516cdc1f8b51596ba7a406190182eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -199,7 +199,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="275" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="107" bodyend="114"/>
+        <location file="interface/coroutine/net.h" line="282" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="107" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="group__Network_1ga1e1a2ad32443f868826212a73ce0027e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -258,7 +258,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="287" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="115" bodyend="122"/>
+        <location file="interface/coroutine/net.h" line="295" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="115" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="group__Network_1gac94bb59884293c451906c8cffe825a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -317,7 +317,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="299" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="155" bodyend="162"/>
+        <location file="interface/coroutine/net.h" line="308" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="155" bodyend="162"/>
       </memberdef>
       <memberdef kind="function" id="group__Network_1ga60c53387a2e976df4742620055666796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>auto</type>
@@ -376,7 +376,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="311" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="189" bodyend="196"/>
+        <location file="interface/coroutine/net.h" line="321" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="189" bodyend="196"/>
       </memberdef>
       <memberdef kind="function" id="group__Network_1ga022830c9178aa1a201f95abd2026d35f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -398,10 +398,18 @@
 <para>timeout in nanoseconds </para></parameterdescription>
 </parameteritem>
 </parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::system_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="319" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="36" bodyend="44"/>
+        <location file="interface/coroutine/net.h" line="331" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="36" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="group__Network_1gadc07999d236df3e984d42b37cbf56693" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -462,7 +470,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="332" column="1" bodyfile="modules/net/resolver.cpp" bodystart="60" bodyend="74"/>
+        <location file="interface/coroutine/net.h" line="346" column="1" bodyfile="modules/net/resolver.cpp" bodystart="60" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="group__Network_1ga96f3a62a26f3aadf686d1ab88ab6fcc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -523,7 +531,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="347" column="1" bodyfile="modules/net/resolver.cpp" bodystart="76" bodyend="90"/>
+        <location file="interface/coroutine/net.h" line="363" column="1" bodyfile="modules/net/resolver.cpp" bodystart="76" bodyend="90"/>
       </memberdef>
       <memberdef kind="function" id="group__Network_1ga1da2a71cf037b5ed7f88c1451fc9e18d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -584,7 +592,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="361" column="1" bodyfile="modules/net/resolver.cpp" bodystart="11" bodyend="19"/>
+        <location file="interface/coroutine/net.h" line="379" column="1" bodyfile="modules/net/resolver.cpp" bodystart="11" bodyend="19"/>
       </memberdef>
       <memberdef kind="function" id="group__Network_1gad86a7780601bd58197a45bade7c3cacf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -645,7 +653,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="375" column="1" bodyfile="modules/net/resolver.cpp" bodystart="22" bodyend="30"/>
+        <location file="interface/coroutine/net.h" line="394" column="1" bodyfile="modules/net/resolver.cpp" bodystart="22" bodyend="30"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

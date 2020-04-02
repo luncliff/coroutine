@@ -465,7 +465,7 @@
 <span class="cp">#include</span> <span class="cpf">&lt;mutex&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;tuple&gt;</span><span class="cp"></span>
 
-<span class="cp">#if __has_include(&lt;coroutine/frame.h&gt;)</span>
+<span class="cp">#if __has_include(&lt;coroutine/frame.h&gt;) &amp;&amp; !defined(USE_EXPERIMENTAL_COROUTINE)</span>
 <span class="cp">#include</span> <span class="cpf">&lt;coroutine/frame.h&gt;</span><span class="cp"></span>
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
 <span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">coroutine_handle</span><span class="p">;</span>

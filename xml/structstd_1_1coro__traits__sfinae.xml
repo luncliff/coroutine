@@ -16,7 +16,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="266" column="1" bodyfile="interface/coroutine/frame.h" bodystart="266" bodyend="266"/>
+    <location file="interface/coroutine/frame.h" line="273" column="1" bodyfile="interface/coroutine/frame.h" bodystart="273" bodyend="273"/>
     <listofallmembers>
     </listofallmembers>
   </compounddef>

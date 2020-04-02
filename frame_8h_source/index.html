@@ -462,9 +462,16 @@
 <div class="codehilite"><pre><span></span><code><span class="cp">#pragma once</span>
 <span class="cp">#ifndef _COROUTINE_</span>
 <span class="cp">#define _COROUTINE_</span>
-<span class="cp">#define _EXPERIMENTAL_RESUMABLE_ </span><span class="c1">// suppress &lt;experimental/resumable&gt;</span>
-<span class="c1">//#define _RESUMABLE_FUNCTIONS_SUPPORTED // this will be enforced by MSVC</span>
 
+<span class="c1">// suppress &lt;experimental/resumable&gt;</span>
+<span class="cp">#define _EXPERIMENTAL_RESUMABLE_</span>
+
+<span class="c1">// enforced by MSVC, but be explicit</span>
+<span class="cp">#ifndef _RESUMABLE_FUNCTIONS_SUPPORTED</span>
+<span class="cp">#define _RESUMABLE_FUNCTIONS_SUPPORTED</span>
+<span class="cp">#endif</span>
+
+<span class="c1">// requires C++ 17 __has_include</span>
 <span class="cp">#if __has_include(&lt;yvals_core.h&gt;)</span>
 <span class="cp">#include</span> <span class="cpf">&lt;yvals_core.h&gt;</span><span class="cp"></span>
 <span class="cp">#endif</span>
@@ -485,8 +492,6 @@
 
 <span class="k">struct</span> <span class="n">portable_coro_prefix</span><span class="p">;</span>
 
-<span class="c1">// Alternative of `_coro_done` of msvc for this library.</span>
-<span class="c1">// It is renamed to avoid redefinition</span>
 <span class="kt">bool</span> <span class="nf">portable_coro_done</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">);</span>
 <span class="kt">void</span> <span class="nf">portable_coro_resume</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">);</span>
 <span class="kt">void</span> <span class="nf">portable_coro_destroy</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">);</span>
@@ -771,19 +776,20 @@
 <span class="p">}</span> <span class="c1">// namespace experimental</span>
 
 <span class="c1">// STRUCT TEMPLATE coroutine_traits</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Param</span><span class="o">&gt;</span>
-<span class="k">using</span> <span class="n">coroutine_traits</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">Ret</span><span class="p">,</span> <span class="n">Param</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Param</span><span class="o">&gt;</span>
+<span class="k">using</span> <span class="n">coroutine_traits</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="p">,</span> <span class="n">_Param</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
 
 <span class="c1">// 17.12.3.7, hash support</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">P</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">hash</span><span class="o">&lt;</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_PromiseT</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">hash</span><span class="o">&lt;</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">_PromiseT</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
     <span class="c1">// deprecated in C++17</span>
-    <span class="k">using</span> <span class="n">argument_type</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">argument_type</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">_PromiseT</span><span class="o">&gt;</span><span class="p">;</span>
     <span class="c1">// deprecated in C++17</span>
     <span class="k">using</span> <span class="n">result_type</span> <span class="o">=</span> <span class="kt">size_t</span><span class="p">;</span>
+
     <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="c1">//</span>
-        <span class="n">result_type</span>
-        <span class="k">operator</span><span class="p">()(</span><span class="n">argument_type</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">_Handle</span><span class="p">)</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="n">result_type</span>
+    <span class="k">operator</span><span class="p">()(</span><span class="n">argument_type</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">_Handle</span><span class="p">)</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">hash</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">*&gt;</span><span class="p">()(</span><span class="n">_Handle</span><span class="p">.</span><span class="n">address</span><span class="p">());</span>
     <span class="p">}</span>
 <span class="p">};</span>

@@ -630,7 +630,7 @@
 </tr>
 <tr>
 <td align="right">struct</td>
-<td align="left"><a href="../structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4/"><strong>hash&lt; coroutine_handle&lt; P &gt; &gt;</strong></a> &lt;typename P&gt;<br></td>
+<td align="left"><a href="../structstd_1_1hash_3_01coroutine__handle_3_01__PromiseT_01_4_01_4/"><strong>hash&lt; coroutine_handle&lt; _PromiseT &gt; &gt;</strong></a> &lt;typename _PromiseT&gt;<br></td>
 </tr>
 <tr>
 <td align="right">struct</td>
@@ -656,7 +656,7 @@
 </thead>
 <tbody>
 <tr>
-<td align="right">typedef <a href="../structstd_1_1experimental_1_1coroutine__traits/"><strong>std::experimental::coroutine_traits</strong></a>&lt; Ret, Param... &gt;</td>
+<td align="right">typedef <a href="../structstd_1_1experimental_1_1coroutine__traits/"><strong>std::experimental::coroutine_traits</strong></a>&lt; _Ret, _Param... &gt;</td>
 <td align="left"><a href="./#typedef-coroutine-traits"><strong>coroutine_traits</strong></a>  <br></td>
 </tr>
 <tr>
@@ -706,7 +706,7 @@
 </table>
 <h2 id="public-types-documentation">Public Types Documentation<a class="headerlink" href="#public-types-documentation" title="Permanent link">&para;</a></h2>
 <h3 id="typedef-coroutine_traits">typedef coroutine_traits<a class="headerlink" href="#typedef-coroutine_traits" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">coroutine_traits</span> <span class="o">=</span> <span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">Ret</span><span class="p">,</span> <span class="n">Param</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">coroutine_traits</span> <span class="o">=</span> <span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="p">,</span> <span class="n">_Param</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
 </code></pre></div>
 
 
@@ -730,7 +730,7 @@
 
 
 <p><strong>Todo</strong></p>
-<p>apply standard spaceship operator. </p>
+<p>apply standard spaceship operator </p>
 <div class="codehilite"><pre><span></span><code><span class="k">constexpr</span> <span class="n">strong_ordering</span> <span class="k">operator</span><span class="o">&lt;=&gt;</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">x</span><span class="p">,</span> <span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">y</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 </code></pre></div>
 

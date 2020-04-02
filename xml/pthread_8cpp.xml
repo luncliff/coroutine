@@ -4,30 +4,30 @@
     <compoundname>pthread.cpp</compoundname>
     <includes refid="pthread_8h" local="no">coroutine/pthread.h</includes>
     <incdepgraph>
-      <node id="328">
+      <node id="326">
         <label>system_error</label>
       </node>
-      <node id="326">
+      <node id="324">
         <label>modules/system/pthread.cpp</label>
         <link refid="pthread.cpp"/>
-        <childnode refid="327" relation="include">
-        </childnode>
-      </node>
-      <node id="329">
-        <label>coroutine/return.h</label>
-        <link refid="return_8h"/>
-        <childnode refid="330" relation="include">
+        <childnode refid="325" relation="include">
         </childnode>
       </node>
       <node id="327">
-        <label>coroutine/pthread.h</label>
-        <link refid="pthread_8h"/>
+        <label>coroutine/return.h</label>
+        <link refid="return_8h"/>
         <childnode refid="328" relation="include">
         </childnode>
-        <childnode refid="329" relation="include">
+      </node>
+      <node id="325">
+        <label>coroutine/pthread.h</label>
+        <link refid="pthread_8h"/>
+        <childnode refid="326" relation="include">
+        </childnode>
+        <childnode refid="327" relation="include">
         </childnode>
       </node>
-      <node id="330">
+      <node id="328">
         <label>type_traits</label>
       </node>
     </incdepgraph>

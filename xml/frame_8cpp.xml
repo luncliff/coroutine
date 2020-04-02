@@ -3,14 +3,15 @@
   <compounddef id="frame_8cpp" kind="file" language="C++">
     <compoundname>frame.cpp</compoundname>
     <includes refid="frame_8h" local="yes">coroutine/frame.h</includes>
-    <includes local="no">experimental/coroutine</includes>
     <incdepgraph>
-      <node id="288">
+      <node id="287">
         <label>functional</label>
       </node>
-      <node id="283">
+      <node id="282">
         <label>coroutine/frame.h</label>
         <link refid="frame_8h"/>
+        <childnode refid="283" relation="include">
+        </childnode>
         <childnode refid="284" relation="include">
         </childnode>
         <childnode refid="285" relation="include">
@@ -19,30 +20,23 @@
         </childnode>
         <childnode refid="287" relation="include">
         </childnode>
-        <childnode refid="288" relation="include">
-        </childnode>
-      </node>
-      <node id="285">
-        <label>cstdint</label>
-      </node>
-      <node id="287">
-        <label>exception</label>
-      </node>
-      <node id="282">
-        <label>modules/portable/frame.cpp</label>
-        <link refid="frame.cpp"/>
-        <childnode refid="283" relation="include">
-        </childnode>
-        <childnode refid="289" relation="include">
-        </childnode>
       </node>
       <node id="284">
-        <label>cstddef</label>
-      </node>
-      <node id="289">
-        <label>experimental/coroutine</label>
+        <label>cstdint</label>
       </node>
       <node id="286">
+        <label>exception</label>
+      </node>
+      <node id="281">
+        <label>modules/portable/frame.cpp</label>
+        <link refid="frame.cpp"/>
+        <childnode refid="282" relation="include">
+        </childnode>
+      </node>
+      <node id="283">
+        <label>cstddef</label>
+      </node>
+      <node id="285">
         <label>type_traits</label>
       </node>
     </incdepgraph>
@@ -344,7 +338,7 @@
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="frame_8h" kindref="compound">coroutine/frame.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;experimental/coroutine&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#include<sp/>&lt;experimental/coroutine&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__GNUC__)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="frame_8cpp_1a47312a88179013e9c6fd257d1398174f" kindref="member">procedure_t</ref><sp/>=<sp/>void<sp/>(*)(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*);</highlight></codeline>

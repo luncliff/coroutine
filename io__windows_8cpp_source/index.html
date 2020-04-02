@@ -579,9 +579,10 @@
     <span class="k">const</span> <span class="k">auto</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">narrow_cast</span><span class="o">&lt;</span><span class="n">DWORD</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Internal</span><span class="p">);</span>
     <span class="n">WSABUF</span> <span class="n">bufs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">make_wsa_buf</span><span class="p">(</span><span class="n">buffer</span><span class="p">)};</span>
 
+    <span class="n">OVERLAPPED</span><span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">zero_overlapped</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="o">::</span><span class="n">WSASendTo</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">bufs</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="c1">//</span>
                     <span class="n">addr</span><span class="p">,</span> <span class="n">addrlen</span><span class="p">,</span>              <span class="c1">//</span>
-                    <span class="n">zero_overlapped</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="n">on_io_done</span><span class="p">)</span> <span class="o">==</span> <span class="n">NO_ERROR</span><span class="p">)</span>
+                    <span class="n">p</span><span class="p">,</span> <span class="n">on_io_done</span><span class="p">)</span> <span class="o">==</span> <span class="n">NO_ERROR</span><span class="p">)</span>
         <span class="k">return</span><span class="p">;</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">WSAGetLastError</span><span class="p">())</span> <span class="p">{</span>
@@ -634,10 +635,11 @@
     <span class="k">auto</span> <span class="n">addrlen</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">narrow_cast</span><span class="o">&lt;</span><span class="kt">socklen_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">InternalHigh</span><span class="p">);</span>
     <span class="k">auto</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">gsl</span><span class="o">::</span><span class="n">narrow_cast</span><span class="o">&lt;</span><span class="n">DWORD</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Internal</span><span class="p">);</span>
     <span class="n">WSABUF</span> <span class="n">bufs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">make_wsa_buf</span><span class="p">(</span><span class="n">buffer</span><span class="p">)};</span>
+    <span class="n">OVERLAPPED</span><span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">zero_overlapped</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="o">::</span><span class="n">WSARecvFrom</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">bufs</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">flag</span><span class="p">,</span> <span class="c1">//</span>
                       <span class="n">addr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">addrlen</span><span class="p">,</span>              <span class="c1">//</span>
-                      <span class="n">zero_overlapped</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="n">on_io_done</span><span class="p">)</span> <span class="o">==</span> <span class="n">NO_ERROR</span><span class="p">)</span>
+                      <span class="n">p</span><span class="p">,</span> <span class="n">on_io_done</span><span class="p">)</span> <span class="o">==</span> <span class="n">NO_ERROR</span><span class="p">)</span>
         <span class="k">return</span><span class="p">;</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">ec</span> <span class="o">=</span> <span class="n">WSAGetLastError</span><span class="p">())</span> <span class="p">{</span>

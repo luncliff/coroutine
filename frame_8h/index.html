@@ -496,7 +496,7 @@
                 <h1 id="file-frameh">File frame.h<a class="headerlink" href="#file-frameh" title="Permanent link">&para;</a></h1>
 <p><a href="../files/"><strong>File List</strong></a> <strong>&gt;</strong> <a href="../dir_9b61234ab8cba81e3caae75634773f62/"><strong>coroutine</strong></a> <strong>&gt;</strong> <a href="./"><strong>frame.h</strong></a></p>
 <p><a href="../frame_8h_source/">Go to the source code of this file.</a></p>
-<p><em>Header to adjust the difference of coroutine frame between compilers.</em> <a href="#detailed-description">More...</a></p>
+<p><code>&lt;coroutine&gt;</code> <em>header with</em><code>std::</code> <em>namespace/</em><a href="#detailed-description">More...</a></p>
 <ul>
 <li><code>#include &lt;cstddef&gt;</code></li>
 <li><code>#include &lt;cstdint&gt;</code></li>
@@ -562,7 +562,7 @@
 </tr>
 <tr>
 <td align="right">struct</td>
-<td align="left"><a href="../structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4/"><strong>hash&lt; coroutine_handle&lt; P &gt; &gt;</strong></a> &lt;typename P&gt;<br></td>
+<td align="left"><a href="../structstd_1_1hash_3_01coroutine__handle_3_01__PromiseT_01_4_01_4/"><strong>hash&lt; coroutine_handle&lt; _PromiseT &gt; &gt;</strong></a> &lt;typename _PromiseT&gt;<br></td>
 </tr>
 <tr>
 <td align="right">struct</td>
@@ -626,15 +626,22 @@
 <td align="right">define</td>
 <td align="left"><a href="./#define-experimental-resumable-"><strong>_EXPERIMENTAL_RESUMABLE_</strong></a>  <br></td>
 </tr>
+<tr>
+<td align="right">define</td>
+<td align="left"><a href="./#define-resumable-functions-supported"><strong>_RESUMABLE_FUNCTIONS_SUPPORTED</strong></a>  <br></td>
+</tr>
 </tbody>
 </table>
 <h1 id="detailed-description">Detailed Description<a class="headerlink" href="#detailed-description" title="Permanent link">&para;</a></h1>
 <p><strong>Author:</strong></p>
 <p>github.com/luncliff (<a href="mailto:luncliff@gmail.com">luncliff@gmail.com</a>) </p>
+<p><strong>Note:</strong></p>
+<p>The implementation adjusts difference of coroutine frame between compilers</p>
 <p><strong>See also:</strong> &lt;experimental/resumable&gt; from Microsoft VC++ (since 2017 Feb.) </p>
 <p><strong>See also:</strong> &lt;experimental/coroutine&gt; from LLVM libcxx (since 6.0) </p>
 <p><strong>See also:</strong> <a href="https://github.com/iains/gcc-cxx-coroutines/tree/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines">https://github.com/iains/gcc-cxx-coroutines/tree/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines</a> </p>
-<p><strong>See also:</strong> 17.12 Coroutines [support.coroutine]</p>
+<p><strong>See also:</strong> 17.12 Coroutines [support.coroutine] </p>
+<p><strong>See also:</strong> <a href="https://en.cppreference.com/w/cpp/header">https://en.cppreference.com/w/cpp/header</a></p>
 <p><strong>Copyright:</strong></p>
 <p>CC BY 4.0 </p>
 <h2 id="public-functions-documentation">Public Functions Documentation<a class="headerlink" href="#public-functions-documentation" title="Permanent link">&para;</a></h2>
@@ -683,6 +690,11 @@
 
 <h3 id="define-_experimental_resumable_">define _EXPERIMENTAL_RESUMABLE_<a class="headerlink" href="#define-_experimental_resumable_" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="cp">#define _EXPERIMENTAL_RESUMABLE_ </span>
+</code></pre></div>
+
+
+<h3 id="define-_resumable_functions_supported">define _RESUMABLE_FUNCTIONS_SUPPORTED<a class="headerlink" href="#define-_resumable_functions_supported" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">#define _RESUMABLE_FUNCTIONS_SUPPORTED </span>
 </code></pre></div>
 
 

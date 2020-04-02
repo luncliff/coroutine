@@ -42,7 +42,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/frame.h" line="278" column="1" bodyfile="interface/coroutine/frame.h" bodystart="278" bodyend="278"/>
+    <location file="interface/coroutine/frame.h" line="285" column="1" bodyfile="interface/coroutine/frame.h" bodystart="285" bodyend="285"/>
     <listofallmembers>
     </listofallmembers>
   </compounddef>

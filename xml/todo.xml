@@ -6,7 +6,7 @@
     <detaileddescription>
 <para><variablelist>
 <varlistentry><term><anchor id="todo_1_todo000001"/>Member <ref refid="namespacestd_1ac124cc9360c133441e329a5a33c1280d" kindref="member">std::operator!=</ref>  (const <ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt; void &gt;</ref> _Left, const <ref refid="structstd_1_1coroutine__handle_3_01void_01_4" kindref="compound">coroutine_handle&lt; void &gt;</ref> _Right) noexcept</term></varlistentry>
-<listitem><para>apply standard spaceship operator. <programlisting><codeline><highlight class="normal">constexpr<sp/>strong_ordering<sp/>operator&lt;=&gt;(coroutine_handle&lt;&gt;<sp/>x,<sp/>coroutine_handle&lt;&gt;<sp/>y)<sp/>noexcept;</highlight></codeline>
+<listitem><para>apply standard spaceship operator <programlisting><codeline><highlight class="normal">constexpr<sp/>strong_ordering<sp/>operator&lt;=&gt;(coroutine_handle&lt;&gt;<sp/>x,<sp/>coroutine_handle&lt;&gt;<sp/>y)<sp/>noexcept;</highlight></codeline>
 </programlisting></para></listitem>
 </variablelist>
 </para>    </detaileddescription>

@@ -204,10 +204,10 @@
   <compound refid="classframe__t" kind="class"><name>frame_t</name>
     <member refid="classframe__t_1a1fc79f08edd65832685b317604d6ba7b" kind="function"><name>frame_t</name></member>
   </compound>
-  <compound refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4" kind="struct"><name>std::hash&lt; coroutine_handle&lt; P &gt; &gt;</name>
-    <member refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4_1a8d8621f44cb43d3adb4a65bce92a2d90" kind="typedef"><name>argument_type</name></member>
-    <member refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4_1af3ce9a823d91241074300d1185cd722a" kind="typedef"><name>result_type</name></member>
-    <member refid="structstd_1_1hash_3_01coroutine__handle_3_01P_01_4_01_4_1ac16cee347fbc64caaf634673c074832a" kind="function"><name>operator()</name></member>
+  <compound refid="structstd_1_1hash_3_01coroutine__handle_3_01__PromiseT_01_4_01_4" kind="struct"><name>std::hash&lt; coroutine_handle&lt; _PromiseT &gt; &gt;</name>
+    <member refid="structstd_1_1hash_3_01coroutine__handle_3_01__PromiseT_01_4_01_4_1a17a308596c93d8fea00be9b34e6bed73" kind="typedef"><name>argument_type</name></member>
+    <member refid="structstd_1_1hash_3_01coroutine__handle_3_01__PromiseT_01_4_01_4_1a831be9621f1a8f80dc6e3c78ca1a5ec6" kind="typedef"><name>result_type</name></member>
+    <member refid="structstd_1_1hash_3_01coroutine__handle_3_01__PromiseT_01_4_01_4_1a70c22c65e73a709c7d9fb0fd9c6d8908" kind="function"><name>operator()</name></member>
   </compound>
   <compound refid="classcoro_1_1io__recv" kind="class"><name>coro::io_recv</name>
     <member refid="classcoro_1_1io__recv_1ad23ab79a70711925a02fe7d8eb4aae68" kind="function"><name>suspend</name></member>
@@ -453,7 +453,7 @@
   </compound>
   <compound refid="namespacestd" kind="namespace"><name>std</name>
     <member refid="namespacestd_1a65bade8aeae7a9efa8101240c161d109" kind="typedef"><name>noop_coroutine_handle</name></member>
-    <member refid="namespacestd_1a6b868b9d1542641a1fc432863d8c91d2" kind="typedef"><name>coroutine_traits</name></member>
+    <member refid="namespacestd_1a249d66fd337954c451f559962af1b5c9" kind="typedef"><name>coroutine_traits</name></member>
     <member refid="namespacestd_1a6afe77761cc2bb4b999d0c5d420eaa91" kind="function"><name>operator==</name></member>
     <member refid="namespacestd_1ac124cc9360c133441e329a5a33c1280d" kind="function"><name>operator!=</name></member>
     <member refid="namespacestd_1a2e1bafefd3a1a93c5df60be5bb463d90" kind="function"><name>operator&lt;</name></member>
@@ -474,6 +474,7 @@
   <compound refid="frame_8h" kind="file"><name>frame.h</name>
     <member refid="frame_8h_1a5ecce067256439ed3b5681e094ae749c" kind="define"><name>_COROUTINE_</name></member>
     <member refid="frame_8h_1a3096b918a14bbd178dd4899876bba567" kind="define"><name>_EXPERIMENTAL_RESUMABLE_</name></member>
+    <member refid="frame_8h_1aa5ba09ef69cb3409a3479fc157f8e74a" kind="define"><name>_RESUMABLE_FUNCTIONS_SUPPORTED</name></member>
     <member refid="frame_8h_1ac002a62257f981a6fc711d37427b78ab" kind="function"><name>portable_coro_done</name></member>
     <member refid="frame_8h_1a9e5d5a4fb051d725d1b9dd68151ec9fd" kind="function"><name>portable_coro_resume</name></member>
     <member refid="frame_8h_1a5dc7784c46cb12b309a1da8dbe9b657f" kind="function"><name>portable_coro_destroy</name></member>

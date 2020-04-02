@@ -28,7 +28,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="219" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="198" bodyend="212"/>
+        <location file="interface/coroutine/net.h" line="222" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="198" bodyend="212"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1io__recv_1a19890610fceadf4dc82e2bc2bb7f31aa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int64_t</type>
@@ -38,11 +38,11 @@
         <briefdescription>
 <para>Fetch I/O result/error. </para>        </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>int64_t return of <computeroutput>recv</computeroutput> This function must be used through <computeroutput>co_await</computeroutput>. Multiple invoke of this will lead to malfunction. </para></simplesect>
-</para>        </detaileddescription>
+<para><simplesect kind="return"><para>int64_t return of <computeroutput>recv</computeroutput></para></simplesect>
+This function must be used through <computeroutput>co_await</computeroutput>. Multiple invoke of this will lead to malfunction. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="227" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="214" bodyend="221"/>
+        <location file="interface/coroutine/net.h" line="231" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="214" bodyend="221"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -57,7 +57,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="230" column="1" bodyfile="interface/coroutine/net.h" bodystart="230" bodyend="232"/>
+        <location file="interface/coroutine/net.h" line="234" column="1" bodyfile="interface/coroutine/net.h" bodystart="234" bodyend="236"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1io__recv_1af3d6fd62e9cc0e51db565c111769d7f3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -74,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="233" column="1" bodyfile="interface/coroutine/net.h" bodystart="233" bodyend="235"/>
+        <location file="interface/coroutine/net.h" line="237" column="1" bodyfile="interface/coroutine/net.h" bodystart="237" bodyend="239"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1io__recv_1a009e06ff7800d9ede9e3ac8e6b7d0861" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>int64_t</type>
@@ -87,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="236" column="1" bodyfile="interface/coroutine/net.h" bodystart="236" bodyend="238"/>
+        <location file="interface/coroutine/net.h" line="240" column="1" bodyfile="interface/coroutine/net.h" bodystart="240" bodyend="242"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -137,7 +137,7 @@
         <label>io_control_block</label>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/net.h" line="213" column="1" bodyfile="interface/coroutine/net.h" bodystart="213" bodyend="239"/>
+    <location file="interface/coroutine/net.h" line="216" column="1" bodyfile="interface/coroutine/net.h" bodystart="216" bodyend="243"/>
     <listofallmembers>
       <member refid="classcoro_1_1io__recv_1acbe69a0ee11a0ad650a27dae19fbae17" prot="public" virt="non-virtual"><scope>coro::io_recv</scope><name>await_ready</name></member>
       <member refid="classcoro_1_1io__recv_1a009e06ff7800d9ede9e3ac8e6b7d0861" prot="public" virt="non-virtual"><scope>coro::io_recv</scope><name>await_resume</name></member>

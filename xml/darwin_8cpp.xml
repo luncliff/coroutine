@@ -7,78 +7,78 @@
     <includes refid="unix_8h" local="no">coroutine/unix.h</includes>
     <includes refid="yield_8hpp" local="no">coroutine/yield.hpp</includes>
     <incdepgraph>
-      <node id="302">
+      <node id="300">
         <label>coroutine/yield.hpp</label>
         <link refid="yield_8hpp"/>
-        <childnode refid="303" relation="include">
+        <childnode refid="301" relation="include">
         </childnode>
-        <childnode refid="298" relation="include">
+        <childnode refid="296" relation="include">
         </childnode>
       </node>
-      <node id="297">
+      <node id="295">
         <label>functional</label>
       </node>
-      <node id="292">
+      <node id="290">
         <label>coroutine/frame.h</label>
         <link refid="frame_8h"/>
+        <childnode refid="291" relation="include">
+        </childnode>
+        <childnode refid="292" relation="include">
+        </childnode>
         <childnode refid="293" relation="include">
         </childnode>
         <childnode refid="294" relation="include">
         </childnode>
         <childnode refid="295" relation="include">
         </childnode>
+      </node>
+      <node id="301">
+        <label>iterator</label>
+      </node>
+      <node id="292">
+        <label>cstdint</label>
+      </node>
+      <node id="289">
+        <label>modules/system/darwin.cpp</label>
+        <link refid="darwin.cpp"/>
+        <childnode refid="290" relation="include">
+        </childnode>
         <childnode refid="296" relation="include">
         </childnode>
         <childnode refid="297" relation="include">
         </childnode>
+        <childnode refid="300" relation="include">
+        </childnode>
       </node>
-      <node id="303">
-        <label>iterator</label>
+      <node id="296">
+        <label>coroutine/return.h</label>
+        <link refid="return_8h"/>
+        <childnode refid="293" relation="include">
+        </childnode>
+      </node>
+      <node id="299">
+        <label>gsl/gsl</label>
       </node>
       <node id="294">
-        <label>cstdint</label>
+        <label>exception</label>
       </node>
-      <node id="291">
-        <label>modules/system/darwin.cpp</label>
-        <link refid="darwin.cpp"/>
-        <childnode refid="292" relation="include">
-        </childnode>
+      <node id="297">
+        <label>coroutine/unix.h</label>
+        <link refid="unix_8h"/>
         <childnode refid="298" relation="include">
         </childnode>
         <childnode refid="299" relation="include">
         </childnode>
-        <childnode refid="302" relation="include">
+        <childnode refid="296" relation="include">
         </childnode>
       </node>
-      <node id="298">
-        <label>coroutine/return.h</label>
-        <link refid="return_8h"/>
-        <childnode refid="295" relation="include">
-        </childnode>
-      </node>
-      <node id="301">
-        <label>gsl/gsl</label>
-      </node>
-      <node id="296">
-        <label>exception</label>
-      </node>
-      <node id="299">
-        <label>coroutine/unix.h</label>
-        <link refid="unix_8h"/>
-        <childnode refid="300" relation="include">
-        </childnode>
-        <childnode refid="301" relation="include">
-        </childnode>
-        <childnode refid="298" relation="include">
-        </childnode>
-      </node>
-      <node id="293">
+      <node id="291">
         <label>cstddef</label>
       </node>
-      <node id="300">
+      <node id="298">
         <label>sys/event.h</label>
       </node>
-      <node id="295">
+      <node id="293">
         <label>type_traits</label>
       </node>
     </incdepgraph>

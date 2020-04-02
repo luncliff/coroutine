@@ -38,11 +38,11 @@
         <briefdescription>
 <para>Fetch I/O result/error. </para>        </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>int64_t return of <computeroutput>sendto</computeroutput> This function must be used through <computeroutput>co_await</computeroutput>. Multiple invoke of this will lead to malfunction. </para></simplesect>
-</para>        </detaileddescription>
+<para><simplesect kind="return"><para>int64_t return of <computeroutput>sendto</computeroutput></para></simplesect>
+This function must be used through <computeroutput>co_await</computeroutput>. Multiple invoke of this will lead to malfunction. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="118" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="96" bodyend="105"/>
+        <location file="interface/coroutine/net.h" line="119" column="1" bodyfile="modules/net/io_darwin.cpp" bodystart="96" bodyend="105"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -57,7 +57,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="121" column="1" bodyfile="interface/coroutine/net.h" bodystart="121" bodyend="123"/>
+        <location file="interface/coroutine/net.h" line="122" column="1" bodyfile="interface/coroutine/net.h" bodystart="122" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1io__send__to_1ab679c092e208d40a2fc1f59e7d904861" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -82,7 +82,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="127" column="1" bodyfile="interface/coroutine/net.h" bodystart="127" bodyend="129"/>
+        <location file="interface/coroutine/net.h" line="128" column="1" bodyfile="interface/coroutine/net.h" bodystart="128" bodyend="130"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1io__send__to_1a04349caf971062352ff0427412907a1d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>int64_t</type>
@@ -95,7 +95,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/net.h" line="130" column="1" bodyfile="interface/coroutine/net.h" bodystart="130" bodyend="132"/>
+        <location file="interface/coroutine/net.h" line="131" column="1" bodyfile="interface/coroutine/net.h" bodystart="131" bodyend="133"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -145,7 +145,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="interface/coroutine/net.h" line="105" column="1" bodyfile="interface/coroutine/net.h" bodystart="105" bodyend="133"/>
+    <location file="interface/coroutine/net.h" line="105" column="1" bodyfile="interface/coroutine/net.h" bodystart="105" bodyend="134"/>
     <listofallmembers>
       <member refid="classcoro_1_1io__send__to_1af8fa0d72e893de5ca95a2683c113c39c" prot="public" virt="non-virtual"><scope>coro::io_send_to</scope><name>await_ready</name></member>
       <member refid="classcoro_1_1io__send__to_1a04349caf971062352ff0427412907a1d" prot="public" virt="non-virtual"><scope>coro::io_send_to</scope><name>await_resume</name></member>
