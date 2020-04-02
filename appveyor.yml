@@ -31,6 +31,13 @@ cache:
 environment:
   install_path: c:/install
 
+matrix:
+  exclude:
+    # for some reason UDP test hangs forever
+    - image: Visual Studio 2017
+      platform: x86
+      configuration: Release
+
 install:
   - ps: Write-Output $(git submodule update --init --recursive)
   - ps: if($env:PLATFORM -eq "x64"){ vcpkg install --triplet x64-windows ms-gsl }

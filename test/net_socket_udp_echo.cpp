@@ -181,12 +181,16 @@ int main(int, char*[]) {
         udp_recv_datagram(sockets[i], works[2 * i + 0], rsz[i], wg);
         udp_send_datagram(sockets[i], works[2 * i + 1], remote, ssz[i], wg);
     }
+
+    // prevent infinite loop for this test....
+    auto repeat = 200u;
+
     // latch will help to sync the fork-join of coroutines
     do {
         // perform APC on Windows,
         // polling in the other platform
         poll_net_tasks(2'000'000);
-    } while (wg.try_wait() == false);
+    } while (wg.try_wait() == false && repeat--);
 
     // This is an echo. so receive/send length must be equal !
     for (auto i = 0U; i < max_socket_count; ++i) {
@@ -194,10 +198,5 @@ int main(int, char*[]) {
         assert(rsz[i] != -1);     //
         assert(ssz[i] == rsz[i]); // sent == received
     }
-
-    // this sleep is for waiting windows completion routines
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(1s);
-
     return EXIT_SUCCESS;
 }
