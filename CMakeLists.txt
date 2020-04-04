@@ -8,8 +8,6 @@
 #       - Clang + Windows   (Ninja)
 #       - Clang + MacOS     (Unix Makefiles, Ninja)
 #       - Clang + Linux     (Unix Makefiles, Ninja) : WSL, Ubuntu 16.04 and later
-#
-#   Working
 #       - GCC   + Linux     (Ninja, Unix Makefiles)
 #
 #   Options
@@ -86,7 +84,7 @@ install(FILES			${MODULE_INTERFACE_DIR}/coroutine/net.h
 
 install(TARGETS     coroutine_portable coroutine_system coroutine_net
         EXPORT      coroutine-config
-        INCLUDES    DESTINATION     ${CMAKE_INSTALL_PREFIX}/bin
+        INCLUDES    DESTINATION     ${CMAKE_INSTALL_PREFIX}/include
         RUNTIME     DESTINATION     ${CMAKE_INSTALL_PREFIX}/bin
         LIBRARY     DESTINATION     ${CMAKE_INSTALL_PREFIX}/lib
         ARCHIVE     DESTINATION     ${CMAKE_INSTALL_PREFIX}/lib
