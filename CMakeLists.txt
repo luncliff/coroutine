@@ -44,10 +44,13 @@ include(external-gsl)
 #
 set(MODULE_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
-    message(STATUS "")
-    message(STATUS "	clang-cl won't work with <experimental/coroutine>")
+    message(STATUS "    clang-cl won't work with <experimental/coroutine>")
     message(STATUS "	use <coroutine/frame.h> for the case ...")
     message(STATUS "")
+
+    # 'target_compile_options' removes duplicated -Xclang directive.
+    # We can avoid the removal by using CMAKE_CXX_FLAGS
+    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
 endif()
 add_subdirectory(modules/portable)	# corotuien_portable
 add_subdirectory(modules/system)    # coroutine_system

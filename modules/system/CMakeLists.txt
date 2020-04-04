@@ -35,7 +35,7 @@ PRIVATE
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
-    # ...
+    # ... PRIVATE should be placed here ...
 
 elseif(MSVC)
     target_compile_options(coroutine_system

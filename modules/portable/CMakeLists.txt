@@ -21,7 +21,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
     if(WIN32)
         # 'target_compile_options' removes duplicated -Xclang directive.
         # avoide the removal using cmake flag variable
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts" PARENT_SCOPE)
         target_compile_options(coroutine_portable
         PUBLIC
             /std:c++latest
@@ -31,8 +30,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
         target_compile_definitions(coroutine_portable
         PUBLIC
             USE_PORTABLE_COROUTINE_HANDLE
-            _RESUMABLE_FUNCTIONS_SUPPORTED
-            # _EXPERIMENTAL_RESUMABLE_
+            _RESUMABLE_FUNCTIONS_SUPPORTED  # _EXPERIMENTAL_RESUMABLE_
         )
 
     elseif(UNIX OR APPLE)

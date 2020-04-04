@@ -9,6 +9,7 @@
  * @see https://github.com/iains/gcc-cxx-coroutines/tree/c%2B%2B-coroutines/gcc/testsuite/g%2B%2B.dg/coroutines
  * @see 17.12 Coroutines [support.coroutine]
  * @see https://en.cppreference.com/w/cpp/header
+ * @see http://www.open-std.org/jtc1/sc22/wg21/docs/papers
  * 
  * @copyright CC BY 4.0
  */
@@ -64,10 +65,10 @@ struct coroutine_handle;
 template <>
 struct coroutine_handle<void> {
     // 17.12.3.1, construct
-    constexpr coroutine_handle() noexcept : _Ptr{nullptr} {
+    constexpr coroutine_handle() noexcept {
     }
     // 17.12.3.1, reset
-    constexpr coroutine_handle(std::nullptr_t) noexcept : _Ptr{nullptr} {
+    constexpr coroutine_handle(std::nullptr_t) noexcept {
     }
     coroutine_handle& operator=(nullptr_t) noexcept {
         _Ptr = nullptr;
@@ -102,7 +103,7 @@ struct coroutine_handle<void> {
     }
 
   protected: // this is `private` in the standard
-    portable_coro_prefix* _Ptr;
+    portable_coro_prefix* _Ptr = nullptr;
 };
 
 template <typename _PromiseT>

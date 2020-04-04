@@ -2,7 +2,7 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 add_library(coroutine_net
-    # ${MODULE_INTERFACE_DIR}/coroutine/net.h
+    ${MODULE_INTERFACE_DIR}/coroutine/net.h
     resolver.cpp
 )
 
@@ -28,40 +28,11 @@ PRIVATE
     ${CMAKE_DL_LIBS}
 )
 
-# if(NOT BUILD_SHARED_LIBS)
-#     target_compile_definitions(coroutine_net
-#     PUBLIC
-#         FORCE_STATIC_LINK
-#     )
-# endif()
-
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
-    if(WIN32)
-        target_compile_options(coroutine_net
-        PUBLIC
-            /std:c++latest
-            -fms-compatibility -Xclang -fcoroutines-ts
-        )
-        # in this case, we always use portable header
-        set_target_properties(coroutine_net
-        PROPERTIES
-            PUBLIC_COMPILE_DEFINITIONS "USE_PORTABLE_COROUTINE_HANDLE;_RESUMABLE_FUNCTIONS_SUPPORTED"
-        )
-        
-    elseif(UNIX OR APPLE)
-        target_compile_options(coroutine_net
-        PUBLIC
-            -std=c++2a -stdlib=libc++
-            -fcoroutines-ts
-        )
-    endif()
+    # ... PRIVATE should be placed here ...
 
 elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
-    target_compile_options(coroutine_net
-    PUBLIC
-        -std=gnu++2a
-        -fcoroutines -fconcepts # -fno-exceptions
-    )
+    # ... PRIVATE should be placed here ...
 
 elseif(MSVC)
     set_target_properties(coroutine_net
@@ -69,8 +40,6 @@ elseif(MSVC)
         INTERFACE_LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
     )
     target_compile_options(coroutine_net
-    PUBLIC
-        /std:c++latest /await
     PRIVATE
         /JMC-
     )
