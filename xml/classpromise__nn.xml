@@ -39,20 +39,20 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="318">
+      <node id="316">
         <label>promise_nn</label>
         <link refid="classpromise__nn"/>
       </node>
-      <node id="320">
+      <node id="318">
         <label>null_frame_t::promise_type</label>
         <link refid="structnull__frame__t_1_1promise__type"/>
-        <childnode refid="319" relation="public-inheritance">
+        <childnode refid="317" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="319">
+      <node id="317">
         <label>null_frame_promise</label>
         <link refid="classnull__frame__promise"/>
-        <childnode refid="318" relation="public-inheritance">
+        <childnode refid="316" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>

@@ -97,43 +97,43 @@ This function must be used through <computeroutput>co_await</computeroutput>. Mu
 <simplesect kind="see"><para>WSASend </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="265">
+      <node id="263">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="266" relation="public-inheritance">
+        <childnode refid="264" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="266">
+      <node id="264">
         <label>io_control_block</label>
       </node>
-      <node id="264">
+      <node id="262">
         <label>coro::io_send</label>
         <link refid="classcoro_1_1io__send"/>
-        <childnode refid="265" relation="public-inheritance">
+        <childnode refid="263" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="270">
+      <node id="268">
         <label>std::coroutine_handle&lt; void &gt;</label>
         <link refid="structstd_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="268">
+      <node id="266">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="269" relation="public-inheritance">
+        <childnode refid="267" relation="public-inheritance">
         </childnode>
-        <childnode refid="270" relation="usage">
+        <childnode refid="268" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="269">
+      <node id="267">
         <label>io_control_block</label>
       </node>
-      <node id="267">
+      <node id="265">
         <label>coro::io_send</label>
         <link refid="classcoro_1_1io__send"/>
-        <childnode refid="268" relation="public-inheritance">
+        <childnode refid="266" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

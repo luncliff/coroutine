@@ -569,10 +569,6 @@
 <td align="right">class</td>
 <td align="left"><a href="../classcoro_1_1section/"><strong>section</strong></a> <br><em>Standard lockable with win32 criticial section.</em></td>
 </tr>
-<tr>
-<td align="right">class</td>
-<td align="left"><a href="../classcoro_1_1set__or__cancel/"><strong>set_or_cancel</strong></a> <br><em>Awaitable event type over Win32 thread pool</em>  <em>Its object can be</em> <code>co_await</code> <em>ed only once. The purpose of such design is to encourage use of short functions rather than containing multiple objects in the function's body.</em></td>
-</tr>
 </tbody>
 </table>
 <h2 id="public-types">Public Types<a class="headerlink" href="#public-types" title="Permanent link">&para;</a></h2>
@@ -729,10 +725,6 @@
 <tr>
 <td align="right">auto</td>
 <td align="left"><a href="./#function-send-to"><strong>send_to</strong></a> (uint64_t sd, const sockaddr_in6 &amp; remote, <a href="./#typedef-io-buffer-t"><strong>io_buffer_t</strong></a> buf, <a href="../classcoro_1_1io__work__t/"><strong>io_work_t</strong></a> &amp; work) noexcept<br><em>Constructs</em> <code>io_send_to</code> <em>awaitable with the given parameters.</em></td>
-</tr>
-<tr>
-<td align="right">void __stdcall</td>
-<td align="left"><a href="./#function-wait-event-on-thread-pool"><strong>wait_event_on_thread_pool</strong></a> (PVOID ctx, BOOLEAN timedout) <br></td>
 </tr>
 <tr>
 <td align="right">auto</td>
@@ -1097,14 +1089,6 @@
 </ul>
 <p><strong>Returns:</strong></p>
 <p><a href="../classcoro_1_1io__send__to/"><strong>io_send_to</strong></a>&amp; </p>
-<h3 id="function-wait_event_on_thread_pool">function wait_event_on_thread_pool<a class="headerlink" href="#function-wait_event_on_thread_pool" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kt">void</span> <span class="kr">__stdcall</span> <span class="n">coro</span><span class="o">::</span><span class="n">wait_event_on_thread_pool</span> <span class="p">(</span>
-    <span class="n">PVOID</span> <span class="n">ctx</span><span class="p">,</span>
-    <span class="n">BOOLEAN</span> <span class="n">timedout</span>
-<span class="p">)</span> 
-</code></pre></div>
-
-
 <h3 id="function-wait_in">function wait_in<a class="headerlink" href="#function-wait_in" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="n">coro</span><span class="o">::</span><span class="n">wait_in</span> <span class="p">(</span>
     <span class="n">epoll_owner</span> <span class="o">&amp;</span> <span class="n">ep</span><span class="p">,</span>

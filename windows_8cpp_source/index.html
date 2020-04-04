@@ -479,6 +479,7 @@
 
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
 
+<span class="cp">#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="n">is_move_assignable_v</span><span class="o">&lt;</span><span class="n">set_or_cancel</span><span class="o">&gt;</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="n">is_move_constructible_v</span><span class="o">&lt;</span><span class="n">set_or_cancel</span><span class="o">&gt;</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="n">is_copy_assignable_v</span><span class="o">&lt;</span><span class="n">set_or_cancel</span><span class="o">&gt;</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
@@ -518,6 +519,7 @@
                            <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;RegisterWaitForSingleObject&quot;</span><span class="p">};</span>
     <span class="p">}</span>
 <span class="p">}</span>
+<span class="cp">#endif</span>
 
 <span class="c1">// auto get_threads_of(DWORD pid) noexcept(false) -&gt; enumerable&lt;DWORD&gt; {</span>
 <span class="c1">//     // for current process</span>

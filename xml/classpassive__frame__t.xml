@@ -33,6 +33,17 @@
 <simplesect kind="see"><para><ref refid="classpromise__aa" kindref="compound">promise_aa</ref> </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
+      <node id="304">
+        <label>coroutine_handle&lt; void &gt;</label>
+      </node>
+      <node id="303">
+        <label>passive_frame_t</label>
+        <link refid="classpassive__frame__t"/>
+        <childnode refid="304" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
       <node id="306">
         <label>coroutine_handle&lt; void &gt;</label>
       </node>
@@ -40,17 +51,6 @@
         <label>passive_frame_t</label>
         <link refid="classpassive__frame__t"/>
         <childnode refid="306" relation="public-inheritance">
-        </childnode>
-      </node>
-    </inheritancegraph>
-    <collaborationgraph>
-      <node id="308">
-        <label>coroutine_handle&lt; void &gt;</label>
-      </node>
-      <node id="307">
-        <label>passive_frame_t</label>
-        <link refid="classpassive__frame__t"/>
-        <childnode refid="308" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

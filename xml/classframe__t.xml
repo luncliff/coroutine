@@ -32,6 +32,17 @@
 <simplesect kind="see"><para><ref refid="classpromise__na" kindref="compound">promise_na</ref> </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
+      <node id="243">
+        <label>coroutine_handle&lt; void &gt;</label>
+      </node>
+      <node id="242">
+        <label>frame_t</label>
+        <link refid="classframe__t"/>
+        <childnode refid="243" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
       <node id="245">
         <label>coroutine_handle&lt; void &gt;</label>
       </node>
@@ -39,17 +50,6 @@
         <label>frame_t</label>
         <link refid="classframe__t"/>
         <childnode refid="245" relation="public-inheritance">
-        </childnode>
-      </node>
-    </inheritancegraph>
-    <collaborationgraph>
-      <node id="247">
-        <label>coroutine_handle&lt; void &gt;</label>
-      </node>
-      <node id="246">
-        <label>frame_t</label>
-        <link refid="classframe__t"/>
-        <childnode refid="247" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

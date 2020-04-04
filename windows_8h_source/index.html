@@ -473,6 +473,8 @@
 
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
 
+<span class="cp">#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)</span>
+
 <span class="k">class</span> <span class="nc">set_or_cancel</span> <span class="k">final</span> <span class="p">{</span>
     <span class="n">HANDLE</span> <span class="n">hobject</span><span class="p">;</span>
 
@@ -500,6 +502,7 @@
         <span class="k">return</span> <span class="n">unregister</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
+<span class="cp">#endif </span><span class="c1">// WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES</span>
 
 <span class="k">class</span> <span class="nc">continue_on_thread_pool</span> <span class="k">final</span> <span class="p">{</span>
     <span class="k">static</span> <span class="kt">void</span> <span class="kr">__stdcall</span> <span class="n">resume_on_thread_pool</span><span class="p">(</span><span class="n">PTP_CALLBACK_INSTANCE</span><span class="p">,</span> <span class="n">PVOID</span><span class="p">,</span>

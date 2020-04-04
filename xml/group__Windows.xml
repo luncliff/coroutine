@@ -3,7 +3,6 @@
   <compounddef id="group__Windows" kind="group">
     <compoundname>Windows</compoundname>
     <title>Windows</title>
-    <innerclass refid="classcoro_1_1set__or__cancel" prot="public">coro::set_or_cancel</innerclass>
     <innerclass refid="classcoro_1_1continue__on__thread__pool" prot="public">coro::continue_on_thread_pool</innerclass>
     <innerclass refid="classcoro_1_1continue__on__apc" prot="public">coro::continue_on_apc</innerclass>
     <briefdescription>

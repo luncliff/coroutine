@@ -51,25 +51,25 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="332">
+      <node id="336">
         <label>frame_t::promise_type</label>
         <link refid="classframe__t_1_1promise__type"/>
-        <childnode refid="333" relation="public-inheritance">
+        <childnode refid="337" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="333">
+      <node id="337">
         <label>promise_na</label>
         <link refid="classpromise__na"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="334">
+      <node id="338">
         <label>frame_t::promise_type</label>
         <link refid="classframe__t_1_1promise__type"/>
-        <childnode refid="335" relation="public-inheritance">
+        <childnode refid="339" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="335">
+      <node id="339">
         <label>promise_na</label>
         <link refid="classpromise__na"/>
       </node>

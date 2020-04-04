@@ -24,24 +24,24 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="336">
+      <node id="324">
         <label>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</label>
         <link refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type"/>
-        <childnode refid="337" relation="public-inheritance">
+        <childnode refid="325" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="337">
+      <node id="325">
         <label>coro::null_frame_promise</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="338">
+      <node id="326">
         <label>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</label>
         <link refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type"/>
-        <childnode refid="339" relation="public-inheritance">
+        <childnode refid="327" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="339">
+      <node id="327">
         <label>coro::null_frame_promise</label>
       </node>
     </collaborationgraph>

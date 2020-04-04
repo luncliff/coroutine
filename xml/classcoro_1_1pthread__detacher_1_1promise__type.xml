@@ -37,26 +37,26 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="329">
+      <node id="333">
         <label>coro::pthread_spawn_promise</label>
         <link refid="classcoro_1_1pthread__spawn__promise"/>
       </node>
-      <node id="328">
+      <node id="332">
         <label>coro::pthread_detacher::promise_type</label>
         <link refid="classcoro_1_1pthread__detacher_1_1promise__type"/>
-        <childnode refid="329" relation="public-inheritance">
+        <childnode refid="333" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="331">
+      <node id="335">
         <label>coro::pthread_spawn_promise</label>
         <link refid="classcoro_1_1pthread__spawn__promise"/>
       </node>
-      <node id="330">
+      <node id="334">
         <label>coro::pthread_detacher::promise_type</label>
         <link refid="classcoro_1_1pthread__detacher_1_1promise__type"/>
-        <childnode refid="331" relation="public-inheritance">
+        <childnode refid="335" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

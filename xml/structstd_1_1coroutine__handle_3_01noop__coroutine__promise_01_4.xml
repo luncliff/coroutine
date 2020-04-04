@@ -93,6 +93,18 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
+      <node id="224">
+        <label>std::coroutine_handle&lt; void &gt;</label>
+        <link refid="structstd_1_1coroutine__handle_3_01void_01_4"/>
+      </node>
+      <node id="223">
+        <label>std::coroutine_handle&lt; noop_coroutine_promise &gt;</label>
+        <link refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4"/>
+        <childnode refid="224" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
       <node id="226">
         <label>std::coroutine_handle&lt; void &gt;</label>
         <link refid="structstd_1_1coroutine__handle_3_01void_01_4"/>
@@ -101,18 +113,6 @@
         <label>std::coroutine_handle&lt; noop_coroutine_promise &gt;</label>
         <link refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4"/>
         <childnode refid="226" relation="public-inheritance">
-        </childnode>
-      </node>
-    </inheritancegraph>
-    <collaborationgraph>
-      <node id="228">
-        <label>std::coroutine_handle&lt; void &gt;</label>
-        <link refid="structstd_1_1coroutine__handle_3_01void_01_4"/>
-      </node>
-      <node id="227">
-        <label>std::coroutine_handle&lt; noop_coroutine_promise &gt;</label>
-        <link refid="structstd_1_1coroutine__handle_3_01noop__coroutine__promise_01_4"/>
-        <childnode refid="228" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

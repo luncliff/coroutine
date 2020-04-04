@@ -310,29 +310,13 @@
     <member refid="classpromise__nn_1a6d4e1fa9d0bd22a6e26513c5d99b4ba8" kind="function"><name>initial_suspend</name></member>
     <member refid="classpromise__nn_1a5aeb075cbae2b4b7e1e51f7797705f7c" kind="function"><name>final_suspend</name></member>
   </compound>
-  <compound refid="structnull__frame__t_1_1promise__type" kind="struct"><name>null_frame_t::promise_type</name>
-    <member refid="structnull__frame__t_1_1promise__type_1addb58f003e1ad4f14e7380486b2df996" kind="function"><name>get_return_object</name></member>
-  </compound>
-  <compound refid="classcoro_1_1pthread__detacher_1_1promise__type" kind="class"><name>coro::pthread_detacher::promise_type</name>
-    <member refid="classcoro_1_1pthread__detacher_1_1promise__type_1a0521d20b37a60cf1ebaadf89f023b909" kind="function"><name>final_suspend</name></member>
-    <member refid="classcoro_1_1pthread__detacher_1_1promise__type_1a0b30998c32449617236636a2550b7f68" kind="function"><name>get_return_object</name></member>
-  </compound>
-  <compound refid="classframe__t_1_1promise__type" kind="class"><name>frame_t::promise_type</name>
-    <member refid="classframe__t_1_1promise__type_1ac5ed5b7beba5d8b80a1c4714997669ad" kind="function"><name>unhandled_exception</name></member>
-    <member refid="classframe__t_1_1promise__type_1a6d877a5a5c67c606434803818b20c96a" kind="function"><name>return_void</name></member>
-    <member refid="classframe__t_1_1promise__type_1a02e7a0008289f4e8ff7a491d699a74f0" kind="function"><name>get_return_object</name></member>
-  </compound>
-  <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type" kind="struct"><name>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</name>
-    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a775d060502bbeaa1ebb62c59f351ed2b" kind="function"><name>get_return_object</name></member>
-  </compound>
   <compound refid="classpassive__frame__t_1_1promise__type" kind="class"><name>passive_frame_t::promise_type</name>
     <member refid="classpassive__frame__t_1_1promise__type_1a76d0038147acf00a31f852f7d7716f01" kind="function"><name>unhandled_exception</name></member>
     <member refid="classpassive__frame__t_1_1promise__type_1a40aff2c9bfbdc56aebce5932f3af7449" kind="function"><name>return_void</name></member>
     <member refid="classpassive__frame__t_1_1promise__type_1ac55162d270c135f55863b2f3b6c888be" kind="function"><name>get_return_object</name></member>
   </compound>
-  <compound refid="classcoro_1_1pthread__joiner_1_1promise__type" kind="class"><name>coro::pthread_joiner::promise_type</name>
-    <member refid="classcoro_1_1pthread__joiner_1_1promise__type_1a687395ff12f7c3694f27eb6106df94da" kind="function"><name>final_suspend</name></member>
-    <member refid="classcoro_1_1pthread__joiner_1_1promise__type_1a22f9a9f448828c368293ce368152f7aa" kind="function"><name>get_return_object</name></member>
+  <compound refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type" kind="struct"><name>std::experimental::coroutine_traits&lt; nullptr_t, P... &gt;::promise_type</name>
+    <member refid="structstd_1_1experimental_1_1coroutine__traits_3_01nullptr__t_00_01P_8_8_8_01_4_1_1promise__type_1a775d060502bbeaa1ebb62c59f351ed2b" kind="function"><name>get_return_object</name></member>
   </compound>
   <compound refid="classcoro_1_1enumerable_1_1promise__type" kind="class"><name>coro::enumerable::promise_type</name>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a67171474c4da6cc8efe0c7fafefd2b2d" kind="friend"><name>iterator</name></member>
@@ -343,6 +327,22 @@
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a2a417b44f5048389ac628f891a851a28" kind="function"><name>yield_value</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1aea5f74fe3a0de6660ffedd99382626f5" kind="function"><name>yield_value</name></member>
     <member refid="classcoro_1_1enumerable_1_1promise__type_1a24f0cdb9f39fff8bea46089495dabbcf" kind="function"><name>return_void</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__detacher_1_1promise__type" kind="class"><name>coro::pthread_detacher::promise_type</name>
+    <member refid="classcoro_1_1pthread__detacher_1_1promise__type_1a0521d20b37a60cf1ebaadf89f023b909" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1pthread__detacher_1_1promise__type_1a0b30998c32449617236636a2550b7f68" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="classframe__t_1_1promise__type" kind="class"><name>frame_t::promise_type</name>
+    <member refid="classframe__t_1_1promise__type_1ac5ed5b7beba5d8b80a1c4714997669ad" kind="function"><name>unhandled_exception</name></member>
+    <member refid="classframe__t_1_1promise__type_1a6d877a5a5c67c606434803818b20c96a" kind="function"><name>return_void</name></member>
+    <member refid="classframe__t_1_1promise__type_1a02e7a0008289f4e8ff7a491d699a74f0" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="classcoro_1_1pthread__joiner_1_1promise__type" kind="class"><name>coro::pthread_joiner::promise_type</name>
+    <member refid="classcoro_1_1pthread__joiner_1_1promise__type_1a687395ff12f7c3694f27eb6106df94da" kind="function"><name>final_suspend</name></member>
+    <member refid="classcoro_1_1pthread__joiner_1_1promise__type_1a22f9a9f448828c368293ce368152f7aa" kind="function"><name>get_return_object</name></member>
+  </compound>
+  <compound refid="structnull__frame__t_1_1promise__type" kind="struct"><name>null_frame_t::promise_type</name>
+    <member refid="structnull__frame__t_1_1promise__type_1addb58f003e1ad4f14e7380486b2df996" kind="function"><name>get_return_object</name></member>
   </compound>
   <compound refid="classcoro_1_1pthread__detacher" kind="class"><name>coro::pthread_detacher</name>
     <member refid="classcoro_1_1pthread__detacher_1a57917bb91eca1c2111788d14137e75d0" kind="friend"><name>promise_type</name></member>
@@ -385,20 +385,6 @@
     <member refid="classcoro_1_1section_1aa87d23fc56fbffff2d16fbdff3bb1ca6" kind="function"><name>try_lock</name></member>
     <member refid="classcoro_1_1section_1ae87c2669f33f76891f0ae9193295907b" kind="function"><name>lock</name></member>
     <member refid="classcoro_1_1section_1ac416fc79c4d4f27856d20f9cb90c7773" kind="function"><name>unlock</name></member>
-  </compound>
-  <compound refid="classcoro_1_1set__or__cancel" kind="class"><name>coro::set_or_cancel</name>
-    <member refid="classcoro_1_1set__or__cancel_1a4a94535cb979fd6c574c51b8c57fe37b" kind="variable"><name>hobject</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1a5f2fe30cccc6e8b9a0a529d62da6257a" kind="function"><name>set_or_cancel</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1abe6b34b7536c2600da59df1aa10e8aed" kind="function"><name>~set_or_cancel</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1a56616f78a2cfba0971d958a9a042f9eb" kind="function"><name>set_or_cancel</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1a8b4b9e51e565aa420ae28323b06cc6c8" kind="function"><name>set_or_cancel</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1a696137603ff3cb5c0558321a8e2412d4" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1a2e77ef5654ae6141dab1faf67affe674" kind="function"><name>operator=</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1ad5f73e27cfa2c17f5025906efb7f55c2" kind="function"><name>unregister</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1af088d0a91ef5fc0042155b52bf917313" kind="function"><name>await_ready</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1a3c53cc7da30ac727f1b8c77335036398" kind="function"><name>await_suspend</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1a862b4373192426e0ca4d313a32f24266" kind="function"><name>await_resume</name></member>
-    <member refid="classcoro_1_1set__or__cancel_1a7ee98f7fe618104dc5ff2ccce7f5273c" kind="function"><name>suspend</name></member>
   </compound>
   <compound refid="classstd_1_1suspend__always" kind="class"><name>std::suspend_always</name>
     <member refid="classstd_1_1suspend__always_1aa54aab5520e3556f0890b94583bd6e9c" kind="function"><name>await_ready</name></member>
@@ -444,7 +430,6 @@
     <member refid="namespacecoro_1a8d123c193bac1913ca11cad209b6d864" kind="function"><name>get_eventfd</name></member>
     <member refid="namespacecoro_1a757aac3d45727d3745a96138ddf5a8c2" kind="function"><name>notify_event</name></member>
     <member refid="namespacecoro_1a93e9b38a4a7badcb102632a09861318d" kind="function"><name>consume_event</name></member>
-    <member refid="namespacecoro_1ad9c56049f2089b9473d8ac9bc06e2a6f" kind="function"><name>wait_event_on_thread_pool</name></member>
   </compound>
   <compound refid="namespacegsl" kind="namespace"><name>gsl</name>
   </compound>

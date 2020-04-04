@@ -105,43 +105,43 @@ This function must be used through <computeroutput>co_await</computeroutput>. Mu
 <simplesect kind="see"><para>WSARecvFrom </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
-      <node id="258">
+      <node id="256">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="259" relation="public-inheritance">
+        <childnode refid="257" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="259">
+      <node id="257">
         <label>io_control_block</label>
       </node>
-      <node id="257">
+      <node id="255">
         <label>coro::io_recv_from</label>
         <link refid="classcoro_1_1io__recv__from"/>
-        <childnode refid="258" relation="public-inheritance">
+        <childnode refid="256" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="263">
+      <node id="261">
         <label>std::coroutine_handle&lt; void &gt;</label>
         <link refid="structstd_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="261">
+      <node id="259">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="262" relation="public-inheritance">
+        <childnode refid="260" relation="public-inheritance">
         </childnode>
-        <childnode refid="263" relation="usage">
+        <childnode refid="261" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="262">
+      <node id="260">
         <label>io_control_block</label>
       </node>
-      <node id="260">
+      <node id="258">
         <label>coro::io_recv_from</label>
         <link refid="classcoro_1_1io__recv__from"/>
-        <childnode refid="261" relation="public-inheritance">
+        <childnode refid="259" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>

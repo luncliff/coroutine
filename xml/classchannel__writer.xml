@@ -426,29 +426,29 @@
 <simplesect kind="see"><para><ref refid="classchannel__reader" kindref="compound">channel_reader</ref> </para></simplesect>
 </para>    </detaileddescription>
     <collaborationgraph>
-      <node id="208">
+      <node id="206">
         <label>channel&lt; T, M &gt;</label>
         <link refid="classchannel"/>
-        <childnode refid="209" relation="private-inheritance">
+        <childnode refid="207" relation="private-inheritance">
         </childnode>
-        <childnode refid="210" relation="private-inheritance">
+        <childnode refid="208" relation="private-inheritance">
         </childnode>
       </node>
-      <node id="209">
+      <node id="207">
         <label>internal::list&lt; channel_reader&lt; T, M &gt; &gt;</label>
         <link refid="classinternal_1_1list"/>
       </node>
-      <node id="210">
+      <node id="208">
         <label>internal::list&lt; channel_writer&lt; T, M &gt; &gt;</label>
         <link refid="classinternal_1_1list"/>
       </node>
-      <node id="207">
+      <node id="205">
         <label>channel_writer&lt; T, M &gt;</label>
         <link refid="classchannel__writer"/>
-        <childnode refid="208" relation="usage">
+        <childnode refid="206" relation="usage">
           <edgelabel>chan</edgelabel>
         </childnode>
-        <childnode refid="207" relation="usage">
+        <childnode refid="205" relation="usage">
           <edgelabel>next</edgelabel>
         </childnode>
       </node>

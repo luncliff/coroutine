@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="126" column="1"/>
+        <location file="modules/system/windows.cpp" line="128" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1af80fc9f0cb9ee65280e3b5697c8ba4dc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="127" column="1"/>
+        <location file="modules/system/windows.cpp" line="129" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1aa31e1f13dcbc351797a6973d34e5a4db" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1section" kindref="compound">section</ref> &amp;</type>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="128" column="1"/>
+        <location file="modules/system/windows.cpp" line="130" column="1"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1a7e8f7446da42e13aeca9aa051de207bd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classcoro_1_1section" kindref="compound">section</ref> &amp;</type>
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="129" column="1"/>
+        <location file="modules/system/windows.cpp" line="131" column="1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -81,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="132" column="1" bodyfile="modules/system/windows.cpp" bodystart="140" bodyend="142"/>
+        <location file="modules/system/windows.cpp" line="134" column="1" bodyfile="modules/system/windows.cpp" bodystart="142" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1a1a19bc8d5aa50e721a871e52c7e8a554" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -94,7 +94,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="133" column="1" bodyfile="modules/system/windows.cpp" bodystart="143" bodyend="145"/>
+        <location file="modules/system/windows.cpp" line="135" column="1" bodyfile="modules/system/windows.cpp" bodystart="145" bodyend="147"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1aa87d23fc56fbffff2d16fbdff3bb1ca6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="135" column="1" bodyfile="modules/system/windows.cpp" bodystart="146" bodyend="148"/>
+        <location file="modules/system/windows.cpp" line="137" column="1" bodyfile="modules/system/windows.cpp" bodystart="148" bodyend="150"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1ae87c2669f33f76891f0ae9193295907b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="136" column="1" bodyfile="modules/system/windows.cpp" bodystart="149" bodyend="151"/>
+        <location file="modules/system/windows.cpp" line="138" column="1" bodyfile="modules/system/windows.cpp" bodystart="151" bodyend="153"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1section_1ac416fc79c4d4f27856d20f9cb90c7773" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -133,7 +133,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="modules/system/windows.cpp" line="137" column="1" bodyfile="modules/system/windows.cpp" bodystart="152" bodyend="154"/>
+        <location file="modules/system/windows.cpp" line="139" column="1" bodyfile="modules/system/windows.cpp" bodystart="154" bodyend="156"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -141,6 +141,17 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
+      <node id="358">
+        <label>coro::section</label>
+        <link refid="classcoro_1_1section"/>
+        <childnode refid="359" relation="private-inheritance">
+        </childnode>
+      </node>
+      <node id="359">
+        <label>CRITICAL_SECTION</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
       <node id="360">
         <label>coro::section</label>
         <link refid="classcoro_1_1section"/>
@@ -150,19 +161,8 @@
       <node id="361">
         <label>CRITICAL_SECTION</label>
       </node>
-    </inheritancegraph>
-    <collaborationgraph>
-      <node id="362">
-        <label>coro::section</label>
-        <link refid="classcoro_1_1section"/>
-        <childnode refid="363" relation="private-inheritance">
-        </childnode>
-      </node>
-      <node id="363">
-        <label>CRITICAL_SECTION</label>
-      </node>
     </collaborationgraph>
-    <location file="modules/system/windows.cpp" line="125" column="1" bodyfile="modules/system/windows.cpp" bodystart="125" bodyend="138"/>
+    <location file="modules/system/windows.cpp" line="127" column="1" bodyfile="modules/system/windows.cpp" bodystart="127" bodyend="140"/>
     <listofallmembers>
       <member refid="classcoro_1_1section_1ae87c2669f33f76891f0ae9193295907b" prot="public" virt="non-virtual"><scope>coro::section</scope><name>lock</name></member>
       <member refid="classcoro_1_1section_1aa31e1f13dcbc351797a6973d34e5a4db" prot="private" virt="non-virtual"><scope>coro::section</scope><name>operator=</name></member>

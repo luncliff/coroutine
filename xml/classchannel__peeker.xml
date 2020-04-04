@@ -206,47 +206,47 @@
 <simplesect kind="see"><para><ref refid="classchannel__reader" kindref="compound">channel_reader</ref> </para></simplesect>
 </para>    </detaileddescription>
     <inheritancegraph>
+      <node id="191">
+        <label>channel_peeker&lt; T, M &gt;</label>
+        <link refid="classchannel__peeker"/>
+        <childnode refid="192" relation="protected-inheritance">
+        </childnode>
+      </node>
+      <node id="192">
+        <label>channel_reader&lt; T, M &gt;</label>
+        <link refid="classchannel__reader"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="195">
+        <label>channel&lt; T, M &gt;</label>
+        <link refid="classchannel"/>
+        <childnode refid="196" relation="private-inheritance">
+        </childnode>
+        <childnode refid="197" relation="private-inheritance">
+        </childnode>
+      </node>
       <node id="193">
         <label>channel_peeker&lt; T, M &gt;</label>
         <link refid="classchannel__peeker"/>
         <childnode refid="194" relation="protected-inheritance">
         </childnode>
       </node>
-      <node id="194">
-        <label>channel_reader&lt; T, M &gt;</label>
-        <link refid="classchannel__reader"/>
-      </node>
-    </inheritancegraph>
-    <collaborationgraph>
-      <node id="197">
-        <label>channel&lt; T, M &gt;</label>
-        <link refid="classchannel"/>
-        <childnode refid="198" relation="private-inheritance">
-        </childnode>
-        <childnode refid="199" relation="private-inheritance">
-        </childnode>
-      </node>
-      <node id="195">
-        <label>channel_peeker&lt; T, M &gt;</label>
-        <link refid="classchannel__peeker"/>
-        <childnode refid="196" relation="protected-inheritance">
-        </childnode>
-      </node>
-      <node id="198">
+      <node id="196">
         <label>internal::list&lt; channel_reader&lt; T, M &gt; &gt;</label>
         <link refid="classinternal_1_1list"/>
       </node>
-      <node id="196">
+      <node id="194">
         <label>channel_reader&lt; T, M &gt;</label>
         <link refid="classchannel__reader"/>
-        <childnode refid="197" relation="usage">
+        <childnode refid="195" relation="usage">
           <edgelabel>chan</edgelabel>
         </childnode>
-        <childnode refid="196" relation="usage">
+        <childnode refid="194" relation="usage">
           <edgelabel>next</edgelabel>
         </childnode>
       </node>
-      <node id="199">
+      <node id="197">
         <label>internal::list&lt; channel_writer&lt; T, M &gt; &gt;</label>
         <link refid="classinternal_1_1list"/>
       </node>

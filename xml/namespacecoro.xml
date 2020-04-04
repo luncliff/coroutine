@@ -18,7 +18,6 @@
     <innerclass refid="classcoro_1_1pthread__joiner" prot="public">coro::pthread_joiner</innerclass>
     <innerclass refid="classcoro_1_1pthread__spawn__promise" prot="public">coro::pthread_spawn_promise</innerclass>
     <innerclass refid="classcoro_1_1section" prot="public">coro::section</innerclass>
-    <innerclass refid="classcoro_1_1set__or__cancel" prot="public">coro::set_or_cancel</innerclass>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="group__Network_1ga60d36260824423f894ffd077f8487663" prot="public" static="no">
         <type>gsl::span&lt; std::byte &gt;</type>
@@ -1060,27 +1059,6 @@
         <inbodydescription>
         </inbodydescription>
         <location file="modules/system/linux.cpp" line="87" column="1" bodyfile="modules/system/linux.cpp" bodystart="87" bodyend="90"/>
-      </memberdef>
-      <memberdef kind="function" id="namespacecoro_1ad9c56049f2089b9473d8ac9bc06e2a6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void __stdcall</type>
-        <definition>void __stdcall coro::wait_event_on_thread_pool</definition>
-        <argsstring>(PVOID ctx, BOOLEAN timedout)</argsstring>
-        <name>wait_event_on_thread_pool</name>
-        <param>
-          <type>PVOID</type>
-          <declname>ctx</declname>
-        </param>
-        <param>
-          <type>BOOLEAN</type>
-          <declname>timedout</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="modules/system/windows.cpp" line="31" column="1" bodyfile="modules/system/windows.cpp" bodystart="31" bodyend="36"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

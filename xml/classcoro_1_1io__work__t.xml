@@ -77,55 +77,55 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="278">
+      <node id="276">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="279" relation="public-inheritance">
+        <childnode refid="277" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="278">
+        <label>coro::io_recv</label>
+        <link refid="classcoro_1_1io__recv"/>
+        <childnode refid="276" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="277">
+        <label>io_control_block</label>
+      </node>
+      <node id="279">
+        <label>coro::io_recv_from</label>
+        <link refid="classcoro_1_1io__recv__from"/>
+        <childnode refid="276" relation="public-inheritance">
         </childnode>
       </node>
       <node id="280">
-        <label>coro::io_recv</label>
-        <link refid="classcoro_1_1io__recv"/>
-        <childnode refid="278" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="279">
-        <label>io_control_block</label>
-      </node>
-      <node id="281">
-        <label>coro::io_recv_from</label>
-        <link refid="classcoro_1_1io__recv__from"/>
-        <childnode refid="278" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="282">
         <label>coro::io_send</label>
         <link refid="classcoro_1_1io__send"/>
-        <childnode refid="278" relation="public-inheritance">
+        <childnode refid="276" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="283">
+      <node id="281">
         <label>coro::io_send_to</label>
         <link refid="classcoro_1_1io__send__to"/>
-        <childnode refid="278" relation="public-inheritance">
+        <childnode refid="276" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="286">
+      <node id="284">
         <label>std::coroutine_handle&lt; void &gt;</label>
         <link refid="structstd_1_1coroutine__handle_3_01void_01_4"/>
       </node>
-      <node id="284">
+      <node id="282">
         <label>coro::io_work_t</label>
         <link refid="classcoro_1_1io__work__t"/>
-        <childnode refid="285" relation="public-inheritance">
+        <childnode refid="283" relation="public-inheritance">
         </childnode>
-        <childnode refid="286" relation="usage">
+        <childnode refid="284" relation="usage">
           <edgelabel>task</edgelabel>
         </childnode>
       </node>
-      <node id="285">
+      <node id="283">
         <label>io_control_block</label>
       </node>
     </collaborationgraph>

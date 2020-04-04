@@ -27,7 +27,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="88" column="1" bodyfile="modules/system/windows.cpp" bodystart="82" bodyend="89"/>
+        <location file="interface/coroutine/windows.h" line="97" column="1" bodyfile="modules/system/windows.cpp" bodystart="84" bodyend="91"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -48,7 +48,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="94" column="1" bodyfile="modules/system/windows.cpp" bodystart="91" bodyend="103"/>
+        <location file="interface/coroutine/windows.h" line="103" column="1" bodyfile="modules/system/windows.cpp" bodystart="93" bodyend="105"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="97" column="1" bodyfile="interface/coroutine/windows.h" bodystart="97" bodyend="99"/>
+        <location file="interface/coroutine/windows.h" line="106" column="1" bodyfile="interface/coroutine/windows.h" bodystart="106" bodyend="108"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1continue__on__thread__pool_1a46d15a2c1c5d282edb3171288b368b1b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>constexpr void</type>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="100" column="1" bodyfile="interface/coroutine/windows.h" bodystart="100" bodyend="102"/>
+        <location file="interface/coroutine/windows.h" line="109" column="1" bodyfile="interface/coroutine/windows.h" bodystart="109" bodyend="111"/>
       </memberdef>
       <memberdef kind="function" id="classcoro_1_1continue__on__thread__pool_1ab1e6995c97b189e8e5eab3dab9e97067" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -109,7 +109,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/windows.h" line="109" column="1" bodyfile="interface/coroutine/windows.h" bodystart="109" bodyend="114"/>
+        <location file="interface/coroutine/windows.h" line="118" column="1" bodyfile="interface/coroutine/windows.h" bodystart="118" bodyend="123"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -119,7 +119,7 @@
 <simplesect kind="see"><para>SubmitThreadpoolWork </para></simplesect>
 <simplesect kind="see"><para>CloseThreadpoolWork </para></simplesect>
 </para>    </detaileddescription>
-    <location file="interface/coroutine/windows.h" line="84" column="1" bodyfile="interface/coroutine/windows.h" bodystart="84" bodyend="115"/>
+    <location file="interface/coroutine/windows.h" line="93" column="1" bodyfile="interface/coroutine/windows.h" bodystart="93" bodyend="124"/>
     <listofallmembers>
       <member refid="classcoro_1_1continue__on__thread__pool_1ae8cf2ca512bd90e276622d3fab30c1de" prot="public" virt="non-virtual"><scope>coro::continue_on_thread_pool</scope><name>await_ready</name></member>
       <member refid="classcoro_1_1continue__on__thread__pool_1a46d15a2c1c5d282edb3171288b368b1b" prot="public" virt="non-virtual"><scope>coro::continue_on_thread_pool</scope><name>await_resume</name></member>

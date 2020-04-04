@@ -50,25 +50,25 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="340">
+      <node id="320">
         <label>passive_frame_t::promise_type</label>
         <link refid="classpassive__frame__t_1_1promise__type"/>
-        <childnode refid="341" relation="public-inheritance">
+        <childnode refid="321" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="341">
+      <node id="321">
         <label>promise_aa</label>
         <link refid="classpromise__aa"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="342">
+      <node id="322">
         <label>passive_frame_t::promise_type</label>
         <link refid="classpassive__frame__t_1_1promise__type"/>
-        <childnode refid="343" relation="public-inheritance">
+        <childnode refid="323" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="343">
+      <node id="323">
         <label>promise_aa</label>
         <link refid="classpromise__aa"/>
       </node>
