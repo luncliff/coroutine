@@ -2,9 +2,12 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 string(TOLOWER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME)
-if(SYSTEM_NAME MATCHES android)
+
+if(SYSTEM_NAME MATCHES WindowsStore)
+    set(SYSTEM_NAME windows)
+elseif(ANDROID OR SYSTEM_NAME MATCHES [Aa]ndroid)
     set(SYSTEM_NAME linux)
-elseif(SYSTEM_NAME MATCHES ios)
+elseif(IOS OR SYSTEM_NAME MATCHES [Ii][Oo][Ss])
     set(SYSTEM_NAME darwin)
 endif()
 
