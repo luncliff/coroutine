@@ -22,6 +22,7 @@ using namespace gsl;
 
 namespace coro {
 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
 static_assert(is_move_assignable_v<set_or_cancel> == false);
 static_assert(is_move_constructible_v<set_or_cancel> == false);
 static_assert(is_copy_assignable_v<set_or_cancel> == false);
@@ -61,6 +62,7 @@ void set_or_cancel::suspend(coroutine_handle<void> coro) noexcept(false) {
                            system_category(), "RegisterWaitForSingleObject"};
     }
 }
+#endif
 
 // auto get_threads_of(DWORD pid) noexcept(false) -> enumerable<DWORD> {
 //     // for current process

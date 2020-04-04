@@ -22,6 +22,8 @@
 
 namespace coro {
 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES)
+
 /**
  * @brief Awaitable event type over Win32 thread pool
  * @ingroup Windows
@@ -50,15 +52,20 @@ class set_or_cancel final {
   private:
     /**
      * @brief Resume the coroutine in the thread pool to wait for the event object
+     * @note  It uses `INFINITE`, `WT_EXECUTEONLYONCE` for `RegisterWaitForSingleObject`
+     * 
      * @see https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-registerwaitforsingleobject
+     * 
      * @todo can we use `WT_EXECUTEINWAITTHREAD` for this type?
      */
     void suspend(coroutine_handle<void>) noexcept(false);
 
   public:
     /**
-     * @brief cancel the event waiting
-     * @return uint32_t 
+     * @brief   cancel the event waiting
+     * @note    `ERROR_IO_PENDING` will return `NO_ERROR` because it is using `INFINITE` timeout.
+     * @return  uint32_t `GetLastError` after `UnregisterWait`
+     * 
      * @see https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-unregisterwait
      */
     uint32_t unregister() noexcept;
@@ -73,10 +80,12 @@ class set_or_cancel final {
         return unregister();
     }
 };
+#endif // WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES
 
 /**
  * @brief Move into the win32 thread pool and continue the routine
  * @ingroup Windows
+ * 
  * @see CreateThreadpoolWork
  * @see SubmitThreadpoolWork
  * @see CloseThreadpoolWork
@@ -117,6 +126,7 @@ class continue_on_thread_pool final {
 /**
  * @brief Move into the designated thread's APC queue and continue the routine
  * @ingroup Windows
+ * 
  * @see QueueUserAPC
  * @see OpenThread
  */

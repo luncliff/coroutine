@@ -5,9 +5,9 @@ string(TOLOWER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME)
 
 if(SYSTEM_NAME MATCHES WindowsStore)
     set(SYSTEM_NAME windows)
-elseif(ANDROID OR SYSTEM_NAME MATCHES [Aa]ndroid)
+elseif(ANDROID OR SYSTEM_NAME MATCHES android)
     set(SYSTEM_NAME linux)
-elseif(IOS OR SYSTEM_NAME MATCHES [Ii][Oo][Ss])
+elseif(IOS OR SYSTEM_NAME MATCHES ios)
     set(SYSTEM_NAME darwin)
 endif()
 
