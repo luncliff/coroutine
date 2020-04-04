@@ -511,10 +511,10 @@
 <span class="k">template</span> <span class="o">&lt;&gt;</span>
 <span class="k">struct</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="c1">// 17.12.3.1, construct</span>
-    <span class="k">constexpr</span> <span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">:</span> <span class="n">_Ptr</span><span class="p">{</span><span class="k">nullptr</span><span class="p">}</span> <span class="p">{</span>
+    <span class="k">constexpr</span> <span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="p">}</span>
     <span class="c1">// 17.12.3.1, reset</span>
-    <span class="k">constexpr</span> <span class="n">coroutine_handle</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span> <span class="o">:</span> <span class="n">_Ptr</span><span class="p">{</span><span class="k">nullptr</span><span class="p">}</span> <span class="p">{</span>
+    <span class="k">constexpr</span> <span class="n">coroutine_handle</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="p">}</span>
     <span class="n">coroutine_handle</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="n">_Ptr</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
@@ -549,7 +549,7 @@
     <span class="p">}</span>
 
   <span class="k">protected</span><span class="o">:</span> <span class="c1">// this is `private` in the standard</span>
-    <span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Ptr</span><span class="p">;</span>
+    <span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Ptr</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
 <span class="p">};</span>
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_PromiseT</span><span class="o">&gt;</span>

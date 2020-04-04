@@ -12,13 +12,14 @@
         <definition>portable_coro_prefix* std::coroutine_handle&lt; void &gt;::_Ptr</definition>
         <argsstring></argsstring>
         <name>_Ptr</name>
+        <initializer>= nullptr</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="105" column="1" bodyfile="interface/coroutine/frame.h" bodystart="105" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="106" column="1" bodyfile="interface/coroutine/frame.h" bodystart="106" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -33,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="67" column="1" bodyfile="interface/coroutine/frame.h" bodystart="67" bodyend="68"/>
+        <location file="interface/coroutine/frame.h" line="68" column="1" bodyfile="interface/coroutine/frame.h" bodystart="68" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01void_01_4_1a2fb02ba714309103598311e15a27d96f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>constexpr</type>
@@ -49,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="70" column="1" bodyfile="interface/coroutine/frame.h" bodystart="70" bodyend="71"/>
+        <location file="interface/coroutine/frame.h" line="71" column="1" bodyfile="interface/coroutine/frame.h" bodystart="71" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01void_01_4_1a3407f60783152a1f0560c4b51911c5ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref> &amp;</type>
@@ -65,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="72" column="1" bodyfile="interface/coroutine/frame.h" bodystart="72" bodyend="75"/>
+        <location file="interface/coroutine/frame.h" line="73" column="1" bodyfile="interface/coroutine/frame.h" bodystart="73" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01void_01_4_1a53c28109d68a249b167b55f2e00fec0d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>constexpr void *</type>
@@ -78,7 +79,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="77" column="1" bodyfile="interface/coroutine/frame.h" bodystart="77" bodyend="79"/>
+        <location file="interface/coroutine/frame.h" line="78" column="1" bodyfile="interface/coroutine/frame.h" bodystart="78" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01void_01_4_1ae59c49e9dccab018283cefff9c2e2cb3" prot="public" static="no" const="yes" explicit="yes" inline="yes" virt="non-virtual">
         <type>constexpr</type>
@@ -91,7 +92,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="87" column="1" bodyfile="interface/coroutine/frame.h" bodystart="87" bodyend="89"/>
+        <location file="interface/coroutine/frame.h" line="88" column="1" bodyfile="interface/coroutine/frame.h" bodystart="88" bodyend="90"/>
       </memberdef>
       <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01void_01_4_1ad76f9dabbe85b529a389cb6ced893ce7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -104,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="90" column="1" bodyfile="interface/coroutine/frame.h" bodystart="90" bodyend="92"/>
+        <location file="interface/coroutine/frame.h" line="91" column="1" bodyfile="interface/coroutine/frame.h" bodystart="91" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01void_01_4_1a2ca3a8939708812987408b7fac84c336" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -117,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="94" column="1" bodyfile="interface/coroutine/frame.h" bodystart="94" bodyend="96"/>
+        <location file="interface/coroutine/frame.h" line="95" column="1" bodyfile="interface/coroutine/frame.h" bodystart="95" bodyend="97"/>
       </memberdef>
       <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01void_01_4_1af10de68c35d41c66f997023a1ca00567" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -130,7 +131,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="97" column="1" bodyfile="interface/coroutine/frame.h" bodystart="97" bodyend="99"/>
+        <location file="interface/coroutine/frame.h" line="98" column="1" bodyfile="interface/coroutine/frame.h" bodystart="98" bodyend="100"/>
       </memberdef>
       <memberdef kind="function" id="structstd_1_1coroutine__handle_3_01void_01_4_1a2867ef5f88bb895076bdad54049cc8df" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -143,7 +144,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="100" column="1" bodyfile="interface/coroutine/frame.h" bodystart="100" bodyend="102"/>
+        <location file="interface/coroutine/frame.h" line="101" column="1" bodyfile="interface/coroutine/frame.h" bodystart="101" bodyend="103"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -162,7 +163,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="81" column="1" bodyfile="interface/coroutine/frame.h" bodystart="81" bodyend="85"/>
+        <location file="interface/coroutine/frame.h" line="82" column="1" bodyfile="interface/coroutine/frame.h" bodystart="82" bodyend="86"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -181,7 +182,7 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="interface/coroutine/frame.h" line="65" column="1" bodyfile="interface/coroutine/frame.h" bodystart="65" bodyend="106"/>
+    <location file="interface/coroutine/frame.h" line="66" column="1" bodyfile="interface/coroutine/frame.h" bodystart="66" bodyend="107"/>
     <listofallmembers>
       <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a2b0a0c0e4aa456343c91c330cffbac98" prot="protected" virt="non-virtual"><scope>std::coroutine_handle&lt; void &gt;</scope><name>_Ptr</name></member>
       <member refid="structstd_1_1coroutine__handle_3_01void_01_4_1a53c28109d68a249b167b55f2e00fec0d" prot="public" virt="non-virtual"><scope>std::coroutine_handle&lt; void &gt;</scope><name>address</name></member>

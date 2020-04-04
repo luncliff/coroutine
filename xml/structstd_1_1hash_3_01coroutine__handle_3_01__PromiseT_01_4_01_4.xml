@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="346" column="1" bodyfile="interface/coroutine/frame.h" bodystart="346" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="347" column="1" bodyfile="interface/coroutine/frame.h" bodystart="347" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="structstd_1_1hash_3_01coroutine__handle_3_01__PromiseT_01_4_01_4_1a831be9621f1a8f80dc6e3c78ca1a5ec6" prot="public" static="no">
         <type>size_t</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="348" column="1" bodyfile="interface/coroutine/frame.h" bodystart="348" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="349" column="1" bodyfile="interface/coroutine/frame.h" bodystart="349" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -52,14 +52,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="352" column="1" bodyfile="interface/coroutine/frame.h" bodystart="352" bodyend="354"/>
+        <location file="interface/coroutine/frame.h" line="353" column="1" bodyfile="interface/coroutine/frame.h" bodystart="353" bodyend="355"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="344" column="1" bodyfile="interface/coroutine/frame.h" bodystart="344" bodyend="355"/>
+    <location file="interface/coroutine/frame.h" line="345" column="1" bodyfile="interface/coroutine/frame.h" bodystart="345" bodyend="356"/>
     <listofallmembers>
       <member refid="structstd_1_1hash_3_01coroutine__handle_3_01__PromiseT_01_4_01_4_1a17a308596c93d8fea00be9b34e6bed73" prot="public" virt="non-virtual"><scope>std::hash&lt; coroutine_handle&lt; _PromiseT &gt; &gt;</scope><name>argument_type</name></member>
       <member refid="structstd_1_1hash_3_01coroutine__handle_3_01__PromiseT_01_4_01_4_1a70c22c65e73a709c7d9fb0fd9c6d8908" prot="public" virt="non-virtual"><scope>std::hash&lt; coroutine_handle&lt; _PromiseT &gt; &gt;</scope><name>operator()</name></member>

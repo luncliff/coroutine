@@ -20,14 +20,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="277" column="1" bodyfile="interface/coroutine/frame.h" bodystart="277" bodyend="-1"/>
+        <location file="interface/coroutine/frame.h" line="278" column="1" bodyfile="interface/coroutine/frame.h" bodystart="278" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="276" column="1" bodyfile="interface/coroutine/frame.h" bodystart="276" bodyend="278"/>
+    <location file="interface/coroutine/frame.h" line="277" column="1" bodyfile="interface/coroutine/frame.h" bodystart="277" bodyend="279"/>
     <listofallmembers>
       <member refid="structstd_1_1coro__traits__sfinae_3_01__Ret_00_01void__t_3_01typename_01__Ret_1_1promise__type_01_4_01_4_1aedd4e5217b19e80ecfdcce12d962fe9a" prot="public" virt="non-virtual"><scope>std::coro_traits_sfinae&lt; _Ret, void_t&lt; typename _Ret::promise_type &gt; &gt;</scope><name>promise_type</name></member>
     </listofallmembers>

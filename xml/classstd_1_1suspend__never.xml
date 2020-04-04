@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="249" column="1" bodyfile="interface/coroutine/frame.h" bodystart="249" bodyend="251"/>
+        <location file="interface/coroutine/frame.h" line="250" column="1" bodyfile="interface/coroutine/frame.h" bodystart="250" bodyend="252"/>
       </memberdef>
       <memberdef kind="function" id="classstd_1_1suspend__never_1a53576ddeaa9a9a449de888ff128ff5b9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>constexpr void</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="252" column="1" bodyfile="interface/coroutine/frame.h" bodystart="252" bodyend="253"/>
+        <location file="interface/coroutine/frame.h" line="253" column="1" bodyfile="interface/coroutine/frame.h" bodystart="253" bodyend="254"/>
       </memberdef>
       <memberdef kind="function" id="classstd_1_1suspend__never_1abecb08cd6432018de4d3d8101ab684bf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>constexpr void</type>
@@ -44,14 +44,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="interface/coroutine/frame.h" line="254" column="1" bodyfile="interface/coroutine/frame.h" bodystart="254" bodyend="255"/>
+        <location file="interface/coroutine/frame.h" line="255" column="1" bodyfile="interface/coroutine/frame.h" bodystart="255" bodyend="256"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="interface/coroutine/frame.h" line="247" column="1" bodyfile="interface/coroutine/frame.h" bodystart="247" bodyend="256"/>
+    <location file="interface/coroutine/frame.h" line="248" column="1" bodyfile="interface/coroutine/frame.h" bodystart="248" bodyend="257"/>
     <listofallmembers>
       <member refid="classstd_1_1suspend__never_1a5580bc2b80198f89509ff360940f7717" prot="public" virt="non-virtual"><scope>std::suspend_never</scope><name>await_ready</name></member>
       <member refid="classstd_1_1suspend__never_1a53576ddeaa9a9a449de888ff128ff5b9" prot="public" virt="non-virtual"><scope>std::suspend_never</scope><name>await_resume</name></member>
