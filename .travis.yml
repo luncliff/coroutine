@@ -63,6 +63,8 @@ after_success:
 jobs:
   allow_failures:
     - env: EXPERIMENTAL=true
+    - osx_image: xcode10.1
+
   include:
     - stage: build
       os: windows
@@ -71,24 +73,35 @@ jobs:
         - ./scripts/build-vs2017-cmake-clang.bat
         - ctest --output-on-failure
 
-    - os: osx
-      osx_image: xcode10.1
+    - os: osx # 10.13
+      osx_image: xcode10.1 # requires higher clang version
       compiler: clang
 
-    - os: osx
+    - os: osx # 10.14.6
       osx_image: xcode11.3
+      compiler: clang
+
+    - os: osx # 10.15.5
+      osx_image: xcode12
       compiler: clang
 
     - os: osx
       osx_image: xcode12
-      compiler: clang
+      compiler: gcc-10
+      # cache:
+      #   directories:
+      #     # we don't have to cache if already installed
+      #     - /usr/local/Cellar/gcc/
+      install:
+        - brew info gcc # 10.1.0 is already installed
+        # - travis_wait 90 brew upgrade gcc@10
 
     - os: linux
-      dist: xenial
+      dist: xenial # 16.04
       compiler: clang-8
 
     - os: linux
-      dist: bionic
+      dist: bionic # 18.04
       compiler: clang-8
 
     - os: linux

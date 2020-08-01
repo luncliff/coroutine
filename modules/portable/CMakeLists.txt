@@ -49,10 +49,13 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
         -std=gnu++2a
         -fcoroutines -fconcepts # -fno-exceptions
     )
-
+    target_link_libraries(coroutine_portable
+    PUBLIC
+        stdc++
+    )
 elseif(MSVC)
     # select between C++ Coroutines TS & C++ 20 Coroutines
-    if(support_intrinsic_builtin OR has_coroutine)
+    if(support_intrinsic_builtin AND has_coroutine)
         target_compile_options(coroutine_portable
         PUBLIC
             /std:c++latest

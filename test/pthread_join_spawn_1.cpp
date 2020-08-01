@@ -1,6 +1,7 @@
 /**
  * @author github.com/luncliff (luncliff@gmail.com)
  */
+#include <atomic>
 #include <coroutine/pthread.h>
 #include <coroutine/return.h>
 

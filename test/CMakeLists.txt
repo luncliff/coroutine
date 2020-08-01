@@ -77,19 +77,7 @@ create_ctest( return_destroy_with_handle  coroutine_portable )
 create_ctest( return_destroy_with_return  coroutine_portable )
 create_ctest( return_not_coroutine        coroutine_portable )
 create_ctest( return_not_subroutine       coroutine_portable )
-create_ctest( return_std_future           coroutine_portable )
-
-#
-#   <coroutine/net.h>
-#
-if(TARGET coroutine_net)
-create_ctest( net_socket_tcp_echo   coroutine_net ssf latch )
-create_ctest( net_socket_udp_echo   coroutine_net ssf latch )
-create_ctest( net_resolve_name      coroutine_net ssf )
-create_ctest( net_resolve_ip6       coroutine_net ssf )
-create_ctest( net_resolve_tcp6      coroutine_net ssf )
-create_ctest( net_resolve_udp6      coroutine_net ssf )
-endif()
+# create_ctest( return_std_future           coroutine_portable )
 
 #
 #   <coroutine/windows.h>
@@ -107,12 +95,15 @@ create_ctest( windows_on_apc_self           coroutine_system )
 create_ctest( windows_on_thread_pool        coroutine_system latch )
 
 elseif(UNIX)
+if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    # gcc-10 reports internal compiler error for these pthread tests
+else()
 create_ctest( pthread_detach_no_spawn       coroutine_system )
 create_ctest( pthread_detach_spawn          coroutine_system )
 create_ctest( pthread_join_no_spawn         coroutine_system )
 create_ctest( pthread_join_spawn_1          coroutine_system )
 create_ctest( pthread_join_spawn_2          coroutine_system )
-
+endif()
 endif()
 
 if(CMAKE_SYSTEM_NAME MATCHES Linux)
@@ -147,3 +138,15 @@ if(WIN32)
 create_ctest( channel_race_condition        coroutine_system latch )
 endif()
 create_ctest( channel_sample_wrap           coroutine_system latch )
+
+#
+#   <coroutine/net.h>
+#
+if(TARGET coroutine_net)
+create_ctest( net_socket_tcp_echo   coroutine_net ssf latch )
+create_ctest( net_socket_udp_echo   coroutine_net ssf latch )
+create_ctest( net_resolve_name      coroutine_net ssf )
+create_ctest( net_resolve_ip6       coroutine_net ssf )
+create_ctest( net_resolve_tcp6      coroutine_net ssf )
+create_ctest( net_resolve_udp6      coroutine_net ssf )
+endif()

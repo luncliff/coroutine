@@ -63,13 +63,18 @@ include(CheckCXXSourceCompiles)
 # include(CheckCXXSymbolExists)
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
     if(WIN32)
-        check_cxx_compiler_flag("/std:c++latest"    support_latest)
-        check_cxx_compiler_flag("/clang:-fcoroutines-ts" support_coroutine)
+        check_cxx_compiler_flag("/std:c++latest"            support_latest)
+        check_cxx_compiler_flag("/clang:-fcoroutines-ts"    support_coroutine)
+        check_include_file_cxx("experimental/coroutine" has_coroutine_ts
+            "/std:c++latest"
+        )
     else()
         check_cxx_compiler_flag("-std=c++2a"          support_latest)
         check_cxx_compiler_flag("-fcoroutines-ts"     support_coroutine)
+        check_include_file_cxx("experimental/coroutine" has_coroutine_ts
+            "-std=c++2a"
+        )
     endif()
-    check_include_file_cxx("experimental/coroutine" has_coroutine_ts    -std=c++2a)
 
 elseif(MSVC)
     #
@@ -78,19 +83,37 @@ elseif(MSVC)
     #
     check_cxx_compiler_flag("/std:c++latest"    support_latest)
     check_cxx_compiler_flag("/await"            support_coroutine)
-    check_include_file_cxx("coroutine"  has_coroutine   /std:c++latest)
+    check_include_file_cxx("coroutine"  has_coroutine
+        "/std:c++latest"
+    )
     if(NOT has_coroutine)
         message(STATUS "Try <expeirmental/coroutine> (Coroutines TS) instead of <coroutine> ...")
-        check_include_file_cxx("experimental/coroutine" has_coroutine_ts    /std:c++17)
+        check_include_file_cxx("experimental/coroutine" has_coroutine_ts
+            "/std:c++17"
+        )
     endif()
+    # has coroutine headers?
     if(NOT has_coroutine AND NOT has_coroutine_ts)
-        message(FATAL_ERROR "the compiler doesn't support C++ Coroutines")
+        message(FATAL_ERROR "There are no headers for C++ Coroutines")
     endif()
-elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
-    check_cxx_compiler_flag("-std=gnu++2a"        support_latest)
-    check_cxx_compiler_flag("-fcoroutines"        support_coroutine)
 
+elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    #
+    # expect GCC 10 or later
+    #
+    check_cxx_compiler_flag("-std=gnu++20"        support_latest)
+    check_cxx_compiler_flag("-fcoroutines"        support_coroutine)
+    check_include_file_cxx("coroutine" has_coroutine
+        "-std=gnu++20 -fcoroutines"
+    )
+    if(APPLE)
+        # -isysroot "/usr/local/Cellar/gcc/${CMAKE_CXX_COMPILER_VERSION}/include/c++/${CMAKE_CXX_COMPILER_VERSION}"
+        # -isysroot "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include"
+        # -isysroot "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"
+    endif()
+    set(try_compile_flags "-fcoroutines")
 endif()
+# support compiler options for coroutine?
 if(NOT support_coroutine)
     message(FATAL_ERROR "The compiler doesn't support C++ Coroutines")
 endif()
@@ -100,7 +123,10 @@ get_filename_component(intrinsic_test_cpp
                        test/support_intrinsic_builtin.cpp ABSOLUTE)
 try_compile(support_intrinsic_builtin ${CMAKE_BINARY_DIR}/supports
     SOURCES         ${intrinsic_test_cpp}
-    CXX_STANDARD    20
+    # This is a workaround. for some reasone CMAKE_FLAGS has no effect.
+    # Instead, place the compiler option where macro definition are placed
+    COMPILE_DEFINITIONS ${try_compile_flags}    
+    CXX_STANDARD    20                          
     OUTPUT_VARIABLE report
 )
 if(NOT support_intrinsic_builtin)
@@ -114,7 +140,6 @@ message(STATUS "supports __builtin_coro: ${support_intrinsic_builtin}")
 #
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
     message(WARNING "clang-cl won't work with <experimental/coroutine>")
-    set(need_portable true)
 endif()
 
 # set(CMAKE_CXX_STANDARD  20)

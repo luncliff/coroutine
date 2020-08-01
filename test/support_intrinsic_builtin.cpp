@@ -1,22 +1,30 @@
 /**
  * @brief   Check the compiler supports coroutine intrinsics
- * @see     libc++ <experimental/coroutine>
+ * @author  github.com/luncliff (luncliff@gmail.com)
+ * 
+ * @see     LLVM libc++ <experimental/coroutine>
+ * @see     https://llvm.org/docs/Coroutines.html
+ * @see     Microsoft STL <coroutine>
+ * @see     https://github.com/iains/gcc-cxx-coroutines
  */
-#if 0
-// defined(__has_builtin)
+#if defined(__has_builtin)
 
+// known functions
 static_assert(__has_builtin(__builtin_coro_done));
 static_assert(__has_builtin(__builtin_coro_resume));
 static_assert(__has_builtin(__builtin_coro_destroy));
 static_assert(__has_builtin(__builtin_coro_promise));
+
+#if defined(__clang__)
 static_assert(__has_builtin(__builtin_coro_size));
 static_assert(__has_builtin(__builtin_coro_frame));
-// static_assert(__has_builtin(__builtin_coro_free));
-// static_assert(__has_builtin(__builtin_coro_id));
-// static_assert(__has_builtin(__builtin_coro_begin));
-// static_assert(__has_builtin(__builtin_coro_end));
-// static_assert(__has_builtin(__builtin_coro_suspend));
-// static_assert(__has_builtin(__builtin_coro_param));
+static_assert(__has_builtin(__builtin_coro_free));
+static_assert(__has_builtin(__builtin_coro_id));
+static_assert(__has_builtin(__builtin_coro_begin));
+static_assert(__has_builtin(__builtin_coro_end));
+static_assert(__has_builtin(__builtin_coro_suspend));
+static_assert(__has_builtin(__builtin_coro_param));
+#endif
 
 #else
 
