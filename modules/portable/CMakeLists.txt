@@ -7,7 +7,6 @@ add_library(coroutine_portable
 )
 set_target_properties(coroutine_portable
 PROPERTIES
-    CXX_STANDARD 20
     WINDOWS_EXPORT_ALL_SYMBOLS true
 )
 
@@ -52,25 +51,25 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     )
 
 elseif(MSVC)
-    # set_target_properties(coroutine_portable
-    # PROPERTIES
-    #     INTERFACE_LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
-    # )
+    # select between C++ Coroutines TS & C++ 20 Coroutines
+    if(support_intrinsic_builtin OR has_coroutine)
+        target_compile_options(coroutine_portable
+        PUBLIC
+            /std:c++latest
+        )
+    else()
+        target_compile_options(coroutine_portable
+        PUBLIC
+            /std:c++17 /await
+        )
+    endif()
     target_compile_options(coroutine_portable
-    PUBLIC
-        /await
     PRIVATE
         /JMC-
     )
-
 endif()
 
 if(WIN32)
-    target_link_libraries(coroutine_portable
-    PUBLIC
-        kernel32 ${CMAKE_DL_LIBS}
-    )
-
 elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
     if(ANDROID)
         target_link_libraries(coroutine_portable

@@ -53,12 +53,14 @@ message(STATUS)
 # Acquire informations about current build environment. Especially for Compiler & STL
 #   - support_latest
 #   - support_coroutine
+#   - support_intrinsic_builtin: optional. compiler supports `__builtin_coro_*`
 #   - has_coroutine
 #   - has_coroutine_ts
 #
 include(CheckIncludeFileCXX)
 include(CheckCXXCompilerFlag)
-include(CheckSymbolExists)
+include(CheckCXXSourceCompiles)
+# include(CheckCXXSymbolExists)
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
     if(WIN32)
         check_cxx_compiler_flag("/std:c++latest"    support_latest)
@@ -67,10 +69,13 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
         check_cxx_compiler_flag("-std=c++2a"          support_latest)
         check_cxx_compiler_flag("-fcoroutines-ts"     support_coroutine)
     endif()
-
     check_include_file_cxx("experimental/coroutine" has_coroutine_ts    -std=c++2a)
 
 elseif(MSVC)
+    #
+    # Notice that `/std:c++latest` and `/await` is exclusive to each other.
+    # With MSVC, we have to distinguish Coroutines TS & C++ 20 Coroutines
+    #
     check_cxx_compiler_flag("/std:c++latest"    support_latest)
     check_cxx_compiler_flag("/await"            support_coroutine)
     check_include_file_cxx("coroutine"  has_coroutine   /std:c++latest)
@@ -81,14 +86,27 @@ elseif(MSVC)
     if(NOT has_coroutine AND NOT has_coroutine_ts)
         message(FATAL_ERROR "the compiler doesn't support C++ Coroutines")
     endif()
-
 elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     check_cxx_compiler_flag("-std=gnu++2a"        support_latest)
     check_cxx_compiler_flag("-fcoroutines"        support_coroutine)
+
 endif()
 if(NOT support_coroutine)
     message(FATAL_ERROR "The compiler doesn't support C++ Coroutines")
 endif()
+# support `__builtin_coro_*`?
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+get_filename_component(intrinsic_test_cpp
+                       test/support_intrinsic_builtin.cpp ABSOLUTE)
+try_compile(support_intrinsic_builtin ${CMAKE_BINARY_DIR}/supports
+    SOURCES         ${intrinsic_test_cpp}
+    CXX_STANDARD    20
+    OUTPUT_VARIABLE report
+)
+if(NOT support_intrinsic_builtin)
+    message(NOTICE ${report})
+endif()
+message(STATUS "supports __builtin_coro: ${support_intrinsic_builtin}")
 
 #
 # Known STL-Compiler issues
