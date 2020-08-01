@@ -13,7 +13,7 @@ function(create_ctest TEST_NAME)
 
     set_target_properties(${TEST_NAME}
     PROPERTIES
-        CXX_STANDARD 20
+        CXX_STANDARD 17
     )
     target_include_directories(${TEST_NAME}
     PRIVATE

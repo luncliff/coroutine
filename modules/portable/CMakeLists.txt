@@ -7,6 +7,7 @@ add_library(coroutine_portable
 )
 set_target_properties(coroutine_portable
 PROPERTIES
+    CXX_STANDARD 20
     WINDOWS_EXPORT_ALL_SYMBOLS true
 )
 
@@ -23,14 +24,16 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
         # avoide the removal using cmake flag variable
         target_compile_options(coroutine_portable
         PUBLIC
-            /std:c++latest
-            -fms-compatibility -Xclang -fcoroutines-ts
+            /await
+            -fms-compatibility "-Xclang -fcoroutines-ts"
         )
         # in this case, we always use portable header
         target_compile_definitions(coroutine_portable
         PUBLIC
             USE_PORTABLE_COROUTINE_HANDLE
             _RESUMABLE_FUNCTIONS_SUPPORTED  # _EXPERIMENTAL_RESUMABLE_
+        PRIVATE
+            FORCE_CLANG
         )
 
     elseif(UNIX OR APPLE)
@@ -55,7 +58,7 @@ elseif(MSVC)
     # )
     target_compile_options(coroutine_portable
     PUBLIC
-        /std:c++latest /await
+        /await
     PRIVATE
         /JMC-
     )

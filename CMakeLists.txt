@@ -1,55 +1,106 @@
 #
-#   Author  : github.com/luncliff (luncliff@gmail.com)
-#   Note
-#       CMake support for non-VisualStudio projects
+#   github.com/luncliff (luncliff@gmail.com)
 #
-#   Support
-#       - MSVC  + Windows   (Visual Studio 2017 or later)
-#       - Clang + Windows   (Ninja)
-#       - Clang + MacOS     (Unix Makefiles, Ninja)
-#       - Clang + Linux     (Unix Makefiles, Ninja) : WSL, Ubuntu 16.04 and later
-#       - GCC   + Linux     (Ninja, Unix Makefiles)
-#
-#   Options
-#       - BUILD_TESTING
-#
-cmake_minimum_required(VERSION 3.12) # C++ 20
-project(coroutine	LANGUAGES CXX 
-        VERSION 1.5.0
+cmake_minimum_required(VERSION 3.12) # supports CXX_STANDARD 20
+project(coroutine	LANGUAGES   CXX 
+                    VERSION     1.5.1
 )
-
 if(NOT DEFINED BUILD_SHARED_LIBS)
     set(BUILD_SHARED_LIBS true)
 endif()
 if(NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
-
-#
-# import cmake code snippets. see 'cmake/'
-#
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-include(check-compiler)
-include(report-project-info)
+message(STATUS "System: ${CMAKE_SYSTEM}")
+message(STATUS)
+message(STATUS "Paths:")
+message(STATUS " - ${PROJECT_SOURCE_DIR}")
+message(STATUS " - ${CMAKE_INSTALL_PREFIX}")
+message(STATUS " - ${CMAKE_SOURCE_DIR}")
+message(STATUS " - ${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS)
+message(STATUS "Compiler")
+message(STATUS " - ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS " - ${CMAKE_CXX_COMPILER}")
+message(STATUS)
+message(STATUS "CMake")
+message(STATUS "  - ${CMAKE_VERSION}")
+message(STATUS "  - ${CMAKE_COMMAND}")
+message(STATUS "  - ${CMAKE_TOOLCHAIN_FILE}")
+message(STATUS)
+message(STATUS "Tools")
+message(STATUS " - ${CMAKE_GENERATOR}")
+message(STATUS " - ${CMAKE_BUILD_TOOL}")
+message(STATUS)
 
 #
 # import external libraries. see 'external/'
 #
-include(external-gsl)
-
-#
-# targets for CMake. see 'modules/'
-#
-set(MODULE_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
-if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
-    message(STATUS "    clang-cl won't work with <experimental/coroutine>")
-    message(STATUS "	use <coroutine/frame.h> for the case ...")
-    message(STATUS "")
-
-    # 'target_compile_options' removes duplicated -Xclang directive.
-    # We can avoid the removal by using CMAKE_CXX_FLAGS
-    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fcoroutines-ts")
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+find_package(Microsoft.GSL CONFIG)
+if(Microsoft.GSL_FOUND)
+    get_target_property(GSL_INCLUDE_DIR 
+                        Microsoft.GSL::GSL INTERFACE_INCLUDE_DIRECTORIES)
+elseif()
+    add_subdirectory(external/ms-gsl)
+    get_filename_component(GSL_INCLUDE_DIR 
+                           ${PROJECT_SOURCE_DIR}/external/ms-gsl/include ABSOLUTE)
 endif()
+message(STATUS "using ms-gsl: ${GSL_INCLUDE_DIR}")
+message(STATUS)
+
+#
+# Acquire informations about current build environment. Especially for Compiler & STL
+#   - support_latest
+#   - support_coroutine
+#   - has_coroutine
+#   - has_coroutine_ts
+#
+include(CheckIncludeFileCXX)
+include(CheckCXXCompilerFlag)
+include(CheckSymbolExists)
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+    if(WIN32)
+        check_cxx_compiler_flag("/std:c++latest"    support_latest)
+        check_cxx_compiler_flag("-Xclang -fcoroutines-ts" support_coroutine)
+    else()
+        check_cxx_compiler_flag("-std=c++2a"          support_latest)
+        check_cxx_compiler_flag("-fcoroutines-ts"     support_coroutine)
+    endif()
+
+    check_include_file_cxx("experimental/coroutine" has_coroutine_ts    -std=c++2a)
+
+elseif(MSVC)
+    check_cxx_compiler_flag("/std:c++latest"    support_latest)
+    check_cxx_compiler_flag("/await"            support_coroutine)
+    check_include_file_cxx("coroutine"  has_coroutine   /std:c++latest)
+    if(NOT has_coroutine)
+        message(STATUS "Try <expeirmental/coroutine> (Coroutines TS) instead of <coroutine> ...")
+        check_include_file_cxx("experimental/coroutine" has_coroutine_ts    /std:c++17)
+    endif()
+    if(NOT has_coroutine AND NOT has_coroutine_ts)
+        message(FATAL_ERROR "the compiler doesn't support C++ Coroutines")
+    endif()
+
+elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    check_cxx_compiler_flag("-std=gnu++2a"        support_latest)
+    check_cxx_compiler_flag("-fcoroutines"        support_coroutine)
+endif()
+if(NOT support_coroutine)
+    message(FATAL_ERROR "The compiler doesn't support C++ Coroutines")
+endif()
+
+#
+# Known STL-Compiler issues
+#   - https://github.com/microsoft/STL, issue 100
+#
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
+    message(WARNING "clang-cl won't work with <experimental/coroutine>")
+    set(need_portable true)
+endif()
+
+# set(CMAKE_CXX_STANDARD  20)
+set(MODULE_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
 add_subdirectory(modules/portable)	# corotuien_portable
 add_subdirectory(modules/system)    # coroutine_system
 add_subdirectory(modules/net)       # coroutine_net
@@ -97,21 +148,21 @@ install(TARGETS     coroutine_portable coroutine_system coroutine_net
 # the exporting step will be more complicated for non-CMake users.
 # just merge all contents into the file 'coroutine-config.cmake'
 #
-install(EXPORT      coroutine-config
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/coroutine
+install(EXPORT      ${PROJECT_NAME}-config
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}
 )
 
 #
 # generate/install config & version info
 #
 include(CMakePackageConfigHelpers)
-set(VERSION_FILE_PATH   ${CMAKE_BINARY_DIR}/cmake/coroutine-config-version.cmake)
+set(VERSION_FILE_PATH   ${CMAKE_BINARY_DIR}/cmake/${PROJECT_NAME}-config-version.cmake)
 write_basic_package_version_file(${VERSION_FILE_PATH}
     VERSION             ${PROJECT_VERSION}
     COMPATIBILITY       SameMajorVersion
 )
 install(FILES           ${VERSION_FILE_PATH} 
-        DESTINATION     ${CMAKE_INSTALL_PREFIX}/share/coroutine
+        DESTINATION     ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}
 )
 
 #
@@ -120,13 +171,12 @@ install(FILES           ${VERSION_FILE_PATH}
 if(NOT BUILD_TESTING)
     message(STATUS "Test is disabled.")
     return()
-elseif(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+elseif(NOT CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
     message(STATUS "This is not a root project. Skipping the tests")
     return()
 elseif(ANDROID OR IOS)
     return()
 endif()
-
 enable_testing()
 
 # helper for test codes

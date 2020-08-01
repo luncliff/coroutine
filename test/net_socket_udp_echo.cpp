@@ -92,7 +92,7 @@ auto udp_echo_service(int64_t sd) -> no_return_t {
         if (work.error())
             goto OnError;
 
-        buf = {storage.data(), static_cast<ptrdiff_t>(len)};
+        buf = {storage.data(), static_cast<size_t>(len)};
         len = co_await send_to(sd, remote, buf, work);
         if (work.error())
             goto OnError;
