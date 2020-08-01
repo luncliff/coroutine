@@ -24,8 +24,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
         # avoide the removal using cmake flag variable
         target_compile_options(coroutine_portable
         PUBLIC
-            /await
-            -fms-compatibility "-Xclang -fcoroutines-ts"
+            "/clang:-fcoroutines-ts"
+            -fms-compatibility
         )
         # in this case, we always use portable header
         target_compile_definitions(coroutine_portable
