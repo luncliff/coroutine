@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 message(STATUS "System: ${CMAKE_SYSTEM}")
-message(STATUS)
+message(STATUS "Build: ${CMAKE_BUILD_TYPE}")
 message(STATUS "Paths:")
 message(STATUS " - ${PROJECT_SOURCE_DIR}")
 message(STATUS " - ${CMAKE_INSTALL_PREFIX}")
@@ -104,7 +104,7 @@ try_compile(support_intrinsic_builtin ${CMAKE_BINARY_DIR}/supports
     OUTPUT_VARIABLE report
 )
 if(NOT support_intrinsic_builtin)
-    message(NOTICE ${report})
+    message(STATUS ${report})
 endif()
 message(STATUS "supports __builtin_coro: ${support_intrinsic_builtin}")
 
