@@ -57,7 +57,7 @@ jobs:
         parameters:
           llvm_version: "8.0.1"
 
-  - job: ubuntu_cmake_clang8_debug
+  - job: ubuntu_cmake_clang8
     pool:
       vmImage: "ubuntu-latest"
     variables:
@@ -70,36 +70,11 @@ jobs:
           cmake_work_dir: "build-ub"
           cmake_install_dir: "../install"
 
-  - job: ubuntu_cmake_clang8_release
-    pool:
-      vmImage: "ubuntu-latest"
-    variables:
-      configuration: Release
-      is_dynamic: True
-    steps:
-      - template: azure/steps-ubuntu.yml
-        parameters:
-          cmake_cxx_compiler: "clang-8"
-          cmake_work_dir: "build-ub"
-          cmake_install_dir: "../install"
-
-  - job: mac_cmake_appleclang11_debug
+  - job: mac_cmake_appleclang11
     pool:
       vmImage: "macos-latest"
     variables:
       configuration: Debug
-      is_dynamic: True
-    steps:
-      - template: azure/steps-mac.yml
-        parameters:
-          cmake_work_dir: "build-osx"
-          cmake_install_dir: "../install"
-
-  - job: mac_cmake_appleclang11_release
-    pool:
-      vmImage: "macos-latest"
-    variables:
-      configuration: Release
       is_dynamic: True
     steps:
       - template: azure/steps-mac.yml
