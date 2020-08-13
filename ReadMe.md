@@ -25,23 +25,22 @@ In that perspective, the library will be maintained as small as possible. Have f
 
 ### Pre-requisite
 
-* [Microsoft GSL v2.0.0 or later](https://github.com/microsoft/gsl)
+* [Microsoft GSL v3.0+](https://github.com/microsoft/GSL/releases)
 
 The installation of this library will install it together.
 All other required modules for build/test will be placed in [external/](./external).
 
 ### Tool Support
 
-* Visual Studio 2017 or later
-  * `msvc` (vc141, vc142)
 * [CMake](./CMakeLists.txt)
   * `msvc`
   * `clang-cl`: Works with VC++ headers
   * `clang`: Linux
   * `AppleClang`: Mac
 
-For Visual Studio users, please use **15.7.3 or later** versions.  
-For clang users, I recommend **Clang 6.0** or later versions.
+#### Known Issues
+
+> TBA
 
 ## How To
 
@@ -50,28 +49,11 @@ For clang users, I recommend **Clang 6.0** or later versions.
 Simply clone and initialize submodules recursively :)
 
 ```bash
-git clone https://github.com/luncliff/coroutine;
+git clone https://github.com/luncliff/coroutine
 pushd coroutine
-  git submodule update --init --recursive;
+  git submodule update --init --recursive
 popd
 ```
-
-### Build
-
-Please reference the build configurations.  
-Create an issue if you think another configuration is required.
-
-* [Azure Pipelines](https://dev.azure.com/luncliff/personal/_build/latest?definitionId=13?branchName=master)
-  * Visual Studio 2017 / 2019
-  * Ubuntu 16.04 + Clang 8
-  * Mac OS X + AppleClang 11
-  * Windows + Clang-cl (LLVM 8.0.1+)
-* [Travis CI](./.travis.yml)
-  * Mac OS X + AppleClang 11
-  * Ubuntu 16.04(Xenial)/18.04(Bionic) + Clang 8
-  * Ubuntu 20.04 + GCC 10 ~~it failes !!!~~
-* [AppVeyor](./appveyor.yml)
-  * Visual Studio 2017 / 2019
 
 ### Test
 

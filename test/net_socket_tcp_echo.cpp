@@ -85,7 +85,7 @@ auto tcp_echo_service(uint64_t sd) -> no_return_t {
         if (rsz == 0) // EOF reached
             co_return;
         // buf := [base, rsz)
-        buf = {storage.data(), static_cast<ptrdiff_t>(rsz)};
+        buf = {storage.data(), static_cast<size_t>(rsz)};
 
     SendData:
         ssz = co_await send_stream(sd, buf, 0, work);
@@ -97,7 +97,7 @@ auto tcp_echo_service(uint64_t sd) -> no_return_t {
         // send < recv : need to send more
         rsz -= ssz;
         // buf := [base + ssz, rsz)
-        buf = {storage.data() + ssz, static_cast<ptrdiff_t>(rsz)};
+        buf = {storage.data() + ssz, static_cast<size_t>(rsz)};
         goto SendData;
 
     } catch (const std::system_error& ex) {

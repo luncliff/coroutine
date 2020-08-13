@@ -23,14 +23,16 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
         # avoide the removal using cmake flag variable
         target_compile_options(coroutine_portable
         PUBLIC
-            /std:c++latest
-            -fms-compatibility -Xclang -fcoroutines-ts
+            "/clang:-fcoroutines-ts"
+            -fms-compatibility
         )
         # in this case, we always use portable header
         target_compile_definitions(coroutine_portable
         PUBLIC
             USE_PORTABLE_COROUTINE_HANDLE
             _RESUMABLE_FUNCTIONS_SUPPORTED  # _EXPERIMENTAL_RESUMABLE_
+        PRIVATE
+            FORCE_CLANG
         )
 
     elseif(UNIX OR APPLE)
@@ -47,27 +49,30 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
         -std=gnu++2a
         -fcoroutines -fconcepts # -fno-exceptions
     )
-
-elseif(MSVC)
-    # set_target_properties(coroutine_portable
-    # PROPERTIES
-    #     INTERFACE_LINK_FLAGS "${LINK_FLAGS} /errorReport:send"
-    # )
-    target_compile_options(coroutine_portable
+    target_link_libraries(coroutine_portable
     PUBLIC
-        /std:c++latest /await
+        stdc++
+    )
+elseif(MSVC)
+    # select between C++ Coroutines TS & C++ 20 Coroutines
+    if(support_intrinsic_builtin AND has_coroutine)
+        target_compile_options(coroutine_portable
+        PUBLIC
+            /std:c++latest
+        )
+    else()
+        target_compile_options(coroutine_portable
+        PUBLIC
+            /std:c++17 /await
+        )
+    endif()
+    target_compile_options(coroutine_portable
     PRIVATE
         /JMC-
     )
-
 endif()
 
 if(WIN32)
-    target_link_libraries(coroutine_portable
-    PUBLIC
-        kernel32 ${CMAKE_DL_LIBS}
-    )
-
 elseif(CMAKE_SYSTEM_NAME MATCHES Linux)
     if(ANDROID)
         target_link_libraries(coroutine_portable

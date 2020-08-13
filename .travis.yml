@@ -14,7 +14,6 @@ notifications:
 addons:
   homebrew:
     packages:
-      - doxygen
       - cmake
       - tree
 
@@ -49,10 +48,9 @@ before_script:
 
 script:
   - cmake .
-    -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/install
+    -DCMAKE_INSTALL_PREFIX="${TRAVIS_BUILD_DIR}/install"
     -DBUILD_SHARED_LIBS=True
     -DCMAKE_BUILD_TYPE=Debug
-    -DUSE_PORTABLE_HEADER=True
     -DBUILD_TESTING=True
   - cmake --build . --config debug
   - cmake --build . --target install
@@ -65,6 +63,8 @@ after_success:
 jobs:
   allow_failures:
     - env: EXPERIMENTAL=true
+    - osx_image: xcode10.1
+
   include:
     - stage: build
       os: windows
@@ -73,16 +73,35 @@ jobs:
         - ./scripts/build-vs2017-cmake-clang.bat
         - ctest --output-on-failure
 
-    - os: osx
+    - os: osx # 10.13
+      osx_image: xcode10.1 # requires higher clang version
+      compiler: clang
+
+    - os: osx # 10.14.6
       osx_image: xcode11.3
       compiler: clang
 
+    - os: osx # 10.15.5
+      osx_image: xcode12
+      compiler: clang
+
+    - os: osx
+      osx_image: xcode12
+      compiler: gcc-10
+      # cache:
+      #   directories:
+      #     # we don't have to cache if already installed
+      #     - /usr/local/Cellar/gcc/
+      install:
+        - brew info gcc # 10.1.0 is already installed
+        # - travis_wait 90 brew upgrade gcc@10
+
     - os: linux
-      dist: xenial
+      dist: xenial # 16.04
       compiler: clang-8
 
     - os: linux
-      dist: bionic
+      dist: bionic # 18.04
       compiler: clang-8
 
     - os: linux
