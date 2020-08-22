@@ -12,6 +12,7 @@ notifications:
 branches:
   except:
     - docs
+    - gh-pages
 
 image:
   - Visual Studio 2017
@@ -29,7 +30,8 @@ cache:
   - c:/tools/vcpkg/installed
 
 environment:
-  install_path: c:/install
+  global:
+    install_path: c:/install
 
 matrix:
   allow_failures:
@@ -41,11 +43,6 @@ install:
   - ps: Write-Output $(git submodule update --init --recursive)
   - ps: if($env:PLATFORM -eq "x64"){ vcpkg install --triplet x64-windows ms-gsl }
   - ps: if($env:PLATFORM -eq "x86"){ vcpkg install --triplet x86-windows ms-gsl }
-  - ps: |
-      if ($env:CXX) {
-        choco info llvm
-        choco install ninja --yes --no-progress
-      }
 
 before_build:
   - ps: MSBuild.exe /version
