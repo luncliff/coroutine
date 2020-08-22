@@ -26,8 +26,8 @@ configuration:
   - Debug
   - Release
 
-cache:
-  - c:/tools/vcpkg/installed
+# cache:
+#   - c:/tools/vcpkg/installed
 
 environment:
   global:
