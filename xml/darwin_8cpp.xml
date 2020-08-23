@@ -87,35 +87,13 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"></codeline>
-<codeline lineno="6"><highlight class="comment">//<sp/>expect<sp/>the<sp/>following<sp/>headers<sp/>are<sp/>available</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="frame_8h" kindref="compound">coroutine/frame.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="return_8h" kindref="compound">coroutine/return.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="unix_8h" kindref="compound">coroutine/unix.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="yield_8hpp" kindref="compound">coroutine/yield.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__clang__)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>we<sp/>must<sp/>error<sp/>for<sp/>the<sp/>compilation.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>however,<sp/>this<sp/>section<sp/>will<sp/>be<sp/>left<sp/>blank</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>to<sp/>allow<sp/>possible<sp/>a<sp/>clang-compatible<sp/>one</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>in-use<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal">static_assert(__has_builtin(<ref refid="frame_8cpp_1acb7f973f4e6ad1693c30280e369d927b" kindref="member">__builtin_coro_done</ref>));</highlight></codeline>
-<codeline lineno="22"><highlight class="normal">static_assert(__has_builtin(<ref refid="frame_8cpp_1a689025ba7111862b86b178803894cb99" kindref="member">__builtin_coro_resume</ref>));</highlight></codeline>
-<codeline lineno="23"><highlight class="normal">static_assert(__has_builtin(<ref refid="frame_8cpp_1a2f56e6ded0ef72ae52ad3b71e829e9fd" kindref="member">__builtin_coro_destroy</ref>));</highlight></codeline>
-<codeline lineno="24"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_promise));</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>known<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_size));</highlight></codeline>
-<codeline lineno="27"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_frame));</highlight></codeline>
-<codeline lineno="28"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_free));</highlight></codeline>
-<codeline lineno="29"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_id));</highlight></codeline>
-<codeline lineno="30"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_begin));</highlight></codeline>
-<codeline lineno="31"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_end));</highlight></codeline>
-<codeline lineno="32"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_suspend));</highlight></codeline>
-<codeline lineno="33"><highlight class="normal">static_assert(__has_builtin(__builtin_coro_param));</highlight></codeline>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>expect<sp/>the<sp/>following<sp/>headers<sp/>are<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="frame_8h" kindref="compound">coroutine/frame.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="return_8h" kindref="compound">coroutine/return.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="unix_8h" kindref="compound">coroutine/unix.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="yield_8hpp" kindref="compound">coroutine/yield.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="modules/system/darwin.cpp"/>
   </compounddef>

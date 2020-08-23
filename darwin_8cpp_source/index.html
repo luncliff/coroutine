@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.3">
     
     
       
@@ -465,28 +465,6 @@
 <span class="cp">#include</span> <span class="cpf">&lt;coroutine/unix.h&gt;</span><span class="cp"></span>
 
 <span class="cp">#include</span> <span class="cpf">&lt;coroutine/yield.hpp&gt;</span><span class="cp"></span>
-
-<span class="cp">#if defined(__clang__)</span>
-<span class="cp">#else</span>
-<span class="c1">// we must error for the compilation.</span>
-<span class="c1">// however, this section will be left blank</span>
-<span class="c1">// to allow possible a clang-compatible one</span>
-<span class="cp">#endif</span>
-
-<span class="c1">// in-use functions</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_done</span><span class="p">));</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_resume</span><span class="p">));</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_destroy</span><span class="p">));</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_promise</span><span class="p">));</span>
-<span class="c1">// known functions</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_size</span><span class="p">));</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_frame</span><span class="p">));</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_free</span><span class="p">));</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_id</span><span class="p">));</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_begin</span><span class="p">));</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_end</span><span class="p">));</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_suspend</span><span class="p">));</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">__has_builtin</span><span class="p">(</span><span class="n">__builtin_coro_param</span><span class="p">));</span>
 </code></pre></div>
                 
                   
@@ -536,7 +514,7 @@
     
       <script src="../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
     
   </body>

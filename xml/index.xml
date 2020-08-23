@@ -500,9 +500,9 @@
     <member refid="frame_8cpp_1a5d0e68792f8b064aa120ae1418c03b35" kind="function"><name>_coro_resume</name></member>
     <member refid="frame_8cpp_1a5a4e460c9fbacbd253a7fc3c17ee0e9f" kind="function"><name>_coro_destroy</name></member>
     <member refid="frame_8cpp_1afb7c0a1ff1cf3ec9331651fa180a1f55" kind="function"><name>_coro_done</name></member>
-    <member refid="frame_8cpp_1acb7f973f4e6ad1693c30280e369d927b" kind="function"><name>__builtin_coro_done</name></member>
-    <member refid="frame_8cpp_1a689025ba7111862b86b178803894cb99" kind="function"><name>__builtin_coro_resume</name></member>
-    <member refid="frame_8cpp_1a2f56e6ded0ef72ae52ad3b71e829e9fd" kind="function"><name>__builtin_coro_destroy</name></member>
+    <member refid="frame_8cpp_1a7f4cd8ee488e4498fc48b919d7e17f7b" kind="function"><name>resume_wrapper</name></member>
+    <member refid="frame_8cpp_1afd5a39dfb8e2397fac018f9b80b91834" kind="function"><name>destroy_wrapper</name></member>
+    <member refid="frame_8cpp_1a15dba27249646b7ada5d0e48600bdfff" kind="function"><name>done_wrapper</name></member>
     <member refid="frame_8cpp_1a63529ce16b733c934970f3ab6a13e4a3" kind="function"><name>_coro_finished</name></member>
     <member refid="frame_8cpp_1ac002a62257f981a6fc711d37427b78ab" kind="function"><name>portable_coro_done</name></member>
     <member refid="frame_8cpp_1a9e5d5a4fb051d725d1b9dd68151ec9fd" kind="function"><name>portable_coro_resume</name></member>

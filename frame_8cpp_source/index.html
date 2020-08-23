@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.3">
     
     
       
@@ -508,12 +508,30 @@
 <span class="c1">//</span>
 <span class="c1">// intrinsic: Clang/GCC</span>
 <span class="c1">//</span>
-<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
-<span class="kt">bool</span> <span class="n">__builtin_coro_done</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-<span class="kt">void</span> <span class="nf">__builtin_coro_resume</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-<span class="kt">void</span> <span class="nf">__builtin_coro_destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
-<span class="c1">// void* __builtin_coro_promise(void* ptr, int align, bool p);</span>
+<span class="c1">//extern &quot;C&quot; {</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="kt">bool</span> <span class="n">B</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">resume_wrapper</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">B</span><span class="p">)</span>
+        <span class="n">__builtin_coro_resume</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
 <span class="p">}</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="kt">bool</span> <span class="n">B</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">destroy_wrapper</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="k">constexpr</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+        <span class="n">__builtin_coro_destroy</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="kt">bool</span> <span class="n">B</span><span class="o">&gt;</span>
+<span class="kt">bool</span> <span class="n">done_wrapper</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="k">constexpr</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">__builtin_coro_done</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// void* __builtin_coro_promise(void* ptr, int align, bool p);</span>
+<span class="c1">//}</span>
 
 <span class="kt">bool</span> <span class="n">_coro_finished</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">);</span>
 
@@ -555,7 +573,7 @@
     <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">_coro_finished</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">__builtin_coro_done</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">done_wrapper</span><span class="o">&lt;</span><span class="nb">true</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// follow `noop_coroutine`</span>
 <span class="p">}</span>
@@ -564,7 +582,7 @@
     <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">_coro_resume</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">__builtin_coro_resume</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
+       <span class="n">resume_wrapper</span><span class="o">&lt;</span><span class="nb">true</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span> 
     <span class="p">}</span>
 <span class="p">}</span>
 
@@ -572,7 +590,7 @@
     <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">_coro_destroy</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">__builtin_coro_destroy</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
+        <span class="n">destroy_wrapper</span><span class="o">&lt;</span><span class="nb">true</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
@@ -657,7 +675,7 @@
     
       <script src="../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
     
   </body>
