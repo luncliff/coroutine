@@ -79,13 +79,7 @@ jobs:
 
   include:
     - stage: build
-      os: windows
-      compiler: clang-cl
-      script:
-        - ./scripts/build-vs2017-cmake-clang.bat
-        - ctest --output-on-failure
-
-    - os: osx # 10.13
+      os: osx # 10.13
       osx_image: xcode10.1 # requires higher clang version
       compiler: clang
 

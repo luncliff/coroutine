@@ -36,8 +36,10 @@ environment:
 matrix:
   allow_failures:
     # for some reason UDP test hangs forever or segfault
+    # - image: Visual Studio 2017
+    #   platform: x86
     - image: Visual Studio 2017
-      platform: x86
+    - image: Visual Studio 2019
 
 install:
   - ps: Write-Output $(git submodule update --init --recursive)
