@@ -12,6 +12,7 @@ notifications:
 branches:
   except:
     - docs
+    - gh-pages
 
 image:
   - Visual Studio 2017
@@ -25,11 +26,12 @@ configuration:
   - Debug
   - Release
 
-cache:
-  - c:/tools/vcpkg/installed
+# cache:
+#   - c:/tools/vcpkg/installed
 
 environment:
-  install_path: c:/install
+  global:
+    install_path: c:/install
 
 matrix:
   allow_failures:
@@ -41,11 +43,6 @@ install:
   - ps: Write-Output $(git submodule update --init --recursive)
   - ps: if($env:PLATFORM -eq "x64"){ vcpkg install --triplet x64-windows ms-gsl }
   - ps: if($env:PLATFORM -eq "x86"){ vcpkg install --triplet x86-windows ms-gsl }
-  - ps: |
-      if ($env:CXX) {
-        choco info llvm
-        choco install ninja --yes --no-progress
-      }
 
 before_build:
   - ps: MSBuild.exe /version
@@ -54,10 +51,11 @@ before_build:
 
 build_script:
   # configure cmake and build them
-  - ps: if($env:PLATFORM -eq "x64"){ cmake . -G "$env:GENERATOR" -A x64   -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_TESTING=ON }
-  - ps: if($env:PLATFORM -eq "x86"){ cmake . -G "$env:GENERATOR" -A Win32 -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_TESTING=ON }
+  - ps: if($env:PLATFORM -eq "x64"){ cmake . -G "$env:GENERATOR" -A x64   -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_SHARED_LIBS=false }
+  - ps: if($env:PLATFORM -eq "x86"){ cmake . -G "$env:GENERATOR" -A Win32 -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_SHARED_LIBS=false }
+  - ps: cmake --build . --config $env:CONFIGURATION --target install
+  - ps: cmake . -DBUILD_TESTING=ON
   - ps: cmake --build . --config $env:CONFIGURATION
-  - ps: cmake --build . --target install
 
 test_script:
   - ps: |

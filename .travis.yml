@@ -47,14 +47,26 @@ before_script:
   - export CXX=${TRAVIS_COMPILER}
 
 script:
-  - cmake .
+  - mkdir -p build && cd ./build
+  - cmake ..
     -DCMAKE_INSTALL_PREFIX="${TRAVIS_BUILD_DIR}/install"
     -DBUILD_SHARED_LIBS=True
     -DCMAKE_BUILD_TYPE=Debug
-    -DBUILD_TESTING=True
-  - cmake --build . --config debug
-  - cmake --build . --target install
-  - ctest --output-on-failure
+  - cmake --build . --config debug --target install
+  - cmake ..
+    -DBUILD_TESTING=true
+  - cmake --build . -- --keep-going
+  - ctest --output-on-failure --tests-regex return_
+  - ctest --output-on-failure --tests-regex enumerable_
+  - ctest --output-on-failure --tests-regex pthread_
+  - if [ ${TRAVIS_OS_NAME} == "linux" ]; then
+      ctest --output-on-failure --tests-regex linux_;
+    fi
+  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then
+      ctest --output-on-failure --tests-regex unix_;
+    fi
+  - ctest --output-on-failure --tests-regex channel_
+  - ctest --output-on-failure --tests-regex net_
 
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
@@ -62,8 +74,8 @@ after_success:
 
 jobs:
   allow_failures:
-    - env: EXPERIMENTAL=true
     - osx_image: xcode10.1
+    - compiler: clang-10
 
   include:
     - stage: build
@@ -106,13 +118,11 @@ jobs:
 
     - os: linux
       dist: bionic
-      services:
-        - docker
-      env: EXPERIMENTAL=true
-      before_script:
-        - docker info
-      script:
-        - docker build . -f ./scripts/gcc-10-build.dockerfile -t luncliff/coroutine
+      compiler: clang-9
+
+    - os: linux
+      dist: bionic
+      compiler: clang-10
 
     - stage: deploy
       language: python
