@@ -11,6 +11,8 @@ endif()
 if(NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
+# set(CMAKE_CXX_STANDARD  20)
+
 message(STATUS "system: ${CMAKE_SYSTEM}")
 message(STATUS "build_type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "paths:")
@@ -140,7 +142,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
     message(WARNING "clang-cl won't work with <experimental/coroutine>")
 endif()
 
-# set(CMAKE_CXX_STANDARD  20)
 set(MODULE_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
 add_subdirectory(modules/portable)	# corotuien_portable
 add_subdirectory(modules/system)    # coroutine_system
@@ -225,21 +226,16 @@ set(BUILD_TESTING OFF)
 add_subdirectory(external/latch)    
 add_subdirectory(external/sockets)
 
+set(CMAKE_CXX_STANDARD 20)
 
 # create_ctest( ... )
 function(create_ctest TEST_NAME)
     # create a test exe with the given name ...
     add_executable(${TEST_NAME} test/${TEST_NAME}.cpp)
-    add_test(NAME ${TEST_NAME} 
-             COMMAND ${TEST_NAME})
-
-    set_target_properties(${TEST_NAME}
-    PROPERTIES
-        CXX_STANDARD 17
-    )
-    target_include_directories(${TEST_NAME}
+    add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+    target_link_libraries(${TEST_NAME}
     PRIVATE
-        ${GSL_INCLUDE_DIR}
+        Microsoft.GSL::GSL
     )
     # all arguments after TEST_NAME 
     # should be library (or CMake target) name
@@ -255,26 +251,21 @@ function(create_ctest TEST_NAME)
             )    
         endif()
     endforeach()
-
-    target_compile_definitions(${TEST_NAME}
-    PRIVATE
-        CMAKE_TEST # NDEBUG
-    )
-    if(WIN32)
-        target_compile_definitions(${TEST_NAME}
-        PRIVATE
-            WIN32_LEAN_AND_MEAN NOMINMAX
+    if(WIN32)	
+        target_compile_definitions(${TEST_NAME}	
+        PRIVATE	
+            WIN32_LEAN_AND_MEAN NOMINMAX	
         )
-    elseif(APPLE)
+    elseif(APPLE)	
+        target_link_libraries(${TEST_NAME}	
+        PRIVATE	
+            c++	
+        )	
+    else(CMAKE_SYSTEM_NAME MATCHES Linux)	
         target_link_libraries(${TEST_NAME}
-        PRIVATE
-            c++
-        )
-    else(CMAKE_SYSTEM_NAME MATCHES Linux)
-        target_link_libraries(${TEST_NAME}
-        PRIVATE
+        PRIVATE	
             stdc++ c++
-        )
+        )	
     endif()
 endfunction()
 
@@ -348,12 +339,12 @@ if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
 endif()
 # create_ctest( channel_close_read            coroutine_system )
 # create_ctest( channel_close_write           coroutine_system )
-# create_ctest( channel_ownership_consumer    coroutine_system )
-# create_ctest( channel_ownership_producer    coroutine_system )
-# create_ctest( channel_read_write_mutex      coroutine_system )
-# create_ctest( channel_read_write_nolock     coroutine_system )
-# create_ctest( channel_write_read_mutex      coroutine_system )
-# create_ctest( channel_write_read_nolock     coroutine_system )
+create_ctest( channel_ownership_consumer    coroutine_system )
+create_ctest( channel_ownership_producer    coroutine_system )
+create_ctest( channel_read_write_mutex      coroutine_system )
+create_ctest( channel_read_write_nolock     coroutine_system )
+create_ctest( channel_write_read_mutex      coroutine_system )
+create_ctest( channel_write_read_nolock     coroutine_system )
 # create_ctest( channel_select_empty          coroutine_system )
 # create_ctest( channel_select_type           coroutine_system )
 if(WIN32)
@@ -364,11 +355,15 @@ create_ctest( channel_sample_wrap           coroutine_system latch )
 #
 #   <coroutine/net.h>
 #
-# if(TARGET coroutine_net)
-# create_ctest( net_socket_tcp_echo   coroutine_net ssf latch )
-# create_ctest( net_socket_udp_echo   coroutine_net ssf latch )
-# create_ctest( net_resolve_name      coroutine_net ssf )
-# create_ctest( net_resolve_ip6       coroutine_net ssf )
-# create_ctest( net_resolve_tcp6      coroutine_net ssf )
-# create_ctest( net_resolve_udp6      coroutine_net ssf )
-# endif()
+if(TARGET coroutine_net)
+create_ctest( net_socket_tcp_echo   coroutine_net ssf latch )
+create_ctest( net_socket_udp_echo   coroutine_net ssf latch )
+create_ctest( net_resolve_name      coroutine_net ssf )
+create_ctest( net_resolve_ip6       coroutine_net ssf )
+create_ctest( net_resolve_tcp6      coroutine_net ssf )
+create_ctest( net_resolve_udp6      coroutine_net ssf )
+endif()
+
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+    add_test(NAME test_clang_1 COMMAND ${CMAKE_CXX_COMPILER} --version)
+endif()
