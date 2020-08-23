@@ -75,6 +75,7 @@ after_success:
 jobs:
   allow_failures:
     - osx_image: xcode10.1
+    - compiler: clang-10
 
   include:
     - stage: build

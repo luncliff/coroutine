@@ -3,7 +3,7 @@
 #   Author  : github.com/luncliff (luncliff@gmail.com)
 #
 verion_name=$(. /etc/os-release;echo $VERSION)
-verion_id=$(. /etc/os-release;echo $VERSION_ID)
+version_id=$(. /etc/os-release;echo $VERSION_ID)
 distribution=$(. /etc/os-release;echo $UBUNTU_CODENAME)
 
 echo ""
