@@ -51,8 +51,8 @@ before_build:
 
 build_script:
   # configure cmake and build them
-  - ps: if($env:PLATFORM -eq "x64"){ cmake . -G "$env:GENERATOR" -A x64   -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" }
-  - ps: if($env:PLATFORM -eq "x86"){ cmake . -G "$env:GENERATOR" -A Win32 -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" }
+  - ps: if($env:PLATFORM -eq "x64"){ cmake . -G "$env:GENERATOR" -A x64   -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_SHARED_LIBS=false }
+  - ps: if($env:PLATFORM -eq "x86"){ cmake . -G "$env:GENERATOR" -A Win32 -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_SHARED_LIBS=false }
   - ps: cmake --build . --config $env:CONFIGURATION --target install
   - ps: cmake . -DBUILD_TESTING=ON
   - ps: cmake --build . --config $env:CONFIGURATION
