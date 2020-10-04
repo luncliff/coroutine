@@ -492,14 +492,14 @@
   <span class="k">public</span><span class="o">:</span>
     <span class="kt">uint32_t</span> <span class="n">unregister</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
 
-    <span class="k">constexpr</span> <span class="kt">bool</span> <span class="nf">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">await_ready</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="kt">void</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">suspend</span><span class="p">(</span><span class="n">coro</span><span class="p">);</span>
+    <span class="kt">void</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">suspend</span><span class="p">(</span><span class="n">coro</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="kt">uint32_t</span> <span class="nf">await_resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">unregister</span><span class="p">();</span>
+    <span class="kt">uint32_t</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">unregister</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
 <span class="cp">#endif </span><span class="c1">// WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_GAMES</span>

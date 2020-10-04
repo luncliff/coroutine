@@ -1044,10 +1044,10 @@ So its user code can handle the operation failure and prevent undefined behavior
 <h4 id="optional-synchronization_1">Optional synchronization<a class="headerlink" href="#optional-synchronization_1" title="Permanent link">&para;</a></h4>
 <p>The logic will remain while user applies different synchronization types.
 So the type will use be template.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span> <span class="o">=</span> <span class="n">bypass_lock</span><span class="o">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span> <span class="o">=</span> <span class="n">bypass_lock</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel</span><span class="p">;</span> <span class="c1">// by default, channel doesn&#39;t care about the race condition</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel</span> <span class="k">final</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="k">using</span> <span class="n">mutex_type</span> <span class="o">=</span> <span class="n">M</span><span class="p">;</span> 
@@ -1059,7 +1059,7 @@ So the type will use be template.</p>
 
 <p>Also, as you can see above, it will use <strong>do nothing</strong> lockable by default.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// Lockable without lock operation.</span>
-<span class="k">struct</span> <span class="n">bypass_lock</span> <span class="k">final</span> <span class="p">{</span>
+<span class="k">struct</span> <span class="nc">bypass_lock</span> <span class="k">final</span> <span class="p">{</span>
     <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">try_lock</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
     <span class="p">}</span>
@@ -1137,7 +1137,7 @@ In my perspective, it is more likely to have well-designed space for the <code>v
 By placing next pointer in those frame, we can make zero-allocation channel.
 Actually they are a kind of pre-allocation since the cost is already paid in the frame construction(invocation) steps.</p>
 <p>So it will be enough for <code>channel&lt;T&gt;</code> to have <a href="https://github.com/luncliff/coroutine/blob/1.4.3/interface/coroutine/channel.hpp#L264">2 linked lists and 1 mutex</a> to operate correctly under multi-threaded code.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel</span> <span class="k">final</span> <span class="o">:</span> <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">reader</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span><span class="p">,</span>
                       <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">writer</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
     <span class="c1">// ...</span>
@@ -1150,7 +1150,7 @@ Actually they are a kind of pre-allocation since the cost is already paid in the
 <p>To make a linked list of the coroutine frames, 
 the type <strong>places an objects in the coroutine frame</strong> that containes <code>next</code> pointer.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// Coroutine based channel. User have to provide appropriate lockable</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel</span> <span class="k">final</span> <span class="o">:</span> <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">reader</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span><span class="p">,</span>
                       <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">writer</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
     <span class="c1">// ...</span>
@@ -1169,7 +1169,7 @@ the type <strong>places an objects in the coroutine frame</strong> that containe
 
 <p>You can find next pointer in the following <code>writer</code> and <code>reader</code>.
 Notice that they have a reserved space to receive <code>coroutine_handle&lt;void&gt;</code> from <code>await_suspend</code>.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">writer</span> <span class="k">final</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="k">using</span> <span class="n">value_type</span> <span class="o">=</span> <span class="n">T</span><span class="p">;</span>
@@ -1186,7 +1186,7 @@ Notice that they have a reserved space to receive <code>coroutine_handle&lt;void
 </code></pre></div>
 
 
-<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">reader</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="k">using</span> <span class="n">value_type</span> <span class="o">=</span> <span class="n">T</span><span class="p">;</span>
@@ -1243,7 +1243,7 @@ That's really brutal because it can break all existing expectations of the funct
 <p>So the appropriate behavior is to resume those frames and let them recognize that they can't access the channel anymore.
 In <a href="https://github.com/luncliff/coroutine/blob/1.4.3/interface/coroutine/channel.hpp#L296">its destructor</a>, <code>channel&lt;T, M&gt;</code> resumes all awaiting coroutines in its linked lists.
 Notice the destructor is specified <code>noexcept(false)</code> because typically <code>resume</code> operation is not guaranteed <code>noexcept</code>.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel</span> <span class="p">{</span>
     <span class="c1">// ...</span>
     <span class="o">~</span><span class="n">channel</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="c1">// channel can&#39;t provide exception guarantee...</span>
@@ -1305,10 +1305,10 @@ It receive not only a value from the channel but also one <code>bool</code> that
 Returning a <code>tuple</code> from the function can constrain user's code. </p>
 <p>In the implementation, to decide to return <code>true</code> or <code>false</code>, both <code>reader&lt;T, M&gt;</code> and <code>writer&lt;T, M&gt;</code> have to check if the poison is delivered.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// Awaitable for channel&#39;s read operation</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">reader</span> <span class="p">{</span>
     <span class="c1">// ...</span>
-    <span class="k">auto</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tuple</span><span class="o">&lt;</span><span class="n">value_type</span><span class="p">,</span> <span class="kt">bool</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="nf">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tuple</span><span class="o">&lt;</span><span class="n">value_type</span><span class="p">,</span> <span class="kt">bool</span><span class="o">&gt;</span> <span class="p">{</span>
         <span class="k">auto</span> <span class="n">t</span> <span class="o">=</span> <span class="n">make_tuple</span><span class="p">(</span><span class="n">value_type</span><span class="p">{},</span> <span class="nb">false</span><span class="p">);</span>
         <span class="c1">// frame holds poision if the channel is going to be destroyed</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span> <span class="o">==</span> <span class="n">internal</span><span class="o">::</span><span class="n">poison</span><span class="p">())</span>
@@ -1330,10 +1330,10 @@ Returning a <code>tuple</code> from the function can constrain user's code. </p>
 <p>Unlike reader, writer just returns <code>bool</code>.
 The signature makes its return can be used in <code>if</code> or <code>while</code> conveniently.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// Awaitable for channel&#39;s write operation</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">writer</span> <span class="k">final</span> <span class="p">{</span>
     <span class="c1">// ...</span>
-    <span class="kt">bool</span> <span class="n">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="nf">await_resume</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// frame holds poision if the channel is going to destroy</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">frame</span> <span class="o">==</span> <span class="n">internal</span><span class="o">::</span><span class="n">poison</span><span class="p">())</span>
             <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>

@@ -483,14 +483,14 @@
 <span class="cp">#include</span> <span class="cpf">&lt;cstdint&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;type_traits&gt;</span><span class="cp"></span>
 
-<span class="cp">#include</span> <span class="cpf">&lt;exception&gt;  // std::current_exception</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;functional&gt; // std::hash</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;exception&gt;</span><span class="c1">  // std::current_exception</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;functional&gt;</span><span class="c1"> // std::hash</span><span class="cp"></span>
 
 <span class="cp">#if defined(__cpp_coroutines)</span>
 <span class="c1">// ...</span>
 <span class="cp">#endif</span>
 
-<span class="k">struct</span> <span class="n">portable_coro_prefix</span><span class="p">;</span>
+<span class="k">struct</span> <span class="nc">portable_coro_prefix</span><span class="p">;</span>
 
 <span class="kt">bool</span> <span class="nf">portable_coro_done</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">);</span>
 <span class="kt">void</span> <span class="nf">portable_coro_resume</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">);</span>
@@ -504,17 +504,17 @@
 <span class="k">namespace</span> <span class="n">std</span> <span class="p">{</span>
 
 <span class="c1">// 17.12.3, coroutine handle</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_PromiseT</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="p">;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_PromiseT</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_handle</span><span class="p">;</span>
 
 <span class="c1">// STRUCT TEMPLATE coroutine_handle</span>
 <span class="k">template</span> <span class="o">&lt;&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
+<span class="k">struct</span> <span class="nc">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="c1">// 17.12.3.1, construct</span>
-    <span class="k">constexpr</span> <span class="n">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">constexpr</span> <span class="nf">coroutine_handle</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="p">}</span>
     <span class="c1">// 17.12.3.1, reset</span>
-    <span class="k">constexpr</span> <span class="n">coroutine_handle</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">constexpr</span> <span class="nf">coroutine_handle</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="p">}</span>
     <span class="n">coroutine_handle</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="n">_Ptr</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
@@ -535,29 +535,29 @@
         <span class="k">return</span> <span class="n">_Ptr</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="kt">bool</span> <span class="n">done</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">portable_coro_done</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nf">portable_coro_done</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="c1">// 17.12.3.4, resumption</span>
     <span class="kt">void</span> <span class="n">resume</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">portable_coro_resume</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nf">portable_coro_resume</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="kt">void</span> <span class="k">operator</span><span class="p">()()</span> <span class="k">const</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">portable_coro_resume</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nf">portable_coro_resume</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="kt">void</span> <span class="n">destroy</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">portable_coro_destroy</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nf">portable_coro_destroy</span><span class="p">(</span><span class="n">_Ptr</span><span class="p">);</span>
     <span class="p">}</span>
 
   <span class="k">protected</span><span class="o">:</span> <span class="c1">// this is `private` in the standard</span>
     <span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Ptr</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_PromiseT</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nl">coroutine_handle</span> <span class="p">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_PromiseT</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_handle</span> <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="c1">// 17.12.3.1, construct</span>
     <span class="k">using</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;::</span><span class="n">coroutine_handle</span><span class="p">;</span>
 
-    <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="nf">from_promise</span><span class="p">(</span><span class="n">_PromiseT</span><span class="o">&amp;</span> <span class="n">_Prom</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="n">from_promise</span><span class="p">(</span><span class="n">_PromiseT</span><span class="o">&amp;</span> <span class="n">_Prom</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">auto</span><span class="o">*</span> <span class="n">_Addr</span> <span class="o">=</span> <span class="n">portable_coro_from_promise</span><span class="p">(</span><span class="o">&amp;</span><span class="n">_Prom</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">_PromiseT</span><span class="p">));</span>
         <span class="k">return</span> <span class="n">coroutine_handle</span><span class="o">::</span><span class="n">from_address</span><span class="p">(</span><span class="n">_Addr</span><span class="p">);</span>
     <span class="p">}</span>
@@ -611,7 +611,7 @@
 <span class="p">}</span>
 
 <span class="c1">// 17.12.4, no-op coroutines</span>
-<span class="k">struct</span> <span class="n">noop_coroutine_promise</span> <span class="p">{};</span>
+<span class="k">struct</span> <span class="nc">noop_coroutine_promise</span> <span class="p">{};</span>
 
 <span class="c1">// STRUCT noop_coroutine_handle</span>
 <span class="k">using</span> <span class="n">noop_coroutine_handle</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">noop_coroutine_promise</span><span class="o">&gt;</span><span class="p">;</span>
@@ -621,7 +621,7 @@
 
 <span class="c1">// STRUCT coroutine_handle&lt;noop_coroutine_promise&gt;</span>
 <span class="k">template</span> <span class="o">&lt;&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">noop_coroutine_promise</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_handle</span><span class="o">&lt;</span><span class="n">noop_coroutine_promise</span><span class="o">&gt;</span>
     <span class="o">:</span> <span class="k">public</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="c1">// 17.12.4.2.1, observers</span>
     <span class="k">constexpr</span> <span class="k">explicit</span> <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
@@ -677,7 +677,7 @@
     <span class="k">friend</span> <span class="n">noop_coroutine_handle</span> <span class="n">noop_coroutine</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="kr">inline</span> <span class="n">noop_coroutine_handle</span> <span class="nf">noop_coroutine</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
+<span class="kr">inline</span> <span class="n">noop_coroutine_handle</span> <span class="n">noop_coroutine</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">{};</span>
 <span class="p">}</span>
 
@@ -709,26 +709,26 @@
 
 <span class="c1">// 17.12.2, coroutine traits</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ret</span><span class="p">,</span> <span class="k">class</span> <span class="err">= </span><span class="nc">void</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">coro_traits_sfinae</span> <span class="p">{};</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ret</span><span class="p">,</span> <span class="k">class</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coro_traits_sfinae</span> <span class="p">{};</span>
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ret</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">coro_traits_sfinae</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="p">,</span> <span class="n">void_t</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ret</span><span class="o">::</span><span class="n">promise_type</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
-    <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">_Ret</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
+<span class="k">struct</span> <span class="nc">coro_traits_sfinae</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="p">,</span> <span class="n">void_t</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ret</span><span class="o">::</span><span class="n">promise_type</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+    <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">_Ret</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
 <span class="p">};</span>
 
 <span class="c1">// there is no way but to define in `std::experimental` since compilers are checking it</span>
 <span class="k">namespace</span> <span class="n">experimental</span> <span class="p">{</span>
 
 <span class="c1">// STRUCT TEMPLATE coroutine_traits</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Ts</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nl">coroutine_traits</span> <span class="p">:</span> <span class="n">coro_traits_sfinae</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="o">&gt;</span> <span class="p">{};</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Ts</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_traits</span> <span class="o">:</span> <span class="n">coro_traits_sfinae</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="o">&gt;</span> <span class="p">{};</span>
 
 <span class="cp">#if defined(__clang__)</span>
 
 <span class="c1">// clang: std::experimental::coroutine_handle must be a class template</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">P</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nl">coroutine_handle</span> <span class="p">:</span> <span class="k">public</span> <span class="n">std</span><span class="o">::</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="p">{};</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">P</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_handle</span> <span class="o">:</span> <span class="k">public</span> <span class="n">std</span><span class="o">::</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="p">{};</span>
 
 <span class="cp">#elif defined(_MSC_VER)</span>
 
@@ -737,26 +737,26 @@
 
 <span class="c1">// _Resumable_helper_traits class isolates front-end from public surface naming changes</span>
 <span class="c1">// The original code is in &lt;experimental/resumable&gt;</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Ts</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">_Resumable_helper_traits</span> <span class="p">{</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Ts</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">_Resumable_helper_traits</span> <span class="p">{</span>
     <span class="k">using</span> <span class="n">_Traits</span> <span class="o">=</span> <span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="p">,</span> <span class="n">_Ts</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="k">using</span> <span class="n">_PromiseT</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">_Traits</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">_PromiseT</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">_Traits</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
     <span class="k">using</span> <span class="n">_Handle_type</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">_PromiseT</span><span class="o">&gt;</span><span class="p">;</span>
 
-    <span class="k">static</span> <span class="n">_PromiseT</span><span class="o">*</span> <span class="nf">_Promise_from_frame</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="n">_PromiseT</span><span class="o">*</span> <span class="n">_Promise_from_frame</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">auto</span><span class="o">&amp;</span> <span class="n">prom</span> <span class="o">=</span> <span class="n">_Handle_type</span><span class="o">::</span><span class="n">from_address</span><span class="p">(</span><span class="n">_Addr</span><span class="p">).</span><span class="n">promise</span><span class="p">();</span>
         <span class="k">return</span> <span class="o">&amp;</span><span class="n">prom</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="k">static</span> <span class="n">_Handle_type</span> <span class="nf">_Handle_from_frame</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="n">_Handle_type</span> <span class="n">_Handle_from_frame</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">_Handle_type</span><span class="o">::</span><span class="n">from_promise</span><span class="p">(</span><span class="o">*</span><span class="n">_Promise_from_frame</span><span class="p">(</span><span class="n">_Addr</span><span class="p">));</span>
     <span class="p">}</span>
 
-    <span class="k">static</span> <span class="kt">void</span> <span class="nf">_Set_exception</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="n">_Set_exception</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">_Promise_from_frame</span><span class="p">(</span><span class="n">_Addr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">set_exception</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">current_exception</span><span class="p">());</span>
     <span class="p">}</span>
 
-    <span class="k">static</span> <span class="kt">void</span> <span class="nf">_ConstructPromise</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_Resume_addr</span><span class="p">,</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="n">_ConstructPromise</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">_Resume_addr</span><span class="p">,</span>
                                   <span class="kt">int</span> <span class="n">_HeapElision</span><span class="p">)</span> <span class="p">{</span>
         <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">**&gt;</span><span class="p">(</span><span class="n">_Addr</span><span class="p">)</span> <span class="o">=</span> <span class="n">_Resume_addr</span><span class="p">;</span>
         <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_Addr</span><span class="p">)</span> <span class="o">+</span>
@@ -766,7 +766,7 @@
         <span class="o">::</span><span class="k">new</span> <span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">_Prom</span><span class="p">))</span> <span class="n">_PromiseT</span><span class="p">();</span>
     <span class="p">}</span>
 
-    <span class="k">static</span> <span class="kt">void</span> <span class="nf">_DestructPromise</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="n">_DestructPromise</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">_Promise_from_frame</span><span class="p">(</span><span class="n">_Addr</span><span class="p">)</span><span class="o">-&gt;~</span><span class="n">_PromiseT</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
@@ -776,12 +776,12 @@
 <span class="p">}</span> <span class="c1">// namespace experimental</span>
 
 <span class="c1">// STRUCT TEMPLATE coroutine_traits</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Param</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Param</span><span class="o">&gt;</span>
 <span class="k">using</span> <span class="n">coroutine_traits</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">_Ret</span><span class="p">,</span> <span class="n">_Param</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
 
 <span class="c1">// 17.12.3.7, hash support</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_PromiseT</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">hash</span><span class="o">&lt;</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">_PromiseT</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_PromiseT</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">hash</span><span class="o">&lt;</span><span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">_PromiseT</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
     <span class="c1">// deprecated in C++17</span>
     <span class="k">using</span> <span class="n">argument_type</span> <span class="o">=</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">_PromiseT</span><span class="o">&gt;</span><span class="p">;</span>
     <span class="c1">// deprecated in C++17</span>

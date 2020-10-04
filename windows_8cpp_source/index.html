@@ -600,7 +600,7 @@
     <span class="n">DeleteCriticalSection</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 <span class="p">}</span>
 <span class="kt">bool</span> <span class="n">section</span><span class="o">::</span><span class="n">try_lock</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">TryEnterCriticalSection</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">TryEnterCriticalSection</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 <span class="p">}</span>
 <span class="kt">void</span> <span class="n">section</span><span class="o">::</span><span class="n">lock</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">EnterCriticalSection</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>

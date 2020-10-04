@@ -503,7 +503,7 @@
 <span class="kt">ptrdiff_t</span> <span class="n">epoll_owner</span><span class="o">::</span><span class="n">wait</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">wait_ms</span><span class="p">,</span>
                             <span class="n">gsl</span><span class="o">::</span><span class="n">span</span><span class="o">&lt;</span><span class="n">epoll_event</span><span class="o">&gt;</span> <span class="n">output</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">auto</span> <span class="n">count</span> <span class="o">=</span> <span class="n">epoll_wait</span><span class="p">(</span><span class="n">epfd</span><span class="p">,</span> <span class="n">output</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">output</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">wait_ms</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="mi">-1</span><span class="p">)</span>
         <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;epoll_wait&quot;</span><span class="p">};</span>
     <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
 <span class="p">}</span>
@@ -538,18 +538,18 @@
     <span class="c1">//  the message can be any value</span>
     <span class="c1">//  since the purpose of it is to trigger the epoll</span>
     <span class="c1">//  we won&#39;t care about the internal counter of the eventfd</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">(</span><span class="n">efd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">efd</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">efd</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">write</span><span class="p">(</span><span class="n">efd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">efd</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">efd</span><span class="p">))</span> <span class="o">==</span> <span class="mi">-1</span><span class="p">)</span>
         <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;write&quot;</span><span class="p">};</span>
 <span class="p">}</span>
 
 <span class="kt">void</span> <span class="nf">consume_event</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">efd</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">read</span><span class="p">(</span><span class="n">efd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">efd</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">efd</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">read</span><span class="p">(</span><span class="n">efd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">efd</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">efd</span><span class="p">))</span> <span class="o">==</span> <span class="mi">-1</span><span class="p">)</span>
         <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;read&quot;</span><span class="p">};</span>
 <span class="p">}</span>
 
 <span class="n">event</span><span class="o">::</span><span class="n">event</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">:</span> <span class="n">state</span><span class="p">{}</span> <span class="p">{</span>
     <span class="k">const</span> <span class="k">auto</span> <span class="n">fd</span> <span class="o">=</span> <span class="o">::</span><span class="n">eventfd</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">EFD_NONBLOCK</span> <span class="o">|</span> <span class="n">EFD_CLOEXEC</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">fd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fd</span> <span class="o">==</span> <span class="mi">-1</span><span class="p">)</span>
         <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;eventfd&quot;</span><span class="p">};</span>
 
     <span class="k">this</span><span class="o">-&gt;</span><span class="n">state</span> <span class="o">=</span> <span class="n">fd</span><span class="p">;</span> <span class="c1">// start with unsignaled state</span>
@@ -561,11 +561,11 @@
 <span class="p">}</span>
 
 <span class="kt">uint64_t</span> <span class="n">event</span><span class="o">::</span><span class="n">fd</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">get_eventfd</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">get_eventfd</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kt">bool</span> <span class="n">event</span><span class="o">::</span><span class="n">is_set</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">is_signaled</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">is_signaled</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kt">void</span> <span class="n">event</span><span class="o">::</span><span class="n">set</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>

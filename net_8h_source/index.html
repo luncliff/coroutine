@@ -487,7 +487,7 @@
 <span class="k">static</span> <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">is_winsock</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
 <span class="k">static</span> <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">is_netinet</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 
-<span class="k">struct</span> <span class="n">io_control_block</span> <span class="p">{</span>
+<span class="k">struct</span> <span class="nc">io_control_block</span> <span class="p">{</span>
     <span class="kt">uint64_t</span> <span class="n">internal</span><span class="p">;</span>      <span class="c1">// uint32_t errc, int32_t flag</span>
     <span class="kt">uint64_t</span> <span class="n">internal_high</span><span class="p">;</span> <span class="c1">// int64_t len, socklen_t addrlen</span>
     <span class="k">union</span> <span class="p">{</span>

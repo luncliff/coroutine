@@ -1115,7 +1115,7 @@ PERIOD  ALF     .
 </blockquote>
 <div class="codehilite"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span> <span class="n">tcp_reader</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">total</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="k">struct</span> <span class="n">reader_state</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="nc">reader_state</span> <span class="p">{</span>
         <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="mi">4096</span><span class="o">&gt;</span> <span class="n">_buffer</span><span class="p">;</span>
         <span class="kt">int64_t</span>                <span class="n">_total</span><span class="p">;</span>
         <span class="n">tcp</span><span class="o">::</span><span class="n">connection</span>        <span class="n">_connection</span><span class="p">;</span>
@@ -1382,17 +1382,17 @@ PERIOD  ALF     .
 <p>어떻게 이게 가능한걸까? <code>generator&lt;T&gt;</code>의 정의를 살펴보자.</p>
 <h4 id="detail">실체(Detail)<a class="headerlink" href="#detail" title="Permanent link">&para;</a></h4>
 <p>간략하게 <code>generator&lt;T&gt;</code> 를 옮겨왔다. <code>iterator</code>와 <code>promise_type</code>을 지원하는 것을 확인할 수 있다. 또한 <code>begin()</code>/<code>end()</code> 함수로 <a href="http://en.cppreference.com/w/cpp/language/range-for">Range-based for loop</a>를 지원하고 있다.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="n">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
-<span class="k">struct</span> <span class="n">generator</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
+<span class="k">struct</span> <span class="nc">generator</span>
 <span class="p">{</span>
     <span class="c1">// Resumable Promise Requirement</span>
-    <span class="k">struct</span> <span class="n">promise_type</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="nc">promise_type</span><span class="p">;</span>
 <span class="k">private</span><span class="o">:</span>
     <span class="c1">// 재개함수를 위한 핸들</span>
     <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">_Coro</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="k">struct</span> <span class="n">promise_type</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
-    <span class="k">struct</span> <span class="n">iterator</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
+    <span class="k">struct</span> <span class="nc">promise_type</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
+    <span class="k">struct</span> <span class="nc">iterator</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
 
     <span class="n">iterator</span> <span class="nf">begin</span><span class="p">()</span>
     <span class="p">{</span>
@@ -1445,11 +1445,11 @@ PERIOD  ALF     .
 
 
 <p>일반적인 <code>iterator-for</code> 구문과 크게 다르지 않다. <code>iterator</code>는 어떻게 되어있을까?</p>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="n">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
-<span class="k">struct</span> <span class="n">generator</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
+<span class="k">struct</span> <span class="nc">generator</span>
 <span class="p">{</span>
     <span class="c1">// 반복자 인터페이스</span>
-    <span class="k">struct</span> <span class="nl">iterator</span> <span class="p">:</span> <span class="n">_STD</span> <span class="n">iterator</span><span class="o">&lt;</span><span class="n">input_iterator_tag</span><span class="p">,</span> <span class="n">_Ty</span><span class="o">&gt;</span>
+    <span class="k">struct</span> <span class="nc">iterator</span> <span class="o">:</span> <span class="n">_STD</span> <span class="n">iterator</span><span class="o">&lt;</span><span class="n">input_iterator_tag</span><span class="p">,</span> <span class="n">_Ty</span><span class="o">&gt;</span>
     <span class="p">{</span>
         <span class="c1">// Resumable function handle</span>
         <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">_Coro</span><span class="p">;</span>
@@ -1505,38 +1505,38 @@ PERIOD  ALF     .
 <p><img alt="Fig: Generator Invoke and Resume" src="https://cgiska.bn1304.livefilestore.com/y4myyjBEM4mTFN8yloP0iVkJc-b8wQ_OzKXH-Y03gXYlJqaxpsg7db3xWQAxUujyjQamngJ9mw7cnHmFt3_W2qxviWYpMzdRR6iub1Msi_bZOHuB76FbOOdfrhDo5yen6OAzJH48zRRfbbiiboTzymHRLN5xOosm6PyywXhQO9lYo80KY_lPRhaUMu-dcPkbu3wiL0OtjtiyJE8iGt1-d4vbw?width=1024&amp;height=607&amp;cropmode=none" /></p>
 <h4 id="_16">컴파일러의 시점<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h4>
 <p>이제 핵심이 되는 <code>promise_type</code>을 볼 차례다. 기술된 것 보다 코드가 좀 더 있지만 단순화 하였다.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="n">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
-<span class="k">struct</span> <span class="n">generator</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
+<span class="k">struct</span> <span class="nc">generator</span>
 <span class="p">{</span>
     <span class="c1">// Resumable Promise Requirement for `generator`</span>
-    <span class="k">struct</span> <span class="n">promise_type</span>
+    <span class="k">struct</span> <span class="nc">promise_type</span>
     <span class="p">{</span>
         <span class="c1">// it knows where the value is... in frame.</span>
         <span class="n">_Ty</span> <span class="k">const</span> <span class="o">*</span><span class="n">_CurrentValue</span><span class="p">;</span>
 
         <span class="c1">// It returns `promise_type`.</span>
         <span class="c1">// The reason will be explained in next section.</span>
-        <span class="n">promise_type</span> <span class="o">&amp;</span><span class="n">get_return_object</span><span class="p">()</span>
+        <span class="n">promise_type</span> <span class="o">&amp;</span><span class="nf">get_return_object</span><span class="p">()</span>
         <span class="p">{</span>
             <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
         <span class="p">}</span>
 
         <span class="c1">// If return `true`, suspends at initial suspend point.</span>
         <span class="c1">// So we suspends at *some* point</span>
-        <span class="kt">bool</span> <span class="n">initial_suspend</span><span class="p">()</span>
+        <span class="kt">bool</span> <span class="nf">initial_suspend</span><span class="p">()</span>
         <span class="p">{</span>
             <span class="k">return</span> <span class="p">(</span><span class="nb">true</span><span class="p">);</span>
         <span class="p">}</span>
 
         <span class="c1">// If return `true`, suspends at final suspend point.</span>
         <span class="c1">// So we suspends at *some* point</span>
-        <span class="kt">bool</span> <span class="n">final_suspend</span><span class="p">()</span>
+        <span class="kt">bool</span> <span class="nf">final_suspend</span><span class="p">()</span>
         <span class="p">{</span>
             <span class="k">return</span> <span class="p">(</span><span class="nb">true</span><span class="p">);</span>
         <span class="p">}</span>
 
         <span class="c1">// Support `co_yield` expression</span>
-        <span class="kt">void</span> <span class="n">yield_value</span><span class="p">(</span><span class="n">_Ty</span> <span class="k">const</span> <span class="o">&amp;</span><span class="n">_Value</span><span class="p">)</span>
+        <span class="kt">void</span> <span class="nf">yield_value</span><span class="p">(</span><span class="n">_Ty</span> <span class="k">const</span> <span class="o">&amp;</span><span class="n">_Value</span><span class="p">)</span>
         <span class="p">{</span>
             <span class="c1">// point the value</span>
             <span class="n">_CurrentValue</span> <span class="o">=</span> <span class="n">_STD</span> <span class="n">addressof</span><span class="p">(</span><span class="n">_Value</span><span class="p">);</span>
@@ -1595,12 +1595,12 @@ PERIOD  ALF     .
 <h4 id="_18">재개함수의 프레임<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h4>
 <p>그러면, Resumable Frame 은 대체 어떻게 생겼을까? 일단 프레임은 Head와 Body로 나뉜다.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// TEMPLATE CLASS coroutine_handle</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_PromiseT</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="p">;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_PromiseT</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_handle</span><span class="p">;</span>
 
 <span class="c1">// TEMPLATE CLASS coroutine_handle&lt;void&gt; - no promise access</span>
 <span class="k">template</span> <span class="o">&lt;&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span>
 <span class="p">{</span>
     <span class="c1">// ---- ---- ---- ---- ----</span>
     <span class="c1">// 함수 프레임 Head </span>
@@ -1609,9 +1609,9 @@ PERIOD  ALF     .
     <span class="c1">//  - Index : Resumption point의 인덱스</span>
     <span class="c1">//            0번은 함수가 종료된(`done()`) 경우에 사용한다.</span>
     <span class="c1">//  - Flag  : ???</span>
-    <span class="k">struct</span> <span class="n">_Resumable_frame_prefix</span>
+    <span class="k">struct</span> <span class="nc">_Resumable_frame_prefix</span>
     <span class="p">{</span>
-        <span class="k">typedef</span> <span class="kt">void</span><span class="p">(</span><span class="kr">__cdecl</span> <span class="o">*</span><span class="n">_Resume_fn</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
+        <span class="k">typedef</span> <span class="nf">void</span><span class="p">(</span><span class="kr">__cdecl</span> <span class="o">*</span><span class="n">_Resume_fn</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
         <span class="n">_Resume_fn</span> <span class="n">_Fn</span><span class="p">;</span>
         <span class="kt">uint16_t</span> <span class="n">_Index</span><span class="p">;</span>
         <span class="kt">uint16_t</span> <span class="n">_Flags</span><span class="p">;</span>
@@ -1635,7 +1635,7 @@ PERIOD  ALF     .
     <span class="n">coroutine_handle</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 
     <span class="c1">// Import : the pointer to resumable handle</span>
-    <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="nf">from_address</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span>
+    <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="n">from_address</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span>
     <span class="p">{</span>
         <span class="n">coroutine_handle</span> <span class="n">_Result</span><span class="p">;</span>
         <span class="n">_Result</span><span class="p">.</span><span class="n">_Ptr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">_Resumable_frame_prefix</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">_Addr</span><span class="p">);</span>
@@ -1643,12 +1643,12 @@ PERIOD  ALF     .
     <span class="p">}</span>
 
     <span class="c1">// Export : return the frame address</span>
-    <span class="kt">void</span> <span class="o">*</span><span class="nf">address</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span>
+    <span class="kt">void</span> <span class="o">*</span><span class="n">address</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span>
     <span class="p">{</span>
         <span class="k">return</span> <span class="n">_Ptr</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="k">explicit</span> <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="k">explicit</span> <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
     <span class="kt">void</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
     <span class="kt">void</span> <span class="nf">destroy</span><span class="p">();</span>
 
@@ -1684,7 +1684,7 @@ PERIOD  ALF     .
 </li>
 </ul>
 <div class="codehilite"><pre><span></span><code><span class="c1">// `fibonacci` 함수를 위한 프레임(예시)</span>
-<span class="k">struct</span> <span class="n">__frame_fibonacci</span>
+<span class="k">struct</span> <span class="nc">__frame_fibonacci</span>
 <span class="p">{</span>
     <span class="c1">// `_Resumable_frame_prefix`</span>
     <span class="n">Frame_Prefix</span>  <span class="n">_prefix</span><span class="p">;</span>
@@ -1710,10 +1710,10 @@ PERIOD  ALF     .
 <div class="codehilite"><pre><span></span><code><span class="c1">// &lt;experimental/resumable&gt;</span>
 
 <span class="c1">// TEMPLATE CLASS coroutine_traits</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Ts</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_traits</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Ts</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_traits</span>
 <span class="p">{</span>
-    <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">_Ret</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">_Ret</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div>
 
@@ -1728,11 +1728,11 @@ PERIOD  ALF     .
 <span class="p">{</span>
 
 <span class="c1">// `std::future&lt;T&gt;`를 위한 템플릿 특수화</span>
-<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ty</span><span class="p">,</span> <span class="n">class</span><span class="p">...</span> <span class="n">_ArgTypes</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">future</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">_ArgTypes</span><span class="p">...</span><span class="o">&gt;</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ty</span><span class="p">,</span> <span class="k">class</span><span class="p">...</span> <span class="n">_ArgTypes</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_traits</span><span class="o">&lt;</span><span class="n">future</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">_ArgTypes</span><span class="p">...</span><span class="o">&gt;</span>
 <span class="p">{</span>
     <span class="c1">// `future&lt;_Ty&gt;`를 반환하는 재개함수들을 위한 타입정의</span>
-    <span class="k">struct</span> <span class="n">promise_type</span>
+    <span class="k">struct</span> <span class="nc">promise_type</span>
     <span class="p">{</span>
         <span class="c1">// `std::promise&lt;T&gt;`를 그대로 사용한다.</span>
         <span class="n">promise</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;</span> <span class="n">_MyPromise</span><span class="p">;</span>
@@ -1797,7 +1797,7 @@ PERIOD  ALF     .
 
     <span class="c1">// 요구사항을 만족한다면 이 재개함수를 위한 프레임을 생성한다.</span>
     <span class="c1">// fibonacci 함수를 위한 가상의 프레임. 위와 동일하다.</span>
-    <span class="k">struct</span> <span class="n">__frame</span>
+    <span class="k">struct</span> <span class="nc">__frame</span>
     <span class="p">{</span>
         <span class="c1">// `_Resumable_frame_prefix`</span>
         <span class="n">Frame_Prefix</span>  <span class="n">_prefix</span><span class="p">;</span>
@@ -1889,14 +1889,14 @@ PERIOD  ALF     .
 <div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;future&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;    // Windows Threadpool API</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="c1">    // Windows Threadpool API</span><span class="cp"></span>
 
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">literals</span><span class="p">;</span>
 
 <span class="c1">// 연산자 오버로드</span>
 <span class="c1">// co_await 는 기본 타입(primitive type) 인자는 받지 않는다.</span>
-<span class="k">auto</span> <span class="k">operator</span> <span class="nf">co_await</span><span class="p">(</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">duration</span> <span class="n">duration</span><span class="p">)</span>
+<span class="k">auto</span> <span class="k">operator</span> <span class="k">co_await</span><span class="p">(</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">duration</span> <span class="n">duration</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
 
@@ -1998,7 +1998,7 @@ PERIOD  ALF     .
 <span class="p">{</span>
     <span class="c1">// future를 await하면 스레드를 만들어서 detach시킨다.</span>
     <span class="c1">// change to .then when future gets .then</span>
-    <span class="kr">thread</span> <span class="n">_WaitingThread</span><span class="p">(</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">_Fut</span><span class="p">,</span> <span class="n">_ResumeCb</span><span class="p">]{</span>
+    <span class="kr">thread</span> <span class="nf">_WaitingThread</span><span class="p">(</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">_Fut</span><span class="p">,</span> <span class="n">_ResumeCb</span><span class="p">]{</span>
             <span class="n">_Fut</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span>
             <span class="n">_ResumeCb</span><span class="p">();</span>
         <span class="p">});</span>
@@ -2085,7 +2085,7 @@ PERIOD  ALF     .
 <span class="k">class</span> <span class="nc">awaiter</span>
 <span class="p">{</span>
 
-    <span class="kt">bool</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">resume_cb</span><span class="p">)</span>
+    <span class="kt">bool</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">resume_cb</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="kt">int64_t</span> <span class="n">relative_count</span> <span class="o">=</span> <span class="o">-</span><span class="n">duration</span><span class="p">.</span><span class="n">count</span><span class="p">();</span>
         <span class="n">timer</span> <span class="o">=</span> <span class="n">CreateThreadpoolTimer</span><span class="p">(</span><span class="n">TimerCallback</span><span class="p">,</span>
@@ -2137,7 +2137,7 @@ PERIOD  ALF     .
 <span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">usecase</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="c1">// for co_await 구문</span>
-    <span class="k">for</span> <span class="k">co_await</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">v</span> <span class="p">:</span> <span class="n">infinite</span><span class="p">())</span>
+    <span class="k">for</span> <span class="nf">co_await</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">v</span> <span class="p">:</span> <span class="n">infinite</span><span class="p">())</span>
     <span class="p">{</span>
         <span class="c1">// `v`로 무언가 한다...</span>
     <span class="p">}</span>
@@ -2166,13 +2166,13 @@ PERIOD  ALF     .
 <p><code>generator&lt;T&gt;</code> 예제와 다른 점은 함수가 2개 지점에서 반복자를 기다리고 있다는 것이다. 따라서 <code>begin()</code> 과 <code>operator++()</code>는 <code>usecase</code> 코루틴의 중단/재개지점이 된다.</p>
 <p>여기선 <code>value_type</code>은 기본 자료형 <code>int</code>라서 어려운 코드는 없다. Awaitable iterator 코드는 다음처럼 만들 수 있다. 사실 <code>std::experimental::generator&lt;T&gt;</code>의 코드를 거의 그대로 가져온 것이다.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// generator가 아니라 iterator가 비동기로 동작한다.(awaitable).</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">async_generator</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">async_generator</span>
 <span class="p">{</span>
-    <span class="k">struct</span> <span class="n">promise_type</span><span class="p">;</span>  
+    <span class="k">struct</span> <span class="nc">promise_type</span><span class="p">;</span>  
 
     <span class="c1">// Awaitable interface를 구현해야 한다.</span>
-    <span class="k">struct</span> <span class="nl">iterator</span> <span class="p">:</span>
+    <span class="k">struct</span> <span class="nc">iterator</span> <span class="o">:</span>
             <span class="n">std</span><span class="o">::</span><span class="n">iterator</span><span class="o">&lt;</span><span class="n">input_iterator_tag</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span>
     <span class="p">{</span>
         <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">chp</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
@@ -2224,7 +2224,7 @@ PERIOD  ALF     .
     <span class="c1">// do for suspension...</span>
 <span class="p">}</span>
 
-<span class="n">iter_type</span><span class="o">&amp;</span> <span class="n">await_resume</span><span class="p">(</span><span class="n">iter_type</span><span class="o">&amp;</span> <span class="n">it</span><span class="p">)</span>
+<span class="n">iter_type</span><span class="o">&amp;</span> <span class="nf">await_resume</span><span class="p">(</span><span class="n">iter_type</span><span class="o">&amp;</span> <span class="n">it</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="n">it</span><span class="p">;</span>    <span class="c1">// forward the reference</span>
 <span class="p">}</span>

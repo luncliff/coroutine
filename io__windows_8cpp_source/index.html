@@ -468,13 +468,13 @@
 
 <span class="k">namespace</span> <span class="n">coro</span> <span class="p">{</span>
 
-<span class="kt">void</span> <span class="n">poll_net_tasks</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">nano</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="nf">poll_net_tasks</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">nano</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="p">;</span>
     <span class="k">const</span> <span class="k">auto</span> <span class="n">ms</span> <span class="o">=</span> <span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">milliseconds</span><span class="o">&gt;</span><span class="p">(</span><span class="n">nanoseconds</span><span class="p">{</span><span class="n">nano</span><span class="p">});</span>
     <span class="n">SleepEx</span><span class="p">(</span><span class="n">ms</span><span class="p">.</span><span class="n">count</span><span class="p">(),</span> <span class="nb">true</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="kt">bool</span> <span class="n">is_async_pending</span><span class="p">(</span><span class="kt">int</span> <span class="n">ec</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+<span class="kt">bool</span> <span class="nf">is_async_pending</span><span class="p">(</span><span class="kt">int</span> <span class="n">ec</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
     <span class="k">switch</span> <span class="p">(</span><span class="n">ec</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">case</span> <span class="nl">WSAEWOULDBLOCK</span><span class="p">:</span>
     <span class="k">case</span> <span class="nl">EWOULDBLOCK</span><span class="p">:</span>
@@ -516,7 +516,7 @@
 
 <span class="c1">// see also: `on_io_done`</span>
 <span class="kt">uint32_t</span> <span class="n">io_work_t</span><span class="o">::</span><span class="n">error</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">get_io_error</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">get_io_error</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="c1">// zero memory the `OVERLAPPED` part in the `io_work_t`</span>
@@ -594,7 +594,7 @@
 <span class="p">}</span>
 
 <span class="kt">int64_t</span> <span class="n">io_send_to</span><span class="o">::</span><span class="n">resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">get_io_length</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">get_io_length</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="n">GSL_SUPPRESS</span><span class="p">(</span><span class="n">type</span> <span class="mf">.1</span><span class="p">)</span>
@@ -651,7 +651,7 @@
 <span class="p">}</span>
 
 <span class="kt">int64_t</span> <span class="n">io_recv_from</span><span class="o">::</span><span class="n">resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">get_io_length</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">get_io_length</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="n">GSL_SUPPRESS</span><span class="p">(</span><span class="n">type</span> <span class="mf">.1</span><span class="p">)</span>
@@ -688,7 +688,7 @@
 <span class="p">}</span>
 
 <span class="kt">int64_t</span> <span class="n">io_send</span><span class="o">::</span><span class="n">resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">get_io_length</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">get_io_length</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="n">GSL_SUPPRESS</span><span class="p">(</span><span class="n">type</span> <span class="mf">.1</span><span class="p">)</span>
@@ -725,7 +725,7 @@
 <span class="p">}</span>
 
 <span class="kt">int64_t</span> <span class="n">io_recv</span><span class="o">::</span><span class="n">resume</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">get_io_length</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">get_io_length</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="p">}</span> <span class="c1">// namespace coro</span>

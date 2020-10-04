@@ -469,15 +469,15 @@
 <span class="cp">#endif</span>
 
 <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">align_req_v</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">P</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">P</span><span class="o">&gt;</span>
 <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">aligned_size_v</span> <span class="o">=</span> <span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="o">+</span> <span class="n">align_req_v</span> <span class="o">-</span> <span class="mi">1u</span><span class="p">)</span> <span class="o">&amp;</span>
                                 <span class="o">~</span><span class="p">(</span><span class="n">align_req_v</span> <span class="o">-</span> <span class="mi">1u</span><span class="p">);</span>
 
-<span class="k">constexpr</span> <span class="kt">ptrdiff_t</span> <span class="nf">portable_aligned_size</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">_TypeSize</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">constexpr</span> <span class="kt">ptrdiff_t</span> <span class="n">portable_aligned_size</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">_TypeSize</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">_TypeSize</span> <span class="o">+</span> <span class="n">align_req_v</span> <span class="o">-</span> <span class="mi">1u</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="p">(</span><span class="n">align_req_v</span> <span class="o">-</span> <span class="mi">1u</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="k">struct</span> <span class="n">clang_frame_prefix</span> <span class="p">{</span>
+<span class="k">struct</span> <span class="nc">clang_frame_prefix</span> <span class="p">{</span>
     <span class="n">procedure_t</span> <span class="n">_Factivate</span><span class="p">;</span>
     <span class="n">procedure_t</span> <span class="n">_Fdestroy</span><span class="p">;</span>
 <span class="p">};</span>
@@ -490,7 +490,7 @@
 <span class="c1">//      Reference &lt;experimental/resumable&gt; for the detail</span>
 <span class="c1">// - Layout</span>
 
-<span class="k">struct</span> <span class="n">msvc_frame_prefix</span> <span class="p">{</span>
+<span class="k">struct</span> <span class="nc">msvc_frame_prefix</span> <span class="p">{</span>
     <span class="n">procedure_t</span> <span class="n">_Factivate</span><span class="p">;</span>
     <span class="kt">uint16_t</span> <span class="n">_Index</span><span class="p">;</span>
     <span class="kt">uint16_t</span> <span class="n">_Flag</span><span class="p">;</span>
@@ -501,7 +501,7 @@
 <span class="c1">// intrinsic: MSVC</span>
 <span class="c1">//</span>
 <span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
-<span class="kt">size_t</span> <span class="n">_coro_resume</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
+<span class="kt">size_t</span> <span class="nf">_coro_resume</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
 <span class="kt">void</span> <span class="nf">_coro_destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
 <span class="kt">size_t</span> <span class="nf">_coro_done</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
 <span class="p">}</span>
@@ -512,21 +512,21 @@
 <span class="k">template</span> <span class="o">&lt;</span><span class="kt">bool</span> <span class="n">B</span><span class="o">&gt;</span>
 <span class="kt">void</span> <span class="n">resume_wrapper</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">B</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">B</span><span class="p">)</span>
         <span class="n">__builtin_coro_resume</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="kt">bool</span> <span class="n">B</span><span class="o">&gt;</span>
 <span class="kt">void</span> <span class="n">destroy_wrapper</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="k">if</span> <span class="k">constexpr</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nf">constexpr</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
         <span class="n">__builtin_coro_destroy</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="kt">bool</span> <span class="n">B</span><span class="o">&gt;</span>
 <span class="kt">bool</span> <span class="n">done_wrapper</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="k">if</span> <span class="k">constexpr</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nf">constexpr</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">__builtin_coro_done</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
     <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
 <span class="p">}</span>
@@ -539,7 +539,7 @@
 <span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_clang</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 <span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_msvc</span> <span class="o">=</span> <span class="o">!</span><span class="n">is_clang</span><span class="p">;</span>
 
-<span class="k">struct</span> <span class="n">portable_coro_prefix</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">clang_frame_prefix</span> <span class="p">{};</span>
+<span class="k">struct</span> <span class="nc">portable_coro_prefix</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">clang_frame_prefix</span> <span class="p">{};</span>
 
 <span class="cp">#elif defined(_MSC_VER)</span>
 <span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_msvc</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
@@ -549,9 +549,9 @@
 <span class="cp">#pragma intrinsic(_coro_destroy)</span>
 <span class="cp">#pragma intrinsic(_coro_done)</span>
 
-<span class="k">struct</span> <span class="n">portable_coro_prefix</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">msvc_frame_prefix</span> <span class="p">{};</span>
+<span class="k">struct</span> <span class="nc">portable_coro_prefix</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">msvc_frame_prefix</span> <span class="p">{};</span>
 
-<span class="kr">inline</span> <span class="kt">bool</span> <span class="nf">_coro_finished</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">)</span> <span class="p">{</span>
+<span class="kr">inline</span> <span class="kt">bool</span> <span class="n">_coro_finished</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="n">_Handle</span><span class="o">-&gt;</span><span class="n">_Index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 
@@ -560,17 +560,17 @@
 <span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_clang</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
 <span class="k">static</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">is_msvc</span> <span class="o">=</span> <span class="o">!</span><span class="n">is_clang</span><span class="p">;</span>
 
-<span class="k">struct</span> <span class="n">portable_coro_prefix</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">clang_frame_prefix</span> <span class="p">{};</span>
+<span class="k">struct</span> <span class="nc">portable_coro_prefix</span> <span class="k">final</span> <span class="o">:</span> <span class="k">public</span> <span class="n">clang_frame_prefix</span> <span class="p">{};</span>
 
 <span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
-<span class="kt">bool</span> <span class="n">__builtin_coro_is_suspended</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">__builtin_coro_is_suspended</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="cp">#endif </span><span class="c1">// __clang__ || _MSC_VER || __GNUC__</span>
 
 <span class="c1">// replacement of the `_coro_done`</span>
 <span class="kt">bool</span> <span class="n">portable_coro_done</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">_coro_finished</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">done_wrapper</span><span class="o">&lt;</span><span class="nb">true</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
@@ -579,7 +579,7 @@
 <span class="p">}</span>
 
 <span class="kt">void</span> <span class="n">portable_coro_resume</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">_coro_resume</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
        <span class="n">resume_wrapper</span><span class="o">&lt;</span><span class="nb">true</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span> 
@@ -587,7 +587,7 @@
 <span class="p">}</span>
 
 <span class="kt">void</span> <span class="n">portable_coro_destroy</span><span class="p">(</span><span class="n">portable_coro_prefix</span><span class="o">*</span> <span class="n">_Handle</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">_coro_destroy</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">destroy_wrapper</span><span class="o">&lt;</span><span class="nb">true</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_Handle</span><span class="p">);</span>
@@ -604,7 +604,7 @@
         <span class="c1">// see also: `__builtin_coro_promise`</span>
         <span class="n">_PromAddr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">byte</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">_Handle</span><span class="p">)</span> <span class="o">+</span>
                     <span class="n">aligned_size_v</span><span class="o">&lt;</span><span class="n">clang_frame_prefix</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// for MSVC, promise is placed before frame prefix</span>
         <span class="n">_PromAddr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">byte</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">_Handle</span><span class="p">)</span> <span class="o">-</span>
                     <span class="n">portable_aligned_size</span><span class="p">(</span><span class="n">_PromSize</span><span class="p">);</span>
@@ -620,7 +620,7 @@
     <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">is_clang</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">_Handle</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">byte</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">_PromAddr</span><span class="p">)</span> <span class="o">-</span>
                   <span class="n">aligned_size_v</span><span class="o">&lt;</span><span class="n">clang_frame_prefix</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nf">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="n">is_msvc</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">_Handle</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">byte</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">_PromAddr</span><span class="p">)</span> <span class="o">+</span>
                   <span class="n">portable_aligned_size</span><span class="p">(</span><span class="n">_PromSize</span><span class="p">);</span>
     <span class="p">}</span>

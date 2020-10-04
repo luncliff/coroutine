@@ -857,7 +857,7 @@ For instance, with Boost ASIO, user code must create objects(e.g, socket) via <c
     <span class="o">:</span> <span class="n">io_context_</span><span class="p">(</span><span class="n">io_context</span><span class="p">),</span>
       <span class="n">acceptor_</span><span class="p">(</span><span class="n">io_context</span><span class="p">,</span> <span class="n">tcp</span><span class="o">::</span><span class="n">endpoint</span><span class="p">(</span><span class="n">tcp</span><span class="o">::</span><span class="n">v4</span><span class="p">(),</span> <span class="n">port</span><span class="p">))</span> <span class="c1">// &lt;------ </span>
   <span class="p">{</span>
-    <span class="n">session_ptr</span> <span class="n">new_session</span><span class="p">(</span><span class="k">new</span> <span class="n">session</span><span class="p">(</span><span class="n">io_context_</span><span class="p">));</span>
+    <span class="n">session_ptr</span> <span class="nf">new_session</span><span class="p">(</span><span class="k">new</span> <span class="n">session</span><span class="p">(</span><span class="n">io_context_</span><span class="p">));</span>
     <span class="n">acceptor_</span><span class="p">.</span><span class="n">async_accept</span><span class="p">(</span><span class="n">new_session</span><span class="o">-&gt;</span><span class="n">socket</span><span class="p">(),</span>
         <span class="n">boost</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">server</span><span class="o">::</span><span class="n">handle_accept</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="n">new_session</span><span class="p">,</span>
           <span class="n">boost</span><span class="o">::</span><span class="n">asio</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">error</span><span class="p">));</span>
@@ -929,7 +929,7 @@ This is why I didn’t designed some type like <code>event_context</code>. There
 <span class="cp">#include</span> <span class="cpf">&lt;sys/epoll.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp"></span>
 
-<span class="k">struct</span> <span class="n">event_poll_t</span> <span class="k">final</span> <span class="o">:</span> <span class="n">no_copy_move</span> <span class="p">{</span>
+<span class="k">struct</span> <span class="nc">event_poll_t</span> <span class="k">final</span> <span class="o">:</span> <span class="n">no_copy_move</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">epfd</span><span class="p">;</span>
     <span class="k">const</span> <span class="kt">size_t</span> <span class="n">capacity</span><span class="p">;</span>
     <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">epoll_event</span><span class="p">[]</span><span class="o">&gt;</span> <span class="n">events</span><span class="p">;</span>
@@ -947,7 +947,7 @@ This is why I didn’t designed some type like <code>event_context</code>. There
 
 <p>As you can expect, it internally allocates an array to receive events from <code>epoll_wait</code></p>
 <div class="codehilite"><pre><span></span><code><span class="n">event_poll_t</span><span class="o">::</span><span class="n">event_poll_t</span><span class="p">()</span>  
-    <span class="o">:</span> <span class="n">epfd</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">},</span>
+    <span class="o">:</span> <span class="n">epfd</span><span class="p">{</span><span class="mi">-1</span><span class="p">},</span>
       <span class="c1">// use 2 page for polling</span>
       <span class="n">capacity</span><span class="p">{</span><span class="mi">2</span> <span class="o">*</span> <span class="n">getpagesize</span><span class="p">()</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">epoll_event</span><span class="p">)},</span>
       <span class="n">events</span><span class="p">{</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">epoll_event</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="n">capacity</span><span class="p">)}</span> <span class="p">{</span>
@@ -997,7 +997,7 @@ You might be able to write your own version if you hate using the exception.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">auto</span> <span class="n">event_poll_t</span><span class="o">::</span><span class="n">wait</span><span class="p">(</span><span class="kt">int</span> <span class="n">timeout</span><span class="p">)</span>  
     <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">epoll_event</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="k">auto</span> <span class="n">count</span> <span class="o">=</span> <span class="n">epoll_wait</span><span class="p">(</span><span class="n">epfd</span><span class="p">,</span> <span class="n">events</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">timeout</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="mi">-1</span><span class="p">)</span>
         <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;epoll_wait&quot;</span><span class="p">};</span>
 
     <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
@@ -1060,15 +1060,15 @@ My approach is to export those interface functions as <code>private</code> and r
 
   <span class="k">private</span><span class="o">:</span>
     <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="n">on_suspend</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>  <span class="p">;</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">bool</span> <span class="nf">is_ready</span><span class="p">()</span> <span class="k">const</span> <span class="p">;</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="nf">on_resume</span><span class="p">()</span> <span class="p">;</span>
+    <span class="n">_INTERFACE_</span> <span class="kt">bool</span> <span class="n">is_ready</span><span class="p">()</span> <span class="k">const</span> <span class="p">;</span>
+    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="n">on_resume</span><span class="p">()</span> <span class="p">;</span>
 
   <span class="k">public</span><span class="o">:</span>
     <span class="n">_INTERFACE_</span> <span class="n">event</span><span class="p">()</span>  <span class="p">;</span>
     <span class="n">_INTERFACE_</span> <span class="o">~</span><span class="n">event</span><span class="p">()</span> <span class="p">;</span>
 
     <span class="c1">// signal the event object</span>
-    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="nf">set</span><span class="p">()</span>  <span class="p">;</span>
+    <span class="n">_INTERFACE_</span> <span class="kt">void</span> <span class="n">set</span><span class="p">()</span>  <span class="p">;</span>
 
     <span class="c1">// ... redirect to private member functions safely ...</span>
 
@@ -1085,14 +1085,14 @@ My approach is to export those interface functions as <code>private</code> and r
 
 <span class="c1">//  Enumerate all suspended coroutines that are waiting for signaled events.</span>
 <span class="n">_INTERFACE_</span>
-<span class="k">auto</span> <span class="nf">signaled_event_tasks</span><span class="p">()</span>   <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">event</span><span class="o">::</span><span class="n">task</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">signaled_event_tasks</span><span class="p">()</span>   <span class="o">-&gt;</span> <span class="n">coro</span><span class="o">::</span><span class="n">enumerable</span><span class="o">&lt;</span><span class="n">event</span><span class="o">::</span><span class="n">task</span><span class="o">&gt;</span><span class="p">;</span>
 </code></pre></div>
 
 
 <p>Its member functions will be explained below. Before that, let's see <a href="https://github.com/luncliff/coroutine/blob/ad1e682fe9a01a250e71080366d653af60eda708/modules/linux/event.cpp#L53">how the type implemented constructor and destructor</a>. It's not complicated!</p>
 <div class="codehilite"><pre><span></span><code><span class="n">event</span><span class="o">::</span><span class="n">event</span><span class="p">()</span> <span class="o">:</span> <span class="n">state</span><span class="p">{}</span> <span class="p">{</span>
     <span class="k">const</span> <span class="k">auto</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">eventfd</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">EFD_NONBLOCK</span> <span class="o">|</span> <span class="n">EFD_CLOEXEC</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">fd</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fd</span> <span class="o">==</span> <span class="mi">-1</span><span class="p">)</span>
         <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;eventfd&quot;</span><span class="p">};</span>
 
     <span class="k">this</span><span class="o">-&gt;</span><span class="n">state</span> <span class="o">=</span> <span class="n">fd</span><span class="p">;</span> <span class="c1">// start with unsignaled state</span>
@@ -1177,7 +1177,7 @@ My approach is to export those interface functions as <code>private</code> and r
     <span class="c1">//  since the purpose of it is to trigger the epoll</span>
     <span class="c1">//  we won&#39;t care about the internal counter of the eventfd</span>
     <span class="k">auto</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">write</span><span class="p">(</span><span class="n">efd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">efd</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">efd</span><span class="p">));</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">sz</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sz</span> <span class="o">==</span> <span class="mi">-1</span><span class="p">)</span>
         <span class="k">throw</span> <span class="n">system_error</span><span class="p">{</span><span class="n">errno</span><span class="p">,</span> <span class="n">system_category</span><span class="p">(),</span> <span class="s">&quot;write&quot;</span><span class="p">};</span>
 
     <span class="k">return</span> <span class="n">emask</span> <span class="o">|</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">efd</span><span class="p">);</span>
@@ -1189,7 +1189,7 @@ My approach is to export those interface functions as <code>private</code> and r
 <h4 id="events-await-operations">Event's await operations<a class="headerlink" href="#events-await-operations" title="Permanent link">&para;</a></h4>
 <p>The last part of the implementation is for <code>co_await</code> statement. <code>await_ready</code> and <code>await_resume</code> is simple with the masking function.</p>
 <div class="codehilite"><pre><span></span><code><span class="kt">bool</span> <span class="n">event</span><span class="o">::</span><span class="n">is_ready</span><span class="p">()</span> <span class="k">const</span>  <span class="p">{</span>
-    <span class="k">return</span> <span class="n">is_signaled</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">is_signaled</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
 <span class="p">}</span>
 <span class="kt">void</span> <span class="n">event</span><span class="o">::</span><span class="n">on_resume</span><span class="p">()</span>  <span class="p">{</span>
     <span class="c1">// make non-signaled state</span>

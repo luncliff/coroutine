@@ -1562,7 +1562,7 @@ But subroutine can't do this. Because it always destroyes(finalizes) itself.</p>
 </blockquote>
 <div class="codehilite"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span> <span class="n">tcp_reader</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">total</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="k">struct</span> <span class="n">reader_state</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="nc">reader_state</span> <span class="p">{</span>
         <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="mi">4096</span><span class="o">&gt;</span> <span class="n">_buffer</span><span class="p">;</span>
         <span class="kt">int64_t</span>                <span class="n">_total</span><span class="p">;</span>
         <span class="n">tcp</span><span class="o">::</span><span class="n">connection</span>        <span class="n">_connection</span><span class="p">;</span>
@@ -1832,17 +1832,17 @@ According to N4402, the promise type for resumable function should support opera
 <p>How this can be possible? Well, lets see the definition of <code>generator&lt;T&gt;</code>.</p>
 <h4 id="detail">Detail<a class="headerlink" href="#detail" title="Permanent link">&para;</a></h4>
 <p>Here is a skeleton of <code>generator&lt;T&gt;</code>. We can see that it supports <code>iterator</code> and <code>promise_type</code>. and <code>begin()</code>/<code>end()</code> function to support <a href="http://en.cppreference.com/w/cpp/language/range-for">Range-based for loop</a></p>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="n">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
-<span class="k">struct</span> <span class="n">generator</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
+<span class="k">struct</span> <span class="nc">generator</span>
 <span class="p">{</span>
     <span class="c1">// Resumable Promise Requirement</span>
-    <span class="k">struct</span> <span class="n">promise_type</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="nc">promise_type</span><span class="p">;</span>
 <span class="k">private</span><span class="o">:</span>
     <span class="c1">// Handle for Resumable Funtion</span>
     <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">_Coro</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="k">struct</span> <span class="n">promise_type</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
-    <span class="k">struct</span> <span class="n">iterator</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
+    <span class="k">struct</span> <span class="nc">promise_type</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
+    <span class="k">struct</span> <span class="nc">iterator</span> <span class="p">{</span> <span class="cm">/*...*/</span> <span class="p">};</span>
 
     <span class="n">iterator</span> <span class="nf">begin</span><span class="p">()</span>
     <span class="p">{</span>
@@ -1895,11 +1895,11 @@ According to N4402, the promise type for resumable function should support opera
 
 
 <p>Pretty simple with the iterator! Let's hack the iterator then...</p>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="n">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
-<span class="k">struct</span> <span class="n">generator</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
+<span class="k">struct</span> <span class="nc">generator</span>
 <span class="p">{</span>
     <span class="c1">// Iterator interface</span>
-    <span class="k">struct</span> <span class="nl">iterator</span> <span class="p">:</span> <span class="n">_STD</span> <span class="n">iterator</span><span class="o">&lt;</span><span class="n">input_iterator_tag</span><span class="p">,</span> <span class="n">_Ty</span><span class="o">&gt;</span>
+    <span class="k">struct</span> <span class="nc">iterator</span> <span class="o">:</span> <span class="n">_STD</span> <span class="n">iterator</span><span class="o">&lt;</span><span class="n">input_iterator_tag</span><span class="p">,</span> <span class="n">_Ty</span><span class="o">&gt;</span>
     <span class="p">{</span>
         <span class="c1">// Resumable function handle</span>
         <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">_Coro</span><span class="p">;</span>
@@ -1956,38 +1956,38 @@ According to N4402, the promise type for resumable function should support opera
 <p><img alt="Fig: Generator Invoke and Resume" src="https://cgiska.bn1304.livefilestore.com/y4myyjBEM4mTFN8yloP0iVkJc-b8wQ_OzKXH-Y03gXYlJqaxpsg7db3xWQAxUujyjQamngJ9mw7cnHmFt3_W2qxviWYpMzdRR6iub1Msi_bZOHuB76FbOOdfrhDo5yen6OAzJH48zRRfbbiiboTzymHRLN5xOosm6PyywXhQO9lYo80KY_lPRhaUMu-dcPkbu3wiL0OtjtiyJE8iGt1-d4vbw?width=1024&amp;height=607&amp;cropmode=none" /></p>
 <h4 id="compilers-view">Compiler's View<a class="headerlink" href="#compilers-view" title="Permanent link">&para;</a></h4>
 <p>Now, the keystone <code>promise_type</code> is on the stage. It has more codes but I will skip them for simplicity.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="n">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
-<span class="k">struct</span> <span class="n">generator</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ty</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">_Alloc</span> <span class="o">=</span> <span class="n">allocator</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;&gt;</span>
+<span class="k">struct</span> <span class="nc">generator</span>
 <span class="p">{</span>
     <span class="c1">// Resumable Promise Requirement for `generator`</span>
-    <span class="k">struct</span> <span class="n">promise_type</span>
+    <span class="k">struct</span> <span class="nc">promise_type</span>
     <span class="p">{</span>
         <span class="c1">// it knows where the value is... in frame.</span>
         <span class="n">_Ty</span> <span class="k">const</span> <span class="o">*</span><span class="n">_CurrentValue</span><span class="p">;</span>
 
         <span class="c1">// It returns `promise_type`.</span>
         <span class="c1">// The reason will be explained in next section.</span>
-        <span class="n">promise_type</span> <span class="o">&amp;</span><span class="n">get_return_object</span><span class="p">()</span>
+        <span class="n">promise_type</span> <span class="o">&amp;</span><span class="nf">get_return_object</span><span class="p">()</span>
         <span class="p">{</span>
             <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
         <span class="p">}</span>
 
         <span class="c1">// If return `true`, suspends at initial suspend point.</span>
         <span class="c1">// So we suspends at *some* point</span>
-        <span class="kt">bool</span> <span class="n">initial_suspend</span><span class="p">()</span>
+        <span class="kt">bool</span> <span class="nf">initial_suspend</span><span class="p">()</span>
         <span class="p">{</span>
             <span class="k">return</span> <span class="p">(</span><span class="nb">true</span><span class="p">);</span>
         <span class="p">}</span>
 
         <span class="c1">// If return `true`, suspends at final suspend point.</span>
         <span class="c1">// So we suspends at *some* point</span>
-        <span class="kt">bool</span> <span class="n">final_suspend</span><span class="p">()</span>
+        <span class="kt">bool</span> <span class="nf">final_suspend</span><span class="p">()</span>
         <span class="p">{</span>
             <span class="k">return</span> <span class="p">(</span><span class="nb">true</span><span class="p">);</span>
         <span class="p">}</span>
 
         <span class="c1">// Support `co_yield` expression</span>
-        <span class="kt">void</span> <span class="n">yield_value</span><span class="p">(</span><span class="n">_Ty</span> <span class="k">const</span> <span class="o">&amp;</span><span class="n">_Value</span><span class="p">)</span>
+        <span class="kt">void</span> <span class="nf">yield_value</span><span class="p">(</span><span class="n">_Ty</span> <span class="k">const</span> <span class="o">&amp;</span><span class="n">_Value</span><span class="p">)</span>
         <span class="p">{</span>
             <span class="c1">// point the value</span>
             <span class="n">_CurrentValue</span> <span class="o">=</span> <span class="n">_STD</span> <span class="n">addressof</span><span class="p">(</span><span class="n">_Value</span><span class="p">);</span>
@@ -2041,12 +2041,12 @@ According to N4402, the promise type for resumable function should support opera
 <p>Then, how does the frame look like?
 As I commented above, the frame of resumable function. It has head and body.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// TEMPLATE CLASS coroutine_handle</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_PromiseT</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="p">;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_PromiseT</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_handle</span><span class="p">;</span>
 
 <span class="c1">// TEMPLATE CLASS coroutine_handle&lt;void&gt; - no promise access</span>
 <span class="k">template</span> <span class="o">&lt;&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span>
 <span class="p">{</span>
     <span class="c1">// ---- ---- ---- ---- ----</span>
     <span class="c1">// Head of function frame</span>
@@ -2055,9 +2055,9 @@ As I commented above, the frame of resumable function. It has head and body.</p>
     <span class="c1">//  - Index : Index to resumption point.</span>
     <span class="c1">//            0 is special value for `done()`</span>
     <span class="c1">//  - Flag  : ???</span>
-    <span class="k">struct</span> <span class="n">_Resumable_frame_prefix</span>
+    <span class="k">struct</span> <span class="nc">_Resumable_frame_prefix</span>
     <span class="p">{</span>
-        <span class="k">typedef</span> <span class="kt">void</span><span class="p">(</span><span class="kr">__cdecl</span> <span class="o">*</span><span class="n">_Resume_fn</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
+        <span class="k">typedef</span> <span class="nf">void</span><span class="p">(</span><span class="kr">__cdecl</span> <span class="o">*</span><span class="n">_Resume_fn</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
         <span class="n">_Resume_fn</span> <span class="n">_Fn</span><span class="p">;</span>
         <span class="kt">uint16_t</span> <span class="n">_Index</span><span class="p">;</span>
         <span class="kt">uint16_t</span> <span class="n">_Flags</span><span class="p">;</span>
@@ -2081,7 +2081,7 @@ As I commented above, the frame of resumable function. It has head and body.</p>
     <span class="n">coroutine_handle</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">nullptr_t</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 
     <span class="c1">// Import : the pointer to resumable handle</span>
-    <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="nf">from_address</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span>
+    <span class="k">static</span> <span class="n">coroutine_handle</span> <span class="n">from_address</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span>
     <span class="p">{</span>
         <span class="n">coroutine_handle</span> <span class="n">_Result</span><span class="p">;</span>
         <span class="n">_Result</span><span class="p">.</span><span class="n">_Ptr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">_Resumable_frame_prefix</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">_Addr</span><span class="p">);</span>
@@ -2089,12 +2089,12 @@ As I commented above, the frame of resumable function. It has head and body.</p>
     <span class="p">}</span>
 
     <span class="c1">// Export : return the frame address</span>
-    <span class="kt">void</span> <span class="o">*</span><span class="nf">address</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span>
+    <span class="kt">void</span> <span class="o">*</span><span class="n">address</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span>
     <span class="p">{</span>
         <span class="k">return</span> <span class="n">_Ptr</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="k">explicit</span> <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
+    <span class="k">explicit</span> <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span> <span class="k">noexcept</span><span class="p">;</span>
     <span class="kt">void</span> <span class="nf">resume</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
     <span class="kt">void</span> <span class="nf">destroy</span><span class="p">();</span>
 
@@ -2130,7 +2130,7 @@ As I commented above, the frame of resumable function. It has head and body.</p>
 </li>
 </ul>
 <div class="codehilite"><pre><span></span><code><span class="c1">// Possible frame for fibonacci function</span>
-<span class="k">struct</span> <span class="n">__frame_fibonacci</span>
+<span class="k">struct</span> <span class="nc">__frame_fibonacci</span>
 <span class="p">{</span>
     <span class="c1">// `_Resumable_frame_prefix`</span>
     <span class="n">Frame_Prefix</span>  <span class="n">_prefix</span><span class="p">;</span>
@@ -2156,10 +2156,10 @@ As I commented above, the frame of resumable function. It has head and body.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// &lt;experimental/resumable&gt;</span>
 
 <span class="c1">// TEMPLATE CLASS coroutine_traits</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Ts</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_traits</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">_Ret</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">_Ts</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_traits</span>
 <span class="p">{</span>
-    <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">_Ret</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">promise_type</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">_Ret</span><span class="o">::</span><span class="n">promise_type</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div>
 
@@ -2174,11 +2174,11 @@ As I commented above, the frame of resumable function. It has head and body.</p>
 <span class="p">{</span>
 
 <span class="c1">// Template Specialization for `std::future&lt;T&gt;`</span>
-<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ty</span><span class="p">,</span> <span class="n">class</span><span class="p">...</span> <span class="n">_ArgTypes</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">coroutine_traits</span><span class="o">&lt;</span><span class="n">future</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">_ArgTypes</span><span class="p">...</span><span class="o">&gt;</span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">_Ty</span><span class="p">,</span> <span class="k">class</span><span class="p">...</span> <span class="n">_ArgTypes</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">coroutine_traits</span><span class="o">&lt;</span><span class="n">future</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">_ArgTypes</span><span class="p">...</span><span class="o">&gt;</span>
 <span class="p">{</span>
     <span class="c1">// defines resumable traits for functions returning future&lt;_Ty&gt;</span>
-    <span class="k">struct</span> <span class="n">promise_type</span>
+    <span class="k">struct</span> <span class="nc">promise_type</span>
     <span class="p">{</span>
         <span class="c1">// `std::promise&lt;T&gt;`</span>
         <span class="n">promise</span><span class="o">&lt;</span><span class="n">_Ty</span><span class="o">&gt;</span> <span class="n">_MyPromise</span><span class="p">;</span>
@@ -2244,7 +2244,7 @@ As I commented above, the frame of resumable function. It has head and body.</p>
     <span class="c1">// Requirement : OK.</span>
     <span class="c1">// We can generate unique frame type for this function.</span>
     <span class="c1">// Possible frame for fibonacci function</span>
-    <span class="k">struct</span> <span class="n">__frame</span>
+    <span class="k">struct</span> <span class="nc">__frame</span>
     <span class="p">{</span>
         <span class="c1">// `_Resumable_frame_prefix`</span>
         <span class="n">Frame_Prefix</span>  <span class="n">_prefix</span><span class="p">;</span>
@@ -2338,14 +2338,14 @@ As I commented above, the frame of resumable function. It has head and body.</p>
 <div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;future&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;    // Windows Threadpool API</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="c1">    // Windows Threadpool API</span><span class="cp"></span>
 
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">literals</span><span class="p">;</span>
 
 <span class="c1">// operator overload.</span>
 <span class="c1">// co_await can&#39;t use primitive type parameter.</span>
-<span class="k">auto</span> <span class="k">operator</span> <span class="nf">co_await</span><span class="p">(</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">duration</span> <span class="n">duration</span><span class="p">)</span>
+<span class="k">auto</span> <span class="k">operator</span> <span class="k">co_await</span><span class="p">(</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">duration</span> <span class="n">duration</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">experimental</span><span class="p">;</span>
 
@@ -2447,7 +2447,7 @@ For user-defined type, simple overload is enough.</p>
                    <span class="n">experimental</span><span class="o">::</span><span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">_ResumeCb</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="c1">// change to .then when future gets .then</span>
-    <span class="kr">thread</span> <span class="n">_WaitingThread</span><span class="p">(</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">_Fut</span><span class="p">,</span> <span class="n">_ResumeCb</span><span class="p">]{</span>
+    <span class="kr">thread</span> <span class="nf">_WaitingThread</span><span class="p">(</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">_Fut</span><span class="p">,</span> <span class="n">_ResumeCb</span><span class="p">]{</span>
             <span class="n">_Fut</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span>
             <span class="n">_ResumeCb</span><span class="p">();</span>
         <span class="p">});</span>
@@ -2537,7 +2537,7 @@ Compiler can optimize the code if it returns <code>false</code> always. In the c
 <span class="k">class</span> <span class="nc">awaiter</span>
 <span class="p">{</span>
     <span class="c1">// Return might be ignored.</span>
-    <span class="kt">bool</span> <span class="n">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">resume_cb</span><span class="p">)</span>
+    <span class="kt">bool</span> <span class="nf">await_suspend</span><span class="p">(</span><span class="n">coroutine_handle</span><span class="o">&lt;&gt;</span> <span class="n">resume_cb</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="kt">int64_t</span> <span class="n">relative_count</span> <span class="o">=</span> <span class="o">-</span><span class="n">duration</span><span class="p">.</span><span class="n">count</span><span class="p">();</span>
         <span class="n">timer</span> <span class="o">=</span> <span class="n">CreateThreadpoolTimer</span><span class="p">(</span><span class="n">TimerCallback</span><span class="p">,</span>
@@ -2590,7 +2590,7 @@ Compiler can optimize the code if it returns <code>false</code> always. In the c
 <span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">usecase</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="c1">// for co_await statement</span>
-    <span class="k">for</span> <span class="k">co_await</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">v</span> <span class="p">:</span> <span class="n">infinite</span><span class="p">())</span>
+    <span class="k">for</span> <span class="nf">co_await</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">v</span> <span class="p">:</span> <span class="n">infinite</span><span class="p">())</span>
     <span class="p">{</span>
         <span class="c1">// do something with `v`...</span>
     <span class="p">}</span>
@@ -2618,13 +2618,13 @@ Compiler can optimize the code if it returns <code>false</code> always. In the c
 <p>The only difference form <code>generator&lt;T&gt;</code> example is that the function is awaiting iterator at 2 points. <code>begin()</code> and <code>operator++()</code>. These are points for resume operation.</p>
 <p>Here, value type is primitive type <code>int</code>. So there won't be complex code here. The following code shows how to make awaitable iterator. The other code for generator body and <code>promise_type</code> is exactly same with <code>std::experimental::generator&lt;T&gt;</code></p>
 <div class="codehilite"><pre><span></span><code><span class="c1">// Actually, generator is not async. Its iterator is async(awaitable).</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="n">async_generator</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">async_generator</span>
 <span class="p">{</span>
-    <span class="k">struct</span> <span class="n">promise_type</span><span class="p">;</span>    <span class="c1">// Same with experimental generator</span>
+    <span class="k">struct</span> <span class="nc">promise_type</span><span class="p">;</span>    <span class="c1">// Same with experimental generator</span>
 
     <span class="c1">// We will implement awaitable interface...</span>
-    <span class="k">struct</span> <span class="nl">iterator</span> <span class="p">:</span>
+    <span class="k">struct</span> <span class="nc">iterator</span> <span class="o">:</span>
             <span class="n">std</span><span class="o">::</span><span class="n">iterator</span><span class="o">&lt;</span><span class="n">input_iterator_tag</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span>
     <span class="p">{</span>
         <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="n">promise_type</span><span class="o">&gt;</span> <span class="n">chp</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
@@ -2676,7 +2676,7 @@ Compiler can optimize the code if it returns <code>false</code> always. In the c
     <span class="c1">// do for suspension...</span>
 <span class="p">}</span>
 
-<span class="n">iter_type</span><span class="o">&amp;</span> <span class="n">await_resume</span><span class="p">(</span><span class="n">iter_type</span><span class="o">&amp;</span> <span class="n">it</span><span class="p">)</span>
+<span class="n">iter_type</span><span class="o">&amp;</span> <span class="nf">await_resume</span><span class="p">(</span><span class="n">iter_type</span><span class="o">&amp;</span> <span class="n">it</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="n">it</span><span class="p">;</span>    <span class="c1">// forward the reference</span>
 <span class="p">}</span>

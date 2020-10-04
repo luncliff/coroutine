@@ -483,7 +483,7 @@
 <span class="cp">#error &quot;requires header &lt;experimental/coroutine&gt; or &lt;coroutine/frame.h&gt;&quot;</span>
 <span class="cp">#endif</span>
 
-<span class="k">struct</span> <span class="n">bypass_mutex</span> <span class="k">final</span> <span class="p">{</span>
+<span class="k">struct</span> <span class="nc">bypass_mutex</span> <span class="k">final</span> <span class="p">{</span>
     <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">try_lock</span><span class="p">()</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
     <span class="p">}</span>
@@ -496,10 +496,10 @@
 <span class="k">namespace</span> <span class="n">internal</span> <span class="p">{</span>
 
 <span class="k">static</span> <span class="kt">void</span><span class="o">*</span> <span class="n">poison</span><span class="p">()</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">*&gt;</span><span class="p">(</span><span class="mh">0xFADE</span><span class="err">&#39;</span><span class="mo">03</span><span class="mi">8</span><span class="n">C</span><span class="err">&#39;</span><span class="n">BCFA</span><span class="err">&#39;</span><span class="mf">9E64</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">*&gt;</span><span class="p">(</span><span class="mh">0xFADE&#39;038C&#39;BCFA&#39;9E64</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">list</span> <span class="p">{</span>
     <span class="n">T</span><span class="o">*</span> <span class="n">head</span><span class="p">{};</span>
     <span class="n">T</span><span class="o">*</span> <span class="n">tail</span><span class="p">{};</span>
@@ -526,16 +526,16 @@
 <span class="p">};</span>
 <span class="p">}</span> <span class="c1">// namespace internal</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span> <span class="o">=</span> <span class="n">bypass_mutex</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span> <span class="o">=</span> <span class="n">bypass_mutex</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel</span><span class="p">;</span> <span class="c1">// by default, channel doesn&#39;t care about the race condition</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel_reader</span><span class="p">;</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel_writer</span><span class="p">;</span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel_peeker</span><span class="p">;</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel_reader</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="k">using</span> <span class="n">value_type</span> <span class="o">=</span> <span class="n">T</span><span class="p">;</span>
@@ -544,9 +544,9 @@
     <span class="k">using</span> <span class="n">channel_type</span> <span class="o">=</span> <span class="n">channel</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span><span class="p">;</span>
 
   <span class="k">private</span><span class="o">:</span>
-    <span class="k">using</span> <span class="n">reader_list</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">channel_type</span><span class="o">::</span><span class="n">reader_list</span><span class="p">;</span>
-    <span class="k">using</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">channel_type</span><span class="o">::</span><span class="n">writer</span><span class="p">;</span>
-    <span class="k">using</span> <span class="n">writer_list</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">channel_type</span><span class="o">::</span><span class="n">writer_list</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">reader_list</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">channel_type</span><span class="o">::</span><span class="n">reader_list</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">channel_type</span><span class="o">::</span><span class="n">writer</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">writer_list</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">channel_type</span><span class="o">::</span><span class="n">writer_list</span><span class="p">;</span>
 
     <span class="k">friend</span> <span class="n">channel_type</span><span class="p">;</span>
     <span class="k">friend</span> <span class="n">writer</span><span class="p">;</span>
@@ -612,7 +612,7 @@
     <span class="p">}</span>
 <span class="p">};</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel_writer</span> <span class="p">{</span>
   <span class="k">public</span><span class="o">:</span>
     <span class="k">using</span> <span class="n">value_type</span> <span class="o">=</span> <span class="n">T</span><span class="p">;</span>
@@ -621,10 +621,10 @@
     <span class="k">using</span> <span class="n">channel_type</span> <span class="o">=</span> <span class="n">channel</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span><span class="p">;</span>
 
   <span class="k">private</span><span class="o">:</span>
-    <span class="k">using</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">channel_type</span><span class="o">::</span><span class="n">reader</span><span class="p">;</span>
-    <span class="k">using</span> <span class="n">reader_list</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">channel_type</span><span class="o">::</span><span class="n">reader_list</span><span class="p">;</span>
-    <span class="k">using</span> <span class="n">writer_list</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">channel_type</span><span class="o">::</span><span class="n">writer_list</span><span class="p">;</span>
-    <span class="k">using</span> <span class="n">peeker</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">channel_type</span><span class="o">::</span><span class="n">peeker</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">channel_type</span><span class="o">::</span><span class="n">reader</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">reader_list</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">channel_type</span><span class="o">::</span><span class="n">reader_list</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">writer_list</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">channel_type</span><span class="o">::</span><span class="n">writer_list</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">peeker</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">channel_type</span><span class="o">::</span><span class="n">peeker</span><span class="p">;</span>
 
     <span class="k">friend</span> <span class="n">channel_type</span><span class="p">;</span>
     <span class="k">friend</span> <span class="n">reader</span><span class="p">;</span>
@@ -686,7 +686,7 @@
     <span class="p">}</span>
 <span class="p">};</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel</span> <span class="k">final</span> <span class="o">:</span> <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">channel_reader</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span><span class="p">,</span>
                       <span class="n">internal</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">channel_writer</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
     <span class="k">static_assert</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_reference</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span> <span class="o">==</span> <span class="nb">false</span><span class="p">,</span>
@@ -756,11 +756,11 @@
     <span class="p">}</span>
 <span class="p">};</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">channel_peeker</span> <span class="k">final</span> <span class="o">:</span> <span class="k">protected</span> <span class="n">channel_reader</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="k">using</span> <span class="n">channel_type</span> <span class="o">=</span> <span class="n">channel</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span><span class="p">;</span>
-    <span class="k">using</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">channel_type</span><span class="o">::</span><span class="n">writer</span><span class="p">;</span>
-    <span class="k">using</span> <span class="n">writer_list</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">channel_type</span><span class="o">::</span><span class="n">writer_list</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">channel_type</span><span class="o">::</span><span class="n">writer</span><span class="p">;</span>
+    <span class="k">using</span> <span class="n">writer_list</span> <span class="o">=</span> <span class="k">typename</span> <span class="nc">channel_type</span><span class="o">::</span><span class="n">writer_list</span><span class="p">;</span>
 
   <span class="k">private</span><span class="o">:</span>
     <span class="n">channel_peeker</span><span class="p">(</span><span class="k">const</span> <span class="n">channel_peeker</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
@@ -795,7 +795,7 @@
     <span class="p">}</span>
 <span class="p">};</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">M</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Fn</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">M</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">Fn</span><span class="o">&gt;</span>
 <span class="kt">void</span> <span class="n">select</span><span class="p">(</span><span class="n">channel</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;&amp;</span> <span class="n">ch</span><span class="p">,</span> <span class="n">Fn</span><span class="o">&amp;&amp;</span> <span class="n">fn</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">channel_reader</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">channel_peeker</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="o">&gt;</span><span class="p">));</span>
     <span class="n">channel_peeker</span> <span class="n">p</span><span class="p">{</span><span class="n">ch</span><span class="p">};</span>   <span class="c1">// peeker will move element</span>
@@ -805,7 +805,7 @@
         <span class="n">fn</span><span class="p">(</span><span class="n">storage</span><span class="p">);</span>        <span class="c1">// invoke the function</span>
 <span class="p">}</span>
 
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Ch</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Fn</span><span class="o">&gt;</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">Ch</span><span class="p">,</span> <span class="k">typename</span> <span class="nc">Fn</span><span class="o">&gt;</span>
 <span class="kt">void</span> <span class="n">select</span><span class="p">(</span><span class="n">Ch</span><span class="o">&amp;</span> <span class="n">ch</span><span class="p">,</span> <span class="n">Fn</span><span class="o">&amp;&amp;</span> <span class="n">fn</span><span class="p">,</span> <span class="n">Args</span><span class="o">&amp;&amp;</span><span class="p">...</span> <span class="n">args</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
     <span class="n">select</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="n">forward</span><span class="o">&lt;</span><span class="n">Fn</span><span class="o">&amp;&amp;&gt;</span><span class="p">(</span><span class="n">fn</span><span class="p">));</span>           <span class="c1">// evaluate</span>

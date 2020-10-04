@@ -562,7 +562,7 @@ The type wraps <code>pthread_create</code> function. After spawn, it contains th
 
 
 <h3 id="function-await_transform-33">function await_transform [3/3]<a class="headerlink" href="#function-await_transform-33" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Awaitable</span> <span class="k">typename</span> <span class="n">Awaitable</span><span class="o">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">Awaitable</span> <span class="k">typename</span> <span class="nc">Awaitable</span><span class="o">&gt;</span>
 <span class="kr">inline</span> <span class="k">decltype</span><span class="p">(</span><span class="k">auto</span><span class="p">)</span> <span class="n">coro</span><span class="o">::</span><span class="n">pthread_spawn_promise</span><span class="o">::</span><span class="n">await_transform</span> <span class="p">(</span>
     <span class="n">Awaitable</span> <span class="o">&amp;&amp;</span> <span class="n">a</span>
 <span class="p">)</span> <span class="k">noexcept</span>

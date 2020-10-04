@@ -475,7 +475,7 @@
 <span class="k">class</span> <span class="nc">continue_on_pthread</span> <span class="k">final</span> <span class="p">{</span>
     <span class="k">static</span> <span class="kt">uint32_t</span> <span class="n">spawn</span><span class="p">(</span><span class="n">pthread_t</span><span class="o">&amp;</span> <span class="n">tid</span><span class="p">,</span> <span class="k">const</span> <span class="n">pthread_attr_t</span><span class="o">*</span> <span class="n">attr</span><span class="p">,</span>
                           <span class="n">coroutine_handle</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span> <span class="n">coro</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-    <span class="k">static</span> <span class="kt">void</span><span class="o">*</span> <span class="nf">on_pthread</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">ptr</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="k">static</span> <span class="kt">void</span><span class="o">*</span> <span class="n">on_pthread</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">ptr</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
 
   <span class="k">private</span><span class="o">:</span>
     <span class="n">pthread_t</span><span class="o">*</span> <span class="k">const</span> <span class="n">ptr</span><span class="p">;</span>
@@ -521,10 +521,10 @@
         <span class="k">return</span> <span class="n">continue_on_pthread</span><span class="p">{</span><span class="n">tid</span><span class="p">,</span> <span class="n">attr</span><span class="p">};</span>
     <span class="p">}</span>
     <span class="kr">inline</span> <span class="k">auto</span> <span class="n">await_transform</span><span class="p">(</span><span class="n">pthread_attr_t</span><span class="o">*</span> <span class="n">attr</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">await_transform</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">pthread_attr_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">attr</span><span class="p">));</span>
+        <span class="k">return</span> <span class="nf">await_transform</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">pthread_attr_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">attr</span><span class="p">));</span>
     <span class="p">}</span>
 
-    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Awaitable</span><span class="o">&gt;</span>
+    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">Awaitable</span><span class="o">&gt;</span>
     <span class="k">decltype</span><span class="p">(</span><span class="k">auto</span><span class="p">)</span> <span class="n">await_transform</span><span class="p">(</span><span class="n">Awaitable</span><span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Awaitable</span><span class="o">&amp;&amp;&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
     <span class="p">}</span>
