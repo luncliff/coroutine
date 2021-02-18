@@ -121,7 +121,7 @@ struct coroutine_handle : public coroutine_handle<void> {
         return *this;
     }
     // 17.12.3.2, export/import
-    static /*constexpr*/ coroutine_handle from_address(void* _Addr) {
+    static /*constexpr*/ coroutine_handle from_address(void* _Addr) noexcept {
         coroutine_handle _Result{};
         _Result._Ptr = reinterpret_cast<portable_coro_prefix*>(_Addr);
         return _Result;
