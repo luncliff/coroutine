@@ -131,7 +131,7 @@
   </compound>
   <compound refid="structstd_1_1coroutine__handle" kind="struct"><name>std::coroutine_handle</name>
     <member refid="structstd_1_1coroutine__handle_1ae5c6fd5a601ffde34d8e5d9130851a01" kind="function"><name>from_promise</name></member>
-    <member refid="structstd_1_1coroutine__handle_1ae744465e0cadc25082d5b36f8e60bea3" kind="function"><name>from_address</name></member>
+    <member refid="structstd_1_1coroutine__handle_1a5fab107f61bcb6d12d7281ba141b3523" kind="function"><name>from_address</name></member>
     <member refid="structstd_1_1coroutine__handle_1a5b18d02f810729a20b6916a31b4dfffb" kind="function"><name>operator=</name></member>
     <member refid="structstd_1_1coroutine__handle_1a36141e7f3007812cad591c77d985a19a" kind="function"><name>promise</name></member>
   </compound>

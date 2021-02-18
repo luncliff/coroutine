@@ -28,10 +28,10 @@
         </inbodydescription>
         <location file="interface/coroutine/frame.h" line="114" column="1" bodyfile="interface/coroutine/frame.h" bodystart="114" bodyend="117"/>
       </memberdef>
-      <memberdef kind="function" id="structstd_1_1coroutine__handle_1ae744465e0cadc25082d5b36f8e60bea3" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="structstd_1_1coroutine__handle_1a5fab107f61bcb6d12d7281ba141b3523" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="structstd_1_1coroutine__handle" kindref="compound">coroutine_handle</ref></type>
         <definition>static coroutine_handle std::coroutine_handle&lt; _PromiseT &gt;::from_address</definition>
-        <argsstring>(void *_Addr)</argsstring>
+        <argsstring>(void *_Addr) noexcept</argsstring>
         <name>from_address</name>
         <param>
           <type>void *</type>
@@ -83,7 +83,7 @@
     </detaileddescription>
     <location file="interface/coroutine/frame.h" line="62" column="1" bodyfile="interface/coroutine/frame.h" bodystart="62" bodyend="-1"/>
     <listofallmembers>
-      <member refid="structstd_1_1coroutine__handle_1ae744465e0cadc25082d5b36f8e60bea3" prot="public" virt="non-virtual"><scope>std::coroutine_handle</scope><name>from_address</name></member>
+      <member refid="structstd_1_1coroutine__handle_1a5fab107f61bcb6d12d7281ba141b3523" prot="public" virt="non-virtual"><scope>std::coroutine_handle</scope><name>from_address</name></member>
       <member refid="structstd_1_1coroutine__handle_1ae5c6fd5a601ffde34d8e5d9130851a01" prot="public" virt="non-virtual"><scope>std::coroutine_handle</scope><name>from_promise</name></member>
       <member refid="structstd_1_1coroutine__handle_1a5b18d02f810729a20b6916a31b4dfffb" prot="public" virt="non-virtual"><scope>std::coroutine_handle</scope><name>operator=</name></member>
       <member refid="structstd_1_1coroutine__handle_1a36141e7f3007812cad591c77d985a19a" prot="public" virt="non-virtual"><scope>std::coroutine_handle</scope><name>promise</name></member>

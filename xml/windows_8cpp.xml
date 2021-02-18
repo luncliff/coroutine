@@ -107,7 +107,7 @@
 <codeline lineno="31"><highlight class="normal"><ref refid="namespacecoro_1aeebb761b70e474419a62f56419402531" kindref="member">GSL_SUPPRESS</ref>(con<sp/>.4)</highlight></codeline>
 <codeline lineno="32"><highlight class="normal">void<sp/>__stdcall<sp/>wait_event_on_thread_pool(PVOID<sp/>ctx,<sp/>BOOLEAN<sp/>timedout)<sp/>{</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>UNREFERENCED_PARAMETER(timedout);</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>=<sp/><ref refid="structstd_1_1coroutine__handle_1ae744465e0cadc25082d5b36f8e60bea3" kindref="member">coroutine_handle&lt;void&gt;::from_address</ref>(ctx);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacecoro" kindref="compound">coro</ref><sp/>=<sp/><ref refid="structstd_1_1coroutine__handle_1a5fab107f61bcb6d12d7281ba141b3523" kindref="member">coroutine_handle&lt;void&gt;::from_address</ref>(ctx);</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>assert(<ref refid="namespacecoro" kindref="compound">coro</ref>.done()<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacecoro" kindref="compound">coro</ref>.resume();</highlight></codeline>
 <codeline lineno="37"><highlight class="normal">}</highlight></codeline>

@@ -567,7 +567,7 @@
         <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="c1">// 17.12.3.2, export/import</span>
-    <span class="k">static</span> <span class="cm">/*constexpr*/</span> <span class="n">coroutine_handle</span> <span class="n">from_address</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="cm">/*constexpr*/</span> <span class="n">coroutine_handle</span> <span class="n">from_address</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">_Addr</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
         <span class="n">coroutine_handle</span> <span class="n">_Result</span><span class="p">{};</span>
         <span class="n">_Result</span><span class="p">.</span><span class="n">_Ptr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">portable_coro_prefix</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">_Addr</span><span class="p">);</span>
         <span class="k">return</span> <span class="n">_Result</span><span class="p">;</span>
