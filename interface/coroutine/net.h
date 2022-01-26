@@ -344,7 +344,7 @@ void poll_net_tasks(uint64_t nano) noexcept(false);
  * @ingroup Network
  */
 uint32_t get_address(const addrinfo& hint, //
-                     gsl::czstring<> host, gsl::czstring<> serv,
+                     gsl::czstring host, gsl::czstring serv,
                      gsl::span<sockaddr_in> output) noexcept;
 
 /**
@@ -361,7 +361,7 @@ uint32_t get_address(const addrinfo& hint, //
  * @ingroup Network
  */
 uint32_t get_address(const addrinfo& hint, //
-                     gsl::czstring<> host, gsl::czstring<> serv,
+                     gsl::czstring host, gsl::czstring serv,
                      gsl::span<sockaddr_in6> output) noexcept;
 
 /**
@@ -377,7 +377,7 @@ uint32_t get_address(const addrinfo& hint, //
  * @ingroup Network
  */
 uint32_t get_name(const sockaddr_in& addr, //
-                  gsl::zstring<NI_MAXHOST> name, gsl::zstring<NI_MAXSERV> serv,
+                  gsl::basic_zstring<char, NI_MAXHOST> name, gsl::basic_zstring<char, NI_MAXSERV> serv,
                   int32_t flags = NI_NUMERICHOST | NI_NUMERICSERV) noexcept;
 
 /**
@@ -392,7 +392,7 @@ uint32_t get_name(const sockaddr_in& addr, //
  * @ingroup Network
  */
 uint32_t get_name(const sockaddr_in6& addr, //
-                  gsl::zstring<NI_MAXHOST> name, gsl::zstring<NI_MAXSERV> serv,
+                  gsl::basic_zstring<char, NI_MAXHOST> name, gsl::basic_zstring<char, NI_MAXSERV> serv,
                   int32_t flags = NI_NUMERICHOST | NI_NUMERICSERV) noexcept;
 
 } // namespace coro
