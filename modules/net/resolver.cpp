@@ -9,7 +9,7 @@ namespace coro {
 
 GSL_SUPPRESS(type .1)
 uint32_t get_name(const sockaddr_in& addr, //
-                  gsl::zstring<NI_MAXHOST> name, gsl::zstring<NI_MAXSERV> serv,
+                  gsl::basic_zstring<char, NI_MAXHOST> name, gsl::basic_zstring<char, NI_MAXSERV> serv,
                   int32_t flags) noexcept {
     const auto* ptr = reinterpret_cast<const sockaddr*>(addressof(addr));
     return ::getnameinfo(ptr, sizeof(sockaddr_in),                 //
@@ -20,7 +20,7 @@ uint32_t get_name(const sockaddr_in& addr, //
 
 GSL_SUPPRESS(type .1)
 uint32_t get_name(const sockaddr_in6& addr, //
-                  gsl::zstring<NI_MAXHOST> name, gsl::zstring<NI_MAXSERV> serv,
+                  gsl::basic_zstring<char, NI_MAXHOST> name, gsl::basic_zstring<char, NI_MAXSERV> serv,
                   int32_t flags) noexcept {
     const auto* ptr = reinterpret_cast<const sockaddr*>(addressof(addr));
     return ::getnameinfo(ptr, sizeof(sockaddr_in6),                //
@@ -58,7 +58,7 @@ auto get_address(addrinfo* list, sockaddr_in6 addr) noexcept
 }
 
 uint32_t get_address(const addrinfo& hint, //
-                     gsl::czstring<> host, gsl::czstring<> serv,
+                     gsl::czstring host, gsl::czstring serv,
                      gsl::span<sockaddr_in> output) noexcept {
     addrinfo* list = nullptr;
     if (const auto ec = ::getaddrinfo(host, serv, //
@@ -74,7 +74,7 @@ uint32_t get_address(const addrinfo& hint, //
 }
 
 uint32_t get_address(const addrinfo& hint, //
-                     gsl::czstring<> host, gsl::czstring<> serv,
+                     gsl::czstring host, gsl::czstring serv,
                      gsl::span<sockaddr_in6> output) noexcept {
     addrinfo* list = nullptr;
     if (const auto ec = ::getaddrinfo(host, serv, //
