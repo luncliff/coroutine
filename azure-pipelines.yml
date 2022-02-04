@@ -11,6 +11,7 @@
 trigger:
   branches:
     exclude:
+      - docs
       - gh-pages
 
 schedules:
@@ -20,13 +21,28 @@ schedules:
       include:
         - main
 
+variables:
+  - name: vcpkg.commit
+    value: "5ddd7f02689b7c5aab78711d77f61db5d2e5e79c" # mainstream 2021-12-01
+
 jobs:
   - job: vs2019_msvc142
     pool:
       vmImage: "windows-2019"
     variables:
       configuration: Debug
+      vcpkg.root: "C:/vcpkg"
     steps:
+      - task: Cache@2
+        inputs:
+          key: '2022-02 | vcpkg-$(BuildPlatform) | "$(Agent.OS)"'
+          path: "c:/vcpkg/installed"
+      - task: run-vcpkg@0
+        inputs:
+          vcpkgArguments: "catch2 ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: x64-windows
       - task: CMake@1
         displayName: "CMake: Configure"
         inputs:
@@ -47,14 +63,31 @@ jobs:
       # - powershell: ctest --preset x64-windows-debug --output-on-failure
       #   displayName: "CTest"
 
+  - job: analysis
+    pool:
+      vmImage: "windows-latest"
+    steps:
+      - task: Cache@2
+        inputs:
+          key: '2022-02 | vcpkg-x64 | "$(Agent.OS)"'
+          path: "c:/vcpkg/installed"
+    dependsOn:
+      - vs2019_msvc142
+
   - job: macos15_appleclang
     pool:
       vmImage: "macos-10.15"
     variables:
-      configuration: Debug
+      vcpkg.root: "/usr/local/share/vcpkg"
     steps:
       - powershell: brew install ninja
         displayName: "Setup: Homebrew packages"
+      - task: run-vcpkg@0
+        inputs:
+          vcpkgArguments: "catch2 ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: x64-osx
       - task: CMake@1
         displayName: "CMake: Configure"
         inputs:
@@ -67,6 +100,26 @@ jobs:
       #     workingDirectory: "."
       # - powershell: ctest --preset x64-osx-debug --output-on-failure
       #   displayName: "CTest"
+
+  - job: ubuntu20_gcc
+    pool:
+      vmImage: "ubuntu-20.04"
+    variables:
+      vcpkg.root: "/usr/local/share/vcpkg"
+    steps:
+      - powershell: sudo apt-get install -y gcc-10 g++-10
+        displayName: "Install APT packages"
+      - task: run-vcpkg@0
+        inputs:
+          vcpkgArguments: "catch2 ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: x64-linux
+      - task: CMake@1
+        displayName: "CMake: Configure"
+        inputs:
+          cmakeArgs: --preset x64-linux-debug -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          workingDirectory: "."
 
   - job: mkdocs
     pool:

@@ -16,7 +16,9 @@
                 "BUILD_SHARED_LIBS": "ON",
                 "CMAKE_VS_PLATFORM_NAME_DEFAULT": "x64",
                 "CMAKE_SYSTEM_VERSION": "10.0.19041.0",
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_TARGET_TRIPLET": "x64-windows"
             },
             "debug": {
                 "output": true
@@ -25,7 +27,7 @@
         {
             "name": "x64-linux-debug",
             "displayName": "x64-linux/debug",
-            "generator": "Ninja",
+            "generator": "Unix Makefiles",
             "binaryDir": "${sourceDir}/build-x64-linux",
             "cacheVariables": {
                 "BUILD_TESTING": "ON",
@@ -37,6 +39,9 @@
             "environment": {
                 "CC": "gcc-10",
                 "CXX": "g++-10"
+            },
+            "debug": {
+                "output": true
             }
         },
         {
@@ -48,6 +53,9 @@
                 "BUILD_TESTING": "ON",
                 "BUILD_SHARED_LIBS": "ON",
                 "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "debug": {
+                "output": true
             }
         }
     ],

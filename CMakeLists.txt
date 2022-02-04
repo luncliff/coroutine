@@ -46,18 +46,14 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
 endif()
 find_package(Coroutines REQUIRED)
 
-find_package(Microsoft.GSL CONFIG REQUIRED)
+find_package(Microsoft.GSL CONFIG)
 if(Microsoft.GSL_FOUND)
-    get_target_property(GSL_INCLUDE_DIR
-                        Microsoft.GSL::GSL INTERFACE_INCLUDE_DIRECTORIES)
+    get_target_property(GSL_INCLUDE_DIR Microsoft.GSL::GSL INTERFACE_INCLUDE_DIRECTORIES)
 else()
     find_path(GSL_INCLUDE_DIR "gsl/gsl" REQUIRED)
     # add_subdirectory(external/ms-gsl)
     # get_filename_component(GSL_INCLUDE_DIR 
     #                        ${PROJECT_SOURCE_DIR}/external/ms-gsl/include ABSOLUTE)
-endif()
-if(NOT GSL_INCLUDE_DIR)
-    find_path(GSL_INCLUDE_DIR "gsl/gsl" NO_CACHE)
 endif()
 
 return()
