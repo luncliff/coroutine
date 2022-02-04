@@ -31,11 +31,11 @@ jobs:
       vmImage: "windows-2019"
     variables:
       configuration: Debug
-      vcpkg.root: "C:/vcpkg"
+      # vcpkg.root: "C:/vcpkg"
     steps:
       - task: Cache@2
         inputs:
-          key: '2022-02 | vcpkg-$(BuildPlatform) | "$(Agent.OS)"'
+          key: '2022-02 | vcpkg-x64 | "$(Agent.OS)"'
           path: "c:/vcpkg/installed"
       - task: run-vcpkg@0
         inputs:
@@ -77,8 +77,8 @@ jobs:
   - job: macos15_appleclang
     pool:
       vmImage: "macos-10.15"
-    variables:
-      vcpkg.root: "/usr/local/share/vcpkg"
+    # variables:
+    #   vcpkg.root: "/usr/local/share/vcpkg"
     steps:
       - powershell: brew install ninja
         displayName: "Setup: Homebrew packages"
@@ -104,8 +104,8 @@ jobs:
   - job: ubuntu20_gcc
     pool:
       vmImage: "ubuntu-20.04"
-    variables:
-      vcpkg.root: "/usr/local/share/vcpkg"
+    # variables:
+    #   vcpkg.root: "/usr/local/share/vcpkg"
     steps:
       - powershell: sudo apt-get install -y gcc-10 g++-10
         displayName: "Install APT packages"

@@ -52,7 +52,9 @@
             "cacheVariables": {
                 "BUILD_TESTING": "ON",
                 "BUILD_SHARED_LIBS": "ON",
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_TARGET_TRIPLET": "x64-osx"
             },
             "debug": {
                 "output": true
