@@ -1,11 +1,20 @@
 #
-#   https://devblogs.microsoft.com/cppblog/clear-functional-c-documentation-with-sphinx-breathe-doxygen-cmake/
-#   https://pandoc.org/demos.html
-#   https://github.com/matusnovak/doxybook
 #   https://github.com/matusnovak/doxybook2/
+#
+mkdocs>=1.2.0
+markdown>=3.3.6
+
+#
 #   https://community.netlify.com/t/mkdocs-fail-on-build/12082/2
 #
-doxybook==3.1.4 
-mkdocs<1.1
-markdown<=3.2
-mkdocs-material<5.0.0
+mkdocs-material>=8.0
+mkdocs-material-extensions>=1.0
+
+#
+#   https://devblogs.microsoft.com/cppblog/clear-functional-c-documentation-with-sphinx-breathe-doxygen-cmake/
+#   https://pandoc.org/demos.html
+#
+# pandoc
+# sphinx_rtd_theme
+# guzzle_sphinx_theme
+# breathe

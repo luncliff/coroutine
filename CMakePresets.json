@@ -1,0 +1,109 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 21,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "x64-windows-debug",
+            "displayName": "x64-windows/debug",
+            "generator": "Visual Studio 16 2019",
+            "binaryDir": "${sourceDir}/build-x64-windows",
+            "cacheVariables": {
+                "BUILD_TESTING": "ON",
+                "BUILD_SHARED_LIBS": "ON",
+                "CMAKE_VS_PLATFORM_NAME_DEFAULT": "x64",
+                "CMAKE_SYSTEM_VERSION": "10.0.19041.0",
+                "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "debug": {
+                "output": true
+            }
+        },
+        {
+            "name": "x64-linux-debug",
+            "displayName": "x64-linux/debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-x64-linux",
+            "cacheVariables": {
+                "BUILD_TESTING": "ON",
+                "BUILD_SHARED_LIBS": "ON",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_TARGET_TRIPLET": "x64-linux"
+            },
+            "environment": {
+                "CC": "gcc-10",
+                "CXX": "g++-10"
+            }
+        },
+        {
+            "name": "x64-osx-debug",
+            "displayName": "x64-osx/debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-x64-osx",
+            "cacheVariables": {
+                "BUILD_TESTING": "ON",
+                "BUILD_SHARED_LIBS": "ON",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "x64-windows-debug",
+            "configurePreset": "x64-windows-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "x64-linux-debug",
+            "configurePreset": "x64-linux-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "x64-osx-debug",
+            "configurePreset": "x64-osx-debug",
+            "configuration": "Debug"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "x64-windows-debug",
+            "configurePreset": "x64-windows-debug",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        },
+        {
+            "name": "x64-linux-debug",
+            "configurePreset": "x64-linux-debug",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        },
+        {
+            "name": "x64-osx-debug",
+            "configurePreset": "x64-osx-debug",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        }
+    ]
+}

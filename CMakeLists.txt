@@ -1,17 +1,11 @@
-#
-#   github.com/luncliff (luncliff@gmail.com)
-#
-cmake_minimum_required(VERSION 3.12) # supports CXX_STANDARD 20
-project(coroutine	LANGUAGES   CXX 
-                    VERSION     1.5.1
-)
-if(NOT DEFINED BUILD_SHARED_LIBS)
-    set(BUILD_SHARED_LIBS true)
-endif()
-if(NOT DEFINED CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-endif()
-# set(CMAKE_CXX_STANDARD  20)
+cmake_minimum_required(VERSION 3.20)
+project(coroutine LANGUAGES CXX VERSION 2.0.0)
+
+option(BUILD_SHARED_LIBS    "https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html" ON)
+option(CMAKE_BUILD_TYPE     "https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html"  "Debug")
+option(BUILD_TESTING        "Build test program" ON) # include(CTest)
+
+set(CMAKE_CXX_STANDARD 17)
 
 message(STATUS "system: ${CMAKE_SYSTEM}")
 message(STATUS "build_type: ${CMAKE_BUILD_TYPE}")
@@ -33,106 +27,15 @@ message(STATUS " - ${CMAKE_GENERATOR}")
 message(STATUS " - ${CMAKE_BUILD_TOOL}")
 message(STATUS)
 
-#
-# import external libraries. see 'external/'
-#
+# get_filename_component(CMAKE_COROUTINES_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/FindCoroutines.cmake ABSOLUTE)
+# if(NOT EXISTS ${CMAKE_COROUTINES_MODULE_PATH})
+#     file(DOWNLOAD https://raw.githubusercontent.com/facebookexperimental/libunifex/main/cmake/FindCoroutines.cmake
+#                 ${CMAKE_COROUTINES_MODULE_PATH}
+#         EXPECTED_HASH SHA256=0129305dd3d030de21684543fec9b1e7b0af7a67ed1bad4348c3259ecfb20cef
+#     )
+# endif()
+
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-find_package(Microsoft.GSL CONFIG)
-if(Microsoft.GSL_FOUND)
-    get_target_property(GSL_INCLUDE_DIR 
-                        Microsoft.GSL::GSL INTERFACE_INCLUDE_DIRECTORIES)
-else()
-    add_subdirectory(external/ms-gsl)
-    get_filename_component(GSL_INCLUDE_DIR 
-                           ${PROJECT_SOURCE_DIR}/external/ms-gsl/include ABSOLUTE)
-endif()
-message(STATUS "using ms-gsl: ${GSL_INCLUDE_DIR}")
-message(STATUS)
-
-#
-# Acquire informations about current build environment. Especially for Compiler & STL
-#   - support_latest
-#   - support_coroutine
-#   - support_intrinsic_builtin: optional. compiler supports `__builtin_coro_*`
-#   - has_coroutine
-#   - has_coroutine_ts
-#
-include(CheckIncludeFileCXX)
-include(CheckCXXCompilerFlag)
-include(CheckCXXSourceCompiles)
-# include(CheckCXXSymbolExists)
-if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
-    if(WIN32)
-        check_cxx_compiler_flag("/std:c++latest"            support_latest)
-        check_cxx_compiler_flag("/clang:-fcoroutines-ts"    support_coroutine)
-        check_include_file_cxx("experimental/coroutine" has_coroutine_ts
-            "/std:c++latest"
-        )
-    else()
-        check_cxx_compiler_flag("-std=c++2a"          support_latest)
-        check_cxx_compiler_flag("-fcoroutines-ts"     support_coroutine)
-        check_include_file_cxx("experimental/coroutine" has_coroutine_ts
-            "-std=c++2a"
-        )
-    endif()
-
-elseif(MSVC)
-    #
-    # Notice that `/std:c++latest` and `/await` is exclusive to each other.
-    # With MSVC, we have to distinguish Coroutines TS & C++ 20 Coroutines
-    #
-    check_cxx_compiler_flag("/std:c++latest"    support_latest)
-    check_cxx_compiler_flag("/await"            support_coroutine)
-    check_include_file_cxx("coroutine"  has_coroutine
-        "/std:c++latest"
-    )
-    if(NOT has_coroutine)
-        message(STATUS "Try <expeirmental/coroutine> (Coroutines TS) instead of <coroutine> ...")
-        check_include_file_cxx("experimental/coroutine" has_coroutine_ts
-            "/std:c++17"
-        )
-    endif()
-    # has coroutine headers?
-    if(NOT has_coroutine AND NOT has_coroutine_ts)
-        message(FATAL_ERROR "There are no headers for C++ Coroutines")
-    endif()
-
-elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
-    #
-    # expect GCC 10 or later
-    #
-    check_cxx_compiler_flag("-std=gnu++20"        support_latest)
-    check_cxx_compiler_flag("-fcoroutines"        support_coroutine)
-    check_include_file_cxx("coroutine" has_coroutine
-        "-std=gnu++20 -fcoroutines"
-    )
-    if(APPLE)
-        # -isysroot "/usr/local/Cellar/gcc/${CMAKE_CXX_COMPILER_VERSION}/include/c++/${CMAKE_CXX_COMPILER_VERSION}"
-        # -isysroot "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include"
-        # -isysroot "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"
-    endif()
-    set(try_compile_flags "-fcoroutines")
-endif()
-# support compiler options for coroutine?
-if(NOT support_coroutine)
-    message(FATAL_ERROR "The compiler doesn't support C++ Coroutines")
-endif()
-# support `__builtin_coro_*`?
-set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
-get_filename_component(intrinsic_test_cpp
-                       test/support_intrinsic_builtin.cpp ABSOLUTE)
-try_compile(support_intrinsic_builtin ${CMAKE_BINARY_DIR}/supports
-    SOURCES         ${intrinsic_test_cpp}
-    # This is a workaround. for some reasone CMAKE_FLAGS has no effect.
-    # Instead, place the compiler option where macro definition are placed
-    COMPILE_DEFINITIONS ${try_compile_flags}    
-    CXX_STANDARD    20                          
-    OUTPUT_VARIABLE report
-)
-if(NOT support_intrinsic_builtin)
-    message(STATUS ${report})
-endif()
-message(STATUS "supports __builtin_coro: ${support_intrinsic_builtin}")
 
 #
 # Known STL-Compiler issues
@@ -141,6 +44,23 @@ message(STATUS "supports __builtin_coro: ${support_intrinsic_builtin}")
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
     message(WARNING "clang-cl won't work with <experimental/coroutine>")
 endif()
+find_package(Coroutines REQUIRED)
+
+find_package(Microsoft.GSL CONFIG REQUIRED)
+if(Microsoft.GSL_FOUND)
+    get_target_property(GSL_INCLUDE_DIR
+                        Microsoft.GSL::GSL INTERFACE_INCLUDE_DIRECTORIES)
+else()
+    find_path(GSL_INCLUDE_DIR "gsl/gsl" REQUIRED)
+    # add_subdirectory(external/ms-gsl)
+    # get_filename_component(GSL_INCLUDE_DIR 
+    #                        ${PROJECT_SOURCE_DIR}/external/ms-gsl/include ABSOLUTE)
+endif()
+if(NOT GSL_INCLUDE_DIR)
+    find_path(GSL_INCLUDE_DIR "gsl/gsl" NO_CACHE)
+endif()
+
+return()
 
 set(MODULE_INTERFACE_DIR ${PROJECT_SOURCE_DIR}/interface)
 add_subdirectory(modules/portable)	# corotuien_portable

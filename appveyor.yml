@@ -1,8 +1,4 @@
-#
-#   Author
-#     - luncliff@gmail.com
-#
-version: 1.5.{build}
+version: 2.0.{build}
 
 notifications:
   - provider: Email
@@ -15,51 +11,49 @@ branches:
     - gh-pages
 
 image:
-  - Visual Studio 2017
   - Visual Studio 2019
 
 platform:
-  - x64
   - x86
+  # - x64
 
 configuration:
   - Debug
   - Release
 
-# cache:
-#   - c:/tools/vcpkg/installed
+cache:
+  - c:/tools/vcpkg/archives
+  - C:/tools/vcpkg/downloads
 
 environment:
   global:
-    install_path: c:/install
-
-matrix:
-  allow_failures:
-    # for some reason UDP test hangs forever or segfault
-    # - image: Visual Studio 2017
-    #   platform: x86
-    - image: Visual Studio 2017
-    - image: Visual Studio 2019
+    INSTALL_PATH: c:/install
+    VCPKG_TARGET_TRIPLET: "x86-windows"
+    VCPKG_DEFAULT_BINARY_CACHE: c:/tools/vcpkg/archives
 
 install:
-  - ps: Write-Output $(git submodule update --init --recursive)
-  - ps: if($env:PLATFORM -eq "x64"){ vcpkg install --triplet x64-windows ms-gsl }
-  - ps: if($env:PLATFORM -eq "x86"){ vcpkg install --triplet x86-windows ms-gsl }
+  - ps: New-Item -Type Directory -Path $env:VCPKG_DEFAULT_BINARY_CACHE -Force
+  # - ps: if($env:PLATFORM -eq "x64"){ $env:VCPKG_TARGET_TRIPLET="x64-windows" }
+  # - ps: if($env:PLATFORM -eq "x86"){ $env:VCPKG_TARGET_TRIPLET="x86-windows" }
+  - ps: vcpkg install --triplet $env:VCPKG_TARGET_TRIPLET catch2 ms-gsl spdlog
 
 before_build:
-  - ps: MSBuild.exe /version
-  - ps: if($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2017"){ $env:GENERATOR="Visual Studio 15 2017" }
+  # - ps: if($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2017"){ $env:GENERATOR="Visual Studio 15 2017" }
   - ps: if($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2019"){ $env:GENERATOR="Visual Studio 16 2019" }
+  - ps: if($env:PLATFORM -eq "x86"){ $env:PLATFORM="Win32" }
 
 build_script:
-  # configure cmake and build them
-  - ps: if($env:PLATFORM -eq "x64"){ cmake . -G "$env:GENERATOR" -A x64   -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_SHARED_LIBS=false }
-  - ps: if($env:PLATFORM -eq "x86"){ cmake . -G "$env:GENERATOR" -A Win32 -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" -DBUILD_SHARED_LIBS=false }
+  - ps: |
+      cmake . -G "$env:GENERATOR" -A $env:PLATFORM `
+        -DCMAKE_BUILD_TYPE="$env:CONFIGURATION" `
+        -DCMAKE_INSTALL_PREFIX="$env:INSTALL_PATH" `
+        -DCMAKE_TOOLCHAIN_FILE="C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET="$env:VCPKG_TARGET_TRIPLET"
   - ps: cmake --build . --config $env:CONFIGURATION --target install
-  - ps: cmake . -DBUILD_TESTING=ON
-  - ps: cmake --build . --config $env:CONFIGURATION
 
 test_script:
+  # - ps: if($env:CONFIGURATION -eq "Debug"){   $env:PATH="$env:PATH;c:/tools/vcpkg/installed/$env:VCPKG_TARGET_TRIPLET/debug/bin" }
+  # - ps: if($env:CONFIGURATION -eq "Release"){ $env:PATH="$env:PATH;c:/tools/vcpkg/installed/$env:VCPKG_TARGET_TRIPLET/bin" }
   - ps: |
-      $env:PATH="$env:INSTALL_PATH/bin;$env:PATH"
-      ctest --output-on-failure --timeout 600 -C $env:CONFIGURATION
+      Push-Location "$env:INSTALL_PATH/bin"
+          Get-ChildItem
+      Pop-Location
