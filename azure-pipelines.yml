@@ -23,19 +23,19 @@ schedules:
 
 variables:
   - name: vcpkg.commit
-    value: "5ddd7f02689b7c5aab78711d77f61db5d2e5e79c" # mainstream 2021-12-01
+    value: "c64c0fdac572ca43ea5ae018fc408ddced50d5b1" # mainstream 2022.02.02
 
 jobs:
-  - job: vs2019_msvc142
+  - job: vs2022_msvc142
     pool:
-      vmImage: "windows-2019"
+      vmImage: "windows-2022"
     variables:
       configuration: Debug
       # vcpkg.root: "C:/vcpkg"
     steps:
       - task: Cache@2
         inputs:
-          key: '2022-02 | vcpkg-x64 | "$(Agent.OS)"'
+          key: '2022-03 | vcpkg-x64 | "$(Agent.OS)"'
           path: "c:/vcpkg/installed"
       - task: run-vcpkg@0
         inputs:
@@ -46,7 +46,7 @@ jobs:
       - task: CMake@1
         displayName: "CMake: Configure"
         inputs:
-          cmakeArgs: --preset x64-windows-debug -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          cmakeArgs: --preset x64-msvc-debug -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
           workingDirectory: "."
       - task: MSBuild@1
         inputs:
@@ -55,24 +55,43 @@ jobs:
           platform: x64
           configuration: $(configuration)
           msbuildArguments: "/p:platformtoolset=v142"
-      # - task: CMake@1
-      #   displayName: "CMake: Install"
-      #   inputs:
-      #     cmakeArgs: --build --preset x64-windows-debug --target install
-      #     workingDirectory: "."
-      # - powershell: ctest --preset x64-windows-debug --output-on-failure
+      - task: CMake@1
+        displayName: "CMake: Install"
+        inputs:
+          cmakeArgs: --build --preset x64-msvc-debug --target install
+          workingDirectory: "."
+      # - powershell: ctest --preset x64-msvc-debug --output-on-failure
       #   displayName: "CTest"
 
-  - job: analysis
+  - job: vs2022_clangcl
     pool:
-      vmImage: "windows-latest"
+      vmImage: "windows-2022"
     steps:
+      - task: ChocolateyCommand@0
+        inputs:
+          command: "install"
+          installPackageId: "ninja"
+          installInstallArgs: "--no-progress --yes"
       - task: Cache@2
         inputs:
-          key: '2022-02 | vcpkg-x64 | "$(Agent.OS)"'
+          key: '2022-03 | vcpkg-x86 | "$(Agent.OS)"'
           path: "c:/vcpkg/installed"
-    dependsOn:
-      - vs2019_msvc142
+      - task: run-vcpkg@0
+        inputs:
+          vcpkgArguments: "catch2 ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: x86-windows
+      - task: CMake@1
+        displayName: "CMake: Configure"
+        inputs:
+          cmakeArgs: --preset x86-clang-debug -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          workingDirectory: "."
+      - task: CMake@1
+        displayName: "CMake: Install"
+        inputs:
+          cmakeArgs: --build --preset x86-clang-debug --target install
+          workingDirectory: "."
 
   - job: macos15_appleclang
     pool:
@@ -151,6 +170,8 @@ jobs:
           PathtoPublish: "$(Build.SourcesDirectory)/docs"
           ArtifactName: "docs"
     dependsOn:
-      - vs2019_msvc142
+      - vs2022_msvc142
+      - vs2022_clangcl
       - macos15_appleclang
+      - ubuntu20_gcc
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))

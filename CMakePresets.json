@@ -7,28 +7,50 @@
     },
     "configurePresets": [
         {
-            "name": "x64-windows-debug",
-            "displayName": "x64-windows/debug",
-            "generator": "Visual Studio 16 2019",
+            "name": "x64-msvc-debug",
+            "displayName": "x64-windows(msvc)/debug",
+            "generator": "Visual Studio 17 2022",
             "binaryDir": "${sourceDir}/build-x64-windows",
+            "installDir": "${sourceDir}/install",
+            "toolchainFile": "$env{VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "BUILD_TESTING": "ON",
                 "BUILD_SHARED_LIBS": "ON",
                 "CMAKE_VS_PLATFORM_NAME_DEFAULT": "x64",
                 "CMAKE_SYSTEM_VERSION": "10.0.19041.0",
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
                 "VCPKG_TARGET_TRIPLET": "x64-windows"
             },
-            "debug": {
-                "output": true
+            "environment": {
+                "VCPKG_INSTALLATION_ROOT": "$env{VCPKG_ROOT}"
+            }
+        },
+        {
+            "name": "x86-clang-debug",
+            "displayName": "x86-windows(clang-cl)/debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-x86-windows",
+            "installDir": "${sourceDir}/install",
+            "toolchainFile": "$env{VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "clang-cl",
+                "BUILD_TESTING": "ON",
+                "BUILD_SHARED_LIBS": "ON",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_SYSTEM_VERSION": "10.0.19041.0"
+            },
+            "environment": {
+                "CXXFLAGS": "-m32 -fms-compatibility",
+                "LDFLAGS": "/machine:x86",
+                "VCPKG_INSTALLATION_ROOT": "$env{VCPKG_ROOT}"
             }
         },
         {
             "name": "x64-linux-debug",
-            "displayName": "x64-linux/debug",
+            "displayName": "x64-linux(gcc10)/debug",
             "generator": "Unix Makefiles",
             "binaryDir": "${sourceDir}/build-x64-linux",
+            "installDir": "${sourceDir}/install",
             "cacheVariables": {
                 "BUILD_TESTING": "ON",
                 "BUILD_SHARED_LIBS": "ON",
@@ -41,14 +63,15 @@
                 "CXX": "g++-10"
             },
             "debug": {
-                "output": true
+                "output": false
             }
         },
         {
             "name": "x64-osx-debug",
-            "displayName": "x64-osx/debug",
+            "displayName": "x64-osx(appleclang)/debug",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build-x64-osx",
+            "installDir": "${sourceDir}/install",
             "cacheVariables": {
                 "BUILD_TESTING": "ON",
                 "BUILD_SHARED_LIBS": "ON",
@@ -57,14 +80,14 @@
                 "VCPKG_TARGET_TRIPLET": "x64-osx"
             },
             "debug": {
-                "output": true
+                "output": false
             }
         }
     ],
     "buildPresets": [
         {
-            "name": "x64-windows-debug",
-            "configurePreset": "x64-windows-debug",
+            "name": "x64-msvc-debug",
+            "configurePreset": "x64-msvc-debug",
             "configuration": "Debug"
         },
         {
@@ -80,8 +103,8 @@
     ],
     "testPresets": [
         {
-            "name": "x64-windows-debug",
-            "configurePreset": "x64-windows-debug",
+            "name": "x64-msvc-debug",
+            "configurePreset": "x64-msvc-debug",
             "configuration": "Debug",
             "output": {
                 "outputOnFailure": true
