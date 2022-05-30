@@ -7,7 +7,7 @@
     },
     "configurePresets": [
         {
-            "name": "x64-windows-debug",
+            "name": "x64-msvc-debug",
             "displayName": "x64(msvc)/debug",
             "generator": "Visual Studio 17 2022",
             "architecture": "x64",
