@@ -99,16 +99,13 @@
             "displayName": "x64-osx/debug",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build-x64-osx",
+            "installDir": "${sourceDir}/install",
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "BUILD_TESTING": "ON",
                 "BUILD_SHARED_LIBS": "ON",
-                "CMAKE_BUILD_TYPE": "Debug"
-            },
-            "environment": {
-                "EXPERIMENTAL": "true"
-            },
-            "debug": {
-                "output": true
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_OSX_ARCHITECTURES": "x86_64"
             },
             "condition": {
                 "type": "equals",

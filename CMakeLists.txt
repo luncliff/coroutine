@@ -5,14 +5,15 @@ option(BUILD_SHARED_LIBS    "https://cmake.org/cmake/help/latest/variable/BUILD_
 option(CMAKE_BUILD_TYPE     "https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html"  "Debug")
 option(BUILD_TESTING        "Build test program" OFF)
 
-# set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 include(GNUInstallDirs)
 
 message(STATUS "system: ${CMAKE_SYSTEM}")
 message(STATUS "build_type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "paths:")
 message(STATUS " - ${CMAKE_INSTALL_PREFIX}")
-message(STATUS " - ${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS " - ${PROJECT_SOURCE_DIR}")
+message(STATUS " - ${PROJECT_BINARY_DIR}")
 message(STATUS)
 message(STATUS "compiler:")
 message(STATUS " - ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
@@ -65,9 +66,9 @@ add_library(coroutine
 
 set_target_properties(coroutine
 PROPERTIES
-    CXX_STANDARD 17
     PUBLIC_HEADER "${headers}"
-    WINDOWS_EXPORT_ALL_SYMBOLS  true
+    WINDOWS_EXPORT_ALL_SYMBOLS true
+    CXX_STANDARD_REQUIRED true
 )
 
 target_include_directories(coroutine
@@ -89,7 +90,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
         target_compile_options(coroutine
         PUBLIC
             "/clang:-fcoroutines-ts"
-            -fms-compatibility
+            "SHELL:-fms-compatibility"
         )
         # in this case, we always use portable header
         target_compile_definitions(coroutine
