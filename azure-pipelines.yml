@@ -2,10 +2,10 @@
 # Author: github.com/luncliff (luncliff@gmail.com)
 #
 # References
-#   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates
-#   https://developer.microsoft.com/en-us/windows/downloads/sdk-archive/
-#   https://github.com/actions/virtual-environments/tree/main/images
 #   https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted
+#   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates
+#   https://github.com/actions/virtual-environments/tree/main/images
+#   https://developer.microsoft.com/en-us/windows/downloads/sdk-archive/
 #
 
 trigger:
@@ -23,30 +23,27 @@ schedules:
 
 variables:
   - name: vcpkg.commit
-    value: "c64c0fdac572ca43ea5ae018fc408ddced50d5b1" # mainstream 2022.02.02
+    value: "14e7bb4ae24616ec54ff6b2f6ef4e8659434ea44" # mainstream 2022.05.10
 
 jobs:
-  - job: vs2022_msvc142
+  - job: vs2022_msvc
     pool:
       vmImage: "windows-2022"
     variables:
       configuration: Debug
-      # vcpkg.root: "C:/vcpkg"
+      cmake.preset: x64-windows-debug
+      vcpkg.target.triplet: x64-windows
     steps:
-      - task: Cache@2
-        inputs:
-          key: '2022-03 | vcpkg-x64 | "$(Agent.OS)"'
-          path: "c:/vcpkg/installed"
       - task: run-vcpkg@0
         inputs:
           vcpkgArguments: "catch2 ms-gsl spdlog"
           vcpkgGitCommitId: $(vcpkg.commit)
         env:
-          VCPKG_DEFAULT_TRIPLET: x64-windows
+          VCPKG_DEFAULT_TRIPLET: $(vcpkg.target.triplet)
       - task: CMake@1
         displayName: "CMake: Configure"
         inputs:
-          cmakeArgs: --preset x64-msvc-debug -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
           workingDirectory: "."
       - task: MSBuild@1
         inputs:
@@ -58,46 +55,64 @@ jobs:
       - task: CMake@1
         displayName: "CMake: Install"
         inputs:
-          cmakeArgs: --build --preset x64-msvc-debug --target install
+          cmakeArgs: --build --preset $(cmake.preset) --target install
           workingDirectory: "."
-      # - powershell: ctest --preset x64-msvc-debug --output-on-failure
-      #   displayName: "CTest"
+      - powershell: ctest --preset $(cmake.preset) --output-on-failure
+        displayName: "CTest"
 
   - job: vs2022_clangcl
     pool:
       vmImage: "windows-2022"
+    strategy:
+      matrix:
+        debug_x86:
+          vcvars.arg: x86
+          cmake.preset: x86-clang-debug
+          vcpkg.target.triplet: x86-windows
+        debug_x64:
+          vcvars.arg: x64
+          cmake.preset: x64-clang-debug
+          vcpkg.target.triplet: x64-windows
     steps:
       - task: ChocolateyCommand@0
         inputs:
           command: "install"
           installPackageId: "ninja"
           installInstallArgs: "--no-progress --yes"
-      - task: Cache@2
-        inputs:
-          key: '2022-03 | vcpkg-x86 | "$(Agent.OS)"'
-          path: "c:/vcpkg/installed"
       - task: run-vcpkg@0
         inputs:
           vcpkgArguments: "catch2 ms-gsl spdlog"
           vcpkgGitCommitId: $(vcpkg.commit)
         env:
-          VCPKG_DEFAULT_TRIPLET: x86-windows
-      - task: CMake@1
-        displayName: "CMake: Configure"
-        inputs:
-          cmakeArgs: --preset x86-clang-debug -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
-          workingDirectory: "."
+          VCPKG_DEFAULT_TRIPLET: $(vcpkg.target.triplet)
+      # see https://www.cicoria.com/using-vcvars64-vcvars-bat-from-powershell-and-azure-devops/
+      - powershell: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $installPath = &$vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          echo "##vso[task.setvariable variable=vcvarsPath;isOutput=true]$installPath\VC\Auxiliary\Build\vcvarsall.bat"
+        name: detected
+        displayName: "PowerShell: Search vcvarsall.bat"
+      # see https://github.com/Microsoft/azure-pipelines-tasks/issues/9737
+      - script: | # using Cmdlet
+          echo $(detected.vcvarsPath)
+          call "$(detected.vcvarsPath)" $(vcvars.arg)
+          cmake --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          cmake --build --preset $(cmake.preset)
+        displayName: "CMake: Configure/Build(vcvarsall)"
       - task: CMake@1
         displayName: "CMake: Install"
         inputs:
-          cmakeArgs: --build --preset x86-clang-debug --target install
+          cmakeArgs: --build --target install --preset $(cmake.preset)
           workingDirectory: "."
 
   - job: macos15_appleclang
     pool:
       vmImage: "macos-10.15"
-    # variables:
-    #   vcpkg.root: "/usr/local/share/vcpkg"
+     # todo: strategy for x86_64, arm64
+    variables:
+      configuration: Debug
+      cmake.preset: x64-osx-debug
+      # vcpkg.root: "/usr/local/share/vcpkg"
     steps:
       - powershell: brew install ninja
         displayName: "Setup: Homebrew packages"
@@ -105,39 +120,59 @@ jobs:
         inputs:
           vcpkgArguments: "catch2 ms-gsl spdlog"
           vcpkgGitCommitId: $(vcpkg.commit)
-        env:
-          VCPKG_DEFAULT_TRIPLET: x64-osx
       - task: CMake@1
-        displayName: "CMake: Configure"
+        displayName: "CMake: Build/Install"
         inputs:
-          cmakeArgs: --preset x64-osx-debug -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          cmakeArgs: --build --preset $(cmake.preset) --target install
           workingDirectory: "."
-      # - task: CMake@1
-      #   displayName: "CMake: Build/Install"
-      #   inputs:
-      #     cmakeArgs: --build --preset x64-osx-debug --target install
-      #     workingDirectory: "."
-      # - powershell: ctest --preset x64-osx-debug --output-on-failure
+      # - powershell: ctest --preset $(cmake.preset) --output-on-failure
       #   displayName: "CTest"
 
   - job: ubuntu20_gcc
     pool:
       vmImage: "ubuntu-20.04"
-    # variables:
-    #   vcpkg.root: "/usr/local/share/vcpkg"
+    variables:
+      cmake.preset: x64-linux-debug
+      vcpkg.target.triplet: x64-linux
+      cc: gcc-10
+      cxx: g++-10
     steps:
-      - powershell: sudo apt-get install -y gcc-10 g++-10
+      - powershell: sudo apt-get install -y gcc-10 g++-10 ninja-build
         displayName: "Install APT packages"
       - task: run-vcpkg@0
         inputs:
           vcpkgArguments: "catch2 ms-gsl spdlog"
           vcpkgGitCommitId: $(vcpkg.commit)
         env:
-          VCPKG_DEFAULT_TRIPLET: x64-linux
+          VCPKG_DEFAULT_TRIPLET: $(vcpkg.target.triplet)
       - task: CMake@1
         displayName: "CMake: Configure"
         inputs:
-          cmakeArgs: --preset x64-linux-debug -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          workingDirectory: "."
+
+
+  - job: ubuntu22_clang
+    pool:
+      vmImage: "ubuntu-22.04"
+    variables:
+      cmake.preset: x64-linux-debug
+      vcpkg.target.triplet: x64-linux
+      cc: clang-14
+      cxx: clang++-14
+    steps:
+      - powershell: sudo apt-get install -y llvm-14-dev clang-14 libc++-14-dev libc++abi-14-dev libunwind-14-dev ninja-build
+        displayName: "Install APT packages"
+      - task: run-vcpkg@0
+        inputs:
+          vcpkgArguments: "catch2 ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: $(vcpkg.target.triplet)
+      - task: CMake@1
+        displayName: "CMake: Configure"
+        inputs:
+          cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
           workingDirectory: "."
 
   - job: mkdocs
@@ -170,7 +205,7 @@ jobs:
           PathtoPublish: "$(Build.SourcesDirectory)/docs"
           ArtifactName: "docs"
     dependsOn:
-      - vs2022_msvc142
+      - vs2022_msvc
       - vs2022_clangcl
       - macos15_appleclang
       - ubuntu20_gcc
