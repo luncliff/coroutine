@@ -2,82 +2,216 @@
 # Author: github.com/luncliff (luncliff@gmail.com)
 #
 # References
-#   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops
-#   https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops#use-a-microsoft-hosted-agent
-#   https://github.com/Microsoft/azure-pipelines-image-generation/blob/master/images/win/Vs2019-Server2019-Readme.md
-#   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/conditions?view=azure-devops&tabs=yaml
+#   https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted
+#   https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates
+#   https://github.com/actions/virtual-environments/tree/main/images
+#   https://developer.microsoft.com/en-us/windows/downloads/sdk-archive/
 #
 
+trigger:
+  branches:
+    exclude:
+      - docs
+      - gh-pages
+
+schedules:
+  - cron: "30 6 * * 4"
+    displayName: "Weekly check"
+    branches:
+      include:
+        - main
+
+variables:
+  - name: vcpkg.commit
+    value: "14e7bb4ae24616ec54ff6b2f6ef4e8659434ea44" # mainstream 2022.05.10
+
 jobs:
-  - job: vs2017_cmake_vs_msvc141
+  - job: vs2022_msvc
     pool:
-      vmImage: "vs2017-win2016"
+      vmImage: "windows-2022"
     variables:
-      platform: x64
       configuration: Debug
-      is_dynamic: True
+      cmake.preset: x64-msvc-debug
+      vcpkg.target.triplet: x64-windows
     steps:
-      - template: azure/steps-win-vs.yml
-        parameters:
-          toolset: v141
+      - task: run-vcpkg@0
+        inputs:
+          vcpkgArguments: "catch2 ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: $(vcpkg.target.triplet)
+      - task: CMake@1
+        displayName: "CMake: Configure"
+        inputs:
+          cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          workingDirectory: "."
+      - task: MSBuild@1
+        inputs:
+          solution: "build-x64-windows/coroutine.sln"
+          msbuildArchitecture: x64
+          platform: x64
+          configuration: $(configuration)
+          msbuildArguments: "/p:platformtoolset=v142"
+      - task: CMake@1
+        displayName: "CMake: Install"
+        inputs:
+          cmakeArgs: --build --preset $(cmake.preset) --target install
+          workingDirectory: "."
+      # - powershell: ctest --preset $(cmake.preset) --output-on-failure
+      #   displayName: "CTest"
 
-  - job: vs2019_cmake_vs_msvc142
+  - job: vs2022_clangcl
     pool:
-      vmImage: "windows-2019"
-    variables:
-      platform: x64
-      configuration: Debug
-      is_dynamic: True
+      vmImage: "windows-2022"
+    strategy:
+      matrix:
+        debug_x86:
+          vcvars.arg: x86
+          cmake.preset: x86-clang-debug
+          vcpkg.target.triplet: x86-windows
+        debug_x64:
+          vcvars.arg: x64
+          cmake.preset: x64-clang-debug
+          vcpkg.target.triplet: x64-windows
     steps:
-      - template: azure/steps-win-vs.yml
-        parameters:
-          toolset: v142
+      - task: ChocolateyCommand@0
+        inputs:
+          command: "install"
+          installPackageId: "ninja"
+          installInstallArgs: "--no-progress --yes"
+      - task: run-vcpkg@0
+        inputs:
+          vcpkgArguments: "catch2 ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: $(vcpkg.target.triplet)
+      # see https://www.cicoria.com/using-vcvars64-vcvars-bat-from-powershell-and-azure-devops/
+      - powershell: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $installPath = &$vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          echo "##vso[task.setvariable variable=vcvarsPath;isOutput=true]$installPath\VC\Auxiliary\Build\vcvarsall.bat"
+        name: detected
+        displayName: "PowerShell: Search vcvarsall.bat"
+      # see https://github.com/Microsoft/azure-pipelines-tasks/issues/9737
+      - script: | # using Cmdlet
+          echo $(detected.vcvarsPath)
+          call "$(detected.vcvarsPath)" $(vcvars.arg)
+          cmake --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          cmake --build --preset $(cmake.preset)
+        displayName: "CMake: Configure/Build(vcvarsall)"
+      - task: CMake@1
+        displayName: "CMake: Install"
+        inputs:
+          cmakeArgs: --build --target install --preset $(cmake.preset)
+          workingDirectory: "."
 
-  - job: vs2017_cmake_ninja_clang8
+  - job: macos15_appleclang
     pool:
-      vmImage: "vs2017-win2016"
+      vmImage: "macos-10.15"
+     # todo: strategy for x86_64, arm64
     variables:
-      visualstudio: 2017
       configuration: Debug
-      is_dynamic: True
+      cmake.preset: x64-osx-debug
+      # vcpkg.root: "/usr/local/share/vcpkg"
     steps:
-      - template: azure/steps-win-llvm.yml
-        parameters:
-          llvm_version: "8.0.1"
+      - powershell: brew install ninja
+        displayName: "Setup: Homebrew packages"
+      - task: run-vcpkg@0
+        inputs:
+          vcpkgArguments: "catch2 ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
+      - task: CMake@1
+        displayName: "CMake: Configure"
+        inputs:
+          cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          workingDirectory: "."
+      - task: CMake@1
+        displayName: "CMake: Build/Install"
+        inputs:
+          cmakeArgs: --build --preset $(cmake.preset) --target install
+          workingDirectory: "."
+      # - powershell: ctest --preset $(cmake.preset) --output-on-failure
+      #   displayName: "CTest"
 
-  - job: vs2019_cmake_ninja_clang8
+  - job: ubuntu20_gcc
     pool:
-      vmImage: windows-2019
+      vmImage: "ubuntu-20.04"
     variables:
-      visualstudio: 2019
-      configuration: Debug
-      is_dynamic: True
+      cmake.preset: x64-linux-debug
+      vcpkg.target.triplet: x64-linux
+      cc: gcc-10
+      cxx: g++-10
     steps:
-      - template: azure/steps-win-llvm.yml
-        parameters:
-          llvm_version: "8.0.1"
+      - powershell: sudo apt-get install -y gcc-10 g++-10 ninja-build
+        displayName: "Install APT packages"
+      - task: run-vcpkg@0
+        inputs:
+          vcpkgArguments: "catch2 ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: $(vcpkg.target.triplet)
+      - task: CMake@1
+        displayName: "CMake: Configure"
+        inputs:
+          cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          workingDirectory: "."
 
-  - job: ubuntu_cmake_clang8
-    pool:
-      vmImage: "ubuntu-latest"
-    variables:
-      configuration: Debug
-      is_dynamic: True
-    steps:
-      - template: azure/steps-ubuntu.yml
-        parameters:
-          cmake_cxx_compiler: "clang-8"
-          cmake_work_dir: "build-ub"
-          cmake_install_dir: "../install"
 
-  - job: mac_cmake_appleclang11
+  - job: ubuntu22_clang
     pool:
-      vmImage: "macos-latest"
+      vmImage: "ubuntu-22.04"
     variables:
-      configuration: Debug
-      is_dynamic: True
+      cmake.preset: x64-linux-debug
+      vcpkg.target.triplet: x64-linux
+      cc: clang-14
+      cxx: clang++-14
     steps:
-      - template: azure/steps-mac.yml
-        parameters:
-          cmake_work_dir: "build-osx"
-          cmake_install_dir: "../install"
+      - powershell: sudo apt-get install -y llvm-14-dev clang-14 libc++-14-dev libc++abi-14-dev libunwind-14-dev ninja-build
+        displayName: "Install APT packages"
+      - task: run-vcpkg@0
+        inputs:
+          vcpkgArguments: "catch2 ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: $(vcpkg.target.triplet)
+      - task: CMake@1
+        displayName: "CMake: Configure"
+        inputs:
+          cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          workingDirectory: "."
+
+  - job: mkdocs
+    pool:
+      vmImage: "macos-10.15"
+    steps:
+      - powershell: |
+          brew install doxygen
+          python3 -m pip install --user -r requirements.txt
+        displayName: "Setup: Homebrew, Python3 packages"
+      - powershell: |
+          wget -q https://github.com/matusnovak/doxybook2/releases/download/v1.4.0/doxybook2-osx-amd64-v1.4.0.zip
+          unzip ./doxybook2-osx-amd64-v1.4.0.zip -d externals
+        displayName: "Setup: Doxybook2 1.4.0"
+      - powershell: |
+          doxygen ./docs/Doxyfile
+          ./externals/bin/doxybook2 --input ./docs/xml --output ./docs
+        displayName: "Run Doxygen and Doxybook2"
+      - powershell: python3 -m mkdocs build # todo: gh-deploy
+      # - task: ArchiveFiles@2
+      #   inputs:
+      #     rootFolderOrFile: "$(Build.SourcesDirectory)/docs"
+      #     includeRootFolder: false
+      #     archiveType: "zip"
+      #     archiveFile: "$(Build.ArtifactStagingDirectory)/docs.zip"
+      #     replaceExistingArchive: true
+      - task: PublishBuildArtifacts@1
+        inputs:
+          # PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+          PathtoPublish: "$(Build.SourcesDirectory)/docs"
+          ArtifactName: "docs"
+    dependsOn:
+      - vs2022_msvc
+      - vs2022_clangcl
+      - macos15_appleclang
+      - ubuntu20_gcc
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))

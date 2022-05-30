@@ -1,0 +1,182 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 21,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "x64-msvc-debug",
+            "displayName": "x64(msvc)/debug",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64",
+            "binaryDir": "${sourceDir}/build-x64-windows",
+            "installDir": "${sourceDir}/install",
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "BUILD_TESTING": "ON",
+                "BUILD_SHARED_LIBS": "ON",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "VCPKG_TARGET_TRIPLET": "x64-windows",
+                "CMAKE_SYSTEM_VERSION": "10.0.19041.0"
+            },
+            "environment": {
+                "EXPERIMENTAL": "Azure Pipelines"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "x64-clang-debug",
+            "displayName": "x64(clang-cl)/debug",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64",
+            "binaryDir": "${sourceDir}/build-x64-windows",
+            "installDir": "${sourceDir}/install",
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang-cl",
+                "CMAKE_CXX_COMPILER": "clang-cl",
+                "BUILD_TESTING": "ON",
+                "BUILD_SHARED_LIBS": "ON",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_SYSTEM_VERSION": "10.0.19041.0",
+                "VCPKG_TARGET_TRIPLET": "x64-windows"
+            },
+            "toolset": "ClangCL",
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "intelliSenseMode": "windows-clang-x64"
+                }
+            },
+            "debug": {
+                "output": true
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "x86-clang-debug",
+            "displayName": "x86(clang-cl)/debug",
+            "inherits": "x64-clang-debug",
+            "architecture": "Win32",
+            "binaryDir": "${sourceDir}/build-x86-windows",
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "x86-windows"
+            }
+        },
+        {
+            "name": "x64-linux-debug",
+            "displayName": "x64-linux/debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-x64-linux",
+            "installDir": "${sourceDir}/install",
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "BUILD_TESTING": "ON",
+                "BUILD_SHARED_LIBS": "ON",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "VCPKG_TARGET_TRIPLET": "x64-linux"
+            },
+            "debug": {
+                "output": false
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "x64-osx-debug",
+            "displayName": "x64-osx/debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-x64-osx",
+            "installDir": "${sourceDir}/install",
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "BUILD_TESTING": "ON",
+                "BUILD_SHARED_LIBS": "ON",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_OSX_ARCHITECTURES": "x86_64"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "x64-msvc-debug",
+            "configurePreset": "x64-msvc-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "x64-clang-debug",
+            "configurePreset": "x64-clang-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "x86-clang-debug",
+            "configuration": "Debug",
+            "configurePreset": "x86-clang-debug"
+        },
+        {
+            "name": "x64-linux-debug",
+            "configurePreset": "x64-linux-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "x64-osx-debug",
+            "configurePreset": "x64-osx-debug",
+            "configuration": "Debug"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "x64-msvc-debug",
+            "configurePreset": "x64-msvc-debug",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        },
+        {
+            "name": "x64-linux-debug",
+            "configurePreset": "x64-linux-debug",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        },
+        {
+            "name": "x64-osx-debug",
+            "configurePreset": "x64-osx-debug",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        }
+    ]
+}
