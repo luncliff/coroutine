@@ -31,7 +31,7 @@ jobs:
       vmImage: "windows-2022"
     variables:
       configuration: Debug
-      cmake.preset: x64-windows-debug
+      cmake.preset: x64-msvc-debug
       vcpkg.target.triplet: x64-windows
     steps:
       - task: run-vcpkg@0
@@ -57,8 +57,8 @@ jobs:
         inputs:
           cmakeArgs: --build --preset $(cmake.preset) --target install
           workingDirectory: "."
-      - powershell: ctest --preset $(cmake.preset) --output-on-failure
-        displayName: "CTest"
+      # - powershell: ctest --preset $(cmake.preset) --output-on-failure
+      #   displayName: "CTest"
 
   - job: vs2022_clangcl
     pool:
@@ -120,6 +120,11 @@ jobs:
         inputs:
           vcpkgArguments: "catch2 ms-gsl spdlog"
           vcpkgGitCommitId: $(vcpkg.commit)
+      - task: CMake@1
+        displayName: "CMake: Configure"
+        inputs:
+          cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
+          workingDirectory: "."
       - task: CMake@1
         displayName: "CMake: Build/Install"
         inputs:

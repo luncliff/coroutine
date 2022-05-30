@@ -44,7 +44,8 @@
                 "BUILD_TESTING": "ON",
                 "BUILD_SHARED_LIBS": "ON",
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_SYSTEM_VERSION": "10.0.19041.0"
+                "CMAKE_SYSTEM_VERSION": "10.0.19041.0",
+                "VCPKG_TARGET_TRIPLET": "x64-windows"
             },
             "toolset": "ClangCL",
             "vendor": {
@@ -59,6 +60,16 @@
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
+            }
+        },
+        {
+            "name": "x86-clang-debug",
+            "displayName": "x86(clang-cl)/debug",
+            "inherits": "x64-clang-debug",
+            "architecture": "Win32",
+            "binaryDir": "${sourceDir}/build-x86-windows",
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "x86-windows"
             }
         },
         {
@@ -116,6 +127,11 @@
             "name": "x64-clang-debug",
             "configurePreset": "x64-clang-debug",
             "configuration": "Debug"
+        },
+        {
+            "name": "x86-clang-debug",
+            "configuration": "Debug",
+            "configurePreset": "x86-clang-debug"
         },
         {
             "name": "x64-linux-debug",
