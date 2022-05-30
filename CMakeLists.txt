@@ -46,7 +46,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
 endif()
 find_package(Coroutines REQUIRED)
 find_package(Threads REQUIRED) # Threads::Threads
-
+find_package(fmt CONFIG REQUIRED) # fmt::fmt-header-only
+find_package(spdlog CONFIG REQUIRED) # spdlog::spdlog_header_only
 # see https://github.com/microsoft/GSL/tree/v4.0.0
 # check https://github.com/microsoft/vcpkg ms-gsl
 find_package(Microsoft.GSL 4.0 CONFIG REQUIRED) # Microsoft.GSL::GSL
@@ -63,6 +64,7 @@ add_library(coroutine
     ${headers}
     src/frame.cpp
     # src/${system_name}.cpp
+    src/libmain.cpp
 )
 
 set_target_properties(coroutine
@@ -81,6 +83,8 @@ PUBLIC
 target_link_libraries(coroutine
 PRIVATE
     Threads::Threads
+    fmt::fmt-header-only
+    spdlog::spdlog_header_only
 )
 
 # compiler options / macro hints
@@ -199,8 +203,6 @@ install(FILES           ${VERSION_FILE_PATH}
         DESTINATION     ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME} # share/coroutine
 )
 
-return()
-
 #
 # for testing, CTest will be used
 #
@@ -211,16 +213,23 @@ endif()
 enable_testing()
 find_package(Catch2 CONFIG REQUIRED) # Catch2::Catch2
 
-# create_ctest( ... )
-function(create_ctest TEST_NAME)
-    # create a test exe with the given name ...
-    add_executable(${TEST_NAME} test/${TEST_NAME}.cpp)
-    add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
-    target_link_libraries(${TEST_NAME}
-    PRIVATE
-        coroutine
-    )
-endfunction()
+# create a test exe with the given name ...
+add_executable(coroutine_test_suite
+    test/test_main.cpp
+    test/test_action.cpp
+)
+
+target_compile_definitions(coroutine_test_suite
+PRIVATE
+    CATCH_CONFIG_FAST_COMPILE
+)
+
+target_link_libraries(coroutine_test_suite
+PRIVATE
+    Catch2::Catch2 coroutine
+)
+
+add_test(NAME test_exception COMMAND coroutine_test_suite "[exception]")
 
 # create_ctest( article_russian_roulette  coroutine_portable )
 
@@ -238,6 +247,9 @@ endfunction()
 #   <coroutine/unix.h>, <coroutine/linux.h>
 #   <coroutine/pthread.h>
 #
+if(APPLE)
+add_test(NAME test_dispatch COMMAND coroutine_test_suite "[dispatch]")
+endif()
 
 #
 #   <coroutine/net.h>
