@@ -47,7 +47,8 @@ endif()
 find_package(Coroutines REQUIRED)
 find_package(Threads REQUIRED) # Threads::Threads
 
-# see https://github.com/microsoft/vcpkg
+# see https://github.com/microsoft/GSL/tree/v4.0.0
+# check https://github.com/microsoft/vcpkg ms-gsl
 find_package(Microsoft.GSL 4.0 CONFIG REQUIRED) # Microsoft.GSL::GSL
 
 
