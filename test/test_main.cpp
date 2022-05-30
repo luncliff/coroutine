@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_RUNNER
-#include <catch2/catch_all.hpp>
+#include <catch2/catch.hpp>
 #include <cstdio>
 #include <spdlog/sinks/stdout_sinks.h>
 #include <spdlog/spdlog.h>

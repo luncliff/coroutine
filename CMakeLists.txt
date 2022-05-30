@@ -211,12 +211,17 @@ if(NOT BUILD_TESTING)
     return()
 endif()
 enable_testing()
-find_package(Catch2 CONFIG REQUIRED) # Catch2::Catch2
+find_package(Catch2 2.13 CONFIG REQUIRED) # Catch2::Catch2
 
 # create a test exe with the given name ...
 add_executable(coroutine_test_suite
     test/test_main.cpp
     test/test_action.cpp
+)
+
+set_target_properties(coroutine_test_suite
+PROPERTIES
+    CXX_STANDARD_REQUIRED true
 )
 
 target_compile_definitions(coroutine_test_suite
