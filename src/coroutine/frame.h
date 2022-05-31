@@ -1,7 +1,8 @@
 /**
  * @file    coroutine/frame.h
  * @author  github.com/luncliff (luncliff@gmail.com)
- * @brief   `<coroutine>` header with `std::` namespace/
+ * @brief   `<coroutine>` header with `std::` namespace
+ * @details Whenever possible, it will follow the pattern of Microsoft STL <coroutine>
  * @note    The implementation adjusts difference of coroutine frame between compilers
  * 
  * @see <experimental/resumable> from Microsoft VC++ (since 2017 Feb.)
@@ -10,22 +11,20 @@
  * @see 17.12 Coroutines [support.coroutine]
  * @see https://en.cppreference.com/w/cpp/header
  * @see http://www.open-std.org/jtc1/sc22/wg21/docs/papers
- * 
- * @copyright CC BY 4.0
  */
 #pragma once
 #ifndef _COROUTINE_
 #define _COROUTINE_
 
-// suppress <experimental/resumable>
+// Suppress following <experimental/resumable>
 #define _EXPERIMENTAL_RESUMABLE_
 
-// enforced by MSVC, but be explicit
-#ifndef _RESUMABLE_FUNCTIONS_SUPPORTED
-#define _RESUMABLE_FUNCTIONS_SUPPORTED
+// Fix some macro for Clang-CL compiler
+#if defined(__clang__) && defined(_WIN32)
+#undef _RESUMABLE_FUNCTIONS_SUPPORTED
+static_assert(_MSVC_LANG >= 201705L); // clang -std=c++20
 #endif
 
-// requires C++ 17 __has_include
 #if __has_include(<yvals_core.h>)
 #include <yvals_core.h>
 #endif
@@ -40,9 +39,43 @@
 #include <exception>  // std::current_exception
 #include <functional> // std::hash
 
-#if defined(__cpp_coroutines)
-// ...
+#if defined(_WIN32)
+#undef _COROUTINE_ // trick to reuse Microsoft STL <coroutine>
+#include <coroutine>
+
+#if defined(__clang__)
+// clang-cl still uses `std::experimental` namespace.
+// Mock <experimental/coroutine> when using Microsoft STL
+namespace std::experimental {
+
+/**
+ * @note It needs to be a class template. We can't use `using`.
+ * @code
+ *  template <typename P>
+ *  using coroutine_handle = std::coroutine_handle<P>;
+ * @endcode
+ */
+template <typename P>
+struct coroutine_handle : public std::coroutine_handle<P> {
+    // use inheritance for code reuse
+};
+
+/**
+ * @note It needs to be a class template. We can't use `using`.
+ * @code
+ *  template <typename R, typename... Args>
+ *  using coroutine_traits = std::coroutine_traits<R, Args...>;
+ * @endcode
+ */
+template <typename R, typename... Args>
+struct coroutine_traits : public std::coroutine_traits<R, Args...> {
+    // use inheritance for code reuse
+};
+
+} // namespace std::experimental
 #endif
+
+#else
 
 struct portable_coro_prefix;
 
@@ -356,5 +389,7 @@ struct hash<coroutine_handle<_PromiseT>> {
 };
 
 } // namespace std
+
+#endif // Windows <coroutine>
 
 #endif // _COROUTINE_

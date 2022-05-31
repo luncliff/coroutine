@@ -5,6 +5,7 @@ option(BUILD_SHARED_LIBS    "https://cmake.org/cmake/help/latest/variable/BUILD_
 option(CMAKE_BUILD_TYPE     "https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html"  "Debug")
 option(BUILD_TESTING        "Build test program" OFF)
 
+# set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 20)
 include(GNUInstallDirs)
 
@@ -62,7 +63,7 @@ list(APPEND headers
 
 add_library(coroutine
     ${headers}
-    src/frame.cpp
+    # src/frame.cpp
     # src/${system_name}.cpp
     src/libmain.cpp
 )
@@ -94,15 +95,16 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
         # avoide the removal using cmake flag variable
         target_compile_options(coroutine
         PUBLIC
-            "/clang:-fcoroutines-ts"
+            # "/clang:-fcoroutines-ts"
+            "/clang:-fms-compatibility-version=1900"
+            "/clang:-std=c++20" # c++2b for experiment
+        PRIVATE
             "SHELL:-fms-compatibility"
         )
-        # in this case, we always use portable header
+        # make <yvals_core.h> define __cpp_lib_coroutine(==201902L)
         target_compile_definitions(coroutine
         PUBLIC
-            # USE_PORTABLE_COROUTINE_HANDLE
-            _RESUMABLE_FUNCTIONS_SUPPORTED
-            # _EXPERIMENTAL_RESUMABLE_
+            _DOWNLEVEL_COROUTINES_SUPPORTED
         )
 
     elseif(UNIX OR APPLE)
@@ -128,7 +130,7 @@ elseif(MSVC)
     # if(support_intrinsic_builtin AND has_coroutine)
     #     target_compile_options(coroutine
     #     PUBLIC
-    #         /std:c++latest
+    #         /std:c++20
     #     )
     # else()
     #     target_compile_options(coroutine
@@ -136,8 +138,11 @@ elseif(MSVC)
     #         /std:c++17 /await
     #     )
     # endif()
+
+    # see https://docs.microsoft.com/en-us/cpp/build/reference/zc-cplusplus
     target_compile_options(coroutine
     PRIVATE
+        /Zc:__cplusplus
         /JMC-
     )
 

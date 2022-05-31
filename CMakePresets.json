@@ -54,7 +54,7 @@
                 }
             },
             "debug": {
-                "output": true
+                "output": false
             },
             "condition": {
                 "type": "equals",
