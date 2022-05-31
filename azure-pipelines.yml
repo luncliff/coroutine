@@ -92,9 +92,13 @@ jobs:
           echo "##vso[task.setvariable variable=vcvarsPath;isOutput=true]$installPath\VC\Auxiliary\Build\vcvarsall.bat"
         name: detected
         displayName: "PowerShell: Search vcvarsall.bat"
-      # see https://github.com/Microsoft/azure-pipelines-tasks/issues/9737
       - script: | # using Cmdlet
           echo $(detected.vcvarsPath)
+          call "$(detected.vcvarsPath)" $(vcvars.arg)
+          clang -dM test/a.cpp -E -std=c++20
+        displayName: "Clang: Print Macros"
+      # see https://github.com/Microsoft/azure-pipelines-tasks/issues/9737
+      - script: | # using Cmdlet
           call "$(detected.vcvarsPath)" $(vcvars.arg)
           cmake --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
           cmake --build --preset $(cmake.preset)

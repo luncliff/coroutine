@@ -11,6 +11,20 @@ include(CheckCXXSourceCompiles)
 
 cmake_push_check_state()
 
+find_path(YVALS_CORE_PATH "yvals_core.h")
+if(YVALS_CORE_PATH)
+    get_filename_component(YVALS_CORE_PATH "${YVALS_CORE_PATH}/yvals_core.h" ABSOLUTE)
+    file(STRINGS "${YVALS_CORE_PATH}" cpp_lib_version REGEX "^#define[\t ]+_CPPLIB_VER[\t ]+.*")
+    string(REGEX REPLACE "^#define[\t ]+_CPPLIB_VER[\t ]+([0-9]+).*" "\\1" cpp_lib_version "${cpp_lib_version}")
+    file(STRINGS "${YVALS_CORE_PATH}" msvc_stl_version REGEX "^#define[\t ]+_MSVC_STL_VERSION[\t ]+.*")
+    string(REGEX REPLACE "^#define[\t ]+_MSVC_STL_VERSION[\t ]+([0-9]+).*" "\\1" msvc_stl_version "${msvc_stl_version}")
+    file(STRINGS "${YVALS_CORE_PATH}" msvc_stl_update REGEX "^#define[\t ]+_MSVC_STL_UPDATE[\t ]+.*")
+    string(REGEX REPLACE "^#define[\t ]+_MSVC_STL_UPDATE[\t ]+([0-9]+).*" "\\1" msvc_stl_update "${msvc_stl_update}")
+    message(STATUS "Detected yvals_core.h:")
+    message(STATUS " - cpp: ${cpp_lib_version}")
+    message(STATUS " - stl: ${msvc_stl_version} ${msvc_stl_update}")
+endif()
+
 #
 # Acquire informations about current build environment. Especially for Compiler & STL
 #   - support_latest
@@ -21,17 +35,14 @@ cmake_push_check_state()
 #
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
     if(WIN32)
-        check_cxx_compiler_flag("/std:c++latest"            support_latest)
-        check_cxx_compiler_flag("/clang:-fcoroutines-ts"    support_coroutine)
-        check_include_file_cxx("experimental/coroutine" has_coroutine_ts
-            "/std:c++latest"
-        )
+        check_cxx_compiler_flag("/std:c++20" support_cpp20)
+        check_cxx_compiler_flag("/clang:-fcoroutines-ts" support_coroutine)
+        check_include_file_cxx("experimental/coroutine" has_coroutine_ts)
+        check_include_file_cxx("coroutine"              has_coroutine)
     else()
         check_cxx_compiler_flag("-std=c++2a"        support_latest)
         check_cxx_compiler_flag("-fcoroutines-ts"   support_coroutine)
-        check_include_file_cxx("experimental/coroutine" has_coroutine_ts
-            "-std=c++2a"
-        )
+        check_include_file_cxx("experimental/coroutine" has_coroutine_ts "-std=c++20")
     endif()
 
 elseif(MSVC)
@@ -41,15 +52,8 @@ elseif(MSVC)
     #
     check_cxx_compiler_flag("/std:c++20"    support_cpp20)
     check_cxx_compiler_flag("/await"        support_coroutine)
-    check_include_file_cxx("coroutine"  has_coroutine
-        "/std:c++latest"
-    )
-    if(NOT has_coroutine)
-        message(STATUS "Try <expeirmental/coroutine> (Coroutines TS) instead of <coroutine> ...")
-        check_include_file_cxx("experimental/coroutine" has_coroutine_ts
-            "/std:c++17"
-        )
-    endif()
+    check_include_file_cxx("experimental/coroutine" has_coroutine_ts "/std:c++17")
+    check_include_file_cxx("coroutine"              has_coroutine    "/std:c++20")
     # has coroutine headers?
     if(NOT has_coroutine AND NOT has_coroutine_ts)
         message(FATAL_ERROR "There are no headers for C++ Coroutines")

@@ -43,7 +43,9 @@ static_assert(_MSVC_LANG >= 201705L); // clang -std=c++20
 #undef _COROUTINE_ // trick to reuse Microsoft STL <coroutine>
 #include <coroutine>
 
-#if defined(__clang__)
+#if defined(__clang__) && (_MSVC_STL_UPDATE <= 202111)
+static_assert(__cpp_lib_coroutine >= 201902L);
+
 // clang-cl still uses `std::experimental` namespace.
 // Mock <experimental/coroutine> when using Microsoft STL
 namespace std::experimental {
@@ -75,6 +77,7 @@ struct coroutine_traits : public std::coroutine_traits<R, Args...> {
 } // namespace std::experimental
 #endif
 
+// clang-format off
 #else
 
 struct portable_coro_prefix;
