@@ -3,8 +3,8 @@
  * @author github.com/luncliff (luncliff@gmail.com)
  */
 #pragma once
-#if __has_include(<coroutine>)
 #include <coroutine/frame.h>
+#if __has_include(<coroutine>)
 #include <coroutine>
 #elif __has_include(<experimental/coroutine>)
 #include <experimental/coroutine>

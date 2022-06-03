@@ -13,38 +13,35 @@
  * @see http://www.open-std.org/jtc1/sc22/wg21/docs/papers
  */
 #pragma once
-#ifndef _COROUTINE_
-#define _COROUTINE_
-
-// Suppress following <experimental/resumable>
-#define _EXPERIMENTAL_RESUMABLE_
+#ifndef _COROUTINE_FRAME_
+#define _COROUTINE_FRAME_
 
 // Fix some macro for Clang-CL compiler
 #if defined(__clang__) && defined(_WIN32)
-#undef _RESUMABLE_FUNCTIONS_SUPPORTED
 static_assert(_MSVC_LANG >= 201705L); // clang -std=c++20
 #endif
 
 #if __has_include(<yvals_core.h>)
-#include <yvals_core.h>
+#include <yvals_core.h> // defines __cpp_lib_coroutine
 #endif
-#if _STL_COMPILER_PREPROCESSOR
-#include <memory>
-#include <new>
-#endif // _STL_COMPILER_PREPROCESSOR
-#include <cstddef>
-#include <cstdint>
-#include <type_traits>
-
-#include <exception>  // std::current_exception
-#include <functional> // std::hash
 
 #if defined(_WIN32)
-#undef _COROUTINE_ // trick to reuse Microsoft STL <coroutine>
-#include <coroutine>
+#define _EXPERIMENTAL_RESUMABLE_ // Suppress following <experimental/resumable>
+#include <coroutine>             // Reuse Microsoft STL <coroutine>
 
-#if defined(__clang__) && (_MSVC_STL_UPDATE <= 202111)
+#if defined(__clang__)
+#ifndef __cpp_lib_coroutine
+#error "__cpp_lib_coroutine feature macro must be defined"
+#else
 static_assert(__cpp_lib_coroutine >= 201902L);
+#endif
+
+/**
+ * @details People can install old LLVM versions. If possible, `_MSVC_STL_UPDATE` can be downgraded. Using the end of 2021 for now.
+ * @note `std::experimental::coroutine_traits` was added near 202005.
+ * @see https://docs.microsoft.com/en-us/cpp/build/clang-support-msbuild
+ */
+#if _MSVC_STL_UPDATE >= 202111
 
 // clang-cl still uses `std::experimental` namespace.
 // Mock <experimental/coroutine> when using Microsoft STL
@@ -76,6 +73,7 @@ struct coroutine_traits : public std::coroutine_traits<R, Args...> {
 
 } // namespace std::experimental
 #endif
+#endif // __clang__
 
 // clang-format off
 #else
@@ -395,4 +393,4 @@ struct hash<coroutine_handle<_PromiseT>> {
 
 #endif // Windows <coroutine>
 
-#endif // _COROUTINE_
+#endif // _COROUTINE_FRAME_

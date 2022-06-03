@@ -1,11 +1,43 @@
 /**
  * @author github.com/luncliff (luncliff@gmail.com)
  */
-#include <coroutine/frame.h>
 #include <coroutine/action.hpp>
 
 #include <chrono>
+#include <spdlog/sinks/stdout_sinks.h>
 #include <spdlog/spdlog.h>
+
+#if defined(_WIN32)
+#include <Windows.h>
+
+HMODULE g_module = NULL;
+
+std::shared_ptr<spdlog::logger> make_logger(const char* name, FILE* fout) noexcept(false);
+
+BOOL APIENTRY DllMain(HANDLE handle, DWORD reason, LPVOID) {
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
+        g_module = static_cast<HMODULE>(handle);
+        break;
+    default:
+        return TRUE;
+    }
+    auto logger = make_logger("coro", stdout);
+    spdlog::set_default_logger(logger);
+    return TRUE;
+}
+
+#endif
+
+std::shared_ptr<spdlog::logger> make_logger(const char* name, FILE* fout) noexcept(false) {
+    using mutex_t = spdlog::details::console_nullmutex;
+    using sink_t = spdlog::sinks::stdout_sink_base<mutex_t>;
+    return std::make_shared<spdlog::logger>(name, std::make_shared<sink_t>(fout));
+}
+
+std::shared_ptr<spdlog::logger> get_log_stream() noexcept(false) {
+    return spdlog::get("coro");
+}
 
 namespace coro {
 

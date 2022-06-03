@@ -95,15 +95,20 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
         # avoide the removal using cmake flag variable
         target_compile_options(coroutine
         PUBLIC
-            # "/clang:-fcoroutines-ts"
-            "/clang:-fms-compatibility-version=1900"
-            "/clang:-std=c++20" # c++2b for experiment
+            "/clang:-std=c++20" # c++2b for experiment?
         PRIVATE
-            "SHELL:-fms-compatibility"
+            "/clang:-fms-compatibility-version=1900"
+            # -Wall -Wextra -ferror-limit=5
         )
-        # make <yvals_core.h> define __cpp_lib_coroutine(==201902L)
+
+        # clang 13: `__cpp_coroutines` macro is 201703L. `__cpp_lib_coroutine` is NOT defined
         target_compile_definitions(coroutine
         PUBLIC
+            # force feature activation.
+            # see https://github.com/llvm/llvm-project/blob/release/13.x/clang/lib/Frontend/InitPreprocessor.cpp
+            __cpp_impl_coroutine=201902L 
+            # make <yvals_core.h> define __cpp_lib_coroutine
+            # see https://github.com/microsoft/STL, issue 1730, 2510
             _DOWNLEVEL_COROUTINES_SUPPORTED
         )
 
@@ -238,6 +243,10 @@ target_link_libraries(coroutine_test_suite
 PRIVATE
     Catch2::Catch2 coroutine
 )
+
+if(coroutine_IS_TOP_LEVEL)
+    install(TARGETS coroutine_test_suite DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif()
 
 add_test(NAME test_exception COMMAND coroutine_test_suite "[exception]")
 
