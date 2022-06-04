@@ -23,7 +23,7 @@ schedules:
 
 variables:
   - name: vcpkg.commit
-    value: "14e7bb4ae24616ec54ff6b2f6ef4e8659434ea44" # mainstream 2022.05.10
+    value: "e809a42f87565e803b2178a0c11263f462d1800a" # mainstream 2022.04.12
 
 jobs:
   - job: vs2022_msvc
@@ -92,9 +92,13 @@ jobs:
           echo "##vso[task.setvariable variable=vcvarsPath;isOutput=true]$installPath\VC\Auxiliary\Build\vcvarsall.bat"
         name: detected
         displayName: "PowerShell: Search vcvarsall.bat"
-      # see https://github.com/Microsoft/azure-pipelines-tasks/issues/9737
       - script: | # using Cmdlet
           echo $(detected.vcvarsPath)
+          call "$(detected.vcvarsPath)" $(vcvars.arg)
+          clang -dM test/a.cpp -E -std=c++20
+        displayName: "Clang: Print Macros"
+      # see https://github.com/Microsoft/azure-pipelines-tasks/issues/9737
+      - script: | # using Cmdlet
           call "$(detected.vcvarsPath)" $(vcvars.arg)
           cmake --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
           cmake --build --preset $(cmake.preset)
@@ -108,7 +112,7 @@ jobs:
   - job: macos15_appleclang
     pool:
       vmImage: "macos-10.15"
-     # todo: strategy for x86_64, arm64
+      # todo: strategy for x86_64, arm64
     variables:
       configuration: Debug
       cmake.preset: x64-osx-debug
@@ -155,7 +159,6 @@ jobs:
         inputs:
           cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
           workingDirectory: "."
-
 
   - job: ubuntu22_clang
     pool:

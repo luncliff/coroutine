@@ -5,6 +5,7 @@ option(BUILD_SHARED_LIBS    "https://cmake.org/cmake/help/latest/variable/BUILD_
 option(CMAKE_BUILD_TYPE     "https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html"  "Debug")
 option(BUILD_TESTING        "Build test program" OFF)
 
+# set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 20)
 include(GNUInstallDirs)
 
@@ -46,7 +47,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
 endif()
 find_package(Coroutines REQUIRED)
 find_package(Threads REQUIRED) # Threads::Threads
-
+find_package(fmt CONFIG REQUIRED) # fmt::fmt-header-only
+find_package(spdlog CONFIG REQUIRED) # spdlog::spdlog_header_only
 # see https://github.com/microsoft/GSL/tree/v4.0.0
 # check https://github.com/microsoft/vcpkg ms-gsl
 find_package(Microsoft.GSL 4.0 CONFIG REQUIRED) # Microsoft.GSL::GSL
@@ -61,8 +63,9 @@ list(APPEND headers
 
 add_library(coroutine
     ${headers}
-    src/frame.cpp
+    # src/frame.cpp
     # src/${system_name}.cpp
+    src/libmain.cpp
 )
 
 set_target_properties(coroutine
@@ -81,6 +84,8 @@ PUBLIC
 target_link_libraries(coroutine
 PRIVATE
     Threads::Threads
+    fmt::fmt-header-only
+    spdlog::spdlog_header_only
 )
 
 # compiler options / macro hints
@@ -90,15 +95,21 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
         # avoide the removal using cmake flag variable
         target_compile_options(coroutine
         PUBLIC
-            "/clang:-fcoroutines-ts"
-            "SHELL:-fms-compatibility"
+            "/clang:-std=c++20" # c++2b for experiment?
+        PRIVATE
+            "/clang:-fms-compatibility-version=1900"
+            # -Wall -Wextra -ferror-limit=5
         )
-        # in this case, we always use portable header
+
+        # clang 13: `__cpp_coroutines` macro is 201703L. `__cpp_lib_coroutine` is NOT defined
         target_compile_definitions(coroutine
         PUBLIC
-            # USE_PORTABLE_COROUTINE_HANDLE
-            _RESUMABLE_FUNCTIONS_SUPPORTED
-            # _EXPERIMENTAL_RESUMABLE_
+            # force feature activation.
+            # see https://github.com/llvm/llvm-project/blob/release/13.x/clang/lib/Frontend/InitPreprocessor.cpp
+            __cpp_impl_coroutine=201902L 
+            # make <yvals_core.h> define __cpp_lib_coroutine
+            # see https://github.com/microsoft/STL, issue 1730, 2510
+            _DOWNLEVEL_COROUTINES_SUPPORTED
         )
 
     elseif(UNIX OR APPLE)
@@ -124,7 +135,7 @@ elseif(MSVC)
     # if(support_intrinsic_builtin AND has_coroutine)
     #     target_compile_options(coroutine
     #     PUBLIC
-    #         /std:c++latest
+    #         /std:c++20
     #     )
     # else()
     #     target_compile_options(coroutine
@@ -132,8 +143,11 @@ elseif(MSVC)
     #         /std:c++17 /await
     #     )
     # endif()
+
+    # see https://docs.microsoft.com/en-us/cpp/build/reference/zc-cplusplus
     target_compile_options(coroutine
     PRIVATE
+        /Zc:__cplusplus
         /JMC-
     )
 
@@ -199,8 +213,6 @@ install(FILES           ${VERSION_FILE_PATH}
         DESTINATION     ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME} # share/coroutine
 )
 
-return()
-
 #
 # for testing, CTest will be used
 #
@@ -209,18 +221,35 @@ if(NOT BUILD_TESTING)
     return()
 endif()
 enable_testing()
-find_package(Catch2 CONFIG REQUIRED) # Catch2::Catch2
+find_package(Catch2 2.13 CONFIG REQUIRED) # Catch2::Catch2
 
-# create_ctest( ... )
-function(create_ctest TEST_NAME)
-    # create a test exe with the given name ...
-    add_executable(${TEST_NAME} test/${TEST_NAME}.cpp)
-    add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
-    target_link_libraries(${TEST_NAME}
-    PRIVATE
-        coroutine
-    )
-endfunction()
+# create a test exe with the given name ...
+add_executable(coroutine_test_suite
+    test/test_main.cpp
+    test/test_action.cpp
+)
+
+set_target_properties(coroutine_test_suite
+PROPERTIES
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED true
+)
+
+# target_compile_definitions(coroutine_test_suite
+# PRIVATE
+#     CATCH_CONFIG_FAST_COMPILE
+# )
+
+target_link_libraries(coroutine_test_suite
+PRIVATE
+    Catch2::Catch2 coroutine
+)
+
+if(coroutine_IS_TOP_LEVEL)
+    install(TARGETS coroutine_test_suite DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif()
+
+add_test(NAME test_exception COMMAND coroutine_test_suite "[exception]")
 
 # create_ctest( article_russian_roulette  coroutine_portable )
 
@@ -238,6 +267,9 @@ endfunction()
 #   <coroutine/unix.h>, <coroutine/linux.h>
 #   <coroutine/pthread.h>
 #
+if(APPLE)
+add_test(NAME test_dispatch COMMAND coroutine_test_suite "[dispatch]")
+endif()
 
 #
 #   <coroutine/net.h>

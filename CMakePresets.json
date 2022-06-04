@@ -39,12 +39,11 @@
             "installDir": "${sourceDir}/install",
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang-cl",
                 "CMAKE_CXX_COMPILER": "clang-cl",
                 "BUILD_TESTING": "ON",
                 "BUILD_SHARED_LIBS": "ON",
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_SYSTEM_VERSION": "10.0.19041.0",
+                "CMAKE_SYSTEM_VERSION": "10.0.20348.0",
                 "VCPKG_TARGET_TRIPLET": "x64-windows"
             },
             "toolset": "ClangCL",
@@ -54,7 +53,7 @@
                 }
             },
             "debug": {
-                "output": true
+                "output": false
             },
             "condition": {
                 "type": "equals",

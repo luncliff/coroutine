@@ -1,7 +1,8 @@
 /**
  * @file    coroutine/frame.h
  * @author  github.com/luncliff (luncliff@gmail.com)
- * @brief   `<coroutine>` header with `std::` namespace/
+ * @brief   `<coroutine>` header with `std::` namespace
+ * @details Whenever possible, it will follow the pattern of Microsoft STL <coroutine>
  * @note    The implementation adjusts difference of coroutine frame between compilers
  * 
  * @see <experimental/resumable> from Microsoft VC++ (since 2017 Feb.)
@@ -10,39 +11,75 @@
  * @see 17.12 Coroutines [support.coroutine]
  * @see https://en.cppreference.com/w/cpp/header
  * @see http://www.open-std.org/jtc1/sc22/wg21/docs/papers
- * 
- * @copyright CC BY 4.0
  */
 #pragma once
-#ifndef _COROUTINE_
-#define _COROUTINE_
+#ifndef _COROUTINE_FRAME_
+#define _COROUTINE_FRAME_
 
-// suppress <experimental/resumable>
-#define _EXPERIMENTAL_RESUMABLE_
-
-// enforced by MSVC, but be explicit
-#ifndef _RESUMABLE_FUNCTIONS_SUPPORTED
-#define _RESUMABLE_FUNCTIONS_SUPPORTED
+// Fix some macro for Clang-CL compiler
+#if defined(__clang__) && defined(_WIN32)
+static_assert(_MSVC_LANG >= 201705L); // clang -std=c++20
 #endif
 
-// requires C++ 17 __has_include
 #if __has_include(<yvals_core.h>)
-#include <yvals_core.h>
+#include <yvals_core.h> // defines __cpp_lib_coroutine
 #endif
-#if _STL_COMPILER_PREPROCESSOR
-#include <memory>
-#include <new>
-#endif // _STL_COMPILER_PREPROCESSOR
-#include <cstddef>
-#include <cstdint>
-#include <type_traits>
 
-#include <exception>  // std::current_exception
-#include <functional> // std::hash
+#if defined(_WIN32)
+#define _EXPERIMENTAL_RESUMABLE_ // Suppress following <experimental/resumable>
+#include <coroutine>             // Reuse Microsoft STL <coroutine>
 
-#if defined(__cpp_coroutines)
-// ...
+#if defined(__clang__)
+#ifndef __cpp_lib_coroutine
+#error "__cpp_lib_coroutine feature macro must be defined"
+#else
+static_assert(__cpp_lib_coroutine >= 201902L);
 #endif
+
+/**
+ * @details People can install old LLVM versions. If possible, `_MSVC_STL_UPDATE` can be downgraded. Using the end of 2021 for now.
+ * @note `std::experimental::coroutine_traits` was added near 202005.
+ * @see https://docs.microsoft.com/en-us/cpp/build/clang-support-msbuild
+ */
+#if _MSVC_STL_UPDATE >= 202111
+
+// clang-cl still uses `std::experimental` namespace.
+// Mock <experimental/coroutine> when using Microsoft STL
+namespace std::experimental {
+
+/**
+ * @note It needs to be a class template. We can't use `using`.
+ * @code
+ *  template <typename P>
+ *  using coroutine_handle = std::coroutine_handle<P>;
+ * @endcode
+ */
+template <typename P>
+struct coroutine_handle : public std::coroutine_handle<P> {
+    // use inheritance for code reuse
+};
+
+/**
+ * @note It needs to be a class template. We can't use `using`.
+ * @code
+ *  template <typename R, typename... Args>
+ *  using coroutine_traits = std::coroutine_traits<R, Args...>;
+ * @endcode
+ */
+template <typename R, typename... Args>
+struct coroutine_traits : public std::coroutine_traits<R, Args...> {
+    // use inheritance for code reuse
+};
+
+} // namespace std::experimental
+#endif
+#endif // __clang__
+
+// clang-format off
+#elif defined(__APPLE__)
+#include <experimental/coroutine>
+
+#else
 
 struct portable_coro_prefix;
 
@@ -357,4 +394,40 @@ struct hash<coroutine_handle<_PromiseT>> {
 
 } // namespace std
 
-#endif // _COROUTINE_
+#endif // Windows <coroutine>, Apple <experimental/coroutine>
+
+#if defined(__APPLE__) && !__has_builtin(__builtin_coro_noop)
+namespace std
+{
+// 17.12.4, no-op coroutines
+struct noop_coroutine_promise {};
+
+// STRUCT noop_coroutine_handle
+using noop_coroutine_handle = coroutine_handle<noop_coroutine_promise>;
+
+// 17.12.4.3
+noop_coroutine_handle noop_coroutine() noexcept;
+
+// STRUCT coroutine_handle<noop_coroutine_promise>
+template <>
+struct coroutine_handle<noop_coroutine_promise> : public coroutine_handle<void> {
+    // 17.12.4.2.1, observers
+    constexpr explicit operator bool() const noexcept {
+        return true;
+    }
+    constexpr bool done() const noexcept {
+        return false;
+    }
+    // 17.12.4.2.2, resumption
+    constexpr void operator()() const noexcept {
+    }
+    constexpr void resume() const noexcept {
+    }
+    constexpr void destroy() const noexcept {
+    }
+};
+
+} // namespace std
+#endif // defined(__APPLE__) && !__has_builtin(__builtin_coro_noop)
+
+#endif // _COROUTINE_FRAME_
