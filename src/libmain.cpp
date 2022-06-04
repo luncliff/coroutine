@@ -29,6 +29,57 @@ BOOL APIENTRY DllMain(HANDLE handle, DWORD reason, LPVOID) {
 
 #endif
 
+#if defined(__APPLE__) && !__has_builtin(__builtin_coro_noop)
+namespace std::experimental {
+
+struct mock_noop_coroutine_t : public coroutine_handle<void> {
+    struct promise_type {
+        suspend_always initial_suspend() {
+            return {};
+        }
+        suspend_always final_suspend() noexcept {
+            return {};
+        }
+        promise_type& get_return_object() {
+            return *this;
+        }
+        [[noreturn]] void unhandled_exception() noexcept {
+            std::terminate();
+        }
+        void return_void() {
+        }
+    };
+
+  private:
+    mock_noop_coroutine_t(promise_type& p) : coroutine_handle<void>{} {
+        coroutine_handle<void>& ref = *this;
+        ref = coroutine_handle<promise_type>::from_promise(p);
+    }
+
+  public:
+    ~mock_noop_coroutine_t() {
+        coroutine_handle<void> coro = *this;
+        coro.destroy();
+    }
+
+  public:
+    static mock_noop_coroutine_t spawn() noexcept {
+        while (true)
+            co_await suspend_always{};
+    }
+};
+
+noop_coroutine_handle noop_coroutine() noexcept {
+    static mock_noop_coroutine_t mock = mock_noop_coroutine_t::spawn();
+    noop_coroutine_handle handle{};
+    coroutine_handle<void>& ref = handle;
+    ref = mock;
+    return handle;
+}
+
+} // namespace std::experimental
+#endif // defined(__APPLE__) && !__has_builtin(__builtin_coro_noop)
+
 std::shared_ptr<spdlog::logger> make_logger(const char* name, FILE* fout) noexcept(false) {
     using mutex_t = spdlog::details::console_nullmutex;
     using sink_t = spdlog::sinks::stdout_sink_base<mutex_t>;
@@ -36,7 +87,13 @@ std::shared_ptr<spdlog::logger> make_logger(const char* name, FILE* fout) noexce
 }
 
 std::shared_ptr<spdlog::logger> get_log_stream() noexcept(false) {
-    return spdlog::get("coro");
+    constexpr auto name = "coro";
+    auto logger = spdlog::get(name);
+    if (logger == nullptr) {
+        logger = make_logger(name, stdout);
+        spdlog::set_default_logger(logger);
+    }
+    return spdlog::get(name);
 }
 
 namespace coro {

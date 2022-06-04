@@ -76,6 +76,9 @@ struct coroutine_traits : public std::coroutine_traits<R, Args...> {
 #endif // __clang__
 
 // clang-format off
+#elif defined(__APPLE__)
+#include <experimental/coroutine>
+
 #else
 
 struct portable_coro_prefix;
@@ -391,6 +394,40 @@ struct hash<coroutine_handle<_PromiseT>> {
 
 } // namespace std
 
-#endif // Windows <coroutine>
+#endif // Windows <coroutine>, Apple <experimental/coroutine>
+
+#if defined(__APPLE__) && !__has_builtin(__builtin_coro_noop)
+namespace std
+{
+// 17.12.4, no-op coroutines
+struct noop_coroutine_promise {};
+
+// STRUCT noop_coroutine_handle
+using noop_coroutine_handle = coroutine_handle<noop_coroutine_promise>;
+
+// 17.12.4.3
+noop_coroutine_handle noop_coroutine() noexcept;
+
+// STRUCT coroutine_handle<noop_coroutine_promise>
+template <>
+struct coroutine_handle<noop_coroutine_promise> : public coroutine_handle<void> {
+    // 17.12.4.2.1, observers
+    constexpr explicit operator bool() const noexcept {
+        return true;
+    }
+    constexpr bool done() const noexcept {
+        return false;
+    }
+    // 17.12.4.2.2, resumption
+    constexpr void operator()() const noexcept {
+    }
+    constexpr void resume() const noexcept {
+    }
+    constexpr void destroy() const noexcept {
+    }
+};
+
+} // namespace std
+#endif // defined(__APPLE__) && !__has_builtin(__builtin_coro_noop)
 
 #endif // _COROUTINE_FRAME_

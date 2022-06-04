@@ -231,13 +231,14 @@ add_executable(coroutine_test_suite
 
 set_target_properties(coroutine_test_suite
 PROPERTIES
+    CXX_STANDARD 20
     CXX_STANDARD_REQUIRED true
 )
 
-target_compile_definitions(coroutine_test_suite
-PRIVATE
-    CATCH_CONFIG_FAST_COMPILE
-)
+# target_compile_definitions(coroutine_test_suite
+# PRIVATE
+#     CATCH_CONFIG_FAST_COMPILE
+# )
 
 target_link_libraries(coroutine_test_suite
 PRIVATE

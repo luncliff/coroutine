@@ -9,6 +9,7 @@
 #elif __has_include(<experimental/coroutine>)
 #include <experimental/coroutine>
 #endif
+#include <chrono>
 #include <stdexcept>
 
 /// @todo remove this import
