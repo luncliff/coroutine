@@ -31,6 +31,12 @@
             }
         },
         {
+            "name": "x64-vs2017-debug",
+            "inherits":"x64-msvc-debug",
+            "displayName": "x64(vs2017)/debug",
+            "generator": "Visual Studio 16 2019"
+        },
+        {
             "name": "x64-clang-debug",
             "displayName": "x64(clang-cl)/debug",
             "generator": "Visual Studio 17 2022",
@@ -117,6 +123,11 @@
         {
             "name": "x64-msvc-debug",
             "configurePreset": "x64-msvc-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "x64-vs2017-debug",
+            "configurePreset":"x64-vs2017-debug",
             "configuration": "Debug"
         },
         {

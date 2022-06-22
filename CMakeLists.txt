@@ -4,9 +4,11 @@ project(coroutine LANGUAGES CXX VERSION 2.0.0)
 option(BUILD_SHARED_LIBS    "https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html" ON)
 option(CMAKE_BUILD_TYPE     "https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html"  "Debug")
 option(BUILD_TESTING        "Build test program" OFF)
+option(WITH_GCD             "Build with GCD(libdispatch)" OFF)
 
 # set(CMAKE_C_STANDARD 17)
-set(CMAKE_CXX_STANDARD 20)
+# set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS true)
 include(GNUInstallDirs)
 
 message(STATUS "system: ${CMAKE_SYSTEM}")
@@ -45,15 +47,33 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
     message(WARNING "clang-cl won't work with <experimental/coroutine>")
 endif()
-find_package(Coroutines REQUIRED)
+# find_package(Coroutines REQUIRED)
 find_package(Threads REQUIRED) # Threads::Threads
 find_package(fmt CONFIG REQUIRED) # fmt::fmt-header-only
 find_package(spdlog CONFIG REQUIRED) # spdlog::spdlog_header_only
 # see https://github.com/microsoft/GSL/tree/v4.0.0
 # check https://github.com/microsoft/vcpkg ms-gsl
-find_package(Microsoft.GSL 4.0 CONFIG REQUIRED) # Microsoft.GSL::GSL
+# find_package(Microsoft.GSL 4.0 CONFIG REQUIRED) # Microsoft.GSL::GSL
 
+add_library(coro_cpp17 src/coro.hpp src/coro.cpp)
+target_compile_options(coro_cpp17 PUBLIC /std:c++17 /await PRIVATE /Zc:__cplusplus)
 
+add_library(coro_cpp20 src/coro.hpp src/coro.cpp)
+target_compile_options(coro_cpp20 PUBLIC /std:c++20 PRIVATE /Zc:__cplusplus)
+
+add_library(coro_latest src/coro.hpp src/coro.cpp)
+target_compile_options(coro_latest PUBLIC /std:c++latest PRIVATE /Zc:__cplusplus)
+
+add_library(coro_action17 SHARED src/action.hpp src/action.cpp)
+target_compile_options(coro_action17 PRIVATE /Zc:__cplusplus)
+target_link_libraries(coro_action17 PRIVATE coro_cpp17)
+
+add_library(coro_action20 SHARED src/action.hpp src/action.cpp)
+target_compile_options(coro_action20 PRIVATE /Zc:__cplusplus)
+target_link_libraries(coro_action20 PRIVATE coro_cpp20)
+
+return()
+set(CMAKE_CXX_STANDARD 20)
 string(TOLOWER ${CMAKE_SYSTEM_NAME} system_name)
 
 list(APPEND headers
