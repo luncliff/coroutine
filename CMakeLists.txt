@@ -72,8 +72,16 @@ add_library(coro_action20 SHARED src/action.hpp src/action.cpp)
 target_compile_options(coro_action20 PRIVATE /Zc:__cplusplus)
 target_link_libraries(coro_action20 PRIVATE coro_cpp20)
 
+if(WITH_GCD) # libdispatch
+    find_library(DISPATCH_LIBPATH NAMES dispatch REQUIRED)
+    if(WIN32)
+        find_library(BLOCKS_RUNTIME_LIBPATH NAMES BlocksRuntime REQUIRED)
+    endif()
+    # file(COPY ${BLOCKS_RUNTIME_LIBPATH} ${DISPATCH_LIBPATH} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+endif()
+
 return()
-set(CMAKE_CXX_STANDARD 20)
+
 string(TOLOWER ${CMAKE_SYSTEM_NAME} system_name)
 
 list(APPEND headers
@@ -93,6 +101,7 @@ PROPERTIES
     PUBLIC_HEADER "${headers}"
     WINDOWS_EXPORT_ALL_SYMBOLS true
     CXX_STANDARD_REQUIRED true
+    CXX_STANDARD 20
 )
 
 target_include_directories(coroutine
