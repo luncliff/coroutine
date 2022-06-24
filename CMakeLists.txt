@@ -47,7 +47,8 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
     message(WARNING "clang-cl won't work with <experimental/coroutine>")
 endif()
-# find_package(Coroutines REQUIRED)
+find_package(Coroutines REQUIRED)
+
 find_package(Threads REQUIRED) # Threads::Threads
 find_package(fmt CONFIG REQUIRED) # fmt::fmt-header-only
 find_package(spdlog CONFIG REQUIRED) # spdlog::spdlog_header_only

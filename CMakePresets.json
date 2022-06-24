@@ -111,12 +111,23 @@
                 "BUILD_SHARED_LIBS": true,
                 "WITH_GCD": true,
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_OSX_ARCHITECTURES": "x86_64"
+                "CMAKE_OSX_ARCHITECTURES": "x86_64",
+                "VCPKG_TARGET_TRIPLET": "x64-osx"
             },
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Darwin"
+            }
+        },
+        {
+            "name": "arm64-osx-debug",
+            "displayName": "arm64-osx/debug",
+            "inherits": "x64-osx-debug",
+            "binaryDir": "${sourceDir}/build-arm64-osx",
+            "cacheVariables": {
+                "CMAKE_OSX_ARCHITECTURES": "arm64",
+                "VCPKG_TARGET_TRIPLET": "arm64-osx"
             }
         },
         {
@@ -182,6 +193,11 @@
         {
             "name": "x64-osx-debug",
             "configurePreset": "x64-osx-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "arm64-osx-debug",
+            "configurePreset": "arm64-osx-debug",
             "configuration": "Debug"
         },
         {

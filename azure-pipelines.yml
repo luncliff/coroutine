@@ -109,14 +109,15 @@ jobs:
           cmakeArgs: --build --target install --preset $(cmake.preset)
           workingDirectory: "."
 
-  - job: macos15_appleclang
+  - job: macos11_appleclang
     pool:
-      vmImage: "macos-10.15"
-      # todo: strategy for x86_64, arm64
-    variables:
-      configuration: Debug
-      cmake.preset: x64-osx-debug
-      # vcpkg.root: "/usr/local/share/vcpkg"
+      vmImage: "macos-11"
+    strategy: # todo: strategy for x86_64, arm64
+      matrix:
+        debug_x64:
+          cmake.preset: x64-osx-debug
+        debug_arm64:
+          cmake.preset: arm64-osx-debug
     steps:
       - powershell: brew install ninja
         displayName: "Setup: Homebrew packages"
@@ -256,6 +257,6 @@ jobs:
     dependsOn:
       - vs2022_msvc
       - vs2022_clangcl
-      - macos15_appleclang
+      - macos11_appleclang
       - ubuntu20_gcc
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
