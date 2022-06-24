@@ -53,9 +53,9 @@ jobs:
           configuration: $(configuration)
           msbuildArguments: "/p:platformtoolset=v142"
       - task: CMake@1
-        displayName: "CMake: Install"
+        displayName: "CMake: Build"
         inputs:
-          cmakeArgs: --build --preset $(cmake.preset) --target install
+          cmakeArgs: --build --preset $(cmake.preset)
           workingDirectory: "."
       # - powershell: ctest --preset $(cmake.preset) --output-on-failure
       #   displayName: "CTest"
@@ -109,14 +109,17 @@ jobs:
           cmakeArgs: --build --target install --preset $(cmake.preset)
           workingDirectory: "."
 
-  - job: macos15_appleclang
+  - job: macos11_appleclang
     pool:
-      vmImage: "macos-10.15"
-      # todo: strategy for x86_64, arm64
-    variables:
-      configuration: Debug
-      cmake.preset: x64-osx-debug
-      # vcpkg.root: "/usr/local/share/vcpkg"
+      vmImage: "macos-11"
+    strategy: # todo: strategy for x86_64, arm64
+      matrix:
+        debug_x64:
+          vcpkg.target.triplet: x64-osx
+          cmake.preset: x64-osx-debug
+        debug_arm64:
+          vcpkg.target.triplet: arm64-osx
+          cmake.preset: arm64-osx-debug
     steps:
       - powershell: brew install ninja
         displayName: "Setup: Homebrew packages"
@@ -124,15 +127,17 @@ jobs:
         inputs:
           vcpkgArguments: "catch2 ms-gsl spdlog"
           vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: $(vcpkg.target.triplet)
       - task: CMake@1
         displayName: "CMake: Configure"
         inputs:
           cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
           workingDirectory: "."
       - task: CMake@1
-        displayName: "CMake: Build/Install"
+        displayName: "CMake: Build"
         inputs:
-          cmakeArgs: --build --preset $(cmake.preset) --target install
+          cmakeArgs: --build --preset $(cmake.preset)
           workingDirectory: "."
       # - powershell: ctest --preset $(cmake.preset) --output-on-failure
       #   displayName: "CTest"
@@ -183,6 +188,46 @@ jobs:
           cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
           workingDirectory: "."
 
+  - job: android_clang12
+    pool:
+      vmImage: "ubuntu-22.04"
+    strategy:
+      matrix:
+        debug_arm64:
+          cmake.preset: arm64-android-debug
+          build.triplet: arm64-android
+        debug_x64:
+          cmake.preset: x64-android-debug
+          build.triplet: x64-android
+    variables:
+      ANDROID_NDK_HOME: "/usr/local/lib/android/sdk/ndk/23.2.8568313" # check $ANDROID_NDK_LATEST_HOME
+    steps:
+      - checkout: self
+      - powershell: sudo apt-get install -y --fix-missing ninja-build tree curl zip unzip tar rsync
+        displayName: "Install: APT packages"
+      # - powershell: New-Item -Type Directory -Force ${env:VCPKG_DEFAULT_BINARY_CACHE}
+      # - task: Cache@2
+      #   inputs:
+      #     key: '2022-06 | vcpkg-android | $(build.triplet)'
+      #     path: $(vcpkg.default.binary.cache)
+      #   displayName: "Cache: Vcpkg"
+      - task: run-vcpkg@0
+        inputs:
+          vcpkgArguments: "ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: $(build.triplet)
+      - task: CMake@1
+        displayName: "CMake: Configure/Generate"
+        inputs:
+          cmakeArgs: "--preset=$(cmake.preset)"
+          workingDirectory: $(Build.SourcesDirectory)
+      - task: CMake@1
+        displayName: "CMake: Build"
+        inputs:
+          cmakeArgs: "--build --preset=$(cmake.preset)"
+          workingDirectory: $(Build.SourcesDirectory)
+
   - job: mkdocs
     pool:
       vmImage: "macos-10.15"
@@ -215,6 +260,6 @@ jobs:
     dependsOn:
       - vs2022_msvc
       - vs2022_clangcl
-      - macos15_appleclang
+      - macos11_appleclang
       - ubuntu20_gcc
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))

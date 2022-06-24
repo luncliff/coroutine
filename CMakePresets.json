@@ -15,8 +15,8 @@
             "installDir": "${sourceDir}/install",
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
-                "BUILD_TESTING": "ON",
-                "BUILD_SHARED_LIBS": "ON",
+                "BUILD_TESTING": true,
+                "BUILD_SHARED_LIBS": true,
                 "CMAKE_BUILD_TYPE": "Debug",
                 "VCPKG_TARGET_TRIPLET": "x64-windows",
                 "CMAKE_SYSTEM_VERSION": "10.0.19041.0"
@@ -31,6 +31,12 @@
             }
         },
         {
+            "name": "x64-vs2017-debug",
+            "inherits": "x64-msvc-debug",
+            "displayName": "x64(vs2017)/debug",
+            "generator": "Visual Studio 16 2019"
+        },
+        {
             "name": "x64-clang-debug",
             "displayName": "x64(clang-cl)/debug",
             "generator": "Visual Studio 17 2022",
@@ -40,8 +46,8 @@
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "CMAKE_CXX_COMPILER": "clang-cl",
-                "BUILD_TESTING": "ON",
-                "BUILD_SHARED_LIBS": "ON",
+                "BUILD_TESTING": true,
+                "BUILD_SHARED_LIBS": true,
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_SYSTEM_VERSION": "10.0.20348.0",
                 "VCPKG_TARGET_TRIPLET": "x64-windows"
@@ -79,8 +85,8 @@
             "installDir": "${sourceDir}/install",
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
-                "BUILD_TESTING": "ON",
-                "BUILD_SHARED_LIBS": "ON",
+                "BUILD_TESTING": true,
+                "BUILD_SHARED_LIBS": true,
                 "CMAKE_BUILD_TYPE": "Debug",
                 "VCPKG_TARGET_TRIPLET": "x64-linux"
             },
@@ -101,15 +107,60 @@
             "installDir": "${sourceDir}/install",
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
-                "BUILD_TESTING": "ON",
-                "BUILD_SHARED_LIBS": "ON",
+                "BUILD_TESTING": true,
+                "BUILD_SHARED_LIBS": true,
+                "WITH_GCD": true,
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_OSX_ARCHITECTURES": "x86_64"
+                "CMAKE_OSX_ARCHITECTURES": "x86_64",
+                "VCPKG_TARGET_TRIPLET": "x64-osx"
             },
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Darwin"
+            }
+        },
+        {
+            "name": "arm64-osx-debug",
+            "displayName": "arm64-osx/debug",
+            "inherits": "x64-osx-debug",
+            "binaryDir": "${sourceDir}/build-arm64-osx",
+            "cacheVariables": {
+                "CMAKE_OSX_ARCHITECTURES": "arm64",
+                "VCPKG_TARGET_TRIPLET": "arm64-osx"
+            }
+        },
+        {
+            "name": "arm64-android-debug",
+            "displayName": "arm64-android/debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-arm64-android",
+            "installDir": "${sourceDir}/install",
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "BUILD_SHARED_LIBS": "ON",
+                "CMAKE_SYSTEM_NAME": "Android",
+                "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": {
+                    "type": "FILEPATH",
+                    "value": "$env{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake"
+                },
+                "ANDROID_PLATFORM_LEVEL": "26",
+                "ANDROID_PLATFORM": "26",
+                "ANDROID_STL": "c++_shared",
+                "ANDROID_ABI": "arm64-v8a",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "VCPKG_TARGET_TRIPLET": "arm64-android"
+            }
+        },
+        {
+            "name": "x64-android-debug",
+            "displayName": "x64-android/debug",
+            "inherits": "arm64-android-debug",
+            "binaryDir": "${sourceDir}/build-x64-android",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "ANDROID_ABI": "x86_64",
+                "VCPKG_TARGET_TRIPLET": "x64-android"
             }
         }
     ],
@@ -120,14 +171,19 @@
             "configuration": "Debug"
         },
         {
+            "name": "x64-vs2017-debug",
+            "configurePreset": "x64-vs2017-debug",
+            "configuration": "Debug"
+        },
+        {
             "name": "x64-clang-debug",
             "configurePreset": "x64-clang-debug",
             "configuration": "Debug"
         },
         {
             "name": "x86-clang-debug",
-            "configuration": "Debug",
-            "configurePreset": "x86-clang-debug"
+            "configurePreset": "x86-clang-debug",
+            "configuration": "Debug"
         },
         {
             "name": "x64-linux-debug",
@@ -137,6 +193,21 @@
         {
             "name": "x64-osx-debug",
             "configurePreset": "x64-osx-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "arm64-osx-debug",
+            "configurePreset": "arm64-osx-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "arm64-android-debug",
+            "configurePreset": "arm64-android-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "x64-android-debug",
+            "configurePreset": "x64-android-debug",
             "configuration": "Debug"
         }
     ],

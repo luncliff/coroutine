@@ -4,9 +4,11 @@ project(coroutine LANGUAGES CXX VERSION 2.0.0)
 option(BUILD_SHARED_LIBS    "https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html" ON)
 option(CMAKE_BUILD_TYPE     "https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html"  "Debug")
 option(BUILD_TESTING        "Build test program" OFF)
+option(WITH_GCD             "Build with GCD(libdispatch)" OFF)
 
 # set(CMAKE_C_STANDARD 17)
-set(CMAKE_CXX_STANDARD 20)
+# set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS true)
 include(GNUInstallDirs)
 
 message(STATUS "system: ${CMAKE_SYSTEM}")
@@ -46,13 +48,52 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
     message(WARNING "clang-cl won't work with <experimental/coroutine>")
 endif()
 find_package(Coroutines REQUIRED)
+
 find_package(Threads REQUIRED) # Threads::Threads
 find_package(fmt CONFIG REQUIRED) # fmt::fmt-header-only
 find_package(spdlog CONFIG REQUIRED) # spdlog::spdlog_header_only
 # see https://github.com/microsoft/GSL/tree/v4.0.0
 # check https://github.com/microsoft/vcpkg ms-gsl
-find_package(Microsoft.GSL 4.0 CONFIG REQUIRED) # Microsoft.GSL::GSL
+# find_package(Microsoft.GSL 4.0 CONFIG REQUIRED) # Microsoft.GSL::GSL
 
+add_library(coro_cpp17 src/coro.hpp src/coro.cpp)
+add_library(coro_cpp20 src/coro.hpp src/coro.cpp)
+add_library(coro_latest src/coro.hpp src/coro.cpp)
+add_library(coro_action17 SHARED src/action.hpp src/action.cpp)
+add_library(coro_action20 SHARED src/action.hpp src/action.cpp)
+if((CMAKE_CXX_COMPILER_ID MATCHES Clang) AND (NOT MSVC))
+    target_compile_options(coro_cpp17 PUBLIC -std=c++17 -fcoroutines-ts)
+    target_compile_options(coro_cpp20 PUBLIC -std=c++20)
+    target_compile_options(coro_latest PUBLIC -std=c++2b)
+    target_link_libraries(coro_action17 PRIVATE coro_cpp17)
+    target_link_libraries(coro_action20 PRIVATE coro_cpp20)
+elseif(MSVC)
+    target_compile_options(coro_cpp17 PUBLIC /std:c++17 /await PRIVATE /Zc:__cplusplus)
+    target_compile_options(coro_cpp20 PUBLIC /std:c++20 PRIVATE /Zc:__cplusplus)
+    target_compile_options(coro_latest PUBLIC /std:c++latest PRIVATE /Zc:__cplusplus)
+    target_compile_options(coro_action17 PRIVATE /Zc:__cplusplus)
+    target_link_libraries(coro_action17 PRIVATE coro_cpp17)
+    target_compile_options(coro_action20 PRIVATE /Zc:__cplusplus)
+    target_link_libraries(coro_action20 PRIVATE coro_cpp20)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    # ...
+endif()
+
+
+if(WITH_GCD) # libdispatch
+    if(APPLE)
+        find_library(DISPATCH_LIBPATH NAMES CoreFoundation REQUIRED)
+    elseif(WIN32)
+        find_library(DISPATCH_LIBPATH NAMES dispatch REQUIRED)
+        find_library(BLOCKS_RUNTIME_LIBPATH NAMES BlocksRuntime REQUIRED)
+    endif()
+    add_library(coro_gcd17 SHARED src/gcd.hpp src/gcd.cpp)
+    set_target_properties(coro_gcd17 PROPERTIES CXX_STANDARD 17)
+    target_include_directories(coro_gcd17 PRIVATE src)
+    target_link_libraries(coro_gcd17 PRIVATE ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp17 coro_action17 spdlog::spdlog)
+endif()
+
+return()
 
 string(TOLOWER ${CMAKE_SYSTEM_NAME} system_name)
 
@@ -73,6 +114,7 @@ PROPERTIES
     PUBLIC_HEADER "${headers}"
     WINDOWS_EXPORT_ALL_SYMBOLS true
     CXX_STANDARD_REQUIRED true
+    CXX_STANDARD 20
 )
 
 target_include_directories(coroutine
