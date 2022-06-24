@@ -109,6 +109,7 @@
             "cacheVariables": {
                 "BUILD_TESTING": true,
                 "BUILD_SHARED_LIBS": true,
+                "WITH_GCD": true,
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_OSX_ARCHITECTURES": "x86_64"
             },

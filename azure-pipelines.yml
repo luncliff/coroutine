@@ -53,9 +53,9 @@ jobs:
           configuration: $(configuration)
           msbuildArguments: "/p:platformtoolset=v142"
       - task: CMake@1
-        displayName: "CMake: Install"
+        displayName: "CMake: Build"
         inputs:
-          cmakeArgs: --build --preset $(cmake.preset) --target install
+          cmakeArgs: --build --preset $(cmake.preset)
           workingDirectory: "."
       # - powershell: ctest --preset $(cmake.preset) --output-on-failure
       #   displayName: "CTest"
@@ -130,9 +130,9 @@ jobs:
           cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
           workingDirectory: "."
       - task: CMake@1
-        displayName: "CMake: Build/Install"
+        displayName: "CMake: Build"
         inputs:
-          cmakeArgs: --build --preset $(cmake.preset) --target install
+          cmakeArgs: --build --preset $(cmake.preset)
           workingDirectory: "."
       # - powershell: ctest --preset $(cmake.preset) --output-on-failure
       #   displayName: "CTest"
@@ -182,6 +182,47 @@ jobs:
         inputs:
           cmakeArgs: --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
           workingDirectory: "."
+
+  - job: android_clang12
+    pool:
+      vmImage: "ubuntu-22.04"
+    strategy:
+      matrix:
+        debug_arm64:
+          cmake.preset: arm64-android-debug
+          build.triplet: arm64-android
+        debug_x64:
+          cmake.preset: x64-android-debug
+          build.triplet: x64-android
+    variables:
+      ANDROID_NDK_HOME: "/usr/local/lib/android/sdk/ndk/23.2.8568313" # check $ANDROID_NDK_LATEST_HOME
+    steps:
+      - checkout: self
+      - powershell: sudo apt-get install -y --fix-missing ninja-build tree curl zip unzip tar rsync
+        displayName: "Install: APT packages"
+      # - powershell: New-Item -Type Directory -Force ${env:VCPKG_DEFAULT_BINARY_CACHE}
+      # - task: Cache@2
+      #   inputs:
+      #     key: '2022-06 | vcpkg-android | $(build.triplet)'
+      #     path: $(vcpkg.default.binary.cache)
+      #   displayName: "Cache: Vcpkg"
+      - task: run-vcpkg@0
+        displayName: "Install: Vcpkg"
+        inputs:
+          vcpkgGitCommitId: $(vcpkg.commit)
+          vcpkgArguments: "ms-gsl spdlog"
+        env:
+          VCPKG_DEFAULT_TRIPLET: $(build.triplet)
+      - task: CMake@1
+        displayName: "CMake: Configure/Generate"
+        inputs:
+          cmakeArgs: "--preset=$(cmake.preset)"
+          workingDirectory: $(Build.SourcesDirectory)
+      - task: CMake@1
+        displayName: "CMake: Build"
+        inputs:
+          cmakeArgs: "--build --preset=$(cmake.preset)"
+          workingDirectory: $(Build.SourcesDirectory)
 
   - job: mkdocs
     pool:
