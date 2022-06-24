@@ -3,12 +3,12 @@
  * @todo ClangCL support
  */
 #pragma once
-#if defined(_MSC_VER)
-#if __cplusplus >= 202000L // C++ 20 (Feature complete)
+#if defined(_MSC_VER) // Microsoft STL
+#if __cplusplus >= 202000L
 #include <coroutine>
 
-#elif __cplusplus >= 201700L // Microsoft STL, C++ 17 (Coroutines TS)
-#include <experimental/coroutine>
+#elif __cplusplus >= 201700L
+#include <experimental/coroutine> // C++ 17 (Coroutines TS)
 
 #if !__builtin_coro_noop
 // 17.12.4, no-op coroutines
@@ -37,4 +37,13 @@ struct coroutine_handle<noop_coroutine_promise> : public coroutine_handle<void> 
 #error "Unexpected __cplusplus value. Expect higher than 201700L"
 
 #endif
-#endif //  defined(_MSC_VER)
+
+#elif defined(__clang__) // LLVM libc++
+#if __has_include(<coroutine>) && (__cplusplus >= 202000L)
+#include <coroutine>
+
+#elif __cplusplus >= 201700L
+#include <experimental/coroutine>
+#endif
+
+#endif // defined(_MSC_VER) || defined(__clang__)

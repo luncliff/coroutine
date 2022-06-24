@@ -8,7 +8,7 @@
 
 namespace coro {
 
-#if __cplusplus >= 202000L // C++ 20
+#if __has_include(<coroutine>) && (__cplusplus >= 202000L) // C++ 20
 using std::coroutine_handle;
 using std::noop_coroutine;
 using std::suspend_always;

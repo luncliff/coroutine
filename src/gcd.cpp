@@ -6,7 +6,19 @@
 
 namespace coro {
 
-void sink_exception(const spdlog::source_loc& loc, std::exception_ptr&& exp) noexcept;
+void sink_exception(const spdlog::source_loc& loc, std::exception_ptr&& exp) noexcept {
+    try {
+        std::rethrow_exception(exp);
+    } catch (const std::exception& ex) {
+        spdlog::log(loc, spdlog::level::err, ex.what());
+    } catch (const std::error_code& ex) {
+        spdlog::log(loc, spdlog::level::err, ex.message());
+    } catch (const std::error_condition& ex) {
+        spdlog::log(loc, spdlog::level::err, ex.message());
+    } catch (...) {
+        spdlog::log(loc, spdlog::level::critical, "unknwon exception type detected");
+    }
+}
 
 void queue_awaitable_t::await_suspend(coroutine_handle<void> coro) noexcept {
     dispatch_async_f(queue, coro.address(), resume_once);

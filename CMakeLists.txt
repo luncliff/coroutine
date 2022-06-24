@@ -56,28 +56,40 @@ find_package(spdlog CONFIG REQUIRED) # spdlog::spdlog_header_only
 # find_package(Microsoft.GSL 4.0 CONFIG REQUIRED) # Microsoft.GSL::GSL
 
 add_library(coro_cpp17 src/coro.hpp src/coro.cpp)
-target_compile_options(coro_cpp17 PUBLIC /std:c++17 /await PRIVATE /Zc:__cplusplus)
-
 add_library(coro_cpp20 src/coro.hpp src/coro.cpp)
-target_compile_options(coro_cpp20 PUBLIC /std:c++20 PRIVATE /Zc:__cplusplus)
-
 add_library(coro_latest src/coro.hpp src/coro.cpp)
-target_compile_options(coro_latest PUBLIC /std:c++latest PRIVATE /Zc:__cplusplus)
-
 add_library(coro_action17 SHARED src/action.hpp src/action.cpp)
-target_compile_options(coro_action17 PRIVATE /Zc:__cplusplus)
-target_link_libraries(coro_action17 PRIVATE coro_cpp17)
-
 add_library(coro_action20 SHARED src/action.hpp src/action.cpp)
-target_compile_options(coro_action20 PRIVATE /Zc:__cplusplus)
-target_link_libraries(coro_action20 PRIVATE coro_cpp20)
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+    target_compile_options(coro_cpp17 PUBLIC -std=c++17 -fcoroutines-ts)
+    target_compile_options(coro_cpp20 PUBLIC -std=c++20)
+    target_compile_options(coro_latest PUBLIC -std=c++2b)
+    target_link_libraries(coro_action17 PRIVATE coro_cpp17)
+    target_link_libraries(coro_action20 PRIVATE coro_cpp20)
+elseif(MSVC)
+    target_compile_options(coro_cpp17 PUBLIC /std:c++17 /await PRIVATE /Zc:__cplusplus)
+    target_compile_options(coro_cpp20 PUBLIC /std:c++20 PRIVATE /Zc:__cplusplus)
+    target_compile_options(coro_latest PUBLIC /std:c++latest PRIVATE /Zc:__cplusplus)
+    target_compile_options(coro_action17 PRIVATE /Zc:__cplusplus)
+    target_link_libraries(coro_action17 PRIVATE coro_cpp17)
+    target_compile_options(coro_action20 PRIVATE /Zc:__cplusplus)
+    target_link_libraries(coro_action20 PRIVATE coro_cpp20)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    # ...
+endif()
+
 
 if(WITH_GCD) # libdispatch
-    find_library(DISPATCH_LIBPATH NAMES dispatch REQUIRED)
-    if(WIN32)
+    if(APPLE)
+        find_library(DISPATCH_LIBPATH NAMES CoreFoundation REQUIRED)
+    elseif(WIN32)
+        find_library(DISPATCH_LIBPATH NAMES dispatch REQUIRED)
         find_library(BLOCKS_RUNTIME_LIBPATH NAMES BlocksRuntime REQUIRED)
     endif()
-    # file(COPY ${BLOCKS_RUNTIME_LIBPATH} ${DISPATCH_LIBPATH} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    add_library(coro_gcd17 SHARED src/gcd.hpp src/gcd.cpp)
+    set_target_properties(coro_gcd17 PROPERTIES CXX_STANDARD 17)
+    target_include_directories(coro_gcd17 PRIVATE src)
+    target_link_libraries(coro_gcd17 PRIVATE ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp17 coro_action17 spdlog::spdlog)
 endif()
 
 return()
