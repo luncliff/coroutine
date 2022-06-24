@@ -115,8 +115,10 @@ jobs:
     strategy: # todo: strategy for x86_64, arm64
       matrix:
         debug_x64:
+          vcpkg.target.triplet: x64-osx
           cmake.preset: x64-osx-debug
         debug_arm64:
+          vcpkg.target.triplet: arm64-osx
           cmake.preset: arm64-osx-debug
     steps:
       - powershell: brew install ninja
@@ -125,6 +127,8 @@ jobs:
         inputs:
           vcpkgArguments: "catch2 ms-gsl spdlog"
           vcpkgGitCommitId: $(vcpkg.commit)
+        env:
+          VCPKG_DEFAULT_TRIPLET: $(vcpkg.target.triplet)
       - task: CMake@1
         displayName: "CMake: Configure"
         inputs:
@@ -208,10 +212,9 @@ jobs:
       #     path: $(vcpkg.default.binary.cache)
       #   displayName: "Cache: Vcpkg"
       - task: run-vcpkg@0
-        displayName: "Install: Vcpkg"
         inputs:
-          vcpkgGitCommitId: $(vcpkg.commit)
           vcpkgArguments: "ms-gsl spdlog"
+          vcpkgGitCommitId: $(vcpkg.commit)
         env:
           VCPKG_DEFAULT_TRIPLET: $(build.triplet)
       - task: CMake@1
