@@ -102,10 +102,9 @@ jobs:
           call "$(detected.vcvarsPath)" $(vcvars.arg)
           cmake --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
         displayName: "CMake: Configure/Generate(vcvarsall)"
-      - script: | # using Cmdlet
-          call "$(detected.vcvarsPath)" $(vcvars.arg)
-          cmake --build --preset $(cmake.preset) --debug-output
-        displayName: "CMake: Build(vcvarsall)"
+      - task: MSBuild@1
+        inputs:
+          solution: "build-$(vcpkg.target.triplet)/coroutine.sln"
       - task: CMake@1
         displayName: "CMake: Install"
         inputs:
