@@ -9,6 +9,8 @@ option(WITH_GCD             "Build with GCD(libdispatch)" OFF)
 # set(CMAKE_C_STANDARD 17)
 # set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS true)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
+set(CMAKE_CXX_EXTENSIONS false) # no gnu++ option
 include(GNUInstallDirs)
 
 message(STATUS "system: ${CMAKE_SYSTEM}")
@@ -55,6 +57,7 @@ find_package(spdlog CONFIG REQUIRED) # spdlog::spdlog_header_only
 # see https://github.com/microsoft/GSL/tree/v4.0.0
 # check https://github.com/microsoft/vcpkg ms-gsl
 # find_package(Microsoft.GSL 4.0 CONFIG REQUIRED) # Microsoft.GSL::GSL
+find_package(Catch2 CONFIG REQUIRED)
 
 add_library(coro_cpp17 src/coro.hpp src/coro.cpp)
 add_library(coro_cpp20 src/coro.hpp src/coro.cpp)
@@ -103,10 +106,17 @@ if(WITH_GCD) # libdispatch
         find_library(DISPATCH_LIBPATH NAMES dispatch REQUIRED)
         find_library(BLOCKS_RUNTIME_LIBPATH NAMES BlocksRuntime REQUIRED)
     endif()
-    add_library(coro_gcd17 SHARED src/gcd.hpp src/gcd.cpp)
+
+    add_library(coro_gcd17 src/gcd.hpp src/gcd.cpp)
     set_target_properties(coro_gcd17 PROPERTIES CXX_STANDARD 17)
     target_include_directories(coro_gcd17 PRIVATE src)
     target_link_libraries(coro_gcd17 PRIVATE ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp17 coro_action17 spdlog::spdlog)
+
+    add_executable(test_coro_gcd17 test/test_libdispatch.cpp)
+    set_target_properties(test_coro_gcd17 PROPERTIES CXX_STANDARD 17)
+    target_include_directories(test_coro_gcd17 PRIVATE src test)
+    target_link_libraries(test_coro_gcd17 PRIVATE Catch2::Catch2 ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp17 coro_action17 spdlog::spdlog)
+
 endif()
 
 return()

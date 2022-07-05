@@ -108,7 +108,7 @@
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "BUILD_TESTING": true,
-                "BUILD_SHARED_LIBS": true,
+                "BUILD_SHARED_LIBS": false,
                 "WITH_GCD": true,
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_OSX_ARCHITECTURES": "x86_64",
