@@ -101,8 +101,11 @@ jobs:
       - script: | # using Cmdlet
           call "$(detected.vcvarsPath)" $(vcvars.arg)
           cmake --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
-          cmake --build --preset $(cmake.preset)
-        displayName: "CMake: Configure/Build(vcvarsall)"
+        displayName: "CMake: Configure/Generate(vcvarsall)"
+      - script: | # using Cmdlet
+          call "$(detected.vcvarsPath)" $(vcvars.arg)
+          cmake --build --preset $(cmake.preset) --debug-output
+        displayName: "CMake: Build(vcvarsall)"
       - task: CMake@1
         displayName: "CMake: Install"
         inputs:
