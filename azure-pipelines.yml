@@ -101,13 +101,10 @@ jobs:
       - script: | # using Cmdlet
           call "$(detected.vcvarsPath)" $(vcvars.arg)
           cmake --preset $(cmake.preset) -DCMAKE_INSTALL_PREFIX:PATH="$(Build.ArtifactStagingDirectory)"
-          cmake --build --preset $(cmake.preset)
-        displayName: "CMake: Configure/Build(vcvarsall)"
-      - task: CMake@1
-        displayName: "CMake: Install"
+        displayName: "CMake: Configure/Generate(vcvarsall)"
+      - task: MSBuild@1
         inputs:
-          cmakeArgs: --build --target install --preset $(cmake.preset)
-          workingDirectory: "."
+          solution: "build-$(vcpkg.target.triplet)/coroutine.sln"
 
   - job: macos11_appleclang
     pool:
