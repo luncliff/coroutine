@@ -3,10 +3,8 @@
  * @see     https://gist.github.com/luncliff/1fedae034c001a460e9233ecf0afc25b
  */
 #include <atomic>
-#include <catch2/catch.hpp>
 #include <chrono>
 #include <csignal>
-#include <spdlog/spdlog.h>
 #include <thread>
 #if __has_include(<dispatch/dispatch.h>)
 #include <dispatch/dispatch.h>
@@ -15,7 +13,14 @@
 #include <sys/uio.h>
 #include <unistd.h>
 #endif
-#include <coroutine/action.hpp>
+#if __has_include(<catch2/catch_all.hpp>)
+#include <catch2/catch_all.hpp>
+#else
+#include <catch2/catch.hpp>
+#endif
+#include <spdlog/spdlog.h>
+
+#include "action.hpp"
 
 using namespace coro;
 using namespace std::chrono_literals;
