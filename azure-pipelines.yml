@@ -105,11 +105,6 @@ jobs:
       - task: MSBuild@1
         inputs:
           solution: "build-$(vcpkg.target.triplet)/coroutine.sln"
-      - task: CMake@1
-        displayName: "CMake: Install"
-        inputs:
-          cmakeArgs: --build --target install --preset $(cmake.preset)
-          workingDirectory: "."
 
   - job: macos11_appleclang
     pool:
