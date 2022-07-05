@@ -570,8 +570,6 @@ TEST_CASE_METHOD(semaphore_action_test_case, "wait first action", "[dispatch][se
     }
 }
 
-#if 0
-
 struct group_test_case {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_group_t group = dispatch_group_create();
@@ -1523,6 +1521,8 @@ TEST_CASE_METHOD(signal_hook_test_case, "hook signal(SIGUSR2)", "[dispatch][sign
     REQUIRE(sem.wait());
     hook.cancel();
 }
+
+#if 0
 
 struct fd_test_case {
     int fd[2]{}; // [inbound, outbound]

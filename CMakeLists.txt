@@ -9,8 +9,8 @@ option(WITH_GCD             "Build with GCD(libdispatch)" OFF)
 # set(CMAKE_C_STANDARD 17)
 # set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS true)
-set(CMAKE_CXX_STANDARD_REQUIRED true)
-set(CMAKE_CXX_EXTENSIONS false) # no gnu++ option
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF) # no gnu++ option
 include(GNUInstallDirs)
 
 message(STATUS "system: ${CMAKE_SYSTEM}")
@@ -32,9 +32,12 @@ message(STATUS " - ${CMAKE_GENERATOR}")
 message(STATUS " - ${CMAKE_BUILD_TOOL}")
 message(STATUS)
 
-# get_filename_component(CMAKE_COROUTINES_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/FindCoroutines.cmake ABSOLUTE)
+#
+# check https://github.com/facebookexperimental/libunifex/commit/0e20d7d3eba89e3ef2598b239b10556b6c4b9b9c
+#
+# get_filename_component(CMAKE_COROUTINES_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/FindCoroutines.cmake" ABSOLUTE)
 # if(NOT EXISTS ${CMAKE_COROUTINES_MODULE_PATH})
-#     file(DOWNLOAD https://raw.githubusercontent.com/facebookexperimental/libunifex/main/cmake/FindCoroutines.cmake
+#     file(DOWNLOAD "https://raw.githubusercontent.com/facebookexperimental/libunifex/main/cmake/FindCoroutines.cmake"
 #                 ${CMAKE_COROUTINES_MODULE_PATH}
 #         EXPECTED_HASH SHA256=0129305dd3d030de21684543fec9b1e7b0af7a67ed1bad4348c3259ecfb20cef
 #     )
@@ -49,6 +52,9 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 if(CMAKE_CXX_COMPILER_ID MATCHES Clang AND WIN32)
     message(WARNING "clang-cl won't work with <experimental/coroutine>")
 endif()
+# set(CMAKE_CXX_STANDARD 17)
+# find_package(Coroutines REQUIRED COMPONENTS Experimental)
+# unset(CMAKE_CXX_STANDARD)
 find_package(Coroutines REQUIRED)
 
 find_package(Threads REQUIRED) # Threads::Threads
@@ -57,7 +63,9 @@ find_package(spdlog CONFIG REQUIRED) # spdlog::spdlog_header_only
 # see https://github.com/microsoft/GSL/tree/v4.0.0
 # check https://github.com/microsoft/vcpkg ms-gsl
 # find_package(Microsoft.GSL 4.0 CONFIG REQUIRED) # Microsoft.GSL::GSL
-find_package(Catch2 CONFIG REQUIRED)
+if((NOT ANDROID) AND (NOT IOS))
+    find_package(Catch2 CONFIG REQUIRED)
+endif()
 
 add_library(coro_cpp17 src/coro.hpp src/coro.cpp)
 add_library(coro_cpp20 src/coro.hpp src/coro.cpp)
@@ -116,6 +124,11 @@ if(WITH_GCD) # libdispatch
     set_target_properties(test_coro_gcd17 PROPERTIES CXX_STANDARD 17)
     target_include_directories(test_coro_gcd17 PRIVATE src test)
     target_link_libraries(test_coro_gcd17 PRIVATE Catch2::Catch2 ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp17 coro_action17 spdlog::spdlog)
+
+    add_executable(test_coro_gcd20 test/test_libdispatch.cpp)
+    set_target_properties(test_coro_gcd20 PROPERTIES CXX_STANDARD 20)
+    target_include_directories(test_coro_gcd20 PRIVATE src test)
+    target_link_libraries(test_coro_gcd20 PRIVATE Catch2::Catch2 ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp20 coro_action20 spdlog::spdlog)
 
 endif()
 
