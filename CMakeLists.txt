@@ -113,6 +113,9 @@ target_link_libraries(test_coro_gcd17 PRIVATE Catch2::Catch2 coro_cpp17 coro_act
 if(MSVC)
     target_compile_options(test_coro_gcd17 PRIVATE /Zc:__cplusplus)
     target_compile_definitions(test_coro_gcd17 PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
+    if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+        target_link_libraries(test_coro_gcd17 PRIVATE coro_clangcl)
+    endif()
 endif()
 
 if(WITH_GCD) # libdispatch
