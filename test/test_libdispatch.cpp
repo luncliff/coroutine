@@ -502,7 +502,8 @@ class semaphore_action_t final {
 
   public:
     semaphore_action_t(const semaphore_action_t&) noexcept = default;
-    // semaphore_action_t(semaphore_action_t&&) noexcept = delete;
+    semaphore_action_t(semaphore_action_t&& rhs) noexcept : sem{rhs.sem} {
+    }
     semaphore_action_t& operator=(const semaphore_action_t&) noexcept = delete;
     semaphore_action_t& operator=(semaphore_action_t&&) noexcept = delete;
 
@@ -1522,8 +1523,6 @@ TEST_CASE_METHOD(signal_hook_test_case, "hook signal(SIGUSR2)", "[dispatch][sign
     hook.cancel();
 }
 
-#if 0
-
 struct fd_test_case {
     int fd[2]{}; // [inbound, outbound]
 
@@ -1568,11 +1567,10 @@ struct io_source_test_case : public fd_test_case {
         }
     }
 
+    /// @details after the system has released all of its references...
     static void on_reader_cancel(io_source_test_case* t) {
-        dispatch_source_t source = t->reader;
-        const int fd = dispatch_source_get_handle(source);
-        spdlog::debug("cancel: {}", fd);
-        dispatch_release(source);
+        void* source = t->reader;
+        spdlog::debug("canceled: {:p}", source);
     }
 
     static void on_write_available(io_source_test_case* t) {
@@ -1589,15 +1587,14 @@ struct io_source_test_case : public fd_test_case {
         t->wsz += len;
         if (t->wsz > 2000) { // enough. stop the send
             spdlog::debug("write: {} {}", fd, t->wsz);
-            dispatch_source_cancel(source);
+            return dispatch_source_cancel(source);
         }
     }
 
+    /// @details after the system has released all of its references...
     static void on_writer_cancel(io_source_test_case* t) {
-        dispatch_source_t source = t->writer;
-        int fd = dispatch_source_get_handle(source);
-        spdlog::debug("cancel: {}", fd);
-        dispatch_release(source);
+        void* source = t->writer;
+        spdlog::debug("canceled: {:p}", source);
     }
 };
 
@@ -1665,6 +1662,7 @@ SCENARIO_METHOD(io_source_test_case, "dispatch writer suspend/resume", "[dispatc
 
 TEST_CASE_METHOD(io_source_test_case, "dispatch reader", "[dispatch][io]") {
     reader = dispatch_source_create(DISPATCH_SOURCE_TYPE_READ, fd[0], 0, queue);
+    REQUIRE(reader);
     dispatch_set_context(reader, this);
     dispatch_source_set_event_handler_f(reader, reinterpret_cast<dispatch_function_t>(&on_read_available));
     dispatch_source_set_cancel_handler_f(reader, reinterpret_cast<dispatch_function_t>(&on_reader_cancel));
@@ -1914,5 +1912,3 @@ TEST_CASE_METHOD(io_hook_test_case, "io_read_hook_t write", "[dispatch][io]") {
     }
     REQUIRE(action.wait());
 }
-
-#endif
