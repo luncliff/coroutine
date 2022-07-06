@@ -52,7 +52,7 @@ paused_action_t::chained_awaitable_t::await_suspend(coroutine_handle<promise_typ
     return action;
 }
 
-suspend_never waitable_action_t::promise_type::initial_suspend() noexcept {
+suspend_always waitable_action_t::promise_type::initial_suspend() noexcept {
     if (proxy.retain)
         proxy.retain(proxy.context);
     return {};
@@ -71,18 +71,33 @@ void waitable_action_t::promise_type::return_void() noexcept {
 waitable_action_t::waitable_action_t(promise_type* p) noexcept : p{p} {
 }
 
+waitable_action_t::waitable_action_t(waitable_action_t&& rhs) noexcept : p{rhs.p} {
+    rhs.p = nullptr;
+}
+
+waitable_action_t& waitable_action_t::operator=(waitable_action_t&& rhs) noexcept {
+    std::swap(p, rhs.p);
+    return *this;
+}
+
 waitable_action_t::~waitable_action_t() noexcept {
+    if (p == nullptr)
+        return;
     auto coro = coroutine_handle<promise_type>::from_promise(*p);
     coro.destroy();
 }
 
-void waitable_action_t::use(const event_proxy_t& e) noexcept(false) {
+void waitable_action_t::resume(const event_proxy_t& e) noexcept(false) {
+    if (e.wait == nullptr || e.signal == nullptr)
+        throw std::invalid_argument{__func__};
     event_proxy_t old = p->proxy;
     p->proxy = e;
     if (e.retain)
         e.retain(e.context);
     if (old.release)
         old.release(old.context);
+    auto coro = coroutine_handle<promise_type>::from_promise(*p);
+    return coro.resume();
 }
 
 uint32_t waitable_action_t::wait(uint32_t us) noexcept(false) {

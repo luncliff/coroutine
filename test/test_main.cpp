@@ -6,14 +6,19 @@
 #include <catch2/catch_reporter_sonarqube.hpp>
 #endif
 #include <cstdio>
+#include <spdlog/sinks/stdout_sinks.h>
 #include <spdlog/spdlog.h>
 
-std::shared_ptr<spdlog::logger> get_log_stream() noexcept(false);
+auto make_logger(const char* name, FILE* fout) noexcept(false) -> std::shared_ptr<spdlog::logger> {
+    using mutex_t = spdlog::details::console_nullmutex;
+    using sink_t = spdlog::sinks::stdout_sink_base<mutex_t>;
+    if (fout == stdout)
+        return spdlog::stdout_logger_st(name);
+    return std::make_shared<spdlog::logger>(name, std::make_shared<sink_t>(fout));
+}
 
 int main(int argc, char* argv[]) {
-    auto logger = get_log_stream();
-    if (logger == nullptr)
-        return EXIT_FAILURE;
+    auto logger = make_logger("test", stdout);
     logger->set_pattern("%T.%e [%L] %8t %v");
     logger->set_level(spdlog::level::level_enum::debug);
     spdlog::set_default_logger(logger);

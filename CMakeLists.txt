@@ -120,15 +120,20 @@ if(WITH_GCD) # libdispatch
     target_include_directories(coro_gcd17 PRIVATE src)
     target_link_libraries(coro_gcd17 PRIVATE ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp17 coro_action17 spdlog::spdlog)
 
-    add_executable(test_coro_gcd17 test/test_libdispatch.cpp)
+    add_executable(test_coro_gcd17 test/test_action.cpp test/test_main.cpp)
     set_target_properties(test_coro_gcd17 PROPERTIES CXX_STANDARD 17)
     target_include_directories(test_coro_gcd17 PRIVATE src test)
     target_link_libraries(test_coro_gcd17 PRIVATE Catch2::Catch2 ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp17 coro_action17 spdlog::spdlog)
 
-    add_executable(test_coro_gcd20 test/test_libdispatch.cpp)
-    set_target_properties(test_coro_gcd20 PROPERTIES CXX_STANDARD 20)
-    target_include_directories(test_coro_gcd20 PRIVATE src test)
-    target_link_libraries(test_coro_gcd20 PRIVATE Catch2::Catch2 ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp20 coro_action20 spdlog::spdlog)
+    add_executable(test_gcd17 test/test_libdispatch.cpp)
+    set_target_properties(test_gcd17 PROPERTIES CXX_STANDARD 17)
+    target_include_directories(test_gcd17 PRIVATE src test)
+    target_link_libraries(test_gcd17 PRIVATE Catch2::Catch2 ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp17 spdlog::spdlog)
+
+    add_executable(test_gcd20 test/test_libdispatch.cpp)
+    set_target_properties(test_gcd20 PROPERTIES CXX_STANDARD 20)
+    target_include_directories(test_gcd20 PRIVATE src test)
+    target_link_libraries(test_gcd20 PRIVATE Catch2::Catch2 ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp20 spdlog::spdlog)
 
 endif()
 

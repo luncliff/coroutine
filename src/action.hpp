@@ -35,7 +35,7 @@ struct fire_and_forget final {
         constexpr suspend_never final_suspend() noexcept {
             return {};
         }
-        void unhandled_exception() noexcept {
+        void unhandled_exception() noexcept(false) {
             sink_exception(std::current_exception());
         }
         constexpr void return_void() noexcept {
@@ -145,14 +145,14 @@ struct event_proxy_t final {
 class waitable_action_t final {
   public:
     struct promise_type final {
-        event_proxy_t proxy;
+        event_proxy_t proxy{};
 
       public:
-        suspend_never initial_suspend() noexcept;
+        suspend_always initial_suspend() noexcept;
         suspend_always final_suspend() noexcept;
 
         void return_void() noexcept;
-        void unhandled_exception() noexcept {
+        void unhandled_exception() noexcept(false) {
             sink_exception(std::current_exception());
         }
         waitable_action_t get_return_object() noexcept {
@@ -163,11 +163,17 @@ class waitable_action_t final {
   private:
     promise_type* p;
 
-  public:
+  private:
     waitable_action_t(promise_type* p) noexcept;
+
+  public:
+    waitable_action_t(const waitable_action_t&) noexcept = delete;
+    waitable_action_t(waitable_action_t&&) noexcept;
+    waitable_action_t& operator=(const waitable_action_t&) noexcept = delete;
+    waitable_action_t& operator=(waitable_action_t&&) noexcept;
     ~waitable_action_t() noexcept;
 
-    void use(const event_proxy_t& e) noexcept(false);
+    void resume(const event_proxy_t& e) noexcept(false);
     uint32_t wait(uint32_t us) noexcept(false);
 };
 
