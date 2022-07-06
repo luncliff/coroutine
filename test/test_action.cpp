@@ -6,7 +6,9 @@
 #include <chrono>
 #include <csignal>
 #include <thread>
-#if __has_include(<dispatch/dispatch.h>)
+#if __has_include(<Windows.h>)
+#include <Windows.h>
+#elif __has_include(<dispatch/dispatch.h>)
 #include <dispatch/dispatch.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -101,7 +103,55 @@ TEST_CASE_METHOD(event_reference_test_case, "reference counting of event_proxy_t
     }
 }
 
-#if __has_include(<dispatch/dispatch.h>)
+#if __has_include(<Windows.h>)
+
+struct event_proxy_test_case {
+    HANDLE e = CreateEventW(nullptr, true, false, nullptr);
+    event_proxy_t finished{};
+
+  public:
+    event_proxy_test_case() {
+        finished.context = e;
+        finished.signal = reinterpret_cast<event_proxy_t::fn_signal_t>(&SetEvent);
+        finished.wait = &on_wait;
+    }
+    ~event_proxy_test_case() {
+        CloseHandle(e);
+    }
+
+    static uint32_t on_wait(void* c, uint32_t us) {
+        auto retcode = WaitForSingleObject(static_cast<HANDLE>(c), us);
+        if (retcode == WAIT_OBJECT_0)
+            return 0;
+        if (retcode == WAIT_FAILED)
+            return GetLastError();
+        return retcode;
+    }
+
+    waitable_action_t spawn(HANDLE e, uint32_t us) {
+        co_await suspend_never{};
+        co_return std::this_thread::sleep_for(std::chrono::microseconds{us});
+    }
+};
+
+TEST_CASE_METHOD(event_proxy_test_case, "use Win32 Event once", "[dispatch]") {
+    constexpr uint32_t timeout = 20'000; // us
+    auto action = spawn(e, timeout);
+    action.resume(finished);
+    REQUIRE(action.wait(timeout * 2) == 0);
+}
+
+TEST_CASE_METHOD(event_proxy_test_case, "use Win32 Event multiple times", "[dispatch]") {
+    constexpr uint32_t timeout = 10'000; // us
+    auto repeat = 4;
+    while (--repeat) {
+        auto action = spawn(e, timeout);
+        action.resume(finished);
+        REQUIRE(action.wait(timeout * 2) == 0);
+    }
+}
+
+#elif __has_include(<dispatch/dispatch.h>)
 
 struct queue_awaitable_t final {
     dispatch_queue_t queue;
@@ -138,10 +188,11 @@ struct event_proxy_test_case {
         dispatch_release(semaphore);
     }
 
+    // if zero, it's success
     static uint32_t on_wait(void* c, uint32_t us) {
         auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::microseconds{us});
         auto timepoint = dispatch_time(DISPATCH_TIME_NOW, duration.count());
-        return dispatch_semaphore_wait(static_cast<dispatch_semaphore_t>(c), timepoint) == 0; // if zero, it's success
+        return dispatch_semaphore_wait(static_cast<dispatch_semaphore_t>(c), timepoint);
     }
 
     waitable_action_t spawn(dispatch_queue_t q, uint32_t us) {
@@ -154,7 +205,7 @@ TEST_CASE_METHOD(event_proxy_test_case, "use dispatch_semaphore_t once", "[dispa
     constexpr uint32_t timeout = 20'000; // us
     auto action = spawn(queue, timeout);
     action.resume(finished);
-    REQUIRE(action.wait(timeout * 2));
+    REQUIRE(action.wait(timeout * 2) == 0);
 }
 
 TEST_CASE_METHOD(event_proxy_test_case, "use dispatch_semaphore_t multiple times", "[dispatch]") {
@@ -163,7 +214,7 @@ TEST_CASE_METHOD(event_proxy_test_case, "use dispatch_semaphore_t multiple times
     while (--repeat) {
         auto action = spawn(queue, timeout);
         action.resume(finished);
-        REQUIRE(action.wait(timeout * 2));
+        REQUIRE(action.wait(timeout * 2) == 0);
     }
 }
 

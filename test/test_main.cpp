@@ -1,4 +1,7 @@
 #define CATCH_CONFIG_RUNNER
+#if defined(_WIN32)
+#define CATCH_CONFIG_WINDOWS_CRTDBG
+#endif
 #if __has_include(<catch2/catch_all.hpp>)
 #include <catch2/catch_all.hpp>
 #else
