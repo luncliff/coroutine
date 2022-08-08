@@ -115,6 +115,9 @@ if(MSVC)
     target_compile_definitions(test_coro_gcd17 PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
     if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
         target_link_libraries(test_coro_gcd17 PRIVATE coro_clangcl)
+        # Force C++ 20 for Windows SDK
+        set_target_properties(test_coro_gcd17 PROPERTIES CXX_STANDARD 20)
+        target_compile_options(test_coro_gcd17 PRIVATE "SHELL:/clang:-std=c++20")
     endif()
 endif()
 
@@ -142,7 +145,6 @@ if(WITH_GCD) # libdispatch
     target_link_libraries(test_gcd20 PRIVATE Catch2::Catch2 ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp20 spdlog::spdlog)
 
     target_link_libraries(test_coro_gcd17 PRIVATE ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH})
-
 endif()
 
 return()

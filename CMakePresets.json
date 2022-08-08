@@ -19,7 +19,7 @@
                 "BUILD_SHARED_LIBS": true,
                 "CMAKE_BUILD_TYPE": "Debug",
                 "VCPKG_TARGET_TRIPLET": "x64-windows",
-                "CMAKE_SYSTEM_VERSION": "10.0.19041.0"
+                "CMAKE_SYSTEM_VERSION": "10.0.20348.0"
             },
             "environment": {
                 "EXPERIMENTAL": "Azure Pipelines"
@@ -34,7 +34,10 @@
             "name": "x64-vs2017-debug",
             "inherits": "x64-msvc-debug",
             "displayName": "x64(vs2017)/debug",
-            "generator": "Visual Studio 16 2019"
+            "generator": "Visual Studio 16 2019",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_VERSION": "10.0.19041.0"
+            }
         },
         {
             "name": "x64-clang-debug",
