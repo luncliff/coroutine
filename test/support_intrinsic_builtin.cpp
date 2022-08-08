@@ -23,7 +23,7 @@ static_assert(__has_builtin(__builtin_coro_id));
 static_assert(__has_builtin(__builtin_coro_begin));
 static_assert(__has_builtin(__builtin_coro_end));
 static_assert(__has_builtin(__builtin_coro_suspend));
-static_assert(__has_builtin(__builtin_coro_param));
+// static_assert(__has_builtin(__builtin_coro_param));
 #endif
 
 #else
