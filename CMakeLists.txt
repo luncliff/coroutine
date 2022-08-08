@@ -106,21 +106,6 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     # ...
 endif()
 
-add_executable(test_coro_gcd17 test/test_action.cpp test/test_main.cpp)
-set_target_properties(test_coro_gcd17 PROPERTIES CXX_STANDARD 17)
-target_include_directories(test_coro_gcd17 PRIVATE src test)
-target_link_libraries(test_coro_gcd17 PRIVATE Catch2::Catch2 coro_cpp17 coro_action17 spdlog::spdlog)
-if(MSVC)
-    target_compile_options(test_coro_gcd17 PRIVATE /Zc:__cplusplus)
-    target_compile_definitions(test_coro_gcd17 PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
-    if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
-        target_link_libraries(test_coro_gcd17 PRIVATE coro_clangcl)
-        # Force C++ 20 for Windows SDK
-        set_target_properties(test_coro_gcd17 PROPERTIES CXX_STANDARD 20)
-        target_compile_options(test_coro_gcd17 PRIVATE "SHELL:/clang:-std=c++20")
-    endif()
-endif()
-
 if(WITH_GCD) # libdispatch
     if(APPLE)
         find_library(DISPATCH_LIBPATH NAMES CoreFoundation REQUIRED)
@@ -133,7 +118,33 @@ if(WITH_GCD) # libdispatch
     set_target_properties(coro_gcd17 PROPERTIES CXX_STANDARD 17)
     target_include_directories(coro_gcd17 PRIVATE src)
     target_link_libraries(coro_gcd17 PRIVATE ${DISPATCH_LIBPATH} ${BLOCKS_RUNTIME_LIBPATH} coro_cpp17 coro_action17 spdlog::spdlog)
+endif()
 
+
+if((NOT BUILD_TESTING) OR ANDROID OR IOS)
+    message(STATUS "Test is disabled.")
+    return()
+endif()
+enable_testing()
+find_package(Catch2 2.13 CONFIG REQUIRED) # Catch2::Catch2
+
+add_executable(test_coro_gcd17 test/test_action.cpp test/test_main.cpp)
+set_target_properties(test_coro_gcd17 PROPERTIES CXX_STANDARD 17)
+target_include_directories(test_coro_gcd17 PRIVATE src test)
+target_link_libraries(test_coro_gcd17 PRIVATE Catch2::Catch2 coro_cpp17 coro_action17 spdlog::spdlog)
+
+if(MSVC)
+    target_compile_options(test_coro_gcd17 PRIVATE /Zc:__cplusplus)
+    target_compile_definitions(test_coro_gcd17 PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
+    if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+        target_link_libraries(test_coro_gcd17 PRIVATE coro_clangcl)
+        # Force C++ 20 for Windows SDK
+        set_target_properties(test_coro_gcd17 PROPERTIES CXX_STANDARD 20)
+        target_compile_options(test_coro_gcd17 PRIVATE "SHELL:/clang:-std=c++20")
+    endif()
+endif()
+
+if(WITH_GCD)
     add_executable(test_gcd17 test/test_libdispatch.cpp)
     set_target_properties(test_gcd17 PROPERTIES CXX_STANDARD 17)
     target_include_directories(test_gcd17 PRIVATE src test)
@@ -312,7 +323,7 @@ install(FILES           ${VERSION_FILE_PATH}
 #
 # for testing, CTest will be used
 #
-if(NOT BUILD_TESTING)
+if((NOT BUILD_TESTING) OR ANDROID OR IOS)
     message(STATUS "Test is disabled.")
     return()
 endif()

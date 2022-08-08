@@ -24,6 +24,8 @@ schedules:
 variables:
   - name: vcpkg.commit
     value: "e809a42f87565e803b2178a0c11263f462d1800a" # mainstream 2022.04.12
+  - name: vcpkg.feature.flags
+    value: "registries,binarycaching"
 
 jobs:
   - job: vs2022_msvc
@@ -40,6 +42,15 @@ jobs:
           vcpkgGitCommitId: $(vcpkg.commit)
         env:
           VCPKG_DEFAULT_TRIPLET: $(vcpkg.target.triplet)
+      - powershell: New-Item -Type Directory -Force vcpkg-cache
+        workingDirectory: $(Build.ArtifactStagingDirectory)
+        displayName: "Create Cache Folders"
+      - task: Cache@2
+        inputs:
+          key: '2022-08 | vcpkg-cache | vs2022'
+          restoreKeys: |
+            2022-08 | vcpkg-cache | vs2022
+          path: $(Build.ArtifactStagingDirectory)/vcpkg-cache
       - task: CMake@1
         displayName: "CMake: Configure"
         inputs:
@@ -79,6 +90,15 @@ jobs:
           command: "install"
           installPackageId: "ninja"
           installInstallArgs: "--no-progress --yes"
+      - powershell: New-Item -Type Directory -Force vcpkg-cache
+        workingDirectory: $(Build.ArtifactStagingDirectory)
+        displayName: "Create Cache Folders"
+      - task: Cache@2
+        inputs:
+          key: '2022-08 | vcpkg-cache | vs2022'
+          restoreKeys: |
+            2022-08 | vcpkg-cache | vs2022
+          path: $(Build.ArtifactStagingDirectory)/vcpkg-cache
       - task: run-vcpkg@0
         inputs:
           vcpkgArguments: "catch2 ms-gsl spdlog"
@@ -120,6 +140,15 @@ jobs:
     steps:
       - powershell: brew install ninja
         displayName: "Setup: Homebrew packages"
+      - powershell: New-Item -Type Directory -Force vcpkg-cache
+        workingDirectory: $(Build.ArtifactStagingDirectory)
+        displayName: "Create Cache Folders"
+      - task: Cache@2
+        inputs:
+          key: '2022-08 | vcpkg-cache | macos11'
+          restoreKeys: |
+            2022-08 | vcpkg-cache | macos11
+          path: $(Build.ArtifactStagingDirectory)/vcpkg-cache
       - task: run-vcpkg@0
         inputs:
           vcpkgArguments: "catch2 ms-gsl spdlog"
@@ -150,6 +179,15 @@ jobs:
     steps:
       - powershell: sudo apt-get install -y gcc-10 g++-10 ninja-build
         displayName: "Install APT packages"
+      - powershell: New-Item -Type Directory -Force vcpkg-cache
+        workingDirectory: $(Build.ArtifactStagingDirectory)
+        displayName: "Create Cache Folders"
+      - task: Cache@2
+        inputs:
+          key: '2022-08 | vcpkg-cache | ubuntu20'
+          restoreKeys: |
+            2022-08 | vcpkg-cache | ubuntu20
+          path: $(Build.ArtifactStagingDirectory)/vcpkg-cache
       - task: run-vcpkg@0
         inputs:
           vcpkgArguments: "catch2 ms-gsl spdlog"
@@ -173,6 +211,15 @@ jobs:
     steps:
       - powershell: sudo apt-get install -y llvm-14-dev clang-14 libc++-14-dev libc++abi-14-dev libunwind-14-dev ninja-build
         displayName: "Install APT packages"
+      - powershell: New-Item -Type Directory -Force vcpkg-cache
+        workingDirectory: $(Build.ArtifactStagingDirectory)
+        displayName: "Create Cache Folders"
+      - task: Cache@2
+        inputs:
+          key: '2022-08 | vcpkg-cache | ubuntu22'
+          restoreKeys: |
+            2022-08 | vcpkg-cache | ubuntu22
+          path: $(Build.ArtifactStagingDirectory)/vcpkg-cache
       - task: run-vcpkg@0
         inputs:
           vcpkgArguments: "catch2 ms-gsl spdlog"
@@ -202,12 +249,6 @@ jobs:
       - checkout: self
       - powershell: sudo apt-get install -y --fix-missing ninja-build tree curl zip unzip tar rsync
         displayName: "Install: APT packages"
-      # - powershell: New-Item -Type Directory -Force ${env:VCPKG_DEFAULT_BINARY_CACHE}
-      # - task: Cache@2
-      #   inputs:
-      #     key: '2022-06 | vcpkg-android | $(build.triplet)'
-      #     path: $(vcpkg.default.binary.cache)
-      #   displayName: "Cache: Vcpkg"
       - task: run-vcpkg@0
         inputs:
           vcpkgArguments: "ms-gsl spdlog"
